@@ -1,0 +1,40 @@
+{
+  "Kind": "durable-server-observation",
+  "Source": "DAQuester character journals; raw live packet replay was not exported before app closed",
+  "Completions": [
+    {
+      "Character": "Nuclear",
+      "Quest": "mundane-birth",
+      "BirthOptions": {
+        "Season": "Winter",
+        "Age": 12,
+        "Town": "Undine"
+      },
+      "BirthCompletion": {
+        "Generation": 1834588277898243,
+        "Revision": 99,
+        "Type": 3,
+        "Text": "She winks, \"It's on your legend now\"",
+        "ObservedAt": "2026-10-09T23:55:48.7108703+00:00"
+      },
+      "CompletedAt": "2026-10-09T23:55:48.7108703+00:00"
+    },
+    {
+      "Character": "Clock",
+      "Quest": "mundane-birth",
+      "BirthOptions": {
+        "Season": "Fall",
+        "Age": 12,
+        "Town": "Suomi"
+      },
+      "BirthCompletion": {
+        "Generation": 1834588277898247,
+        "Revision": 110,
+        "Type": 3,
+        "Text": "She winks, \"It's on your legend now\"",
+        "ObservedAt": "2026-10-09T23:59:12.7790365+00:00"
+      },
+      "CompletedAt": "2026-10-09T23:59:12.7790365+00:00"
+    }
+  ]
+}

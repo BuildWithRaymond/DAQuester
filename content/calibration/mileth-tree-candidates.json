@@ -1,0 +1,39 @@
+{
+  "schemaVersion": 1,
+  "map": 500,
+  "width": 100,
+  "height": 100,
+  "source": "https://vorlof.com/images/quests/spareasticktrees.png",
+  "collisionSource": "DATester maps/lod500.map and ia.dat/sotp.dat",
+  "status": "Player-requested three-area rotation including armor shop; chance-based collection",
+  "regions": [
+    {
+      "radius": 4,
+      "center": {
+        "x": 18,
+        "y": 56
+      },
+      "basis": "Guide armor-shop tree area; shop doorway (18,62); actual client collision footprint; no exact drop tile assumed",
+      "id": "west"
+    },
+    {
+      "radius": 3,
+      "center": {
+        "y": 43,
+        "x": 54
+      },
+      "basis": "Tutorial Book area; live drop at (56,45)",
+      "id": "central"
+    },
+    {
+      "radius": 3,
+      "center": {
+        "y": 44,
+        "x": 64
+      },
+      "basis": "Tutorial Book area; multiple live branch drops nearby",
+      "id": "east"
+    }
+  ],
+  "coordinateSource": "Armor Shop portal (18,62) and adjacent collision park for west; Tutorial Book/live inventory for central/east"
+}

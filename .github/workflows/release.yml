@@ -1,0 +1,74 @@
+name: Publish stable release
+on:
+  push:
+    tags: ['v*']
+permissions:
+  contents: read
+jobs:
+  validate:
+    runs-on: windows-latest
+    timeout-minutes: 25
+    env:
+      DOTNET_CLI_TELEMETRY_OPTOUT: '1'
+      RELEASE_TAG: ${{ github.ref_name }}
+    steps:
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7
+        with:
+          persist-credentials: false
+      - uses: actions/setup-dotnet@a98b56852c35b8e3190ac28c8c2271da59106c68 # v6
+        with:
+          dotnet-version: '10.0.x'
+      - name: Verify tag matches stable source version
+        shell: pwsh
+        run: |
+          [xml]$props=Get-Content Directory.Build.props
+          if($env:RELEASE_TAG -ne 'v'+$props.Project.PropertyGroup.Version -or $env:RELEASE_TAG -notmatch '^v\d+\.\d+\.\d+$'){throw 'Tag/version mismatch or non-stable release.'}
+      - name: Restore
+        run: dotnet restore DAQuester.slnx -m:1
+      - name: Build
+        run: dotnet build DAQuester.slnx -c Release --no-restore -m:1
+      - name: Test
+        run: dotnet test tests/DAQuester.Tests -c Release --no-build -m:1 --logger trx --results-directory artifacts/test-results
+      - name: Native dark UI checks
+        run: ./tools/Test-UI.ps1
+      - name: Build verified release
+        run: ./tools/Build-Release.ps1
+      - uses: actions/upload-artifact@cf430e030ddbb5b0abf93d22962f4752f3646cd9 # v7
+        with:
+          name: release-${{ github.ref_name }}
+          path: artifacts/release/
+          if-no-files-found: error
+      - name: Verification evidence
+        if: always()
+        uses: actions/upload-artifact@cf430e030ddbb5b0abf93d22962f4752f3646cd9 # v7
+        with:
+          name: release-verification
+          path: |
+            artifacts/test-results/*.trx
+            artifacts/*.png
+            artifacts/app-smoke*.txt
+  publish:
+    needs: validate
+    runs-on: windows-latest
+    permissions:
+      contents: write
+    env:
+      RELEASE_TAG: ${{ github.ref_name }}
+    steps:
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7
+        with:
+          persist-credentials: false
+      - uses: actions/download-artifact@9000827ccba6bdab643e8b6fd33ac0654aef8333 # v8
+        with:
+          name: release-${{ github.ref_name }}
+          path: artifacts/release
+      - name: Verify at publication boundary
+        run: ./tools/Verify-Release.ps1
+      - name: Publish checked assets
+        env:
+          GH_TOKEN: ${{ github.token }}
+        shell: pwsh
+        run: |
+          $releaseAssets=@(Get-ChildItem artifacts/release -File | ForEach-Object FullName)
+          gh release create $env:RELEASE_TAG @releaseAssets --verify-tag --title "DAQuester $env:RELEASE_TAG" --notes-file "docs/releases/$env:RELEASE_TAG.md"
+          if($LASTEXITCODE -ne 0){throw 'Release publication failed.'}

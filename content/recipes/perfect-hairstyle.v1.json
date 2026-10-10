@@ -1,0 +1,12 @@
+{
+  "Id":"perfect-hairstyle","Version":1,"Name":"Perfect Hairstyle",
+  "Source":"https://www.vorlof.com/quests/perfecthairstyle.html",
+  "Capabilities":["navigate","dialog","inventory","legend"],
+  "CooldownHours":168,"Repeatable":true,"Requirements":[],
+  "OutcomeConditions":["Fresh validated Eeva response and correlated XP/reward changes record a weekly attempt","Quest completes only when own legend contains Loved by Suomi Mundanes; retry seven days after each verified attempt"],
+  "Steps":[
+    {"Id":"preflight","Action":"hair-preflight","Next":"eeva"},
+    {"Id":"eeva","Action":"hair-dialog","Next":"confirm"},
+    {"Id":"confirm","Action":"hair-confirm","Next":"complete"}
+  ]
+}

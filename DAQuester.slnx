@@ -1,0 +1,10 @@
+<Solution>
+  <Folder Name="/src/">
+    <Project Path="src/DAQuester.App/DAQuester.App.csproj" />
+    <Project Path="src/DAQuester.Core/DAQuester.Core.csproj" />
+    <Project Path="src/DAQuester.DarkAges/DAQuester.DarkAges.csproj" />
+  </Folder>
+  <Folder Name="/tests/">
+    <Project Path="tests/DAQuester.Tests/DAQuester.Tests.csproj" />
+  </Folder>
+</Solution>

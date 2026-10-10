@@ -1,0 +1,21 @@
+name: Feature request
+description: Propose an improvement for DAQuester players.
+labels: ['enhancement']
+body:
+  - type: textarea
+    id: problem
+    attributes:
+      label: What are you trying to do?
+    validations:
+      required: true
+  - type: textarea
+    id: proposal
+    attributes:
+      label: Suggested behavior
+    validations:
+      required: true
+  - type: textarea
+    id: evidence
+    attributes:
+      label: References and alternatives
+      description: 'For new quests, include guide links and distinguish observed behavior from assumptions.'

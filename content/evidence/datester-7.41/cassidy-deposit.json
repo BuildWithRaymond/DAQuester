@@ -1,0 +1,620 @@
+{
+    "SchemaVersion":  2,
+    "ServerProfile":  "datester-7.41",
+    "Sanitized":  true,
+    "SourceCapture":  "capture-20261009-173555541.json",
+    "Events":  [
+                   {
+                       "Time":  "2026-10-09T22:34:23.3315001+00:00",
+                       "Character":  "Awesome",
+                       "Generation":  1834583257040899,
+                       "Revision":  156,
+                       "Opcode":  47,
+                       "Payload":  "AAEAABtnAUA4AAFAOAAAB0Nhc3NpZHkAHkhlbGxvLiAgV2hhdCBjYW4gSSBkbyBmb3IgeW91PwoMRm9yZ2V0IFNraWxsAAwDQnV5AEAEU2VsbABBDURlcG9zaXQgTW9uZXkAQgxEZXBvc2l0IEl0ZW0AQw1XaXRoZHJhdyBJdGVtAEUGSGlnZ2xlBX0OKCggVHV0b3JpYWwgKSkECAhHb2xkIEJhcg2MEkl0ZW0gU2hvcCBUcmFkZS1Jbgos3PEGFwgIQJvf8Q==",
+                       "Snapshot":  {
+                                        "Generation":  1834583257040899,
+                                        "Revision":  156,
+                                        "Name":  "Awesome",
+                                        "Id":  1100782,
+                                        "Connected":  true,
+                                        "Level":  4,
+                                        "Gold":  1000,
+                                        "Experience":  8801,
+                                        "Hp":  891,
+                                        "Weight":  17,
+                                        "MaxWeight":  52,
+                                        "Map":  135,
+                                        "Position":  {
+                                                         "X":  3,
+                                                         "Y":  8
+                                                     },
+                                        "InventoryKnown":  true,
+                                        "Inventory":  {
+                                                          "1":  {
+                                                                    "Slot":  1,
+                                                                    "Name":  "Stick",
+                                                                    "Quantity":  1
+                                                                },
+                                                          "2":  {
+                                                                    "Slot":  2,
+                                                                    "Name":  "Wooden Shield",
+                                                                    "Quantity":  1
+                                                                },
+                                                          "4":  {
+                                                                    "Slot":  4,
+                                                                    "Name":  "Tutorial Book",
+                                                                    "Quantity":  1
+                                                                }
+                                                      },
+                                        "Entities":  {
+
+                                                     },
+                                        "Equipment":  {
+                                                          "1":  "Dirk",
+                                                          "2":  "Ragged Shirt",
+                                                          "7":  "Small Emerald Ring",
+                                                          "8":  "Small Spinel Ring",
+                                                          "13":  "Boots"
+                                                      },
+                                        "Skills":  {
+                                                       "1":  "Assail"
+                                                   },
+                                        "Spells":  {
+
+                                                   },
+                                        "Legends":  [
+
+                                                    ],
+                                        "Dialog":  {
+                                                       "Generation":  1834583257040899,
+                                                       "Revision":  156,
+                                                       "EntityId":  7015,
+                                                       "EntityType":  1,
+                                                       "Name":  "Cassidy",
+                                                       "Text":  "Hello.  What can I do for you?",
+                                                       "IsPursuit":  false,
+                                                       "Pursuit":  0,
+                                                       "Step":  0,
+                                                       "Type":  0,
+                                                       "Choices":  [
+                                                                       {
+                                                                           "Text":  "Forget Skill",
+                                                                           "Pursuit":  12,
+                                                                           "Option":  1
+                                                                       },
+                                                                       {
+                                                                           "Text":  "Buy",
+                                                                           "Pursuit":  64,
+                                                                           "Option":  2
+                                                                       },
+                                                                       {
+                                                                           "Text":  "Sell",
+                                                                           "Pursuit":  65,
+                                                                           "Option":  3
+                                                                       },
+                                                                       {
+                                                                           "Text":  "Deposit Money",
+                                                                           "Pursuit":  66,
+                                                                           "Option":  4
+                                                                       },
+                                                                       {
+                                                                           "Text":  "Deposit Item",
+                                                                           "Pursuit":  67,
+                                                                           "Option":  5
+                                                                       },
+                                                                       {
+                                                                           "Text":  "Withdraw Item",
+                                                                           "Pursuit":  69,
+                                                                           "Option":  6
+                                                                       },
+                                                                       {
+                                                                           "Text":  "Higgle",
+                                                                           "Pursuit":  1405,
+                                                                           "Option":  7
+                                                                       },
+                                                                       {
+                                                                           "Text":  "(( Tutorial ))",
+                                                                           "Pursuit":  1032,
+                                                                           "Option":  8
+                                                                       },
+                                                                       {
+                                                                           "Text":  "Gold Bar",
+                                                                           "Pursuit":  3468,
+                                                                           "Option":  9
+                                                                       },
+                                                                       {
+                                                                           "Text":  "Item Shop Trade-In",
+                                                                           "Pursuit":  2604,
+                                                                           "Option":  10
+                                                                       }
+                                                                   ],
+                                                       "Prompt":  null,
+                                                       "HasNext":  false
+                                                   }
+                                    }
+                   },
+                   {
+                       "Time":  "2026-10-09T22:34:40.3072775+00:00",
+                       "Character":  "Awesome",
+                       "Generation":  1834583257040899,
+                       "Revision":  157,
+                       "Opcode":  47,
+                       "Payload":  "AgEAABtnAUA4AAFAOAAAB0Nhc3NpZHkATUxlc3NlZS4uLiBJJ3ZlIGdvdCAwIGNvaW5zIG9mIHlvdXJzLiBIb3cgbXVjaCBtb3JlIHlvdSBnb2luZyB0byBwdXQgaW4gdG9kYXk/AFI=",
+                       "Snapshot":  {
+                                        "Generation":  1834583257040899,
+                                        "Revision":  157,
+                                        "Name":  "Awesome",
+                                        "Id":  1100782,
+                                        "Connected":  true,
+                                        "Level":  4,
+                                        "Gold":  1000,
+                                        "Experience":  8801,
+                                        "Hp":  891,
+                                        "Weight":  17,
+                                        "MaxWeight":  52,
+                                        "Map":  135,
+                                        "Position":  {
+                                                         "X":  3,
+                                                         "Y":  8
+                                                     },
+                                        "InventoryKnown":  true,
+                                        "Inventory":  {
+                                                          "1":  {
+                                                                    "Slot":  1,
+                                                                    "Name":  "Stick",
+                                                                    "Quantity":  1
+                                                                },
+                                                          "2":  {
+                                                                    "Slot":  2,
+                                                                    "Name":  "Wooden Shield",
+                                                                    "Quantity":  1
+                                                                },
+                                                          "4":  {
+                                                                    "Slot":  4,
+                                                                    "Name":  "Tutorial Book",
+                                                                    "Quantity":  1
+                                                                }
+                                                      },
+                                        "Entities":  {
+
+                                                     },
+                                        "Equipment":  {
+                                                          "1":  "Dirk",
+                                                          "2":  "Ragged Shirt",
+                                                          "7":  "Small Emerald Ring",
+                                                          "8":  "Small Spinel Ring",
+                                                          "13":  "Boots"
+                                                      },
+                                        "Skills":  {
+                                                       "1":  "Assail"
+                                                   },
+                                        "Spells":  {
+
+                                                   },
+                                        "Legends":  [
+
+                                                    ],
+                                        "Dialog":  {
+                                                       "Generation":  1834583257040899,
+                                                       "Revision":  157,
+                                                       "EntityId":  7015,
+                                                       "EntityType":  1,
+                                                       "Name":  "Cassidy",
+                                                       "Text":  "Lessee... I\u0027ve got 0 coins of yours. How much more you going to put in today?",
+                                                       "IsPursuit":  false,
+                                                       "Pursuit":  82,
+                                                       "Step":  0,
+                                                       "Type":  2,
+                                                       "Choices":  [
+
+                                                                   ],
+                                                       "Prompt":  null,
+                                                       "HasNext":  false
+                                                   }
+                                    }
+                   },
+                   {
+                       "Time":  "2026-10-09T22:34:42.3065047+00:00",
+                       "Character":  "Awesome",
+                       "Generation":  1834583257040899,
+                       "Revision":  158,
+                       "Opcode":  8,
+                       "Payload":  "DAAAImEAACPvAAAAAAAAAAAAAAAAAAAAAQAAAAAAAAAAAAFiAgIA",
+                       "Snapshot":  {
+                                        "Generation":  1834583257040899,
+                                        "Revision":  158,
+                                        "Name":  "Awesome",
+                                        "Id":  1100782,
+                                        "Connected":  true,
+                                        "Level":  4,
+                                        "Gold":  1,
+                                        "Experience":  8801,
+                                        "Hp":  891,
+                                        "Weight":  17,
+                                        "MaxWeight":  52,
+                                        "Map":  135,
+                                        "Position":  {
+                                                         "X":  3,
+                                                         "Y":  8
+                                                     },
+                                        "InventoryKnown":  true,
+                                        "Inventory":  {
+                                                          "1":  {
+                                                                    "Slot":  1,
+                                                                    "Name":  "Stick",
+                                                                    "Quantity":  1
+                                                                },
+                                                          "2":  {
+                                                                    "Slot":  2,
+                                                                    "Name":  "Wooden Shield",
+                                                                    "Quantity":  1
+                                                                },
+                                                          "4":  {
+                                                                    "Slot":  4,
+                                                                    "Name":  "Tutorial Book",
+                                                                    "Quantity":  1
+                                                                }
+                                                      },
+                                        "Entities":  {
+
+                                                     },
+                                        "Equipment":  {
+                                                          "1":  "Dirk",
+                                                          "2":  "Ragged Shirt",
+                                                          "7":  "Small Emerald Ring",
+                                                          "8":  "Small Spinel Ring",
+                                                          "13":  "Boots"
+                                                      },
+                                        "Skills":  {
+                                                       "1":  "Assail"
+                                                   },
+                                        "Spells":  {
+
+                                                   },
+                                        "Legends":  [
+
+                                                    ],
+                                        "Dialog":  {
+                                                       "Generation":  1834583257040899,
+                                                       "Revision":  157,
+                                                       "EntityId":  7015,
+                                                       "EntityType":  1,
+                                                       "Name":  "Cassidy",
+                                                       "Text":  "Lessee... I\u0027ve got 0 coins of yours. How much more you going to put in today?",
+                                                       "IsPursuit":  false,
+                                                       "Pursuit":  82,
+                                                       "Step":  0,
+                                                       "Type":  2,
+                                                       "Choices":  [
+
+                                                                   ],
+                                                       "Prompt":  null,
+                                                       "HasNext":  false
+                                                   }
+                                    }
+                   },
+                   {
+                       "Time":  "2026-10-09T22:34:42.3146857+00:00",
+                       "Character":  "Awesome",
+                       "Generation":  1834583257040899,
+                       "Revision":  159,
+                       "Opcode":  8,
+                       "Payload":  "BAAAAAAAAAAAAAFiAgIA",
+                       "Snapshot":  {
+                                        "Generation":  1834583257040899,
+                                        "Revision":  159,
+                                        "Name":  "Awesome",
+                                        "Id":  1100782,
+                                        "Connected":  true,
+                                        "Level":  4,
+                                        "Gold":  1,
+                                        "Experience":  8801,
+                                        "Hp":  891,
+                                        "Weight":  17,
+                                        "MaxWeight":  52,
+                                        "Map":  135,
+                                        "Position":  {
+                                                         "X":  3,
+                                                         "Y":  8
+                                                     },
+                                        "InventoryKnown":  true,
+                                        "Inventory":  {
+                                                          "1":  {
+                                                                    "Slot":  1,
+                                                                    "Name":  "Stick",
+                                                                    "Quantity":  1
+                                                                },
+                                                          "2":  {
+                                                                    "Slot":  2,
+                                                                    "Name":  "Wooden Shield",
+                                                                    "Quantity":  1
+                                                                },
+                                                          "4":  {
+                                                                    "Slot":  4,
+                                                                    "Name":  "Tutorial Book",
+                                                                    "Quantity":  1
+                                                                }
+                                                      },
+                                        "Entities":  {
+
+                                                     },
+                                        "Equipment":  {
+                                                          "1":  "Dirk",
+                                                          "2":  "Ragged Shirt",
+                                                          "7":  "Small Emerald Ring",
+                                                          "8":  "Small Spinel Ring",
+                                                          "13":  "Boots"
+                                                      },
+                                        "Skills":  {
+                                                       "1":  "Assail"
+                                                   },
+                                        "Spells":  {
+
+                                                   },
+                                        "Legends":  [
+
+                                                    ],
+                                        "Dialog":  {
+                                                       "Generation":  1834583257040899,
+                                                       "Revision":  157,
+                                                       "EntityId":  7015,
+                                                       "EntityType":  1,
+                                                       "Name":  "Cassidy",
+                                                       "Text":  "Lessee... I\u0027ve got 0 coins of yours. How much more you going to put in today?",
+                                                       "IsPursuit":  false,
+                                                       "Pursuit":  82,
+                                                       "Step":  0,
+                                                       "Type":  2,
+                                                       "Choices":  [
+
+                                                                   ],
+                                                       "Prompt":  null,
+                                                       "HasNext":  false
+                                                   }
+                                    }
+                   },
+                   {
+                       "Time":  "2026-10-09T22:34:42.3572247+00:00",
+                       "Character":  "Awesome",
+                       "Generation":  1834583257040899,
+                       "Revision":  160,
+                       "Opcode":  47,
+                       "Payload":  "AAEAABtnAUA4AAFAOAAAB0Nhc3NpZHkAHkhlbGxvLiAgV2hhdCBjYW4gSSBkbyBmb3IgeW91PwsMRm9yZ2V0IFNraWxsAAwDQnV5AEAEU2VsbABBDURlcG9zaXQgTW9uZXkAQgxEZXBvc2l0IEl0ZW0AQw5XaXRoZHJhdyBNb25leQBEDVdpdGhkcmF3IEl0ZW0ARQZIaWdnbGUFfQ4oKCBUdXRvcmlhbCApKQQICEdvbGQgQmFyDYwSSXRlbSBTaG9wIFRyYWRlLUluCixUb2tlbiBFeGNoYW5nZQ07AQpCaWxsZWQgQ2FwASCfLQE=",
+                       "Snapshot":  {
+                                        "Generation":  1834583257040899,
+                                        "Revision":  160,
+                                        "Name":  "Awesome",
+                                        "Id":  1100782,
+                                        "Connected":  true,
+                                        "Level":  4,
+                                        "Gold":  1,
+                                        "Experience":  8801,
+                                        "Hp":  891,
+                                        "Weight":  17,
+                                        "MaxWeight":  52,
+                                        "Map":  135,
+                                        "Position":  {
+                                                         "X":  3,
+                                                         "Y":  8
+                                                     },
+                                        "InventoryKnown":  true,
+                                        "Inventory":  {
+                                                          "1":  {
+                                                                    "Slot":  1,
+                                                                    "Name":  "Stick",
+                                                                    "Quantity":  1
+                                                                },
+                                                          "2":  {
+                                                                    "Slot":  2,
+                                                                    "Name":  "Wooden Shield",
+                                                                    "Quantity":  1
+                                                                },
+                                                          "4":  {
+                                                                    "Slot":  4,
+                                                                    "Name":  "Tutorial Book",
+                                                                    "Quantity":  1
+                                                                }
+                                                      },
+                                        "Entities":  {
+
+                                                     },
+                                        "Equipment":  {
+                                                          "1":  "Dirk",
+                                                          "2":  "Ragged Shirt",
+                                                          "7":  "Small Emerald Ring",
+                                                          "8":  "Small Spinel Ring",
+                                                          "13":  "Boots"
+                                                      },
+                                        "Skills":  {
+                                                       "1":  "Assail"
+                                                   },
+                                        "Spells":  {
+
+                                                   },
+                                        "Legends":  [
+
+                                                    ],
+                                        "Dialog":  {
+                                                       "Generation":  1834583257040899,
+                                                       "Revision":  160,
+                                                       "EntityId":  7015,
+                                                       "EntityType":  1,
+                                                       "Name":  "Cassidy",
+                                                       "Text":  "Hello.  What can I do for you?",
+                                                       "IsPursuit":  false,
+                                                       "Pursuit":  0,
+                                                       "Step":  0,
+                                                       "Type":  0,
+                                                       "Choices":  [
+                                                                       {
+                                                                           "Text":  "Forget Skill",
+                                                                           "Pursuit":  12,
+                                                                           "Option":  1
+                                                                       },
+                                                                       {
+                                                                           "Text":  "Buy",
+                                                                           "Pursuit":  64,
+                                                                           "Option":  2
+                                                                       },
+                                                                       {
+                                                                           "Text":  "Sell",
+                                                                           "Pursuit":  65,
+                                                                           "Option":  3
+                                                                       },
+                                                                       {
+                                                                           "Text":  "Deposit Money",
+                                                                           "Pursuit":  66,
+                                                                           "Option":  4
+                                                                       },
+                                                                       {
+                                                                           "Text":  "Deposit Item",
+                                                                           "Pursuit":  67,
+                                                                           "Option":  5
+                                                                       },
+                                                                       {
+                                                                           "Text":  "Withdraw Money",
+                                                                           "Pursuit":  68,
+                                                                           "Option":  6
+                                                                       },
+                                                                       {
+                                                                           "Text":  "Withdraw Item",
+                                                                           "Pursuit":  69,
+                                                                           "Option":  7
+                                                                       },
+                                                                       {
+                                                                           "Text":  "Higgle",
+                                                                           "Pursuit":  1405,
+                                                                           "Option":  8
+                                                                       },
+                                                                       {
+                                                                           "Text":  "(( Tutorial ))",
+                                                                           "Pursuit":  1032,
+                                                                           "Option":  9
+                                                                       },
+                                                                       {
+                                                                           "Text":  "Gold Bar",
+                                                                           "Pursuit":  3468,
+                                                                           "Option":  10
+                                                                       },
+                                                                       {
+                                                                           "Text":  "Item Shop Trade-In",
+                                                                           "Pursuit":  2604,
+                                                                           "Option":  11
+                                                                       }
+                                                                   ],
+                                                       "Prompt":  null,
+                                                       "HasNext":  false
+                                                   }
+                                    }
+                   }
+               ],
+    "Actions":  [
+                    {
+                        "Time":  "2026-10-09T22:34:39.9777257+00:00",
+                        "Character":  "Awesome",
+                        "Generation":  1834583257040899,
+                        "Revision":  156,
+                        "Kind":  "choose",
+                        "Selection":  "Deposit Money",
+                        "Dialog":  {
+                                       "Generation":  1834583257040899,
+                                       "Revision":  156,
+                                       "EntityId":  7015,
+                                       "EntityType":  1,
+                                       "Name":  "Cassidy",
+                                       "Text":  "Hello.  What can I do for you?",
+                                       "IsPursuit":  false,
+                                       "Pursuit":  0,
+                                       "Step":  0,
+                                       "Type":  0,
+                                       "Choices":  [
+                                                       {
+                                                           "Text":  "Forget Skill",
+                                                           "Pursuit":  12,
+                                                           "Option":  1
+                                                       },
+                                                       {
+                                                           "Text":  "Buy",
+                                                           "Pursuit":  64,
+                                                           "Option":  2
+                                                       },
+                                                       {
+                                                           "Text":  "Sell",
+                                                           "Pursuit":  65,
+                                                           "Option":  3
+                                                       },
+                                                       {
+                                                           "Text":  "Deposit Money",
+                                                           "Pursuit":  66,
+                                                           "Option":  4
+                                                       },
+                                                       {
+                                                           "Text":  "Deposit Item",
+                                                           "Pursuit":  67,
+                                                           "Option":  5
+                                                       },
+                                                       {
+                                                           "Text":  "Withdraw Item",
+                                                           "Pursuit":  69,
+                                                           "Option":  6
+                                                       },
+                                                       {
+                                                           "Text":  "Higgle",
+                                                           "Pursuit":  1405,
+                                                           "Option":  7
+                                                       },
+                                                       {
+                                                           "Text":  "(( Tutorial ))",
+                                                           "Pursuit":  1032,
+                                                           "Option":  8
+                                                       },
+                                                       {
+                                                           "Text":  "Gold Bar",
+                                                           "Pursuit":  3468,
+                                                           "Option":  9
+                                                       },
+                                                       {
+                                                           "Text":  "Item Shop Trade-In",
+                                                           "Pursuit":  2604,
+                                                           "Option":  10
+                                                       }
+                                                   ],
+                                       "Prompt":  null,
+                                       "HasNext":  false
+                                   },
+                        "Branches":  0,
+                        "Experience":  8801
+                    },
+                    {
+                        "Time":  "2026-10-09T22:34:42.2081811+00:00",
+                        "Character":  "Awesome",
+                        "Generation":  1834583257040899,
+                        "Revision":  157,
+                        "Kind":  "input",
+                        "Selection":  null,
+                        "Dialog":  {
+                                       "Generation":  1834583257040899,
+                                       "Revision":  157,
+                                       "EntityId":  7015,
+                                       "EntityType":  1,
+                                       "Name":  "Cassidy",
+                                       "Text":  "Lessee... I\u0027ve got 0 coins of yours. How much more you going to put in today?",
+                                       "IsPursuit":  false,
+                                       "Pursuit":  82,
+                                       "Step":  0,
+                                       "Type":  2,
+                                       "Choices":  [
+
+                                                   ],
+                                       "Prompt":  null,
+                                       "HasNext":  false
+                                   },
+                        "Branches":  0,
+                        "Experience":  8801
+                    }
+                ],
+    "Notes":  [
+                  "Manual Cassidy deposit after automated menu mismatch. Carried gold 1000 to 1; inferred amount 999 from server balance delta.",
+                  "Menu selection uses current pursuit 66; amount prompt uses current pursuit 82, merchant type 2."
+              ]
+}

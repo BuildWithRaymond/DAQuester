@@ -1,0 +1,1878 @@
+{
+  "schemaVersion": 1,
+  "researchedGuideCount": 129,
+  "sourceCatalog": "https://vorlof.com/quests.html",
+  "entries": [
+    {
+      "id": "mundanebirth",
+      "name": "Mundane Birth",
+      "source": "https://vorlof.com/quests/mundanebirth.html",
+      "level": "1+",
+      "requiredItems": "None",
+      "rewards": "\"(Town) mundane birth - (Season), Deoch, (#)\"",
+      "dependencies": null,
+      "cooldownHours": null,
+      "capabilities": [
+        "dialog",
+        "navigate",
+        "status-message"
+      ],
+      "status": "implemented-live-proven",
+      "metadataReviewRequired": false,
+      "capabilitiesInferred": false,
+      "cooldownNotes": [],
+      "dependencyNotes": [],
+      "givesLegend": true,
+      "legendEvidence": "Vorlof catalog reward cell: images/quests/legendaisling.png"
+    },
+    {
+      "id": "altarworship",
+      "name": "Altar Worship",
+      "source": "https://vorlof.com/quests/altarworship.html",
+      "level": "1+",
+      "requiredItems": "Any item",
+      "rewards": "All Classes: Red Jade Ring + 50,000 Experience Priests: \"Mileth Altar Worshipper (#)\" + Jade Ring / Amethyst Ring 100,000 Experience",
+      "dependencies": null,
+      "cooldownHours": null,
+      "capabilities": [
+        "dialog",
+        "navigate",
+        "timed",
+        "inventory"
+      ],
+      "status": "guide-only",
+      "metadataReviewRequired": true,
+      "capabilitiesInferred": true,
+      "cooldownNotes": [
+        "To get the legend mark you must throw an item into Mileth Altar every 3 hours",
+        "After you have thrown 10 items in (one every 3 hours, 10 times) you will get the mark"
+      ],
+      "dependencyNotes": [],
+      "givesLegend": true,
+      "legendEvidence": "Vorlof catalog reward cell: images/quests/legendpriest.png"
+    },
+    {
+      "id": "spareastick",
+      "name": "Spare a Stick",
+      "source": "https://vorlof.com/quests/spareastick.html",
+      "level": "1 - 11",
+      "requiredItems": "6x Branch",
+      "rewards": "Stick Wooden Shield 3,500 Experience And a Chance of: \"Loved by Mileth Mundanes\" + Oak Stick",
+      "dependencies": null,
+      "cooldownHours": 8,
+      "capabilities": [
+        "navigate",
+        "dialog",
+        "inventory",
+        "bank",
+        "walk-trigger"
+      ],
+      "status": "implemented; Nuclear and Clock live completions captured",
+      "metadataReviewRequired": false,
+      "capabilitiesInferred": false,
+      "cooldownNotes": [
+        "You may wish to stockpile branches to make repeating the quest easier",
+        "Talk to Callough about Spare a Stick again, but this time click \"I have those branches, here\""
+      ],
+      "dependencyNotes": [
+        "e: You must have less than 1000 Coins to start or finish this quest"
+      ],
+      "permanentCompletion": "Callough child-reminder reply disables future runs; observed on Clock 2026-10-09",
+      "givesLegend": true,
+      "legendEvidence": "Vorlof catalog reward cell: images/quests/legendaisling.png"
+    },
+    {
+      "id": "perfecthairstyle",
+      "name": "Perfect Hairstyle",
+      "source": "https://vorlof.com/quests/perfecthairstyle.html",
+      "level": "1+",
+      "requiredItems": "None for Ponytail (documented no-item bug)",
+      "rewards": "Chance: \"Loved by Suomi Mundanes\" + 50,000 XP; otherwise Emerald Ring + 15,000 XP or Emerald/Jade Rings + 25,000 XP",
+      "dependencies": null,
+      "cooldownHours": 168,
+      "capabilities": [
+        "navigate",
+        "dialog",
+        "inventory",
+        "legend"
+      ],
+      "status": "implemented-live-proven",
+      "metadataReviewRequired": false,
+      "capabilitiesInferred": false,
+      "cooldownNotes": [
+        "Seven days after each verified attempt; repeats until Loved by Suomi Mundanes appears."
+      ],
+      "dependencyNotes": [],
+      "givesLegend": true,
+      "legendEvidence": "Vorlof catalog reward cell: images/quests/legendaisling.png",
+      "validationNotes": "Clock completed full no-item Ponytail flow automatically, including Suomi notice and all Next pages. Emerald Ring/15000 XP verified; own legend absent. Weekly attempts persist until Suomi mark. Nuclear prior assisted attempt reconciled from packets."
+    },
+    {
+      "id": "ciad",
+      "name": "Ciad Quest",
+      "source": "https://vorlof.com/quests/ciad.html",
+      "level": "1 - 25",
+      "requiredItems": "Varies",
+      "rewards": "\"Completed Ciad Quest\" Ciad Necklace",
+      "dependencies": null,
+      "cooldownHours": null,
+      "capabilities": [
+        "dialog",
+        "navigate",
+        "combat-credit",
+        "speech",
+        "branch",
+        "timed",
+        "walk-trigger",
+        "inventory"
+      ],
+      "status": "guide-only",
+      "metadataReviewRequired": true,
+      "capabilitiesInferred": true,
+      "cooldownNotes": [
+        "* You can just drop the Goop and speak to him again"
+      ],
+      "dependencyNotes": [
+        "You will receive the Legend Mark: \"Completed Ciad Quest\" and a Ciad Necklace with random proper"
+      ],
+      "givesLegend": true,
+      "legendEvidence": "Vorlof catalog reward cell: images/quests/legendaisling.png"
+    },
+    {
+      "id": "terroralley",
+      "name": "Terror of the Alley",
+      "source": "https://vorlof.com/quests/terroralley.html",
+      "level": "4 - 9",
+      "requiredItems": "1 or 2 Additional Players",
+      "rewards": "\"Slew Terror of the Alley (#)\" 25,000 Experience",
+      "dependencies": null,
+      "cooldownHours": null,
+      "capabilities": [
+        "dialog",
+        "navigate",
+        "combat-credit",
+        "party",
+        "timed",
+        "walk-trigger",
+        "inventory"
+      ],
+      "status": "guide-only",
+      "metadataReviewRequired": true,
+      "capabilitiesInferred": true,
+      "cooldownNotes": [
+        "You may repeat this quest every 12 hours"
+      ],
+      "dependencyNotes": [],
+      "givesLegend": true,
+      "legendEvidence": "Vorlof catalog reward cell: images/quests/legendshield.png"
+    },
+    {
+      "id": "terrorgarden",
+      "name": "Terror of the Garden",
+      "source": "https://vorlof.com/quests/terrorgarden.html",
+      "level": "4 - 9",
+      "requiredItems": "1 or 2 Additional Players",
+      "rewards": "\"Slew Terror of the Garden (#)\" 25,000 Experience",
+      "dependencies": null,
+      "cooldownHours": null,
+      "capabilities": [
+        "dialog",
+        "navigate",
+        "combat-credit",
+        "party",
+        "timed",
+        "walk-trigger",
+        "inventory"
+      ],
+      "status": "guide-only",
+      "metadataReviewRequired": true,
+      "capabilitiesInferred": true,
+      "cooldownNotes": [
+        "You may repeat this quest every 12 hours"
+      ],
+      "dependencyNotes": [],
+      "givesLegend": true,
+      "legendEvidence": "Vorlof catalog reward cell: images/quests/legendshield.png"
+    },
+    {
+      "id": "fromtheheart",
+      "name": "From the Heart",
+      "source": "https://vorlof.com/quests/fromtheheart.html",
+      "level": "6+",
+      "requiredItems": "1 Additional Player 3x beothaich deum",
+      "rewards": "\"Small Heart of (Fire/Moon) with (Name)\" Experience",
+      "dependencies": null,
+      "cooldownHours": null,
+      "capabilities": [
+        "dialog",
+        "navigate",
+        "speech",
+        "walk-trigger",
+        "inventory"
+      ],
+      "status": "guide-only",
+      "metadataReviewRequired": true,
+      "capabilitiesInferred": true,
+      "cooldownNotes": [
+        " Touch the stone again to be teleported into the Heart of Stone "
+      ],
+      "dependencyNotes": [],
+      "givesLegend": true,
+      "legendEvidence": "Vorlof catalog reward cell: images/quests/legendheart.png"
+    },
+    {
+      "id": "terrorcrypt",
+      "name": "Terror of the Crypt",
+      "source": "https://vorlof.com/quests/terrorcrypt.html",
+      "level": "10 - 49",
+      "requiredItems": "1 or 2 Additional Players",
+      "rewards": "\"Slew Terror of the Crypt (#)\" 200,000 - 550,000 Experience",
+      "dependencies": null,
+      "cooldownHours": null,
+      "capabilities": [
+        "dialog",
+        "navigate",
+        "combat-credit",
+        "party",
+        "timed",
+        "walk-trigger",
+        "inventory"
+      ],
+      "status": "guide-only",
+      "metadataReviewRequired": true,
+      "capabilitiesInferred": true,
+      "cooldownNotes": [
+        "You may repeat this quest every 12 hours"
+      ],
+      "dependencyNotes": [],
+      "givesLegend": true,
+      "legendEvidence": "Vorlof catalog reward cell: images/quests/legendshield.png"
+    },
+    {
+      "id": "adoration",
+      "name": "Adoration of Danaan",
+      "source": "https://vorlof.com/quests/adoration.html",
+      "level": "11+",
+      "requiredItems": "",
+      "rewards": "\"Adoration of Danaan (#)\" +2 all statistics, +100 Health, +100 Mana",
+      "dependencies": null,
+      "cooldownHours": null,
+      "capabilities": [
+        "dialog",
+        "navigate",
+        "combat-credit",
+        "party",
+        "speech",
+        "inventory"
+      ],
+      "status": "guide-only",
+      "metadataReviewRequired": true,
+      "capabilitiesInferred": true,
+      "cooldownNotes": [],
+      "dependencyNotes": [],
+      "givesLegend": true,
+      "legendEvidence": "Vorlof catalog reward cell: images/quests/legendaisling.png"
+    },
+    {
+      "id": "porte",
+      "name": "Porte Forest",
+      "source": "https://vorlof.com/quests/porte.html",
+      "level": "11+",
+      "requiredItems": "2+ Additional Players",
+      "rewards": "\"Saved daughter of Porte Forest\" + \"Eased the suffering of Porte Forest\" (Or a Tristar Ring ) 1,000,000 Experience",
+      "dependencies": null,
+      "cooldownHours": null,
+      "capabilities": [
+        "dialog",
+        "navigate",
+        "combat-credit",
+        "party",
+        "speech",
+        "walk-trigger",
+        "inventory"
+      ],
+      "status": "guide-only",
+      "metadataReviewRequired": true,
+      "capabilitiesInferred": true,
+      "cooldownNotes": [
+        "r target number of roots and manes head back to Torbjorn and say \"Porte Forest\" again",
+        "Head back to the bridge at (94,24) and enter the Porte Forest Waiting Room again"
+      ],
+      "dependencyNotes": [],
+      "givesLegend": true,
+      "legendEvidence": "Vorlof catalog reward cell: images/quests/legendshield.png, images/quests/legendheart.png"
+    },
+    {
+      "id": "tagorcitizens",
+      "name": "Murdered Tagor Citizens",
+      "source": "https://vorlof.com/quests/tagorcitizens.html",
+      "level": "11+",
+      "requiredItems": "None",
+      "rewards": "\"Murdered # Tagor Citizens\"",
+      "dependencies": null,
+      "cooldownHours": null,
+      "capabilities": [
+        "dialog",
+        "navigate",
+        "combat-credit",
+        "speech",
+        "inventory"
+      ],
+      "status": "guide-only",
+      "metadataReviewRequired": true,
+      "capabilitiesInferred": true,
+      "cooldownNotes": [
+        "Click \"Tagor Welcome\" and then close the popup again",
+        "This quest is repeatable"
+      ],
+      "dependencyNotes": [],
+      "givesLegend": true,
+      "legendEvidence": "Vorlof catalog reward cell: images/quests/legendaisling.png"
+    },
+    {
+      "id": "petpenguin",
+      "name": "Pet Penguin",
+      "source": "https://vorlof.com/quests/petpenguin.html",
+      "level": "11+",
+      "requiredItems": "None",
+      "rewards": "\"Master of Pet Penguin\" Pet Penguin",
+      "dependencies": null,
+      "cooldownHours": null,
+      "capabilities": [
+        "dialog",
+        "navigate",
+        "speech",
+        "walk-trigger",
+        "inventory"
+      ],
+      "status": "guide-only",
+      "metadataReviewRequired": true,
+      "capabilitiesInferred": true,
+      "cooldownNotes": [],
+      "dependencyNotes": [],
+      "givesLegend": true,
+      "legendEvidence": "Vorlof catalog reward cell: images/quests/legendheart.png"
+    },
+    {
+      "id": "curedsickchild",
+      "name": "Cured the Sick Child",
+      "source": "https://vorlof.com/quests/curedsickchild.html",
+      "level": "11+",
+      "requiredItems": "5x Sevti Blossom",
+      "rewards": "\"Cured a sick child in Loures\" 750,000 Experience",
+      "dependencies": null,
+      "cooldownHours": null,
+      "capabilities": [
+        "dialog",
+        "navigate",
+        "speech",
+        "inventory"
+      ],
+      "status": "guide-only",
+      "metadataReviewRequired": true,
+      "capabilitiesInferred": true,
+      "cooldownNotes": [],
+      "dependencyNotes": [],
+      "givesLegend": true,
+      "legendEvidence": "Vorlof catalog reward cell: images/quests/legendaisling.png"
+    },
+    {
+      "id": "aidedthepactofanaman",
+      "name": "Aided the Pact of Anaman",
+      "source": "https://vorlof.com/quests/aidedthepactofanaman.html",
+      "level": "11+",
+      "requiredItems": "5x Tulsi Blossom",
+      "rewards": "\"Aided the Pact of Anaman\" 50,000 Experience",
+      "dependencies": null,
+      "cooldownHours": null,
+      "capabilities": [
+        "dialog",
+        "navigate",
+        "combat-credit",
+        "speech",
+        "inventory"
+      ],
+      "status": "guide-only",
+      "metadataReviewRequired": true,
+      "capabilitiesInferred": true,
+      "cooldownNotes": [],
+      "dependencyNotes": [],
+      "givesLegend": true,
+      "legendEvidence": "Vorlof catalog reward cell: images/quests/legendaisling.png"
+    },
+    {
+      "id": "fisksecret",
+      "name": "Fisk's Secret",
+      "source": "https://vorlof.com/quests/fisksecret.html",
+      "level": "21+",
+      "requiredItems": "32,600 Coins",
+      "rewards": "\"Kept Fisk's Secret\" 750,000 Experience",
+      "dependencies": null,
+      "cooldownHours": null,
+      "capabilities": [
+        "dialog",
+        "navigate",
+        "speech",
+        "timed",
+        "inventory"
+      ],
+      "status": "guide-only",
+      "metadataReviewRequired": true,
+      "capabilitiesInferred": true,
+      "cooldownNotes": [
+        "\" He seems pleased again",
+        "Once a hour has passed speak to Viveka again"
+      ],
+      "dependencyNotes": [],
+      "givesLegend": true,
+      "legendEvidence": "Vorlof catalog reward cell: images/quests/legendaisling.png"
+    },
+    {
+      "id": "religiousgeas",
+      "name": "Religious Geas",
+      "source": "https://vorlof.com/quests/religiousgeas.html",
+      "level": "11+",
+      "requiredItems": "None",
+      "rewards": "\"Completed religious geas for *name*\" 100,000 Experience",
+      "dependencies": null,
+      "cooldownHours": null,
+      "capabilities": [
+        "dialog",
+        "navigate",
+        "inventory"
+      ],
+      "status": "guide-only",
+      "metadataReviewRequired": true,
+      "capabilitiesInferred": true,
+      "cooldownNotes": [],
+      "dependencyNotes": [
+        "itiation process, some priests may ask for you to complete some tasks before they grant you geas"
+      ],
+      "givesLegend": true,
+      "legendEvidence": "Vorlof catalog reward cell: images/quests/legendpriest.png"
+    },
+    {
+      "id": "emeralddawn",
+      "name": "Emerald Dawn",
+      "source": "https://vorlof.com/quests/emeralddawn.html",
+      "level": "11+",
+      "requiredItems": "None",
+      "rewards": "\"Recovered the Emerald Knight Insignia\" Experience + One of the Following: \"Aided the Emerald Knights\" \"Aided the Necromancer Order\" Coins",
+      "dependencies": null,
+      "cooldownHours": null,
+      "capabilities": [
+        "dialog",
+        "navigate",
+        "combat-credit",
+        "party",
+        "speech",
+        "walk-trigger",
+        "inventory"
+      ],
+      "status": "guide-only",
+      "metadataReviewRequired": true,
+      "capabilitiesInferred": true,
+      "cooldownNotes": [
+        "th help from the Druids and the Necromancers, and none of the Knights were seen again"
+      ],
+      "dependencyNotes": [],
+      "givesLegend": true,
+      "legendEvidence": "Vorlof catalog reward cell: images/quests/legendaisling.png, images/quests/legendaisling.png, images/quests/legendaisling.png"
+    },
+    {
+      "id": "tiota",
+      "name": "Tiota Quest",
+      "source": "https://vorlof.com/quests/tiota.html",
+      "level": "26 - 50",
+      "requiredItems": "Varies",
+      "rewards": "\"Completed Tiota Quest\" Tiota Necklace",
+      "dependencies": null,
+      "cooldownHours": null,
+      "capabilities": [
+        "dialog",
+        "navigate",
+        "combat-credit",
+        "branch",
+        "timed",
+        "walk-trigger",
+        "inventory"
+      ],
+      "status": "guide-only",
+      "metadataReviewRequired": true,
+      "capabilitiesInferred": true,
+      "cooldownNotes": [],
+      "dependencyNotes": [
+        "You will receive the Legend mark: \"Completed Tiota Quest\" and a Tiota necklace with random prope"
+      ],
+      "givesLegend": true,
+      "legendEvidence": "Vorlof catalog reward cell: images/quests/legendaisling.png"
+    },
+    {
+      "id": "karlopos",
+      "name": "Karlopos Octopus",
+      "source": "https://vorlof.com/quests/karlopos.html",
+      "level": "41+",
+      "requiredItems": "Full: 4x Liver Final: Coral Pendant Earth Gem",
+      "rewards": "\"Defeated the Octopus of Karlopos\" Sea Coral Necklace 5,000,000 Experience",
+      "dependencies": null,
+      "cooldownHours": null,
+      "capabilities": [
+        "dialog",
+        "navigate",
+        "combat-credit",
+        "party",
+        "speech",
+        "walk-trigger",
+        "inventory"
+      ],
+      "status": "guide-only",
+      "metadataReviewRequired": true,
+      "capabilitiesInferred": true,
+      "cooldownNotes": [],
+      "dependencyNotes": [],
+      "givesLegend": true,
+      "legendEvidence": "Vorlof catalog reward cell: images/quests/legendaisling.png"
+    },
+    {
+      "id": "orenfountain",
+      "name": "Oren Sewer Fountain",
+      "source": "https://vorlof.com/quests/orenfountain.html",
+      "level": "41+",
+      "requiredItems": "Oren Key",
+      "rewards": "\"Explorer of Oren Sewers\" +850 Health, +850 Mana",
+      "dependencies": null,
+      "cooldownHours": null,
+      "capabilities": [
+        "dialog",
+        "navigate",
+        "combat-credit",
+        "party",
+        "speech",
+        "walk-trigger",
+        "inventory"
+      ],
+      "status": "guide-only",
+      "metadataReviewRequired": true,
+      "capabilitiesInferred": true,
+      "cooldownNotes": [
+        "The fountain can be repeated every 6 months"
+      ],
+      "dependencyNotes": [],
+      "givesLegend": true,
+      "legendEvidence": "Vorlof catalog reward cell: images/quests/legendaisling.png"
+    },
+    {
+      "id": "capofdanaan",
+      "name": "Cap of Danaan",
+      "source": "https://vorlof.com/quests/capofdanaan.html",
+      "level": "50+",
+      "requiredItems": "Viper's gland Mold Wolf's Skin Stick",
+      "rewards": "\"Worthy of the Cap of Danaan\" Cap of Danaan 1,000,000 Experience",
+      "dependencies": null,
+      "cooldownHours": null,
+      "capabilities": [
+        "dialog",
+        "navigate",
+        "speech",
+        "inventory"
+      ],
+      "status": "guide-only",
+      "metadataReviewRequired": true,
+      "capabilitiesInferred": true,
+      "cooldownNotes": [],
+      "dependencyNotes": [],
+      "givesLegend": true,
+      "legendEvidence": "Vorlof catalog reward cell: images/quests/legendaisling.png"
+    },
+    {
+      "id": "bandofdanaan",
+      "name": "Band of Danaan",
+      "source": "https://vorlof.com/quests/bandofdanaan.html",
+      "level": "50+",
+      "requiredItems": "Viper's gland Mold Wolf's Skin Stick",
+      "rewards": "\"Worthy of the Band of Danaan\" Band of Danaan 1,000,000 Experience",
+      "dependencies": null,
+      "cooldownHours": null,
+      "capabilities": [
+        "dialog",
+        "navigate"
+      ],
+      "status": "guide-only",
+      "metadataReviewRequired": true,
+      "capabilitiesInferred": true,
+      "cooldownNotes": [],
+      "dependencyNotes": [],
+      "givesLegend": true,
+      "legendEvidence": "Vorlof catalog reward cell: images/quests/legendaisling.png"
+    },
+    {
+      "id": "treas",
+      "name": "Treas Quest",
+      "source": "https://vorlof.com/quests/treas.html",
+      "level": "51 - 75",
+      "requiredItems": "Varies",
+      "rewards": "\"Completed Treas Quest\" Treas Necklace",
+      "dependencies": null,
+      "cooldownHours": null,
+      "capabilities": [
+        "dialog",
+        "navigate",
+        "combat-credit",
+        "speech",
+        "branch",
+        "timed",
+        "walk-trigger",
+        "inventory"
+      ],
+      "status": "guide-only",
+      "metadataReviewRequired": true,
+      "capabilitiesInferred": true,
+      "cooldownNotes": [
+        "* Or just drop the Royal Chicken and speak to him again"
+      ],
+      "dependencyNotes": [
+        "You will receive the Legend mark: \"Completed Treas Quest\" and a Treas necklace with random prope"
+      ],
+      "givesLegend": true,
+      "legendEvidence": "Vorlof catalog reward cell: images/quests/legendaisling.png"
+    },
+    {
+      "id": "wolfofwestwoodlands",
+      "name": "Wolf of West Woodlands",
+      "source": "https://vorlof.com/quests/wolfofwestwoodlands.html",
+      "level": "70+",
+      "requiredItems": "None",
+      "rewards": "\"Hunted down a wolf of West Woodland\" 100,000 Experience",
+      "dependencies": null,
+      "cooldownHours": null,
+      "capabilities": [
+        "dialog",
+        "navigate",
+        "combat-credit",
+        "speech",
+        "inventory"
+      ],
+      "status": "guide-only",
+      "metadataReviewRequired": true,
+      "capabilitiesInferred": true,
+      "cooldownNotes": [],
+      "dependencyNotes": [],
+      "givesLegend": true,
+      "legendEvidence": "Vorlof catalog reward cell: images/quests/legendaisling.png"
+    },
+    {
+      "id": "pirateslayer",
+      "name": "Pirate Slayer",
+      "source": "https://vorlof.com/quests/pirateslayer.html",
+      "level": "90+",
+      "requiredItems": "None",
+      "rewards": "\"Has Defeated # of Oren's Pirates\" Black Pirate Scarf Pirate Garb (Male) Pirate Dress (Female)",
+      "dependencies": null,
+      "cooldownHours": null,
+      "capabilities": [
+        "dialog",
+        "navigate",
+        "combat-credit",
+        "speech",
+        "inventory"
+      ],
+      "status": "guide-only",
+      "metadataReviewRequired": true,
+      "capabilitiesInferred": true,
+      "cooldownNotes": [
+        "This quest is repeatable"
+      ],
+      "dependencyNotes": [],
+      "givesLegend": true,
+      "legendEvidence": "Vorlof catalog reward cell: images/quests/legendaisling.png"
+    },
+    {
+      "id": "reincarnationofchadul",
+      "name": "Reincarnation of Chadul",
+      "source": "https://vorlof.com/quests/reincarnationofchadul.html",
+      "level": "90+",
+      "requiredItems": "Mask Scrolls 30,000 Coins",
+      "rewards": "\"Chadul Reincarnation\" Rest Cloak",
+      "dependencies": null,
+      "cooldownHours": null,
+      "capabilities": [
+        "dialog",
+        "navigate",
+        "combat-credit",
+        "speech",
+        "timed",
+        "walk-trigger",
+        "inventory"
+      ],
+      "status": "guide-only",
+      "metadataReviewRequired": true,
+      "capabilitiesInferred": true,
+      "cooldownNotes": [
+        "Speak to Camille again",
+        "Speak to Audny again"
+      ],
+      "dependencyNotes": [],
+      "givesLegend": true,
+      "legendEvidence": "Vorlof catalog reward cell: images/quests/legendaisling.png"
+    },
+    {
+      "id": "reincarnationofdanaan",
+      "name": "Reincarnation of Danaan",
+      "source": "https://vorlof.com/quests/reincarnationofdanaan.html",
+      "level": "90+",
+      "requiredItems": "Fishing Rod Fishing Bait Engagement Ring 110,000 Coins",
+      "rewards": "\"Danaan Reincarnation\" Rest Cloak",
+      "dependencies": null,
+      "cooldownHours": null,
+      "capabilities": [
+        "dialog",
+        "navigate",
+        "combat-credit",
+        "speech",
+        "walk-trigger",
+        "inventory"
+      ],
+      "status": "guide-only",
+      "metadataReviewRequired": true,
+      "capabilitiesInferred": true,
+      "cooldownNotes": [
+        "Speak to Gabriela again",
+        "Speak to Evania again"
+      ],
+      "dependencyNotes": [],
+      "givesLegend": true,
+      "legendEvidence": "Vorlof catalog reward cell: images/quests/legendaisling.png"
+    },
+    {
+      "id": "aislingoftalgonite",
+      "name": "Aisling of Talgonite",
+      "source": "https://vorlof.com/quests/aislingoftalgonite.html",
+      "level": "97+",
+      "requiredItems": "5x Finished Talos Respected Citizen * *Or Tagor Citizenship",
+      "rewards": "\"Aisling of Talgonite\"",
+      "dependencies": null,
+      "cooldownHours": null,
+      "capabilities": [
+        "dialog",
+        "navigate",
+        "speech",
+        "inventory"
+      ],
+      "status": "guide-only",
+      "metadataReviewRequired": true,
+      "capabilitiesInferred": true,
+      "cooldownNotes": [],
+      "dependencyNotes": [],
+      "givesLegend": true,
+      "legendEvidence": "Vorlof catalog reward cell: images/quests/legendshield.png"
+    },
+    {
+      "id": "aislingofmythril",
+      "name": "Aisling of Mythril",
+      "source": "https://vorlof.com/quests/aislingofmythril.html",
+      "level": "97+",
+      "requiredItems": "5x Mythril Shield (of same god) Mentored 200 Players",
+      "rewards": "\"Aisling of Mythril\"",
+      "dependencies": null,
+      "cooldownHours": null,
+      "capabilities": [
+        "dialog",
+        "navigate",
+        "combat-credit",
+        "speech",
+        "timed",
+        "inventory"
+      ],
+      "status": "guide-only",
+      "metadataReviewRequired": true,
+      "capabilitiesInferred": true,
+      "cooldownNotes": [],
+      "dependencyNotes": [],
+      "givesLegend": true,
+      "legendEvidence": "Vorlof catalog reward cell: images/quests/legendshield.png"
+    },
+    {
+      "id": "aislingofhybrasyl",
+      "name": "Aisling of Hy-brasyl",
+      "source": "https://vorlof.com/quests/aislingofhybrasyl.html",
+      "level": "97+",
+      "requiredItems": "1x Finished Hy-brasyl Aisling Award Winner",
+      "rewards": "\"Aisling of Hy-brasyl\"",
+      "dependencies": null,
+      "cooldownHours": null,
+      "capabilities": [
+        "dialog",
+        "navigate",
+        "speech",
+        "inventory"
+      ],
+      "status": "guide-only",
+      "metadataReviewRequired": true,
+      "capabilitiesInferred": true,
+      "cooldownNotes": [],
+      "dependencyNotes": [],
+      "givesLegend": true,
+      "legendEvidence": "Vorlof catalog reward cell: images/quests/legendshield.png"
+    },
+    {
+      "id": "peasantday",
+      "name": "Peasant Day",
+      "source": "https://vorlof.com/quests/peasantday.html",
+      "level": "99",
+      "requiredItems": "12x Finished Talos 12x Finished Hy-brasyl Fire Hy-brasyl Belt Sea Hy-brasyl Belt Wind Hy-brasyl Belt Earth Hy-brasyl Belt",
+      "rewards": "\"Aisling of Talgonite\" Hy-brasyl Crios Belt",
+      "dependencies": null,
+      "cooldownHours": null,
+      "capabilities": [
+        "dialog",
+        "navigate",
+        "speech",
+        "walk-trigger",
+        "inventory"
+      ],
+      "status": "guide-only",
+      "metadataReviewRequired": true,
+      "capabilitiesInferred": true,
+      "cooldownNotes": [],
+      "dependencyNotes": [],
+      "givesLegend": true,
+      "legendEvidence": "Vorlof catalog reward cell: images/quests/legendshield.png"
+    },
+    {
+      "id": "muisirvillageentrance",
+      "name": "Entered Muisir Village",
+      "source": "https://vorlof.com/quests/muisirvillageentrance.html",
+      "level": "1+",
+      "requiredItems": "Registered character; 5x Undine Mushroom",
+      "rewards": "\"Entered Muisir Village\" 4x Shrinking Potion",
+      "dependencies": null,
+      "cooldownHours": 0,
+      "capabilities": [
+        "navigate",
+        "dialog",
+        "inventory",
+        "legend",
+        "speech",
+        "ground-item"
+      ],
+      "status": "implemented-live-proven",
+      "metadataReviewRequired": false,
+      "capabilitiesInferred": false,
+      "cooldownNotes": [
+        "One completion; no potion use or training-cave stages."
+      ],
+      "dependencyNotes": [],
+      "givesLegend": true,
+      "legendEvidence": "Vorlof catalog reward cell: images/quests/legendheart.png",
+      "recipeId": "entered-muisir-village",
+      "validationNotes": "Vows completed full automatic zero-mushroom run: five ground pickups during Kiril approach, introduction, fresh no-claim reconciliation, second Tiny Cave speech, claim Next/Close and own legend. Five consumed mushrooms/four new potions verified at 2026-10-09 20:41:40 CDT. Registered level 1+ per player; level-one gate simulated, live characters level 99. Aware assisted calibration retained."
+    },
+    {
+      "id": "muisirtraininggrounds",
+      "name": "Muisir Training Grounds",
+      "source": "https://vorlof.com/quests/muisirtraininggrounds.html",
+      "level": "41+",
+      "requiredItems": "Shrinking Potion",
+      "rewards": "\"Completed Muisir Training - #\"",
+      "dependencies": null,
+      "cooldownHours": null,
+      "capabilities": [
+        "dialog",
+        "navigate",
+        "combat-credit",
+        "speech",
+        "timed",
+        "inventory"
+      ],
+      "status": "guide-only",
+      "metadataReviewRequired": true,
+      "capabilitiesInferred": true,
+      "cooldownNotes": [],
+      "dependencyNotes": [],
+      "givesLegend": true,
+      "legendEvidence": "Vorlof catalog reward cell: images/quests/legendaisling.png"
+    },
+    {
+      "id": "muisirvillain",
+      "name": "Defeated Muisir Villain",
+      "source": "https://vorlof.com/quests/muisirvillain.html",
+      "level": "AB1+",
+      "requiredItems": "\"Completed Muisir Training - 1\"",
+      "rewards": "\"Defeated Muisir Villain - #\" Lumen Amulet (20% chance) Muisir Prize Box",
+      "dependencies": null,
+      "cooldownHours": null,
+      "capabilities": [
+        "dialog",
+        "navigate",
+        "combat-credit",
+        "speech",
+        "timed",
+        "inventory"
+      ],
+      "status": "guide-only",
+      "metadataReviewRequired": true,
+      "capabilitiesInferred": true,
+      "cooldownNotes": [],
+      "dependencyNotes": [],
+      "givesLegend": true,
+      "legendEvidence": "Vorlof catalog reward cell: images/quests/legendaisling.png"
+    },
+    {
+      "id": "blackstarcrypt",
+      "name": "Blackstar Crypt",
+      "source": "https://vorlof.com/quests/blackstarcrypt.html",
+      "level": "1+",
+      "requiredItems": "None",
+      "rewards": "\"Banished the Imperial Shade of Blackstar - #\" Defiled Ruby Saber Star Crafted Staff Dark Star Blackstar Night Claw Blackstar Whip Blackstar Sea Necklace Blackstar Earth Necklace Blackstar Wind Necklace Blackstar Fire Necklace",
+      "dependencies": null,
+      "cooldownHours": null,
+      "capabilities": [
+        "dialog",
+        "navigate",
+        "party",
+        "timed",
+        "inventory"
+      ],
+      "status": "guide-only",
+      "metadataReviewRequired": true,
+      "capabilitiesInferred": true,
+      "cooldownNotes": [
+        "This quest can be repeated every 24 hours"
+      ],
+      "dependencyNotes": [],
+      "givesLegend": true,
+      "legendEvidence": "Vorlof catalog reward cell: images/quests/legendaisling.png"
+    },
+    {
+      "id": "blackstarwatchman",
+      "name": "Blackstar Watchman",
+      "source": "https://vorlof.com/quests/blackstarwatchman.html",
+      "level": "1+",
+      "requiredItems": "\"Banished the Imperial Shade of Blackstar - #\" * *Rewards increase based on kills",
+      "rewards": "\"Recruit of Blackstar\" * Pet Kit Blackstar Helm Blackstar Armor Pet Kelberoth Rift Blackstar Resting Cloak Blackstar Generals Belt Blackstar Warlords Belt",
+      "dependencies": null,
+      "cooldownHours": null,
+      "capabilities": [
+        "dialog",
+        "navigate",
+        "speech"
+      ],
+      "status": "guide-only",
+      "metadataReviewRequired": true,
+      "capabilitiesInferred": true,
+      "cooldownNotes": [],
+      "dependencyNotes": [],
+      "givesLegend": true,
+      "legendEvidence": "Vorlof catalog reward cell: images/quests/legendaisling.png"
+    },
+    {
+      "id": "carnun",
+      "name": "Warrior",
+      "source": "https://vorlof.com/quests/carnun.html",
+      "level": "80+",
+      "requiredItems": "2x Hemloch",
+      "rewards": "\"Dreamed of Carnun's Trial\" Carnun Helm Carnun Plate 3,000,000 Experience",
+      "dependencies": null,
+      "cooldownHours": null,
+      "capabilities": [
+        "dialog",
+        "navigate",
+        "combat-credit",
+        "speech",
+        "timed",
+        "walk-trigger",
+        "inventory"
+      ],
+      "status": "guide-only",
+      "metadataReviewRequired": true,
+      "capabilitiesInferred": true,
+      "cooldownNotes": [
+        "Approach the Cauldron again and click \"I dedicate my life's work to Carnun\" and then \"Wake\""
+      ],
+      "dependencyNotes": [],
+      "givesLegend": true,
+      "legendEvidence": "Vorlof catalog reward cell: images/quests/legendwarrior.png"
+    },
+    {
+      "id": "cthonicdisciple",
+      "name": "Wizard / Priest (Male)",
+      "source": "https://vorlof.com/quests/cthonicdisciple.html",
+      "level": "80+",
+      "requiredItems": "Sgrios Prayer Necklace",
+      "rewards": "\"Cthonic Diciple of (Dawn / Death / Decay)\" Cthonic Magus / Disciple Caputium Cthonic Magus / Disciple Robes 3,000,000 Experience",
+      "dependencies": null,
+      "cooldownHours": null,
+      "capabilities": [
+        "dialog",
+        "navigate",
+        "equipment",
+        "speech",
+        "branch",
+        "inventory"
+      ],
+      "status": "guide-only",
+      "metadataReviewRequired": true,
+      "capabilitiesInferred": true,
+      "cooldownNotes": [
+        "Approach (4,4) again and click \"I will become a Cthonic Disciple\" and then \"Wake\""
+      ],
+      "dependencyNotes": [],
+      "givesLegend": true,
+      "legendEvidence": "Vorlof catalog reward cell: images/quests/legendwizard.png"
+    },
+    {
+      "id": "morrigu",
+      "name": "Wizard / Priest (Female)",
+      "source": "https://vorlof.com/quests/morrigu.html",
+      "level": "80+",
+      "requiredItems": "None",
+      "rewards": "\"Dreamed of (Ana / Macha / Madb)\" Morrigu Magus / Disciple Pellison 3,000,000 Experience",
+      "dependencies": null,
+      "cooldownHours": null,
+      "capabilities": [
+        "dialog",
+        "navigate",
+        "equipment",
+        "speech",
+        "inventory"
+      ],
+      "status": "guide-only",
+      "metadataReviewRequired": true,
+      "capabilitiesInferred": true,
+      "cooldownNotes": [
+        "Approach the red flowers again and click \"I will wear the dress of Morrigu\" and then \"Wake\""
+      ],
+      "dependencyNotes": [],
+      "givesLegend": true,
+      "legendEvidence": "Vorlof catalog reward cell: images/quests/legendpriest.png"
+    },
+    {
+      "id": "patternwalker",
+      "name": "Monk",
+      "source": "https://vorlof.com/quests/patternwalker.html",
+      "level": "80+",
+      "requiredItems": "None",
+      "rewards": "\"Pattern Walker of (Earth / Sea / Night)\" Aosdic Pattern Walker 3,000,000 Experience",
+      "dependencies": null,
+      "cooldownHours": null,
+      "capabilities": [
+        "dialog",
+        "navigate",
+        "combat-credit",
+        "speech",
+        "timed",
+        "inventory"
+      ],
+      "status": "guide-only",
+      "metadataReviewRequired": true,
+      "capabilitiesInferred": true,
+      "cooldownNotes": [
+        "Enter the circle again and click \"I will don the Pattern Walker\" and then \"Wake\""
+      ],
+      "dependencyNotes": [],
+      "givesLegend": true,
+      "legendEvidence": "Vorlof catalog reward cell: images/quests/legendmonk.png"
+    },
+    {
+      "id": "marauder",
+      "name": "Rogue",
+      "source": "https://vorlof.com/quests/marauder.html",
+      "level": "80+",
+      "requiredItems": "Finished Hy-brasyl 5,000,000 Coins",
+      "rewards": "\"Marauder of Gold\" Marauder Helm Marauder Hide 3,000,000 Experience",
+      "dependencies": null,
+      "cooldownHours": null,
+      "capabilities": [
+        "dialog",
+        "navigate",
+        "combat-credit",
+        "speech",
+        "timed",
+        "inventory"
+      ],
+      "status": "guide-only",
+      "metadataReviewRequired": true,
+      "capabilitiesInferred": true,
+      "cooldownNotes": [
+        " I recommend waiting 24 hours and trying again if you get this task"
+      ],
+      "dependencyNotes": [],
+      "givesLegend": true,
+      "legendEvidence": "Vorlof catalog reward cell: images/quests/legendrogue.png"
+    },
+    {
+      "id": "goblinwar",
+      "name": "Soldier of the Goblin War",
+      "source": "https://vorlof.com/quests/goblinwar.html",
+      "level": "94+",
+      "requiredItems": "None",
+      "rewards": "\"Great Soldier of the Goblin War\"",
+      "dependencies": null,
+      "cooldownHours": null,
+      "capabilities": [
+        "dialog",
+        "navigate",
+        "combat-credit",
+        "speech",
+        "inventory"
+      ],
+      "status": "guide-only",
+      "metadataReviewRequired": true,
+      "capabilitiesInferred": true,
+      "cooldownNotes": [],
+      "dependencyNotes": [],
+      "givesLegend": true,
+      "legendEvidence": "Vorlof catalog reward cell: images/quests/legendaisling.png"
+    },
+    {
+      "id": "dailykillquest",
+      "name": "Daily Kill Quest\n(Pravat)",
+      "source": "https://vorlof.com/quests/dailykillquest.html",
+      "level": "Master",
+      "requiredItems": "None",
+      "rewards": "\"Completed (Area) Daily Quest - #\" Daily Prize Box 150,000,000 Experience Daily Kill Quest Prize",
+      "dependencies": null,
+      "cooldownHours": null,
+      "capabilities": [
+        "dialog",
+        "navigate",
+        "combat-credit",
+        "speech",
+        "branch",
+        "timed",
+        "inventory"
+      ],
+      "status": "guide-only",
+      "metadataReviewRequired": true,
+      "capabilitiesInferred": true,
+      "cooldownNotes": [
+        "Daily quests will change every 24 hours",
+        " If one is too difficult try again tomorrow"
+      ],
+      "dependencyNotes": [
+        "Once you have completed the criteria return to the Mundane and select the daily quest again",
+        "Completed Daily Quest - #"
+      ],
+      "givesLegend": true,
+      "legendEvidence": "Vorlof catalog reward cell: images/quests/legendaisling.png"
+    },
+    {
+      "id": "tauren",
+      "name": "Tauren",
+      "source": "https://vorlof.com/quests/tauren.html",
+      "level": "Master",
+      "requiredItems": "Full: Nothing Final: Tauren Horn Tauren Nose Ring",
+      "rewards": "\"Defeated the Tauren Creant\" Grandmaster Equipment",
+      "dependencies": null,
+      "cooldownHours": null,
+      "capabilities": [
+        "dialog",
+        "navigate",
+        "combat-credit",
+        "party",
+        "equipment",
+        "speech",
+        "inventory"
+      ],
+      "status": "guide-only",
+      "metadataReviewRequired": true,
+      "capabilitiesInferred": true,
+      "cooldownNotes": [],
+      "dependencyNotes": [],
+      "givesLegend": true,
+      "legendEvidence": "Vorlof catalog reward cell: images/quests/legendaisling.png"
+    },
+    {
+      "id": "ladyphoenix",
+      "name": "Lady Phoenix",
+      "source": "https://vorlof.com/quests/ladyphoenix.html",
+      "level": "Master",
+      "requiredItems": "Full: Passion Flower Lots of Fruit Final: Lady Phoenix Feather Lady Phoenix Ring Lady Phoenix Claw",
+      "rewards": "\"Defeated the Lady Phoenix Creant\" Grandmaster Equipment",
+      "dependencies": null,
+      "cooldownHours": null,
+      "capabilities": [
+        "dialog",
+        "navigate",
+        "combat-credit",
+        "party",
+        "equipment",
+        "speech",
+        "inventory"
+      ],
+      "status": "guide-only",
+      "metadataReviewRequired": true,
+      "capabilitiesInferred": true,
+      "cooldownNotes": [
+        "You will need to walk to Shinewood Forest 34 , open your [Tab] map again, and stand in the head of the Ant to receive a popup"
+      ],
+      "dependencyNotes": [],
+      "givesLegend": true,
+      "legendEvidence": "Vorlof catalog reward cell: images/quests/legendaisling.png"
+    },
+    {
+      "id": "medusa",
+      "name": "Medusa",
+      "source": "https://vorlof.com/quests/medusa.html",
+      "level": "Master",
+      "requiredItems": "Full: Giant Pearl Half Talisman Shovel Final: Summoning Talisman",
+      "rewards": "\"Defeated the Medusa Creant\" Grandmaster Equipment",
+      "dependencies": null,
+      "cooldownHours": null,
+      "capabilities": [
+        "dialog",
+        "navigate",
+        "combat-credit",
+        "party",
+        "equipment",
+        "speech",
+        "inventory"
+      ],
+      "status": "guide-only",
+      "metadataReviewRequired": true,
+      "capabilitiesInferred": true,
+      "cooldownNotes": [],
+      "dependencyNotes": [],
+      "givesLegend": true,
+      "legendEvidence": "Vorlof catalog reward cell: images/quests/legendaisling.png"
+    },
+    {
+      "id": "shamensyth",
+      "name": "Shamensyth",
+      "source": "https://vorlof.com/quests/shamensyth.html",
+      "level": "Master",
+      "requiredItems": "Full: 300,000 Coins Final: Blazing Wand",
+      "rewards": "\"Defeated the Shamensyth Creant\" Grandmaster Equipment",
+      "dependencies": null,
+      "cooldownHours": null,
+      "capabilities": [
+        "dialog",
+        "navigate",
+        "combat-credit",
+        "party",
+        "equipment",
+        "speech",
+        "inventory"
+      ],
+      "status": "guide-only",
+      "metadataReviewRequired": true,
+      "capabilitiesInferred": true,
+      "cooldownNotes": [],
+      "dependencyNotes": [],
+      "givesLegend": true,
+      "legendEvidence": "Vorlof catalog reward cell: images/quests/legendaisling.png"
+    },
+    {
+      "id": "eclipse",
+      "name": "Warrior Dark Artifact",
+      "source": "https://vorlof.com/quests/eclipse.html",
+      "level": "Level 99* Warrior",
+      "requiredItems": "Demon Lord's Notes 100x Finished Talos 30x Trent Root",
+      "rewards": "\"Reforged the Eclipse\" Eclipse",
+      "dependencies": null,
+      "cooldownHours": null,
+      "capabilities": [
+        "dialog",
+        "navigate",
+        "combat-credit",
+        "speech",
+        "inventory"
+      ],
+      "status": "guide-only",
+      "metadataReviewRequired": true,
+      "capabilitiesInferred": true,
+      "cooldownNotes": [
+        "Click \"Strange Blade\" again",
+        "Repeatedly clicking \"Strange Blade\" will give him any Trent Root or Finished Talos you have in your invent"
+      ],
+      "dependencyNotes": [],
+      "givesLegend": true,
+      "legendEvidence": "Vorlof catalog reward cell: images/quests/legendaisling.png"
+    },
+    {
+      "id": "darkring",
+      "name": "Wizard Dark Artifact",
+      "source": "https://vorlof.com/quests/darkring.html",
+      "level": "Level 99* Wizard",
+      "requiredItems": "Demon Lord's Notes Dark Necklace Dark Belt",
+      "rewards": "\"Discovered the Dark Ring\" Dark Ring Dark Ring Spell",
+      "dependencies": null,
+      "cooldownHours": null,
+      "capabilities": [
+        "dialog",
+        "navigate",
+        "combat-credit",
+        "speech",
+        "inventory"
+      ],
+      "status": "guide-only",
+      "metadataReviewRequired": true,
+      "capabilitiesInferred": true,
+      "cooldownNotes": [],
+      "dependencyNotes": [],
+      "givesLegend": true,
+      "legendEvidence": "Vorlof catalog reward cell: images/quests/legendaisling.png"
+    },
+    {
+      "id": "cluaisjewel",
+      "name": "Priest Dark Artifact",
+      "source": "https://vorlof.com/quests/cluaisjewel.html",
+      "level": "Level 99 Priest",
+      "requiredItems": "Demon Lord's Notes",
+      "rewards": "\"Discovered the Cluais Jewel\" Cluais Jewel",
+      "dependencies": null,
+      "cooldownHours": null,
+      "capabilities": [
+        "dialog",
+        "navigate",
+        "speech",
+        "timed",
+        "inventory"
+      ],
+      "status": "guide-only",
+      "metadataReviewRequired": true,
+      "capabilitiesInferred": true,
+      "cooldownNotes": [
+        " If you speak to him again he will kick you out of his office",
+        "Return after 24 hours and click \"Dull Gem\" again"
+      ],
+      "dependencyNotes": [],
+      "givesLegend": true,
+      "legendEvidence": "Vorlof catalog reward cell: images/quests/legendaisling.png"
+    },
+    {
+      "id": "obsidian",
+      "name": "Monk Dark Artifact",
+      "source": "https://vorlof.com/quests/obsidian.html",
+      "level": "Level 99* Monk",
+      "requiredItems": "Demon Lord's Notes",
+      "rewards": "\"Recovered the Obsidian\" Obsidian",
+      "dependencies": null,
+      "cooldownHours": null,
+      "capabilities": [
+        "dialog",
+        "navigate",
+        "combat-credit",
+        "speech",
+        "inventory"
+      ],
+      "status": "guide-only",
+      "metadataReviewRequired": true,
+      "capabilitiesInferred": true,
+      "cooldownNotes": [],
+      "dependencyNotes": [],
+      "givesLegend": true,
+      "legendEvidence": "Vorlof catalog reward cell: images/quests/legendaisling.png"
+    },
+    {
+      "id": "arcanegauntlet",
+      "name": "Rogue Dark Artifact",
+      "source": "https://vorlof.com/quests/arcanegauntlet.html",
+      "level": "Level 99* Rogue",
+      "requiredItems": "Demon Lord's Notes",
+      "rewards": "\"Recovered the Arcane Gauntlet\" Arcane Gauntlet",
+      "dependencies": null,
+      "cooldownHours": null,
+      "capabilities": [
+        "dialog",
+        "navigate",
+        "combat-credit",
+        "speech",
+        "inventory"
+      ],
+      "status": "guide-only",
+      "metadataReviewRequired": true,
+      "capabilitiesInferred": true,
+      "cooldownNotes": [],
+      "dependencyNotes": [],
+      "givesLegend": true,
+      "legendEvidence": "Vorlof catalog reward cell: images/quests/legendaisling.png"
+    },
+    {
+      "id": "arsaidhaon",
+      "name": "Arsaidh Aon",
+      "source": "https://vorlof.com/quests/arsaidhaon.html",
+      "level": "Master",
+      "requiredItems": "1,100,000 Coins 30x Finished Hy-Brasyl 4 Additional Players (One of each Class)",
+      "rewards": "\"Defeated Arsaidh Aon\" Hy-Brasyl Replicas Engagement Ring",
+      "dependencies": null,
+      "cooldownHours": null,
+      "capabilities": [
+        "dialog",
+        "navigate",
+        "combat-credit",
+        "party",
+        "equipment",
+        "speech",
+        "branch",
+        "timed",
+        "walk-trigger",
+        "inventory"
+      ],
+      "status": "guide-only",
+      "metadataReviewRequired": true,
+      "capabilitiesInferred": true,
+      "cooldownNotes": [
+        "Return to Dubhaim Castle North 6-2 and speak to the Drast again",
+        "Speak to her again to give her the 30 Finished Hy-brasyl "
+      ],
+      "dependencyNotes": [],
+      "givesLegend": true,
+      "legendEvidence": "Vorlof catalog reward cell: images/quests/legendaisling.png"
+    },
+    {
+      "id": "archaeologistofbealnacarriage",
+      "name": "Archaeologist of Beal na Carriage",
+      "source": "https://vorlof.com/quests/archaeologistofbealnacarriage.html",
+      "level": "AB1+",
+      "requiredItems": "None",
+      "rewards": "\"Archaeologist of Beal na Carriage\" Jeweled Dark Belt 5,000,000 Experience 2,000 Ability",
+      "dependencies": null,
+      "cooldownHours": null,
+      "capabilities": [
+        "dialog",
+        "navigate",
+        "combat-credit",
+        "speech",
+        "walk-trigger",
+        "inventory"
+      ],
+      "status": "guide-only",
+      "metadataReviewRequired": true,
+      "capabilitiesInferred": true,
+      "cooldownNotes": [
+        "Walk near the windows around the outside of each room again to climb to the walkway",
+        "Walk near the windows around the outside of the room again to climb to the walkway"
+      ],
+      "dependencyNotes": [],
+      "givesLegend": true,
+      "legendEvidence": "Vorlof catalog reward cell: images/quests/legendaisling.png"
+    },
+    {
+      "id": "mephit",
+      "name": "Helped Mephit",
+      "source": "https://vorlof.com/quests/mephit.html",
+      "level": "41+",
+      "requiredItems": "10x Charred Bones",
+      "rewards": "\"Helped Mephit\" Kanna Flame Necklace",
+      "dependencies": null,
+      "cooldownHours": null,
+      "capabilities": [
+        "dialog",
+        "navigate",
+        "combat-credit",
+        "speech",
+        "inventory"
+      ],
+      "status": "guide-only",
+      "metadataReviewRequired": true,
+      "capabilitiesInferred": true,
+      "cooldownNotes": [],
+      "dependencyNotes": [
+        "If you complete this quest you cannot complete Help Morwin "
+      ],
+      "givesLegend": true,
+      "legendEvidence": "Vorlof catalog reward cell: images/quests/legendaisling.png"
+    },
+    {
+      "id": "morwin",
+      "name": "Helped Morwin",
+      "source": "https://vorlof.com/quests/morwin.html",
+      "level": "41+",
+      "requiredItems": "10x Charred Bones",
+      "rewards": "\"Helped Morwin\" Kanna Wind Necklace",
+      "dependencies": null,
+      "cooldownHours": null,
+      "capabilities": [
+        "dialog",
+        "navigate",
+        "combat-credit",
+        "speech",
+        "inventory"
+      ],
+      "status": "guide-only",
+      "metadataReviewRequired": true,
+      "capabilitiesInferred": true,
+      "cooldownNotes": [],
+      "dependencyNotes": [
+        "If you complete this quest you cannot complete Help Mephit "
+      ],
+      "givesLegend": true,
+      "legendEvidence": "Vorlof catalog reward cell: images/quests/legendaisling.png"
+    },
+    {
+      "id": "arenacircut",
+      "name": "Arena Circut",
+      "source": "https://vorlof.com/quests/arenacircut.html",
+      "level": "41+",
+      "requiredItems": "None",
+      "rewards": "\"Arena Circut Champion\" Champion Band Tortoise Mount",
+      "dependencies": null,
+      "cooldownHours": null,
+      "capabilities": [
+        "dialog",
+        "navigate",
+        "combat-credit",
+        "party",
+        "speech",
+        "inventory"
+      ],
+      "status": "guide-only",
+      "metadataReviewRequired": true,
+      "capabilitiesInferred": true,
+      "cooldownNotes": [
+        "Click \"Arena Circut\", \"Yes\", and then \"Yes\" again"
+      ],
+      "dependencyNotes": [],
+      "givesLegend": true,
+      "legendEvidence": "Vorlof catalog reward cell: images/quests/legendaisling.png"
+    },
+    {
+      "id": "lorais",
+      "name": "Lorais",
+      "source": "https://vorlof.com/quests/lorais.html",
+      "level": "AB1+",
+      "requiredItems": "Empty Bottle",
+      "rewards": "\"Killed Lorais #\" 1,000 Ability",
+      "dependencies": null,
+      "cooldownHours": null,
+      "capabilities": [
+        "dialog",
+        "navigate",
+        "combat-credit",
+        "speech",
+        "inventory"
+      ],
+      "status": "guide-only",
+      "metadataReviewRequired": true,
+      "capabilitiesInferred": true,
+      "cooldownNotes": [
+        "This Quest can be repeated 5 times"
+      ],
+      "dependencyNotes": [
+        " The reward halves each time you complete the quest)"
+      ],
+      "givesLegend": true,
+      "legendEvidence": "Vorlof catalog reward cell: images/quests/legendaisling.png"
+    },
+    {
+      "id": "dioram",
+      "name": "Dioram",
+      "source": "https://vorlof.com/quests/dioram.html",
+      "level": "AB1+",
+      "requiredItems": "3x Fox Ribs",
+      "rewards": "\"Found Dioram #\" 1,000 Ability",
+      "dependencies": null,
+      "cooldownHours": null,
+      "capabilities": [
+        "dialog",
+        "navigate",
+        "speech",
+        "inventory"
+      ],
+      "status": "guide-only",
+      "metadataReviewRequired": true,
+      "capabilitiesInferred": true,
+      "cooldownNotes": [
+        "This Quest can be repeated 6 times"
+      ],
+      "dependencyNotes": [
+        " The reward halves each time you complete the quest)"
+      ],
+      "givesLegend": true,
+      "legendEvidence": "Vorlof catalog reward cell: images/quests/legendaisling.png"
+    },
+    {
+      "id": "andortrials",
+      "name": "Andor Trials",
+      "source": "https://vorlof.com/quests/andortrials.html",
+      "level": "AB5+",
+      "requiredItems": "Mantis Mask Mantis Costume 1,000,000+ Coins 4 Additional Players",
+      "rewards": "\"Explorer of Andor Dungeon\" Broken Andor Shield",
+      "dependencies": null,
+      "cooldownHours": null,
+      "capabilities": [
+        "dialog",
+        "navigate",
+        "combat-credit",
+        "party",
+        "equipment",
+        "speech",
+        "walk-trigger",
+        "inventory"
+      ],
+      "status": "guide-only",
+      "metadataReviewRequired": true,
+      "capabilitiesInferred": true,
+      "cooldownNotes": [
+        "If you do not get one of the riddles from below press escape and try again until you do",
+        "Behead me again, and I am the partner of ready"
+      ],
+      "dependencyNotes": [],
+      "givesLegend": true,
+      "legendEvidence": "Vorlof catalog reward cell: images/quests/legendaisling.png"
+    },
+    {
+      "id": "fireserpent",
+      "name": "Lured out Fire Serpent",
+      "source": "https://vorlof.com/quests/fireserpent.html",
+      "level": "AB40+",
+      "requiredItems": "20x Stunned Fire Worm",
+      "rewards": "\"Lured Fire Serpent Out - #\" Fire Serpent Skin 10,000,000 Experience 10,000 Ability",
+      "dependencies": null,
+      "cooldownHours": null,
+      "capabilities": [
+        "dialog",
+        "navigate",
+        "combat-credit",
+        "party",
+        "speech",
+        "inventory"
+      ],
+      "status": "guide-only",
+      "metadataReviewRequired": true,
+      "capabilitiesInferred": true,
+      "cooldownNotes": [],
+      "dependencyNotes": [],
+      "givesLegend": true,
+      "legendEvidence": "Vorlof catalog reward cell: images/quests/legendaisling.png"
+    },
+    {
+      "id": "amanjungle",
+      "name": "Aman Jungle Quests",
+      "source": "https://vorlof.com/quests/amanjungle.html",
+      "level": "AB20+",
+      "requiredItems": "20x Scrap of Clothing 20x Crystal Bar \"Kept Oriana Safe from Dendron Flower\" \"Helped Oriana find Elemus\" \"Obtained Hostile Disguise from Glenna\" \"Befriended the Hostile Chief\" \"Reunited Chief Vortigern and the Hostile Chief\" Elemus Mount 110,000 Ability",
+      "rewards": "\"Kept Oriana Safe from Dendron Flower\" \"Helped Oriana find Elemus\" \"Obtained Hostile Disguise from Glenna\" \"Befriended the Hostile Chief\" \"Reunited Chief Vortigern and the Hostile Chief\" Elemus Mount 110,000 Ability",
+      "dependencies": null,
+      "cooldownHours": null,
+      "capabilities": [
+        "dialog",
+        "navigate",
+        "combat-credit",
+        "party",
+        "equipment",
+        "speech",
+        "timed",
+        "walk-trigger",
+        "inventory"
+      ],
+      "status": "guide-only",
+      "metadataReviewRequired": true,
+      "capabilitiesInferred": true,
+      "cooldownNotes": [
+        "Gather your group again and head to Weylin in Aman Jungle6 ",
+        "Take the map back to Oriana and say \"Jovino\" again, she will tell you to wait 24 hours"
+      ],
+      "dependencyNotes": [],
+      "givesLegend": true,
+      "legendEvidence": "Vorlof catalog reward cell: images/quests/legendaisling.png, images/quests/legendaisling.png, images/quests/legendaisling.png, images/quests/legendaisling.png, images/quests/legendaisling.png"
+    },
+    {
+      "id": "yowienterritory",
+      "name": "Yowien Territory Quests",
+      "source": "https://vorlof.com/quests/yowienterritory.html",
+      "level": "AB40+",
+      "requiredItems": "20x Dendron Flower 1x Crystal Orb 20x Yowien Fish 25x Yowien Blue Vine 25x Yowien Yellow Vine 20x Yowien Grey Fur",
+      "rewards": "\"Mended Jowella and Kharlo's Relationship\" \"Allowed to Enter Secured Caves\" \"Found Luwella's House Key\" \"Protected Luwella from Baby Brutes\" \"Learned the Secret Waterfall Entrance\" \"Obtained the Yowien Costume\" \"Returned Arcella's Stolen Bag\" \"Received a Gift from Arcella - #\" 85,000,000 Experience 550,000 Ability",
+      "dependencies": null,
+      "cooldownHours": null,
+      "capabilities": [
+        "dialog",
+        "navigate",
+        "combat-credit",
+        "party",
+        "equipment",
+        "speech",
+        "timed",
+        "walk-trigger",
+        "inventory"
+      ],
+      "status": "guide-only",
+      "metadataReviewRequired": true,
+      "capabilitiesInferred": true,
+      "cooldownNotes": [
+        "Wait 10 Minutes and say \"Dendron Bouquet\" again",
+        "To make a new Braid visit Granny again and say \"I have the vines\""
+      ],
+      "dependencyNotes": [
+        "You must also have completed the Aman Jungle Quests"
+      ],
+      "givesLegend": true,
+      "legendEvidence": "Vorlof catalog reward cell: images/quests/legendaisling.png, images/quests/legendaisling.png, images/quests/legendaisling.png, images/quests/legendaisling.png, images/quests/legendaisling.png, images/quests/legendaisling.png, images/quests/legendaisling.png, images/quests/legendaisling.png"
+    },
+    {
+      "id": "strongwinds",
+      "name": "Strong Winds",
+      "source": "https://vorlof.com/quests/strongwinds.html",
+      "level": "AB40+",
+      "requiredItems": "10x Yowien Tree Sap 10x Yowien Tree Moss",
+      "rewards": "\"Gathered Materials for Jowella's House (#)\"* 55,000,000 Experience 250,000 Ability",
+      "dependencies": null,
+      "cooldownHours": null,
+      "capabilities": [
+        "dialog",
+        "navigate",
+        "combat-credit",
+        "party",
+        "speech",
+        "walk-trigger",
+        "inventory"
+      ],
+      "status": "guide-only",
+      "metadataReviewRequired": true,
+      "capabilitiesInferred": true,
+      "cooldownNotes": [
+        "This quest is repeatable once a week"
+      ],
+      "dependencyNotes": [
+        "You must also have completed the Aman Jungle Quests"
+      ],
+      "givesLegend": true,
+      "legendEvidence": "Vorlof catalog reward cell: images/quests/legendaisling.png"
+    },
+    {
+      "id": "defeatedlaw",
+      "name": "Defeated Law &Discovered Lost Ruins",
+      "source": "https://vorlof.com/quests/defeatedlaw.html",
+      "level": null,
+      "requiredItems": null,
+      "rewards": "\"Defeated Law & Discovered Lost Ruins - #\" 0-3x Armor Upgrade Plans 0-3x Helmet Upgrade Plans 0-3x Weapon Upgrade Plans 1,500,000 Experience 30,000 Ability",
+      "dependencies": null,
+      "cooldownHours": null,
+      "capabilities": [
+        "dialog",
+        "navigate",
+        "combat-credit",
+        "party",
+        "speech",
+        "timed",
+        "walk-trigger",
+        "inventory"
+      ],
+      "status": "guide-only",
+      "metadataReviewRequired": true,
+      "capabilitiesInferred": true,
+      "cooldownNotes": [
+        "Return to Nairn again to report your findings",
+        "Talk to Nairn again"
+      ],
+      "dependencyNotes": [
+        "Simply find a group of people who have also completed the quest at least one time and click \"Law Shortc"
+      ],
+      "givesLegend": true,
+      "legendEvidence": "Vorlof catalog reward cell: images/quests/legendaisling.png"
+    },
+    {
+      "id": "plamit",
+      "name": "Plamit",
+      "source": "https://vorlof.com/quests/plamit.html",
+      "level": "AB50+",
+      "requiredItems": "5x Wind Baem Missives 5x Silver Baem Egg 10x Uncut Hy-brasyl 10x Finished Hy-brasyl 2x Conix Fragment 2x Lily Pads 2x Kobold Tail 2x Dochas Bloom 1x Cactus Flower 1x Rock Fish",
+      "rewards": "\"Sinturi of the Ancient Flame\" 0-1x Satchel of Goods",
+      "dependencies": null,
+      "cooldownHours": null,
+      "capabilities": [
+        "dialog",
+        "navigate",
+        "combat-credit",
+        "party",
+        "speech",
+        "timed",
+        "inventory"
+      ],
+      "status": "guide-only",
+      "metadataReviewRequired": true,
+      "capabilitiesInferred": true,
+      "cooldownNotes": [],
+      "dependencyNotes": [],
+      "givesLegend": true,
+      "legendEvidence": "Vorlof catalog reward cell: images/quests/legendaisling.png"
+    },
+    {
+      "id": "baemmissivedecoding",
+      "name": "Baem Missive Decoding",
+      "source": "https://vorlof.com/quests/baemmissivedecoding.html",
+      "level": "AB50+",
+      "requiredItems": "125x Wind Baem Missives 3x Gold Bar",
+      "rewards": "\"Helped Gisaem Decipher The Missives\" Plamit Skills & Spells",
+      "dependencies": null,
+      "cooldownHours": null,
+      "capabilities": [
+        "dialog",
+        "navigate",
+        "speech",
+        "timed",
+        "inventory"
+      ],
+      "status": "guide-only",
+      "metadataReviewRequired": true,
+      "capabilitiesInferred": true,
+      "cooldownNotes": [
+        "Speak to Gisaem again"
+      ],
+      "dependencyNotes": [
+        "To start this quest you must have completed the Plamit quest "
+      ],
+      "givesLegend": true,
+      "legendEvidence": "Vorlof catalog reward cell: images/quests/legendaisling.png"
+    },
+    {
+      "id": "danaanconsecration",
+      "name": "Danaan Consecration",
+      "source": "https://vorlof.com/quests/danaanconsecration.html",
+      "level": "AB95+",
+      "requiredItems": "3x Lumen Amulet 1x Gold Bar 1x Conix Fragment 1x Speckled Wax",
+      "rewards": "\"Consecrated the Holy Danaan\" Ragged Holy Danaan",
+      "dependencies": null,
+      "cooldownHours": null,
+      "capabilities": [
+        "dialog",
+        "navigate",
+        "speech",
+        "inventory"
+      ],
+      "status": "guide-only",
+      "metadataReviewRequired": true,
+      "capabilitiesInferred": true,
+      "cooldownNotes": [
+        "Return once you have these items and say \"Holy Danaan\" again",
+        "Say \"Holy Danaan\" again, she will ask you to gather some items"
+      ],
+      "dependencyNotes": [],
+      "givesLegend": true,
+      "legendEvidence": "Vorlof catalog reward cell: images/quests/legendaisling.png"
+    },
+    {
+      "id": "tavalymystery",
+      "name": "Investigating Tavaly's Mystery",
+      "source": "https://vorlof.com/quests/tavalymystery.html",
+      "level": "AB99+",
+      "requiredItems": "Male Hostile Costume Female Hostile Costume Hostile Headgear 5x Blue Frog Meat 5x Red Frog Meat 5x Grey Frog Meat 10x Dendron Flower 20x Aqua Stone 20x Yowien Blue Vine 20x Yowien Yellow Vine 20x Crystal Bar 20x Yowien Grey Fur",
+      "rewards": "\"Impersonating the Hostile Emissary\" \"Scouting the Forest for Quinn\" ??",
+      "dependencies": null,
+      "cooldownHours": null,
+      "capabilities": [
+        "dialog",
+        "navigate",
+        "combat-credit",
+        "equipment",
+        "speech",
+        "timed",
+        "inventory"
+      ],
+      "status": "guide-only",
+      "metadataReviewRequired": true,
+      "capabilitiesInferred": true,
+      "cooldownNotes": [
+        "Return to Jana after 24 hours and talk to her again",
+        "But first we're going to speak to Theodora again"
+      ],
+      "dependencyNotes": [],
+      "givesLegend": true,
+      "legendEvidence": "Vorlof catalog reward cell: images/quests/legendaisling.png, images/quests/legendaisling.png"
+    }
+  ],
+  "catalogScope": "quest-legend-rewards",
+  "legendQuestCount": 70
+}

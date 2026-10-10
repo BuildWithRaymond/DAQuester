@@ -1,0 +1,927 @@
+{
+  "ServerProfile": "datester-7.41",
+  "Validated": true,
+  "BranchName": "Branch",
+  "BranchWeight": 1,
+  "RewardWeightReserve": 5,
+  "Patrol": [
+    {
+      "x": 14,
+      "y": 56
+    },
+    {
+      "x": 15,
+      "y": 56
+    },
+    {
+      "x": 15,
+      "y": 55
+    },
+    {
+      "x": 15,
+      "y": 54
+    },
+    {
+      "x": 16,
+      "y": 54
+    },
+    {
+      "x": 16,
+      "y": 53
+    },
+    {
+      "x": 17,
+      "y": 53
+    },
+    {
+      "x": 18,
+      "y": 53
+    },
+    {
+      "x": 18,
+      "y": 52
+    },
+    {
+      "x": 19,
+      "y": 53
+    },
+    {
+      "x": 20,
+      "y": 53
+    },
+    {
+      "x": 20,
+      "y": 54
+    },
+    {
+      "x": 19,
+      "y": 54
+    },
+    {
+      "x": 18,
+      "y": 54
+    },
+    {
+      "x": 17,
+      "y": 54
+    },
+    {
+      "x": 17,
+      "y": 55
+    },
+    {
+      "x": 16,
+      "y": 55
+    },
+    {
+      "x": 16,
+      "y": 56
+    },
+    {
+      "x": 17,
+      "y": 56
+    },
+    {
+      "x": 18,
+      "y": 56
+    },
+    {
+      "x": 18,
+      "y": 55
+    },
+    {
+      "x": 19,
+      "y": 55
+    },
+    {
+      "x": 19,
+      "y": 56
+    },
+    {
+      "x": 20,
+      "y": 56
+    },
+    {
+      "x": 20,
+      "y": 57
+    },
+    {
+      "x": 19,
+      "y": 57
+    },
+    {
+      "x": 18,
+      "y": 57
+    },
+    {
+      "x": 17,
+      "y": 57
+    },
+    {
+      "x": 16,
+      "y": 57
+    },
+    {
+      "x": 15,
+      "y": 57
+    },
+    {
+      "x": 21,
+      "y": 57
+    },
+    {
+      "x": 21,
+      "y": 58
+    },
+    {
+      "x": 21,
+      "y": 55
+    },
+    {
+      "x": 21,
+      "y": 54
+    },
+    {
+      "x": 22,
+      "y": 56
+    },
+    {
+      "x": 52,
+      "y": 45
+    },
+    {
+      "x": 52,
+      "y": 44
+    },
+    {
+      "x": 52,
+      "y": 43
+    },
+    {
+      "x": 52,
+      "y": 42
+    },
+    {
+      "x": 53,
+      "y": 41
+    },
+    {
+      "x": 54,
+      "y": 41
+    },
+    {
+      "x": 54,
+      "y": 40
+    },
+    {
+      "x": 55,
+      "y": 41
+    },
+    {
+      "x": 56,
+      "y": 41
+    },
+    {
+      "x": 56,
+      "y": 42
+    },
+    {
+      "x": 55,
+      "y": 42
+    },
+    {
+      "x": 54,
+      "y": 42
+    },
+    {
+      "x": 54,
+      "y": 43
+    },
+    {
+      "x": 53,
+      "y": 43
+    },
+    {
+      "x": 53,
+      "y": 44
+    },
+    {
+      "x": 54,
+      "y": 44
+    },
+    {
+      "x": 55,
+      "y": 44
+    },
+    {
+      "x": 55,
+      "y": 43
+    },
+    {
+      "x": 56,
+      "y": 43
+    },
+    {
+      "x": 57,
+      "y": 43
+    },
+    {
+      "x": 56,
+      "y": 44
+    },
+    {
+      "x": 56,
+      "y": 45
+    },
+    {
+      "x": 55,
+      "y": 45
+    },
+    {
+      "x": 53,
+      "y": 45
+    },
+    {
+      "x": 54,
+      "y": 46
+    },
+    {
+      "x": 51,
+      "y": 43
+    },
+    {
+      "x": 62,
+      "y": 43
+    },
+    {
+      "x": 62,
+      "y": 42
+    },
+    {
+      "x": 63,
+      "y": 42
+    },
+    {
+      "x": 64,
+      "y": 42
+    },
+    {
+      "x": 64,
+      "y": 41
+    },
+    {
+      "x": 65,
+      "y": 42
+    },
+    {
+      "x": 66,
+      "y": 42
+    },
+    {
+      "x": 66,
+      "y": 43
+    },
+    {
+      "x": 65,
+      "y": 43
+    },
+    {
+      "x": 64,
+      "y": 43
+    },
+    {
+      "x": 63,
+      "y": 43
+    },
+    {
+      "x": 63,
+      "y": 44
+    },
+    {
+      "x": 62,
+      "y": 44
+    },
+    {
+      "x": 61,
+      "y": 44
+    },
+    {
+      "x": 62,
+      "y": 45
+    },
+    {
+      "x": 63,
+      "y": 45
+    },
+    {
+      "x": 64,
+      "y": 45
+    },
+    {
+      "x": 64,
+      "y": 44
+    },
+    {
+      "x": 65,
+      "y": 44
+    },
+    {
+      "x": 66,
+      "y": 44
+    },
+    {
+      "x": 67,
+      "y": 44
+    },
+    {
+      "x": 66,
+      "y": 45
+    },
+    {
+      "x": 65,
+      "y": 45
+    },
+    {
+      "x": 65,
+      "y": 46
+    },
+    {
+      "x": 64,
+      "y": 46
+    },
+    {
+      "x": 63,
+      "y": 46
+    },
+    {
+      "x": 62,
+      "y": 46
+    },
+    {
+      "x": 64,
+      "y": 47
+    },
+    {
+      "x": 66,
+      "y": 46
+    }
+  ],
+  "Accepted": [
+    "Thank ya. Run along and get six branches. I'll take the best one and craft your bludgeoning wood. Don't be too long."
+  ],
+  "Completed": [
+    "Ah, it's a good thing you've done for a hard-working smith.",
+    "Thank ya so much. Here's a few coins for your effort."
+  ],
+  "Refused": [],
+  "Cooldown": [],
+  "EvidenceFiles": [
+    "content/evidence/datester-7.41/spare-a-stick.json",
+    "content/evidence/datester-7.41/awesome-completion.json"
+  ],
+  "ValidatedCharacters": [
+    "Nuclear",
+    "Clock",
+    "Awesome"
+  ],
+  "PatrolBasis": "Rotate armor-shop park (18,56), radius four, then central (54,43) and east (64,44), radius three. Armor entrance is (18,62); collision data grounds its adjacent sweep. Exact armor-area drop not yet captured. Branch inventory proves progress; droughts never pause gathering. Then East Woodland Crossroads (600), reached through the live world map and Woodlands Threshold: entrance sweep centered (12,20), radius five. Player-requested area; branch drops here not yet captured. Stop on six observed branches and return to Callough; preserve all three Mileth areas.",
+  "ObservedDropPositions": [
+    {
+      "X": 56,
+      "Y": 45
+    },
+    {
+      "X": 63,
+      "Y": 45
+    },
+    {
+      "X": 64,
+      "Y": 46
+    },
+    {
+      "X": 69,
+      "Y": 42
+    },
+    {
+      "X": 70,
+      "Y": 41
+    },
+    {
+      "X": 66,
+      "Y": 48
+    },
+    {
+      "X": 62,
+      "Y": 44
+    },
+    {
+      "X": 73,
+      "Y": 42
+    },
+    {
+      "X": 69,
+      "Y": 45
+    },
+    {
+      "X": 70,
+      "Y": 45
+    },
+    {
+      "X": 62,
+      "Y": 43
+    },
+    {
+      "X": 39,
+      "Y": 38
+    },
+    {
+      "X": 39,
+      "Y": 38
+    }
+  ],
+  "AdditionalPatrol": [
+    {
+      "Map": 600,
+      "Position": {
+        "X": 12,
+        "Y": 22
+      }
+    },
+    {
+      "Map": 600,
+      "Position": {
+        "X": 12,
+        "Y": 21
+      }
+    },
+    {
+      "Map": 600,
+      "Position": {
+        "X": 12,
+        "Y": 20
+      }
+    },
+    {
+      "Map": 600,
+      "Position": {
+        "X": 12,
+        "Y": 19
+      }
+    },
+    {
+      "Map": 600,
+      "Position": {
+        "X": 12,
+        "Y": 18
+      }
+    },
+    {
+      "Map": 600,
+      "Position": {
+        "X": 12,
+        "Y": 17
+      }
+    },
+    {
+      "Map": 600,
+      "Position": {
+        "X": 12,
+        "Y": 16
+      }
+    },
+    {
+      "Map": 600,
+      "Position": {
+        "X": 12,
+        "Y": 15
+      }
+    },
+    {
+      "Map": 600,
+      "Position": {
+        "X": 11,
+        "Y": 16
+      }
+    },
+    {
+      "Map": 600,
+      "Position": {
+        "X": 10,
+        "Y": 16
+      }
+    },
+    {
+      "Map": 600,
+      "Position": {
+        "X": 9,
+        "Y": 16
+      }
+    },
+    {
+      "Map": 600,
+      "Position": {
+        "X": 9,
+        "Y": 17
+      }
+    },
+    {
+      "Map": 600,
+      "Position": {
+        "X": 8,
+        "Y": 17
+      }
+    },
+    {
+      "Map": 600,
+      "Position": {
+        "X": 8,
+        "Y": 18
+      }
+    },
+    {
+      "Map": 600,
+      "Position": {
+        "X": 9,
+        "Y": 18
+      }
+    },
+    {
+      "Map": 600,
+      "Position": {
+        "X": 10,
+        "Y": 18
+      }
+    },
+    {
+      "Map": 600,
+      "Position": {
+        "X": 10,
+        "Y": 17
+      }
+    },
+    {
+      "Map": 600,
+      "Position": {
+        "X": 11,
+        "Y": 17
+      }
+    },
+    {
+      "Map": 600,
+      "Position": {
+        "X": 11,
+        "Y": 18
+      }
+    },
+    {
+      "Map": 600,
+      "Position": {
+        "X": 11,
+        "Y": 19
+      }
+    },
+    {
+      "Map": 600,
+      "Position": {
+        "X": 10,
+        "Y": 19
+      }
+    },
+    {
+      "Map": 600,
+      "Position": {
+        "X": 9,
+        "Y": 19
+      }
+    },
+    {
+      "Map": 600,
+      "Position": {
+        "X": 8,
+        "Y": 19
+      }
+    },
+    {
+      "Map": 600,
+      "Position": {
+        "X": 8,
+        "Y": 20
+      }
+    },
+    {
+      "Map": 600,
+      "Position": {
+        "X": 7,
+        "Y": 20
+      }
+    },
+    {
+      "Map": 600,
+      "Position": {
+        "X": 9,
+        "Y": 20
+      }
+    },
+    {
+      "Map": 600,
+      "Position": {
+        "X": 10,
+        "Y": 20
+      }
+    },
+    {
+      "Map": 600,
+      "Position": {
+        "X": 11,
+        "Y": 20
+      }
+    },
+    {
+      "Map": 600,
+      "Position": {
+        "X": 11,
+        "Y": 21
+      }
+    },
+    {
+      "Map": 600,
+      "Position": {
+        "X": 10,
+        "Y": 21
+      }
+    },
+    {
+      "Map": 600,
+      "Position": {
+        "X": 10,
+        "Y": 22
+      }
+    },
+    {
+      "Map": 600,
+      "Position": {
+        "X": 9,
+        "Y": 22
+      }
+    },
+    {
+      "Map": 600,
+      "Position": {
+        "X": 8,
+        "Y": 22
+      }
+    },
+    {
+      "Map": 600,
+      "Position": {
+        "X": 8,
+        "Y": 21
+      }
+    },
+    {
+      "Map": 600,
+      "Position": {
+        "X": 9,
+        "Y": 23
+      }
+    },
+    {
+      "Map": 600,
+      "Position": {
+        "X": 10,
+        "Y": 23
+      }
+    },
+    {
+      "Map": 600,
+      "Position": {
+        "X": 11,
+        "Y": 23
+      }
+    },
+    {
+      "Map": 600,
+      "Position": {
+        "X": 11,
+        "Y": 22
+      }
+    },
+    {
+      "Map": 600,
+      "Position": {
+        "X": 13,
+        "Y": 22
+      }
+    },
+    {
+      "Map": 600,
+      "Position": {
+        "X": 13,
+        "Y": 21
+      }
+    },
+    {
+      "Map": 600,
+      "Position": {
+        "X": 13,
+        "Y": 20
+      }
+    },
+    {
+      "Map": 600,
+      "Position": {
+        "X": 13,
+        "Y": 19
+      }
+    },
+    {
+      "Map": 600,
+      "Position": {
+        "X": 13,
+        "Y": 18
+      }
+    },
+    {
+      "Map": 600,
+      "Position": {
+        "X": 13,
+        "Y": 17
+      }
+    },
+    {
+      "Map": 600,
+      "Position": {
+        "X": 13,
+        "Y": 16
+      }
+    },
+    {
+      "Map": 600,
+      "Position": {
+        "X": 14,
+        "Y": 16
+      }
+    },
+    {
+      "Map": 600,
+      "Position": {
+        "X": 15,
+        "Y": 16
+      }
+    },
+    {
+      "Map": 600,
+      "Position": {
+        "X": 15,
+        "Y": 17
+      }
+    },
+    {
+      "Map": 600,
+      "Position": {
+        "X": 14,
+        "Y": 17
+      }
+    },
+    {
+      "Map": 600,
+      "Position": {
+        "X": 14,
+        "Y": 18
+      }
+    },
+    {
+      "Map": 600,
+      "Position": {
+        "X": 15,
+        "Y": 18
+      }
+    },
+    {
+      "Map": 600,
+      "Position": {
+        "X": 16,
+        "Y": 18
+      }
+    },
+    {
+      "Map": 600,
+      "Position": {
+        "X": 16,
+        "Y": 17
+      }
+    },
+    {
+      "Map": 600,
+      "Position": {
+        "X": 15,
+        "Y": 19
+      }
+    },
+    {
+      "Map": 600,
+      "Position": {
+        "X": 15,
+        "Y": 20
+      }
+    },
+    {
+      "Map": 600,
+      "Position": {
+        "X": 14,
+        "Y": 20
+      }
+    },
+    {
+      "Map": 600,
+      "Position": {
+        "X": 14,
+        "Y": 21
+      }
+    },
+    {
+      "Map": 600,
+      "Position": {
+        "X": 15,
+        "Y": 21
+      }
+    },
+    {
+      "Map": 600,
+      "Position": {
+        "X": 16,
+        "Y": 21
+      }
+    },
+    {
+      "Map": 600,
+      "Position": {
+        "X": 16,
+        "Y": 20
+      }
+    },
+    {
+      "Map": 600,
+      "Position": {
+        "X": 17,
+        "Y": 20
+      }
+    },
+    {
+      "Map": 600,
+      "Position": {
+        "X": 16,
+        "Y": 22
+      }
+    },
+    {
+      "Map": 600,
+      "Position": {
+        "X": 15,
+        "Y": 22
+      }
+    },
+    {
+      "Map": 600,
+      "Position": {
+        "X": 14,
+        "Y": 22
+      }
+    },
+    {
+      "Map": 600,
+      "Position": {
+        "X": 14,
+        "Y": 23
+      }
+    },
+    {
+      "Map": 600,
+      "Position": {
+        "X": 13,
+        "Y": 23
+      }
+    },
+    {
+      "Map": 600,
+      "Position": {
+        "X": 12,
+        "Y": 23
+      }
+    },
+    {
+      "Map": 600,
+      "Position": {
+        "X": 15,
+        "Y": 23
+      }
+    },
+    {
+      "Map": 600,
+      "Position": {
+        "X": 16,
+        "Y": 23
+      }
+    }
+  ]
+}

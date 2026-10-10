@@ -1,0 +1,13 @@
+{
+  "ClientPath":"C:\\Program Files (x86)\\KRU\\DATester\\Darkages.exe",
+  "RemoteAddress":"52.88.55.94",
+  "RemotePorts":[2610,2611,2612],
+  "LocalPorts":[2910,2911,2912],
+  "ServerProfile":"datester-7.41",
+  "Characters":["Aisling"],
+  "AutomaticUpdateChecks":false,
+  "MovementMilliseconds":400,
+  "AcknowledgmentSeconds":2,
+  "DialogSeconds":5,
+  "RecoveryAttempts":3
+}

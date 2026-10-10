@@ -1,0 +1,16 @@
+{
+  "Id": "mundane-birth",
+  "Version": 1,
+  "Name": "Mundane Birth",
+  "Source": "https://www.vorlof.com/quests/mundanebirth.html",
+  "Capabilities": ["navigate", "dialog", "status-message"],
+  "CooldownHours": 0,
+  "Repeatable": false,
+  "Requirements": [{"Kind":"level", "Minimum":1}],
+  "OutcomeConditions": ["fresh-legend-confirmation-status-after-town-choice"],
+  "Steps": [
+    {"Id":"preflight", "Action":"birth-preflight", "Next":"riona"},
+    {"Id":"riona", "Action":"birth-dialog", "Next":"confirm"},
+    {"Id":"confirm", "Action":"birth-confirm", "Next":null}
+  ]
+}

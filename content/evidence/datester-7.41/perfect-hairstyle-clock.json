@@ -1,0 +1,2976 @@
+{
+  "SchemaVersion": 2,
+  "ServerProfile": "datester-7.41",
+  "Sanitized": true,
+  "EvidenceKind": "Actual corrected-build automated Clock attempt",
+  "Notes": [
+    "Runner scheduled weekly retry after verified rewards; manual input paused it six seconds later.",
+    "FinalOwnLegendObservation is a control snapshot, not fabricated raw self-look packet.",
+    "Merchant debug trailers and unrelated visible entities removed."
+  ],
+  "Events": [
+    {
+      "Time": "2026-10-10T00:33:02.8756012+00:00",
+      "Character": "Clock",
+      "Generation": 1834590577726467,
+      "Revision": 12,
+      "Opcode": 21,
+      "Payload": "AIgMDAAAAIhxCk1pbGV0aCBJbm4=",
+      "Snapshot": {
+        "Generation": 1834590577726467,
+        "Revision": 12,
+        "Name": "Clock",
+        "Id": 1325666,
+        "Connected": true,
+        "Level": 3,
+        "Gold": 0,
+        "Experience": 3851,
+        "Hp": 218,
+        "Weight": 8,
+        "MaxWeight": 51,
+        "Map": 136,
+        "Position": null,
+        "InventoryKnown": false,
+        "Inventory": {
+          "1": {
+            "Slot": 1,
+            "Name": "Wooden Shield",
+            "Quantity": 1
+          },
+          "2": {
+            "Slot": 2,
+            "Name": "Oak Stick",
+            "Quantity": 1
+          },
+          "7": {
+            "Slot": 7,
+            "Name": "Branch",
+            "Quantity": 1
+          }
+        },
+        "Entities": {},
+        "Equipment": {},
+        "Skills": {
+          "1": "Assail"
+        },
+        "Spells": {},
+        "Legends": [],
+        "LegendsKnown": false,
+        "LegendsRevision": 0,
+        "Dialog": null,
+        "Notice": null
+      }
+    },
+    {
+      "Time": "2026-10-10T00:33:24.3286323+00:00",
+      "Character": "Clock",
+      "Generation": 1834590577726467,
+      "Revision": 45,
+      "Opcode": 21,
+      "Payload": "AfRkZAAAAEgMDk1pbGV0aCBWaWxsYWdlAA==",
+      "Snapshot": {
+        "Generation": 1834590577726467,
+        "Revision": 45,
+        "Name": "Clock",
+        "Id": 1325666,
+        "Connected": true,
+        "Level": 3,
+        "Gold": 0,
+        "Experience": 3851,
+        "Hp": 218,
+        "Weight": 8,
+        "MaxWeight": 51,
+        "Map": 500,
+        "Position": null,
+        "InventoryKnown": true,
+        "Inventory": {
+          "1": {
+            "Slot": 1,
+            "Name": "Wooden Shield",
+            "Quantity": 1
+          },
+          "2": {
+            "Slot": 2,
+            "Name": "Oak Stick",
+            "Quantity": 1
+          },
+          "7": {
+            "Slot": 7,
+            "Name": "Branch",
+            "Quantity": 1
+          }
+        },
+        "Entities": {},
+        "Equipment": {},
+        "Skills": {
+          "1": "Assail"
+        },
+        "Spells": {},
+        "Legends": [
+          "Aisling - Deoch 107, Winter",
+          "Fragile Chrysalis ((Unregistered))",
+          "Loved by Mileth Mundanes (1) - Deoch 223, Spring",
+          "Suomi mundane birth - Fall, Deoch, 25"
+        ],
+        "LegendsKnown": true,
+        "LegendsRevision": 25,
+        "Dialog": null,
+        "Notice": null
+      }
+    },
+    {
+      "Time": "2026-10-10T00:34:08.872902+00:00",
+      "Character": "Clock",
+      "Generation": 1834590577726467,
+      "Revision": 207,
+      "Opcode": 21,
+      "Payload": "C74QGAAAAAMSEk1pbGV0aCBWaWxsYWdlIFdheQA=",
+      "Snapshot": {
+        "Generation": 1834590577726467,
+        "Revision": 207,
+        "Name": "Clock",
+        "Id": 1325666,
+        "Connected": true,
+        "Level": 3,
+        "Gold": 0,
+        "Experience": 3851,
+        "Hp": 218,
+        "Weight": 8,
+        "MaxWeight": 51,
+        "Map": 3006,
+        "Position": null,
+        "InventoryKnown": true,
+        "Inventory": {
+          "1": {
+            "Slot": 1,
+            "Name": "Wooden Shield",
+            "Quantity": 1
+          },
+          "2": {
+            "Slot": 2,
+            "Name": "Oak Stick",
+            "Quantity": 1
+          },
+          "7": {
+            "Slot": 7,
+            "Name": "Branch",
+            "Quantity": 1
+          }
+        },
+        "Entities": {},
+        "Equipment": {},
+        "Skills": {
+          "1": "Assail"
+        },
+        "Spells": {},
+        "Legends": [
+          "Aisling - Deoch 107, Winter",
+          "Fragile Chrysalis ((Unregistered))",
+          "Loved by Mileth Mundanes (1) - Deoch 223, Spring",
+          "Suomi mundane birth - Fall, Deoch, 25"
+        ],
+        "LegendsKnown": true,
+        "LegendsRevision": 25,
+        "Dialog": null,
+        "Notice": null
+      }
+    },
+    {
+      "Time": "2026-10-10T00:34:10.8996352+00:00",
+      "Character": "Clock",
+      "Generation": 1834590577726467,
+      "Revision": 225,
+      "Opcode": 21,
+      "Payload": "C74QGAAAAAMSEk1pbGV0aCBWaWxsYWdlIFdheQ==",
+      "Snapshot": {
+        "Generation": 1834590577726467,
+        "Revision": 225,
+        "Name": "Clock",
+        "Id": 1325666,
+        "Connected": true,
+        "Level": 3,
+        "Gold": 0,
+        "Experience": 3851,
+        "Hp": 218,
+        "Weight": 8,
+        "MaxWeight": 51,
+        "Map": 3006,
+        "Position": null,
+        "InventoryKnown": true,
+        "Inventory": {
+          "1": {
+            "Slot": 1,
+            "Name": "Wooden Shield",
+            "Quantity": 1
+          },
+          "2": {
+            "Slot": 2,
+            "Name": "Oak Stick",
+            "Quantity": 1
+          },
+          "7": {
+            "Slot": 7,
+            "Name": "Branch",
+            "Quantity": 1
+          }
+        },
+        "Entities": {},
+        "Equipment": {},
+        "Skills": {
+          "1": "Assail"
+        },
+        "Spells": {},
+        "Legends": [
+          "Aisling - Deoch 107, Winter",
+          "Fragile Chrysalis ((Unregistered))",
+          "Loved by Mileth Mundanes (1) - Deoch 223, Spring",
+          "Suomi mundane birth - Fall, Deoch, 25"
+        ],
+        "LegendsKnown": true,
+        "LegendsRevision": 25,
+        "Dialog": null,
+        "Notice": null
+      }
+    },
+    {
+      "Time": "2026-10-10T00:34:17.3747959+00:00",
+      "Character": "Clock",
+      "Generation": 1834590577726467,
+      "Revision": 274,
+      "Opcode": 21,
+      "Payload": "C8YQGAAAAB27DUFiZWwgUG9ydCBXYXkA",
+      "Snapshot": {
+        "Generation": 1834590577726467,
+        "Revision": 274,
+        "Name": "Clock",
+        "Id": 1325666,
+        "Connected": true,
+        "Level": 3,
+        "Gold": 0,
+        "Experience": 3851,
+        "Hp": 218,
+        "Weight": 8,
+        "MaxWeight": 51,
+        "Map": 3014,
+        "Position": null,
+        "InventoryKnown": true,
+        "Inventory": {
+          "1": {
+            "Slot": 1,
+            "Name": "Wooden Shield",
+            "Quantity": 1
+          },
+          "2": {
+            "Slot": 2,
+            "Name": "Oak Stick",
+            "Quantity": 1
+          },
+          "7": {
+            "Slot": 7,
+            "Name": "Branch",
+            "Quantity": 1
+          }
+        },
+        "Entities": {},
+        "Equipment": {},
+        "Skills": {
+          "1": "Assail"
+        },
+        "Spells": {},
+        "Legends": [
+          "Aisling - Deoch 107, Winter",
+          "Fragile Chrysalis ((Unregistered))",
+          "Loved by Mileth Mundanes (1) - Deoch 223, Spring",
+          "Suomi mundane birth - Fall, Deoch, 25"
+        ],
+        "LegendsKnown": true,
+        "LegendsRevision": 25,
+        "Dialog": null,
+        "Notice": null
+      }
+    },
+    {
+      "Time": "2026-10-10T00:34:22.8785637+00:00",
+      "Character": "Clock",
+      "Generation": 1834590577726467,
+      "Revision": 292,
+      "Opcode": 21,
+      "Payload": "AfZGTgAAAA0ZCUFiZWwgUG9ydAA=",
+      "Snapshot": {
+        "Generation": 1834590577726467,
+        "Revision": 292,
+        "Name": "Clock",
+        "Id": 1325666,
+        "Connected": true,
+        "Level": 3,
+        "Gold": 0,
+        "Experience": 3851,
+        "Hp": 218,
+        "Weight": 8,
+        "MaxWeight": 51,
+        "Map": 502,
+        "Position": null,
+        "InventoryKnown": true,
+        "Inventory": {
+          "1": {
+            "Slot": 1,
+            "Name": "Wooden Shield",
+            "Quantity": 1
+          },
+          "2": {
+            "Slot": 2,
+            "Name": "Oak Stick",
+            "Quantity": 1
+          },
+          "7": {
+            "Slot": 7,
+            "Name": "Branch",
+            "Quantity": 1
+          }
+        },
+        "Entities": {},
+        "Equipment": {},
+        "Skills": {
+          "1": "Assail"
+        },
+        "Spells": {},
+        "Legends": [
+          "Aisling - Deoch 107, Winter",
+          "Fragile Chrysalis ((Unregistered))",
+          "Loved by Mileth Mundanes (1) - Deoch 223, Spring",
+          "Suomi mundane birth - Fall, Deoch, 25"
+        ],
+        "LegendsKnown": true,
+        "LegendsRevision": 25,
+        "Dialog": null,
+        "Notice": null
+      }
+    },
+    {
+      "Time": "2026-10-10T00:35:04.4083571+00:00",
+      "Character": "Clock",
+      "Generation": 1834590577726467,
+      "Revision": 445,
+      "Opcode": 21,
+      "Payload": "C8AQGAAAAHAEElVuZGluZSBWaWxsYWdlIFdheQA=",
+      "Snapshot": {
+        "Generation": 1834590577726467,
+        "Revision": 445,
+        "Name": "Clock",
+        "Id": 1325666,
+        "Connected": true,
+        "Level": 3,
+        "Gold": 0,
+        "Experience": 3851,
+        "Hp": 218,
+        "Weight": 8,
+        "MaxWeight": 51,
+        "Map": 3008,
+        "Position": null,
+        "InventoryKnown": true,
+        "Inventory": {
+          "1": {
+            "Slot": 1,
+            "Name": "Wooden Shield",
+            "Quantity": 1
+          },
+          "2": {
+            "Slot": 2,
+            "Name": "Oak Stick",
+            "Quantity": 1
+          },
+          "7": {
+            "Slot": 7,
+            "Name": "Branch",
+            "Quantity": 1
+          }
+        },
+        "Entities": {},
+        "Equipment": {},
+        "Skills": {
+          "1": "Assail"
+        },
+        "Spells": {},
+        "Legends": [
+          "Aisling - Deoch 107, Winter",
+          "Fragile Chrysalis ((Unregistered))",
+          "Loved by Mileth Mundanes (1) - Deoch 223, Spring",
+          "Suomi mundane birth - Fall, Deoch, 25"
+        ],
+        "LegendsKnown": true,
+        "LegendsRevision": 25,
+        "Dialog": null,
+        "Notice": null
+      }
+    },
+    {
+      "Time": "2026-10-10T00:35:12.9337708+00:00",
+      "Character": "Clock",
+      "Generation": 1834590577726467,
+      "Revision": 466,
+      "Opcode": 21,
+      "Payload": "AfhkZAAAAHooDlVuZGluZSBWaWxsYWdlAA==",
+      "Snapshot": {
+        "Generation": 1834590577726467,
+        "Revision": 466,
+        "Name": "Clock",
+        "Id": 1325666,
+        "Connected": true,
+        "Level": 3,
+        "Gold": 0,
+        "Experience": 3851,
+        "Hp": 218,
+        "Weight": 8,
+        "MaxWeight": 51,
+        "Map": 504,
+        "Position": null,
+        "InventoryKnown": true,
+        "Inventory": {
+          "1": {
+            "Slot": 1,
+            "Name": "Wooden Shield",
+            "Quantity": 1
+          },
+          "2": {
+            "Slot": 2,
+            "Name": "Oak Stick",
+            "Quantity": 1
+          },
+          "7": {
+            "Slot": 7,
+            "Name": "Branch",
+            "Quantity": 1
+          }
+        },
+        "Entities": {},
+        "Equipment": {},
+        "Skills": {
+          "1": "Assail"
+        },
+        "Spells": {},
+        "Legends": [
+          "Aisling - Deoch 107, Winter",
+          "Fragile Chrysalis ((Unregistered))",
+          "Loved by Mileth Mundanes (1) - Deoch 223, Spring",
+          "Suomi mundane birth - Fall, Deoch, 25"
+        ],
+        "LegendsKnown": true,
+        "LegendsRevision": 25,
+        "Dialog": null,
+        "Notice": null
+      }
+    },
+    {
+      "Time": "2026-10-10T00:36:18.4701625+00:00",
+      "Character": "Clock",
+      "Generation": 1834590577726467,
+      "Revision": 703,
+      "Opcode": 21,
+      "Payload": "C8gYEAAAAGFqEVN1b21pIFZpbGxhZ2UgV2F5AA==",
+      "Snapshot": {
+        "Generation": 1834590577726467,
+        "Revision": 703,
+        "Name": "Clock",
+        "Id": 1325666,
+        "Connected": true,
+        "Level": 3,
+        "Gold": 0,
+        "Experience": 3851,
+        "Hp": 218,
+        "Weight": 8,
+        "MaxWeight": 51,
+        "Map": 3016,
+        "Position": null,
+        "InventoryKnown": true,
+        "Inventory": {
+          "1": {
+            "Slot": 1,
+            "Name": "Wooden Shield",
+            "Quantity": 1
+          },
+          "2": {
+            "Slot": 2,
+            "Name": "Oak Stick",
+            "Quantity": 1
+          },
+          "7": {
+            "Slot": 7,
+            "Name": "Branch",
+            "Quantity": 1
+          }
+        },
+        "Entities": {},
+        "Equipment": {},
+        "Skills": {
+          "1": "Assail"
+        },
+        "Spells": {},
+        "Legends": [
+          "Aisling - Deoch 107, Winter",
+          "Fragile Chrysalis ((Unregistered))",
+          "Loved by Mileth Mundanes (1) - Deoch 223, Spring",
+          "Suomi mundane birth - Fall, Deoch, 25"
+        ],
+        "LegendsKnown": true,
+        "LegendsRevision": 25,
+        "Dialog": null,
+        "Notice": null
+      }
+    },
+    {
+      "Time": "2026-10-10T00:36:19.4789839+00:00",
+      "Character": "Clock",
+      "Generation": 1834590577726467,
+      "Revision": 708,
+      "Opcode": 48,
+      "Payload": "AAQAACtUAEAAAABAAAAAAAABAAEAAADlKChZb3UgYXJlIGVudGVyaW5nIGEgcm9sZS1wbGF5aW5nIHRvd24gd2hlcmUgcm9sZS1wbGF5aW5nIGlzIHN0cmljdGx5IGVuZm9yY2VkLiBQbGVhc2UgZG8gbm90IHNwZWFrIHdvcmRzIHRoYXQgYXJlIG5vdCBhcHByb3ByaWF0ZSB0byB0aGUgdGhlbWUgb2YgRGFyayBBZ2VzLiBBbnkgYWN0IG9mIGhlcmVzeSBjYW4gcmVzdWx0IGluIGEgdGVtcG9yYXJ5IGJhbmlzaG1lbnQgZnJvbSB0aGUgdG93bi4pKQ==",
+      "Snapshot": {
+        "Generation": 1834590577726467,
+        "Revision": 708,
+        "Name": "Clock",
+        "Id": 1325666,
+        "Connected": true,
+        "Level": 3,
+        "Gold": 0,
+        "Experience": 3851,
+        "Hp": 218,
+        "Weight": 8,
+        "MaxWeight": 51,
+        "Map": 3016,
+        "Position": {
+          "X": 17,
+          "Y": 2
+        },
+        "InventoryKnown": true,
+        "Inventory": {
+          "1": {
+            "Slot": 1,
+            "Name": "Wooden Shield",
+            "Quantity": 1
+          },
+          "2": {
+            "Slot": 2,
+            "Name": "Oak Stick",
+            "Quantity": 1
+          },
+          "7": {
+            "Slot": 7,
+            "Name": "Branch",
+            "Quantity": 1
+          }
+        },
+        "Entities": {},
+        "Equipment": {},
+        "Skills": {
+          "1": "Assail"
+        },
+        "Spells": {},
+        "Legends": [
+          "Aisling - Deoch 107, Winter",
+          "Fragile Chrysalis ((Unregistered))",
+          "Loved by Mileth Mundanes (1) - Deoch 223, Spring",
+          "Suomi mundane birth - Fall, Deoch, 25"
+        ],
+        "LegendsKnown": true,
+        "LegendsRevision": 25,
+        "Dialog": {
+          "Generation": 1834590577726467,
+          "Revision": 708,
+          "EntityId": 11092,
+          "EntityType": 4,
+          "Name": "",
+          "Text": "((You are entering a role-playing town where role-playing is strictly enforced. Please do not speak words that are not appropriate to the theme of Dark Ages. Any act of heresy can result in a temporary banishment from the town.))",
+          "IsPursuit": true,
+          "Pursuit": 0,
+          "Step": 1,
+          "Type": 0,
+          "Choices": [],
+          "Prompt": null,
+          "HasNext": true,
+          "ObservedAt": "2026-10-10T00:36:19.4666978+00:00"
+        },
+        "Notice": null
+      }
+    },
+    {
+      "Time": "2026-10-10T00:36:19.9713142+00:00",
+      "Character": "Clock",
+      "Generation": 1834590577726467,
+      "Revision": 710,
+      "Opcode": 48,
+      "Payload": "CgA=",
+      "Snapshot": {
+        "Generation": 1834590577726467,
+        "Revision": 710,
+        "Name": "Clock",
+        "Id": 1325666,
+        "Connected": true,
+        "Level": 3,
+        "Gold": 0,
+        "Experience": 3851,
+        "Hp": 218,
+        "Weight": 8,
+        "MaxWeight": 51,
+        "Map": 3016,
+        "Position": {
+          "X": 17,
+          "Y": 3
+        },
+        "InventoryKnown": true,
+        "Inventory": {
+          "1": {
+            "Slot": 1,
+            "Name": "Wooden Shield",
+            "Quantity": 1
+          },
+          "2": {
+            "Slot": 2,
+            "Name": "Oak Stick",
+            "Quantity": 1
+          },
+          "7": {
+            "Slot": 7,
+            "Name": "Branch",
+            "Quantity": 1
+          }
+        },
+        "Entities": {},
+        "Equipment": {},
+        "Skills": {
+          "1": "Assail"
+        },
+        "Spells": {},
+        "Legends": [
+          "Aisling - Deoch 107, Winter",
+          "Fragile Chrysalis ((Unregistered))",
+          "Loved by Mileth Mundanes (1) - Deoch 223, Spring",
+          "Suomi mundane birth - Fall, Deoch, 25"
+        ],
+        "LegendsKnown": true,
+        "LegendsRevision": 25,
+        "Dialog": null,
+        "Notice": null
+      }
+    },
+    {
+      "Time": "2026-10-10T00:36:26.9757261+00:00",
+      "Character": "Clock",
+      "Generation": 1834590577726467,
+      "Revision": 725,
+      "Opcode": 21,
+      "Payload": "AfdkZAAAAOPWDVN1b21pIFZpbGxhZ2UA",
+      "Snapshot": {
+        "Generation": 1834590577726467,
+        "Revision": 725,
+        "Name": "Clock",
+        "Id": 1325666,
+        "Connected": true,
+        "Level": 3,
+        "Gold": 0,
+        "Experience": 3851,
+        "Hp": 218,
+        "Weight": 8,
+        "MaxWeight": 51,
+        "Map": 503,
+        "Position": null,
+        "InventoryKnown": true,
+        "Inventory": {
+          "1": {
+            "Slot": 1,
+            "Name": "Wooden Shield",
+            "Quantity": 1
+          },
+          "2": {
+            "Slot": 2,
+            "Name": "Oak Stick",
+            "Quantity": 1
+          },
+          "7": {
+            "Slot": 7,
+            "Name": "Branch",
+            "Quantity": 1
+          }
+        },
+        "Entities": {},
+        "Equipment": {},
+        "Skills": {
+          "1": "Assail"
+        },
+        "Spells": {},
+        "Legends": [
+          "Aisling - Deoch 107, Winter",
+          "Fragile Chrysalis ((Unregistered))",
+          "Loved by Mileth Mundanes (1) - Deoch 223, Spring",
+          "Suomi mundane birth - Fall, Deoch, 25"
+        ],
+        "LegendsKnown": true,
+        "LegendsRevision": 25,
+        "Dialog": null,
+        "Notice": null
+      }
+    },
+    {
+      "Time": "2026-10-10T00:37:04.0023454+00:00",
+      "Character": "Clock",
+      "Generation": 1834590577726467,
+      "Revision": 807,
+      "Opcode": 21,
+      "Payload": "A7YMDAAAAOtRCVN1b21pIElubgA=",
+      "Snapshot": {
+        "Generation": 1834590577726467,
+        "Revision": 807,
+        "Name": "Clock",
+        "Id": 1325666,
+        "Connected": true,
+        "Level": 3,
+        "Gold": 0,
+        "Experience": 3851,
+        "Hp": 218,
+        "Weight": 8,
+        "MaxWeight": 51,
+        "Map": 950,
+        "Position": null,
+        "InventoryKnown": true,
+        "Inventory": {
+          "1": {
+            "Slot": 1,
+            "Name": "Wooden Shield",
+            "Quantity": 1
+          },
+          "2": {
+            "Slot": 2,
+            "Name": "Oak Stick",
+            "Quantity": 1
+          },
+          "7": {
+            "Slot": 7,
+            "Name": "Branch",
+            "Quantity": 1
+          }
+        },
+        "Entities": {},
+        "Equipment": {},
+        "Skills": {
+          "1": "Assail"
+        },
+        "Spells": {},
+        "Legends": [
+          "Aisling - Deoch 107, Winter",
+          "Fragile Chrysalis ((Unregistered))",
+          "Loved by Mileth Mundanes (1) - Deoch 223, Spring",
+          "Suomi mundane birth - Fall, Deoch, 25"
+        ],
+        "LegendsKnown": true,
+        "LegendsRevision": 25,
+        "Dialog": null,
+        "Notice": null
+      }
+    },
+    {
+      "Time": "2026-10-10T00:37:08.0441419+00:00",
+      "Character": "Clock",
+      "Generation": 1834590577726467,
+      "Revision": 821,
+      "Opcode": 47,
+      "Payload": "AAEAACtjAUIHAAFCBwAABEVldmEAHkhlbGxvLiAgV2hhdCBjYW4gSSBkbyBmb3IgeW91PwMVVGhlIFBlcmZlY3QgSGFpcnN0eWxlDR0aUmVub3VuY2UgU3VvbWkgQ2l0aXplbnNoaXANHAhQZXR1bmlhcwvD",
+      "Snapshot": {
+        "Generation": 1834590577726467,
+        "Revision": 821,
+        "Name": "Clock",
+        "Id": 1325666,
+        "Connected": true,
+        "Level": 3,
+        "Gold": 0,
+        "Experience": 3851,
+        "Hp": 218,
+        "Weight": 8,
+        "MaxWeight": 51,
+        "Map": 950,
+        "Position": {
+          "X": 6,
+          "Y": 3
+        },
+        "InventoryKnown": true,
+        "Inventory": {
+          "1": {
+            "Slot": 1,
+            "Name": "Wooden Shield",
+            "Quantity": 1
+          },
+          "2": {
+            "Slot": 2,
+            "Name": "Oak Stick",
+            "Quantity": 1
+          },
+          "7": {
+            "Slot": 7,
+            "Name": "Branch",
+            "Quantity": 1
+          }
+        },
+        "Entities": {},
+        "Equipment": {},
+        "Skills": {
+          "1": "Assail"
+        },
+        "Spells": {},
+        "Legends": [
+          "Aisling - Deoch 107, Winter",
+          "Fragile Chrysalis ((Unregistered))",
+          "Loved by Mileth Mundanes (1) - Deoch 223, Spring",
+          "Suomi mundane birth - Fall, Deoch, 25"
+        ],
+        "LegendsKnown": true,
+        "LegendsRevision": 25,
+        "Dialog": {
+          "Generation": 1834590577726467,
+          "Revision": 821,
+          "EntityId": 11107,
+          "EntityType": 1,
+          "Name": "Eeva",
+          "Text": "Hello.  What can I do for you?",
+          "IsPursuit": false,
+          "Pursuit": 0,
+          "Step": 0,
+          "Type": 0,
+          "Choices": [
+            {
+              "Text": "The Perfect Hairstyle",
+              "Pursuit": 3357,
+              "Option": 1
+            },
+            {
+              "Text": "Renounce Suomi Citizenship",
+              "Pursuit": 3356,
+              "Option": 2
+            },
+            {
+              "Text": "Petunias",
+              "Pursuit": 3011,
+              "Option": 3
+            }
+          ],
+          "Prompt": null,
+          "HasNext": false,
+          "ObservedAt": "2026-10-10T00:37:08.0234053+00:00"
+        },
+        "Notice": null
+      }
+    },
+    {
+      "Time": "2026-10-10T00:37:08.5146878+00:00",
+      "Character": "Clock",
+      "Generation": 1834590577726467,
+      "Revision": 822,
+      "Opcode": 48,
+      "Payload": "AgEAACtjAUIHAAFCBwAAAAABAAAABEVldmEAVUdvb2Qgc3VuIHRvIHlvdSwgQWlzbGluZy4gU2F5ISAqbGVhbnMgb3ZlciB0aGUgY291bnRlciogV2hhdCBkbyB5b3UgdGhpbmsgb2YgbXkgaGFpcj8CEEVyLi4uaXQncyBsb3ZlbHkdSXQncyBhIGJpdCBibGFuZCB0byBiZSBob25lc3Q=",
+      "Snapshot": {
+        "Generation": 1834590577726467,
+        "Revision": 822,
+        "Name": "Clock",
+        "Id": 1325666,
+        "Connected": true,
+        "Level": 3,
+        "Gold": 0,
+        "Experience": 3851,
+        "Hp": 218,
+        "Weight": 8,
+        "MaxWeight": 51,
+        "Map": 950,
+        "Position": {
+          "X": 6,
+          "Y": 3
+        },
+        "InventoryKnown": true,
+        "Inventory": {
+          "1": {
+            "Slot": 1,
+            "Name": "Wooden Shield",
+            "Quantity": 1
+          },
+          "2": {
+            "Slot": 2,
+            "Name": "Oak Stick",
+            "Quantity": 1
+          },
+          "7": {
+            "Slot": 7,
+            "Name": "Branch",
+            "Quantity": 1
+          }
+        },
+        "Entities": {},
+        "Equipment": {},
+        "Skills": {
+          "1": "Assail"
+        },
+        "Spells": {},
+        "Legends": [
+          "Aisling - Deoch 107, Winter",
+          "Fragile Chrysalis ((Unregistered))",
+          "Loved by Mileth Mundanes (1) - Deoch 223, Spring",
+          "Suomi mundane birth - Fall, Deoch, 25"
+        ],
+        "LegendsKnown": true,
+        "LegendsRevision": 25,
+        "Dialog": {
+          "Generation": 1834590577726467,
+          "Revision": 822,
+          "EntityId": 11107,
+          "EntityType": 1,
+          "Name": "Eeva",
+          "Text": "Good sun to you, Aisling. Say! *leans over the counter* What do you think of my hair?",
+          "IsPursuit": true,
+          "Pursuit": 0,
+          "Step": 1,
+          "Type": 2,
+          "Choices": [
+            {
+              "Text": "Er...it's lovely",
+              "Pursuit": 0,
+              "Option": 1
+            },
+            {
+              "Text": "It's a bit bland to be honest",
+              "Pursuit": 0,
+              "Option": 2
+            }
+          ],
+          "Prompt": null,
+          "HasNext": false,
+          "ObservedAt": "2026-10-10T00:37:08.5060763+00:00"
+        },
+        "Notice": null
+      }
+    },
+    {
+      "Time": "2026-10-10T00:37:09.0070716+00:00",
+      "Character": "Clock",
+      "Generation": 1834590577726467,
+      "Revision": 823,
+      "Opcode": 48,
+      "Payload": "AAEAACtjAUIHAAFCBwAAAAABAAEABEVldmEAKkFoISBBbiBob25lc3QgQWlzbGluZyEgSSBsaWtlIHlvdSBhbHJlYWR5Lg==",
+      "Snapshot": {
+        "Generation": 1834590577726467,
+        "Revision": 823,
+        "Name": "Clock",
+        "Id": 1325666,
+        "Connected": true,
+        "Level": 3,
+        "Gold": 0,
+        "Experience": 3851,
+        "Hp": 218,
+        "Weight": 8,
+        "MaxWeight": 51,
+        "Map": 950,
+        "Position": {
+          "X": 6,
+          "Y": 3
+        },
+        "InventoryKnown": true,
+        "Inventory": {
+          "1": {
+            "Slot": 1,
+            "Name": "Wooden Shield",
+            "Quantity": 1
+          },
+          "2": {
+            "Slot": 2,
+            "Name": "Oak Stick",
+            "Quantity": 1
+          },
+          "7": {
+            "Slot": 7,
+            "Name": "Branch",
+            "Quantity": 1
+          }
+        },
+        "Entities": {},
+        "Equipment": {},
+        "Skills": {
+          "1": "Assail"
+        },
+        "Spells": {},
+        "Legends": [
+          "Aisling - Deoch 107, Winter",
+          "Fragile Chrysalis ((Unregistered))",
+          "Loved by Mileth Mundanes (1) - Deoch 223, Spring",
+          "Suomi mundane birth - Fall, Deoch, 25"
+        ],
+        "LegendsKnown": true,
+        "LegendsRevision": 25,
+        "Dialog": {
+          "Generation": 1834590577726467,
+          "Revision": 823,
+          "EntityId": 11107,
+          "EntityType": 1,
+          "Name": "Eeva",
+          "Text": "Ah! An honest Aisling! I like you already.",
+          "IsPursuit": true,
+          "Pursuit": 0,
+          "Step": 1,
+          "Type": 0,
+          "Choices": [],
+          "Prompt": null,
+          "HasNext": true,
+          "ObservedAt": "2026-10-10T00:37:08.9995628+00:00"
+        },
+        "Notice": null
+      }
+    },
+    {
+      "Time": "2026-10-10T00:37:09.5158027+00:00",
+      "Character": "Clock",
+      "Generation": 1834590577726467,
+      "Revision": 825,
+      "Opcode": 48,
+      "Payload": "AgEAACtjAUIHAAFCBwAAAAABAQAABEVldmEA0EkndmUgYmVlbiB3YXRjaGluZyB0ZW5hbnRzIGNvbWluZyBpbiBhbmQgbGVhdmluZywgYW5kIEkndmUgbmFycm93ZWQgdGhlIHNlbGVjdGlvbnMgZG93biB0byBhIGZldyBzdHlsZXMgSSByZWFsbHkgd2FudCB0byB0cnkuIEJ1dCBJIG5lZWQgc29tZSBpdGVtcy4uLmFuZCBhcyB5b3Uga25vdywgSSBjYW4ndCB2ZXJ5IHdlbGwgbGVhdmUgbXkgaW5uIGFiYW5kb25lZC4CI0knZCBsb3ZlIHRvIGhlbHAuIFdoYXQgZG8geW91IG5lZWQ/K1NvcnJ5LCBJIGhhdmUgYmlnZ2VyIHRoaW5ncyB0byB3b3JyeSBhYm91dC4=",
+      "Snapshot": {
+        "Generation": 1834590577726467,
+        "Revision": 825,
+        "Name": "Clock",
+        "Id": 1325666,
+        "Connected": true,
+        "Level": 3,
+        "Gold": 0,
+        "Experience": 3851,
+        "Hp": 218,
+        "Weight": 8,
+        "MaxWeight": 51,
+        "Map": 950,
+        "Position": {
+          "X": 6,
+          "Y": 3
+        },
+        "InventoryKnown": true,
+        "Inventory": {
+          "1": {
+            "Slot": 1,
+            "Name": "Wooden Shield",
+            "Quantity": 1
+          },
+          "2": {
+            "Slot": 2,
+            "Name": "Oak Stick",
+            "Quantity": 1
+          },
+          "7": {
+            "Slot": 7,
+            "Name": "Branch",
+            "Quantity": 1
+          }
+        },
+        "Entities": {},
+        "Equipment": {},
+        "Skills": {
+          "1": "Assail"
+        },
+        "Spells": {},
+        "Legends": [
+          "Aisling - Deoch 107, Winter",
+          "Fragile Chrysalis ((Unregistered))",
+          "Loved by Mileth Mundanes (1) - Deoch 223, Spring",
+          "Suomi mundane birth - Fall, Deoch, 25"
+        ],
+        "LegendsKnown": true,
+        "LegendsRevision": 25,
+        "Dialog": {
+          "Generation": 1834590577726467,
+          "Revision": 825,
+          "EntityId": 11107,
+          "EntityType": 1,
+          "Name": "Eeva",
+          "Text": "I've been watching tenants coming in and leaving, and I've narrowed the selections down to a few styles I really want to try. But I need some items...and as you know, I can't very well leave my inn abandoned.",
+          "IsPursuit": true,
+          "Pursuit": 0,
+          "Step": 1,
+          "Type": 2,
+          "Choices": [
+            {
+              "Text": "I'd love to help. What do you need?",
+              "Pursuit": 0,
+              "Option": 1
+            },
+            {
+              "Text": "Sorry, I have bigger things to worry about.",
+              "Pursuit": 0,
+              "Option": 2
+            }
+          ],
+          "Prompt": null,
+          "HasNext": false,
+          "ObservedAt": "2026-10-10T00:37:09.5129295+00:00"
+        },
+        "Notice": null
+      }
+    },
+    {
+      "Time": "2026-10-10T00:37:10.0120859+00:00",
+      "Character": "Clock",
+      "Generation": 1834590577726467,
+      "Revision": 826,
+      "Opcode": 48,
+      "Payload": "AAEAACtjAUIHAAFCBwAAAAABAAEABEVldmEAMFRoYW5rIHlvdSBzbyBtdWNoISBOb3cuLi53aGljaCBkbyB5b3UgbGlrZSBiZXN0Pw==",
+      "Snapshot": {
+        "Generation": 1834590577726467,
+        "Revision": 826,
+        "Name": "Clock",
+        "Id": 1325666,
+        "Connected": true,
+        "Level": 3,
+        "Gold": 0,
+        "Experience": 3851,
+        "Hp": 218,
+        "Weight": 8,
+        "MaxWeight": 51,
+        "Map": 950,
+        "Position": {
+          "X": 6,
+          "Y": 3
+        },
+        "InventoryKnown": true,
+        "Inventory": {
+          "1": {
+            "Slot": 1,
+            "Name": "Wooden Shield",
+            "Quantity": 1
+          },
+          "2": {
+            "Slot": 2,
+            "Name": "Oak Stick",
+            "Quantity": 1
+          },
+          "7": {
+            "Slot": 7,
+            "Name": "Branch",
+            "Quantity": 1
+          }
+        },
+        "Entities": {},
+        "Equipment": {},
+        "Skills": {
+          "1": "Assail"
+        },
+        "Spells": {},
+        "Legends": [
+          "Aisling - Deoch 107, Winter",
+          "Fragile Chrysalis ((Unregistered))",
+          "Loved by Mileth Mundanes (1) - Deoch 223, Spring",
+          "Suomi mundane birth - Fall, Deoch, 25"
+        ],
+        "LegendsKnown": true,
+        "LegendsRevision": 25,
+        "Dialog": {
+          "Generation": 1834590577726467,
+          "Revision": 826,
+          "EntityId": 11107,
+          "EntityType": 1,
+          "Name": "Eeva",
+          "Text": "Thank you so much! Now...which do you like best?",
+          "IsPursuit": true,
+          "Pursuit": 0,
+          "Step": 1,
+          "Type": 0,
+          "Choices": [],
+          "Prompt": null,
+          "HasNext": true,
+          "ObservedAt": "2026-10-10T00:37:10.0000886+00:00"
+        },
+        "Notice": null
+      }
+    },
+    {
+      "Time": "2026-10-10T00:37:10.516628+00:00",
+      "Character": "Clock",
+      "Generation": 1834590577726467,
+      "Revision": 828,
+      "Opcode": 48,
+      "Payload": "AgEAACtjAUIHAAFCBwAAAAABAQAABEVldmEADkhhaXJzdHlsZSBCb29rCQVCcmFpZAZUZWFzZWQIU3RyYWlnaHQEV2F2eQhQb255dGFpbANCdW4FTG9vcHMFVHdpc3QERG9uZQ==",
+      "Snapshot": {
+        "Generation": 1834590577726467,
+        "Revision": 828,
+        "Name": "Clock",
+        "Id": 1325666,
+        "Connected": true,
+        "Level": 3,
+        "Gold": 0,
+        "Experience": 3851,
+        "Hp": 218,
+        "Weight": 8,
+        "MaxWeight": 51,
+        "Map": 950,
+        "Position": {
+          "X": 6,
+          "Y": 3
+        },
+        "InventoryKnown": true,
+        "Inventory": {
+          "1": {
+            "Slot": 1,
+            "Name": "Wooden Shield",
+            "Quantity": 1
+          },
+          "2": {
+            "Slot": 2,
+            "Name": "Oak Stick",
+            "Quantity": 1
+          },
+          "7": {
+            "Slot": 7,
+            "Name": "Branch",
+            "Quantity": 1
+          }
+        },
+        "Entities": {},
+        "Equipment": {},
+        "Skills": {
+          "1": "Assail"
+        },
+        "Spells": {},
+        "Legends": [
+          "Aisling - Deoch 107, Winter",
+          "Fragile Chrysalis ((Unregistered))",
+          "Loved by Mileth Mundanes (1) - Deoch 223, Spring",
+          "Suomi mundane birth - Fall, Deoch, 25"
+        ],
+        "LegendsKnown": true,
+        "LegendsRevision": 25,
+        "Dialog": {
+          "Generation": 1834590577726467,
+          "Revision": 828,
+          "EntityId": 11107,
+          "EntityType": 1,
+          "Name": "Eeva",
+          "Text": "Hairstyle Book",
+          "IsPursuit": true,
+          "Pursuit": 0,
+          "Step": 1,
+          "Type": 2,
+          "Choices": [
+            {
+              "Text": "Braid",
+              "Pursuit": 0,
+              "Option": 1
+            },
+            {
+              "Text": "Teased",
+              "Pursuit": 0,
+              "Option": 2
+            },
+            {
+              "Text": "Straight",
+              "Pursuit": 0,
+              "Option": 3
+            },
+            {
+              "Text": "Wavy",
+              "Pursuit": 0,
+              "Option": 4
+            },
+            {
+              "Text": "Ponytail",
+              "Pursuit": 0,
+              "Option": 5
+            },
+            {
+              "Text": "Bun",
+              "Pursuit": 0,
+              "Option": 6
+            },
+            {
+              "Text": "Loops",
+              "Pursuit": 0,
+              "Option": 7
+            },
+            {
+              "Text": "Twist",
+              "Pursuit": 0,
+              "Option": 8
+            },
+            {
+              "Text": "Done",
+              "Pursuit": 0,
+              "Option": 9
+            }
+          ],
+          "Prompt": null,
+          "HasNext": false,
+          "ObservedAt": "2026-10-10T00:37:10.5122898+00:00"
+        },
+        "Notice": null
+      }
+    },
+    {
+      "Time": "2026-10-10T00:37:11.0105482+00:00",
+      "Character": "Clock",
+      "Generation": 1834590577726467,
+      "Revision": 829,
+      "Opcode": 48,
+      "Payload": "AAEAACtjAUIHAAFCBwAAAAABAAEABEVldmEAiUEgc21hbGwgcG9ueXRhaWwgbWFrZXMgZm9yIGEgdmVyeSBtb2Rlc3QgaGFpcnN0eWxlLiBUbyB0aWUgeW91ciBoYWlyIGJhY2sgeW91IG5lZWQgYSBsb3ZlbHkgYm93LCB3ZWF2ZWQgb2YgZml2ZSBwaWVjZXMgb2Ygc3BpZGVyoa9zIHNpbGsu",
+      "Snapshot": {
+        "Generation": 1834590577726467,
+        "Revision": 829,
+        "Name": "Clock",
+        "Id": 1325666,
+        "Connected": true,
+        "Level": 3,
+        "Gold": 0,
+        "Experience": 3851,
+        "Hp": 218,
+        "Weight": 8,
+        "MaxWeight": 51,
+        "Map": 950,
+        "Position": {
+          "X": 6,
+          "Y": 3
+        },
+        "InventoryKnown": true,
+        "Inventory": {
+          "1": {
+            "Slot": 1,
+            "Name": "Wooden Shield",
+            "Quantity": 1
+          },
+          "2": {
+            "Slot": 2,
+            "Name": "Oak Stick",
+            "Quantity": 1
+          },
+          "7": {
+            "Slot": 7,
+            "Name": "Branch",
+            "Quantity": 1
+          }
+        },
+        "Entities": {},
+        "Equipment": {},
+        "Skills": {
+          "1": "Assail"
+        },
+        "Spells": {},
+        "Legends": [
+          "Aisling - Deoch 107, Winter",
+          "Fragile Chrysalis ((Unregistered))",
+          "Loved by Mileth Mundanes (1) - Deoch 223, Spring",
+          "Suomi mundane birth - Fall, Deoch, 25"
+        ],
+        "LegendsKnown": true,
+        "LegendsRevision": 25,
+        "Dialog": {
+          "Generation": 1834590577726467,
+          "Revision": 829,
+          "EntityId": 11107,
+          "EntityType": 1,
+          "Name": "Eeva",
+          "Text": "A small ponytail makes for a very modest hairstyle. To tie your hair back you need a lovely bow, weaved of five pieces of spider??s silk.",
+          "IsPursuit": true,
+          "Pursuit": 0,
+          "Step": 1,
+          "Type": 0,
+          "Choices": [],
+          "Prompt": null,
+          "HasNext": true,
+          "ObservedAt": "2026-10-10T00:37:11.0012904+00:00"
+        },
+        "Notice": null
+      }
+    },
+    {
+      "Time": "2026-10-10T00:37:11.5302397+00:00",
+      "Character": "Clock",
+      "Generation": 1834590577726467,
+      "Revision": 830,
+      "Opcode": 48,
+      "Payload": "AAEAACtjAUIHAAFCBwAAAAABAQEABEVldmEAyEFsbCBkb25lPyBXb25kZXJmdWwhIFlvdSBhaXNsaW5ncyBhcmUgc28gY3JlYXRpdmUgSSdtIHN1cmUgeW91J2xsIGZpbmQgc29tZXRoaW5nIGZhYnVsb3VzIGZvciBtZSEgSnVzdCBicmluZyBiYWNrIHdoYXQncyBuZWVkZWQgZm9yIHRoZSBiZXN0IG9uZSBhbmQgc3VycHJpc2UgbWUgd2l0aCB3aGljaCBoYWlyc3R5bGUgd2hlbiB5b3UgZ2V0IGJhY2sh",
+      "Snapshot": {
+        "Generation": 1834590577726467,
+        "Revision": 830,
+        "Name": "Clock",
+        "Id": 1325666,
+        "Connected": true,
+        "Level": 3,
+        "Gold": 0,
+        "Experience": 3851,
+        "Hp": 218,
+        "Weight": 8,
+        "MaxWeight": 51,
+        "Map": 950,
+        "Position": {
+          "X": 6,
+          "Y": 3
+        },
+        "InventoryKnown": true,
+        "Inventory": {
+          "1": {
+            "Slot": 1,
+            "Name": "Wooden Shield",
+            "Quantity": 1
+          },
+          "2": {
+            "Slot": 2,
+            "Name": "Oak Stick",
+            "Quantity": 1
+          },
+          "7": {
+            "Slot": 7,
+            "Name": "Branch",
+            "Quantity": 1
+          }
+        },
+        "Entities": {},
+        "Equipment": {},
+        "Skills": {
+          "1": "Assail"
+        },
+        "Spells": {},
+        "Legends": [
+          "Aisling - Deoch 107, Winter",
+          "Fragile Chrysalis ((Unregistered))",
+          "Loved by Mileth Mundanes (1) - Deoch 223, Spring",
+          "Suomi mundane birth - Fall, Deoch, 25"
+        ],
+        "LegendsKnown": true,
+        "LegendsRevision": 25,
+        "Dialog": {
+          "Generation": 1834590577726467,
+          "Revision": 830,
+          "EntityId": 11107,
+          "EntityType": 1,
+          "Name": "Eeva",
+          "Text": "All done? Wonderful! You aislings are so creative I'm sure you'll find something fabulous for me! Just bring back what's needed for the best one and surprise me with which hairstyle when you get back!",
+          "IsPursuit": true,
+          "Pursuit": 0,
+          "Step": 1,
+          "Type": 0,
+          "Choices": [],
+          "Prompt": null,
+          "HasNext": true,
+          "ObservedAt": "2026-10-10T00:37:11.5189068+00:00"
+        },
+        "Notice": null
+      }
+    },
+    {
+      "Time": "2026-10-10T00:37:12.0110636+00:00",
+      "Character": "Clock",
+      "Generation": 1834590577726467,
+      "Revision": 831,
+      "Opcode": 48,
+      "Payload": "CgA=",
+      "Snapshot": {
+        "Generation": 1834590577726467,
+        "Revision": 831,
+        "Name": "Clock",
+        "Id": 1325666,
+        "Connected": true,
+        "Level": 3,
+        "Gold": 0,
+        "Experience": 3851,
+        "Hp": 218,
+        "Weight": 8,
+        "MaxWeight": 51,
+        "Map": 950,
+        "Position": {
+          "X": 6,
+          "Y": 3
+        },
+        "InventoryKnown": true,
+        "Inventory": {
+          "1": {
+            "Slot": 1,
+            "Name": "Wooden Shield",
+            "Quantity": 1
+          },
+          "2": {
+            "Slot": 2,
+            "Name": "Oak Stick",
+            "Quantity": 1
+          },
+          "7": {
+            "Slot": 7,
+            "Name": "Branch",
+            "Quantity": 1
+          }
+        },
+        "Entities": {},
+        "Equipment": {},
+        "Skills": {
+          "1": "Assail"
+        },
+        "Spells": {},
+        "Legends": [
+          "Aisling - Deoch 107, Winter",
+          "Fragile Chrysalis ((Unregistered))",
+          "Loved by Mileth Mundanes (1) - Deoch 223, Spring",
+          "Suomi mundane birth - Fall, Deoch, 25"
+        ],
+        "LegendsKnown": true,
+        "LegendsRevision": 25,
+        "Dialog": null,
+        "Notice": null
+      }
+    },
+    {
+      "Time": "2026-10-10T00:37:12.5248617+00:00",
+      "Character": "Clock",
+      "Generation": 1834590577726467,
+      "Revision": 832,
+      "Opcode": 47,
+      "Payload": "AAEAACtjAUIHAAFCBwAABEVldmEAHkhlbGxvLiAgV2hhdCBjYW4gSSBkbyBmb3IgeW91PwMVVGhlIFBlcmZlY3QgSGFpcnN0eWxlDR0aUmVub3VuY2UgU3VvbWkgQ2l0aXplbnNoaXANHAhQZXR1bmlhcwvD",
+      "Snapshot": {
+        "Generation": 1834590577726467,
+        "Revision": 832,
+        "Name": "Clock",
+        "Id": 1325666,
+        "Connected": true,
+        "Level": 3,
+        "Gold": 0,
+        "Experience": 3851,
+        "Hp": 218,
+        "Weight": 8,
+        "MaxWeight": 51,
+        "Map": 950,
+        "Position": {
+          "X": 6,
+          "Y": 3
+        },
+        "InventoryKnown": true,
+        "Inventory": {
+          "1": {
+            "Slot": 1,
+            "Name": "Wooden Shield",
+            "Quantity": 1
+          },
+          "2": {
+            "Slot": 2,
+            "Name": "Oak Stick",
+            "Quantity": 1
+          },
+          "7": {
+            "Slot": 7,
+            "Name": "Branch",
+            "Quantity": 1
+          }
+        },
+        "Entities": {},
+        "Equipment": {},
+        "Skills": {
+          "1": "Assail"
+        },
+        "Spells": {},
+        "Legends": [
+          "Aisling - Deoch 107, Winter",
+          "Fragile Chrysalis ((Unregistered))",
+          "Loved by Mileth Mundanes (1) - Deoch 223, Spring",
+          "Suomi mundane birth - Fall, Deoch, 25"
+        ],
+        "LegendsKnown": true,
+        "LegendsRevision": 25,
+        "Dialog": {
+          "Generation": 1834590577726467,
+          "Revision": 832,
+          "EntityId": 11107,
+          "EntityType": 1,
+          "Name": "Eeva",
+          "Text": "Hello.  What can I do for you?",
+          "IsPursuit": false,
+          "Pursuit": 0,
+          "Step": 0,
+          "Type": 0,
+          "Choices": [
+            {
+              "Text": "The Perfect Hairstyle",
+              "Pursuit": 3357,
+              "Option": 1
+            },
+            {
+              "Text": "Renounce Suomi Citizenship",
+              "Pursuit": 3356,
+              "Option": 2
+            },
+            {
+              "Text": "Petunias",
+              "Pursuit": 3011,
+              "Option": 3
+            }
+          ],
+          "Prompt": null,
+          "HasNext": false,
+          "ObservedAt": "2026-10-10T00:37:12.5137978+00:00"
+        },
+        "Notice": null
+      }
+    },
+    {
+      "Time": "2026-10-10T00:37:13.0134718+00:00",
+      "Character": "Clock",
+      "Generation": 1834590577726467,
+      "Revision": 833,
+      "Opcode": 48,
+      "Payload": "AgEAACtjAUIHAAFCBwAAAAABAAAABEVldmEAPEFoISBiYWNrIGFscmVhZHk/IFNvIHdoaWNoIGhhaXJzdHlsZSBkaWQgeW91IHRoaW5rIHdhcyBiZXN0PwkFQnJhaWQGVGVhc2VkCFN0cmFpZ2h0BFdhdnkIUG9ueXRhaWwDQnVuBUxvb3BzBVR3aXN0HUNhbiBJIGxvb2sgYXQgdGhlIGJvb2sgYWdhaW4/",
+      "Snapshot": {
+        "Generation": 1834590577726467,
+        "Revision": 833,
+        "Name": "Clock",
+        "Id": 1325666,
+        "Connected": true,
+        "Level": 3,
+        "Gold": 0,
+        "Experience": 3851,
+        "Hp": 218,
+        "Weight": 8,
+        "MaxWeight": 51,
+        "Map": 950,
+        "Position": {
+          "X": 6,
+          "Y": 3
+        },
+        "InventoryKnown": true,
+        "Inventory": {
+          "1": {
+            "Slot": 1,
+            "Name": "Wooden Shield",
+            "Quantity": 1
+          },
+          "2": {
+            "Slot": 2,
+            "Name": "Oak Stick",
+            "Quantity": 1
+          },
+          "7": {
+            "Slot": 7,
+            "Name": "Branch",
+            "Quantity": 1
+          }
+        },
+        "Entities": {},
+        "Equipment": {},
+        "Skills": {
+          "1": "Assail"
+        },
+        "Spells": {},
+        "Legends": [
+          "Aisling - Deoch 107, Winter",
+          "Fragile Chrysalis ((Unregistered))",
+          "Loved by Mileth Mundanes (1) - Deoch 223, Spring",
+          "Suomi mundane birth - Fall, Deoch, 25"
+        ],
+        "LegendsKnown": true,
+        "LegendsRevision": 25,
+        "Dialog": {
+          "Generation": 1834590577726467,
+          "Revision": 833,
+          "EntityId": 11107,
+          "EntityType": 1,
+          "Name": "Eeva",
+          "Text": "Ah! back already? So which hairstyle did you think was best?",
+          "IsPursuit": true,
+          "Pursuit": 0,
+          "Step": 1,
+          "Type": 2,
+          "Choices": [
+            {
+              "Text": "Braid",
+              "Pursuit": 0,
+              "Option": 1
+            },
+            {
+              "Text": "Teased",
+              "Pursuit": 0,
+              "Option": 2
+            },
+            {
+              "Text": "Straight",
+              "Pursuit": 0,
+              "Option": 3
+            },
+            {
+              "Text": "Wavy",
+              "Pursuit": 0,
+              "Option": 4
+            },
+            {
+              "Text": "Ponytail",
+              "Pursuit": 0,
+              "Option": 5
+            },
+            {
+              "Text": "Bun",
+              "Pursuit": 0,
+              "Option": 6
+            },
+            {
+              "Text": "Loops",
+              "Pursuit": 0,
+              "Option": 7
+            },
+            {
+              "Text": "Twist",
+              "Pursuit": 0,
+              "Option": 8
+            },
+            {
+              "Text": "Can I look at the book again?",
+              "Pursuit": 0,
+              "Option": 9
+            }
+          ],
+          "Prompt": null,
+          "HasNext": false,
+          "ObservedAt": "2026-10-10T00:37:13.003664+00:00"
+        },
+        "Notice": null
+      }
+    },
+    {
+      "Time": "2026-10-10T00:37:13.5308885+00:00",
+      "Character": "Clock",
+      "Generation": 1834590577726467,
+      "Revision": 834,
+      "Opcode": 48,
+      "Payload": "AgEAACtjAUIHAAFCBwAAAAABAAAABEVldmEASU9oIGV4Y2VsbGVudCBjaG9pY2UsIHlvdSBoYXZlIGdvb2QgdGFzdGUhIERpZCB5b3UgYnJpbmcgd2hhdCdzIG5lc3Nlc2FyeT8CGk9vcHMuLi5JJ2xsIGJlIHJpZ2h0IGJhY2shCVllcyBJIGRpZA==",
+      "Snapshot": {
+        "Generation": 1834590577726467,
+        "Revision": 834,
+        "Name": "Clock",
+        "Id": 1325666,
+        "Connected": true,
+        "Level": 3,
+        "Gold": 0,
+        "Experience": 3851,
+        "Hp": 218,
+        "Weight": 8,
+        "MaxWeight": 51,
+        "Map": 950,
+        "Position": {
+          "X": 6,
+          "Y": 3
+        },
+        "InventoryKnown": true,
+        "Inventory": {
+          "1": {
+            "Slot": 1,
+            "Name": "Wooden Shield",
+            "Quantity": 1
+          },
+          "2": {
+            "Slot": 2,
+            "Name": "Oak Stick",
+            "Quantity": 1
+          },
+          "7": {
+            "Slot": 7,
+            "Name": "Branch",
+            "Quantity": 1
+          }
+        },
+        "Entities": {},
+        "Equipment": {},
+        "Skills": {
+          "1": "Assail"
+        },
+        "Spells": {},
+        "Legends": [
+          "Aisling - Deoch 107, Winter",
+          "Fragile Chrysalis ((Unregistered))",
+          "Loved by Mileth Mundanes (1) - Deoch 223, Spring",
+          "Suomi mundane birth - Fall, Deoch, 25"
+        ],
+        "LegendsKnown": true,
+        "LegendsRevision": 25,
+        "Dialog": {
+          "Generation": 1834590577726467,
+          "Revision": 834,
+          "EntityId": 11107,
+          "EntityType": 1,
+          "Name": "Eeva",
+          "Text": "Oh excellent choice, you have good taste! Did you bring what's nessesary?",
+          "IsPursuit": true,
+          "Pursuit": 0,
+          "Step": 1,
+          "Type": 2,
+          "Choices": [
+            {
+              "Text": "Oops...I'll be right back!",
+              "Pursuit": 0,
+              "Option": 1
+            },
+            {
+              "Text": "Yes I did",
+              "Pursuit": 0,
+              "Option": 2
+            }
+          ],
+          "Prompt": null,
+          "HasNext": false,
+          "ObservedAt": "2026-10-10T00:37:13.5194459+00:00"
+        },
+        "Notice": null
+      }
+    },
+    {
+      "Time": "2026-10-10T00:37:14.0143835+00:00",
+      "Character": "Clock",
+      "Generation": 1834590577726467,
+      "Revision": 835,
+      "Opcode": 8,
+      "Payload": "DAAASaMAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAFjAAA=",
+      "Snapshot": {
+        "Generation": 1834590577726467,
+        "Revision": 835,
+        "Name": "Clock",
+        "Id": 1325666,
+        "Connected": true,
+        "Level": 3,
+        "Gold": 0,
+        "Experience": 18851,
+        "Hp": 218,
+        "Weight": 8,
+        "MaxWeight": 51,
+        "Map": 950,
+        "Position": {
+          "X": 6,
+          "Y": 3
+        },
+        "InventoryKnown": true,
+        "Inventory": {
+          "1": {
+            "Slot": 1,
+            "Name": "Wooden Shield",
+            "Quantity": 1
+          },
+          "2": {
+            "Slot": 2,
+            "Name": "Oak Stick",
+            "Quantity": 1
+          },
+          "7": {
+            "Slot": 7,
+            "Name": "Branch",
+            "Quantity": 1
+          }
+        },
+        "Entities": {},
+        "Equipment": {},
+        "Skills": {
+          "1": "Assail"
+        },
+        "Spells": {},
+        "Legends": [
+          "Aisling - Deoch 107, Winter",
+          "Fragile Chrysalis ((Unregistered))",
+          "Loved by Mileth Mundanes (1) - Deoch 223, Spring",
+          "Suomi mundane birth - Fall, Deoch, 25"
+        ],
+        "LegendsKnown": true,
+        "LegendsRevision": 25,
+        "Dialog": {
+          "Generation": 1834590577726467,
+          "Revision": 834,
+          "EntityId": 11107,
+          "EntityType": 1,
+          "Name": "Eeva",
+          "Text": "Oh excellent choice, you have good taste! Did you bring what's nessesary?",
+          "IsPursuit": true,
+          "Pursuit": 0,
+          "Step": 1,
+          "Type": 2,
+          "Choices": [
+            {
+              "Text": "Oops...I'll be right back!",
+              "Pursuit": 0,
+              "Option": 1
+            },
+            {
+              "Text": "Yes I did",
+              "Pursuit": 0,
+              "Option": 2
+            }
+          ],
+          "Prompt": null,
+          "HasNext": false,
+          "ObservedAt": "2026-10-10T00:37:13.5194459+00:00"
+        },
+        "Notice": null
+      }
+    },
+    {
+      "Time": "2026-10-10T00:37:14.0320498+00:00",
+      "Character": "Clock",
+      "Generation": 1834590577726467,
+      "Revision": 838,
+      "Opcode": 8,
+      "Payload": "NAEAAAQAAAABFAAAAREDAwMDAx8GADQACGMAqC0AAAEUAAABEQAAAAAAAAAAAAFjAAA=",
+      "Snapshot": {
+        "Generation": 1834590577726467,
+        "Revision": 838,
+        "Name": "Clock",
+        "Id": 1325666,
+        "Connected": true,
+        "Level": 4,
+        "Gold": 0,
+        "Experience": 18851,
+        "Hp": 276,
+        "Weight": 8,
+        "MaxWeight": 52,
+        "Map": 950,
+        "Position": {
+          "X": 6,
+          "Y": 3
+        },
+        "InventoryKnown": true,
+        "Inventory": {
+          "1": {
+            "Slot": 1,
+            "Name": "Wooden Shield",
+            "Quantity": 1
+          },
+          "2": {
+            "Slot": 2,
+            "Name": "Oak Stick",
+            "Quantity": 1
+          },
+          "7": {
+            "Slot": 7,
+            "Name": "Branch",
+            "Quantity": 1
+          }
+        },
+        "Entities": {},
+        "Equipment": {},
+        "Skills": {
+          "1": "Assail"
+        },
+        "Spells": {},
+        "Legends": [
+          "Aisling - Deoch 107, Winter",
+          "Fragile Chrysalis ((Unregistered))",
+          "Loved by Mileth Mundanes (1) - Deoch 223, Spring",
+          "Suomi mundane birth - Fall, Deoch, 25"
+        ],
+        "LegendsKnown": true,
+        "LegendsRevision": 25,
+        "Dialog": {
+          "Generation": 1834590577726467,
+          "Revision": 834,
+          "EntityId": 11107,
+          "EntityType": 1,
+          "Name": "Eeva",
+          "Text": "Oh excellent choice, you have good taste! Did you bring what's nessesary?",
+          "IsPursuit": true,
+          "Pursuit": 0,
+          "Step": 1,
+          "Type": 2,
+          "Choices": [
+            {
+              "Text": "Oops...I'll be right back!",
+              "Pursuit": 0,
+              "Option": 1
+            },
+            {
+              "Text": "Yes I did",
+              "Pursuit": 0,
+              "Option": 2
+            }
+          ],
+          "Prompt": null,
+          "HasNext": false,
+          "ObservedAt": "2026-10-10T00:37:13.5194459+00:00"
+        },
+        "Notice": null
+      }
+    },
+    {
+      "Time": "2026-10-10T00:37:14.0433756+00:00",
+      "Character": "Clock",
+      "Generation": 1834590577726467,
+      "Revision": 840,
+      "Opcode": 8,
+      "Payload": "NAEAAAUAAAABSwAAAU0DAwMDAx8IADQACGMAqC0AAAFLAAABTQAAAAAAAAAAAAFjAAA=",
+      "Snapshot": {
+        "Generation": 1834590577726467,
+        "Revision": 840,
+        "Name": "Clock",
+        "Id": 1325666,
+        "Connected": true,
+        "Level": 5,
+        "Gold": 0,
+        "Experience": 18851,
+        "Hp": 331,
+        "Weight": 8,
+        "MaxWeight": 52,
+        "Map": 950,
+        "Position": {
+          "X": 6,
+          "Y": 3
+        },
+        "InventoryKnown": true,
+        "Inventory": {
+          "1": {
+            "Slot": 1,
+            "Name": "Wooden Shield",
+            "Quantity": 1
+          },
+          "2": {
+            "Slot": 2,
+            "Name": "Oak Stick",
+            "Quantity": 1
+          },
+          "7": {
+            "Slot": 7,
+            "Name": "Branch",
+            "Quantity": 1
+          }
+        },
+        "Entities": {},
+        "Equipment": {},
+        "Skills": {
+          "1": "Assail"
+        },
+        "Spells": {},
+        "Legends": [
+          "Aisling - Deoch 107, Winter",
+          "Fragile Chrysalis ((Unregistered))",
+          "Loved by Mileth Mundanes (1) - Deoch 223, Spring",
+          "Suomi mundane birth - Fall, Deoch, 25"
+        ],
+        "LegendsKnown": true,
+        "LegendsRevision": 25,
+        "Dialog": {
+          "Generation": 1834590577726467,
+          "Revision": 834,
+          "EntityId": 11107,
+          "EntityType": 1,
+          "Name": "Eeva",
+          "Text": "Oh excellent choice, you have good taste! Did you bring what's nessesary?",
+          "IsPursuit": true,
+          "Pursuit": 0,
+          "Step": 1,
+          "Type": 2,
+          "Choices": [
+            {
+              "Text": "Oops...I'll be right back!",
+              "Pursuit": 0,
+              "Option": 1
+            },
+            {
+              "Text": "Yes I did",
+              "Pursuit": 0,
+              "Option": 2
+            }
+          ],
+          "Prompt": null,
+          "HasNext": false,
+          "ObservedAt": "2026-10-10T00:37:13.5194459+00:00"
+        },
+        "Notice": null
+      }
+    },
+    {
+      "Time": "2026-10-10T00:37:14.0555406+00:00",
+      "Character": "Clock",
+      "Generation": 1834590577726467,
+      "Revision": 842,
+      "Opcode": 15,
+      "Payload": "A4DVAAxFbWVyYWxkIFJpbmcAAAABAAAAB9AAAAfQAA==",
+      "Snapshot": {
+        "Generation": 1834590577726467,
+        "Revision": 842,
+        "Name": "Clock",
+        "Id": 1325666,
+        "Connected": true,
+        "Level": 5,
+        "Gold": 0,
+        "Experience": 18851,
+        "Hp": 331,
+        "Weight": 8,
+        "MaxWeight": 52,
+        "Map": 950,
+        "Position": {
+          "X": 6,
+          "Y": 3
+        },
+        "InventoryKnown": true,
+        "Inventory": {
+          "1": {
+            "Slot": 1,
+            "Name": "Wooden Shield",
+            "Quantity": 1
+          },
+          "2": {
+            "Slot": 2,
+            "Name": "Oak Stick",
+            "Quantity": 1
+          },
+          "3": {
+            "Slot": 3,
+            "Name": "Emerald Ring",
+            "Quantity": 1
+          },
+          "7": {
+            "Slot": 7,
+            "Name": "Branch",
+            "Quantity": 1
+          }
+        },
+        "Entities": {},
+        "Equipment": {},
+        "Skills": {
+          "1": "Assail"
+        },
+        "Spells": {},
+        "Legends": [
+          "Aisling - Deoch 107, Winter",
+          "Fragile Chrysalis ((Unregistered))",
+          "Loved by Mileth Mundanes (1) - Deoch 223, Spring",
+          "Suomi mundane birth - Fall, Deoch, 25"
+        ],
+        "LegendsKnown": true,
+        "LegendsRevision": 25,
+        "Dialog": {
+          "Generation": 1834590577726467,
+          "Revision": 834,
+          "EntityId": 11107,
+          "EntityType": 1,
+          "Name": "Eeva",
+          "Text": "Oh excellent choice, you have good taste! Did you bring what's nessesary?",
+          "IsPursuit": true,
+          "Pursuit": 0,
+          "Step": 1,
+          "Type": 2,
+          "Choices": [
+            {
+              "Text": "Oops...I'll be right back!",
+              "Pursuit": 0,
+              "Option": 1
+            },
+            {
+              "Text": "Yes I did",
+              "Pursuit": 0,
+              "Option": 2
+            }
+          ],
+          "Prompt": null,
+          "HasNext": false,
+          "ObservedAt": "2026-10-10T00:37:13.5194459+00:00"
+        },
+        "Notice": null
+      }
+    },
+    {
+      "Time": "2026-10-10T00:37:14.0655664+00:00",
+      "Character": "Clock",
+      "Generation": 1834590577726467,
+      "Revision": 843,
+      "Opcode": 8,
+      "Payload": "JAEAAAUAAAABSwAAAU0DAwMDAx8IADQACWMAAAAAAAAAAAAAAAABYwAA",
+      "Snapshot": {
+        "Generation": 1834590577726467,
+        "Revision": 843,
+        "Name": "Clock",
+        "Id": 1325666,
+        "Connected": true,
+        "Level": 5,
+        "Gold": 0,
+        "Experience": 18851,
+        "Hp": 331,
+        "Weight": 9,
+        "MaxWeight": 52,
+        "Map": 950,
+        "Position": {
+          "X": 6,
+          "Y": 3
+        },
+        "InventoryKnown": true,
+        "Inventory": {
+          "1": {
+            "Slot": 1,
+            "Name": "Wooden Shield",
+            "Quantity": 1
+          },
+          "2": {
+            "Slot": 2,
+            "Name": "Oak Stick",
+            "Quantity": 1
+          },
+          "3": {
+            "Slot": 3,
+            "Name": "Emerald Ring",
+            "Quantity": 1
+          },
+          "7": {
+            "Slot": 7,
+            "Name": "Branch",
+            "Quantity": 1
+          }
+        },
+        "Entities": {},
+        "Equipment": {},
+        "Skills": {
+          "1": "Assail"
+        },
+        "Spells": {},
+        "Legends": [
+          "Aisling - Deoch 107, Winter",
+          "Fragile Chrysalis ((Unregistered))",
+          "Loved by Mileth Mundanes (1) - Deoch 223, Spring",
+          "Suomi mundane birth - Fall, Deoch, 25"
+        ],
+        "LegendsKnown": true,
+        "LegendsRevision": 25,
+        "Dialog": {
+          "Generation": 1834590577726467,
+          "Revision": 834,
+          "EntityId": 11107,
+          "EntityType": 1,
+          "Name": "Eeva",
+          "Text": "Oh excellent choice, you have good taste! Did you bring what's nessesary?",
+          "IsPursuit": true,
+          "Pursuit": 0,
+          "Step": 1,
+          "Type": 2,
+          "Choices": [
+            {
+              "Text": "Oops...I'll be right back!",
+              "Pursuit": 0,
+              "Option": 1
+            },
+            {
+              "Text": "Yes I did",
+              "Pursuit": 0,
+              "Option": 2
+            }
+          ],
+          "Prompt": null,
+          "HasNext": false,
+          "ObservedAt": "2026-10-10T00:37:13.5194459+00:00"
+        },
+        "Notice": null
+      }
+    },
+    {
+      "Time": "2026-10-10T00:37:14.0778063+00:00",
+      "Character": "Clock",
+      "Generation": 1834590577726467,
+      "Revision": 844,
+      "Opcode": 48,
+      "Payload": "AAEAACtjAUIHAAFCBwAAAAABAAEABEVldmEAYEV4Y2VsbGVudCEgVGhhbmsgeW91IHNvIG11Y2ghIEkgY291bGRuJ3QgaGF2ZSBkb25lIGl0IHdpdGhvdXQgeW91ciBoZWxwLiBUYWtlIHRoaXMgYXMgbXkgdGhhbmtzIQ==",
+      "Snapshot": {
+        "Generation": 1834590577726467,
+        "Revision": 844,
+        "Name": "Clock",
+        "Id": 1325666,
+        "Connected": true,
+        "Level": 5,
+        "Gold": 0,
+        "Experience": 18851,
+        "Hp": 331,
+        "Weight": 9,
+        "MaxWeight": 52,
+        "Map": 950,
+        "Position": {
+          "X": 6,
+          "Y": 3
+        },
+        "InventoryKnown": true,
+        "Inventory": {
+          "1": {
+            "Slot": 1,
+            "Name": "Wooden Shield",
+            "Quantity": 1
+          },
+          "2": {
+            "Slot": 2,
+            "Name": "Oak Stick",
+            "Quantity": 1
+          },
+          "3": {
+            "Slot": 3,
+            "Name": "Emerald Ring",
+            "Quantity": 1
+          },
+          "7": {
+            "Slot": 7,
+            "Name": "Branch",
+            "Quantity": 1
+          }
+        },
+        "Entities": {},
+        "Equipment": {},
+        "Skills": {
+          "1": "Assail"
+        },
+        "Spells": {},
+        "Legends": [
+          "Aisling - Deoch 107, Winter",
+          "Fragile Chrysalis ((Unregistered))",
+          "Loved by Mileth Mundanes (1) - Deoch 223, Spring",
+          "Suomi mundane birth - Fall, Deoch, 25"
+        ],
+        "LegendsKnown": true,
+        "LegendsRevision": 25,
+        "Dialog": {
+          "Generation": 1834590577726467,
+          "Revision": 844,
+          "EntityId": 11107,
+          "EntityType": 1,
+          "Name": "Eeva",
+          "Text": "Excellent! Thank you so much! I couldn't have done it without your help. Take this as my thanks!",
+          "IsPursuit": true,
+          "Pursuit": 0,
+          "Step": 1,
+          "Type": 0,
+          "Choices": [],
+          "Prompt": null,
+          "HasNext": true,
+          "ObservedAt": "2026-10-10T00:37:14.065783+00:00"
+        },
+        "Notice": null
+      }
+    },
+    {
+      "Time": "2026-10-10T00:37:14.5198552+00:00",
+      "Character": "Clock",
+      "Generation": 1834590577726467,
+      "Revision": 847,
+      "Opcode": 48,
+      "Payload": "CgA=",
+      "Snapshot": {
+        "Generation": 1834590577726467,
+        "Revision": 847,
+        "Name": "Clock",
+        "Id": 1325666,
+        "Connected": true,
+        "Level": 5,
+        "Gold": 0,
+        "Experience": 18851,
+        "Hp": 331,
+        "Weight": 9,
+        "MaxWeight": 52,
+        "Map": 950,
+        "Position": {
+          "X": 6,
+          "Y": 3
+        },
+        "InventoryKnown": true,
+        "Inventory": {
+          "1": {
+            "Slot": 1,
+            "Name": "Wooden Shield",
+            "Quantity": 1
+          },
+          "2": {
+            "Slot": 2,
+            "Name": "Oak Stick",
+            "Quantity": 1
+          },
+          "3": {
+            "Slot": 3,
+            "Name": "Emerald Ring",
+            "Quantity": 1
+          },
+          "7": {
+            "Slot": 7,
+            "Name": "Branch",
+            "Quantity": 1
+          }
+        },
+        "Entities": {},
+        "Equipment": {},
+        "Skills": {
+          "1": "Assail"
+        },
+        "Spells": {},
+        "Legends": [
+          "Aisling - Deoch 107, Winter",
+          "Fragile Chrysalis ((Unregistered))",
+          "Loved by Mileth Mundanes (1) - Deoch 223, Spring",
+          "Suomi mundane birth - Fall, Deoch, 25"
+        ],
+        "LegendsKnown": true,
+        "LegendsRevision": 25,
+        "Dialog": null,
+        "Notice": null
+      }
+    }
+  ],
+  "Actions": [
+    {
+      "Time": "2026-10-10T00:36:19.5013249+00:00",
+      "Character": "Clock",
+      "Generation": 1834590577726467,
+      "Revision": 709,
+      "Kind": "next",
+      "Selection": null,
+      "Dialog": {
+        "Generation": 1834590577726467,
+        "Revision": 708,
+        "EntityId": 11092,
+        "EntityType": 4,
+        "Name": "",
+        "Text": "((You are entering a role-playing town where role-playing is strictly enforced. Please do not speak words that are not appropriate to the theme of Dark Ages. Any act of heresy can result in a temporary banishment from the town.))",
+        "IsPursuit": true,
+        "Pursuit": 0,
+        "Step": 1,
+        "Type": 0,
+        "Choices": [],
+        "Prompt": null,
+        "HasNext": true,
+        "ObservedAt": "2026-10-10T00:36:19.4666978+00:00"
+      },
+      "Branches": 1,
+      "Experience": 3851
+    },
+    {
+      "Time": "2026-10-10T00:37:08.0638894+00:00",
+      "Character": "Clock",
+      "Generation": 1834590577726467,
+      "Revision": 821,
+      "Kind": "choose",
+      "Selection": "The Perfect Hairstyle",
+      "Dialog": {
+        "Generation": 1834590577726467,
+        "Revision": 821,
+        "EntityId": 11107,
+        "EntityType": 1,
+        "Name": "Eeva",
+        "Text": "Hello.  What can I do for you?",
+        "IsPursuit": false,
+        "Pursuit": 0,
+        "Step": 0,
+        "Type": 0,
+        "Choices": [
+          {
+            "Text": "The Perfect Hairstyle",
+            "Pursuit": 3357,
+            "Option": 1
+          },
+          {
+            "Text": "Renounce Suomi Citizenship",
+            "Pursuit": 3356,
+            "Option": 2
+          },
+          {
+            "Text": "Petunias",
+            "Pursuit": 3011,
+            "Option": 3
+          }
+        ],
+        "Prompt": null,
+        "HasNext": false,
+        "ObservedAt": "2026-10-10T00:37:08.0234053+00:00"
+      },
+      "Branches": 1,
+      "Experience": 3851
+    },
+    {
+      "Time": "2026-10-10T00:37:08.5160506+00:00",
+      "Character": "Clock",
+      "Generation": 1834590577726467,
+      "Revision": 822,
+      "Kind": "choose",
+      "Selection": "It's a bit bland to be honest",
+      "Dialog": {
+        "Generation": 1834590577726467,
+        "Revision": 822,
+        "EntityId": 11107,
+        "EntityType": 1,
+        "Name": "Eeva",
+        "Text": "Good sun to you, Aisling. Say! *leans over the counter* What do you think of my hair?",
+        "IsPursuit": true,
+        "Pursuit": 0,
+        "Step": 1,
+        "Type": 2,
+        "Choices": [
+          {
+            "Text": "Er...it's lovely",
+            "Pursuit": 0,
+            "Option": 1
+          },
+          {
+            "Text": "It's a bit bland to be honest",
+            "Pursuit": 0,
+            "Option": 2
+          }
+        ],
+        "Prompt": null,
+        "HasNext": false,
+        "ObservedAt": "2026-10-10T00:37:08.5060763+00:00"
+      },
+      "Branches": 1,
+      "Experience": 3851
+    },
+    {
+      "Time": "2026-10-10T00:37:09.0073926+00:00",
+      "Character": "Clock",
+      "Generation": 1834590577726467,
+      "Revision": 823,
+      "Kind": "next",
+      "Selection": null,
+      "Dialog": {
+        "Generation": 1834590577726467,
+        "Revision": 823,
+        "EntityId": 11107,
+        "EntityType": 1,
+        "Name": "Eeva",
+        "Text": "Ah! An honest Aisling! I like you already.",
+        "IsPursuit": true,
+        "Pursuit": 0,
+        "Step": 1,
+        "Type": 0,
+        "Choices": [],
+        "Prompt": null,
+        "HasNext": true,
+        "ObservedAt": "2026-10-10T00:37:08.9995628+00:00"
+      },
+      "Branches": 1,
+      "Experience": 3851
+    },
+    {
+      "Time": "2026-10-10T00:37:09.5169689+00:00",
+      "Character": "Clock",
+      "Generation": 1834590577726467,
+      "Revision": 825,
+      "Kind": "choose",
+      "Selection": "I'd love to help. What do you need?",
+      "Dialog": {
+        "Generation": 1834590577726467,
+        "Revision": 825,
+        "EntityId": 11107,
+        "EntityType": 1,
+        "Name": "Eeva",
+        "Text": "I've been watching tenants coming in and leaving, and I've narrowed the selections down to a few styles I really want to try. But I need some items...and as you know, I can't very well leave my inn abandoned.",
+        "IsPursuit": true,
+        "Pursuit": 0,
+        "Step": 1,
+        "Type": 2,
+        "Choices": [
+          {
+            "Text": "I'd love to help. What do you need?",
+            "Pursuit": 0,
+            "Option": 1
+          },
+          {
+            "Text": "Sorry, I have bigger things to worry about.",
+            "Pursuit": 0,
+            "Option": 2
+          }
+        ],
+        "Prompt": null,
+        "HasNext": false,
+        "ObservedAt": "2026-10-10T00:37:09.5129295+00:00"
+      },
+      "Branches": 1,
+      "Experience": 3851
+    },
+    {
+      "Time": "2026-10-10T00:37:10.012302+00:00",
+      "Character": "Clock",
+      "Generation": 1834590577726467,
+      "Revision": 826,
+      "Kind": "next",
+      "Selection": null,
+      "Dialog": {
+        "Generation": 1834590577726467,
+        "Revision": 826,
+        "EntityId": 11107,
+        "EntityType": 1,
+        "Name": "Eeva",
+        "Text": "Thank you so much! Now...which do you like best?",
+        "IsPursuit": true,
+        "Pursuit": 0,
+        "Step": 1,
+        "Type": 0,
+        "Choices": [],
+        "Prompt": null,
+        "HasNext": true,
+        "ObservedAt": "2026-10-10T00:37:10.0000886+00:00"
+      },
+      "Branches": 1,
+      "Experience": 3851
+    },
+    {
+      "Time": "2026-10-10T00:37:10.5169517+00:00",
+      "Character": "Clock",
+      "Generation": 1834590577726467,
+      "Revision": 828,
+      "Kind": "choose",
+      "Selection": "Ponytail",
+      "Dialog": {
+        "Generation": 1834590577726467,
+        "Revision": 828,
+        "EntityId": 11107,
+        "EntityType": 1,
+        "Name": "Eeva",
+        "Text": "Hairstyle Book",
+        "IsPursuit": true,
+        "Pursuit": 0,
+        "Step": 1,
+        "Type": 2,
+        "Choices": [
+          {
+            "Text": "Braid",
+            "Pursuit": 0,
+            "Option": 1
+          },
+          {
+            "Text": "Teased",
+            "Pursuit": 0,
+            "Option": 2
+          },
+          {
+            "Text": "Straight",
+            "Pursuit": 0,
+            "Option": 3
+          },
+          {
+            "Text": "Wavy",
+            "Pursuit": 0,
+            "Option": 4
+          },
+          {
+            "Text": "Ponytail",
+            "Pursuit": 0,
+            "Option": 5
+          },
+          {
+            "Text": "Bun",
+            "Pursuit": 0,
+            "Option": 6
+          },
+          {
+            "Text": "Loops",
+            "Pursuit": 0,
+            "Option": 7
+          },
+          {
+            "Text": "Twist",
+            "Pursuit": 0,
+            "Option": 8
+          },
+          {
+            "Text": "Done",
+            "Pursuit": 0,
+            "Option": 9
+          }
+        ],
+        "Prompt": null,
+        "HasNext": false,
+        "ObservedAt": "2026-10-10T00:37:10.5122898+00:00"
+      },
+      "Branches": 1,
+      "Experience": 3851
+    },
+    {
+      "Time": "2026-10-10T00:37:11.0107685+00:00",
+      "Character": "Clock",
+      "Generation": 1834590577726467,
+      "Revision": 829,
+      "Kind": "next",
+      "Selection": null,
+      "Dialog": {
+        "Generation": 1834590577726467,
+        "Revision": 829,
+        "EntityId": 11107,
+        "EntityType": 1,
+        "Name": "Eeva",
+        "Text": "A small ponytail makes for a very modest hairstyle. To tie your hair back you need a lovely bow, weaved of five pieces of spider??s silk.",
+        "IsPursuit": true,
+        "Pursuit": 0,
+        "Step": 1,
+        "Type": 0,
+        "Choices": [],
+        "Prompt": null,
+        "HasNext": true,
+        "ObservedAt": "2026-10-10T00:37:11.0012904+00:00"
+      },
+      "Branches": 1,
+      "Experience": 3851
+    },
+    {
+      "Time": "2026-10-10T00:37:11.5374501+00:00",
+      "Character": "Clock",
+      "Generation": 1834590577726467,
+      "Revision": 830,
+      "Kind": "next",
+      "Selection": null,
+      "Dialog": {
+        "Generation": 1834590577726467,
+        "Revision": 830,
+        "EntityId": 11107,
+        "EntityType": 1,
+        "Name": "Eeva",
+        "Text": "All done? Wonderful! You aislings are so creative I'm sure you'll find something fabulous for me! Just bring back what's needed for the best one and surprise me with which hairstyle when you get back!",
+        "IsPursuit": true,
+        "Pursuit": 0,
+        "Step": 1,
+        "Type": 0,
+        "Choices": [],
+        "Prompt": null,
+        "HasNext": true,
+        "ObservedAt": "2026-10-10T00:37:11.5189068+00:00"
+      },
+      "Branches": 1,
+      "Experience": 3851
+    },
+    {
+      "Time": "2026-10-10T00:37:12.5251242+00:00",
+      "Character": "Clock",
+      "Generation": 1834590577726467,
+      "Revision": 832,
+      "Kind": "choose",
+      "Selection": "The Perfect Hairstyle",
+      "Dialog": {
+        "Generation": 1834590577726467,
+        "Revision": 832,
+        "EntityId": 11107,
+        "EntityType": 1,
+        "Name": "Eeva",
+        "Text": "Hello.  What can I do for you?",
+        "IsPursuit": false,
+        "Pursuit": 0,
+        "Step": 0,
+        "Type": 0,
+        "Choices": [
+          {
+            "Text": "The Perfect Hairstyle",
+            "Pursuit": 3357,
+            "Option": 1
+          },
+          {
+            "Text": "Renounce Suomi Citizenship",
+            "Pursuit": 3356,
+            "Option": 2
+          },
+          {
+            "Text": "Petunias",
+            "Pursuit": 3011,
+            "Option": 3
+          }
+        ],
+        "Prompt": null,
+        "HasNext": false,
+        "ObservedAt": "2026-10-10T00:37:12.5137978+00:00"
+      },
+      "Branches": 1,
+      "Experience": 3851
+    },
+    {
+      "Time": "2026-10-10T00:37:13.013693+00:00",
+      "Character": "Clock",
+      "Generation": 1834590577726467,
+      "Revision": 833,
+      "Kind": "choose",
+      "Selection": "Ponytail",
+      "Dialog": {
+        "Generation": 1834590577726467,
+        "Revision": 833,
+        "EntityId": 11107,
+        "EntityType": 1,
+        "Name": "Eeva",
+        "Text": "Ah! back already? So which hairstyle did you think was best?",
+        "IsPursuit": true,
+        "Pursuit": 0,
+        "Step": 1,
+        "Type": 2,
+        "Choices": [
+          {
+            "Text": "Braid",
+            "Pursuit": 0,
+            "Option": 1
+          },
+          {
+            "Text": "Teased",
+            "Pursuit": 0,
+            "Option": 2
+          },
+          {
+            "Text": "Straight",
+            "Pursuit": 0,
+            "Option": 3
+          },
+          {
+            "Text": "Wavy",
+            "Pursuit": 0,
+            "Option": 4
+          },
+          {
+            "Text": "Ponytail",
+            "Pursuit": 0,
+            "Option": 5
+          },
+          {
+            "Text": "Bun",
+            "Pursuit": 0,
+            "Option": 6
+          },
+          {
+            "Text": "Loops",
+            "Pursuit": 0,
+            "Option": 7
+          },
+          {
+            "Text": "Twist",
+            "Pursuit": 0,
+            "Option": 8
+          },
+          {
+            "Text": "Can I look at the book again?",
+            "Pursuit": 0,
+            "Option": 9
+          }
+        ],
+        "Prompt": null,
+        "HasNext": false,
+        "ObservedAt": "2026-10-10T00:37:13.003664+00:00"
+      },
+      "Branches": 1,
+      "Experience": 3851
+    },
+    {
+      "Time": "2026-10-10T00:37:13.5673815+00:00",
+      "Character": "Clock",
+      "Generation": 1834590577726467,
+      "Revision": 834,
+      "Kind": "choose",
+      "Selection": "Yes I did",
+      "Dialog": {
+        "Generation": 1834590577726467,
+        "Revision": 834,
+        "EntityId": 11107,
+        "EntityType": 1,
+        "Name": "Eeva",
+        "Text": "Oh excellent choice, you have good taste! Did you bring what's nessesary?",
+        "IsPursuit": true,
+        "Pursuit": 0,
+        "Step": 1,
+        "Type": 2,
+        "Choices": [
+          {
+            "Text": "Oops...I'll be right back!",
+            "Pursuit": 0,
+            "Option": 1
+          },
+          {
+            "Text": "Yes I did",
+            "Pursuit": 0,
+            "Option": 2
+          }
+        ],
+        "Prompt": null,
+        "HasNext": false,
+        "ObservedAt": "2026-10-10T00:37:13.5194459+00:00"
+      },
+      "Branches": 1,
+      "Experience": 3851
+    },
+    {
+      "Time": "2026-10-10T00:37:14.0971137+00:00",
+      "Character": "Clock",
+      "Generation": 1834590577726467,
+      "Revision": 844,
+      "Kind": "next",
+      "Selection": null,
+      "Dialog": {
+        "Generation": 1834590577726467,
+        "Revision": 844,
+        "EntityId": 11107,
+        "EntityType": 1,
+        "Name": "Eeva",
+        "Text": "Excellent! Thank you so much! I couldn't have done it without your help. Take this as my thanks!",
+        "IsPursuit": true,
+        "Pursuit": 0,
+        "Step": 1,
+        "Type": 0,
+        "Choices": [],
+        "Prompt": null,
+        "HasNext": true,
+        "ObservedAt": "2026-10-10T00:37:14.065783+00:00"
+      },
+      "Branches": 1,
+      "Experience": 18851
+    }
+  ],
+  "FinalOwnLegendObservation": {
+    "generation": 1834590577726467,
+    "revision": 849,
+    "name": "Clock",
+    "id": 1325666,
+    "connected": true,
+    "level": 5,
+    "gold": 0,
+    "experience": 18851,
+    "hp": 331,
+    "weight": 9,
+    "maxWeight": 52,
+    "map": 950,
+    "position": {
+      "x": 6,
+      "y": 3
+    },
+    "inventoryKnown": true,
+    "inventory": {
+      "1": {
+        "slot": 1,
+        "name": "Wooden Shield",
+        "quantity": 1
+      },
+      "2": {
+        "slot": 2,
+        "name": "Oak Stick",
+        "quantity": 1
+      },
+      "3": {
+        "slot": 3,
+        "name": "Emerald Ring",
+        "quantity": 1
+      },
+      "7": {
+        "slot": 7,
+        "name": "Branch",
+        "quantity": 1
+      }
+    },
+    "entities": {},
+    "equipment": {},
+    "skills": {
+      "1": "Assail"
+    },
+    "spells": {},
+    "legends": [
+      "Aisling - Deoch 107, Winter",
+      "Fragile Chrysalis ((Unregistered))",
+      "Loved by Mileth Mundanes (1) - Deoch 223, Spring",
+      "Suomi mundane birth - Fall, Deoch, 25"
+    ],
+    "legendsKnown": true,
+    "legendsRevision": 849,
+    "dialog": null,
+    "notice": null
+  },
+  "VerifiedAttempt": {
+    "completedAt": "2026-10-10T00:37:14.065783+00:00",
+    "completion": {
+      "generation": 1834590577726467,
+      "revision": 844,
+      "entityId": 11107,
+      "entityType": 1,
+      "name": "Eeva",
+      "text": "Excellent! Thank you so much! I couldn't have done it without your help. Take this as my thanks!",
+      "isPursuit": true,
+      "pursuit": 0,
+      "step": 1,
+      "type": 0,
+      "choices": [],
+      "prompt": null,
+      "hasNext": true,
+      "observedAt": "2026-10-10T00:37:14.065783+00:00"
+    },
+    "rewards": {
+      "experience": 15000,
+      "item:Emerald Ring": 1
+    },
+    "legendReward": false
+  },
+  "NextRun": "2026-10-17T00:37:14.065783+00:00"
+}

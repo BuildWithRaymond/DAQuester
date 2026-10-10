@@ -1,0 +1,1 @@
+<Project Sdk="Microsoft.NET.Sdk"><ItemGroup><ProjectReference Include="..\DAQuester.Core\DAQuester.Core.csproj"/></ItemGroup><PropertyGroup><NoWarn>$(NoWarn);CS0649</NoWarn></PropertyGroup></Project>

@@ -1,0 +1,2009 @@
+{
+  "SchemaVersion": 2,
+  "ServerProfile": "datester-7.41",
+  "Sanitized": true,
+  "EvidenceKind": "Actual server packets and recorded manual/automation actions",
+  "Notes": [
+    "Manual assistance advanced town entry and Eeva Next pages.",
+    "Terminal reply has Next; correlated reward is Emerald Ring and 15000 XP.",
+    "Merchant debug trailers and other visible entities removed."
+  ],
+  "Events": [
+    {
+      "Time": "2026-10-10T00:17:46.5872461+00:00",
+      "Character": "Nuclear",
+      "Generation": 1834589438585859,
+      "Revision": 711,
+      "Opcode": 48,
+      "Payload": "AAQAACtTAEAAAABAAAAAAAABAAEAAADlKChZb3UgYXJlIGVudGVyaW5nIGEgcm9sZS1wbGF5aW5nIHRvd24gd2hlcmUgcm9sZS1wbGF5aW5nIGlzIHN0cmljdGx5IGVuZm9yY2VkLiBQbGVhc2UgZG8gbm90IHNwZWFrIHdvcmRzIHRoYXQgYXJlIG5vdCBhcHByb3ByaWF0ZSB0byB0aGUgdGhlbWUgb2YgRGFyayBBZ2VzLiBBbnkgYWN0IG9mIGhlcmVzeSBjYW4gcmVzdWx0IGluIGEgdGVtcG9yYXJ5IGJhbmlzaG1lbnQgZnJvbSB0aGUgdG93bi4pKQ==",
+      "Snapshot": {
+        "Generation": 1834589438585859,
+        "Revision": 711,
+        "Name": "Nuclear",
+        "Id": 1291344,
+        "Connected": true,
+        "Level": 3,
+        "Gold": 0,
+        "Experience": 3801,
+        "Hp": 230,
+        "Weight": 0,
+        "MaxWeight": 51,
+        "Map": 3016,
+        "Position": {
+          "X": 16,
+          "Y": 2
+        },
+        "InventoryKnown": true,
+        "Inventory": {},
+        "Entities": {},
+        "Equipment": {},
+        "Skills": {
+          "1": "Assail"
+        },
+        "Spells": {},
+        "Legends": [
+          "Aisling - Deoch 107, Winter",
+          "Fragile Chrysalis ((Unregistered))",
+          "Undine mundane birth - Winter, Deoch, 25"
+        ],
+        "LegendsKnown": true,
+        "LegendsRevision": 19,
+        "Dialog": {
+          "Generation": 1834589438585859,
+          "Revision": 711,
+          "EntityId": 11091,
+          "EntityType": 4,
+          "Name": "",
+          "Text": "((You are entering a role-playing town where role-playing is strictly enforced. Please do not speak words that are not appropriate to the theme of Dark Ages. Any act of heresy can result in a temporary banishment from the town.))",
+          "IsPursuit": true,
+          "Pursuit": 0,
+          "Step": 1,
+          "Type": 0,
+          "Choices": [],
+          "Prompt": null,
+          "HasNext": true,
+          "ObservedAt": "2026-10-10T00:17:46.5872461+00:00"
+        },
+        "Notice": null
+      }
+    },
+    {
+      "Time": "2026-10-10T00:18:15.0861256+00:00",
+      "Character": "Nuclear",
+      "Generation": 1834589438585859,
+      "Revision": 721,
+      "Opcode": 48,
+      "Payload": "CgA=",
+      "Snapshot": {
+        "Generation": 1834589438585859,
+        "Revision": 721,
+        "Name": "Nuclear",
+        "Id": 1291344,
+        "Connected": true,
+        "Level": 3,
+        "Gold": 0,
+        "Experience": 3801,
+        "Hp": 230,
+        "Weight": 0,
+        "MaxWeight": 51,
+        "Map": 3016,
+        "Position": {
+          "X": 16,
+          "Y": 3
+        },
+        "InventoryKnown": true,
+        "Inventory": {},
+        "Entities": {},
+        "Equipment": {},
+        "Skills": {
+          "1": "Assail"
+        },
+        "Spells": {},
+        "Legends": [
+          "Aisling - Deoch 107, Winter",
+          "Fragile Chrysalis ((Unregistered))",
+          "Undine mundane birth - Winter, Deoch, 25"
+        ],
+        "LegendsKnown": true,
+        "LegendsRevision": 19,
+        "Dialog": null,
+        "Notice": null
+      }
+    },
+    {
+      "Time": "2026-10-10T00:19:08.6692275+00:00",
+      "Character": "Nuclear",
+      "Generation": 1834589438585859,
+      "Revision": 830,
+      "Opcode": 47,
+      "Payload": "AAEAACtjAUIHAAFCBwAABEVldmEAHkhlbGxvLiAgV2hhdCBjYW4gSSBkbyBmb3IgeW91PwMVVGhlIFBlcmZlY3QgSGFpcnN0eWxlDR0aUmVub3VuY2UgU3VvbWkgQ2l0aXplbnNoaXANHAhQZXR1bmlhcwvD",
+      "Snapshot": {
+        "Generation": 1834589438585859,
+        "Revision": 830,
+        "Name": "Nuclear",
+        "Id": 1291344,
+        "Connected": true,
+        "Level": 3,
+        "Gold": 0,
+        "Experience": 3801,
+        "Hp": 230,
+        "Weight": 0,
+        "MaxWeight": 51,
+        "Map": 950,
+        "Position": {
+          "X": 6,
+          "Y": 3
+        },
+        "InventoryKnown": true,
+        "Inventory": {},
+        "Entities": {},
+        "Equipment": {},
+        "Skills": {
+          "1": "Assail"
+        },
+        "Spells": {},
+        "Legends": [
+          "Aisling - Deoch 107, Winter",
+          "Fragile Chrysalis ((Unregistered))",
+          "Undine mundane birth - Winter, Deoch, 25"
+        ],
+        "LegendsKnown": true,
+        "LegendsRevision": 19,
+        "Dialog": {
+          "Generation": 1834589438585859,
+          "Revision": 830,
+          "EntityId": 11107,
+          "EntityType": 1,
+          "Name": "Eeva",
+          "Text": "Hello.  What can I do for you?",
+          "IsPursuit": false,
+          "Pursuit": 0,
+          "Step": 0,
+          "Type": 0,
+          "Choices": [
+            {
+              "Text": "The Perfect Hairstyle",
+              "Pursuit": 3357,
+              "Option": 1
+            },
+            {
+              "Text": "Renounce Suomi Citizenship",
+              "Pursuit": 3356,
+              "Option": 2
+            },
+            {
+              "Text": "Petunias",
+              "Pursuit": 3011,
+              "Option": 3
+            }
+          ],
+          "Prompt": null,
+          "HasNext": false,
+          "ObservedAt": "2026-10-10T00:19:08.6692275+00:00"
+        },
+        "Notice": null
+      }
+    },
+    {
+      "Time": "2026-10-10T00:19:09.1542771+00:00",
+      "Character": "Nuclear",
+      "Generation": 1834589438585859,
+      "Revision": 831,
+      "Opcode": 48,
+      "Payload": "AgEAACtjAUIHAAFCBwAAAAABAAAABEVldmEAVUdvb2Qgc3VuIHRvIHlvdSwgQWlzbGluZy4gU2F5ISAqbGVhbnMgb3ZlciB0aGUgY291bnRlciogV2hhdCBkbyB5b3UgdGhpbmsgb2YgbXkgaGFpcj8CEEVyLi4uaXQncyBsb3ZlbHkdSXQncyBhIGJpdCBibGFuZCB0byBiZSBob25lc3Q=",
+      "Snapshot": {
+        "Generation": 1834589438585859,
+        "Revision": 831,
+        "Name": "Nuclear",
+        "Id": 1291344,
+        "Connected": true,
+        "Level": 3,
+        "Gold": 0,
+        "Experience": 3801,
+        "Hp": 230,
+        "Weight": 0,
+        "MaxWeight": 51,
+        "Map": 950,
+        "Position": {
+          "X": 6,
+          "Y": 3
+        },
+        "InventoryKnown": true,
+        "Inventory": {},
+        "Entities": {},
+        "Equipment": {},
+        "Skills": {
+          "1": "Assail"
+        },
+        "Spells": {},
+        "Legends": [
+          "Aisling - Deoch 107, Winter",
+          "Fragile Chrysalis ((Unregistered))",
+          "Undine mundane birth - Winter, Deoch, 25"
+        ],
+        "LegendsKnown": true,
+        "LegendsRevision": 19,
+        "Dialog": {
+          "Generation": 1834589438585859,
+          "Revision": 831,
+          "EntityId": 11107,
+          "EntityType": 1,
+          "Name": "Eeva",
+          "Text": "Good sun to you, Aisling. Say! *leans over the counter* What do you think of my hair?",
+          "IsPursuit": true,
+          "Pursuit": 0,
+          "Step": 1,
+          "Type": 2,
+          "Choices": [
+            {
+              "Text": "Er...it's lovely",
+              "Pursuit": 0,
+              "Option": 1
+            },
+            {
+              "Text": "It's a bit bland to be honest",
+              "Pursuit": 0,
+              "Option": 2
+            }
+          ],
+          "Prompt": null,
+          "HasNext": false,
+          "ObservedAt": "2026-10-10T00:19:09.1542771+00:00"
+        },
+        "Notice": null
+      }
+    },
+    {
+      "Time": "2026-10-10T00:19:09.6404638+00:00",
+      "Character": "Nuclear",
+      "Generation": 1834589438585859,
+      "Revision": 832,
+      "Opcode": 48,
+      "Payload": "AAEAACtjAUIHAAFCBwAAAAABAAEABEVldmEAKkFoISBBbiBob25lc3QgQWlzbGluZyEgSSBsaWtlIHlvdSBhbHJlYWR5Lg==",
+      "Snapshot": {
+        "Generation": 1834589438585859,
+        "Revision": 832,
+        "Name": "Nuclear",
+        "Id": 1291344,
+        "Connected": true,
+        "Level": 3,
+        "Gold": 0,
+        "Experience": 3801,
+        "Hp": 230,
+        "Weight": 0,
+        "MaxWeight": 51,
+        "Map": 950,
+        "Position": {
+          "X": 6,
+          "Y": 3
+        },
+        "InventoryKnown": true,
+        "Inventory": {},
+        "Entities": {},
+        "Equipment": {},
+        "Skills": {
+          "1": "Assail"
+        },
+        "Spells": {},
+        "Legends": [
+          "Aisling - Deoch 107, Winter",
+          "Fragile Chrysalis ((Unregistered))",
+          "Undine mundane birth - Winter, Deoch, 25"
+        ],
+        "LegendsKnown": true,
+        "LegendsRevision": 19,
+        "Dialog": {
+          "Generation": 1834589438585859,
+          "Revision": 832,
+          "EntityId": 11107,
+          "EntityType": 1,
+          "Name": "Eeva",
+          "Text": "Ah! An honest Aisling! I like you already.",
+          "IsPursuit": true,
+          "Pursuit": 0,
+          "Step": 1,
+          "Type": 0,
+          "Choices": [],
+          "Prompt": null,
+          "HasNext": true,
+          "ObservedAt": "2026-10-10T00:19:09.6404638+00:00"
+        },
+        "Notice": null
+      }
+    },
+    {
+      "Time": "2026-10-10T00:19:16.6525062+00:00",
+      "Character": "Nuclear",
+      "Generation": 1834589438585859,
+      "Revision": 834,
+      "Opcode": 48,
+      "Payload": "AgEAACtjAUIHAAFCBwAAAAABAQAABEVldmEA0EkndmUgYmVlbiB3YXRjaGluZyB0ZW5hbnRzIGNvbWluZyBpbiBhbmQgbGVhdmluZywgYW5kIEkndmUgbmFycm93ZWQgdGhlIHNlbGVjdGlvbnMgZG93biB0byBhIGZldyBzdHlsZXMgSSByZWFsbHkgd2FudCB0byB0cnkuIEJ1dCBJIG5lZWQgc29tZSBpdGVtcy4uLmFuZCBhcyB5b3Uga25vdywgSSBjYW4ndCB2ZXJ5IHdlbGwgbGVhdmUgbXkgaW5uIGFiYW5kb25lZC4CI0knZCBsb3ZlIHRvIGhlbHAuIFdoYXQgZG8geW91IG5lZWQ/K1NvcnJ5LCBJIGhhdmUgYmlnZ2VyIHRoaW5ncyB0byB3b3JyeSBhYm91dC4=",
+      "Snapshot": {
+        "Generation": 1834589438585859,
+        "Revision": 834,
+        "Name": "Nuclear",
+        "Id": 1291344,
+        "Connected": true,
+        "Level": 3,
+        "Gold": 0,
+        "Experience": 3801,
+        "Hp": 230,
+        "Weight": 0,
+        "MaxWeight": 51,
+        "Map": 950,
+        "Position": {
+          "X": 6,
+          "Y": 3
+        },
+        "InventoryKnown": true,
+        "Inventory": {},
+        "Entities": {},
+        "Equipment": {},
+        "Skills": {
+          "1": "Assail"
+        },
+        "Spells": {},
+        "Legends": [
+          "Aisling - Deoch 107, Winter",
+          "Fragile Chrysalis ((Unregistered))",
+          "Undine mundane birth - Winter, Deoch, 25"
+        ],
+        "LegendsKnown": true,
+        "LegendsRevision": 19,
+        "Dialog": {
+          "Generation": 1834589438585859,
+          "Revision": 834,
+          "EntityId": 11107,
+          "EntityType": 1,
+          "Name": "Eeva",
+          "Text": "I've been watching tenants coming in and leaving, and I've narrowed the selections down to a few styles I really want to try. But I need some items...and as you know, I can't very well leave my inn abandoned.",
+          "IsPursuit": true,
+          "Pursuit": 0,
+          "Step": 1,
+          "Type": 2,
+          "Choices": [
+            {
+              "Text": "I'd love to help. What do you need?",
+              "Pursuit": 0,
+              "Option": 1
+            },
+            {
+              "Text": "Sorry, I have bigger things to worry about.",
+              "Pursuit": 0,
+              "Option": 2
+            }
+          ],
+          "Prompt": null,
+          "HasNext": false,
+          "ObservedAt": "2026-10-10T00:19:16.6525062+00:00"
+        },
+        "Notice": null
+      }
+    },
+    {
+      "Time": "2026-10-10T00:19:19.649832+00:00",
+      "Character": "Nuclear",
+      "Generation": 1834589438585859,
+      "Revision": 835,
+      "Opcode": 48,
+      "Payload": "AAEAACtjAUIHAAFCBwAAAAABAAEABEVldmEAMFRoYW5rIHlvdSBzbyBtdWNoISBOb3cuLi53aGljaCBkbyB5b3UgbGlrZSBiZXN0Pw==",
+      "Snapshot": {
+        "Generation": 1834589438585859,
+        "Revision": 835,
+        "Name": "Nuclear",
+        "Id": 1291344,
+        "Connected": true,
+        "Level": 3,
+        "Gold": 0,
+        "Experience": 3801,
+        "Hp": 230,
+        "Weight": 0,
+        "MaxWeight": 51,
+        "Map": 950,
+        "Position": {
+          "X": 6,
+          "Y": 3
+        },
+        "InventoryKnown": true,
+        "Inventory": {},
+        "Entities": {},
+        "Equipment": {},
+        "Skills": {
+          "1": "Assail"
+        },
+        "Spells": {},
+        "Legends": [
+          "Aisling - Deoch 107, Winter",
+          "Fragile Chrysalis ((Unregistered))",
+          "Undine mundane birth - Winter, Deoch, 25"
+        ],
+        "LegendsKnown": true,
+        "LegendsRevision": 19,
+        "Dialog": {
+          "Generation": 1834589438585859,
+          "Revision": 835,
+          "EntityId": 11107,
+          "EntityType": 1,
+          "Name": "Eeva",
+          "Text": "Thank you so much! Now...which do you like best?",
+          "IsPursuit": true,
+          "Pursuit": 0,
+          "Step": 1,
+          "Type": 0,
+          "Choices": [],
+          "Prompt": null,
+          "HasNext": true,
+          "ObservedAt": "2026-10-10T00:19:19.649832+00:00"
+        },
+        "Notice": null
+      }
+    },
+    {
+      "Time": "2026-10-10T00:19:21.1581296+00:00",
+      "Character": "Nuclear",
+      "Generation": 1834589438585859,
+      "Revision": 837,
+      "Opcode": 48,
+      "Payload": "AgEAACtjAUIHAAFCBwAAAAABAQAABEVldmEADkhhaXJzdHlsZSBCb29rCQVCcmFpZAZUZWFzZWQIU3RyYWlnaHQEV2F2eQhQb255dGFpbANCdW4FTG9vcHMFVHdpc3QERG9uZQ==",
+      "Snapshot": {
+        "Generation": 1834589438585859,
+        "Revision": 837,
+        "Name": "Nuclear",
+        "Id": 1291344,
+        "Connected": true,
+        "Level": 3,
+        "Gold": 0,
+        "Experience": 3801,
+        "Hp": 230,
+        "Weight": 0,
+        "MaxWeight": 51,
+        "Map": 950,
+        "Position": {
+          "X": 6,
+          "Y": 3
+        },
+        "InventoryKnown": true,
+        "Inventory": {},
+        "Entities": {},
+        "Equipment": {},
+        "Skills": {
+          "1": "Assail"
+        },
+        "Spells": {},
+        "Legends": [
+          "Aisling - Deoch 107, Winter",
+          "Fragile Chrysalis ((Unregistered))",
+          "Undine mundane birth - Winter, Deoch, 25"
+        ],
+        "LegendsKnown": true,
+        "LegendsRevision": 19,
+        "Dialog": {
+          "Generation": 1834589438585859,
+          "Revision": 837,
+          "EntityId": 11107,
+          "EntityType": 1,
+          "Name": "Eeva",
+          "Text": "Hairstyle Book",
+          "IsPursuit": true,
+          "Pursuit": 0,
+          "Step": 1,
+          "Type": 2,
+          "Choices": [
+            {
+              "Text": "Braid",
+              "Pursuit": 0,
+              "Option": 1
+            },
+            {
+              "Text": "Teased",
+              "Pursuit": 0,
+              "Option": 2
+            },
+            {
+              "Text": "Straight",
+              "Pursuit": 0,
+              "Option": 3
+            },
+            {
+              "Text": "Wavy",
+              "Pursuit": 0,
+              "Option": 4
+            },
+            {
+              "Text": "Ponytail",
+              "Pursuit": 0,
+              "Option": 5
+            },
+            {
+              "Text": "Bun",
+              "Pursuit": 0,
+              "Option": 6
+            },
+            {
+              "Text": "Loops",
+              "Pursuit": 0,
+              "Option": 7
+            },
+            {
+              "Text": "Twist",
+              "Pursuit": 0,
+              "Option": 8
+            },
+            {
+              "Text": "Done",
+              "Pursuit": 0,
+              "Option": 9
+            }
+          ],
+          "Prompt": null,
+          "HasNext": false,
+          "ObservedAt": "2026-10-10T00:19:21.1581296+00:00"
+        },
+        "Notice": null
+      }
+    },
+    {
+      "Time": "2026-10-10T00:19:23.6499376+00:00",
+      "Character": "Nuclear",
+      "Generation": 1834589438585859,
+      "Revision": 838,
+      "Opcode": 48,
+      "Payload": "AAEAACtjAUIHAAFCBwAAAAABAAEABEVldmEAiUEgc21hbGwgcG9ueXRhaWwgbWFrZXMgZm9yIGEgdmVyeSBtb2Rlc3QgaGFpcnN0eWxlLiBUbyB0aWUgeW91ciBoYWlyIGJhY2sgeW91IG5lZWQgYSBsb3ZlbHkgYm93LCB3ZWF2ZWQgb2YgZml2ZSBwaWVjZXMgb2Ygc3BpZGVyoa9zIHNpbGsu",
+      "Snapshot": {
+        "Generation": 1834589438585859,
+        "Revision": 838,
+        "Name": "Nuclear",
+        "Id": 1291344,
+        "Connected": true,
+        "Level": 3,
+        "Gold": 0,
+        "Experience": 3801,
+        "Hp": 230,
+        "Weight": 0,
+        "MaxWeight": 51,
+        "Map": 950,
+        "Position": {
+          "X": 6,
+          "Y": 3
+        },
+        "InventoryKnown": true,
+        "Inventory": {},
+        "Entities": {},
+        "Equipment": {},
+        "Skills": {
+          "1": "Assail"
+        },
+        "Spells": {},
+        "Legends": [
+          "Aisling - Deoch 107, Winter",
+          "Fragile Chrysalis ((Unregistered))",
+          "Undine mundane birth - Winter, Deoch, 25"
+        ],
+        "LegendsKnown": true,
+        "LegendsRevision": 19,
+        "Dialog": {
+          "Generation": 1834589438585859,
+          "Revision": 838,
+          "EntityId": 11107,
+          "EntityType": 1,
+          "Name": "Eeva",
+          "Text": "A small ponytail makes for a very modest hairstyle. To tie your hair back you need a lovely bow, weaved of five pieces of spider??s silk.",
+          "IsPursuit": true,
+          "Pursuit": 0,
+          "Step": 1,
+          "Type": 0,
+          "Choices": [],
+          "Prompt": null,
+          "HasNext": true,
+          "ObservedAt": "2026-10-10T00:19:23.6499376+00:00"
+        },
+        "Notice": null
+      }
+    },
+    {
+      "Time": "2026-10-10T00:19:25.1563357+00:00",
+      "Character": "Nuclear",
+      "Generation": 1834589438585859,
+      "Revision": 839,
+      "Opcode": 8,
+      "Payload": "BAAAAAAAAAAAAAFjAAA=",
+      "Snapshot": {
+        "Generation": 1834589438585859,
+        "Revision": 839,
+        "Name": "Nuclear",
+        "Id": 1291344,
+        "Connected": true,
+        "Level": 3,
+        "Gold": 0,
+        "Experience": 3801,
+        "Hp": 230,
+        "Weight": 0,
+        "MaxWeight": 51,
+        "Map": 950,
+        "Position": {
+          "X": 6,
+          "Y": 3
+        },
+        "InventoryKnown": true,
+        "Inventory": {},
+        "Entities": {},
+        "Equipment": {},
+        "Skills": {
+          "1": "Assail"
+        },
+        "Spells": {},
+        "Legends": [
+          "Aisling - Deoch 107, Winter",
+          "Fragile Chrysalis ((Unregistered))",
+          "Undine mundane birth - Winter, Deoch, 25"
+        ],
+        "LegendsKnown": true,
+        "LegendsRevision": 19,
+        "Dialog": {
+          "Generation": 1834589438585859,
+          "Revision": 838,
+          "EntityId": 11107,
+          "EntityType": 1,
+          "Name": "Eeva",
+          "Text": "A small ponytail makes for a very modest hairstyle. To tie your hair back you need a lovely bow, weaved of five pieces of spider??s silk.",
+          "IsPursuit": true,
+          "Pursuit": 0,
+          "Step": 1,
+          "Type": 0,
+          "Choices": [],
+          "Prompt": null,
+          "HasNext": true,
+          "ObservedAt": "2026-10-10T00:19:23.6499376+00:00"
+        },
+        "Notice": null
+      }
+    },
+    {
+      "Time": "2026-10-10T00:19:25.1625328+00:00",
+      "Character": "Nuclear",
+      "Generation": 1834589438585859,
+      "Revision": 840,
+      "Opcode": 8,
+      "Payload": "BAAAAAAAAAAAAAFjAAA=",
+      "Snapshot": {
+        "Generation": 1834589438585859,
+        "Revision": 840,
+        "Name": "Nuclear",
+        "Id": 1291344,
+        "Connected": true,
+        "Level": 3,
+        "Gold": 0,
+        "Experience": 3801,
+        "Hp": 230,
+        "Weight": 0,
+        "MaxWeight": 51,
+        "Map": 950,
+        "Position": {
+          "X": 6,
+          "Y": 3
+        },
+        "InventoryKnown": true,
+        "Inventory": {},
+        "Entities": {},
+        "Equipment": {},
+        "Skills": {
+          "1": "Assail"
+        },
+        "Spells": {},
+        "Legends": [
+          "Aisling - Deoch 107, Winter",
+          "Fragile Chrysalis ((Unregistered))",
+          "Undine mundane birth - Winter, Deoch, 25"
+        ],
+        "LegendsKnown": true,
+        "LegendsRevision": 19,
+        "Dialog": {
+          "Generation": 1834589438585859,
+          "Revision": 838,
+          "EntityId": 11107,
+          "EntityType": 1,
+          "Name": "Eeva",
+          "Text": "A small ponytail makes for a very modest hairstyle. To tie your hair back you need a lovely bow, weaved of five pieces of spider??s silk.",
+          "IsPursuit": true,
+          "Pursuit": 0,
+          "Step": 1,
+          "Type": 0,
+          "Choices": [],
+          "Prompt": null,
+          "HasNext": true,
+          "ObservedAt": "2026-10-10T00:19:23.6499376+00:00"
+        },
+        "Notice": null
+      }
+    },
+    {
+      "Time": "2026-10-10T00:19:25.1716215+00:00",
+      "Character": "Nuclear",
+      "Generation": 1834589438585859,
+      "Revision": 841,
+      "Opcode": 48,
+      "Payload": "AAEAACtjAUIHAAFCBwAAAAABAQEABEVldmEAyEFsbCBkb25lPyBXb25kZXJmdWwhIFlvdSBhaXNsaW5ncyBhcmUgc28gY3JlYXRpdmUgSSdtIHN1cmUgeW91J2xsIGZpbmQgc29tZXRoaW5nIGZhYnVsb3VzIGZvciBtZSEgSnVzdCBicmluZyBiYWNrIHdoYXQncyBuZWVkZWQgZm9yIHRoZSBiZXN0IG9uZSBhbmQgc3VycHJpc2UgbWUgd2l0aCB3aGljaCBoYWlyc3R5bGUgd2hlbiB5b3UgZ2V0IGJhY2sh",
+      "Snapshot": {
+        "Generation": 1834589438585859,
+        "Revision": 841,
+        "Name": "Nuclear",
+        "Id": 1291344,
+        "Connected": true,
+        "Level": 3,
+        "Gold": 0,
+        "Experience": 3801,
+        "Hp": 230,
+        "Weight": 0,
+        "MaxWeight": 51,
+        "Map": 950,
+        "Position": {
+          "X": 6,
+          "Y": 3
+        },
+        "InventoryKnown": true,
+        "Inventory": {},
+        "Entities": {},
+        "Equipment": {},
+        "Skills": {
+          "1": "Assail"
+        },
+        "Spells": {},
+        "Legends": [
+          "Aisling - Deoch 107, Winter",
+          "Fragile Chrysalis ((Unregistered))",
+          "Undine mundane birth - Winter, Deoch, 25"
+        ],
+        "LegendsKnown": true,
+        "LegendsRevision": 19,
+        "Dialog": {
+          "Generation": 1834589438585859,
+          "Revision": 841,
+          "EntityId": 11107,
+          "EntityType": 1,
+          "Name": "Eeva",
+          "Text": "All done? Wonderful! You aislings are so creative I'm sure you'll find something fabulous for me! Just bring back what's needed for the best one and surprise me with which hairstyle when you get back!",
+          "IsPursuit": true,
+          "Pursuit": 0,
+          "Step": 1,
+          "Type": 0,
+          "Choices": [],
+          "Prompt": null,
+          "HasNext": true,
+          "ObservedAt": "2026-10-10T00:19:25.1716215+00:00"
+        },
+        "Notice": null
+      }
+    },
+    {
+      "Time": "2026-10-10T00:19:26.6562125+00:00",
+      "Character": "Nuclear",
+      "Generation": 1834589438585859,
+      "Revision": 842,
+      "Opcode": 48,
+      "Payload": "CgA=",
+      "Snapshot": {
+        "Generation": 1834589438585859,
+        "Revision": 842,
+        "Name": "Nuclear",
+        "Id": 1291344,
+        "Connected": true,
+        "Level": 3,
+        "Gold": 0,
+        "Experience": 3801,
+        "Hp": 230,
+        "Weight": 0,
+        "MaxWeight": 51,
+        "Map": 950,
+        "Position": {
+          "X": 6,
+          "Y": 3
+        },
+        "InventoryKnown": true,
+        "Inventory": {},
+        "Entities": {},
+        "Equipment": {},
+        "Skills": {
+          "1": "Assail"
+        },
+        "Spells": {},
+        "Legends": [
+          "Aisling - Deoch 107, Winter",
+          "Fragile Chrysalis ((Unregistered))",
+          "Undine mundane birth - Winter, Deoch, 25"
+        ],
+        "LegendsKnown": true,
+        "LegendsRevision": 19,
+        "Dialog": null,
+        "Notice": null
+      }
+    },
+    {
+      "Time": "2026-10-10T00:19:30.1572695+00:00",
+      "Character": "Nuclear",
+      "Generation": 1834589438585859,
+      "Revision": 843,
+      "Opcode": 47,
+      "Payload": "AAEAACtjAUIHAAFCBwAABEVldmEAHkhlbGxvLiAgV2hhdCBjYW4gSSBkbyBmb3IgeW91PwMVVGhlIFBlcmZlY3QgSGFpcnN0eWxlDR0aUmVub3VuY2UgU3VvbWkgQ2l0aXplbnNoaXANHAhQZXR1bmlhcwvD",
+      "Snapshot": {
+        "Generation": 1834589438585859,
+        "Revision": 843,
+        "Name": "Nuclear",
+        "Id": 1291344,
+        "Connected": true,
+        "Level": 3,
+        "Gold": 0,
+        "Experience": 3801,
+        "Hp": 230,
+        "Weight": 0,
+        "MaxWeight": 51,
+        "Map": 950,
+        "Position": {
+          "X": 6,
+          "Y": 3
+        },
+        "InventoryKnown": true,
+        "Inventory": {},
+        "Entities": {},
+        "Equipment": {},
+        "Skills": {
+          "1": "Assail"
+        },
+        "Spells": {},
+        "Legends": [
+          "Aisling - Deoch 107, Winter",
+          "Fragile Chrysalis ((Unregistered))",
+          "Undine mundane birth - Winter, Deoch, 25"
+        ],
+        "LegendsKnown": true,
+        "LegendsRevision": 19,
+        "Dialog": {
+          "Generation": 1834589438585859,
+          "Revision": 843,
+          "EntityId": 11107,
+          "EntityType": 1,
+          "Name": "Eeva",
+          "Text": "Hello.  What can I do for you?",
+          "IsPursuit": false,
+          "Pursuit": 0,
+          "Step": 0,
+          "Type": 0,
+          "Choices": [
+            {
+              "Text": "The Perfect Hairstyle",
+              "Pursuit": 3357,
+              "Option": 1
+            },
+            {
+              "Text": "Renounce Suomi Citizenship",
+              "Pursuit": 3356,
+              "Option": 2
+            },
+            {
+              "Text": "Petunias",
+              "Pursuit": 3011,
+              "Option": 3
+            }
+          ],
+          "Prompt": null,
+          "HasNext": false,
+          "ObservedAt": "2026-10-10T00:19:30.1572695+00:00"
+        },
+        "Notice": null
+      }
+    },
+    {
+      "Time": "2026-10-10T00:19:30.6570492+00:00",
+      "Character": "Nuclear",
+      "Generation": 1834589438585859,
+      "Revision": 844,
+      "Opcode": 48,
+      "Payload": "AgEAACtjAUIHAAFCBwAAAAABAAAABEVldmEAPEFoISBiYWNrIGFscmVhZHk/IFNvIHdoaWNoIGhhaXJzdHlsZSBkaWQgeW91IHRoaW5rIHdhcyBiZXN0PwkFQnJhaWQGVGVhc2VkCFN0cmFpZ2h0BFdhdnkIUG9ueXRhaWwDQnVuBUxvb3BzBVR3aXN0HUNhbiBJIGxvb2sgYXQgdGhlIGJvb2sgYWdhaW4/",
+      "Snapshot": {
+        "Generation": 1834589438585859,
+        "Revision": 844,
+        "Name": "Nuclear",
+        "Id": 1291344,
+        "Connected": true,
+        "Level": 3,
+        "Gold": 0,
+        "Experience": 3801,
+        "Hp": 230,
+        "Weight": 0,
+        "MaxWeight": 51,
+        "Map": 950,
+        "Position": {
+          "X": 6,
+          "Y": 3
+        },
+        "InventoryKnown": true,
+        "Inventory": {},
+        "Entities": {},
+        "Equipment": {},
+        "Skills": {
+          "1": "Assail"
+        },
+        "Spells": {},
+        "Legends": [
+          "Aisling - Deoch 107, Winter",
+          "Fragile Chrysalis ((Unregistered))",
+          "Undine mundane birth - Winter, Deoch, 25"
+        ],
+        "LegendsKnown": true,
+        "LegendsRevision": 19,
+        "Dialog": {
+          "Generation": 1834589438585859,
+          "Revision": 844,
+          "EntityId": 11107,
+          "EntityType": 1,
+          "Name": "Eeva",
+          "Text": "Ah! back already? So which hairstyle did you think was best?",
+          "IsPursuit": true,
+          "Pursuit": 0,
+          "Step": 1,
+          "Type": 2,
+          "Choices": [
+            {
+              "Text": "Braid",
+              "Pursuit": 0,
+              "Option": 1
+            },
+            {
+              "Text": "Teased",
+              "Pursuit": 0,
+              "Option": 2
+            },
+            {
+              "Text": "Straight",
+              "Pursuit": 0,
+              "Option": 3
+            },
+            {
+              "Text": "Wavy",
+              "Pursuit": 0,
+              "Option": 4
+            },
+            {
+              "Text": "Ponytail",
+              "Pursuit": 0,
+              "Option": 5
+            },
+            {
+              "Text": "Bun",
+              "Pursuit": 0,
+              "Option": 6
+            },
+            {
+              "Text": "Loops",
+              "Pursuit": 0,
+              "Option": 7
+            },
+            {
+              "Text": "Twist",
+              "Pursuit": 0,
+              "Option": 8
+            },
+            {
+              "Text": "Can I look at the book again?",
+              "Pursuit": 0,
+              "Option": 9
+            }
+          ],
+          "Prompt": null,
+          "HasNext": false,
+          "ObservedAt": "2026-10-10T00:19:30.6570492+00:00"
+        },
+        "Notice": null
+      }
+    },
+    {
+      "Time": "2026-10-10T00:19:31.1566533+00:00",
+      "Character": "Nuclear",
+      "Generation": 1834589438585859,
+      "Revision": 845,
+      "Opcode": 48,
+      "Payload": "AgEAACtjAUIHAAFCBwAAAAABAAAABEVldmEASU9oIGV4Y2VsbGVudCBjaG9pY2UsIHlvdSBoYXZlIGdvb2QgdGFzdGUhIERpZCB5b3UgYnJpbmcgd2hhdCdzIG5lc3Nlc2FyeT8CGk9vcHMuLi5JJ2xsIGJlIHJpZ2h0IGJhY2shCVllcyBJIGRpZA==",
+      "Snapshot": {
+        "Generation": 1834589438585859,
+        "Revision": 845,
+        "Name": "Nuclear",
+        "Id": 1291344,
+        "Connected": true,
+        "Level": 3,
+        "Gold": 0,
+        "Experience": 3801,
+        "Hp": 230,
+        "Weight": 0,
+        "MaxWeight": 51,
+        "Map": 950,
+        "Position": {
+          "X": 6,
+          "Y": 3
+        },
+        "InventoryKnown": true,
+        "Inventory": {},
+        "Entities": {},
+        "Equipment": {},
+        "Skills": {
+          "1": "Assail"
+        },
+        "Spells": {},
+        "Legends": [
+          "Aisling - Deoch 107, Winter",
+          "Fragile Chrysalis ((Unregistered))",
+          "Undine mundane birth - Winter, Deoch, 25"
+        ],
+        "LegendsKnown": true,
+        "LegendsRevision": 19,
+        "Dialog": {
+          "Generation": 1834589438585859,
+          "Revision": 845,
+          "EntityId": 11107,
+          "EntityType": 1,
+          "Name": "Eeva",
+          "Text": "Oh excellent choice, you have good taste! Did you bring what's nessesary?",
+          "IsPursuit": true,
+          "Pursuit": 0,
+          "Step": 1,
+          "Type": 2,
+          "Choices": [
+            {
+              "Text": "Oops...I'll be right back!",
+              "Pursuit": 0,
+              "Option": 1
+            },
+            {
+              "Text": "Yes I did",
+              "Pursuit": 0,
+              "Option": 2
+            }
+          ],
+          "Prompt": null,
+          "HasNext": false,
+          "ObservedAt": "2026-10-10T00:19:31.1566533+00:00"
+        },
+        "Notice": null
+      }
+    },
+    {
+      "Time": "2026-10-10T00:19:31.6470346+00:00",
+      "Character": "Nuclear",
+      "Generation": 1834589438585859,
+      "Revision": 846,
+      "Opcode": 8,
+      "Payload": "DAAASXEAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAFjAAA=",
+      "Snapshot": {
+        "Generation": 1834589438585859,
+        "Revision": 846,
+        "Name": "Nuclear",
+        "Id": 1291344,
+        "Connected": true,
+        "Level": 3,
+        "Gold": 0,
+        "Experience": 18801,
+        "Hp": 230,
+        "Weight": 0,
+        "MaxWeight": 51,
+        "Map": 950,
+        "Position": {
+          "X": 6,
+          "Y": 3
+        },
+        "InventoryKnown": true,
+        "Inventory": {},
+        "Entities": {},
+        "Equipment": {},
+        "Skills": {
+          "1": "Assail"
+        },
+        "Spells": {},
+        "Legends": [
+          "Aisling - Deoch 107, Winter",
+          "Fragile Chrysalis ((Unregistered))",
+          "Undine mundane birth - Winter, Deoch, 25"
+        ],
+        "LegendsKnown": true,
+        "LegendsRevision": 19,
+        "Dialog": {
+          "Generation": 1834589438585859,
+          "Revision": 845,
+          "EntityId": 11107,
+          "EntityType": 1,
+          "Name": "Eeva",
+          "Text": "Oh excellent choice, you have good taste! Did you bring what's nessesary?",
+          "IsPursuit": true,
+          "Pursuit": 0,
+          "Step": 1,
+          "Type": 2,
+          "Choices": [
+            {
+              "Text": "Oops...I'll be right back!",
+              "Pursuit": 0,
+              "Option": 1
+            },
+            {
+              "Text": "Yes I did",
+              "Pursuit": 0,
+              "Option": 2
+            }
+          ],
+          "Prompt": null,
+          "HasNext": false,
+          "ObservedAt": "2026-10-10T00:19:31.1566533+00:00"
+        },
+        "Notice": null
+      }
+    },
+    {
+      "Time": "2026-10-10T00:19:31.6692745+00:00",
+      "Character": "Nuclear",
+      "Generation": 1834589438585859,
+      "Revision": 849,
+      "Opcode": 8,
+      "Payload": "NAEAAAQAAAABJQAAAQ0DAwMDAx8GADQAAGMAqH0AAAElAAABDQAAAAAAAAAAAAFjAAA=",
+      "Snapshot": {
+        "Generation": 1834589438585859,
+        "Revision": 849,
+        "Name": "Nuclear",
+        "Id": 1291344,
+        "Connected": true,
+        "Level": 4,
+        "Gold": 0,
+        "Experience": 18801,
+        "Hp": 293,
+        "Weight": 0,
+        "MaxWeight": 52,
+        "Map": 950,
+        "Position": {
+          "X": 6,
+          "Y": 3
+        },
+        "InventoryKnown": true,
+        "Inventory": {},
+        "Entities": {},
+        "Equipment": {},
+        "Skills": {
+          "1": "Assail"
+        },
+        "Spells": {},
+        "Legends": [
+          "Aisling - Deoch 107, Winter",
+          "Fragile Chrysalis ((Unregistered))",
+          "Undine mundane birth - Winter, Deoch, 25"
+        ],
+        "LegendsKnown": true,
+        "LegendsRevision": 19,
+        "Dialog": {
+          "Generation": 1834589438585859,
+          "Revision": 845,
+          "EntityId": 11107,
+          "EntityType": 1,
+          "Name": "Eeva",
+          "Text": "Oh excellent choice, you have good taste! Did you bring what's nessesary?",
+          "IsPursuit": true,
+          "Pursuit": 0,
+          "Step": 1,
+          "Type": 2,
+          "Choices": [
+            {
+              "Text": "Oops...I'll be right back!",
+              "Pursuit": 0,
+              "Option": 1
+            },
+            {
+              "Text": "Yes I did",
+              "Pursuit": 0,
+              "Option": 2
+            }
+          ],
+          "Prompt": null,
+          "HasNext": false,
+          "ObservedAt": "2026-10-10T00:19:31.1566533+00:00"
+        },
+        "Notice": null
+      }
+    },
+    {
+      "Time": "2026-10-10T00:19:31.6805334+00:00",
+      "Character": "Nuclear",
+      "Generation": 1834589438585859,
+      "Revision": 851,
+      "Opcode": 8,
+      "Payload": "NAEAAAUAAAABVwAAAUcDAwMDAx8IADQAAGMAqH0AAAFXAAABRwAAAAAAAAAAAAFjAAA=",
+      "Snapshot": {
+        "Generation": 1834589438585859,
+        "Revision": 851,
+        "Name": "Nuclear",
+        "Id": 1291344,
+        "Connected": true,
+        "Level": 5,
+        "Gold": 0,
+        "Experience": 18801,
+        "Hp": 343,
+        "Weight": 0,
+        "MaxWeight": 52,
+        "Map": 950,
+        "Position": {
+          "X": 6,
+          "Y": 3
+        },
+        "InventoryKnown": true,
+        "Inventory": {},
+        "Entities": {},
+        "Equipment": {},
+        "Skills": {
+          "1": "Assail"
+        },
+        "Spells": {},
+        "Legends": [
+          "Aisling - Deoch 107, Winter",
+          "Fragile Chrysalis ((Unregistered))",
+          "Undine mundane birth - Winter, Deoch, 25"
+        ],
+        "LegendsKnown": true,
+        "LegendsRevision": 19,
+        "Dialog": {
+          "Generation": 1834589438585859,
+          "Revision": 845,
+          "EntityId": 11107,
+          "EntityType": 1,
+          "Name": "Eeva",
+          "Text": "Oh excellent choice, you have good taste! Did you bring what's nessesary?",
+          "IsPursuit": true,
+          "Pursuit": 0,
+          "Step": 1,
+          "Type": 2,
+          "Choices": [
+            {
+              "Text": "Oops...I'll be right back!",
+              "Pursuit": 0,
+              "Option": 1
+            },
+            {
+              "Text": "Yes I did",
+              "Pursuit": 0,
+              "Option": 2
+            }
+          ],
+          "Prompt": null,
+          "HasNext": false,
+          "ObservedAt": "2026-10-10T00:19:31.1566533+00:00"
+        },
+        "Notice": null
+      }
+    },
+    {
+      "Time": "2026-10-10T00:19:31.7141314+00:00",
+      "Character": "Nuclear",
+      "Generation": 1834589438585859,
+      "Revision": 853,
+      "Opcode": 15,
+      "Payload": "AYDVAAxFbWVyYWxkIFJpbmcAAAABAAAAB9AAAAfQAA==",
+      "Snapshot": {
+        "Generation": 1834589438585859,
+        "Revision": 853,
+        "Name": "Nuclear",
+        "Id": 1291344,
+        "Connected": true,
+        "Level": 5,
+        "Gold": 0,
+        "Experience": 18801,
+        "Hp": 343,
+        "Weight": 0,
+        "MaxWeight": 52,
+        "Map": 950,
+        "Position": {
+          "X": 6,
+          "Y": 3
+        },
+        "InventoryKnown": true,
+        "Inventory": {
+          "1": {
+            "Slot": 1,
+            "Name": "Emerald Ring",
+            "Quantity": 1
+          }
+        },
+        "Entities": {},
+        "Equipment": {},
+        "Skills": {
+          "1": "Assail"
+        },
+        "Spells": {},
+        "Legends": [
+          "Aisling - Deoch 107, Winter",
+          "Fragile Chrysalis ((Unregistered))",
+          "Undine mundane birth - Winter, Deoch, 25"
+        ],
+        "LegendsKnown": true,
+        "LegendsRevision": 19,
+        "Dialog": {
+          "Generation": 1834589438585859,
+          "Revision": 845,
+          "EntityId": 11107,
+          "EntityType": 1,
+          "Name": "Eeva",
+          "Text": "Oh excellent choice, you have good taste! Did you bring what's nessesary?",
+          "IsPursuit": true,
+          "Pursuit": 0,
+          "Step": 1,
+          "Type": 2,
+          "Choices": [
+            {
+              "Text": "Oops...I'll be right back!",
+              "Pursuit": 0,
+              "Option": 1
+            },
+            {
+              "Text": "Yes I did",
+              "Pursuit": 0,
+              "Option": 2
+            }
+          ],
+          "Prompt": null,
+          "HasNext": false,
+          "ObservedAt": "2026-10-10T00:19:31.1566533+00:00"
+        },
+        "Notice": null
+      }
+    },
+    {
+      "Time": "2026-10-10T00:19:31.7254463+00:00",
+      "Character": "Nuclear",
+      "Generation": 1834589438585859,
+      "Revision": 854,
+      "Opcode": 8,
+      "Payload": "JAEAAAUAAAABVwAAAUcDAwMDAx8IADQAAWMAAAAAAAAAAAAAAAABYwAA",
+      "Snapshot": {
+        "Generation": 1834589438585859,
+        "Revision": 854,
+        "Name": "Nuclear",
+        "Id": 1291344,
+        "Connected": true,
+        "Level": 5,
+        "Gold": 0,
+        "Experience": 18801,
+        "Hp": 343,
+        "Weight": 1,
+        "MaxWeight": 52,
+        "Map": 950,
+        "Position": {
+          "X": 6,
+          "Y": 3
+        },
+        "InventoryKnown": true,
+        "Inventory": {
+          "1": {
+            "Slot": 1,
+            "Name": "Emerald Ring",
+            "Quantity": 1
+          }
+        },
+        "Entities": {},
+        "Equipment": {},
+        "Skills": {
+          "1": "Assail"
+        },
+        "Spells": {},
+        "Legends": [
+          "Aisling - Deoch 107, Winter",
+          "Fragile Chrysalis ((Unregistered))",
+          "Undine mundane birth - Winter, Deoch, 25"
+        ],
+        "LegendsKnown": true,
+        "LegendsRevision": 19,
+        "Dialog": {
+          "Generation": 1834589438585859,
+          "Revision": 845,
+          "EntityId": 11107,
+          "EntityType": 1,
+          "Name": "Eeva",
+          "Text": "Oh excellent choice, you have good taste! Did you bring what's nessesary?",
+          "IsPursuit": true,
+          "Pursuit": 0,
+          "Step": 1,
+          "Type": 2,
+          "Choices": [
+            {
+              "Text": "Oops...I'll be right back!",
+              "Pursuit": 0,
+              "Option": 1
+            },
+            {
+              "Text": "Yes I did",
+              "Pursuit": 0,
+              "Option": 2
+            }
+          ],
+          "Prompt": null,
+          "HasNext": false,
+          "ObservedAt": "2026-10-10T00:19:31.1566533+00:00"
+        },
+        "Notice": null
+      }
+    },
+    {
+      "Time": "2026-10-10T00:19:31.7366337+00:00",
+      "Character": "Nuclear",
+      "Generation": 1834589438585859,
+      "Revision": 855,
+      "Opcode": 48,
+      "Payload": "AAEAACtjAUIHAAFCBwAAAAABAAEABEVldmEAYEV4Y2VsbGVudCEgVGhhbmsgeW91IHNvIG11Y2ghIEkgY291bGRuJ3QgaGF2ZSBkb25lIGl0IHdpdGhvdXQgeW91ciBoZWxwLiBUYWtlIHRoaXMgYXMgbXkgdGhhbmtzIQ==",
+      "Snapshot": {
+        "Generation": 1834589438585859,
+        "Revision": 855,
+        "Name": "Nuclear",
+        "Id": 1291344,
+        "Connected": true,
+        "Level": 5,
+        "Gold": 0,
+        "Experience": 18801,
+        "Hp": 343,
+        "Weight": 1,
+        "MaxWeight": 52,
+        "Map": 950,
+        "Position": {
+          "X": 6,
+          "Y": 3
+        },
+        "InventoryKnown": true,
+        "Inventory": {
+          "1": {
+            "Slot": 1,
+            "Name": "Emerald Ring",
+            "Quantity": 1
+          }
+        },
+        "Entities": {},
+        "Equipment": {},
+        "Skills": {
+          "1": "Assail"
+        },
+        "Spells": {},
+        "Legends": [
+          "Aisling - Deoch 107, Winter",
+          "Fragile Chrysalis ((Unregistered))",
+          "Undine mundane birth - Winter, Deoch, 25"
+        ],
+        "LegendsKnown": true,
+        "LegendsRevision": 19,
+        "Dialog": {
+          "Generation": 1834589438585859,
+          "Revision": 855,
+          "EntityId": 11107,
+          "EntityType": 1,
+          "Name": "Eeva",
+          "Text": "Excellent! Thank you so much! I couldn't have done it without your help. Take this as my thanks!",
+          "IsPursuit": true,
+          "Pursuit": 0,
+          "Step": 1,
+          "Type": 0,
+          "Choices": [],
+          "Prompt": null,
+          "HasNext": true,
+          "ObservedAt": "2026-10-10T00:19:31.7366337+00:00"
+        },
+        "Notice": null
+      }
+    },
+    {
+      "Time": "2026-10-10T00:19:38.6617477+00:00",
+      "Character": "Nuclear",
+      "Generation": 1834589438585859,
+      "Revision": 858,
+      "Opcode": 48,
+      "Payload": "CgA=",
+      "Snapshot": {
+        "Generation": 1834589438585859,
+        "Revision": 858,
+        "Name": "Nuclear",
+        "Id": 1291344,
+        "Connected": true,
+        "Level": 5,
+        "Gold": 0,
+        "Experience": 18801,
+        "Hp": 343,
+        "Weight": 1,
+        "MaxWeight": 52,
+        "Map": 950,
+        "Position": {
+          "X": 6,
+          "Y": 3
+        },
+        "InventoryKnown": true,
+        "Inventory": {
+          "1": {
+            "Slot": 1,
+            "Name": "Emerald Ring",
+            "Quantity": 1
+          }
+        },
+        "Entities": {},
+        "Equipment": {},
+        "Skills": {
+          "1": "Assail"
+        },
+        "Spells": {},
+        "Legends": [
+          "Aisling - Deoch 107, Winter",
+          "Fragile Chrysalis ((Unregistered))",
+          "Undine mundane birth - Winter, Deoch, 25"
+        ],
+        "LegendsKnown": true,
+        "LegendsRevision": 19,
+        "Dialog": null,
+        "Notice": null
+      }
+    }
+  ],
+  "Actions": [
+    {
+      "Time": "2026-10-10T00:19:08.6864726+00:00",
+      "Character": "Nuclear",
+      "Generation": 1834589438585859,
+      "Revision": 830,
+      "Kind": "choose",
+      "Selection": "The Perfect Hairstyle",
+      "Dialog": {
+        "Generation": 1834589438585859,
+        "Revision": 830,
+        "EntityId": 11107,
+        "EntityType": 1,
+        "Name": "Eeva",
+        "Text": "Hello.  What can I do for you?",
+        "IsPursuit": false,
+        "Pursuit": 0,
+        "Step": 0,
+        "Type": 0,
+        "Choices": [
+          {
+            "Text": "The Perfect Hairstyle",
+            "Pursuit": 3357,
+            "Option": 1
+          },
+          {
+            "Text": "Renounce Suomi Citizenship",
+            "Pursuit": 3356,
+            "Option": 2
+          },
+          {
+            "Text": "Petunias",
+            "Pursuit": 3011,
+            "Option": 3
+          }
+        ],
+        "Prompt": null,
+        "HasNext": false,
+        "ObservedAt": "2026-10-10T00:19:08.6692275+00:00"
+      },
+      "Branches": 0,
+      "Experience": 3801
+    },
+    {
+      "Time": "2026-10-10T00:19:09.1643472+00:00",
+      "Character": "Nuclear",
+      "Generation": 1834589438585859,
+      "Revision": 831,
+      "Kind": "choose",
+      "Selection": "It's a bit bland to be honest",
+      "Dialog": {
+        "Generation": 1834589438585859,
+        "Revision": 831,
+        "EntityId": 11107,
+        "EntityType": 1,
+        "Name": "Eeva",
+        "Text": "Good sun to you, Aisling. Say! *leans over the counter* What do you think of my hair?",
+        "IsPursuit": true,
+        "Pursuit": 0,
+        "Step": 1,
+        "Type": 2,
+        "Choices": [
+          {
+            "Text": "Er...it's lovely",
+            "Pursuit": 0,
+            "Option": 1
+          },
+          {
+            "Text": "It's a bit bland to be honest",
+            "Pursuit": 0,
+            "Option": 2
+          }
+        ],
+        "Prompt": null,
+        "HasNext": false,
+        "ObservedAt": "2026-10-10T00:19:09.1542771+00:00"
+      },
+      "Branches": 0,
+      "Experience": 3801
+    },
+    {
+      "Time": "2026-10-10T00:19:16.076603+00:00",
+      "Character": "Nuclear",
+      "Generation": 1834589438585859,
+      "Revision": 832,
+      "Kind": "next",
+      "Selection": null,
+      "Dialog": {
+        "Generation": 1834589438585859,
+        "Revision": 832,
+        "EntityId": 11107,
+        "EntityType": 1,
+        "Name": "Eeva",
+        "Text": "Ah! An honest Aisling! I like you already.",
+        "IsPursuit": true,
+        "Pursuit": 0,
+        "Step": 1,
+        "Type": 0,
+        "Choices": [],
+        "Prompt": null,
+        "HasNext": true,
+        "ObservedAt": "2026-10-10T00:19:09.6404638+00:00"
+      },
+      "Branches": 0,
+      "Experience": 3801
+    },
+    {
+      "Time": "2026-10-10T00:19:19.3997066+00:00",
+      "Character": "Nuclear",
+      "Generation": 1834589438585859,
+      "Revision": 834,
+      "Kind": "choose",
+      "Selection": "I'd love to help. What do you need?",
+      "Dialog": {
+        "Generation": 1834589438585859,
+        "Revision": 834,
+        "EntityId": 11107,
+        "EntityType": 1,
+        "Name": "Eeva",
+        "Text": "I've been watching tenants coming in and leaving, and I've narrowed the selections down to a few styles I really want to try. But I need some items...and as you know, I can't very well leave my inn abandoned.",
+        "IsPursuit": true,
+        "Pursuit": 0,
+        "Step": 1,
+        "Type": 2,
+        "Choices": [
+          {
+            "Text": "I'd love to help. What do you need?",
+            "Pursuit": 0,
+            "Option": 1
+          },
+          {
+            "Text": "Sorry, I have bigger things to worry about.",
+            "Pursuit": 0,
+            "Option": 2
+          }
+        ],
+        "Prompt": null,
+        "HasNext": false,
+        "ObservedAt": "2026-10-10T00:19:16.6525062+00:00"
+      },
+      "Branches": 0,
+      "Experience": 3801
+    },
+    {
+      "Time": "2026-10-10T00:19:20.9241005+00:00",
+      "Character": "Nuclear",
+      "Generation": 1834589438585859,
+      "Revision": 835,
+      "Kind": "next",
+      "Selection": null,
+      "Dialog": {
+        "Generation": 1834589438585859,
+        "Revision": 835,
+        "EntityId": 11107,
+        "EntityType": 1,
+        "Name": "Eeva",
+        "Text": "Thank you so much! Now...which do you like best?",
+        "IsPursuit": true,
+        "Pursuit": 0,
+        "Step": 1,
+        "Type": 0,
+        "Choices": [],
+        "Prompt": null,
+        "HasNext": true,
+        "ObservedAt": "2026-10-10T00:19:19.649832+00:00"
+      },
+      "Branches": 0,
+      "Experience": 3801
+    },
+    {
+      "Time": "2026-10-10T00:19:23.5141289+00:00",
+      "Character": "Nuclear",
+      "Generation": 1834589438585859,
+      "Revision": 837,
+      "Kind": "choose",
+      "Selection": "Ponytail",
+      "Dialog": {
+        "Generation": 1834589438585859,
+        "Revision": 837,
+        "EntityId": 11107,
+        "EntityType": 1,
+        "Name": "Eeva",
+        "Text": "Hairstyle Book",
+        "IsPursuit": true,
+        "Pursuit": 0,
+        "Step": 1,
+        "Type": 2,
+        "Choices": [
+          {
+            "Text": "Braid",
+            "Pursuit": 0,
+            "Option": 1
+          },
+          {
+            "Text": "Teased",
+            "Pursuit": 0,
+            "Option": 2
+          },
+          {
+            "Text": "Straight",
+            "Pursuit": 0,
+            "Option": 3
+          },
+          {
+            "Text": "Wavy",
+            "Pursuit": 0,
+            "Option": 4
+          },
+          {
+            "Text": "Ponytail",
+            "Pursuit": 0,
+            "Option": 5
+          },
+          {
+            "Text": "Bun",
+            "Pursuit": 0,
+            "Option": 6
+          },
+          {
+            "Text": "Loops",
+            "Pursuit": 0,
+            "Option": 7
+          },
+          {
+            "Text": "Twist",
+            "Pursuit": 0,
+            "Option": 8
+          },
+          {
+            "Text": "Done",
+            "Pursuit": 0,
+            "Option": 9
+          }
+        ],
+        "Prompt": null,
+        "HasNext": false,
+        "ObservedAt": "2026-10-10T00:19:21.1581296+00:00"
+      },
+      "Branches": 0,
+      "Experience": 3801
+    },
+    {
+      "Time": "2026-10-10T00:19:24.8392946+00:00",
+      "Character": "Nuclear",
+      "Generation": 1834589438585859,
+      "Revision": 838,
+      "Kind": "next",
+      "Selection": null,
+      "Dialog": {
+        "Generation": 1834589438585859,
+        "Revision": 838,
+        "EntityId": 11107,
+        "EntityType": 1,
+        "Name": "Eeva",
+        "Text": "A small ponytail makes for a very modest hairstyle. To tie your hair back you need a lovely bow, weaved of five pieces of spider??s silk.",
+        "IsPursuit": true,
+        "Pursuit": 0,
+        "Step": 1,
+        "Type": 0,
+        "Choices": [],
+        "Prompt": null,
+        "HasNext": true,
+        "ObservedAt": "2026-10-10T00:19:23.6499376+00:00"
+      },
+      "Branches": 0,
+      "Experience": 3801
+    },
+    {
+      "Time": "2026-10-10T00:19:26.0863331+00:00",
+      "Character": "Nuclear",
+      "Generation": 1834589438585859,
+      "Revision": 841,
+      "Kind": "next",
+      "Selection": null,
+      "Dialog": {
+        "Generation": 1834589438585859,
+        "Revision": 841,
+        "EntityId": 11107,
+        "EntityType": 1,
+        "Name": "Eeva",
+        "Text": "All done? Wonderful! You aislings are so creative I'm sure you'll find something fabulous for me! Just bring back what's needed for the best one and surprise me with which hairstyle when you get back!",
+        "IsPursuit": true,
+        "Pursuit": 0,
+        "Step": 1,
+        "Type": 0,
+        "Choices": [],
+        "Prompt": null,
+        "HasNext": true,
+        "ObservedAt": "2026-10-10T00:19:25.1716215+00:00"
+      },
+      "Branches": 0,
+      "Experience": 3801
+    },
+    {
+      "Time": "2026-10-10T00:19:30.1575376+00:00",
+      "Character": "Nuclear",
+      "Generation": 1834589438585859,
+      "Revision": 843,
+      "Kind": "choose",
+      "Selection": "The Perfect Hairstyle",
+      "Dialog": {
+        "Generation": 1834589438585859,
+        "Revision": 843,
+        "EntityId": 11107,
+        "EntityType": 1,
+        "Name": "Eeva",
+        "Text": "Hello.  What can I do for you?",
+        "IsPursuit": false,
+        "Pursuit": 0,
+        "Step": 0,
+        "Type": 0,
+        "Choices": [
+          {
+            "Text": "The Perfect Hairstyle",
+            "Pursuit": 3357,
+            "Option": 1
+          },
+          {
+            "Text": "Renounce Suomi Citizenship",
+            "Pursuit": 3356,
+            "Option": 2
+          },
+          {
+            "Text": "Petunias",
+            "Pursuit": 3011,
+            "Option": 3
+          }
+        ],
+        "Prompt": null,
+        "HasNext": false,
+        "ObservedAt": "2026-10-10T00:19:30.1572695+00:00"
+      },
+      "Branches": 0,
+      "Experience": 3801
+    },
+    {
+      "Time": "2026-10-10T00:19:30.6573031+00:00",
+      "Character": "Nuclear",
+      "Generation": 1834589438585859,
+      "Revision": 844,
+      "Kind": "choose",
+      "Selection": "Ponytail",
+      "Dialog": {
+        "Generation": 1834589438585859,
+        "Revision": 844,
+        "EntityId": 11107,
+        "EntityType": 1,
+        "Name": "Eeva",
+        "Text": "Ah! back already? So which hairstyle did you think was best?",
+        "IsPursuit": true,
+        "Pursuit": 0,
+        "Step": 1,
+        "Type": 2,
+        "Choices": [
+          {
+            "Text": "Braid",
+            "Pursuit": 0,
+            "Option": 1
+          },
+          {
+            "Text": "Teased",
+            "Pursuit": 0,
+            "Option": 2
+          },
+          {
+            "Text": "Straight",
+            "Pursuit": 0,
+            "Option": 3
+          },
+          {
+            "Text": "Wavy",
+            "Pursuit": 0,
+            "Option": 4
+          },
+          {
+            "Text": "Ponytail",
+            "Pursuit": 0,
+            "Option": 5
+          },
+          {
+            "Text": "Bun",
+            "Pursuit": 0,
+            "Option": 6
+          },
+          {
+            "Text": "Loops",
+            "Pursuit": 0,
+            "Option": 7
+          },
+          {
+            "Text": "Twist",
+            "Pursuit": 0,
+            "Option": 8
+          },
+          {
+            "Text": "Can I look at the book again?",
+            "Pursuit": 0,
+            "Option": 9
+          }
+        ],
+        "Prompt": null,
+        "HasNext": false,
+        "ObservedAt": "2026-10-10T00:19:30.6570492+00:00"
+      },
+      "Branches": 0,
+      "Experience": 3801
+    },
+    {
+      "Time": "2026-10-10T00:19:31.192655+00:00",
+      "Character": "Nuclear",
+      "Generation": 1834589438585859,
+      "Revision": 845,
+      "Kind": "choose",
+      "Selection": "Yes I did",
+      "Dialog": {
+        "Generation": 1834589438585859,
+        "Revision": 845,
+        "EntityId": 11107,
+        "EntityType": 1,
+        "Name": "Eeva",
+        "Text": "Oh excellent choice, you have good taste! Did you bring what's nessesary?",
+        "IsPursuit": true,
+        "Pursuit": 0,
+        "Step": 1,
+        "Type": 2,
+        "Choices": [
+          {
+            "Text": "Oops...I'll be right back!",
+            "Pursuit": 0,
+            "Option": 1
+          },
+          {
+            "Text": "Yes I did",
+            "Pursuit": 0,
+            "Option": 2
+          }
+        ],
+        "Prompt": null,
+        "HasNext": false,
+        "ObservedAt": "2026-10-10T00:19:31.1566533+00:00"
+      },
+      "Branches": 0,
+      "Experience": 3801
+    },
+    {
+      "Time": "2026-10-10T00:19:38.0948195+00:00",
+      "Character": "Nuclear",
+      "Generation": 1834589438585859,
+      "Revision": 855,
+      "Kind": "next",
+      "Selection": null,
+      "Dialog": {
+        "Generation": 1834589438585859,
+        "Revision": 855,
+        "EntityId": 11107,
+        "EntityType": 1,
+        "Name": "Eeva",
+        "Text": "Excellent! Thank you so much! I couldn't have done it without your help. Take this as my thanks!",
+        "IsPursuit": true,
+        "Pursuit": 0,
+        "Step": 1,
+        "Type": 0,
+        "Choices": [],
+        "Prompt": null,
+        "HasNext": true,
+        "ObservedAt": "2026-10-10T00:19:31.7366337+00:00"
+      },
+      "Branches": 0,
+      "Experience": 18801
+    }
+  ]
+}

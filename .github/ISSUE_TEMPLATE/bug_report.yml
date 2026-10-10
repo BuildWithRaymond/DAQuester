@@ -1,0 +1,38 @@
+name: Bug report
+description: Report a quest, connection, update or interface issue.
+labels: ['bug']
+body:
+  - type: markdown
+    attributes:
+      value: 'Remove credentials, login traffic, session keys and personal Data. Use SECURITY.md for vulnerabilities.'
+  - type: input
+    id: version
+    attributes:
+      label: DAQuester version and package
+      placeholder: '1.0.0, installer or portable'
+    validations:
+      required: true
+  - type: dropdown
+    id: area
+    attributes:
+      label: Where does this happen?
+      options: ['Quest', 'Connection', 'Interface', 'Updates', 'Other']
+    validations:
+      required: true
+  - type: textarea
+    id: reproduce
+    attributes:
+      label: Steps to reproduce
+    validations:
+      required: true
+  - type: textarea
+    id: result
+    attributes:
+      label: Expected and actual behavior
+    validations:
+      required: true
+  - type: textarea
+    id: evidence
+    attributes:
+      label: Sanitized evidence or screenshots
+      description: 'Quest/profile, supported client version and relevant replies help. Never attach the entire Data folder.'

@@ -1,0 +1,1179 @@
+{
+  "SchemaVersion": 2,
+  "ServerProfile": "datester-7.41",
+  "Sanitized": true,
+  "Origin": "Actual Kiril introduction on registered Aware; claim not yet captured.",
+  "Events": [
+    {
+      "Time": "2026-10-10T01:04:11.3250398+00:00",
+      "Character": "Aware",
+      "Generation": 1834590577726477,
+      "Revision": 676,
+      "Opcode": 48,
+      "Payload": "AAEAAB6oAUAlAAFAJQAAAAABAAEABUtpcmlsADVBaCwgSSdtIG5vdCB0aGUgb25seSBvbmUgdGhhdCBoYXMgc2VlbiB0aGUgVGlueSBDYXZlLg==",
+      "Snapshot": {
+        "Generation": 1834590577726477,
+        "Revision": 676,
+        "Name": "Aware",
+        "Id": 1374576,
+        "Connected": true,
+        "Level": 99,
+        "Gold": 2000,
+        "Experience": 358928581,
+        "Hp": 3676,
+        "Weight": 18,
+        "MaxWeight": 75,
+        "Map": 306,
+        "Position": {
+          "X": 5,
+          "Y": 1
+        },
+        "InventoryKnown": true,
+        "Inventory": {
+          "1": {
+            "Slot": 1,
+            "Name": "Oren Gorget Gown",
+            "Quantity": 1
+          },
+          "3": {
+            "Slot": 3,
+            "Name": "Tutorial Book",
+            "Quantity": 1
+          },
+          "4": {
+            "Slot": 4,
+            "Name": "Dirk",
+            "Quantity": 1
+          },
+          "5": {
+            "Slot": 5,
+            "Name": "Andor Chest",
+            "Quantity": 1
+          },
+          "6": {
+            "Slot": 6,
+            "Name": "Ragged Blouse",
+            "Quantity": 1
+          },
+          "7": {
+            "Slot": 7,
+            "Name": "Christmas Double Exp-Ap",
+            "Quantity": 4
+          },
+          "10": {
+            "Slot": 10,
+            "Name": "Priest Tutorial Book",
+            "Quantity": 1
+          }
+        },
+        "Entities": {},
+        "Equipment": {
+          "7": "Small Spinel Ring",
+          "8": "Small Emerald Ring",
+          "13": "Boots",
+          "15": "Blue Polonaise"
+        },
+        "Skills": {
+          "1": "Assail (Lev:0/60)"
+        },
+        "Spells": {},
+        "Legends": [],
+        "LegendsKnown": false,
+        "LegendsRevision": 0,
+        "Dialog": {
+          "Generation": 1834590577726477,
+          "Revision": 676,
+          "EntityId": 7848,
+          "EntityType": 1,
+          "Name": "Kiril",
+          "Text": "Ah, I'm not the only one that has seen the Tiny Cave.",
+          "IsPursuit": true,
+          "Pursuit": 0,
+          "Step": 1,
+          "Type": 0,
+          "Choices": [],
+          "Prompt": null,
+          "HasNext": true,
+          "ObservedAt": "2026-10-10T01:04:11.3178242+00:00"
+        },
+        "Notice": null
+      }
+    },
+    {
+      "Time": "2026-10-10T01:04:39.3293597+00:00",
+      "Character": "Aware",
+      "Generation": 1834590577726477,
+      "Revision": 679,
+      "Opcode": 48,
+      "Payload": "AAEAAB6oAUAlAAFAJQAAAAABAQEABUtpcmlsAEBMZXQgbWUgZ3Vlc3MsIHlvdSB0cmllZCB0byBzcXVlZXplIHlvdXJzZWxmIHRob3VnaCB0aGUgZW50cmFuY2U/",
+      "Snapshot": {
+        "Generation": 1834590577726477,
+        "Revision": 679,
+        "Name": "Aware",
+        "Id": 1374576,
+        "Connected": true,
+        "Level": 99,
+        "Gold": 2000,
+        "Experience": 358928581,
+        "Hp": 3676,
+        "Weight": 18,
+        "MaxWeight": 75,
+        "Map": 306,
+        "Position": {
+          "X": 5,
+          "Y": 1
+        },
+        "InventoryKnown": true,
+        "Inventory": {
+          "1": {
+            "Slot": 1,
+            "Name": "Oren Gorget Gown",
+            "Quantity": 1
+          },
+          "3": {
+            "Slot": 3,
+            "Name": "Tutorial Book",
+            "Quantity": 1
+          },
+          "4": {
+            "Slot": 4,
+            "Name": "Dirk",
+            "Quantity": 1
+          },
+          "5": {
+            "Slot": 5,
+            "Name": "Andor Chest",
+            "Quantity": 1
+          },
+          "6": {
+            "Slot": 6,
+            "Name": "Ragged Blouse",
+            "Quantity": 1
+          },
+          "7": {
+            "Slot": 7,
+            "Name": "Christmas Double Exp-Ap",
+            "Quantity": 4
+          },
+          "10": {
+            "Slot": 10,
+            "Name": "Priest Tutorial Book",
+            "Quantity": 1
+          }
+        },
+        "Entities": {},
+        "Equipment": {
+          "7": "Small Spinel Ring",
+          "8": "Small Emerald Ring",
+          "13": "Boots",
+          "15": "Blue Polonaise"
+        },
+        "Skills": {
+          "1": "Assail (Lev:0/60)"
+        },
+        "Spells": {},
+        "Legends": [],
+        "LegendsKnown": false,
+        "LegendsRevision": 0,
+        "Dialog": {
+          "Generation": 1834590577726477,
+          "Revision": 679,
+          "EntityId": 7848,
+          "EntityType": 1,
+          "Name": "Kiril",
+          "Text": "Let me guess, you tried to squeeze yourself though the entrance?",
+          "IsPursuit": true,
+          "Pursuit": 0,
+          "Step": 1,
+          "Type": 0,
+          "Choices": [],
+          "Prompt": null,
+          "HasNext": true,
+          "ObservedAt": "2026-10-10T01:04:39.3223432+00:00"
+        },
+        "Notice": null
+      }
+    },
+    {
+      "Time": "2026-10-10T01:04:49.8408544+00:00",
+      "Character": "Aware",
+      "Generation": 1834590577726477,
+      "Revision": 680,
+      "Opcode": 48,
+      "Payload": "AAEAAB6oAQAAAQEAAAEAAAABAQEABUF3YXJlABpObywgSSBkaWRuJ3QgdHJ5IHRoYXQgeWV0Lg==",
+      "Snapshot": {
+        "Generation": 1834590577726477,
+        "Revision": 680,
+        "Name": "Aware",
+        "Id": 1374576,
+        "Connected": true,
+        "Level": 99,
+        "Gold": 2000,
+        "Experience": 358928581,
+        "Hp": 3676,
+        "Weight": 18,
+        "MaxWeight": 75,
+        "Map": 306,
+        "Position": {
+          "X": 5,
+          "Y": 1
+        },
+        "InventoryKnown": true,
+        "Inventory": {
+          "1": {
+            "Slot": 1,
+            "Name": "Oren Gorget Gown",
+            "Quantity": 1
+          },
+          "3": {
+            "Slot": 3,
+            "Name": "Tutorial Book",
+            "Quantity": 1
+          },
+          "4": {
+            "Slot": 4,
+            "Name": "Dirk",
+            "Quantity": 1
+          },
+          "5": {
+            "Slot": 5,
+            "Name": "Andor Chest",
+            "Quantity": 1
+          },
+          "6": {
+            "Slot": 6,
+            "Name": "Ragged Blouse",
+            "Quantity": 1
+          },
+          "7": {
+            "Slot": 7,
+            "Name": "Christmas Double Exp-Ap",
+            "Quantity": 4
+          },
+          "10": {
+            "Slot": 10,
+            "Name": "Priest Tutorial Book",
+            "Quantity": 1
+          }
+        },
+        "Entities": {},
+        "Equipment": {
+          "7": "Small Spinel Ring",
+          "8": "Small Emerald Ring",
+          "13": "Boots",
+          "15": "Blue Polonaise"
+        },
+        "Skills": {
+          "1": "Assail (Lev:0/60)"
+        },
+        "Spells": {},
+        "Legends": [],
+        "LegendsKnown": false,
+        "LegendsRevision": 0,
+        "Dialog": {
+          "Generation": 1834590577726477,
+          "Revision": 680,
+          "EntityId": 7848,
+          "EntityType": 1,
+          "Name": "Aware",
+          "Text": "No, I didn't try that yet.",
+          "IsPursuit": true,
+          "Pursuit": 0,
+          "Step": 1,
+          "Type": 0,
+          "Choices": [],
+          "Prompt": null,
+          "HasNext": true,
+          "ObservedAt": "2026-10-10T01:04:49.8339049+00:00"
+        },
+        "Notice": null
+      }
+    },
+    {
+      "Time": "2026-10-10T01:05:12.8650035+00:00",
+      "Character": "Aware",
+      "Generation": 1834590577726477,
+      "Revision": 682,
+      "Opcode": 48,
+      "Payload": "AAEAAB6oAUAlAAFAJQAAAAABAQEABUtpcmlsADlJdCdzIG5vdCBhIGdvb2QgaWRlYSwgSSd2ZSBhbHJlYWR5IHRyaWVkIGl0IHdpdGggbm8gbHVjay4=",
+      "Snapshot": {
+        "Generation": 1834590577726477,
+        "Revision": 682,
+        "Name": "Aware",
+        "Id": 1374576,
+        "Connected": true,
+        "Level": 99,
+        "Gold": 2000,
+        "Experience": 358928581,
+        "Hp": 3676,
+        "Weight": 18,
+        "MaxWeight": 75,
+        "Map": 306,
+        "Position": {
+          "X": 5,
+          "Y": 1
+        },
+        "InventoryKnown": true,
+        "Inventory": {
+          "1": {
+            "Slot": 1,
+            "Name": "Oren Gorget Gown",
+            "Quantity": 1
+          },
+          "3": {
+            "Slot": 3,
+            "Name": "Tutorial Book",
+            "Quantity": 1
+          },
+          "4": {
+            "Slot": 4,
+            "Name": "Dirk",
+            "Quantity": 1
+          },
+          "5": {
+            "Slot": 5,
+            "Name": "Andor Chest",
+            "Quantity": 1
+          },
+          "6": {
+            "Slot": 6,
+            "Name": "Ragged Blouse",
+            "Quantity": 1
+          },
+          "7": {
+            "Slot": 7,
+            "Name": "Christmas Double Exp-Ap",
+            "Quantity": 4
+          },
+          "10": {
+            "Slot": 10,
+            "Name": "Priest Tutorial Book",
+            "Quantity": 1
+          }
+        },
+        "Entities": {},
+        "Equipment": {
+          "7": "Small Spinel Ring",
+          "8": "Small Emerald Ring",
+          "13": "Boots",
+          "15": "Blue Polonaise"
+        },
+        "Skills": {
+          "1": "Assail (Lev:0/60)"
+        },
+        "Spells": {},
+        "Legends": [],
+        "LegendsKnown": false,
+        "LegendsRevision": 0,
+        "Dialog": {
+          "Generation": 1834590577726477,
+          "Revision": 682,
+          "EntityId": 7848,
+          "EntityType": 1,
+          "Name": "Kiril",
+          "Text": "It's not a good idea, I've already tried it with no luck.",
+          "IsPursuit": true,
+          "Pursuit": 0,
+          "Step": 1,
+          "Type": 0,
+          "Choices": [],
+          "Prompt": null,
+          "HasNext": true,
+          "ObservedAt": "2026-10-10T01:05:12.8591789+00:00"
+        },
+        "Notice": null
+      }
+    },
+    {
+      "Time": "2026-10-10T01:05:24.4041751+00:00",
+      "Character": "Aware",
+      "Generation": 1834590577726477,
+      "Revision": 683,
+      "Opcode": 48,
+      "Payload": "AAEAAB6oAQAAAQEAAAEAAAABAQEABUF3YXJlABtDYW4geW91IGhlbHAgbWUgZ2V0IGluc2lkZT8=",
+      "Snapshot": {
+        "Generation": 1834590577726477,
+        "Revision": 683,
+        "Name": "Aware",
+        "Id": 1374576,
+        "Connected": true,
+        "Level": 99,
+        "Gold": 2000,
+        "Experience": 358928581,
+        "Hp": 3676,
+        "Weight": 18,
+        "MaxWeight": 75,
+        "Map": 306,
+        "Position": {
+          "X": 5,
+          "Y": 1
+        },
+        "InventoryKnown": true,
+        "Inventory": {
+          "1": {
+            "Slot": 1,
+            "Name": "Oren Gorget Gown",
+            "Quantity": 1
+          },
+          "3": {
+            "Slot": 3,
+            "Name": "Tutorial Book",
+            "Quantity": 1
+          },
+          "4": {
+            "Slot": 4,
+            "Name": "Dirk",
+            "Quantity": 1
+          },
+          "5": {
+            "Slot": 5,
+            "Name": "Andor Chest",
+            "Quantity": 1
+          },
+          "6": {
+            "Slot": 6,
+            "Name": "Ragged Blouse",
+            "Quantity": 1
+          },
+          "7": {
+            "Slot": 7,
+            "Name": "Christmas Double Exp-Ap",
+            "Quantity": 4
+          },
+          "10": {
+            "Slot": 10,
+            "Name": "Priest Tutorial Book",
+            "Quantity": 1
+          }
+        },
+        "Entities": {},
+        "Equipment": {
+          "7": "Small Spinel Ring",
+          "8": "Small Emerald Ring",
+          "13": "Boots",
+          "15": "Blue Polonaise"
+        },
+        "Skills": {
+          "1": "Assail (Lev:0/60)"
+        },
+        "Spells": {},
+        "Legends": [],
+        "LegendsKnown": false,
+        "LegendsRevision": 0,
+        "Dialog": {
+          "Generation": 1834590577726477,
+          "Revision": 683,
+          "EntityId": 7848,
+          "EntityType": 1,
+          "Name": "Aware",
+          "Text": "Can you help me get inside?",
+          "IsPursuit": true,
+          "Pursuit": 0,
+          "Step": 1,
+          "Type": 0,
+          "Choices": [],
+          "Prompt": null,
+          "HasNext": true,
+          "ObservedAt": "2026-10-10T01:05:24.3949527+00:00"
+        },
+        "Notice": null
+      }
+    },
+    {
+      "Time": "2026-10-10T01:05:46.9050472+00:00",
+      "Character": "Aware",
+      "Generation": 1834590577726477,
+      "Revision": 685,
+      "Opcode": 48,
+      "Payload": "AAEAAB6oAUAlAAFAJQAAAAABAQEABUtpcmlsADJTdXJlLiBJIGNhbiB3aGlwIHVwIGFueSBwb3Rpb24gdG8gc3VpdCB5b3VyIG5lZWRzLg==",
+      "Snapshot": {
+        "Generation": 1834590577726477,
+        "Revision": 685,
+        "Name": "Aware",
+        "Id": 1374576,
+        "Connected": true,
+        "Level": 99,
+        "Gold": 2000,
+        "Experience": 358928581,
+        "Hp": 3676,
+        "Weight": 18,
+        "MaxWeight": 75,
+        "Map": 306,
+        "Position": {
+          "X": 5,
+          "Y": 1
+        },
+        "InventoryKnown": true,
+        "Inventory": {
+          "1": {
+            "Slot": 1,
+            "Name": "Oren Gorget Gown",
+            "Quantity": 1
+          },
+          "3": {
+            "Slot": 3,
+            "Name": "Tutorial Book",
+            "Quantity": 1
+          },
+          "4": {
+            "Slot": 4,
+            "Name": "Dirk",
+            "Quantity": 1
+          },
+          "5": {
+            "Slot": 5,
+            "Name": "Andor Chest",
+            "Quantity": 1
+          },
+          "6": {
+            "Slot": 6,
+            "Name": "Ragged Blouse",
+            "Quantity": 1
+          },
+          "7": {
+            "Slot": 7,
+            "Name": "Christmas Double Exp-Ap",
+            "Quantity": 4
+          },
+          "10": {
+            "Slot": 10,
+            "Name": "Priest Tutorial Book",
+            "Quantity": 1
+          }
+        },
+        "Entities": {},
+        "Equipment": {
+          "7": "Small Spinel Ring",
+          "8": "Small Emerald Ring",
+          "13": "Boots",
+          "15": "Blue Polonaise"
+        },
+        "Skills": {
+          "1": "Assail (Lev:0/60)"
+        },
+        "Spells": {},
+        "Legends": [],
+        "LegendsKnown": false,
+        "LegendsRevision": 0,
+        "Dialog": {
+          "Generation": 1834590577726477,
+          "Revision": 685,
+          "EntityId": 7848,
+          "EntityType": 1,
+          "Name": "Kiril",
+          "Text": "Sure. I can whip up any potion to suit your needs.",
+          "IsPursuit": true,
+          "Pursuit": 0,
+          "Step": 1,
+          "Type": 0,
+          "Choices": [],
+          "Prompt": null,
+          "HasNext": true,
+          "ObservedAt": "2026-10-10T01:05:46.8970004+00:00"
+        },
+        "Notice": null
+      }
+    },
+    {
+      "Time": "2026-10-10T01:06:09.4303141+00:00",
+      "Character": "Aware",
+      "Generation": 1834590577726477,
+      "Revision": 687,
+      "Opcode": 48,
+      "Payload": "AAEAAB6oAQAAAQEAAAEAAAABAQEABUF3YXJlABlXaGF0IGRvIHlvdSBuZWVkIGZyb20gbWU/",
+      "Snapshot": {
+        "Generation": 1834590577726477,
+        "Revision": 687,
+        "Name": "Aware",
+        "Id": 1374576,
+        "Connected": true,
+        "Level": 99,
+        "Gold": 2000,
+        "Experience": 358928581,
+        "Hp": 3676,
+        "Weight": 18,
+        "MaxWeight": 75,
+        "Map": 306,
+        "Position": {
+          "X": 5,
+          "Y": 1
+        },
+        "InventoryKnown": true,
+        "Inventory": {
+          "1": {
+            "Slot": 1,
+            "Name": "Oren Gorget Gown",
+            "Quantity": 1
+          },
+          "3": {
+            "Slot": 3,
+            "Name": "Tutorial Book",
+            "Quantity": 1
+          },
+          "4": {
+            "Slot": 4,
+            "Name": "Dirk",
+            "Quantity": 1
+          },
+          "5": {
+            "Slot": 5,
+            "Name": "Andor Chest",
+            "Quantity": 1
+          },
+          "6": {
+            "Slot": 6,
+            "Name": "Ragged Blouse",
+            "Quantity": 1
+          },
+          "7": {
+            "Slot": 7,
+            "Name": "Christmas Double Exp-Ap",
+            "Quantity": 4
+          },
+          "10": {
+            "Slot": 10,
+            "Name": "Priest Tutorial Book",
+            "Quantity": 1
+          }
+        },
+        "Entities": {},
+        "Equipment": {
+          "7": "Small Spinel Ring",
+          "8": "Small Emerald Ring",
+          "13": "Boots",
+          "15": "Blue Polonaise"
+        },
+        "Skills": {
+          "1": "Assail (Lev:0/60)"
+        },
+        "Spells": {},
+        "Legends": [],
+        "LegendsKnown": false,
+        "LegendsRevision": 0,
+        "Dialog": {
+          "Generation": 1834590577726477,
+          "Revision": 687,
+          "EntityId": 7848,
+          "EntityType": 1,
+          "Name": "Aware",
+          "Text": "What do you need from me?",
+          "IsPursuit": true,
+          "Pursuit": 0,
+          "Step": 1,
+          "Type": 0,
+          "Choices": [],
+          "Prompt": null,
+          "HasNext": true,
+          "ObservedAt": "2026-10-10T01:06:09.4250698+00:00"
+        },
+        "Notice": null
+      }
+    },
+    {
+      "Time": "2026-10-10T01:06:10.903813+00:00",
+      "Character": "Aware",
+      "Generation": 1834590577726477,
+      "Revision": 688,
+      "Opcode": 48,
+      "Payload": "AAEAAB6oAUAlAAFAJQAAAAABAQEABUtpcmlsAOJTaW5jZSwgaXQncyBhIHNpbXBsZSBwb3Rpb24sIGFsbCBJIG5lZWQgaXMgNSBVbmRpbmUgTXVzaHJvb21zLiBUaGV5IHVzZWQgdG8gYmUgYSByYXJlIHR5cGUgb2YgbXVzaHJvb20sIGJ1dCBzdWRkZW5seSB0aGV5J3ZlIGJlZW4gc3Byb3V0aW5nIHVwIG9ubHkgYXQgdGhpcyB2aWxsYWdlLiBJZiB5b3UncmUgbHVja3kgeW91IHdpbGwgZmluZCBzZXZlcmFsIGp1c3Qgb3V0c2lkZSB0aGF0IGRvb3Iu",
+      "Snapshot": {
+        "Generation": 1834590577726477,
+        "Revision": 688,
+        "Name": "Aware",
+        "Id": 1374576,
+        "Connected": true,
+        "Level": 99,
+        "Gold": 2000,
+        "Experience": 358928581,
+        "Hp": 3676,
+        "Weight": 18,
+        "MaxWeight": 75,
+        "Map": 306,
+        "Position": {
+          "X": 5,
+          "Y": 1
+        },
+        "InventoryKnown": true,
+        "Inventory": {
+          "1": {
+            "Slot": 1,
+            "Name": "Oren Gorget Gown",
+            "Quantity": 1
+          },
+          "3": {
+            "Slot": 3,
+            "Name": "Tutorial Book",
+            "Quantity": 1
+          },
+          "4": {
+            "Slot": 4,
+            "Name": "Dirk",
+            "Quantity": 1
+          },
+          "5": {
+            "Slot": 5,
+            "Name": "Andor Chest",
+            "Quantity": 1
+          },
+          "6": {
+            "Slot": 6,
+            "Name": "Ragged Blouse",
+            "Quantity": 1
+          },
+          "7": {
+            "Slot": 7,
+            "Name": "Christmas Double Exp-Ap",
+            "Quantity": 4
+          },
+          "10": {
+            "Slot": 10,
+            "Name": "Priest Tutorial Book",
+            "Quantity": 1
+          }
+        },
+        "Entities": {},
+        "Equipment": {
+          "7": "Small Spinel Ring",
+          "8": "Small Emerald Ring",
+          "13": "Boots",
+          "15": "Blue Polonaise"
+        },
+        "Skills": {
+          "1": "Assail (Lev:0/60)"
+        },
+        "Spells": {},
+        "Legends": [],
+        "LegendsKnown": false,
+        "LegendsRevision": 0,
+        "Dialog": {
+          "Generation": 1834590577726477,
+          "Revision": 688,
+          "EntityId": 7848,
+          "EntityType": 1,
+          "Name": "Kiril",
+          "Text": "Since, it's a simple potion, all I need is 5 Undine Mushrooms. They used to be a rare type of mushroom, but suddenly they've been sprouting up only at this village. If you're lucky you will find several just outside that door.",
+          "IsPursuit": true,
+          "Pursuit": 0,
+          "Step": 1,
+          "Type": 0,
+          "Choices": [],
+          "Prompt": null,
+          "HasNext": true,
+          "ObservedAt": "2026-10-10T01:06:10.8977434+00:00"
+        },
+        "Notice": null
+      }
+    },
+    {
+      "Time": "2026-10-10T01:06:11.9042609+00:00",
+      "Character": "Aware",
+      "Generation": 1834590577726477,
+      "Revision": 689,
+      "Opcode": 48,
+      "Payload": "AAEAAB6oAQAAAQEAAAEAAAABAQEABUF3YXJlABlPa2F5LiBJJ2xsIGJlIHJpZ2h0IGJhY2su",
+      "Snapshot": {
+        "Generation": 1834590577726477,
+        "Revision": 689,
+        "Name": "Aware",
+        "Id": 1374576,
+        "Connected": true,
+        "Level": 99,
+        "Gold": 2000,
+        "Experience": 358928581,
+        "Hp": 3676,
+        "Weight": 18,
+        "MaxWeight": 75,
+        "Map": 306,
+        "Position": {
+          "X": 5,
+          "Y": 1
+        },
+        "InventoryKnown": true,
+        "Inventory": {
+          "1": {
+            "Slot": 1,
+            "Name": "Oren Gorget Gown",
+            "Quantity": 1
+          },
+          "3": {
+            "Slot": 3,
+            "Name": "Tutorial Book",
+            "Quantity": 1
+          },
+          "4": {
+            "Slot": 4,
+            "Name": "Dirk",
+            "Quantity": 1
+          },
+          "5": {
+            "Slot": 5,
+            "Name": "Andor Chest",
+            "Quantity": 1
+          },
+          "6": {
+            "Slot": 6,
+            "Name": "Ragged Blouse",
+            "Quantity": 1
+          },
+          "7": {
+            "Slot": 7,
+            "Name": "Christmas Double Exp-Ap",
+            "Quantity": 4
+          },
+          "10": {
+            "Slot": 10,
+            "Name": "Priest Tutorial Book",
+            "Quantity": 1
+          }
+        },
+        "Entities": {},
+        "Equipment": {
+          "7": "Small Spinel Ring",
+          "8": "Small Emerald Ring",
+          "13": "Boots",
+          "15": "Blue Polonaise"
+        },
+        "Skills": {
+          "1": "Assail (Lev:0/60)"
+        },
+        "Spells": {},
+        "Legends": [],
+        "LegendsKnown": false,
+        "LegendsRevision": 0,
+        "Dialog": {
+          "Generation": 1834590577726477,
+          "Revision": 689,
+          "EntityId": 7848,
+          "EntityType": 1,
+          "Name": "Aware",
+          "Text": "Okay. I'll be right back.",
+          "IsPursuit": true,
+          "Pursuit": 0,
+          "Step": 1,
+          "Type": 0,
+          "Choices": [],
+          "Prompt": null,
+          "HasNext": true,
+          "ObservedAt": "2026-10-10T01:06:11.8978858+00:00"
+        },
+        "Notice": null
+      }
+    },
+    {
+      "Time": "2026-10-10T01:06:12.9052081+00:00",
+      "Character": "Aware",
+      "Generation": 1834590577726477,
+      "Revision": 690,
+      "Opcode": 48,
+      "Payload": "CgA=",
+      "Snapshot": {
+        "Generation": 1834590577726477,
+        "Revision": 690,
+        "Name": "Aware",
+        "Id": 1374576,
+        "Connected": true,
+        "Level": 99,
+        "Gold": 2000,
+        "Experience": 358928581,
+        "Hp": 3676,
+        "Weight": 18,
+        "MaxWeight": 75,
+        "Map": 306,
+        "Position": {
+          "X": 5,
+          "Y": 1
+        },
+        "InventoryKnown": true,
+        "Inventory": {
+          "1": {
+            "Slot": 1,
+            "Name": "Oren Gorget Gown",
+            "Quantity": 1
+          },
+          "3": {
+            "Slot": 3,
+            "Name": "Tutorial Book",
+            "Quantity": 1
+          },
+          "4": {
+            "Slot": 4,
+            "Name": "Dirk",
+            "Quantity": 1
+          },
+          "5": {
+            "Slot": 5,
+            "Name": "Andor Chest",
+            "Quantity": 1
+          },
+          "6": {
+            "Slot": 6,
+            "Name": "Ragged Blouse",
+            "Quantity": 1
+          },
+          "7": {
+            "Slot": 7,
+            "Name": "Christmas Double Exp-Ap",
+            "Quantity": 4
+          },
+          "10": {
+            "Slot": 10,
+            "Name": "Priest Tutorial Book",
+            "Quantity": 1
+          }
+        },
+        "Entities": {},
+        "Equipment": {
+          "7": "Small Spinel Ring",
+          "8": "Small Emerald Ring",
+          "13": "Boots",
+          "15": "Blue Polonaise"
+        },
+        "Skills": {
+          "1": "Assail (Lev:0/60)"
+        },
+        "Spells": {},
+        "Legends": [],
+        "LegendsKnown": false,
+        "LegendsRevision": 0,
+        "Dialog": null,
+        "Notice": null
+      }
+    }
+  ],
+  "Actions": [
+    {
+      "Time": "2026-10-10T01:04:39.0719452+00:00",
+      "Character": "Aware",
+      "Generation": 1834590577726477,
+      "Revision": 678,
+      "Kind": "next",
+      "Selection": null,
+      "Dialog": {
+        "Generation": 1834590577726477,
+        "Revision": 676,
+        "EntityId": 7848,
+        "EntityType": 1,
+        "Name": "Kiril",
+        "Text": "Ah, I'm not the only one that has seen the Tiny Cave.",
+        "IsPursuit": true,
+        "Pursuit": 0,
+        "Step": 1,
+        "Type": 0,
+        "Choices": [],
+        "Prompt": null,
+        "HasNext": true,
+        "ObservedAt": "2026-10-10T01:04:11.3178242+00:00"
+      },
+      "Branches": 0,
+      "Experience": 358928581
+    },
+    {
+      "Time": "2026-10-10T01:04:49.3043083+00:00",
+      "Character": "Aware",
+      "Generation": 1834590577726477,
+      "Revision": 679,
+      "Kind": "next",
+      "Selection": null,
+      "Dialog": {
+        "Generation": 1834590577726477,
+        "Revision": 679,
+        "EntityId": 7848,
+        "EntityType": 1,
+        "Name": "Kiril",
+        "Text": "Let me guess, you tried to squeeze yourself though the entrance?",
+        "IsPursuit": true,
+        "Pursuit": 0,
+        "Step": 1,
+        "Type": 0,
+        "Choices": [],
+        "Prompt": null,
+        "HasNext": true,
+        "ObservedAt": "2026-10-10T01:04:39.3223432+00:00"
+      },
+      "Branches": 0,
+      "Experience": 358928581
+    },
+    {
+      "Time": "2026-10-10T01:05:12.3620186+00:00",
+      "Character": "Aware",
+      "Generation": 1834590577726477,
+      "Revision": 681,
+      "Kind": "next",
+      "Selection": null,
+      "Dialog": {
+        "Generation": 1834590577726477,
+        "Revision": 680,
+        "EntityId": 7848,
+        "EntityType": 1,
+        "Name": "Aware",
+        "Text": "No, I didn't try that yet.",
+        "IsPursuit": true,
+        "Pursuit": 0,
+        "Step": 1,
+        "Type": 0,
+        "Choices": [],
+        "Prompt": null,
+        "HasNext": true,
+        "ObservedAt": "2026-10-10T01:04:49.8339049+00:00"
+      },
+      "Branches": 0,
+      "Experience": 358928581
+    },
+    {
+      "Time": "2026-10-10T01:05:24.1667608+00:00",
+      "Character": "Aware",
+      "Generation": 1834590577726477,
+      "Revision": 682,
+      "Kind": "next",
+      "Selection": null,
+      "Dialog": {
+        "Generation": 1834590577726477,
+        "Revision": 682,
+        "EntityId": 7848,
+        "EntityType": 1,
+        "Name": "Kiril",
+        "Text": "It's not a good idea, I've already tried it with no luck.",
+        "IsPursuit": true,
+        "Pursuit": 0,
+        "Step": 1,
+        "Type": 0,
+        "Choices": [],
+        "Prompt": null,
+        "HasNext": true,
+        "ObservedAt": "2026-10-10T01:05:12.8591789+00:00"
+      },
+      "Branches": 0,
+      "Experience": 358928581
+    },
+    {
+      "Time": "2026-10-10T01:05:46.4251682+00:00",
+      "Character": "Aware",
+      "Generation": 1834590577726477,
+      "Revision": 684,
+      "Kind": "next",
+      "Selection": null,
+      "Dialog": {
+        "Generation": 1834590577726477,
+        "Revision": 683,
+        "EntityId": 7848,
+        "EntityType": 1,
+        "Name": "Aware",
+        "Text": "Can you help me get inside?",
+        "IsPursuit": true,
+        "Pursuit": 0,
+        "Step": 1,
+        "Type": 0,
+        "Choices": [],
+        "Prompt": null,
+        "HasNext": true,
+        "ObservedAt": "2026-10-10T01:05:24.3949527+00:00"
+      },
+      "Branches": 0,
+      "Experience": 358928581
+    },
+    {
+      "Time": "2026-10-10T01:06:09.1515576+00:00",
+      "Character": "Aware",
+      "Generation": 1834590577726477,
+      "Revision": 686,
+      "Kind": "next",
+      "Selection": null,
+      "Dialog": {
+        "Generation": 1834590577726477,
+        "Revision": 685,
+        "EntityId": 7848,
+        "EntityType": 1,
+        "Name": "Kiril",
+        "Text": "Sure. I can whip up any potion to suit your needs.",
+        "IsPursuit": true,
+        "Pursuit": 0,
+        "Step": 1,
+        "Type": 0,
+        "Choices": [],
+        "Prompt": null,
+        "HasNext": true,
+        "ObservedAt": "2026-10-10T01:05:46.8970004+00:00"
+      },
+      "Branches": 0,
+      "Experience": 358928581
+    },
+    {
+      "Time": "2026-10-10T01:06:10.4484347+00:00",
+      "Character": "Aware",
+      "Generation": 1834590577726477,
+      "Revision": 687,
+      "Kind": "next",
+      "Selection": null,
+      "Dialog": {
+        "Generation": 1834590577726477,
+        "Revision": 687,
+        "EntityId": 7848,
+        "EntityType": 1,
+        "Name": "Aware",
+        "Text": "What do you need from me?",
+        "IsPursuit": true,
+        "Pursuit": 0,
+        "Step": 1,
+        "Type": 0,
+        "Choices": [],
+        "Prompt": null,
+        "HasNext": true,
+        "ObservedAt": "2026-10-10T01:06:09.4250698+00:00"
+      },
+      "Branches": 0,
+      "Experience": 358928581
+    },
+    {
+      "Time": "2026-10-10T01:06:11.5220182+00:00",
+      "Character": "Aware",
+      "Generation": 1834590577726477,
+      "Revision": 688,
+      "Kind": "next",
+      "Selection": null,
+      "Dialog": {
+        "Generation": 1834590577726477,
+        "Revision": 688,
+        "EntityId": 7848,
+        "EntityType": 1,
+        "Name": "Kiril",
+        "Text": "Since, it's a simple potion, all I need is 5 Undine Mushrooms. They used to be a rare type of mushroom, but suddenly they've been sprouting up only at this village. If you're lucky you will find several just outside that door.",
+        "IsPursuit": true,
+        "Pursuit": 0,
+        "Step": 1,
+        "Type": 0,
+        "Choices": [],
+        "Prompt": null,
+        "HasNext": true,
+        "ObservedAt": "2026-10-10T01:06:10.8977434+00:00"
+      },
+      "Branches": 0,
+      "Experience": 358928581
+    },
+    {
+      "Time": "2026-10-10T01:06:12.7541224+00:00",
+      "Character": "Aware",
+      "Generation": 1834590577726477,
+      "Revision": 689,
+      "Kind": "next",
+      "Selection": null,
+      "Dialog": {
+        "Generation": 1834590577726477,
+        "Revision": 689,
+        "EntityId": 7848,
+        "EntityType": 1,
+        "Name": "Aware",
+        "Text": "Okay. I'll be right back.",
+        "IsPursuit": true,
+        "Pursuit": 0,
+        "Step": 1,
+        "Type": 0,
+        "Choices": [],
+        "Prompt": null,
+        "HasNext": true,
+        "ObservedAt": "2026-10-10T01:06:11.8978858+00:00"
+      },
+      "Branches": 0,
+      "Experience": 358928581
+    }
+  ]
+}

@@ -1,0 +1,5600 @@
+{
+  "SchemaVersion": 2,
+  "ServerProfile": "datester-7.41",
+  "Sanitized": true,
+  "Origin": "Actual Aware run. Ground collection, travel and speech automatic. Calibration advanced first claim Next and closed final page through control, then resumed runner to reconcile without repeating speech. Own legend observed separately through inspect-self.",
+  "MushroomSprite": 569,
+  "Events": [
+    {
+      "Time": "2026-10-10T01:21:37.2126112+00:00",
+      "Character": "Aware",
+      "Generation": 1834593565575173,
+      "Revision": 34,
+      "Opcode": 21,
+      "Payload": "AfhkZAAAAHooDlVuZGluZSBWaWxsYWdl",
+      "Snapshot": {
+        "Generation": 1834593565575173,
+        "Revision": 34,
+        "Name": "Aware",
+        "Id": 1417623,
+        "Connected": true,
+        "Level": 99,
+        "Gold": 2000,
+        "Experience": 358928581,
+        "Hp": 3676,
+        "Weight": 19,
+        "MaxWeight": 75,
+        "Map": 504,
+        "Position": null,
+        "InventoryKnown": false,
+        "Inventory": {
+          "1": {
+            "Slot": 1,
+            "Name": "Oren Gorget Gown",
+            "Quantity": 1
+          },
+          "2": {
+            "Slot": 2,
+            "Name": "Undine Mushroom",
+            "Quantity": 1
+          },
+          "3": {
+            "Slot": 3,
+            "Name": "Tutorial Book",
+            "Quantity": 1
+          },
+          "4": {
+            "Slot": 4,
+            "Name": "Dirk",
+            "Quantity": 1
+          },
+          "5": {
+            "Slot": 5,
+            "Name": "Andor Chest",
+            "Quantity": 1
+          },
+          "6": {
+            "Slot": 6,
+            "Name": "Ragged Blouse",
+            "Quantity": 1
+          },
+          "7": {
+            "Slot": 7,
+            "Name": "Christmas Double Exp-Ap",
+            "Quantity": 4
+          },
+          "10": {
+            "Slot": 10,
+            "Name": "Priest Tutorial Book",
+            "Quantity": 1
+          }
+        },
+        "Entities": {},
+        "GroundItems": {},
+        "Equipment": {
+          "7": "Small Spinel Ring",
+          "8": "Small Emerald Ring",
+          "13": "Boots",
+          "15": "Blue Polonaise"
+        },
+        "Skills": {
+          "1": "Assail (Lev:0/60)"
+        },
+        "Spells": {},
+        "Legends": [],
+        "LegendsKnown": false,
+        "LegendsRevision": 0,
+        "Dialog": null,
+        "Notice": null
+      }
+    },
+    {
+      "Time": "2026-10-10T01:21:37.2504022+00:00",
+      "Character": "Aware",
+      "Generation": 1834593565575173,
+      "Revision": 35,
+      "Opcode": 4,
+      "Payload": "AE0ADQALAAsA",
+      "Snapshot": {
+        "Generation": 1834593565575173,
+        "Revision": 35,
+        "Name": "Aware",
+        "Id": 1417623,
+        "Connected": true,
+        "Level": 99,
+        "Gold": 2000,
+        "Experience": 358928581,
+        "Hp": 3676,
+        "Weight": 19,
+        "MaxWeight": 75,
+        "Map": 504,
+        "Position": {
+          "X": 77,
+          "Y": 13
+        },
+        "InventoryKnown": false,
+        "Inventory": {
+          "1": {
+            "Slot": 1,
+            "Name": "Oren Gorget Gown",
+            "Quantity": 1
+          },
+          "2": {
+            "Slot": 2,
+            "Name": "Undine Mushroom",
+            "Quantity": 1
+          },
+          "3": {
+            "Slot": 3,
+            "Name": "Tutorial Book",
+            "Quantity": 1
+          },
+          "4": {
+            "Slot": 4,
+            "Name": "Dirk",
+            "Quantity": 1
+          },
+          "5": {
+            "Slot": 5,
+            "Name": "Andor Chest",
+            "Quantity": 1
+          },
+          "6": {
+            "Slot": 6,
+            "Name": "Ragged Blouse",
+            "Quantity": 1
+          },
+          "7": {
+            "Slot": 7,
+            "Name": "Christmas Double Exp-Ap",
+            "Quantity": 4
+          },
+          "10": {
+            "Slot": 10,
+            "Name": "Priest Tutorial Book",
+            "Quantity": 1
+          }
+        },
+        "Entities": {},
+        "GroundItems": {},
+        "Equipment": {
+          "7": "Small Spinel Ring",
+          "8": "Small Emerald Ring",
+          "13": "Boots",
+          "15": "Blue Polonaise"
+        },
+        "Skills": {
+          "1": "Assail (Lev:0/60)"
+        },
+        "Spells": {},
+        "Legends": [],
+        "LegendsKnown": false,
+        "LegendsRevision": 0,
+        "Dialog": null,
+        "Notice": null
+      }
+    },
+    {
+      "Time": "2026-10-10T01:21:37.2959096+00:00",
+      "Character": "Aware",
+      "Generation": 1834593565575173,
+      "Revision": 36,
+      "Opcode": 7,
+      "Payload": "AAcAUgAVAABoCYI5AAAAAE8ADQAAaC+COQAAAABJAA0AAGgjgjkAAAAATgAHAABn7II5AAAAAEwABwAAaBSCOQAAAABGAAcAAGgwgjkAAAAATAAKAABoCII5AAAA",
+      "Snapshot": {
+        "Generation": 1834593565575173,
+        "Revision": 36,
+        "Name": "Aware",
+        "Id": 1417623,
+        "Connected": true,
+        "Level": 99,
+        "Gold": 2000,
+        "Experience": 358928581,
+        "Hp": 3676,
+        "Weight": 19,
+        "MaxWeight": 75,
+        "Map": 504,
+        "Position": {
+          "X": 77,
+          "Y": 13
+        },
+        "InventoryKnown": false,
+        "Inventory": {
+          "1": {
+            "Slot": 1,
+            "Name": "Oren Gorget Gown",
+            "Quantity": 1
+          },
+          "2": {
+            "Slot": 2,
+            "Name": "Undine Mushroom",
+            "Quantity": 1
+          },
+          "3": {
+            "Slot": 3,
+            "Name": "Tutorial Book",
+            "Quantity": 1
+          },
+          "4": {
+            "Slot": 4,
+            "Name": "Dirk",
+            "Quantity": 1
+          },
+          "5": {
+            "Slot": 5,
+            "Name": "Andor Chest",
+            "Quantity": 1
+          },
+          "6": {
+            "Slot": 6,
+            "Name": "Ragged Blouse",
+            "Quantity": 1
+          },
+          "7": {
+            "Slot": 7,
+            "Name": "Christmas Double Exp-Ap",
+            "Quantity": 4
+          },
+          "10": {
+            "Slot": 10,
+            "Name": "Priest Tutorial Book",
+            "Quantity": 1
+          }
+        },
+        "Entities": {},
+        "GroundItems": {
+          "26604": {
+            "Id": 26604,
+            "Sprite": 569,
+            "Position": {
+              "X": 78,
+              "Y": 7
+            }
+          },
+          "26632": {
+            "Id": 26632,
+            "Sprite": 569,
+            "Position": {
+              "X": 76,
+              "Y": 10
+            }
+          },
+          "26633": {
+            "Id": 26633,
+            "Sprite": 569,
+            "Position": {
+              "X": 82,
+              "Y": 21
+            }
+          },
+          "26644": {
+            "Id": 26644,
+            "Sprite": 569,
+            "Position": {
+              "X": 76,
+              "Y": 7
+            }
+          },
+          "26659": {
+            "Id": 26659,
+            "Sprite": 569,
+            "Position": {
+              "X": 73,
+              "Y": 13
+            }
+          },
+          "26671": {
+            "Id": 26671,
+            "Sprite": 569,
+            "Position": {
+              "X": 79,
+              "Y": 13
+            }
+          },
+          "26672": {
+            "Id": 26672,
+            "Sprite": 569,
+            "Position": {
+              "X": 70,
+              "Y": 7
+            }
+          }
+        },
+        "Equipment": {
+          "7": "Small Spinel Ring",
+          "8": "Small Emerald Ring",
+          "13": "Boots",
+          "15": "Blue Polonaise"
+        },
+        "Skills": {
+          "1": "Assail (Lev:0/60)"
+        },
+        "Spells": {},
+        "Legends": [],
+        "LegendsKnown": false,
+        "LegendsRevision": 0,
+        "Dialog": null,
+        "Notice": null
+      }
+    },
+    {
+      "Time": "2026-10-10T01:21:37.8519469+00:00",
+      "Character": "Aware",
+      "Generation": 1834593565575173,
+      "Revision": 40,
+      "Opcode": 48,
+      "Payload": "CgA=",
+      "Snapshot": {
+        "Generation": 1834593565575173,
+        "Revision": 40,
+        "Name": "Aware",
+        "Id": 1417623,
+        "Connected": true,
+        "Level": 99,
+        "Gold": 2000,
+        "Experience": 358928581,
+        "Hp": 3676,
+        "Weight": 19,
+        "MaxWeight": 75,
+        "Map": 504,
+        "Position": {
+          "X": 77,
+          "Y": 13
+        },
+        "InventoryKnown": true,
+        "Inventory": {
+          "1": {
+            "Slot": 1,
+            "Name": "Oren Gorget Gown",
+            "Quantity": 1
+          },
+          "2": {
+            "Slot": 2,
+            "Name": "Undine Mushroom",
+            "Quantity": 1
+          },
+          "3": {
+            "Slot": 3,
+            "Name": "Tutorial Book",
+            "Quantity": 1
+          },
+          "4": {
+            "Slot": 4,
+            "Name": "Dirk",
+            "Quantity": 1
+          },
+          "5": {
+            "Slot": 5,
+            "Name": "Andor Chest",
+            "Quantity": 1
+          },
+          "6": {
+            "Slot": 6,
+            "Name": "Ragged Blouse",
+            "Quantity": 1
+          },
+          "7": {
+            "Slot": 7,
+            "Name": "Christmas Double Exp-Ap",
+            "Quantity": 4
+          },
+          "10": {
+            "Slot": 10,
+            "Name": "Priest Tutorial Book",
+            "Quantity": 1
+          }
+        },
+        "Entities": {},
+        "GroundItems": {
+          "26604": {
+            "Id": 26604,
+            "Sprite": 569,
+            "Position": {
+              "X": 78,
+              "Y": 7
+            }
+          },
+          "26632": {
+            "Id": 26632,
+            "Sprite": 569,
+            "Position": {
+              "X": 76,
+              "Y": 10
+            }
+          },
+          "26633": {
+            "Id": 26633,
+            "Sprite": 569,
+            "Position": {
+              "X": 82,
+              "Y": 21
+            }
+          },
+          "26644": {
+            "Id": 26644,
+            "Sprite": 569,
+            "Position": {
+              "X": 76,
+              "Y": 7
+            }
+          },
+          "26659": {
+            "Id": 26659,
+            "Sprite": 569,
+            "Position": {
+              "X": 73,
+              "Y": 13
+            }
+          },
+          "26671": {
+            "Id": 26671,
+            "Sprite": 569,
+            "Position": {
+              "X": 79,
+              "Y": 13
+            }
+          },
+          "26672": {
+            "Id": 26672,
+            "Sprite": 569,
+            "Position": {
+              "X": 70,
+              "Y": 7
+            }
+          }
+        },
+        "Equipment": {
+          "7": "Small Spinel Ring",
+          "8": "Small Emerald Ring",
+          "13": "Boots",
+          "15": "Blue Polonaise"
+        },
+        "Skills": {
+          "1": "Assail (Lev:0/60)"
+        },
+        "Spells": {},
+        "Legends": [],
+        "LegendsKnown": false,
+        "LegendsRevision": 0,
+        "Dialog": null,
+        "Notice": null
+      }
+    },
+    {
+      "Time": "2026-10-10T01:21:57.3264569+00:00",
+      "Character": "Aware",
+      "Generation": 1834593565575173,
+      "Revision": 46,
+      "Opcode": 7,
+      "Payload": "AAEAUgAVAABoCYI5AAAA",
+      "Snapshot": {
+        "Generation": 1834593565575173,
+        "Revision": 46,
+        "Name": "Aware",
+        "Id": 1417623,
+        "Connected": true,
+        "Level": 99,
+        "Gold": 2000,
+        "Experience": 358928581,
+        "Hp": 3676,
+        "Weight": 19,
+        "MaxWeight": 75,
+        "Map": 504,
+        "Position": {
+          "X": 77,
+          "Y": 13
+        },
+        "InventoryKnown": true,
+        "Inventory": {
+          "1": {
+            "Slot": 1,
+            "Name": "Oren Gorget Gown",
+            "Quantity": 1
+          },
+          "2": {
+            "Slot": 2,
+            "Name": "Undine Mushroom",
+            "Quantity": 1
+          },
+          "3": {
+            "Slot": 3,
+            "Name": "Tutorial Book",
+            "Quantity": 1
+          },
+          "4": {
+            "Slot": 4,
+            "Name": "Dirk",
+            "Quantity": 1
+          },
+          "5": {
+            "Slot": 5,
+            "Name": "Andor Chest",
+            "Quantity": 1
+          },
+          "6": {
+            "Slot": 6,
+            "Name": "Ragged Blouse",
+            "Quantity": 1
+          },
+          "7": {
+            "Slot": 7,
+            "Name": "Christmas Double Exp-Ap",
+            "Quantity": 4
+          },
+          "10": {
+            "Slot": 10,
+            "Name": "Priest Tutorial Book",
+            "Quantity": 1
+          }
+        },
+        "Entities": {},
+        "GroundItems": {
+          "26604": {
+            "Id": 26604,
+            "Sprite": 569,
+            "Position": {
+              "X": 78,
+              "Y": 7
+            }
+          },
+          "26632": {
+            "Id": 26632,
+            "Sprite": 569,
+            "Position": {
+              "X": 76,
+              "Y": 10
+            }
+          },
+          "26633": {
+            "Id": 26633,
+            "Sprite": 569,
+            "Position": {
+              "X": 82,
+              "Y": 21
+            }
+          },
+          "26644": {
+            "Id": 26644,
+            "Sprite": 569,
+            "Position": {
+              "X": 76,
+              "Y": 7
+            }
+          },
+          "26659": {
+            "Id": 26659,
+            "Sprite": 569,
+            "Position": {
+              "X": 73,
+              "Y": 13
+            }
+          },
+          "26671": {
+            "Id": 26671,
+            "Sprite": 569,
+            "Position": {
+              "X": 79,
+              "Y": 13
+            }
+          },
+          "26672": {
+            "Id": 26672,
+            "Sprite": 569,
+            "Position": {
+              "X": 70,
+              "Y": 7
+            }
+          }
+        },
+        "Equipment": {
+          "7": "Small Spinel Ring",
+          "8": "Small Emerald Ring",
+          "13": "Boots",
+          "15": "Blue Polonaise"
+        },
+        "Skills": {
+          "1": "Assail (Lev:0/60)"
+        },
+        "Spells": {},
+        "Legends": [
+          "Priest by oath of Erin - Deoch 219, Winter",
+          "Aisling - Deoch 219, Winter"
+        ],
+        "LegendsKnown": true,
+        "LegendsRevision": 45,
+        "Dialog": null,
+        "Notice": null
+      }
+    },
+    {
+      "Time": "2026-10-10T01:21:58.3041329+00:00",
+      "Character": "Aware",
+      "Generation": 1834593565575173,
+      "Revision": 49,
+      "Opcode": 14,
+      "Payload": "AABoLwA=",
+      "Snapshot": {
+        "Generation": 1834593565575173,
+        "Revision": 49,
+        "Name": "Aware",
+        "Id": 1417623,
+        "Connected": true,
+        "Level": 99,
+        "Gold": 2000,
+        "Experience": 358928581,
+        "Hp": 3676,
+        "Weight": 19,
+        "MaxWeight": 75,
+        "Map": 504,
+        "Position": {
+          "X": 79,
+          "Y": 13
+        },
+        "InventoryKnown": true,
+        "Inventory": {
+          "1": {
+            "Slot": 1,
+            "Name": "Oren Gorget Gown",
+            "Quantity": 1
+          },
+          "2": {
+            "Slot": 2,
+            "Name": "Undine Mushroom",
+            "Quantity": 1
+          },
+          "3": {
+            "Slot": 3,
+            "Name": "Tutorial Book",
+            "Quantity": 1
+          },
+          "4": {
+            "Slot": 4,
+            "Name": "Dirk",
+            "Quantity": 1
+          },
+          "5": {
+            "Slot": 5,
+            "Name": "Andor Chest",
+            "Quantity": 1
+          },
+          "6": {
+            "Slot": 6,
+            "Name": "Ragged Blouse",
+            "Quantity": 1
+          },
+          "7": {
+            "Slot": 7,
+            "Name": "Christmas Double Exp-Ap",
+            "Quantity": 4
+          },
+          "10": {
+            "Slot": 10,
+            "Name": "Priest Tutorial Book",
+            "Quantity": 1
+          }
+        },
+        "Entities": {},
+        "GroundItems": {
+          "26604": {
+            "Id": 26604,
+            "Sprite": 569,
+            "Position": {
+              "X": 78,
+              "Y": 7
+            }
+          },
+          "26632": {
+            "Id": 26632,
+            "Sprite": 569,
+            "Position": {
+              "X": 76,
+              "Y": 10
+            }
+          },
+          "26633": {
+            "Id": 26633,
+            "Sprite": 569,
+            "Position": {
+              "X": 82,
+              "Y": 21
+            }
+          },
+          "26644": {
+            "Id": 26644,
+            "Sprite": 569,
+            "Position": {
+              "X": 76,
+              "Y": 7
+            }
+          },
+          "26659": {
+            "Id": 26659,
+            "Sprite": 569,
+            "Position": {
+              "X": 73,
+              "Y": 13
+            }
+          },
+          "26672": {
+            "Id": 26672,
+            "Sprite": 569,
+            "Position": {
+              "X": 70,
+              "Y": 7
+            }
+          }
+        },
+        "Equipment": {
+          "7": "Small Spinel Ring",
+          "8": "Small Emerald Ring",
+          "13": "Boots",
+          "15": "Blue Polonaise"
+        },
+        "Skills": {
+          "1": "Assail (Lev:0/60)"
+        },
+        "Spells": {},
+        "Legends": [
+          "Priest by oath of Erin - Deoch 219, Winter",
+          "Aisling - Deoch 219, Winter"
+        ],
+        "LegendsKnown": true,
+        "LegendsRevision": 45,
+        "Dialog": null,
+        "Notice": null
+      }
+    },
+    {
+      "Time": "2026-10-10T01:21:58.3188359+00:00",
+      "Character": "Aware",
+      "Generation": 1834593565575173,
+      "Revision": 50,
+      "Opcode": 15,
+      "Payload": "AoI5AA9VbmRpbmUgTXVzaHJvb20AAAACAQAAAAAAAAAA",
+      "Snapshot": {
+        "Generation": 1834593565575173,
+        "Revision": 50,
+        "Name": "Aware",
+        "Id": 1417623,
+        "Connected": true,
+        "Level": 99,
+        "Gold": 2000,
+        "Experience": 358928581,
+        "Hp": 3676,
+        "Weight": 19,
+        "MaxWeight": 75,
+        "Map": 504,
+        "Position": {
+          "X": 79,
+          "Y": 13
+        },
+        "InventoryKnown": true,
+        "Inventory": {
+          "1": {
+            "Slot": 1,
+            "Name": "Oren Gorget Gown",
+            "Quantity": 1
+          },
+          "2": {
+            "Slot": 2,
+            "Name": "Undine Mushroom",
+            "Quantity": 2
+          },
+          "3": {
+            "Slot": 3,
+            "Name": "Tutorial Book",
+            "Quantity": 1
+          },
+          "4": {
+            "Slot": 4,
+            "Name": "Dirk",
+            "Quantity": 1
+          },
+          "5": {
+            "Slot": 5,
+            "Name": "Andor Chest",
+            "Quantity": 1
+          },
+          "6": {
+            "Slot": 6,
+            "Name": "Ragged Blouse",
+            "Quantity": 1
+          },
+          "7": {
+            "Slot": 7,
+            "Name": "Christmas Double Exp-Ap",
+            "Quantity": 4
+          },
+          "10": {
+            "Slot": 10,
+            "Name": "Priest Tutorial Book",
+            "Quantity": 1
+          }
+        },
+        "Entities": {},
+        "GroundItems": {
+          "26604": {
+            "Id": 26604,
+            "Sprite": 569,
+            "Position": {
+              "X": 78,
+              "Y": 7
+            }
+          },
+          "26632": {
+            "Id": 26632,
+            "Sprite": 569,
+            "Position": {
+              "X": 76,
+              "Y": 10
+            }
+          },
+          "26633": {
+            "Id": 26633,
+            "Sprite": 569,
+            "Position": {
+              "X": 82,
+              "Y": 21
+            }
+          },
+          "26644": {
+            "Id": 26644,
+            "Sprite": 569,
+            "Position": {
+              "X": 76,
+              "Y": 7
+            }
+          },
+          "26659": {
+            "Id": 26659,
+            "Sprite": 569,
+            "Position": {
+              "X": 73,
+              "Y": 13
+            }
+          },
+          "26672": {
+            "Id": 26672,
+            "Sprite": 569,
+            "Position": {
+              "X": 70,
+              "Y": 7
+            }
+          }
+        },
+        "Equipment": {
+          "7": "Small Spinel Ring",
+          "8": "Small Emerald Ring",
+          "13": "Boots",
+          "15": "Blue Polonaise"
+        },
+        "Skills": {
+          "1": "Assail (Lev:0/60)"
+        },
+        "Spells": {},
+        "Legends": [
+          "Priest by oath of Erin - Deoch 219, Winter",
+          "Aisling - Deoch 219, Winter"
+        ],
+        "LegendsKnown": true,
+        "LegendsRevision": 45,
+        "Dialog": null,
+        "Notice": null
+      }
+    },
+    {
+      "Time": "2026-10-10T01:21:59.2717372+00:00",
+      "Character": "Aware",
+      "Generation": 1834593565575173,
+      "Revision": 53,
+      "Opcode": 14,
+      "Payload": "AABoCQA=",
+      "Snapshot": {
+        "Generation": 1834593565575173,
+        "Revision": 53,
+        "Name": "Aware",
+        "Id": 1417623,
+        "Connected": true,
+        "Level": 99,
+        "Gold": 2000,
+        "Experience": 358928581,
+        "Hp": 3676,
+        "Weight": 19,
+        "MaxWeight": 75,
+        "Map": 504,
+        "Position": {
+          "X": 79,
+          "Y": 12
+        },
+        "InventoryKnown": true,
+        "Inventory": {
+          "1": {
+            "Slot": 1,
+            "Name": "Oren Gorget Gown",
+            "Quantity": 1
+          },
+          "2": {
+            "Slot": 2,
+            "Name": "Undine Mushroom",
+            "Quantity": 2
+          },
+          "3": {
+            "Slot": 3,
+            "Name": "Tutorial Book",
+            "Quantity": 1
+          },
+          "4": {
+            "Slot": 4,
+            "Name": "Dirk",
+            "Quantity": 1
+          },
+          "5": {
+            "Slot": 5,
+            "Name": "Andor Chest",
+            "Quantity": 1
+          },
+          "6": {
+            "Slot": 6,
+            "Name": "Ragged Blouse",
+            "Quantity": 1
+          },
+          "7": {
+            "Slot": 7,
+            "Name": "Christmas Double Exp-Ap",
+            "Quantity": 4
+          },
+          "10": {
+            "Slot": 10,
+            "Name": "Priest Tutorial Book",
+            "Quantity": 1
+          }
+        },
+        "Entities": {},
+        "GroundItems": {
+          "26604": {
+            "Id": 26604,
+            "Sprite": 569,
+            "Position": {
+              "X": 78,
+              "Y": 7
+            }
+          },
+          "26632": {
+            "Id": 26632,
+            "Sprite": 569,
+            "Position": {
+              "X": 76,
+              "Y": 10
+            }
+          },
+          "26644": {
+            "Id": 26644,
+            "Sprite": 569,
+            "Position": {
+              "X": 76,
+              "Y": 7
+            }
+          },
+          "26659": {
+            "Id": 26659,
+            "Sprite": 569,
+            "Position": {
+              "X": 73,
+              "Y": 13
+            }
+          },
+          "26672": {
+            "Id": 26672,
+            "Sprite": 569,
+            "Position": {
+              "X": 70,
+              "Y": 7
+            }
+          }
+        },
+        "Equipment": {
+          "7": "Small Spinel Ring",
+          "8": "Small Emerald Ring",
+          "13": "Boots",
+          "15": "Blue Polonaise"
+        },
+        "Skills": {
+          "1": "Assail (Lev:0/60)"
+        },
+        "Spells": {},
+        "Legends": [
+          "Priest by oath of Erin - Deoch 219, Winter",
+          "Aisling - Deoch 219, Winter"
+        ],
+        "LegendsKnown": true,
+        "LegendsRevision": 45,
+        "Dialog": null,
+        "Notice": null
+      }
+    },
+    {
+      "Time": "2026-10-10T01:21:59.7874481+00:00",
+      "Character": "Aware",
+      "Generation": 1834593565575173,
+      "Revision": 55,
+      "Opcode": 7,
+      "Payload": "AAEARgAHAABoMII5AAAA",
+      "Snapshot": {
+        "Generation": 1834593565575173,
+        "Revision": 55,
+        "Name": "Aware",
+        "Id": 1417623,
+        "Connected": true,
+        "Level": 99,
+        "Gold": 2000,
+        "Experience": 358928581,
+        "Hp": 3676,
+        "Weight": 19,
+        "MaxWeight": 75,
+        "Map": 504,
+        "Position": {
+          "X": 79,
+          "Y": 11
+        },
+        "InventoryKnown": true,
+        "Inventory": {
+          "1": {
+            "Slot": 1,
+            "Name": "Oren Gorget Gown",
+            "Quantity": 1
+          },
+          "2": {
+            "Slot": 2,
+            "Name": "Undine Mushroom",
+            "Quantity": 2
+          },
+          "3": {
+            "Slot": 3,
+            "Name": "Tutorial Book",
+            "Quantity": 1
+          },
+          "4": {
+            "Slot": 4,
+            "Name": "Dirk",
+            "Quantity": 1
+          },
+          "5": {
+            "Slot": 5,
+            "Name": "Andor Chest",
+            "Quantity": 1
+          },
+          "6": {
+            "Slot": 6,
+            "Name": "Ragged Blouse",
+            "Quantity": 1
+          },
+          "7": {
+            "Slot": 7,
+            "Name": "Christmas Double Exp-Ap",
+            "Quantity": 4
+          },
+          "10": {
+            "Slot": 10,
+            "Name": "Priest Tutorial Book",
+            "Quantity": 1
+          }
+        },
+        "Entities": {},
+        "GroundItems": {
+          "26604": {
+            "Id": 26604,
+            "Sprite": 569,
+            "Position": {
+              "X": 78,
+              "Y": 7
+            }
+          },
+          "26632": {
+            "Id": 26632,
+            "Sprite": 569,
+            "Position": {
+              "X": 76,
+              "Y": 10
+            }
+          },
+          "26644": {
+            "Id": 26644,
+            "Sprite": 569,
+            "Position": {
+              "X": 76,
+              "Y": 7
+            }
+          },
+          "26659": {
+            "Id": 26659,
+            "Sprite": 569,
+            "Position": {
+              "X": 73,
+              "Y": 13
+            }
+          },
+          "26672": {
+            "Id": 26672,
+            "Sprite": 569,
+            "Position": {
+              "X": 70,
+              "Y": 7
+            }
+          }
+        },
+        "Equipment": {
+          "7": "Small Spinel Ring",
+          "8": "Small Emerald Ring",
+          "13": "Boots",
+          "15": "Blue Polonaise"
+        },
+        "Skills": {
+          "1": "Assail (Lev:0/60)"
+        },
+        "Spells": {},
+        "Legends": [
+          "Priest by oath of Erin - Deoch 219, Winter",
+          "Aisling - Deoch 219, Winter"
+        ],
+        "LegendsKnown": true,
+        "LegendsRevision": 45,
+        "Dialog": null,
+        "Notice": null
+      }
+    },
+    {
+      "Time": "2026-10-10T01:22:01.7773536+00:00",
+      "Character": "Aware",
+      "Generation": 1834593565575173,
+      "Revision": 60,
+      "Opcode": 14,
+      "Payload": "AABoCAA=",
+      "Snapshot": {
+        "Generation": 1834593565575173,
+        "Revision": 60,
+        "Name": "Aware",
+        "Id": 1417623,
+        "Connected": true,
+        "Level": 99,
+        "Gold": 2000,
+        "Experience": 358928581,
+        "Hp": 3676,
+        "Weight": 19,
+        "MaxWeight": 75,
+        "Map": 504,
+        "Position": {
+          "X": 76,
+          "Y": 10
+        },
+        "InventoryKnown": true,
+        "Inventory": {
+          "1": {
+            "Slot": 1,
+            "Name": "Oren Gorget Gown",
+            "Quantity": 1
+          },
+          "2": {
+            "Slot": 2,
+            "Name": "Undine Mushroom",
+            "Quantity": 2
+          },
+          "3": {
+            "Slot": 3,
+            "Name": "Tutorial Book",
+            "Quantity": 1
+          },
+          "4": {
+            "Slot": 4,
+            "Name": "Dirk",
+            "Quantity": 1
+          },
+          "5": {
+            "Slot": 5,
+            "Name": "Andor Chest",
+            "Quantity": 1
+          },
+          "6": {
+            "Slot": 6,
+            "Name": "Ragged Blouse",
+            "Quantity": 1
+          },
+          "7": {
+            "Slot": 7,
+            "Name": "Christmas Double Exp-Ap",
+            "Quantity": 4
+          },
+          "10": {
+            "Slot": 10,
+            "Name": "Priest Tutorial Book",
+            "Quantity": 1
+          }
+        },
+        "Entities": {},
+        "GroundItems": {
+          "26604": {
+            "Id": 26604,
+            "Sprite": 569,
+            "Position": {
+              "X": 78,
+              "Y": 7
+            }
+          },
+          "26644": {
+            "Id": 26644,
+            "Sprite": 569,
+            "Position": {
+              "X": 76,
+              "Y": 7
+            }
+          },
+          "26659": {
+            "Id": 26659,
+            "Sprite": 569,
+            "Position": {
+              "X": 73,
+              "Y": 13
+            }
+          },
+          "26672": {
+            "Id": 26672,
+            "Sprite": 569,
+            "Position": {
+              "X": 70,
+              "Y": 7
+            }
+          }
+        },
+        "Equipment": {
+          "7": "Small Spinel Ring",
+          "8": "Small Emerald Ring",
+          "13": "Boots",
+          "15": "Blue Polonaise"
+        },
+        "Skills": {
+          "1": "Assail (Lev:0/60)"
+        },
+        "Spells": {},
+        "Legends": [
+          "Priest by oath of Erin - Deoch 219, Winter",
+          "Aisling - Deoch 219, Winter"
+        ],
+        "LegendsKnown": true,
+        "LegendsRevision": 45,
+        "Dialog": null,
+        "Notice": null
+      }
+    },
+    {
+      "Time": "2026-10-10T01:22:01.789874+00:00",
+      "Character": "Aware",
+      "Generation": 1834593565575173,
+      "Revision": 61,
+      "Opcode": 15,
+      "Payload": "AoI5AA9VbmRpbmUgTXVzaHJvb20AAAADAQAAAAAAAAAAAA==",
+      "Snapshot": {
+        "Generation": 1834593565575173,
+        "Revision": 61,
+        "Name": "Aware",
+        "Id": 1417623,
+        "Connected": true,
+        "Level": 99,
+        "Gold": 2000,
+        "Experience": 358928581,
+        "Hp": 3676,
+        "Weight": 19,
+        "MaxWeight": 75,
+        "Map": 504,
+        "Position": {
+          "X": 76,
+          "Y": 10
+        },
+        "InventoryKnown": true,
+        "Inventory": {
+          "1": {
+            "Slot": 1,
+            "Name": "Oren Gorget Gown",
+            "Quantity": 1
+          },
+          "2": {
+            "Slot": 2,
+            "Name": "Undine Mushroom",
+            "Quantity": 3
+          },
+          "3": {
+            "Slot": 3,
+            "Name": "Tutorial Book",
+            "Quantity": 1
+          },
+          "4": {
+            "Slot": 4,
+            "Name": "Dirk",
+            "Quantity": 1
+          },
+          "5": {
+            "Slot": 5,
+            "Name": "Andor Chest",
+            "Quantity": 1
+          },
+          "6": {
+            "Slot": 6,
+            "Name": "Ragged Blouse",
+            "Quantity": 1
+          },
+          "7": {
+            "Slot": 7,
+            "Name": "Christmas Double Exp-Ap",
+            "Quantity": 4
+          },
+          "10": {
+            "Slot": 10,
+            "Name": "Priest Tutorial Book",
+            "Quantity": 1
+          }
+        },
+        "Entities": {},
+        "GroundItems": {
+          "26604": {
+            "Id": 26604,
+            "Sprite": 569,
+            "Position": {
+              "X": 78,
+              "Y": 7
+            }
+          },
+          "26644": {
+            "Id": 26644,
+            "Sprite": 569,
+            "Position": {
+              "X": 76,
+              "Y": 7
+            }
+          },
+          "26659": {
+            "Id": 26659,
+            "Sprite": 569,
+            "Position": {
+              "X": 73,
+              "Y": 13
+            }
+          },
+          "26672": {
+            "Id": 26672,
+            "Sprite": 569,
+            "Position": {
+              "X": 70,
+              "Y": 7
+            }
+          }
+        },
+        "Equipment": {
+          "7": "Small Spinel Ring",
+          "8": "Small Emerald Ring",
+          "13": "Boots",
+          "15": "Blue Polonaise"
+        },
+        "Skills": {
+          "1": "Assail (Lev:0/60)"
+        },
+        "Spells": {},
+        "Legends": [
+          "Priest by oath of Erin - Deoch 219, Winter",
+          "Aisling - Deoch 219, Winter"
+        ],
+        "LegendsKnown": true,
+        "LegendsRevision": 45,
+        "Dialog": null,
+        "Notice": null
+      }
+    },
+    {
+      "Time": "2026-10-10T01:22:03.7843135+00:00",
+      "Character": "Aware",
+      "Generation": 1834593565575173,
+      "Revision": 66,
+      "Opcode": 14,
+      "Payload": "AABoFAA=",
+      "Snapshot": {
+        "Generation": 1834593565575173,
+        "Revision": 66,
+        "Name": "Aware",
+        "Id": 1417623,
+        "Connected": true,
+        "Level": 99,
+        "Gold": 2000,
+        "Experience": 358928581,
+        "Hp": 3676,
+        "Weight": 19,
+        "MaxWeight": 75,
+        "Map": 504,
+        "Position": {
+          "X": 76,
+          "Y": 7
+        },
+        "InventoryKnown": true,
+        "Inventory": {
+          "1": {
+            "Slot": 1,
+            "Name": "Oren Gorget Gown",
+            "Quantity": 1
+          },
+          "2": {
+            "Slot": 2,
+            "Name": "Undine Mushroom",
+            "Quantity": 3
+          },
+          "3": {
+            "Slot": 3,
+            "Name": "Tutorial Book",
+            "Quantity": 1
+          },
+          "4": {
+            "Slot": 4,
+            "Name": "Dirk",
+            "Quantity": 1
+          },
+          "5": {
+            "Slot": 5,
+            "Name": "Andor Chest",
+            "Quantity": 1
+          },
+          "6": {
+            "Slot": 6,
+            "Name": "Ragged Blouse",
+            "Quantity": 1
+          },
+          "7": {
+            "Slot": 7,
+            "Name": "Christmas Double Exp-Ap",
+            "Quantity": 4
+          },
+          "10": {
+            "Slot": 10,
+            "Name": "Priest Tutorial Book",
+            "Quantity": 1
+          }
+        },
+        "Entities": {},
+        "GroundItems": {
+          "26604": {
+            "Id": 26604,
+            "Sprite": 569,
+            "Position": {
+              "X": 78,
+              "Y": 7
+            }
+          },
+          "26659": {
+            "Id": 26659,
+            "Sprite": 569,
+            "Position": {
+              "X": 73,
+              "Y": 13
+            }
+          },
+          "26672": {
+            "Id": 26672,
+            "Sprite": 569,
+            "Position": {
+              "X": 70,
+              "Y": 7
+            }
+          }
+        },
+        "Equipment": {
+          "7": "Small Spinel Ring",
+          "8": "Small Emerald Ring",
+          "13": "Boots",
+          "15": "Blue Polonaise"
+        },
+        "Skills": {
+          "1": "Assail (Lev:0/60)"
+        },
+        "Spells": {},
+        "Legends": [
+          "Priest by oath of Erin - Deoch 219, Winter",
+          "Aisling - Deoch 219, Winter"
+        ],
+        "LegendsKnown": true,
+        "LegendsRevision": 45,
+        "Dialog": null,
+        "Notice": null
+      }
+    },
+    {
+      "Time": "2026-10-10T01:22:03.7977477+00:00",
+      "Character": "Aware",
+      "Generation": 1834593565575173,
+      "Revision": 67,
+      "Opcode": 15,
+      "Payload": "AoI5AA9VbmRpbmUgTXVzaHJvb20AAAAEAQAAAAAAAAAA",
+      "Snapshot": {
+        "Generation": 1834593565575173,
+        "Revision": 67,
+        "Name": "Aware",
+        "Id": 1417623,
+        "Connected": true,
+        "Level": 99,
+        "Gold": 2000,
+        "Experience": 358928581,
+        "Hp": 3676,
+        "Weight": 19,
+        "MaxWeight": 75,
+        "Map": 504,
+        "Position": {
+          "X": 76,
+          "Y": 7
+        },
+        "InventoryKnown": true,
+        "Inventory": {
+          "1": {
+            "Slot": 1,
+            "Name": "Oren Gorget Gown",
+            "Quantity": 1
+          },
+          "2": {
+            "Slot": 2,
+            "Name": "Undine Mushroom",
+            "Quantity": 4
+          },
+          "3": {
+            "Slot": 3,
+            "Name": "Tutorial Book",
+            "Quantity": 1
+          },
+          "4": {
+            "Slot": 4,
+            "Name": "Dirk",
+            "Quantity": 1
+          },
+          "5": {
+            "Slot": 5,
+            "Name": "Andor Chest",
+            "Quantity": 1
+          },
+          "6": {
+            "Slot": 6,
+            "Name": "Ragged Blouse",
+            "Quantity": 1
+          },
+          "7": {
+            "Slot": 7,
+            "Name": "Christmas Double Exp-Ap",
+            "Quantity": 4
+          },
+          "10": {
+            "Slot": 10,
+            "Name": "Priest Tutorial Book",
+            "Quantity": 1
+          }
+        },
+        "Entities": {},
+        "GroundItems": {
+          "26604": {
+            "Id": 26604,
+            "Sprite": 569,
+            "Position": {
+              "X": 78,
+              "Y": 7
+            }
+          },
+          "26659": {
+            "Id": 26659,
+            "Sprite": 569,
+            "Position": {
+              "X": 73,
+              "Y": 13
+            }
+          },
+          "26672": {
+            "Id": 26672,
+            "Sprite": 569,
+            "Position": {
+              "X": 70,
+              "Y": 7
+            }
+          }
+        },
+        "Equipment": {
+          "7": "Small Spinel Ring",
+          "8": "Small Emerald Ring",
+          "13": "Boots",
+          "15": "Blue Polonaise"
+        },
+        "Skills": {
+          "1": "Assail (Lev:0/60)"
+        },
+        "Spells": {},
+        "Legends": [
+          "Priest by oath of Erin - Deoch 219, Winter",
+          "Aisling - Deoch 219, Winter"
+        ],
+        "LegendsKnown": true,
+        "LegendsRevision": 45,
+        "Dialog": null,
+        "Notice": null
+      }
+    },
+    {
+      "Time": "2026-10-10T01:22:05.283627+00:00",
+      "Character": "Aware",
+      "Generation": 1834593565575173,
+      "Revision": 71,
+      "Opcode": 14,
+      "Payload": "AABn7AA=",
+      "Snapshot": {
+        "Generation": 1834593565575173,
+        "Revision": 71,
+        "Name": "Aware",
+        "Id": 1417623,
+        "Connected": true,
+        "Level": 99,
+        "Gold": 2000,
+        "Experience": 358928581,
+        "Hp": 3676,
+        "Weight": 19,
+        "MaxWeight": 75,
+        "Map": 504,
+        "Position": {
+          "X": 78,
+          "Y": 7
+        },
+        "InventoryKnown": true,
+        "Inventory": {
+          "1": {
+            "Slot": 1,
+            "Name": "Oren Gorget Gown",
+            "Quantity": 1
+          },
+          "2": {
+            "Slot": 2,
+            "Name": "Undine Mushroom",
+            "Quantity": 4
+          },
+          "3": {
+            "Slot": 3,
+            "Name": "Tutorial Book",
+            "Quantity": 1
+          },
+          "4": {
+            "Slot": 4,
+            "Name": "Dirk",
+            "Quantity": 1
+          },
+          "5": {
+            "Slot": 5,
+            "Name": "Andor Chest",
+            "Quantity": 1
+          },
+          "6": {
+            "Slot": 6,
+            "Name": "Ragged Blouse",
+            "Quantity": 1
+          },
+          "7": {
+            "Slot": 7,
+            "Name": "Christmas Double Exp-Ap",
+            "Quantity": 4
+          },
+          "10": {
+            "Slot": 10,
+            "Name": "Priest Tutorial Book",
+            "Quantity": 1
+          }
+        },
+        "Entities": {},
+        "GroundItems": {
+          "26659": {
+            "Id": 26659,
+            "Sprite": 569,
+            "Position": {
+              "X": 73,
+              "Y": 13
+            }
+          },
+          "26672": {
+            "Id": 26672,
+            "Sprite": 569,
+            "Position": {
+              "X": 70,
+              "Y": 7
+            }
+          }
+        },
+        "Equipment": {
+          "7": "Small Spinel Ring",
+          "8": "Small Emerald Ring",
+          "13": "Boots",
+          "15": "Blue Polonaise"
+        },
+        "Skills": {
+          "1": "Assail (Lev:0/60)"
+        },
+        "Spells": {},
+        "Legends": [
+          "Priest by oath of Erin - Deoch 219, Winter",
+          "Aisling - Deoch 219, Winter"
+        ],
+        "LegendsKnown": true,
+        "LegendsRevision": 45,
+        "Dialog": null,
+        "Notice": null
+      }
+    },
+    {
+      "Time": "2026-10-10T01:22:05.2916421+00:00",
+      "Character": "Aware",
+      "Generation": 1834593565575173,
+      "Revision": 72,
+      "Opcode": 15,
+      "Payload": "AoI5AA9VbmRpbmUgTXVzaHJvb20AAAAFAQAAAAAAAAAA",
+      "Snapshot": {
+        "Generation": 1834593565575173,
+        "Revision": 72,
+        "Name": "Aware",
+        "Id": 1417623,
+        "Connected": true,
+        "Level": 99,
+        "Gold": 2000,
+        "Experience": 358928581,
+        "Hp": 3676,
+        "Weight": 19,
+        "MaxWeight": 75,
+        "Map": 504,
+        "Position": {
+          "X": 78,
+          "Y": 7
+        },
+        "InventoryKnown": true,
+        "Inventory": {
+          "1": {
+            "Slot": 1,
+            "Name": "Oren Gorget Gown",
+            "Quantity": 1
+          },
+          "2": {
+            "Slot": 2,
+            "Name": "Undine Mushroom",
+            "Quantity": 5
+          },
+          "3": {
+            "Slot": 3,
+            "Name": "Tutorial Book",
+            "Quantity": 1
+          },
+          "4": {
+            "Slot": 4,
+            "Name": "Dirk",
+            "Quantity": 1
+          },
+          "5": {
+            "Slot": 5,
+            "Name": "Andor Chest",
+            "Quantity": 1
+          },
+          "6": {
+            "Slot": 6,
+            "Name": "Ragged Blouse",
+            "Quantity": 1
+          },
+          "7": {
+            "Slot": 7,
+            "Name": "Christmas Double Exp-Ap",
+            "Quantity": 4
+          },
+          "10": {
+            "Slot": 10,
+            "Name": "Priest Tutorial Book",
+            "Quantity": 1
+          }
+        },
+        "Entities": {},
+        "GroundItems": {
+          "26659": {
+            "Id": 26659,
+            "Sprite": 569,
+            "Position": {
+              "X": 73,
+              "Y": 13
+            }
+          },
+          "26672": {
+            "Id": 26672,
+            "Sprite": 569,
+            "Position": {
+              "X": 70,
+              "Y": 7
+            }
+          }
+        },
+        "Equipment": {
+          "7": "Small Spinel Ring",
+          "8": "Small Emerald Ring",
+          "13": "Boots",
+          "15": "Blue Polonaise"
+        },
+        "Skills": {
+          "1": "Assail (Lev:0/60)"
+        },
+        "Spells": {},
+        "Legends": [
+          "Priest by oath of Erin - Deoch 219, Winter",
+          "Aisling - Deoch 219, Winter"
+        ],
+        "LegendsKnown": true,
+        "LegendsRevision": 45,
+        "Dialog": null,
+        "Notice": null
+      }
+    },
+    {
+      "Time": "2026-10-10T01:22:13.2894805+00:00",
+      "Character": "Aware",
+      "Generation": 1834593565575173,
+      "Revision": 90,
+      "Opcode": 14,
+      "Payload": "AABoIwA=",
+      "Snapshot": {
+        "Generation": 1834593565575173,
+        "Revision": 90,
+        "Name": "Aware",
+        "Id": 1417623,
+        "Connected": true,
+        "Level": 99,
+        "Gold": 2000,
+        "Experience": 358928581,
+        "Hp": 3676,
+        "Weight": 19,
+        "MaxWeight": 75,
+        "Map": 504,
+        "Position": {
+          "X": 65,
+          "Y": 9
+        },
+        "InventoryKnown": true,
+        "Inventory": {
+          "1": {
+            "Slot": 1,
+            "Name": "Oren Gorget Gown",
+            "Quantity": 1
+          },
+          "2": {
+            "Slot": 2,
+            "Name": "Undine Mushroom",
+            "Quantity": 5
+          },
+          "3": {
+            "Slot": 3,
+            "Name": "Tutorial Book",
+            "Quantity": 1
+          },
+          "4": {
+            "Slot": 4,
+            "Name": "Dirk",
+            "Quantity": 1
+          },
+          "5": {
+            "Slot": 5,
+            "Name": "Andor Chest",
+            "Quantity": 1
+          },
+          "6": {
+            "Slot": 6,
+            "Name": "Ragged Blouse",
+            "Quantity": 1
+          },
+          "7": {
+            "Slot": 7,
+            "Name": "Christmas Double Exp-Ap",
+            "Quantity": 4
+          },
+          "10": {
+            "Slot": 10,
+            "Name": "Priest Tutorial Book",
+            "Quantity": 1
+          }
+        },
+        "Entities": {},
+        "GroundItems": {
+          "26672": {
+            "Id": 26672,
+            "Sprite": 569,
+            "Position": {
+              "X": 70,
+              "Y": 7
+            }
+          }
+        },
+        "Equipment": {
+          "7": "Small Spinel Ring",
+          "8": "Small Emerald Ring",
+          "13": "Boots",
+          "15": "Blue Polonaise"
+        },
+        "Skills": {
+          "1": "Assail (Lev:0/60)"
+        },
+        "Spells": {},
+        "Legends": [
+          "Priest by oath of Erin - Deoch 219, Winter",
+          "Aisling - Deoch 219, Winter"
+        ],
+        "LegendsKnown": true,
+        "LegendsRevision": 45,
+        "Dialog": null,
+        "Notice": null
+      }
+    },
+    {
+      "Time": "2026-10-10T01:22:15.7923028+00:00",
+      "Character": "Aware",
+      "Generation": 1834593565575173,
+      "Revision": 96,
+      "Opcode": 14,
+      "Payload": "AABoMAA=",
+      "Snapshot": {
+        "Generation": 1834593565575173,
+        "Revision": 96,
+        "Name": "Aware",
+        "Id": 1417623,
+        "Connected": true,
+        "Level": 99,
+        "Gold": 2000,
+        "Experience": 358928581,
+        "Hp": 3676,
+        "Weight": 19,
+        "MaxWeight": 75,
+        "Map": 504,
+        "Position": {
+          "X": 61,
+          "Y": 10
+        },
+        "InventoryKnown": true,
+        "Inventory": {
+          "1": {
+            "Slot": 1,
+            "Name": "Oren Gorget Gown",
+            "Quantity": 1
+          },
+          "2": {
+            "Slot": 2,
+            "Name": "Undine Mushroom",
+            "Quantity": 5
+          },
+          "3": {
+            "Slot": 3,
+            "Name": "Tutorial Book",
+            "Quantity": 1
+          },
+          "4": {
+            "Slot": 4,
+            "Name": "Dirk",
+            "Quantity": 1
+          },
+          "5": {
+            "Slot": 5,
+            "Name": "Andor Chest",
+            "Quantity": 1
+          },
+          "6": {
+            "Slot": 6,
+            "Name": "Ragged Blouse",
+            "Quantity": 1
+          },
+          "7": {
+            "Slot": 7,
+            "Name": "Christmas Double Exp-Ap",
+            "Quantity": 4
+          },
+          "10": {
+            "Slot": 10,
+            "Name": "Priest Tutorial Book",
+            "Quantity": 1
+          }
+        },
+        "Entities": {},
+        "GroundItems": {},
+        "Equipment": {
+          "7": "Small Spinel Ring",
+          "8": "Small Emerald Ring",
+          "13": "Boots",
+          "15": "Blue Polonaise"
+        },
+        "Skills": {
+          "1": "Assail (Lev:0/60)"
+        },
+        "Spells": {},
+        "Legends": [
+          "Priest by oath of Erin - Deoch 219, Winter",
+          "Aisling - Deoch 219, Winter"
+        ],
+        "LegendsKnown": true,
+        "LegendsRevision": 45,
+        "Dialog": null,
+        "Notice": null
+      }
+    },
+    {
+      "Time": "2026-10-10T01:22:16.2851086+00:00",
+      "Character": "Aware",
+      "Generation": 1834593565575173,
+      "Revision": 98,
+      "Opcode": 7,
+      "Payload": "AAEAMAAJAABoLoI5AAAA",
+      "Snapshot": {
+        "Generation": 1834593565575173,
+        "Revision": 98,
+        "Name": "Aware",
+        "Id": 1417623,
+        "Connected": true,
+        "Level": 99,
+        "Gold": 2000,
+        "Experience": 358928581,
+        "Hp": 3676,
+        "Weight": 19,
+        "MaxWeight": 75,
+        "Map": 504,
+        "Position": {
+          "X": 60,
+          "Y": 10
+        },
+        "InventoryKnown": true,
+        "Inventory": {
+          "1": {
+            "Slot": 1,
+            "Name": "Oren Gorget Gown",
+            "Quantity": 1
+          },
+          "2": {
+            "Slot": 2,
+            "Name": "Undine Mushroom",
+            "Quantity": 5
+          },
+          "3": {
+            "Slot": 3,
+            "Name": "Tutorial Book",
+            "Quantity": 1
+          },
+          "4": {
+            "Slot": 4,
+            "Name": "Dirk",
+            "Quantity": 1
+          },
+          "5": {
+            "Slot": 5,
+            "Name": "Andor Chest",
+            "Quantity": 1
+          },
+          "6": {
+            "Slot": 6,
+            "Name": "Ragged Blouse",
+            "Quantity": 1
+          },
+          "7": {
+            "Slot": 7,
+            "Name": "Christmas Double Exp-Ap",
+            "Quantity": 4
+          },
+          "10": {
+            "Slot": 10,
+            "Name": "Priest Tutorial Book",
+            "Quantity": 1
+          }
+        },
+        "Entities": {},
+        "GroundItems": {
+          "26670": {
+            "Id": 26670,
+            "Sprite": 569,
+            "Position": {
+              "X": 48,
+              "Y": 9
+            }
+          }
+        },
+        "Equipment": {
+          "7": "Small Spinel Ring",
+          "8": "Small Emerald Ring",
+          "13": "Boots",
+          "15": "Blue Polonaise"
+        },
+        "Skills": {
+          "1": "Assail (Lev:0/60)"
+        },
+        "Spells": {},
+        "Legends": [
+          "Priest by oath of Erin - Deoch 219, Winter",
+          "Aisling - Deoch 219, Winter"
+        ],
+        "LegendsKnown": true,
+        "LegendsRevision": 45,
+        "Dialog": null,
+        "Notice": null
+      }
+    },
+    {
+      "Time": "2026-10-10T01:22:18.7906752+00:00",
+      "Character": "Aware",
+      "Generation": 1834593565575173,
+      "Revision": 104,
+      "Opcode": 7,
+      "Payload": "AAEAPgAJABWmkYI5AAAA",
+      "Snapshot": {
+        "Generation": 1834593565575173,
+        "Revision": 104,
+        "Name": "Aware",
+        "Id": 1417623,
+        "Connected": true,
+        "Level": 99,
+        "Gold": 2000,
+        "Experience": 358928581,
+        "Hp": 3676,
+        "Weight": 19,
+        "MaxWeight": 75,
+        "Map": 504,
+        "Position": {
+          "X": 55,
+          "Y": 10
+        },
+        "InventoryKnown": true,
+        "Inventory": {
+          "1": {
+            "Slot": 1,
+            "Name": "Oren Gorget Gown",
+            "Quantity": 1
+          },
+          "2": {
+            "Slot": 2,
+            "Name": "Undine Mushroom",
+            "Quantity": 5
+          },
+          "3": {
+            "Slot": 3,
+            "Name": "Tutorial Book",
+            "Quantity": 1
+          },
+          "4": {
+            "Slot": 4,
+            "Name": "Dirk",
+            "Quantity": 1
+          },
+          "5": {
+            "Slot": 5,
+            "Name": "Andor Chest",
+            "Quantity": 1
+          },
+          "6": {
+            "Slot": 6,
+            "Name": "Ragged Blouse",
+            "Quantity": 1
+          },
+          "7": {
+            "Slot": 7,
+            "Name": "Christmas Double Exp-Ap",
+            "Quantity": 4
+          },
+          "10": {
+            "Slot": 10,
+            "Name": "Priest Tutorial Book",
+            "Quantity": 1
+          }
+        },
+        "Entities": {},
+        "GroundItems": {
+          "26670": {
+            "Id": 26670,
+            "Sprite": 569,
+            "Position": {
+              "X": 48,
+              "Y": 9
+            }
+          },
+          "1418897": {
+            "Id": 1418897,
+            "Sprite": 569,
+            "Position": {
+              "X": 62,
+              "Y": 9
+            }
+          }
+        },
+        "Equipment": {
+          "7": "Small Spinel Ring",
+          "8": "Small Emerald Ring",
+          "13": "Boots",
+          "15": "Blue Polonaise"
+        },
+        "Skills": {
+          "1": "Assail (Lev:0/60)"
+        },
+        "Spells": {},
+        "Legends": [
+          "Priest by oath of Erin - Deoch 219, Winter",
+          "Aisling - Deoch 219, Winter"
+        ],
+        "LegendsKnown": true,
+        "LegendsRevision": 45,
+        "Dialog": null,
+        "Notice": null
+      }
+    },
+    {
+      "Time": "2026-10-10T01:22:20.2900916+00:00",
+      "Character": "Aware",
+      "Generation": 1834593565575173,
+      "Revision": 108,
+      "Opcode": 7,
+      "Payload": "AAEAKgAHAABoQYI5AAAA",
+      "Snapshot": {
+        "Generation": 1834593565575173,
+        "Revision": 108,
+        "Name": "Aware",
+        "Id": 1417623,
+        "Connected": true,
+        "Level": 99,
+        "Gold": 2000,
+        "Experience": 358928581,
+        "Hp": 3676,
+        "Weight": 19,
+        "MaxWeight": 75,
+        "Map": 504,
+        "Position": {
+          "X": 52,
+          "Y": 10
+        },
+        "InventoryKnown": true,
+        "Inventory": {
+          "1": {
+            "Slot": 1,
+            "Name": "Oren Gorget Gown",
+            "Quantity": 1
+          },
+          "2": {
+            "Slot": 2,
+            "Name": "Undine Mushroom",
+            "Quantity": 5
+          },
+          "3": {
+            "Slot": 3,
+            "Name": "Tutorial Book",
+            "Quantity": 1
+          },
+          "4": {
+            "Slot": 4,
+            "Name": "Dirk",
+            "Quantity": 1
+          },
+          "5": {
+            "Slot": 5,
+            "Name": "Andor Chest",
+            "Quantity": 1
+          },
+          "6": {
+            "Slot": 6,
+            "Name": "Ragged Blouse",
+            "Quantity": 1
+          },
+          "7": {
+            "Slot": 7,
+            "Name": "Christmas Double Exp-Ap",
+            "Quantity": 4
+          },
+          "10": {
+            "Slot": 10,
+            "Name": "Priest Tutorial Book",
+            "Quantity": 1
+          }
+        },
+        "Entities": {},
+        "GroundItems": {
+          "26670": {
+            "Id": 26670,
+            "Sprite": 569,
+            "Position": {
+              "X": 48,
+              "Y": 9
+            }
+          },
+          "26689": {
+            "Id": 26689,
+            "Sprite": 569,
+            "Position": {
+              "X": 42,
+              "Y": 7
+            }
+          },
+          "1418897": {
+            "Id": 1418897,
+            "Sprite": 569,
+            "Position": {
+              "X": 62,
+              "Y": 9
+            }
+          }
+        },
+        "Equipment": {
+          "7": "Small Spinel Ring",
+          "8": "Small Emerald Ring",
+          "13": "Boots",
+          "15": "Blue Polonaise"
+        },
+        "Skills": {
+          "1": "Assail (Lev:0/60)"
+        },
+        "Spells": {},
+        "Legends": [
+          "Priest by oath of Erin - Deoch 219, Winter",
+          "Aisling - Deoch 219, Winter"
+        ],
+        "LegendsKnown": true,
+        "LegendsRevision": 45,
+        "Dialog": null,
+        "Notice": null
+      }
+    },
+    {
+      "Time": "2026-10-10T01:22:20.7999118+00:00",
+      "Character": "Aware",
+      "Generation": 1834593565575173,
+      "Revision": 110,
+      "Opcode": 14,
+      "Payload": "ABWmkQA=",
+      "Snapshot": {
+        "Generation": 1834593565575173,
+        "Revision": 110,
+        "Name": "Aware",
+        "Id": 1417623,
+        "Connected": true,
+        "Level": 99,
+        "Gold": 2000,
+        "Experience": 358928581,
+        "Hp": 3676,
+        "Weight": 19,
+        "MaxWeight": 75,
+        "Map": 504,
+        "Position": {
+          "X": 51,
+          "Y": 10
+        },
+        "InventoryKnown": true,
+        "Inventory": {
+          "1": {
+            "Slot": 1,
+            "Name": "Oren Gorget Gown",
+            "Quantity": 1
+          },
+          "2": {
+            "Slot": 2,
+            "Name": "Undine Mushroom",
+            "Quantity": 5
+          },
+          "3": {
+            "Slot": 3,
+            "Name": "Tutorial Book",
+            "Quantity": 1
+          },
+          "4": {
+            "Slot": 4,
+            "Name": "Dirk",
+            "Quantity": 1
+          },
+          "5": {
+            "Slot": 5,
+            "Name": "Andor Chest",
+            "Quantity": 1
+          },
+          "6": {
+            "Slot": 6,
+            "Name": "Ragged Blouse",
+            "Quantity": 1
+          },
+          "7": {
+            "Slot": 7,
+            "Name": "Christmas Double Exp-Ap",
+            "Quantity": 4
+          },
+          "10": {
+            "Slot": 10,
+            "Name": "Priest Tutorial Book",
+            "Quantity": 1
+          }
+        },
+        "Entities": {},
+        "GroundItems": {
+          "26670": {
+            "Id": 26670,
+            "Sprite": 569,
+            "Position": {
+              "X": 48,
+              "Y": 9
+            }
+          },
+          "26689": {
+            "Id": 26689,
+            "Sprite": 569,
+            "Position": {
+              "X": 42,
+              "Y": 7
+            }
+          }
+        },
+        "Equipment": {
+          "7": "Small Spinel Ring",
+          "8": "Small Emerald Ring",
+          "13": "Boots",
+          "15": "Blue Polonaise"
+        },
+        "Skills": {
+          "1": "Assail (Lev:0/60)"
+        },
+        "Spells": {},
+        "Legends": [
+          "Priest by oath of Erin - Deoch 219, Winter",
+          "Aisling - Deoch 219, Winter"
+        ],
+        "LegendsKnown": true,
+        "LegendsRevision": 45,
+        "Dialog": null,
+        "Notice": null
+      }
+    },
+    {
+      "Time": "2026-10-10T01:22:21.2857628+00:00",
+      "Character": "Aware",
+      "Generation": 1834593565575173,
+      "Revision": 112,
+      "Opcode": 7,
+      "Payload": "AAEAKAAHAABn9II5AAAA",
+      "Snapshot": {
+        "Generation": 1834593565575173,
+        "Revision": 112,
+        "Name": "Aware",
+        "Id": 1417623,
+        "Connected": true,
+        "Level": 99,
+        "Gold": 2000,
+        "Experience": 358928581,
+        "Hp": 3676,
+        "Weight": 19,
+        "MaxWeight": 75,
+        "Map": 504,
+        "Position": {
+          "X": 50,
+          "Y": 10
+        },
+        "InventoryKnown": true,
+        "Inventory": {
+          "1": {
+            "Slot": 1,
+            "Name": "Oren Gorget Gown",
+            "Quantity": 1
+          },
+          "2": {
+            "Slot": 2,
+            "Name": "Undine Mushroom",
+            "Quantity": 5
+          },
+          "3": {
+            "Slot": 3,
+            "Name": "Tutorial Book",
+            "Quantity": 1
+          },
+          "4": {
+            "Slot": 4,
+            "Name": "Dirk",
+            "Quantity": 1
+          },
+          "5": {
+            "Slot": 5,
+            "Name": "Andor Chest",
+            "Quantity": 1
+          },
+          "6": {
+            "Slot": 6,
+            "Name": "Ragged Blouse",
+            "Quantity": 1
+          },
+          "7": {
+            "Slot": 7,
+            "Name": "Christmas Double Exp-Ap",
+            "Quantity": 4
+          },
+          "10": {
+            "Slot": 10,
+            "Name": "Priest Tutorial Book",
+            "Quantity": 1
+          }
+        },
+        "Entities": {},
+        "GroundItems": {
+          "26612": {
+            "Id": 26612,
+            "Sprite": 569,
+            "Position": {
+              "X": 40,
+              "Y": 7
+            }
+          },
+          "26670": {
+            "Id": 26670,
+            "Sprite": 569,
+            "Position": {
+              "X": 48,
+              "Y": 9
+            }
+          },
+          "26689": {
+            "Id": 26689,
+            "Sprite": 569,
+            "Position": {
+              "X": 42,
+              "Y": 7
+            }
+          }
+        },
+        "Equipment": {
+          "7": "Small Spinel Ring",
+          "8": "Small Emerald Ring",
+          "13": "Boots",
+          "15": "Blue Polonaise"
+        },
+        "Skills": {
+          "1": "Assail (Lev:0/60)"
+        },
+        "Spells": {},
+        "Legends": [
+          "Priest by oath of Erin - Deoch 219, Winter",
+          "Aisling - Deoch 219, Winter"
+        ],
+        "LegendsKnown": true,
+        "LegendsRevision": 45,
+        "Dialog": null,
+        "Notice": null
+      }
+    },
+    {
+      "Time": "2026-10-10T01:22:22.7968593+00:00",
+      "Character": "Aware",
+      "Generation": 1834593565575173,
+      "Revision": 116,
+      "Opcode": 7,
+      "Payload": "AAEAIwAJAABn8YI5AAAA",
+      "Snapshot": {
+        "Generation": 1834593565575173,
+        "Revision": 116,
+        "Name": "Aware",
+        "Id": 1417623,
+        "Connected": true,
+        "Level": 99,
+        "Gold": 2000,
+        "Experience": 358928581,
+        "Hp": 3676,
+        "Weight": 19,
+        "MaxWeight": 75,
+        "Map": 504,
+        "Position": {
+          "X": 47,
+          "Y": 10
+        },
+        "InventoryKnown": true,
+        "Inventory": {
+          "1": {
+            "Slot": 1,
+            "Name": "Oren Gorget Gown",
+            "Quantity": 1
+          },
+          "2": {
+            "Slot": 2,
+            "Name": "Undine Mushroom",
+            "Quantity": 5
+          },
+          "3": {
+            "Slot": 3,
+            "Name": "Tutorial Book",
+            "Quantity": 1
+          },
+          "4": {
+            "Slot": 4,
+            "Name": "Dirk",
+            "Quantity": 1
+          },
+          "5": {
+            "Slot": 5,
+            "Name": "Andor Chest",
+            "Quantity": 1
+          },
+          "6": {
+            "Slot": 6,
+            "Name": "Ragged Blouse",
+            "Quantity": 1
+          },
+          "7": {
+            "Slot": 7,
+            "Name": "Christmas Double Exp-Ap",
+            "Quantity": 4
+          },
+          "10": {
+            "Slot": 10,
+            "Name": "Priest Tutorial Book",
+            "Quantity": 1
+          }
+        },
+        "Entities": {},
+        "GroundItems": {
+          "26609": {
+            "Id": 26609,
+            "Sprite": 569,
+            "Position": {
+              "X": 35,
+              "Y": 9
+            }
+          },
+          "26612": {
+            "Id": 26612,
+            "Sprite": 569,
+            "Position": {
+              "X": 40,
+              "Y": 7
+            }
+          },
+          "26670": {
+            "Id": 26670,
+            "Sprite": 569,
+            "Position": {
+              "X": 48,
+              "Y": 9
+            }
+          },
+          "26689": {
+            "Id": 26689,
+            "Sprite": 569,
+            "Position": {
+              "X": 42,
+              "Y": 7
+            }
+          }
+        },
+        "Equipment": {
+          "7": "Small Spinel Ring",
+          "8": "Small Emerald Ring",
+          "13": "Boots",
+          "15": "Blue Polonaise"
+        },
+        "Skills": {
+          "1": "Assail (Lev:0/60)"
+        },
+        "Spells": {},
+        "Legends": [
+          "Priest by oath of Erin - Deoch 219, Winter",
+          "Aisling - Deoch 219, Winter"
+        ],
+        "LegendsKnown": true,
+        "LegendsRevision": 45,
+        "Dialog": null,
+        "Notice": null
+      }
+    },
+    {
+      "Time": "2026-10-10T01:22:26.301812+00:00",
+      "Character": "Aware",
+      "Generation": 1834593565575173,
+      "Revision": 124,
+      "Opcode": 7,
+      "Payload": "AAEAHQAMAABn64I5AAAA",
+      "Snapshot": {
+        "Generation": 1834593565575173,
+        "Revision": 124,
+        "Name": "Aware",
+        "Id": 1417623,
+        "Connected": true,
+        "Level": 99,
+        "Gold": 2000,
+        "Experience": 358928581,
+        "Hp": 3676,
+        "Weight": 19,
+        "MaxWeight": 75,
+        "Map": 504,
+        "Position": {
+          "X": 40,
+          "Y": 10
+        },
+        "InventoryKnown": true,
+        "Inventory": {
+          "1": {
+            "Slot": 1,
+            "Name": "Oren Gorget Gown",
+            "Quantity": 1
+          },
+          "2": {
+            "Slot": 2,
+            "Name": "Undine Mushroom",
+            "Quantity": 5
+          },
+          "3": {
+            "Slot": 3,
+            "Name": "Tutorial Book",
+            "Quantity": 1
+          },
+          "4": {
+            "Slot": 4,
+            "Name": "Dirk",
+            "Quantity": 1
+          },
+          "5": {
+            "Slot": 5,
+            "Name": "Andor Chest",
+            "Quantity": 1
+          },
+          "6": {
+            "Slot": 6,
+            "Name": "Ragged Blouse",
+            "Quantity": 1
+          },
+          "7": {
+            "Slot": 7,
+            "Name": "Christmas Double Exp-Ap",
+            "Quantity": 4
+          },
+          "10": {
+            "Slot": 10,
+            "Name": "Priest Tutorial Book",
+            "Quantity": 1
+          }
+        },
+        "Entities": {},
+        "GroundItems": {
+          "26603": {
+            "Id": 26603,
+            "Sprite": 569,
+            "Position": {
+              "X": 29,
+              "Y": 12
+            }
+          },
+          "26609": {
+            "Id": 26609,
+            "Sprite": 569,
+            "Position": {
+              "X": 35,
+              "Y": 9
+            }
+          },
+          "26612": {
+            "Id": 26612,
+            "Sprite": 569,
+            "Position": {
+              "X": 40,
+              "Y": 7
+            }
+          },
+          "26670": {
+            "Id": 26670,
+            "Sprite": 569,
+            "Position": {
+              "X": 48,
+              "Y": 9
+            }
+          },
+          "26689": {
+            "Id": 26689,
+            "Sprite": 569,
+            "Position": {
+              "X": 42,
+              "Y": 7
+            }
+          }
+        },
+        "Equipment": {
+          "7": "Small Spinel Ring",
+          "8": "Small Emerald Ring",
+          "13": "Boots",
+          "15": "Blue Polonaise"
+        },
+        "Skills": {
+          "1": "Assail (Lev:0/60)"
+        },
+        "Spells": {},
+        "Legends": [
+          "Priest by oath of Erin - Deoch 219, Winter",
+          "Aisling - Deoch 219, Winter"
+        ],
+        "LegendsKnown": true,
+        "LegendsRevision": 45,
+        "Dialog": null,
+        "Notice": null
+      }
+    },
+    {
+      "Time": "2026-10-10T01:22:27.8086843+00:00",
+      "Character": "Aware",
+      "Generation": 1834593565575173,
+      "Revision": 128,
+      "Opcode": 14,
+      "Payload": "AABoLgA=",
+      "Snapshot": {
+        "Generation": 1834593565575173,
+        "Revision": 128,
+        "Name": "Aware",
+        "Id": 1417623,
+        "Connected": true,
+        "Level": 99,
+        "Gold": 2000,
+        "Experience": 358928581,
+        "Hp": 3676,
+        "Weight": 19,
+        "MaxWeight": 75,
+        "Map": 504,
+        "Position": {
+          "X": 37,
+          "Y": 10
+        },
+        "InventoryKnown": true,
+        "Inventory": {
+          "1": {
+            "Slot": 1,
+            "Name": "Oren Gorget Gown",
+            "Quantity": 1
+          },
+          "2": {
+            "Slot": 2,
+            "Name": "Undine Mushroom",
+            "Quantity": 5
+          },
+          "3": {
+            "Slot": 3,
+            "Name": "Tutorial Book",
+            "Quantity": 1
+          },
+          "4": {
+            "Slot": 4,
+            "Name": "Dirk",
+            "Quantity": 1
+          },
+          "5": {
+            "Slot": 5,
+            "Name": "Andor Chest",
+            "Quantity": 1
+          },
+          "6": {
+            "Slot": 6,
+            "Name": "Ragged Blouse",
+            "Quantity": 1
+          },
+          "7": {
+            "Slot": 7,
+            "Name": "Christmas Double Exp-Ap",
+            "Quantity": 4
+          },
+          "10": {
+            "Slot": 10,
+            "Name": "Priest Tutorial Book",
+            "Quantity": 1
+          }
+        },
+        "Entities": {},
+        "GroundItems": {
+          "26603": {
+            "Id": 26603,
+            "Sprite": 569,
+            "Position": {
+              "X": 29,
+              "Y": 12
+            }
+          },
+          "26609": {
+            "Id": 26609,
+            "Sprite": 569,
+            "Position": {
+              "X": 35,
+              "Y": 9
+            }
+          },
+          "26612": {
+            "Id": 26612,
+            "Sprite": 569,
+            "Position": {
+              "X": 40,
+              "Y": 7
+            }
+          },
+          "26689": {
+            "Id": 26689,
+            "Sprite": 569,
+            "Position": {
+              "X": 42,
+              "Y": 7
+            }
+          }
+        },
+        "Equipment": {
+          "7": "Small Spinel Ring",
+          "8": "Small Emerald Ring",
+          "13": "Boots",
+          "15": "Blue Polonaise"
+        },
+        "Skills": {
+          "1": "Assail (Lev:0/60)"
+        },
+        "Spells": {},
+        "Legends": [
+          "Priest by oath of Erin - Deoch 219, Winter",
+          "Aisling - Deoch 219, Winter"
+        ],
+        "LegendsKnown": true,
+        "LegendsRevision": 45,
+        "Dialog": null,
+        "Notice": null
+      }
+    },
+    {
+      "Time": "2026-10-10T01:22:29.3248402+00:00",
+      "Character": "Aware",
+      "Generation": 1834593565575173,
+      "Revision": 132,
+      "Opcode": 7,
+      "Payload": "AAEAGAAHAABoKoI5AAAA",
+      "Snapshot": {
+        "Generation": 1834593565575173,
+        "Revision": 132,
+        "Name": "Aware",
+        "Id": 1417623,
+        "Connected": true,
+        "Level": 99,
+        "Gold": 2000,
+        "Experience": 358928581,
+        "Hp": 3676,
+        "Weight": 19,
+        "MaxWeight": 75,
+        "Map": 504,
+        "Position": {
+          "X": 34,
+          "Y": 10
+        },
+        "InventoryKnown": true,
+        "Inventory": {
+          "1": {
+            "Slot": 1,
+            "Name": "Oren Gorget Gown",
+            "Quantity": 1
+          },
+          "2": {
+            "Slot": 2,
+            "Name": "Undine Mushroom",
+            "Quantity": 5
+          },
+          "3": {
+            "Slot": 3,
+            "Name": "Tutorial Book",
+            "Quantity": 1
+          },
+          "4": {
+            "Slot": 4,
+            "Name": "Dirk",
+            "Quantity": 1
+          },
+          "5": {
+            "Slot": 5,
+            "Name": "Andor Chest",
+            "Quantity": 1
+          },
+          "6": {
+            "Slot": 6,
+            "Name": "Ragged Blouse",
+            "Quantity": 1
+          },
+          "7": {
+            "Slot": 7,
+            "Name": "Christmas Double Exp-Ap",
+            "Quantity": 4
+          },
+          "10": {
+            "Slot": 10,
+            "Name": "Priest Tutorial Book",
+            "Quantity": 1
+          }
+        },
+        "Entities": {},
+        "GroundItems": {
+          "26603": {
+            "Id": 26603,
+            "Sprite": 569,
+            "Position": {
+              "X": 29,
+              "Y": 12
+            }
+          },
+          "26609": {
+            "Id": 26609,
+            "Sprite": 569,
+            "Position": {
+              "X": 35,
+              "Y": 9
+            }
+          },
+          "26612": {
+            "Id": 26612,
+            "Sprite": 569,
+            "Position": {
+              "X": 40,
+              "Y": 7
+            }
+          },
+          "26666": {
+            "Id": 26666,
+            "Sprite": 569,
+            "Position": {
+              "X": 24,
+              "Y": 7
+            }
+          },
+          "26689": {
+            "Id": 26689,
+            "Sprite": 569,
+            "Position": {
+              "X": 42,
+              "Y": 7
+            }
+          }
+        },
+        "Equipment": {
+          "7": "Small Spinel Ring",
+          "8": "Small Emerald Ring",
+          "13": "Boots",
+          "15": "Blue Polonaise"
+        },
+        "Skills": {
+          "1": "Assail (Lev:0/60)"
+        },
+        "Spells": {},
+        "Legends": [
+          "Priest by oath of Erin - Deoch 219, Winter",
+          "Aisling - Deoch 219, Winter"
+        ],
+        "LegendsKnown": true,
+        "LegendsRevision": 45,
+        "Dialog": null,
+        "Notice": null
+      }
+    },
+    {
+      "Time": "2026-10-10T01:22:29.7964601+00:00",
+      "Character": "Aware",
+      "Generation": 1834593565575173,
+      "Revision": 134,
+      "Opcode": 14,
+      "Payload": "AABoQQA=",
+      "Snapshot": {
+        "Generation": 1834593565575173,
+        "Revision": 134,
+        "Name": "Aware",
+        "Id": 1417623,
+        "Connected": true,
+        "Level": 99,
+        "Gold": 2000,
+        "Experience": 358928581,
+        "Hp": 3676,
+        "Weight": 19,
+        "MaxWeight": 75,
+        "Map": 504,
+        "Position": {
+          "X": 33,
+          "Y": 10
+        },
+        "InventoryKnown": true,
+        "Inventory": {
+          "1": {
+            "Slot": 1,
+            "Name": "Oren Gorget Gown",
+            "Quantity": 1
+          },
+          "2": {
+            "Slot": 2,
+            "Name": "Undine Mushroom",
+            "Quantity": 5
+          },
+          "3": {
+            "Slot": 3,
+            "Name": "Tutorial Book",
+            "Quantity": 1
+          },
+          "4": {
+            "Slot": 4,
+            "Name": "Dirk",
+            "Quantity": 1
+          },
+          "5": {
+            "Slot": 5,
+            "Name": "Andor Chest",
+            "Quantity": 1
+          },
+          "6": {
+            "Slot": 6,
+            "Name": "Ragged Blouse",
+            "Quantity": 1
+          },
+          "7": {
+            "Slot": 7,
+            "Name": "Christmas Double Exp-Ap",
+            "Quantity": 4
+          },
+          "10": {
+            "Slot": 10,
+            "Name": "Priest Tutorial Book",
+            "Quantity": 1
+          }
+        },
+        "Entities": {},
+        "GroundItems": {
+          "26603": {
+            "Id": 26603,
+            "Sprite": 569,
+            "Position": {
+              "X": 29,
+              "Y": 12
+            }
+          },
+          "26609": {
+            "Id": 26609,
+            "Sprite": 569,
+            "Position": {
+              "X": 35,
+              "Y": 9
+            }
+          },
+          "26612": {
+            "Id": 26612,
+            "Sprite": 569,
+            "Position": {
+              "X": 40,
+              "Y": 7
+            }
+          },
+          "26666": {
+            "Id": 26666,
+            "Sprite": 569,
+            "Position": {
+              "X": 24,
+              "Y": 7
+            }
+          }
+        },
+        "Equipment": {
+          "7": "Small Spinel Ring",
+          "8": "Small Emerald Ring",
+          "13": "Boots",
+          "15": "Blue Polonaise"
+        },
+        "Skills": {
+          "1": "Assail (Lev:0/60)"
+        },
+        "Spells": {},
+        "Legends": [
+          "Priest by oath of Erin - Deoch 219, Winter",
+          "Aisling - Deoch 219, Winter"
+        ],
+        "LegendsKnown": true,
+        "LegendsRevision": 45,
+        "Dialog": null,
+        "Notice": null
+      }
+    },
+    {
+      "Time": "2026-10-10T01:22:30.8012762+00:00",
+      "Character": "Aware",
+      "Generation": 1834593565575173,
+      "Revision": 137,
+      "Opcode": 14,
+      "Payload": "AABn9AA=",
+      "Snapshot": {
+        "Generation": 1834593565575173,
+        "Revision": 137,
+        "Name": "Aware",
+        "Id": 1417623,
+        "Connected": true,
+        "Level": 99,
+        "Gold": 2000,
+        "Experience": 358928581,
+        "Hp": 3676,
+        "Weight": 19,
+        "MaxWeight": 75,
+        "Map": 504,
+        "Position": {
+          "X": 31,
+          "Y": 10
+        },
+        "InventoryKnown": true,
+        "Inventory": {
+          "1": {
+            "Slot": 1,
+            "Name": "Oren Gorget Gown",
+            "Quantity": 1
+          },
+          "2": {
+            "Slot": 2,
+            "Name": "Undine Mushroom",
+            "Quantity": 5
+          },
+          "3": {
+            "Slot": 3,
+            "Name": "Tutorial Book",
+            "Quantity": 1
+          },
+          "4": {
+            "Slot": 4,
+            "Name": "Dirk",
+            "Quantity": 1
+          },
+          "5": {
+            "Slot": 5,
+            "Name": "Andor Chest",
+            "Quantity": 1
+          },
+          "6": {
+            "Slot": 6,
+            "Name": "Ragged Blouse",
+            "Quantity": 1
+          },
+          "7": {
+            "Slot": 7,
+            "Name": "Christmas Double Exp-Ap",
+            "Quantity": 4
+          },
+          "10": {
+            "Slot": 10,
+            "Name": "Priest Tutorial Book",
+            "Quantity": 1
+          }
+        },
+        "Entities": {},
+        "GroundItems": {
+          "26603": {
+            "Id": 26603,
+            "Sprite": 569,
+            "Position": {
+              "X": 29,
+              "Y": 12
+            }
+          },
+          "26609": {
+            "Id": 26609,
+            "Sprite": 569,
+            "Position": {
+              "X": 35,
+              "Y": 9
+            }
+          },
+          "26666": {
+            "Id": 26666,
+            "Sprite": 569,
+            "Position": {
+              "X": 24,
+              "Y": 7
+            }
+          }
+        },
+        "Equipment": {
+          "7": "Small Spinel Ring",
+          "8": "Small Emerald Ring",
+          "13": "Boots",
+          "15": "Blue Polonaise"
+        },
+        "Skills": {
+          "1": "Assail (Lev:0/60)"
+        },
+        "Spells": {},
+        "Legends": [
+          "Priest by oath of Erin - Deoch 219, Winter",
+          "Aisling - Deoch 219, Winter"
+        ],
+        "LegendsKnown": true,
+        "LegendsRevision": 45,
+        "Dialog": null,
+        "Notice": null
+      }
+    },
+    {
+      "Time": "2026-10-10T01:22:34.3138288+00:00",
+      "Character": "Aware",
+      "Generation": 1834593565575173,
+      "Revision": 145,
+      "Opcode": 7,
+      "Payload": "AAEAEwASABWmkoI5AAAA",
+      "Snapshot": {
+        "Generation": 1834593565575173,
+        "Revision": 145,
+        "Name": "Aware",
+        "Id": 1417623,
+        "Connected": true,
+        "Level": 99,
+        "Gold": 2000,
+        "Experience": 358928581,
+        "Hp": 3676,
+        "Weight": 19,
+        "MaxWeight": 75,
+        "Map": 504,
+        "Position": {
+          "X": 25,
+          "Y": 11
+        },
+        "InventoryKnown": true,
+        "Inventory": {
+          "1": {
+            "Slot": 1,
+            "Name": "Oren Gorget Gown",
+            "Quantity": 1
+          },
+          "2": {
+            "Slot": 2,
+            "Name": "Undine Mushroom",
+            "Quantity": 5
+          },
+          "3": {
+            "Slot": 3,
+            "Name": "Tutorial Book",
+            "Quantity": 1
+          },
+          "4": {
+            "Slot": 4,
+            "Name": "Dirk",
+            "Quantity": 1
+          },
+          "5": {
+            "Slot": 5,
+            "Name": "Andor Chest",
+            "Quantity": 1
+          },
+          "6": {
+            "Slot": 6,
+            "Name": "Ragged Blouse",
+            "Quantity": 1
+          },
+          "7": {
+            "Slot": 7,
+            "Name": "Christmas Double Exp-Ap",
+            "Quantity": 4
+          },
+          "10": {
+            "Slot": 10,
+            "Name": "Priest Tutorial Book",
+            "Quantity": 1
+          }
+        },
+        "Entities": {},
+        "GroundItems": {
+          "26603": {
+            "Id": 26603,
+            "Sprite": 569,
+            "Position": {
+              "X": 29,
+              "Y": 12
+            }
+          },
+          "26609": {
+            "Id": 26609,
+            "Sprite": 569,
+            "Position": {
+              "X": 35,
+              "Y": 9
+            }
+          },
+          "26666": {
+            "Id": 26666,
+            "Sprite": 569,
+            "Position": {
+              "X": 24,
+              "Y": 7
+            }
+          },
+          "1418898": {
+            "Id": 1418898,
+            "Sprite": 569,
+            "Position": {
+              "X": 19,
+              "Y": 18
+            }
+          }
+        },
+        "Equipment": {
+          "7": "Small Spinel Ring",
+          "8": "Small Emerald Ring",
+          "13": "Boots",
+          "15": "Blue Polonaise"
+        },
+        "Skills": {
+          "1": "Assail (Lev:0/60)"
+        },
+        "Spells": {},
+        "Legends": [
+          "Priest by oath of Erin - Deoch 219, Winter",
+          "Aisling - Deoch 219, Winter"
+        ],
+        "LegendsKnown": true,
+        "LegendsRevision": 45,
+        "Dialog": null,
+        "Notice": null
+      }
+    },
+    {
+      "Time": "2026-10-10T01:22:34.3235024+00:00",
+      "Character": "Aware",
+      "Generation": 1834593565575173,
+      "Revision": 146,
+      "Opcode": 14,
+      "Payload": "AABn8QA=",
+      "Snapshot": {
+        "Generation": 1834593565575173,
+        "Revision": 146,
+        "Name": "Aware",
+        "Id": 1417623,
+        "Connected": true,
+        "Level": 99,
+        "Gold": 2000,
+        "Experience": 358928581,
+        "Hp": 3676,
+        "Weight": 19,
+        "MaxWeight": 75,
+        "Map": 504,
+        "Position": {
+          "X": 25,
+          "Y": 11
+        },
+        "InventoryKnown": true,
+        "Inventory": {
+          "1": {
+            "Slot": 1,
+            "Name": "Oren Gorget Gown",
+            "Quantity": 1
+          },
+          "2": {
+            "Slot": 2,
+            "Name": "Undine Mushroom",
+            "Quantity": 5
+          },
+          "3": {
+            "Slot": 3,
+            "Name": "Tutorial Book",
+            "Quantity": 1
+          },
+          "4": {
+            "Slot": 4,
+            "Name": "Dirk",
+            "Quantity": 1
+          },
+          "5": {
+            "Slot": 5,
+            "Name": "Andor Chest",
+            "Quantity": 1
+          },
+          "6": {
+            "Slot": 6,
+            "Name": "Ragged Blouse",
+            "Quantity": 1
+          },
+          "7": {
+            "Slot": 7,
+            "Name": "Christmas Double Exp-Ap",
+            "Quantity": 4
+          },
+          "10": {
+            "Slot": 10,
+            "Name": "Priest Tutorial Book",
+            "Quantity": 1
+          }
+        },
+        "Entities": {},
+        "GroundItems": {
+          "26603": {
+            "Id": 26603,
+            "Sprite": 569,
+            "Position": {
+              "X": 29,
+              "Y": 12
+            }
+          },
+          "26666": {
+            "Id": 26666,
+            "Sprite": 569,
+            "Position": {
+              "X": 24,
+              "Y": 7
+            }
+          },
+          "1418898": {
+            "Id": 1418898,
+            "Sprite": 569,
+            "Position": {
+              "X": 19,
+              "Y": 18
+            }
+          }
+        },
+        "Equipment": {
+          "7": "Small Spinel Ring",
+          "8": "Small Emerald Ring",
+          "13": "Boots",
+          "15": "Blue Polonaise"
+        },
+        "Skills": {
+          "1": "Assail (Lev:0/60)"
+        },
+        "Spells": {},
+        "Legends": [
+          "Priest by oath of Erin - Deoch 219, Winter",
+          "Aisling - Deoch 219, Winter"
+        ],
+        "LegendsKnown": true,
+        "LegendsRevision": 45,
+        "Dialog": null,
+        "Notice": null
+      }
+    },
+    {
+      "Time": "2026-10-10T01:22:37.8080711+00:00",
+      "Character": "Aware",
+      "Generation": 1834593565575173,
+      "Revision": 154,
+      "Opcode": 7,
+      "Payload": "AAEADQATAABoG4I5AAAA",
+      "Snapshot": {
+        "Generation": 1834593565575173,
+        "Revision": 154,
+        "Name": "Aware",
+        "Id": 1417623,
+        "Connected": true,
+        "Level": 99,
+        "Gold": 2000,
+        "Experience": 358928581,
+        "Hp": 3676,
+        "Weight": 19,
+        "MaxWeight": 75,
+        "Map": 504,
+        "Position": {
+          "X": 19,
+          "Y": 12
+        },
+        "InventoryKnown": true,
+        "Inventory": {
+          "1": {
+            "Slot": 1,
+            "Name": "Oren Gorget Gown",
+            "Quantity": 1
+          },
+          "2": {
+            "Slot": 2,
+            "Name": "Undine Mushroom",
+            "Quantity": 5
+          },
+          "3": {
+            "Slot": 3,
+            "Name": "Tutorial Book",
+            "Quantity": 1
+          },
+          "4": {
+            "Slot": 4,
+            "Name": "Dirk",
+            "Quantity": 1
+          },
+          "5": {
+            "Slot": 5,
+            "Name": "Andor Chest",
+            "Quantity": 1
+          },
+          "6": {
+            "Slot": 6,
+            "Name": "Ragged Blouse",
+            "Quantity": 1
+          },
+          "7": {
+            "Slot": 7,
+            "Name": "Christmas Double Exp-Ap",
+            "Quantity": 4
+          },
+          "10": {
+            "Slot": 10,
+            "Name": "Priest Tutorial Book",
+            "Quantity": 1
+          }
+        },
+        "Entities": {},
+        "GroundItems": {
+          "26603": {
+            "Id": 26603,
+            "Sprite": 569,
+            "Position": {
+              "X": 29,
+              "Y": 12
+            }
+          },
+          "26651": {
+            "Id": 26651,
+            "Sprite": 569,
+            "Position": {
+              "X": 13,
+              "Y": 19
+            }
+          },
+          "26666": {
+            "Id": 26666,
+            "Sprite": 569,
+            "Position": {
+              "X": 24,
+              "Y": 7
+            }
+          },
+          "1418898": {
+            "Id": 1418898,
+            "Sprite": 569,
+            "Position": {
+              "X": 19,
+              "Y": 18
+            }
+          }
+        },
+        "Equipment": {
+          "7": "Small Spinel Ring",
+          "8": "Small Emerald Ring",
+          "13": "Boots",
+          "15": "Blue Polonaise"
+        },
+        "Skills": {
+          "1": "Assail (Lev:0/60)"
+        },
+        "Spells": {},
+        "Legends": [
+          "Priest by oath of Erin - Deoch 219, Winter",
+          "Aisling - Deoch 219, Winter"
+        ],
+        "LegendsKnown": true,
+        "LegendsRevision": 45,
+        "Dialog": null,
+        "Notice": null
+      }
+    },
+    {
+      "Time": "2026-10-10T01:22:38.3043836+00:00",
+      "Character": "Aware",
+      "Generation": 1834593565575173,
+      "Revision": 156,
+      "Opcode": 7,
+      "Payload": "AAEADAATAABn84I5AAAA",
+      "Snapshot": {
+        "Generation": 1834593565575173,
+        "Revision": 156,
+        "Name": "Aware",
+        "Id": 1417623,
+        "Connected": true,
+        "Level": 99,
+        "Gold": 2000,
+        "Experience": 358928581,
+        "Hp": 3676,
+        "Weight": 19,
+        "MaxWeight": 75,
+        "Map": 504,
+        "Position": {
+          "X": 18,
+          "Y": 12
+        },
+        "InventoryKnown": true,
+        "Inventory": {
+          "1": {
+            "Slot": 1,
+            "Name": "Oren Gorget Gown",
+            "Quantity": 1
+          },
+          "2": {
+            "Slot": 2,
+            "Name": "Undine Mushroom",
+            "Quantity": 5
+          },
+          "3": {
+            "Slot": 3,
+            "Name": "Tutorial Book",
+            "Quantity": 1
+          },
+          "4": {
+            "Slot": 4,
+            "Name": "Dirk",
+            "Quantity": 1
+          },
+          "5": {
+            "Slot": 5,
+            "Name": "Andor Chest",
+            "Quantity": 1
+          },
+          "6": {
+            "Slot": 6,
+            "Name": "Ragged Blouse",
+            "Quantity": 1
+          },
+          "7": {
+            "Slot": 7,
+            "Name": "Christmas Double Exp-Ap",
+            "Quantity": 4
+          },
+          "10": {
+            "Slot": 10,
+            "Name": "Priest Tutorial Book",
+            "Quantity": 1
+          }
+        },
+        "Entities": {},
+        "GroundItems": {
+          "26603": {
+            "Id": 26603,
+            "Sprite": 569,
+            "Position": {
+              "X": 29,
+              "Y": 12
+            }
+          },
+          "26611": {
+            "Id": 26611,
+            "Sprite": 569,
+            "Position": {
+              "X": 12,
+              "Y": 19
+            }
+          },
+          "26651": {
+            "Id": 26651,
+            "Sprite": 569,
+            "Position": {
+              "X": 13,
+              "Y": 19
+            }
+          },
+          "26666": {
+            "Id": 26666,
+            "Sprite": 569,
+            "Position": {
+              "X": 24,
+              "Y": 7
+            }
+          },
+          "1418898": {
+            "Id": 1418898,
+            "Sprite": 569,
+            "Position": {
+              "X": 19,
+              "Y": 18
+            }
+          }
+        },
+        "Equipment": {
+          "7": "Small Spinel Ring",
+          "8": "Small Emerald Ring",
+          "13": "Boots",
+          "15": "Blue Polonaise"
+        },
+        "Skills": {
+          "1": "Assail (Lev:0/60)"
+        },
+        "Spells": {},
+        "Legends": [
+          "Priest by oath of Erin - Deoch 219, Winter",
+          "Aisling - Deoch 219, Winter"
+        ],
+        "LegendsKnown": true,
+        "LegendsRevision": 45,
+        "Dialog": null,
+        "Notice": null
+      }
+    },
+    {
+      "Time": "2026-10-10T01:22:38.3213607+00:00",
+      "Character": "Aware",
+      "Generation": 1834593565575173,
+      "Revision": 157,
+      "Opcode": 7,
+      "Payload": "AAEACQAQAADfxoI5AAAA",
+      "Snapshot": {
+        "Generation": 1834593565575173,
+        "Revision": 157,
+        "Name": "Aware",
+        "Id": 1417623,
+        "Connected": true,
+        "Level": 99,
+        "Gold": 2000,
+        "Experience": 358928581,
+        "Hp": 3676,
+        "Weight": 19,
+        "MaxWeight": 75,
+        "Map": 504,
+        "Position": {
+          "X": 18,
+          "Y": 12
+        },
+        "InventoryKnown": true,
+        "Inventory": {
+          "1": {
+            "Slot": 1,
+            "Name": "Oren Gorget Gown",
+            "Quantity": 1
+          },
+          "2": {
+            "Slot": 2,
+            "Name": "Undine Mushroom",
+            "Quantity": 5
+          },
+          "3": {
+            "Slot": 3,
+            "Name": "Tutorial Book",
+            "Quantity": 1
+          },
+          "4": {
+            "Slot": 4,
+            "Name": "Dirk",
+            "Quantity": 1
+          },
+          "5": {
+            "Slot": 5,
+            "Name": "Andor Chest",
+            "Quantity": 1
+          },
+          "6": {
+            "Slot": 6,
+            "Name": "Ragged Blouse",
+            "Quantity": 1
+          },
+          "7": {
+            "Slot": 7,
+            "Name": "Christmas Double Exp-Ap",
+            "Quantity": 4
+          },
+          "10": {
+            "Slot": 10,
+            "Name": "Priest Tutorial Book",
+            "Quantity": 1
+          }
+        },
+        "Entities": {},
+        "GroundItems": {
+          "26603": {
+            "Id": 26603,
+            "Sprite": 569,
+            "Position": {
+              "X": 29,
+              "Y": 12
+            }
+          },
+          "26611": {
+            "Id": 26611,
+            "Sprite": 569,
+            "Position": {
+              "X": 12,
+              "Y": 19
+            }
+          },
+          "26651": {
+            "Id": 26651,
+            "Sprite": 569,
+            "Position": {
+              "X": 13,
+              "Y": 19
+            }
+          },
+          "26666": {
+            "Id": 26666,
+            "Sprite": 569,
+            "Position": {
+              "X": 24,
+              "Y": 7
+            }
+          },
+          "57286": {
+            "Id": 57286,
+            "Sprite": 569,
+            "Position": {
+              "X": 9,
+              "Y": 16
+            }
+          },
+          "1418898": {
+            "Id": 1418898,
+            "Sprite": 569,
+            "Position": {
+              "X": 19,
+              "Y": 18
+            }
+          }
+        },
+        "Equipment": {
+          "7": "Small Spinel Ring",
+          "8": "Small Emerald Ring",
+          "13": "Boots",
+          "15": "Blue Polonaise"
+        },
+        "Skills": {
+          "1": "Assail (Lev:0/60)"
+        },
+        "Spells": {},
+        "Legends": [
+          "Priest by oath of Erin - Deoch 219, Winter",
+          "Aisling - Deoch 219, Winter"
+        ],
+        "LegendsKnown": true,
+        "LegendsRevision": 45,
+        "Dialog": null,
+        "Notice": null
+      }
+    },
+    {
+      "Time": "2026-10-10T01:22:38.8004075+00:00",
+      "Character": "Aware",
+      "Generation": 1834593565575173,
+      "Revision": 159,
+      "Opcode": 14,
+      "Payload": "AABn6wA=",
+      "Snapshot": {
+        "Generation": 1834593565575173,
+        "Revision": 159,
+        "Name": "Aware",
+        "Id": 1417623,
+        "Connected": true,
+        "Level": 99,
+        "Gold": 2000,
+        "Experience": 358928581,
+        "Hp": 3676,
+        "Weight": 19,
+        "MaxWeight": 75,
+        "Map": 504,
+        "Position": {
+          "X": 17,
+          "Y": 12
+        },
+        "InventoryKnown": true,
+        "Inventory": {
+          "1": {
+            "Slot": 1,
+            "Name": "Oren Gorget Gown",
+            "Quantity": 1
+          },
+          "2": {
+            "Slot": 2,
+            "Name": "Undine Mushroom",
+            "Quantity": 5
+          },
+          "3": {
+            "Slot": 3,
+            "Name": "Tutorial Book",
+            "Quantity": 1
+          },
+          "4": {
+            "Slot": 4,
+            "Name": "Dirk",
+            "Quantity": 1
+          },
+          "5": {
+            "Slot": 5,
+            "Name": "Andor Chest",
+            "Quantity": 1
+          },
+          "6": {
+            "Slot": 6,
+            "Name": "Ragged Blouse",
+            "Quantity": 1
+          },
+          "7": {
+            "Slot": 7,
+            "Name": "Christmas Double Exp-Ap",
+            "Quantity": 4
+          },
+          "10": {
+            "Slot": 10,
+            "Name": "Priest Tutorial Book",
+            "Quantity": 1
+          }
+        },
+        "Entities": {},
+        "GroundItems": {
+          "26611": {
+            "Id": 26611,
+            "Sprite": 569,
+            "Position": {
+              "X": 12,
+              "Y": 19
+            }
+          },
+          "26651": {
+            "Id": 26651,
+            "Sprite": 569,
+            "Position": {
+              "X": 13,
+              "Y": 19
+            }
+          },
+          "26666": {
+            "Id": 26666,
+            "Sprite": 569,
+            "Position": {
+              "X": 24,
+              "Y": 7
+            }
+          },
+          "57286": {
+            "Id": 57286,
+            "Sprite": 569,
+            "Position": {
+              "X": 9,
+              "Y": 16
+            }
+          },
+          "1418898": {
+            "Id": 1418898,
+            "Sprite": 569,
+            "Position": {
+              "X": 19,
+              "Y": 18
+            }
+          }
+        },
+        "Equipment": {
+          "7": "Small Spinel Ring",
+          "8": "Small Emerald Ring",
+          "13": "Boots",
+          "15": "Blue Polonaise"
+        },
+        "Skills": {
+          "1": "Assail (Lev:0/60)"
+        },
+        "Spells": {},
+        "Legends": [
+          "Priest by oath of Erin - Deoch 219, Winter",
+          "Aisling - Deoch 219, Winter"
+        ],
+        "LegendsKnown": true,
+        "LegendsRevision": 45,
+        "Dialog": null,
+        "Notice": null
+      }
+    },
+    {
+      "Time": "2026-10-10T01:22:38.8095554+00:00",
+      "Character": "Aware",
+      "Generation": 1834593565575173,
+      "Revision": 160,
+      "Opcode": 14,
+      "Payload": "AABoKg==",
+      "Snapshot": {
+        "Generation": 1834593565575173,
+        "Revision": 160,
+        "Name": "Aware",
+        "Id": 1417623,
+        "Connected": true,
+        "Level": 99,
+        "Gold": 2000,
+        "Experience": 358928581,
+        "Hp": 3676,
+        "Weight": 19,
+        "MaxWeight": 75,
+        "Map": 504,
+        "Position": {
+          "X": 17,
+          "Y": 12
+        },
+        "InventoryKnown": true,
+        "Inventory": {
+          "1": {
+            "Slot": 1,
+            "Name": "Oren Gorget Gown",
+            "Quantity": 1
+          },
+          "2": {
+            "Slot": 2,
+            "Name": "Undine Mushroom",
+            "Quantity": 5
+          },
+          "3": {
+            "Slot": 3,
+            "Name": "Tutorial Book",
+            "Quantity": 1
+          },
+          "4": {
+            "Slot": 4,
+            "Name": "Dirk",
+            "Quantity": 1
+          },
+          "5": {
+            "Slot": 5,
+            "Name": "Andor Chest",
+            "Quantity": 1
+          },
+          "6": {
+            "Slot": 6,
+            "Name": "Ragged Blouse",
+            "Quantity": 1
+          },
+          "7": {
+            "Slot": 7,
+            "Name": "Christmas Double Exp-Ap",
+            "Quantity": 4
+          },
+          "10": {
+            "Slot": 10,
+            "Name": "Priest Tutorial Book",
+            "Quantity": 1
+          }
+        },
+        "Entities": {},
+        "GroundItems": {
+          "26611": {
+            "Id": 26611,
+            "Sprite": 569,
+            "Position": {
+              "X": 12,
+              "Y": 19
+            }
+          },
+          "26651": {
+            "Id": 26651,
+            "Sprite": 569,
+            "Position": {
+              "X": 13,
+              "Y": 19
+            }
+          },
+          "57286": {
+            "Id": 57286,
+            "Sprite": 569,
+            "Position": {
+              "X": 9,
+              "Y": 16
+            }
+          },
+          "1418898": {
+            "Id": 1418898,
+            "Sprite": 569,
+            "Position": {
+              "X": 19,
+              "Y": 18
+            }
+          }
+        },
+        "Equipment": {
+          "7": "Small Spinel Ring",
+          "8": "Small Emerald Ring",
+          "13": "Boots",
+          "15": "Blue Polonaise"
+        },
+        "Skills": {
+          "1": "Assail (Lev:0/60)"
+        },
+        "Spells": {},
+        "Legends": [
+          "Priest by oath of Erin - Deoch 219, Winter",
+          "Aisling - Deoch 219, Winter"
+        ],
+        "LegendsKnown": true,
+        "LegendsRevision": 45,
+        "Dialog": null,
+        "Notice": null
+      }
+    },
+    {
+      "Time": "2026-10-10T01:22:39.3369781+00:00",
+      "Character": "Aware",
+      "Generation": 1834593565575173,
+      "Revision": 162,
+      "Opcode": 21,
+      "Payload": "ATIPDwAAABJ2GFVuZGluZSBCbGFjayBNYWdpYyBNYXN0ZQA=",
+      "Snapshot": {
+        "Generation": 1834593565575173,
+        "Revision": 162,
+        "Name": "Aware",
+        "Id": 1417623,
+        "Connected": true,
+        "Level": 99,
+        "Gold": 2000,
+        "Experience": 358928581,
+        "Hp": 3676,
+        "Weight": 19,
+        "MaxWeight": 75,
+        "Map": 306,
+        "Position": null,
+        "InventoryKnown": true,
+        "Inventory": {
+          "1": {
+            "Slot": 1,
+            "Name": "Oren Gorget Gown",
+            "Quantity": 1
+          },
+          "2": {
+            "Slot": 2,
+            "Name": "Undine Mushroom",
+            "Quantity": 5
+          },
+          "3": {
+            "Slot": 3,
+            "Name": "Tutorial Book",
+            "Quantity": 1
+          },
+          "4": {
+            "Slot": 4,
+            "Name": "Dirk",
+            "Quantity": 1
+          },
+          "5": {
+            "Slot": 5,
+            "Name": "Andor Chest",
+            "Quantity": 1
+          },
+          "6": {
+            "Slot": 6,
+            "Name": "Ragged Blouse",
+            "Quantity": 1
+          },
+          "7": {
+            "Slot": 7,
+            "Name": "Christmas Double Exp-Ap",
+            "Quantity": 4
+          },
+          "10": {
+            "Slot": 10,
+            "Name": "Priest Tutorial Book",
+            "Quantity": 1
+          }
+        },
+        "Entities": {},
+        "GroundItems": {},
+        "Equipment": {
+          "7": "Small Spinel Ring",
+          "8": "Small Emerald Ring",
+          "13": "Boots",
+          "15": "Blue Polonaise"
+        },
+        "Skills": {
+          "1": "Assail (Lev:0/60)"
+        },
+        "Spells": {},
+        "Legends": [
+          "Priest by oath of Erin - Deoch 219, Winter",
+          "Aisling - Deoch 219, Winter"
+        ],
+        "LegendsKnown": true,
+        "LegendsRevision": 45,
+        "Dialog": null,
+        "Notice": null
+      }
+    },
+    {
+      "Time": "2026-10-10T01:22:39.3445121+00:00",
+      "Character": "Aware",
+      "Generation": 1834593565575173,
+      "Revision": 163,
+      "Opcode": 4,
+      "Payload": "AA0ABwALAAs=",
+      "Snapshot": {
+        "Generation": 1834593565575173,
+        "Revision": 163,
+        "Name": "Aware",
+        "Id": 1417623,
+        "Connected": true,
+        "Level": 99,
+        "Gold": 2000,
+        "Experience": 358928581,
+        "Hp": 3676,
+        "Weight": 19,
+        "MaxWeight": 75,
+        "Map": 306,
+        "Position": {
+          "X": 13,
+          "Y": 7
+        },
+        "InventoryKnown": true,
+        "Inventory": {
+          "1": {
+            "Slot": 1,
+            "Name": "Oren Gorget Gown",
+            "Quantity": 1
+          },
+          "2": {
+            "Slot": 2,
+            "Name": "Undine Mushroom",
+            "Quantity": 5
+          },
+          "3": {
+            "Slot": 3,
+            "Name": "Tutorial Book",
+            "Quantity": 1
+          },
+          "4": {
+            "Slot": 4,
+            "Name": "Dirk",
+            "Quantity": 1
+          },
+          "5": {
+            "Slot": 5,
+            "Name": "Andor Chest",
+            "Quantity": 1
+          },
+          "6": {
+            "Slot": 6,
+            "Name": "Ragged Blouse",
+            "Quantity": 1
+          },
+          "7": {
+            "Slot": 7,
+            "Name": "Christmas Double Exp-Ap",
+            "Quantity": 4
+          },
+          "10": {
+            "Slot": 10,
+            "Name": "Priest Tutorial Book",
+            "Quantity": 1
+          }
+        },
+        "Entities": {},
+        "GroundItems": {},
+        "Equipment": {
+          "7": "Small Spinel Ring",
+          "8": "Small Emerald Ring",
+          "13": "Boots",
+          "15": "Blue Polonaise"
+        },
+        "Skills": {
+          "1": "Assail (Lev:0/60)"
+        },
+        "Spells": {},
+        "Legends": [
+          "Priest by oath of Erin - Deoch 219, Winter",
+          "Aisling - Deoch 219, Winter"
+        ],
+        "LegendsKnown": true,
+        "LegendsRevision": 45,
+        "Dialog": null,
+        "Notice": null
+      }
+    },
+    {
+      "Time": "2026-10-10T01:22:39.3532223+00:00",
+      "Character": "Aware",
+      "Generation": 1834593565575173,
+      "Revision": 164,
+      "Opcode": 7,
+      "Payload": "AAEABQACAAAeqEAlAAAAAAIAAgVLaXJpbA==",
+      "Snapshot": {
+        "Generation": 1834593565575173,
+        "Revision": 164,
+        "Name": "Aware",
+        "Id": 1417623,
+        "Connected": true,
+        "Level": 99,
+        "Gold": 2000,
+        "Experience": 358928581,
+        "Hp": 3676,
+        "Weight": 19,
+        "MaxWeight": 75,
+        "Map": 306,
+        "Position": {
+          "X": 13,
+          "Y": 7
+        },
+        "InventoryKnown": true,
+        "Inventory": {
+          "1": {
+            "Slot": 1,
+            "Name": "Oren Gorget Gown",
+            "Quantity": 1
+          },
+          "2": {
+            "Slot": 2,
+            "Name": "Undine Mushroom",
+            "Quantity": 5
+          },
+          "3": {
+            "Slot": 3,
+            "Name": "Tutorial Book",
+            "Quantity": 1
+          },
+          "4": {
+            "Slot": 4,
+            "Name": "Dirk",
+            "Quantity": 1
+          },
+          "5": {
+            "Slot": 5,
+            "Name": "Andor Chest",
+            "Quantity": 1
+          },
+          "6": {
+            "Slot": 6,
+            "Name": "Ragged Blouse",
+            "Quantity": 1
+          },
+          "7": {
+            "Slot": 7,
+            "Name": "Christmas Double Exp-Ap",
+            "Quantity": 4
+          },
+          "10": {
+            "Slot": 10,
+            "Name": "Priest Tutorial Book",
+            "Quantity": 1
+          }
+        },
+        "Entities": {
+          "7848": {
+            "Id": 7848,
+            "Name": "Kiril",
+            "Position": {
+              "X": 5,
+              "Y": 2
+            },
+            "Blocks": true
+          }
+        },
+        "GroundItems": {},
+        "Equipment": {
+          "7": "Small Spinel Ring",
+          "8": "Small Emerald Ring",
+          "13": "Boots",
+          "15": "Blue Polonaise"
+        },
+        "Skills": {
+          "1": "Assail (Lev:0/60)"
+        },
+        "Spells": {},
+        "Legends": [
+          "Priest by oath of Erin - Deoch 219, Winter",
+          "Aisling - Deoch 219, Winter"
+        ],
+        "LegendsKnown": true,
+        "LegendsRevision": 45,
+        "Dialog": null,
+        "Notice": null
+      }
+    },
+    {
+      "Time": "2026-10-10T01:22:39.8039282+00:00",
+      "Character": "Aware",
+      "Generation": 1834593565575173,
+      "Revision": 167,
+      "Opcode": 7,
+      "Payload": "AAEABQACAAAeqEAlAAAAAAIAAgVLaXJpbAA=",
+      "Snapshot": {
+        "Generation": 1834593565575173,
+        "Revision": 167,
+        "Name": "Aware",
+        "Id": 1417623,
+        "Connected": true,
+        "Level": 99,
+        "Gold": 2000,
+        "Experience": 358928581,
+        "Hp": 3676,
+        "Weight": 19,
+        "MaxWeight": 75,
+        "Map": 306,
+        "Position": {
+          "X": 13,
+          "Y": 7
+        },
+        "InventoryKnown": true,
+        "Inventory": {
+          "1": {
+            "Slot": 1,
+            "Name": "Oren Gorget Gown",
+            "Quantity": 1
+          },
+          "2": {
+            "Slot": 2,
+            "Name": "Undine Mushroom",
+            "Quantity": 5
+          },
+          "3": {
+            "Slot": 3,
+            "Name": "Tutorial Book",
+            "Quantity": 1
+          },
+          "4": {
+            "Slot": 4,
+            "Name": "Dirk",
+            "Quantity": 1
+          },
+          "5": {
+            "Slot": 5,
+            "Name": "Andor Chest",
+            "Quantity": 1
+          },
+          "6": {
+            "Slot": 6,
+            "Name": "Ragged Blouse",
+            "Quantity": 1
+          },
+          "7": {
+            "Slot": 7,
+            "Name": "Christmas Double Exp-Ap",
+            "Quantity": 4
+          },
+          "10": {
+            "Slot": 10,
+            "Name": "Priest Tutorial Book",
+            "Quantity": 1
+          }
+        },
+        "Entities": {
+          "7848": {
+            "Id": 7848,
+            "Name": "Kiril",
+            "Position": {
+              "X": 5,
+              "Y": 2
+            },
+            "Blocks": true
+          }
+        },
+        "GroundItems": {},
+        "Equipment": {
+          "7": "Small Spinel Ring",
+          "8": "Small Emerald Ring",
+          "13": "Boots",
+          "15": "Blue Polonaise"
+        },
+        "Skills": {
+          "1": "Assail (Lev:0/60)"
+        },
+        "Spells": {},
+        "Legends": [
+          "Priest by oath of Erin - Deoch 219, Winter",
+          "Aisling - Deoch 219, Winter"
+        ],
+        "LegendsKnown": true,
+        "LegendsRevision": 45,
+        "Dialog": null,
+        "Notice": null
+      }
+    },
+    {
+      "Time": "2026-10-10T01:22:46.8250687+00:00",
+      "Character": "Aware",
+      "Generation": 1834593565575173,
+      "Revision": 182,
+      "Opcode": 48,
+      "Payload": "AAEAAB6oAUAlAAFAJQAAAAABAAEABUtpcmlsACpJIHRvbGQgeW91IGl0IHdhc24ndCB0aGF0IGhhcmQgdG8gY29sbGVjdC4=",
+      "Snapshot": {
+        "Generation": 1834593565575173,
+        "Revision": 182,
+        "Name": "Aware",
+        "Id": 1417623,
+        "Connected": true,
+        "Level": 99,
+        "Gold": 2000,
+        "Experience": 358928581,
+        "Hp": 3676,
+        "Weight": 19,
+        "MaxWeight": 75,
+        "Map": 306,
+        "Position": {
+          "X": 5,
+          "Y": 1
+        },
+        "InventoryKnown": true,
+        "Inventory": {
+          "1": {
+            "Slot": 1,
+            "Name": "Oren Gorget Gown",
+            "Quantity": 1
+          },
+          "2": {
+            "Slot": 2,
+            "Name": "Undine Mushroom",
+            "Quantity": 5
+          },
+          "3": {
+            "Slot": 3,
+            "Name": "Tutorial Book",
+            "Quantity": 1
+          },
+          "4": {
+            "Slot": 4,
+            "Name": "Dirk",
+            "Quantity": 1
+          },
+          "5": {
+            "Slot": 5,
+            "Name": "Andor Chest",
+            "Quantity": 1
+          },
+          "6": {
+            "Slot": 6,
+            "Name": "Ragged Blouse",
+            "Quantity": 1
+          },
+          "7": {
+            "Slot": 7,
+            "Name": "Christmas Double Exp-Ap",
+            "Quantity": 4
+          },
+          "10": {
+            "Slot": 10,
+            "Name": "Priest Tutorial Book",
+            "Quantity": 1
+          }
+        },
+        "Entities": {
+          "7848": {
+            "Id": 7848,
+            "Name": "Kiril",
+            "Position": {
+              "X": 5,
+              "Y": 2
+            },
+            "Blocks": true
+          }
+        },
+        "GroundItems": {},
+        "Equipment": {
+          "7": "Small Spinel Ring",
+          "8": "Small Emerald Ring",
+          "13": "Boots",
+          "15": "Blue Polonaise"
+        },
+        "Skills": {
+          "1": "Assail (Lev:0/60)"
+        },
+        "Spells": {},
+        "Legends": [
+          "Priest by oath of Erin - Deoch 219, Winter",
+          "Aisling - Deoch 219, Winter"
+        ],
+        "LegendsKnown": true,
+        "LegendsRevision": 45,
+        "Dialog": {
+          "Generation": 1834593565575173,
+          "Revision": 182,
+          "EntityId": 7848,
+          "EntityType": 1,
+          "Name": "Kiril",
+          "Text": "I told you it wasn't that hard to collect.",
+          "IsPursuit": true,
+          "Pursuit": 0,
+          "Step": 1,
+          "Type": 0,
+          "Choices": [],
+          "Prompt": null,
+          "HasNext": true,
+          "ObservedAt": "2026-10-10T01:22:46.8162248+00:00"
+        },
+        "Notice": null
+      }
+    },
+    {
+      "Time": "2026-10-10T01:23:14.8480346+00:00",
+      "Character": "Aware",
+      "Generation": 1834593565575173,
+      "Revision": 184,
+      "Opcode": 16,
+      "Payload": "AgkAEg==",
+      "Snapshot": {
+        "Generation": 1834593565575173,
+        "Revision": 184,
+        "Name": "Aware",
+        "Id": 1417623,
+        "Connected": true,
+        "Level": 99,
+        "Gold": 2000,
+        "Experience": 358928581,
+        "Hp": 3676,
+        "Weight": 19,
+        "MaxWeight": 75,
+        "Map": 306,
+        "Position": {
+          "X": 5,
+          "Y": 1
+        },
+        "InventoryKnown": true,
+        "Inventory": {
+          "1": {
+            "Slot": 1,
+            "Name": "Oren Gorget Gown",
+            "Quantity": 1
+          },
+          "3": {
+            "Slot": 3,
+            "Name": "Tutorial Book",
+            "Quantity": 1
+          },
+          "4": {
+            "Slot": 4,
+            "Name": "Dirk",
+            "Quantity": 1
+          },
+          "5": {
+            "Slot": 5,
+            "Name": "Andor Chest",
+            "Quantity": 1
+          },
+          "6": {
+            "Slot": 6,
+            "Name": "Ragged Blouse",
+            "Quantity": 1
+          },
+          "7": {
+            "Slot": 7,
+            "Name": "Christmas Double Exp-Ap",
+            "Quantity": 4
+          },
+          "10": {
+            "Slot": 10,
+            "Name": "Priest Tutorial Book",
+            "Quantity": 1
+          }
+        },
+        "Entities": {
+          "7848": {
+            "Id": 7848,
+            "Name": "Kiril",
+            "Position": {
+              "X": 5,
+              "Y": 2
+            },
+            "Blocks": true
+          }
+        },
+        "GroundItems": {},
+        "Equipment": {
+          "7": "Small Spinel Ring",
+          "8": "Small Emerald Ring",
+          "13": "Boots",
+          "15": "Blue Polonaise"
+        },
+        "Skills": {
+          "1": "Assail (Lev:0/60)"
+        },
+        "Spells": {},
+        "Legends": [
+          "Priest by oath of Erin - Deoch 219, Winter",
+          "Aisling - Deoch 219, Winter"
+        ],
+        "LegendsKnown": true,
+        "LegendsRevision": 45,
+        "Dialog": {
+          "Generation": 1834593565575173,
+          "Revision": 182,
+          "EntityId": 7848,
+          "EntityType": 1,
+          "Name": "Kiril",
+          "Text": "I told you it wasn't that hard to collect.",
+          "IsPursuit": true,
+          "Pursuit": 0,
+          "Step": 1,
+          "Type": 0,
+          "Choices": [],
+          "Prompt": null,
+          "HasNext": true,
+          "ObservedAt": "2026-10-10T01:22:46.8162248+00:00"
+        },
+        "Notice": null
+      }
+    },
+    {
+      "Time": "2026-10-10T01:23:14.8770459+00:00",
+      "Character": "Aware",
+      "Generation": 1834593565575173,
+      "Revision": 186,
+      "Opcode": 15,
+      "Payload": "AojuABBTaHJpbmtpbmcgUG90aW9uAAAAAQEAAAAAAAAAAA==",
+      "Snapshot": {
+        "Generation": 1834593565575173,
+        "Revision": 186,
+        "Name": "Aware",
+        "Id": 1417623,
+        "Connected": true,
+        "Level": 99,
+        "Gold": 2000,
+        "Experience": 358928581,
+        "Hp": 3676,
+        "Weight": 18,
+        "MaxWeight": 75,
+        "Map": 306,
+        "Position": {
+          "X": 5,
+          "Y": 1
+        },
+        "InventoryKnown": true,
+        "Inventory": {
+          "1": {
+            "Slot": 1,
+            "Name": "Oren Gorget Gown",
+            "Quantity": 1
+          },
+          "2": {
+            "Slot": 2,
+            "Name": "Shrinking Potion",
+            "Quantity": 1
+          },
+          "3": {
+            "Slot": 3,
+            "Name": "Tutorial Book",
+            "Quantity": 1
+          },
+          "4": {
+            "Slot": 4,
+            "Name": "Dirk",
+            "Quantity": 1
+          },
+          "5": {
+            "Slot": 5,
+            "Name": "Andor Chest",
+            "Quantity": 1
+          },
+          "6": {
+            "Slot": 6,
+            "Name": "Ragged Blouse",
+            "Quantity": 1
+          },
+          "7": {
+            "Slot": 7,
+            "Name": "Christmas Double Exp-Ap",
+            "Quantity": 4
+          },
+          "10": {
+            "Slot": 10,
+            "Name": "Priest Tutorial Book",
+            "Quantity": 1
+          }
+        },
+        "Entities": {
+          "7848": {
+            "Id": 7848,
+            "Name": "Kiril",
+            "Position": {
+              "X": 5,
+              "Y": 2
+            },
+            "Blocks": true
+          }
+        },
+        "GroundItems": {},
+        "Equipment": {
+          "7": "Small Spinel Ring",
+          "8": "Small Emerald Ring",
+          "13": "Boots",
+          "15": "Blue Polonaise"
+        },
+        "Skills": {
+          "1": "Assail (Lev:0/60)"
+        },
+        "Spells": {},
+        "Legends": [
+          "Priest by oath of Erin - Deoch 219, Winter",
+          "Aisling - Deoch 219, Winter"
+        ],
+        "LegendsKnown": true,
+        "LegendsRevision": 45,
+        "Dialog": {
+          "Generation": 1834593565575173,
+          "Revision": 182,
+          "EntityId": 7848,
+          "EntityType": 1,
+          "Name": "Kiril",
+          "Text": "I told you it wasn't that hard to collect.",
+          "IsPursuit": true,
+          "Pursuit": 0,
+          "Step": 1,
+          "Type": 0,
+          "Choices": [],
+          "Prompt": null,
+          "HasNext": true,
+          "ObservedAt": "2026-10-10T01:22:46.8162248+00:00"
+        },
+        "Notice": null
+      }
+    },
+    {
+      "Time": "2026-10-10T01:23:14.8993576+00:00",
+      "Character": "Aware",
+      "Generation": 1834593565575173,
+      "Revision": 188,
+      "Opcode": 15,
+      "Payload": "AojuABBTaHJpbmtpbmcgUG90aW9uAAAAAgEAAAAAAAAAAA==",
+      "Snapshot": {
+        "Generation": 1834593565575173,
+        "Revision": 188,
+        "Name": "Aware",
+        "Id": 1417623,
+        "Connected": true,
+        "Level": 99,
+        "Gold": 2000,
+        "Experience": 358928581,
+        "Hp": 3676,
+        "Weight": 20,
+        "MaxWeight": 75,
+        "Map": 306,
+        "Position": {
+          "X": 5,
+          "Y": 1
+        },
+        "InventoryKnown": true,
+        "Inventory": {
+          "1": {
+            "Slot": 1,
+            "Name": "Oren Gorget Gown",
+            "Quantity": 1
+          },
+          "2": {
+            "Slot": 2,
+            "Name": "Shrinking Potion",
+            "Quantity": 2
+          },
+          "3": {
+            "Slot": 3,
+            "Name": "Tutorial Book",
+            "Quantity": 1
+          },
+          "4": {
+            "Slot": 4,
+            "Name": "Dirk",
+            "Quantity": 1
+          },
+          "5": {
+            "Slot": 5,
+            "Name": "Andor Chest",
+            "Quantity": 1
+          },
+          "6": {
+            "Slot": 6,
+            "Name": "Ragged Blouse",
+            "Quantity": 1
+          },
+          "7": {
+            "Slot": 7,
+            "Name": "Christmas Double Exp-Ap",
+            "Quantity": 4
+          },
+          "10": {
+            "Slot": 10,
+            "Name": "Priest Tutorial Book",
+            "Quantity": 1
+          }
+        },
+        "Entities": {
+          "7848": {
+            "Id": 7848,
+            "Name": "Kiril",
+            "Position": {
+              "X": 5,
+              "Y": 2
+            },
+            "Blocks": true
+          }
+        },
+        "GroundItems": {},
+        "Equipment": {
+          "7": "Small Spinel Ring",
+          "8": "Small Emerald Ring",
+          "13": "Boots",
+          "15": "Blue Polonaise"
+        },
+        "Skills": {
+          "1": "Assail (Lev:0/60)"
+        },
+        "Spells": {},
+        "Legends": [
+          "Priest by oath of Erin - Deoch 219, Winter",
+          "Aisling - Deoch 219, Winter"
+        ],
+        "LegendsKnown": true,
+        "LegendsRevision": 45,
+        "Dialog": {
+          "Generation": 1834593565575173,
+          "Revision": 182,
+          "EntityId": 7848,
+          "EntityType": 1,
+          "Name": "Kiril",
+          "Text": "I told you it wasn't that hard to collect.",
+          "IsPursuit": true,
+          "Pursuit": 0,
+          "Step": 1,
+          "Type": 0,
+          "Choices": [],
+          "Prompt": null,
+          "HasNext": true,
+          "ObservedAt": "2026-10-10T01:22:46.8162248+00:00"
+        },
+        "Notice": null
+      }
+    },
+    {
+      "Time": "2026-10-10T01:23:14.9251249+00:00",
+      "Character": "Aware",
+      "Generation": 1834593565575173,
+      "Revision": 190,
+      "Opcode": 15,
+      "Payload": "AojuABBTaHJpbmtpbmcgUG90aW9uAAAAAwEAAAAAAAAAAA==",
+      "Snapshot": {
+        "Generation": 1834593565575173,
+        "Revision": 190,
+        "Name": "Aware",
+        "Id": 1417623,
+        "Connected": true,
+        "Level": 99,
+        "Gold": 2000,
+        "Experience": 358928581,
+        "Hp": 3676,
+        "Weight": 20,
+        "MaxWeight": 75,
+        "Map": 306,
+        "Position": {
+          "X": 5,
+          "Y": 1
+        },
+        "InventoryKnown": true,
+        "Inventory": {
+          "1": {
+            "Slot": 1,
+            "Name": "Oren Gorget Gown",
+            "Quantity": 1
+          },
+          "2": {
+            "Slot": 2,
+            "Name": "Shrinking Potion",
+            "Quantity": 3
+          },
+          "3": {
+            "Slot": 3,
+            "Name": "Tutorial Book",
+            "Quantity": 1
+          },
+          "4": {
+            "Slot": 4,
+            "Name": "Dirk",
+            "Quantity": 1
+          },
+          "5": {
+            "Slot": 5,
+            "Name": "Andor Chest",
+            "Quantity": 1
+          },
+          "6": {
+            "Slot": 6,
+            "Name": "Ragged Blouse",
+            "Quantity": 1
+          },
+          "7": {
+            "Slot": 7,
+            "Name": "Christmas Double Exp-Ap",
+            "Quantity": 4
+          },
+          "10": {
+            "Slot": 10,
+            "Name": "Priest Tutorial Book",
+            "Quantity": 1
+          }
+        },
+        "Entities": {
+          "7848": {
+            "Id": 7848,
+            "Name": "Kiril",
+            "Position": {
+              "X": 5,
+              "Y": 2
+            },
+            "Blocks": true
+          }
+        },
+        "GroundItems": {},
+        "Equipment": {
+          "7": "Small Spinel Ring",
+          "8": "Small Emerald Ring",
+          "13": "Boots",
+          "15": "Blue Polonaise"
+        },
+        "Skills": {
+          "1": "Assail (Lev:0/60)"
+        },
+        "Spells": {},
+        "Legends": [
+          "Priest by oath of Erin - Deoch 219, Winter",
+          "Aisling - Deoch 219, Winter"
+        ],
+        "LegendsKnown": true,
+        "LegendsRevision": 45,
+        "Dialog": {
+          "Generation": 1834593565575173,
+          "Revision": 182,
+          "EntityId": 7848,
+          "EntityType": 1,
+          "Name": "Kiril",
+          "Text": "I told you it wasn't that hard to collect.",
+          "IsPursuit": true,
+          "Pursuit": 0,
+          "Step": 1,
+          "Type": 0,
+          "Choices": [],
+          "Prompt": null,
+          "HasNext": true,
+          "ObservedAt": "2026-10-10T01:22:46.8162248+00:00"
+        },
+        "Notice": null
+      }
+    },
+    {
+      "Time": "2026-10-10T01:23:14.9539164+00:00",
+      "Character": "Aware",
+      "Generation": 1834593565575173,
+      "Revision": 192,
+      "Opcode": 15,
+      "Payload": "AojuABBTaHJpbmtpbmcgUG90aW9uAAAABAEAAAAAAAAAAA==",
+      "Snapshot": {
+        "Generation": 1834593565575173,
+        "Revision": 192,
+        "Name": "Aware",
+        "Id": 1417623,
+        "Connected": true,
+        "Level": 99,
+        "Gold": 2000,
+        "Experience": 358928581,
+        "Hp": 3676,
+        "Weight": 20,
+        "MaxWeight": 75,
+        "Map": 306,
+        "Position": {
+          "X": 5,
+          "Y": 1
+        },
+        "InventoryKnown": true,
+        "Inventory": {
+          "1": {
+            "Slot": 1,
+            "Name": "Oren Gorget Gown",
+            "Quantity": 1
+          },
+          "2": {
+            "Slot": 2,
+            "Name": "Shrinking Potion",
+            "Quantity": 4
+          },
+          "3": {
+            "Slot": 3,
+            "Name": "Tutorial Book",
+            "Quantity": 1
+          },
+          "4": {
+            "Slot": 4,
+            "Name": "Dirk",
+            "Quantity": 1
+          },
+          "5": {
+            "Slot": 5,
+            "Name": "Andor Chest",
+            "Quantity": 1
+          },
+          "6": {
+            "Slot": 6,
+            "Name": "Ragged Blouse",
+            "Quantity": 1
+          },
+          "7": {
+            "Slot": 7,
+            "Name": "Christmas Double Exp-Ap",
+            "Quantity": 4
+          },
+          "10": {
+            "Slot": 10,
+            "Name": "Priest Tutorial Book",
+            "Quantity": 1
+          }
+        },
+        "Entities": {
+          "7848": {
+            "Id": 7848,
+            "Name": "Kiril",
+            "Position": {
+              "X": 5,
+              "Y": 2
+            },
+            "Blocks": true
+          }
+        },
+        "GroundItems": {},
+        "Equipment": {
+          "7": "Small Spinel Ring",
+          "8": "Small Emerald Ring",
+          "13": "Boots",
+          "15": "Blue Polonaise"
+        },
+        "Skills": {
+          "1": "Assail (Lev:0/60)"
+        },
+        "Spells": {},
+        "Legends": [
+          "Priest by oath of Erin - Deoch 219, Winter",
+          "Aisling - Deoch 219, Winter"
+        ],
+        "LegendsKnown": true,
+        "LegendsRevision": 45,
+        "Dialog": {
+          "Generation": 1834593565575173,
+          "Revision": 182,
+          "EntityId": 7848,
+          "EntityType": 1,
+          "Name": "Kiril",
+          "Text": "I told you it wasn't that hard to collect.",
+          "IsPursuit": true,
+          "Pursuit": 0,
+          "Step": 1,
+          "Type": 0,
+          "Choices": [],
+          "Prompt": null,
+          "HasNext": true,
+          "ObservedAt": "2026-10-10T01:22:46.8162248+00:00"
+        },
+        "Notice": null
+      }
+    },
+    {
+      "Time": "2026-10-10T01:23:14.9820591+00:00",
+      "Character": "Aware",
+      "Generation": 1834593565575173,
+      "Revision": 194,
+      "Opcode": 48,
+      "Payload": "AAEAAB6oAUAlAAFAJQAAAAABAQAABUtpcmlsAFVOb3cgZ28gZXhwbG9yZSB0aGF0IGNhdmUhIEkgZ2F2ZSB5b3UgZW5vdWdoIHBvdGlvbiB0byBleHBsb3JlIHRoZSBhcmVhIHNldmVyYWwgdGltZXMu",
+      "Snapshot": {
+        "Generation": 1834593565575173,
+        "Revision": 194,
+        "Name": "Aware",
+        "Id": 1417623,
+        "Connected": true,
+        "Level": 99,
+        "Gold": 2000,
+        "Experience": 358928581,
+        "Hp": 3676,
+        "Weight": 20,
+        "MaxWeight": 75,
+        "Map": 306,
+        "Position": {
+          "X": 5,
+          "Y": 1
+        },
+        "InventoryKnown": true,
+        "Inventory": {
+          "1": {
+            "Slot": 1,
+            "Name": "Oren Gorget Gown",
+            "Quantity": 1
+          },
+          "2": {
+            "Slot": 2,
+            "Name": "Shrinking Potion",
+            "Quantity": 4
+          },
+          "3": {
+            "Slot": 3,
+            "Name": "Tutorial Book",
+            "Quantity": 1
+          },
+          "4": {
+            "Slot": 4,
+            "Name": "Dirk",
+            "Quantity": 1
+          },
+          "5": {
+            "Slot": 5,
+            "Name": "Andor Chest",
+            "Quantity": 1
+          },
+          "6": {
+            "Slot": 6,
+            "Name": "Ragged Blouse",
+            "Quantity": 1
+          },
+          "7": {
+            "Slot": 7,
+            "Name": "Christmas Double Exp-Ap",
+            "Quantity": 4
+          },
+          "10": {
+            "Slot": 10,
+            "Name": "Priest Tutorial Book",
+            "Quantity": 1
+          }
+        },
+        "Entities": {
+          "7848": {
+            "Id": 7848,
+            "Name": "Kiril",
+            "Position": {
+              "X": 5,
+              "Y": 2
+            },
+            "Blocks": true
+          }
+        },
+        "GroundItems": {},
+        "Equipment": {
+          "7": "Small Spinel Ring",
+          "8": "Small Emerald Ring",
+          "13": "Boots",
+          "15": "Blue Polonaise"
+        },
+        "Skills": {
+          "1": "Assail (Lev:0/60)"
+        },
+        "Spells": {},
+        "Legends": [
+          "Priest by oath of Erin - Deoch 219, Winter",
+          "Aisling - Deoch 219, Winter"
+        ],
+        "LegendsKnown": true,
+        "LegendsRevision": 45,
+        "Dialog": {
+          "Generation": 1834593565575173,
+          "Revision": 194,
+          "EntityId": 7848,
+          "EntityType": 1,
+          "Name": "Kiril",
+          "Text": "Now go explore that cave! I gave you enough potion to explore the area several times.",
+          "IsPursuit": true,
+          "Pursuit": 0,
+          "Step": 1,
+          "Type": 0,
+          "Choices": [],
+          "Prompt": null,
+          "HasNext": false,
+          "ObservedAt": "2026-10-10T01:23:14.9665551+00:00"
+        },
+        "Notice": null
+      }
+    },
+    {
+      "Time": "2026-10-10T01:23:38.3602298+00:00",
+      "Character": "Aware",
+      "Generation": 1834593565575173,
+      "Revision": 195,
+      "Opcode": 48,
+      "Payload": "CgA=",
+      "Snapshot": {
+        "Generation": 1834593565575173,
+        "Revision": 195,
+        "Name": "Aware",
+        "Id": 1417623,
+        "Connected": true,
+        "Level": 99,
+        "Gold": 2000,
+        "Experience": 358928581,
+        "Hp": 3676,
+        "Weight": 20,
+        "MaxWeight": 75,
+        "Map": 306,
+        "Position": {
+          "X": 5,
+          "Y": 1
+        },
+        "InventoryKnown": true,
+        "Inventory": {
+          "1": {
+            "Slot": 1,
+            "Name": "Oren Gorget Gown",
+            "Quantity": 1
+          },
+          "2": {
+            "Slot": 2,
+            "Name": "Shrinking Potion",
+            "Quantity": 4
+          },
+          "3": {
+            "Slot": 3,
+            "Name": "Tutorial Book",
+            "Quantity": 1
+          },
+          "4": {
+            "Slot": 4,
+            "Name": "Dirk",
+            "Quantity": 1
+          },
+          "5": {
+            "Slot": 5,
+            "Name": "Andor Chest",
+            "Quantity": 1
+          },
+          "6": {
+            "Slot": 6,
+            "Name": "Ragged Blouse",
+            "Quantity": 1
+          },
+          "7": {
+            "Slot": 7,
+            "Name": "Christmas Double Exp-Ap",
+            "Quantity": 4
+          },
+          "10": {
+            "Slot": 10,
+            "Name": "Priest Tutorial Book",
+            "Quantity": 1
+          }
+        },
+        "Entities": {
+          "7848": {
+            "Id": 7848,
+            "Name": "Kiril",
+            "Position": {
+              "X": 5,
+              "Y": 2
+            },
+            "Blocks": true
+          }
+        },
+        "GroundItems": {},
+        "Equipment": {
+          "7": "Small Spinel Ring",
+          "8": "Small Emerald Ring",
+          "13": "Boots",
+          "15": "Blue Polonaise"
+        },
+        "Skills": {
+          "1": "Assail (Lev:0/60)"
+        },
+        "Spells": {},
+        "Legends": [
+          "Priest by oath of Erin - Deoch 219, Winter",
+          "Aisling - Deoch 219, Winter"
+        ],
+        "LegendsKnown": true,
+        "LegendsRevision": 45,
+        "Dialog": null,
+        "Notice": null
+      }
+    }
+  ],
+  "Actions": [
+    {
+      "Time": "2026-10-10T01:23:14.3110836+00:00",
+      "Character": "Aware",
+      "Generation": 1834593565575173,
+      "Revision": 183,
+      "Kind": "next",
+      "Selection": null,
+      "Dialog": {
+        "Generation": 1834593565575173,
+        "Revision": 182,
+        "EntityId": 7848,
+        "EntityType": 1,
+        "Name": "Kiril",
+        "Text": "I told you it wasn't that hard to collect.",
+        "IsPursuit": true,
+        "Pursuit": 0,
+        "Step": 1,
+        "Type": 0,
+        "Choices": [],
+        "Prompt": null,
+        "HasNext": true,
+        "ObservedAt": "2026-10-10T01:22:46.8162248+00:00"
+      },
+      "Branches": 0,
+      "Experience": 358928581
+    },
+    {
+      "Time": "2026-10-10T01:23:38.2653983+00:00",
+      "Character": "Aware",
+      "Generation": 1834593565575173,
+      "Revision": 194,
+      "Kind": "close",
+      "Selection": null,
+      "Dialog": {
+        "Generation": 1834593565575173,
+        "Revision": 194,
+        "EntityId": 7848,
+        "EntityType": 1,
+        "Name": "Kiril",
+        "Text": "Now go explore that cave! I gave you enough potion to explore the area several times.",
+        "IsPursuit": true,
+        "Pursuit": 0,
+        "Step": 1,
+        "Type": 0,
+        "Choices": [],
+        "Prompt": null,
+        "HasNext": false,
+        "ObservedAt": "2026-10-10T01:23:14.9665551+00:00"
+      },
+      "Branches": 0,
+      "Experience": 358928581
+    }
+  ],
+  "FinalOwnLegendObservation": {
+    "generation": 1834593565575173,
+    "revision": 199,
+    "name": "Aware",
+    "id": 1417623,
+    "connected": true,
+    "level": 99,
+    "gold": 2000,
+    "experience": 358928581,
+    "hp": 3676,
+    "weight": 20,
+    "maxWeight": 75,
+    "map": 306,
+    "position": {
+      "x": 5,
+      "y": 1
+    },
+    "inventoryKnown": true,
+    "inventory": {
+      "1": {
+        "slot": 1,
+        "name": "Oren Gorget Gown",
+        "quantity": 1
+      },
+      "2": {
+        "slot": 2,
+        "name": "Shrinking Potion",
+        "quantity": 4
+      },
+      "3": {
+        "slot": 3,
+        "name": "Tutorial Book",
+        "quantity": 1
+      },
+      "4": {
+        "slot": 4,
+        "name": "Dirk",
+        "quantity": 1
+      },
+      "5": {
+        "slot": 5,
+        "name": "Andor Chest",
+        "quantity": 1
+      },
+      "6": {
+        "slot": 6,
+        "name": "Ragged Blouse",
+        "quantity": 1
+      },
+      "7": {
+        "slot": 7,
+        "name": "Christmas Double Exp-Ap",
+        "quantity": 4
+      },
+      "10": {
+        "slot": 10,
+        "name": "Priest Tutorial Book",
+        "quantity": 1
+      }
+    },
+    "entities": {},
+    "groundItems": {},
+    "equipment": {
+      "7": "Small Spinel Ring",
+      "8": "Small Emerald Ring",
+      "13": "Boots",
+      "15": "Blue Polonaise"
+    },
+    "skills": {
+      "1": "Assail (Lev:0/60)"
+    },
+    "spells": {},
+    "legends": [
+      "Priest by oath of Erin - Deoch 219, Winter",
+      "Aisling - Deoch 219, Winter",
+      "Entered Muisir Village - Deoch 223, Spring"
+    ],
+    "legendsKnown": true,
+    "legendsRevision": 197,
+    "dialog": null,
+    "notice": null
+  },
+  "VerifiedJob": {
+    "character": "Aware",
+    "quest": "entered-muisir-village",
+    "version": 1,
+    "step": "complete",
+    "status": "Completed",
+    "reason": "Entered Muisir Village; four Shrinking Potions received",
+    "accepted": false,
+    "acceptedGeneration": null,
+    "repeat": false,
+    "completedAt": "2026-10-10T01:23:40.728578+00:00",
+    "nextRun": null,
+    "permanentCompletion": null,
+    "pending": null,
+    "rewards": {
+      "mushroomsConsumed": 5,
+      "item:Shrinking Potion": 4
+    },
+    "birthOptions": null,
+    "birthCompletion": null,
+    "completionText": "Entered Muisir Village; four Shrinking Potions received",
+    "hairstyleCompletion": null,
+    "legendReward": null,
+    "lastAttemptAt": null,
+    "hairstyleAttempts": []
+  }
+}

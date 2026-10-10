@@ -1,0 +1,38 @@
+﻿namespace Arbiter.Net.Types;
+
+public enum Emote : byte
+{
+    Smile = 0,
+    Cry = 1,
+    Frown = 2,
+    Wink = 3,
+    Surprise = 4,
+    Tongue = 5,
+    Pleasant = 6,
+    Snore = 7,
+    Mouth = 8,
+    BlowKiss = 12,
+    Wave = 13,
+    RockOn = 14,
+    Peace = 15,
+    Stop = 16,
+    Ouch = 17,
+    Impatient = 18,
+    Shock = 19,
+    Pleasure = 20,
+    Love = 21,
+    SweatDrop = 22,
+    Whistle = 23,
+    Annoyed = 24,
+    Silly = 25,
+    Cute = 26,
+    Yelling = 27,
+    Mischievous = 28,
+    Evil = 29,
+    Horror = 30,
+    PuppyDog = 31,
+    StoneFaced = 32,
+    Tears = 33,
+    FiredUp = 34,
+    Confused = 35
+}

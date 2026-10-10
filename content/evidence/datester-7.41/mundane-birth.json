@@ -1,0 +1,2200 @@
+{
+    "Source":  "DAQuester recording, Awesome, DATester 7.41, 2026-10-09. Server dialog packets and sanitized selections. Numeric input text omitted. Completion status opcode was not recorded by the old build.",
+    "Events":  [
+                   {
+                       "Time":  "2026-10-09T23:22:02.353579+00:00",
+                       "Character":  "Awesome",
+                       "Generation":  1834586039707651,
+                       "Revision":  701,
+                       "Opcode":  47,
+                       "Payload":  "AAEAABtxAUIEAAFCBAAABVJpb25hAB5IZWxsby4gIFdoYXQgY2FuIEkgZG8gZm9yIHlvdT8HA0J1eQBABFNlbGwAQQ1NaWxldGggQ2l2aWNzBkMIU3dpbW1pbmcKiQ5UcmFpbmluZyBRdWVzdAf6EFJpb25hJ3MgR3JlZXRpbmcEuQ1NdW5kYW5lIEJpcnRoBLoK2wEYc3r/i98L",
+                       "Snapshot":  {
+                                        "Generation":  1834586039707651,
+                                        "Revision":  701,
+                                        "Name":  "Awesome",
+                                        "Id":  1179711,
+                                        "Connected":  true,
+                                        "Level":  4,
+                                        "Gold":  51,
+                                        "Experience":  12601,
+                                        "Hp":  891,
+                                        "Weight":  24,
+                                        "MaxWeight":  52,
+                                        "Map":  136,
+                                        "Position":  {
+                                                         "X":  5,
+                                                         "Y":  8
+                                                     },
+                                        "InventoryKnown":  true,
+                                        "Inventory":  {
+                                                          "1":  {
+                                                                    "Slot":  1,
+                                                                    "Name":  "Stick",
+                                                                    "Quantity":  1
+                                                                },
+                                                          "2":  {
+                                                                    "Slot":  2,
+                                                                    "Name":  "Wooden Shield",
+                                                                    "Quantity":  1
+                                                                },
+                                                          "3":  {
+                                                                    "Slot":  3,
+                                                                    "Name":  "Stick",
+                                                                    "Quantity":  1
+                                                                },
+                                                          "4":  {
+                                                                    "Slot":  4,
+                                                                    "Name":  "Tutorial Book",
+                                                                    "Quantity":  1
+                                                                },
+                                                          "5":  {
+                                                                    "Slot":  5,
+                                                                    "Name":  "Wooden Shield",
+                                                                    "Quantity":  1
+                                                                }
+                                                      },
+                                        "Entities":  {
+
+                                                     },
+                                        "Equipment":  {
+                                                          "1":  "Dirk",
+                                                          "2":  "Ragged Shirt",
+                                                          "7":  "Small Emerald Ring",
+                                                          "8":  "Small Spinel Ring",
+                                                          "13":  "Boots"
+                                                      },
+                                        "Skills":  {
+                                                       "1":  "Assail"
+                                                   },
+                                        "Spells":  {
+
+                                                   },
+                                        "Legends":  [
+
+                                                    ],
+                                        "Dialog":  {
+                                                       "Generation":  1834586039707651,
+                                                       "Revision":  701,
+                                                       "EntityId":  7025,
+                                                       "EntityType":  1,
+                                                       "Name":  "Riona",
+                                                       "Text":  "Hello.  What can I do for you?",
+                                                       "IsPursuit":  false,
+                                                       "Pursuit":  0,
+                                                       "Step":  0,
+                                                       "Type":  0,
+                                                       "Choices":  [
+                                                                       {
+                                                                           "Text":  "Buy",
+                                                                           "Pursuit":  64,
+                                                                           "Option":  1
+                                                                       },
+                                                                       {
+                                                                           "Text":  "Sell",
+                                                                           "Pursuit":  65,
+                                                                           "Option":  2
+                                                                       },
+                                                                       {
+                                                                           "Text":  "Mileth Civics",
+                                                                           "Pursuit":  1603,
+                                                                           "Option":  3
+                                                                       },
+                                                                       {
+                                                                           "Text":  "Swimming",
+                                                                           "Pursuit":  2697,
+                                                                           "Option":  4
+                                                                       },
+                                                                       {
+                                                                           "Text":  "Training Quest",
+                                                                           "Pursuit":  2042,
+                                                                           "Option":  5
+                                                                       },
+                                                                       {
+                                                                           "Text":  "Riona\u0027s Greeting",
+                                                                           "Pursuit":  1209,
+                                                                           "Option":  6
+                                                                       },
+                                                                       {
+                                                                           "Text":  "Mundane Birth",
+                                                                           "Pursuit":  1210,
+                                                                           "Option":  7
+                                                                       }
+                                                                   ],
+                                                       "Prompt":  null,
+                                                       "HasNext":  false
+                                                   }
+                                    }
+                   },
+                   {
+                       "Time":  "2026-10-09T23:22:14.857656+00:00",
+                       "Character":  "Awesome",
+                       "Generation":  1834586039707651,
+                       "Revision":  707,
+                       "Opcode":  48,
+                       "Payload":  "AAEAABtxAUIEAAFCBAAAugAqAAEABVJpb25hAM1Zb3UgcmVjYWxsIHlvdXIgbXVuZGFuZSBiaXJ0aD8gVGhhdCBpcyBnb29kLiBCdXQgYmUgd2FybmVkIHRoYXQgb25jZSB5b3UgcmVjYWxsIHlvdXIgbXVuZGFuZSBiaXJ0aCBpdCBjYW5ub3QgYmUgYWx0ZXJlZCwgZXhjZXB0IGJ5IHJlYWxpemluZyB0aGF0IG1hbnkgb2YgeW91ciBtZW1vcmllcyBhcmUgZmFsc2UgKCggLTEwMCwwMDAgRXhwZXJpZW5jZSEgKSku",
+                       "Snapshot":  {
+                                        "Generation":  1834586039707651,
+                                        "Revision":  707,
+                                        "Name":  "Awesome",
+                                        "Id":  1179711,
+                                        "Connected":  true,
+                                        "Level":  4,
+                                        "Gold":  51,
+                                        "Experience":  12601,
+                                        "Hp":  891,
+                                        "Weight":  24,
+                                        "MaxWeight":  52,
+                                        "Map":  136,
+                                        "Position":  {
+                                                         "X":  5,
+                                                         "Y":  8
+                                                     },
+                                        "InventoryKnown":  true,
+                                        "Inventory":  {
+                                                          "1":  {
+                                                                    "Slot":  1,
+                                                                    "Name":  "Stick",
+                                                                    "Quantity":  1
+                                                                },
+                                                          "2":  {
+                                                                    "Slot":  2,
+                                                                    "Name":  "Wooden Shield",
+                                                                    "Quantity":  1
+                                                                },
+                                                          "3":  {
+                                                                    "Slot":  3,
+                                                                    "Name":  "Stick",
+                                                                    "Quantity":  1
+                                                                },
+                                                          "4":  {
+                                                                    "Slot":  4,
+                                                                    "Name":  "Tutorial Book",
+                                                                    "Quantity":  1
+                                                                },
+                                                          "5":  {
+                                                                    "Slot":  5,
+                                                                    "Name":  "Wooden Shield",
+                                                                    "Quantity":  1
+                                                                }
+                                                      },
+                                        "Entities":  {
+
+                                                     },
+                                        "Equipment":  {
+                                                          "1":  "Dirk",
+                                                          "2":  "Ragged Shirt",
+                                                          "7":  "Small Emerald Ring",
+                                                          "8":  "Small Spinel Ring",
+                                                          "13":  "Boots"
+                                                      },
+                                        "Skills":  {
+                                                       "1":  "Assail"
+                                                   },
+                                        "Spells":  {
+
+                                                   },
+                                        "Legends":  [
+
+                                                    ],
+                                        "Dialog":  {
+                                                       "Generation":  1834586039707651,
+                                                       "Revision":  707,
+                                                       "EntityId":  7025,
+                                                       "EntityType":  1,
+                                                       "Name":  "Riona",
+                                                       "Text":  "You recall your mundane birth? That is good. But be warned that once you recall your mundane birth it cannot be altered, except by realizing that many of your memories are false (( -100,000 Experience! )).",
+                                                       "IsPursuit":  true,
+                                                       "Pursuit":  186,
+                                                       "Step":  42,
+                                                       "Type":  0,
+                                                       "Choices":  [
+
+                                                                   ],
+                                                       "Prompt":  null,
+                                                       "HasNext":  true
+                                                   }
+                                    }
+                   },
+                   {
+                       "Time":  "2026-10-09T23:22:16.8683406+00:00",
+                       "Character":  "Awesome",
+                       "Generation":  1834586039707651,
+                       "Revision":  709,
+                       "Opcode":  48,
+                       "Payload":  "AgEAABtxAUIEAAFCBAAAugAsAAEABVJpb25hAQNEbyB5b3Uga25vdyBhYm91dCB0aGUgdG93biBpbiB3aGljaCB5b3Ugc3BlbnQgbW9zdCBvZiB5b3VyIG11bmRhbmUgeWVhcnM/IEl0IG11c3QgYmUgY2xvc2UgdG8gb25lIG9mIHRoZSBrbm93biB0b3ducyBvZiBFYXN0ZXJuIFRlbXVhaXI6IEFiZWwsIE1pbGV0aCwgUGlldCwgUnVjZXNpb24sIFN1b21pLCBvciBVbmRpbmUuIEFzayBmZWxsb3cgQWlzbGluZ3MsIG9yIHZpc2l0IHRoZSBsaWJyYXJ5ICgoIHd3dy5kYXJrYWdlcy5jb20vY29tbXVuaXR5ICkpAilJIGFtIG5vdCBzdXJlIGFib3V0IHRoZSBtdW5kYW5lIGxvY2F0aW9ucxtJIGhhdmUgaW52ZXN0aWdhdGVkIG15IHBhc3Q=",
+                       "Snapshot":  {
+                                        "Generation":  1834586039707651,
+                                        "Revision":  709,
+                                        "Name":  "Awesome",
+                                        "Id":  1179711,
+                                        "Connected":  true,
+                                        "Level":  4,
+                                        "Gold":  51,
+                                        "Experience":  12601,
+                                        "Hp":  891,
+                                        "Weight":  24,
+                                        "MaxWeight":  52,
+                                        "Map":  136,
+                                        "Position":  {
+                                                         "X":  5,
+                                                         "Y":  8
+                                                     },
+                                        "InventoryKnown":  true,
+                                        "Inventory":  {
+                                                          "1":  {
+                                                                    "Slot":  1,
+                                                                    "Name":  "Stick",
+                                                                    "Quantity":  1
+                                                                },
+                                                          "2":  {
+                                                                    "Slot":  2,
+                                                                    "Name":  "Wooden Shield",
+                                                                    "Quantity":  1
+                                                                },
+                                                          "3":  {
+                                                                    "Slot":  3,
+                                                                    "Name":  "Stick",
+                                                                    "Quantity":  1
+                                                                },
+                                                          "4":  {
+                                                                    "Slot":  4,
+                                                                    "Name":  "Tutorial Book",
+                                                                    "Quantity":  1
+                                                                },
+                                                          "5":  {
+                                                                    "Slot":  5,
+                                                                    "Name":  "Wooden Shield",
+                                                                    "Quantity":  1
+                                                                }
+                                                      },
+                                        "Entities":  {
+
+                                                     },
+                                        "Equipment":  {
+                                                          "1":  "Dirk",
+                                                          "2":  "Ragged Shirt",
+                                                          "7":  "Small Emerald Ring",
+                                                          "8":  "Small Spinel Ring",
+                                                          "13":  "Boots"
+                                                      },
+                                        "Skills":  {
+                                                       "1":  "Assail"
+                                                   },
+                                        "Spells":  {
+
+                                                   },
+                                        "Legends":  [
+
+                                                    ],
+                                        "Dialog":  {
+                                                       "Generation":  1834586039707651,
+                                                       "Revision":  709,
+                                                       "EntityId":  7025,
+                                                       "EntityType":  1,
+                                                       "Name":  "Riona",
+                                                       "Text":  "Do you know about the town in which you spent most of your mundane years? It must be close to one of the known towns of Eastern Temuair: Abel, Mileth, Piet, Rucesion, Suomi, or Undine. Ask fellow Aislings, or visit the library (( www.darkages.com/community ))",
+                                                       "IsPursuit":  true,
+                                                       "Pursuit":  186,
+                                                       "Step":  44,
+                                                       "Type":  2,
+                                                       "Choices":  [
+                                                                       {
+                                                                           "Text":  "I am not sure about the mundane locations",
+                                                                           "Pursuit":  186,
+                                                                           "Option":  1
+                                                                       },
+                                                                       {
+                                                                           "Text":  "I have investigated my past",
+                                                                           "Pursuit":  186,
+                                                                           "Option":  2
+                                                                       }
+                                                                   ],
+                                                       "Prompt":  null,
+                                                       "HasNext":  true
+                                                   }
+                                    }
+                   },
+                   {
+                       "Time":  "2026-10-09T23:22:24.8663529+00:00",
+                       "Character":  "Awesome",
+                       "Generation":  1834586039707651,
+                       "Revision":  713,
+                       "Opcode":  48,
+                       "Payload":  "AgEAABtxAUIEAAFCBAAAugAxAAEABVJpb25hAGpZb3Uga25vdyB0aGF0IGEgbWVtb3J5IHNldCBjYW5ub3QgYmUgYWx0ZXJlZCB3aXRob3V0IGV4dHJlbWUgaGFyZHNoaXAgYW5kIGFnb255ICgoIC0xMDAsMDAwIEV4cGVyaWVuY2UhICkpAhZJIGFtIGNvbW1pdHRlZCB0byB0aGlzF0knbSBub3Qgc3VyZSBhYm91dCB0aGF0",
+                       "Snapshot":  {
+                                        "Generation":  1834586039707651,
+                                        "Revision":  713,
+                                        "Name":  "Awesome",
+                                        "Id":  1179711,
+                                        "Connected":  true,
+                                        "Level":  4,
+                                        "Gold":  51,
+                                        "Experience":  12601,
+                                        "Hp":  891,
+                                        "Weight":  24,
+                                        "MaxWeight":  52,
+                                        "Map":  136,
+                                        "Position":  {
+                                                         "X":  5,
+                                                         "Y":  8
+                                                     },
+                                        "InventoryKnown":  true,
+                                        "Inventory":  {
+                                                          "1":  {
+                                                                    "Slot":  1,
+                                                                    "Name":  "Stick",
+                                                                    "Quantity":  1
+                                                                },
+                                                          "2":  {
+                                                                    "Slot":  2,
+                                                                    "Name":  "Wooden Shield",
+                                                                    "Quantity":  1
+                                                                },
+                                                          "3":  {
+                                                                    "Slot":  3,
+                                                                    "Name":  "Stick",
+                                                                    "Quantity":  1
+                                                                },
+                                                          "4":  {
+                                                                    "Slot":  4,
+                                                                    "Name":  "Tutorial Book",
+                                                                    "Quantity":  1
+                                                                },
+                                                          "5":  {
+                                                                    "Slot":  5,
+                                                                    "Name":  "Wooden Shield",
+                                                                    "Quantity":  1
+                                                                }
+                                                      },
+                                        "Entities":  {
+
+                                                     },
+                                        "Equipment":  {
+                                                          "1":  "Dirk",
+                                                          "2":  "Ragged Shirt",
+                                                          "7":  "Small Emerald Ring",
+                                                          "8":  "Small Spinel Ring",
+                                                          "13":  "Boots"
+                                                      },
+                                        "Skills":  {
+                                                       "1":  "Assail"
+                                                   },
+                                        "Spells":  {
+
+                                                   },
+                                        "Legends":  [
+
+                                                    ],
+                                        "Dialog":  {
+                                                       "Generation":  1834586039707651,
+                                                       "Revision":  713,
+                                                       "EntityId":  7025,
+                                                       "EntityType":  1,
+                                                       "Name":  "Riona",
+                                                       "Text":  "You know that a memory set cannot be altered without extreme hardship and agony (( -100,000 Experience! ))",
+                                                       "IsPursuit":  true,
+                                                       "Pursuit":  186,
+                                                       "Step":  49,
+                                                       "Type":  2,
+                                                       "Choices":  [
+                                                                       {
+                                                                           "Text":  "I am committed to this",
+                                                                           "Pursuit":  186,
+                                                                           "Option":  1
+                                                                       },
+                                                                       {
+                                                                           "Text":  "I\u0027m not sure about that",
+                                                                           "Pursuit":  186,
+                                                                           "Option":  2
+                                                                       }
+                                                                   ],
+                                                       "Prompt":  null,
+                                                       "HasNext":  true
+                                                   }
+                                    }
+                   },
+                   {
+                       "Time":  "2026-10-09T23:22:31.3717493+00:00",
+                       "Character":  "Awesome",
+                       "Generation":  1834586039707651,
+                       "Revision":  716,
+                       "Opcode":  48,
+                       "Payload":  "AgEAABtxAUIEAAFCBAAAugA8AAEABVJpb25hAFRJIHdpbGwgYXNrIHlvdSBob3cgb2xkIHlvdSBhcmUsIGJ1dCBmaXJzdCwgbGV0IG1lIGtub3cgd2hpY2ggc2Vhc29uIHlvdSB3ZXJlIGJvcm4gaW4EBlNwcmluZwZTdW1tZXIERmFsbAZXaW50ZXI=",
+                       "Snapshot":  {
+                                        "Generation":  1834586039707651,
+                                        "Revision":  716,
+                                        "Name":  "Awesome",
+                                        "Id":  1179711,
+                                        "Connected":  true,
+                                        "Level":  4,
+                                        "Gold":  51,
+                                        "Experience":  12601,
+                                        "Hp":  891,
+                                        "Weight":  24,
+                                        "MaxWeight":  52,
+                                        "Map":  136,
+                                        "Position":  {
+                                                         "X":  5,
+                                                         "Y":  8
+                                                     },
+                                        "InventoryKnown":  true,
+                                        "Inventory":  {
+                                                          "1":  {
+                                                                    "Slot":  1,
+                                                                    "Name":  "Stick",
+                                                                    "Quantity":  1
+                                                                },
+                                                          "2":  {
+                                                                    "Slot":  2,
+                                                                    "Name":  "Wooden Shield",
+                                                                    "Quantity":  1
+                                                                },
+                                                          "3":  {
+                                                                    "Slot":  3,
+                                                                    "Name":  "Stick",
+                                                                    "Quantity":  1
+                                                                },
+                                                          "4":  {
+                                                                    "Slot":  4,
+                                                                    "Name":  "Tutorial Book",
+                                                                    "Quantity":  1
+                                                                },
+                                                          "5":  {
+                                                                    "Slot":  5,
+                                                                    "Name":  "Wooden Shield",
+                                                                    "Quantity":  1
+                                                                }
+                                                      },
+                                        "Entities":  {
+
+                                                     },
+                                        "Equipment":  {
+                                                          "1":  "Dirk",
+                                                          "2":  "Ragged Shirt",
+                                                          "7":  "Small Emerald Ring",
+                                                          "8":  "Small Spinel Ring",
+                                                          "13":  "Boots"
+                                                      },
+                                        "Skills":  {
+                                                       "1":  "Assail"
+                                                   },
+                                        "Spells":  {
+
+                                                   },
+                                        "Legends":  [
+
+                                                    ],
+                                        "Dialog":  {
+                                                       "Generation":  1834586039707651,
+                                                       "Revision":  716,
+                                                       "EntityId":  7025,
+                                                       "EntityType":  1,
+                                                       "Name":  "Riona",
+                                                       "Text":  "I will ask you how old you are, but first, let me know which season you were born in",
+                                                       "IsPursuit":  true,
+                                                       "Pursuit":  186,
+                                                       "Step":  60,
+                                                       "Type":  2,
+                                                       "Choices":  [
+                                                                       {
+                                                                           "Text":  "Spring",
+                                                                           "Pursuit":  186,
+                                                                           "Option":  1
+                                                                       },
+                                                                       {
+                                                                           "Text":  "Summer",
+                                                                           "Pursuit":  186,
+                                                                           "Option":  2
+                                                                       },
+                                                                       {
+                                                                           "Text":  "Fall",
+                                                                           "Pursuit":  186,
+                                                                           "Option":  3
+                                                                       },
+                                                                       {
+                                                                           "Text":  "Winter",
+                                                                           "Pursuit":  186,
+                                                                           "Option":  4
+                                                                       }
+                                                                   ],
+                                                       "Prompt":  null,
+                                                       "HasNext":  true
+                                                   }
+                                    }
+                   },
+                   {
+                       "Time":  "2026-10-09T23:22:49.3980916+00:00",
+                       "Character":  "Awesome",
+                       "Generation":  1834586039707651,
+                       "Revision":  726,
+                       "Opcode":  48,
+                       "Payload":  "BAEAABtxAUIEAAFCBAAAugBOAAEABVJpb25hAH9Ib3cgb2xkIGFyZSB5b3Ugbm93PyBBcyB5b3UgbWF5IGtub3csIGEgbXVuZGFuZSBjYW5ub3QgYmVjb21lIGFuIEFpc2xpbmcgYmVmb3JlIGhpcyAxMnRoIGJpcnRoZGF5LCBub3IgYWZ0ZXIgdGhlIDQwdGggYmlydGhkYXkuFE15IG11bmRhbmUgYmlydGggd2FzAxR5ZWFycyBhZ28gZnJvbSB0b2RheQ==",
+                       "Snapshot":  {
+                                        "Generation":  1834586039707651,
+                                        "Revision":  726,
+                                        "Name":  "Awesome",
+                                        "Id":  1179711,
+                                        "Connected":  true,
+                                        "Level":  4,
+                                        "Gold":  51,
+                                        "Experience":  12601,
+                                        "Hp":  891,
+                                        "Weight":  24,
+                                        "MaxWeight":  52,
+                                        "Map":  136,
+                                        "Position":  {
+                                                         "X":  5,
+                                                         "Y":  8
+                                                     },
+                                        "InventoryKnown":  true,
+                                        "Inventory":  {
+                                                          "1":  {
+                                                                    "Slot":  1,
+                                                                    "Name":  "Stick",
+                                                                    "Quantity":  1
+                                                                },
+                                                          "2":  {
+                                                                    "Slot":  2,
+                                                                    "Name":  "Wooden Shield",
+                                                                    "Quantity":  1
+                                                                },
+                                                          "3":  {
+                                                                    "Slot":  3,
+                                                                    "Name":  "Stick",
+                                                                    "Quantity":  1
+                                                                },
+                                                          "4":  {
+                                                                    "Slot":  4,
+                                                                    "Name":  "Tutorial Book",
+                                                                    "Quantity":  1
+                                                                },
+                                                          "5":  {
+                                                                    "Slot":  5,
+                                                                    "Name":  "Wooden Shield",
+                                                                    "Quantity":  1
+                                                                }
+                                                      },
+                                        "Entities":  {
+
+                                                     },
+                                        "Equipment":  {
+                                                          "1":  "Dirk",
+                                                          "2":  "Ragged Shirt",
+                                                          "7":  "Small Emerald Ring",
+                                                          "8":  "Small Spinel Ring",
+                                                          "13":  "Boots"
+                                                      },
+                                        "Skills":  {
+                                                       "1":  "Assail"
+                                                   },
+                                        "Spells":  {
+
+                                                   },
+                                        "Legends":  [
+
+                                                    ],
+                                        "Dialog":  {
+                                                       "Generation":  1834586039707651,
+                                                       "Revision":  726,
+                                                       "EntityId":  7025,
+                                                       "EntityType":  1,
+                                                       "Name":  "Riona",
+                                                       "Text":  "How old are you now? As you may know, a mundane cannot become an Aisling before his 12th birthday, nor after the 40th birthday.",
+                                                       "IsPursuit":  true,
+                                                       "Pursuit":  186,
+                                                       "Step":  78,
+                                                       "Type":  4,
+                                                       "Choices":  [
+
+                                                                   ],
+                                                       "Prompt":  "My mundane birth was",
+                                                       "HasNext":  true
+                                                   }
+                                    }
+                   },
+                   {
+                       "Time":  "2026-10-09T23:23:26.430807+00:00",
+                       "Character":  "Awesome",
+                       "Generation":  1834586039707651,
+                       "Revision":  749,
+                       "Opcode":  48,
+                       "Payload":  "AgEAABtxAUIEAAFCBAAAugCAAAEABVJpb25hABxXaGljaCBsYW5kIHdlcmUgeW91IGJvcm4gaW4/BwRBYmVsBk1pbGV0aARQaWV0CFJ1Y2VzaW9uBVN1b21pBlVuZGluZSBJJ3ZlIG1hZGUgc29tZSBlcnJvciwgZXhjdXNlIG1lLg==",
+                       "Snapshot":  {
+                                        "Generation":  1834586039707651,
+                                        "Revision":  749,
+                                        "Name":  "Awesome",
+                                        "Id":  1179711,
+                                        "Connected":  true,
+                                        "Level":  4,
+                                        "Gold":  51,
+                                        "Experience":  12601,
+                                        "Hp":  891,
+                                        "Weight":  24,
+                                        "MaxWeight":  52,
+                                        "Map":  136,
+                                        "Position":  {
+                                                         "X":  5,
+                                                         "Y":  8
+                                                     },
+                                        "InventoryKnown":  true,
+                                        "Inventory":  {
+                                                          "1":  {
+                                                                    "Slot":  1,
+                                                                    "Name":  "Stick",
+                                                                    "Quantity":  1
+                                                                },
+                                                          "2":  {
+                                                                    "Slot":  2,
+                                                                    "Name":  "Wooden Shield",
+                                                                    "Quantity":  1
+                                                                },
+                                                          "3":  {
+                                                                    "Slot":  3,
+                                                                    "Name":  "Stick",
+                                                                    "Quantity":  1
+                                                                },
+                                                          "4":  {
+                                                                    "Slot":  4,
+                                                                    "Name":  "Tutorial Book",
+                                                                    "Quantity":  1
+                                                                },
+                                                          "5":  {
+                                                                    "Slot":  5,
+                                                                    "Name":  "Wooden Shield",
+                                                                    "Quantity":  1
+                                                                }
+                                                      },
+                                        "Entities":  {
+
+                                                     },
+                                        "Equipment":  {
+                                                          "1":  "Dirk",
+                                                          "2":  "Ragged Shirt",
+                                                          "7":  "Small Emerald Ring",
+                                                          "8":  "Small Spinel Ring",
+                                                          "13":  "Boots"
+                                                      },
+                                        "Skills":  {
+                                                       "1":  "Assail"
+                                                   },
+                                        "Spells":  {
+
+                                                   },
+                                        "Legends":  [
+
+                                                    ],
+                                        "Dialog":  {
+                                                       "Generation":  1834586039707651,
+                                                       "Revision":  749,
+                                                       "EntityId":  7025,
+                                                       "EntityType":  1,
+                                                       "Name":  "Riona",
+                                                       "Text":  "Which land were you born in?",
+                                                       "IsPursuit":  true,
+                                                       "Pursuit":  186,
+                                                       "Step":  128,
+                                                       "Type":  2,
+                                                       "Choices":  [
+                                                                       {
+                                                                           "Text":  "Abel",
+                                                                           "Pursuit":  186,
+                                                                           "Option":  1
+                                                                       },
+                                                                       {
+                                                                           "Text":  "Mileth",
+                                                                           "Pursuit":  186,
+                                                                           "Option":  2
+                                                                       },
+                                                                       {
+                                                                           "Text":  "Piet",
+                                                                           "Pursuit":  186,
+                                                                           "Option":  3
+                                                                       },
+                                                                       {
+                                                                           "Text":  "Rucesion",
+                                                                           "Pursuit":  186,
+                                                                           "Option":  4
+                                                                       },
+                                                                       {
+                                                                           "Text":  "Suomi",
+                                                                           "Pursuit":  186,
+                                                                           "Option":  5
+                                                                       },
+                                                                       {
+                                                                           "Text":  "Undine",
+                                                                           "Pursuit":  186,
+                                                                           "Option":  6
+                                                                       },
+                                                                       {
+                                                                           "Text":  "I\u0027ve made some error, excuse me.",
+                                                                           "Pursuit":  186,
+                                                                           "Option":  7
+                                                                       }
+                                                                   ],
+                                                       "Prompt":  null,
+                                                       "HasNext":  true
+                                                   }
+                                    }
+                   },
+                   {
+                       "Time":  "2026-10-09T23:24:26.4775545+00:00",
+                       "Character":  "Awesome",
+                       "Generation":  1834586039707651,
+                       "Revision":  781,
+                       "Opcode":  47,
+                       "Payload":  "AAEAABtxAUIEAAFCBAAABVJpb25hAB5IZWxsby4gIFdoYXQgY2FuIEkgZG8gZm9yIHlvdT8HA0J1eQBABFNlbGwAQQ1NaWxldGggQ2l2aWNzBkMIU3dpbW1pbmcKiQ5UcmFpbmluZyBRdWVzdAf6EFJpb25hJ3MgR3JlZXRpbmcEuQ1NdW5kYW5lIEJpcnRoBLoK5fR78hj/B0Ny",
+                       "Snapshot":  {
+                                        "Generation":  1834586039707651,
+                                        "Revision":  781,
+                                        "Name":  "Awesome",
+                                        "Id":  1179711,
+                                        "Connected":  true,
+                                        "Level":  4,
+                                        "Gold":  51,
+                                        "Experience":  12601,
+                                        "Hp":  891,
+                                        "Weight":  24,
+                                        "MaxWeight":  52,
+                                        "Map":  136,
+                                        "Position":  {
+                                                         "X":  5,
+                                                         "Y":  8
+                                                     },
+                                        "InventoryKnown":  true,
+                                        "Inventory":  {
+                                                          "1":  {
+                                                                    "Slot":  1,
+                                                                    "Name":  "Stick",
+                                                                    "Quantity":  1
+                                                                },
+                                                          "2":  {
+                                                                    "Slot":  2,
+                                                                    "Name":  "Wooden Shield",
+                                                                    "Quantity":  1
+                                                                },
+                                                          "3":  {
+                                                                    "Slot":  3,
+                                                                    "Name":  "Stick",
+                                                                    "Quantity":  1
+                                                                },
+                                                          "4":  {
+                                                                    "Slot":  4,
+                                                                    "Name":  "Tutorial Book",
+                                                                    "Quantity":  1
+                                                                },
+                                                          "5":  {
+                                                                    "Slot":  5,
+                                                                    "Name":  "Wooden Shield",
+                                                                    "Quantity":  1
+                                                                }
+                                                      },
+                                        "Entities":  {
+
+                                                     },
+                                        "Equipment":  {
+                                                          "1":  "Dirk",
+                                                          "2":  "Ragged Shirt",
+                                                          "7":  "Small Emerald Ring",
+                                                          "8":  "Small Spinel Ring",
+                                                          "13":  "Boots"
+                                                      },
+                                        "Skills":  {
+                                                       "1":  "Assail"
+                                                   },
+                                        "Spells":  {
+
+                                                   },
+                                        "Legends":  [
+
+                                                    ],
+                                        "Dialog":  {
+                                                       "Generation":  1834586039707651,
+                                                       "Revision":  781,
+                                                       "EntityId":  7025,
+                                                       "EntityType":  1,
+                                                       "Name":  "Riona",
+                                                       "Text":  "Hello.  What can I do for you?",
+                                                       "IsPursuit":  false,
+                                                       "Pursuit":  0,
+                                                       "Step":  0,
+                                                       "Type":  0,
+                                                       "Choices":  [
+                                                                       {
+                                                                           "Text":  "Buy",
+                                                                           "Pursuit":  64,
+                                                                           "Option":  1
+                                                                       },
+                                                                       {
+                                                                           "Text":  "Sell",
+                                                                           "Pursuit":  65,
+                                                                           "Option":  2
+                                                                       },
+                                                                       {
+                                                                           "Text":  "Mileth Civics",
+                                                                           "Pursuit":  1603,
+                                                                           "Option":  3
+                                                                       },
+                                                                       {
+                                                                           "Text":  "Swimming",
+                                                                           "Pursuit":  2697,
+                                                                           "Option":  4
+                                                                       },
+                                                                       {
+                                                                           "Text":  "Training Quest",
+                                                                           "Pursuit":  2042,
+                                                                           "Option":  5
+                                                                       },
+                                                                       {
+                                                                           "Text":  "Riona\u0027s Greeting",
+                                                                           "Pursuit":  1209,
+                                                                           "Option":  6
+                                                                       },
+                                                                       {
+                                                                           "Text":  "Mundane Birth",
+                                                                           "Pursuit":  1210,
+                                                                           "Option":  7
+                                                                       }
+                                                                   ],
+                                                       "Prompt":  null,
+                                                       "HasNext":  false
+                                                   }
+                                    }
+                   },
+                   {
+                       "Time":  "2026-10-09T23:24:28.0095159+00:00",
+                       "Character":  "Awesome",
+                       "Generation":  1834586039707651,
+                       "Revision":  783,
+                       "Opcode":  48,
+                       "Payload":  "AgEAABtxAUIEAAFCBAAAugAPAAEABVJpb25hAOpZb3UndmUgYWxyZWFkeSBnaXZlbiBtZSB5b3VyIGJpcnRoIGluZm9ybWF0aW9uLiBJIGNhbm5vdCBwb3NzaWJseSBhbHRlciBpdC4gRGlkIHlvdSByZW1lbWJlciBpdCBpbmNvcnJlY3RseT8gVGhhdCB3b3VsZCBiZSBzbyBkaWZmaWN1bHQgdG8gY2hhbmdlLiBJdCB3b3VsZCBtZWFuIHRoYXQgeW91ciBtZW1vcnkgaXMgbm90IGNvcnJlY3QsIHRvbyAoKHVwIHRvIC0xMDAsMDAwIGV4cGVyaWVuY2UgcG9pbnRzKSkCDEknbSBub3Qgc3VyZRdJIGFtIGNoYW5naW5nIG15IGJpcnRoIQ==",
+                       "Snapshot":  {
+                                        "Generation":  1834586039707651,
+                                        "Revision":  783,
+                                        "Name":  "Awesome",
+                                        "Id":  1179711,
+                                        "Connected":  true,
+                                        "Level":  4,
+                                        "Gold":  51,
+                                        "Experience":  12601,
+                                        "Hp":  891,
+                                        "Weight":  24,
+                                        "MaxWeight":  52,
+                                        "Map":  136,
+                                        "Position":  {
+                                                         "X":  5,
+                                                         "Y":  8
+                                                     },
+                                        "InventoryKnown":  true,
+                                        "Inventory":  {
+                                                          "1":  {
+                                                                    "Slot":  1,
+                                                                    "Name":  "Stick",
+                                                                    "Quantity":  1
+                                                                },
+                                                          "2":  {
+                                                                    "Slot":  2,
+                                                                    "Name":  "Wooden Shield",
+                                                                    "Quantity":  1
+                                                                },
+                                                          "3":  {
+                                                                    "Slot":  3,
+                                                                    "Name":  "Stick",
+                                                                    "Quantity":  1
+                                                                },
+                                                          "4":  {
+                                                                    "Slot":  4,
+                                                                    "Name":  "Tutorial Book",
+                                                                    "Quantity":  1
+                                                                },
+                                                          "5":  {
+                                                                    "Slot":  5,
+                                                                    "Name":  "Wooden Shield",
+                                                                    "Quantity":  1
+                                                                }
+                                                      },
+                                        "Entities":  {
+
+                                                     },
+                                        "Equipment":  {
+                                                          "1":  "Dirk",
+                                                          "2":  "Ragged Shirt",
+                                                          "7":  "Small Emerald Ring",
+                                                          "8":  "Small Spinel Ring",
+                                                          "13":  "Boots"
+                                                      },
+                                        "Skills":  {
+                                                       "1":  "Assail"
+                                                   },
+                                        "Spells":  {
+
+                                                   },
+                                        "Legends":  [
+
+                                                    ],
+                                        "Dialog":  {
+                                                       "Generation":  1834586039707651,
+                                                       "Revision":  783,
+                                                       "EntityId":  7025,
+                                                       "EntityType":  1,
+                                                       "Name":  "Riona",
+                                                       "Text":  "You\u0027ve already given me your birth information. I cannot possibly alter it. Did you remember it incorrectly? That would be so difficult to change. It would mean that your memory is not correct, too ((up to -100,000 experience points))",
+                                                       "IsPursuit":  true,
+                                                       "Pursuit":  186,
+                                                       "Step":  15,
+                                                       "Type":  2,
+                                                       "Choices":  [
+                                                                       {
+                                                                           "Text":  "I\u0027m not sure",
+                                                                           "Pursuit":  186,
+                                                                           "Option":  1
+                                                                       },
+                                                                       {
+                                                                           "Text":  "I am changing my birth!",
+                                                                           "Pursuit":  186,
+                                                                           "Option":  2
+                                                                       }
+                                                                   ],
+                                                       "Prompt":  null,
+                                                       "HasNext":  true
+                                                   }
+                                    }
+                   },
+                   {
+                       "Time":  "2026-10-09T23:24:28.9793195+00:00",
+                       "Character":  "Awesome",
+                       "Generation":  1834586039707651,
+                       "Revision":  785,
+                       "Opcode":  48,
+                       "Payload":  "AAEAABtxAUIEAAFCBAAAugAqAAEABVJpb25hAM1Zb3UgcmVjYWxsIHlvdXIgbXVuZGFuZSBiaXJ0aD8gVGhhdCBpcyBnb29kLiBCdXQgYmUgd2FybmVkIHRoYXQgb25jZSB5b3UgcmVjYWxsIHlvdXIgbXVuZGFuZSBiaXJ0aCBpdCBjYW5ub3QgYmUgYWx0ZXJlZCwgZXhjZXB0IGJ5IHJlYWxpemluZyB0aGF0IG1hbnkgb2YgeW91ciBtZW1vcmllcyBhcmUgZmFsc2UgKCggLTEwMCwwMDAgRXhwZXJpZW5jZSEgKSku",
+                       "Snapshot":  {
+                                        "Generation":  1834586039707651,
+                                        "Revision":  785,
+                                        "Name":  "Awesome",
+                                        "Id":  1179711,
+                                        "Connected":  true,
+                                        "Level":  4,
+                                        "Gold":  51,
+                                        "Experience":  12501,
+                                        "Hp":  891,
+                                        "Weight":  24,
+                                        "MaxWeight":  52,
+                                        "Map":  136,
+                                        "Position":  {
+                                                         "X":  5,
+                                                         "Y":  8
+                                                     },
+                                        "InventoryKnown":  true,
+                                        "Inventory":  {
+                                                          "1":  {
+                                                                    "Slot":  1,
+                                                                    "Name":  "Stick",
+                                                                    "Quantity":  1
+                                                                },
+                                                          "2":  {
+                                                                    "Slot":  2,
+                                                                    "Name":  "Wooden Shield",
+                                                                    "Quantity":  1
+                                                                },
+                                                          "3":  {
+                                                                    "Slot":  3,
+                                                                    "Name":  "Stick",
+                                                                    "Quantity":  1
+                                                                },
+                                                          "4":  {
+                                                                    "Slot":  4,
+                                                                    "Name":  "Tutorial Book",
+                                                                    "Quantity":  1
+                                                                },
+                                                          "5":  {
+                                                                    "Slot":  5,
+                                                                    "Name":  "Wooden Shield",
+                                                                    "Quantity":  1
+                                                                }
+                                                      },
+                                        "Entities":  {
+
+                                                     },
+                                        "Equipment":  {
+                                                          "1":  "Dirk",
+                                                          "2":  "Ragged Shirt",
+                                                          "7":  "Small Emerald Ring",
+                                                          "8":  "Small Spinel Ring",
+                                                          "13":  "Boots"
+                                                      },
+                                        "Skills":  {
+                                                       "1":  "Assail"
+                                                   },
+                                        "Spells":  {
+
+                                                   },
+                                        "Legends":  [
+
+                                                    ],
+                                        "Dialog":  {
+                                                       "Generation":  1834586039707651,
+                                                       "Revision":  785,
+                                                       "EntityId":  7025,
+                                                       "EntityType":  1,
+                                                       "Name":  "Riona",
+                                                       "Text":  "You recall your mundane birth? That is good. But be warned that once you recall your mundane birth it cannot be altered, except by realizing that many of your memories are false (( -100,000 Experience! )).",
+                                                       "IsPursuit":  true,
+                                                       "Pursuit":  186,
+                                                       "Step":  42,
+                                                       "Type":  0,
+                                                       "Choices":  [
+
+                                                                   ],
+                                                       "Prompt":  null,
+                                                       "HasNext":  true
+                                                   }
+                                    }
+                   },
+                   {
+                       "Time":  "2026-10-09T23:24:29.9769977+00:00",
+                       "Character":  "Awesome",
+                       "Generation":  1834586039707651,
+                       "Revision":  786,
+                       "Opcode":  48,
+                       "Payload":  "AgEAABtxAUIEAAFCBAAAugAsAAEABVJpb25hAQNEbyB5b3Uga25vdyBhYm91dCB0aGUgdG93biBpbiB3aGljaCB5b3Ugc3BlbnQgbW9zdCBvZiB5b3VyIG11bmRhbmUgeWVhcnM/IEl0IG11c3QgYmUgY2xvc2UgdG8gb25lIG9mIHRoZSBrbm93biB0b3ducyBvZiBFYXN0ZXJuIFRlbXVhaXI6IEFiZWwsIE1pbGV0aCwgUGlldCwgUnVjZXNpb24sIFN1b21pLCBvciBVbmRpbmUuIEFzayBmZWxsb3cgQWlzbGluZ3MsIG9yIHZpc2l0IHRoZSBsaWJyYXJ5ICgoIHd3dy5kYXJrYWdlcy5jb20vY29tbXVuaXR5ICkpAilJIGFtIG5vdCBzdXJlIGFib3V0IHRoZSBtdW5kYW5lIGxvY2F0aW9ucxtJIGhhdmUgaW52ZXN0aWdhdGVkIG15IHBhc3Q=",
+                       "Snapshot":  {
+                                        "Generation":  1834586039707651,
+                                        "Revision":  786,
+                                        "Name":  "Awesome",
+                                        "Id":  1179711,
+                                        "Connected":  true,
+                                        "Level":  4,
+                                        "Gold":  51,
+                                        "Experience":  12501,
+                                        "Hp":  891,
+                                        "Weight":  24,
+                                        "MaxWeight":  52,
+                                        "Map":  136,
+                                        "Position":  {
+                                                         "X":  5,
+                                                         "Y":  8
+                                                     },
+                                        "InventoryKnown":  true,
+                                        "Inventory":  {
+                                                          "1":  {
+                                                                    "Slot":  1,
+                                                                    "Name":  "Stick",
+                                                                    "Quantity":  1
+                                                                },
+                                                          "2":  {
+                                                                    "Slot":  2,
+                                                                    "Name":  "Wooden Shield",
+                                                                    "Quantity":  1
+                                                                },
+                                                          "3":  {
+                                                                    "Slot":  3,
+                                                                    "Name":  "Stick",
+                                                                    "Quantity":  1
+                                                                },
+                                                          "4":  {
+                                                                    "Slot":  4,
+                                                                    "Name":  "Tutorial Book",
+                                                                    "Quantity":  1
+                                                                },
+                                                          "5":  {
+                                                                    "Slot":  5,
+                                                                    "Name":  "Wooden Shield",
+                                                                    "Quantity":  1
+                                                                }
+                                                      },
+                                        "Entities":  {
+
+                                                     },
+                                        "Equipment":  {
+                                                          "1":  "Dirk",
+                                                          "2":  "Ragged Shirt",
+                                                          "7":  "Small Emerald Ring",
+                                                          "8":  "Small Spinel Ring",
+                                                          "13":  "Boots"
+                                                      },
+                                        "Skills":  {
+                                                       "1":  "Assail"
+                                                   },
+                                        "Spells":  {
+
+                                                   },
+                                        "Legends":  [
+
+                                                    ],
+                                        "Dialog":  {
+                                                       "Generation":  1834586039707651,
+                                                       "Revision":  786,
+                                                       "EntityId":  7025,
+                                                       "EntityType":  1,
+                                                       "Name":  "Riona",
+                                                       "Text":  "Do you know about the town in which you spent most of your mundane years? It must be close to one of the known towns of Eastern Temuair: Abel, Mileth, Piet, Rucesion, Suomi, or Undine. Ask fellow Aislings, or visit the library (( www.darkages.com/community ))",
+                                                       "IsPursuit":  true,
+                                                       "Pursuit":  186,
+                                                       "Step":  44,
+                                                       "Type":  2,
+                                                       "Choices":  [
+                                                                       {
+                                                                           "Text":  "I am not sure about the mundane locations",
+                                                                           "Pursuit":  186,
+                                                                           "Option":  1
+                                                                       },
+                                                                       {
+                                                                           "Text":  "I have investigated my past",
+                                                                           "Pursuit":  186,
+                                                                           "Option":  2
+                                                                       }
+                                                                   ],
+                                                       "Prompt":  null,
+                                                       "HasNext":  true
+                                                   }
+                                    }
+                   },
+                   {
+                       "Time":  "2026-10-09T23:24:31.4684428+00:00",
+                       "Character":  "Awesome",
+                       "Generation":  1834586039707651,
+                       "Revision":  788,
+                       "Opcode":  48,
+                       "Payload":  "AgEAABtxAUIEAAFCBAAAugAxAAEABVJpb25hAGpZb3Uga25vdyB0aGF0IGEgbWVtb3J5IHNldCBjYW5ub3QgYmUgYWx0ZXJlZCB3aXRob3V0IGV4dHJlbWUgaGFyZHNoaXAgYW5kIGFnb255ICgoIC0xMDAsMDAwIEV4cGVyaWVuY2UhICkpAhZJIGFtIGNvbW1pdHRlZCB0byB0aGlzF0knbSBub3Qgc3VyZSBhYm91dCB0aGF0",
+                       "Snapshot":  {
+                                        "Generation":  1834586039707651,
+                                        "Revision":  788,
+                                        "Name":  "Awesome",
+                                        "Id":  1179711,
+                                        "Connected":  true,
+                                        "Level":  4,
+                                        "Gold":  51,
+                                        "Experience":  12501,
+                                        "Hp":  891,
+                                        "Weight":  24,
+                                        "MaxWeight":  52,
+                                        "Map":  136,
+                                        "Position":  {
+                                                         "X":  5,
+                                                         "Y":  8
+                                                     },
+                                        "InventoryKnown":  true,
+                                        "Inventory":  {
+                                                          "1":  {
+                                                                    "Slot":  1,
+                                                                    "Name":  "Stick",
+                                                                    "Quantity":  1
+                                                                },
+                                                          "2":  {
+                                                                    "Slot":  2,
+                                                                    "Name":  "Wooden Shield",
+                                                                    "Quantity":  1
+                                                                },
+                                                          "3":  {
+                                                                    "Slot":  3,
+                                                                    "Name":  "Stick",
+                                                                    "Quantity":  1
+                                                                },
+                                                          "4":  {
+                                                                    "Slot":  4,
+                                                                    "Name":  "Tutorial Book",
+                                                                    "Quantity":  1
+                                                                },
+                                                          "5":  {
+                                                                    "Slot":  5,
+                                                                    "Name":  "Wooden Shield",
+                                                                    "Quantity":  1
+                                                                }
+                                                      },
+                                        "Entities":  {
+
+                                                     },
+                                        "Equipment":  {
+                                                          "1":  "Dirk",
+                                                          "2":  "Ragged Shirt",
+                                                          "7":  "Small Emerald Ring",
+                                                          "8":  "Small Spinel Ring",
+                                                          "13":  "Boots"
+                                                      },
+                                        "Skills":  {
+                                                       "1":  "Assail"
+                                                   },
+                                        "Spells":  {
+
+                                                   },
+                                        "Legends":  [
+
+                                                    ],
+                                        "Dialog":  {
+                                                       "Generation":  1834586039707651,
+                                                       "Revision":  788,
+                                                       "EntityId":  7025,
+                                                       "EntityType":  1,
+                                                       "Name":  "Riona",
+                                                       "Text":  "You know that a memory set cannot be altered without extreme hardship and agony (( -100,000 Experience! ))",
+                                                       "IsPursuit":  true,
+                                                       "Pursuit":  186,
+                                                       "Step":  49,
+                                                       "Type":  2,
+                                                       "Choices":  [
+                                                                       {
+                                                                           "Text":  "I am committed to this",
+                                                                           "Pursuit":  186,
+                                                                           "Option":  1
+                                                                       },
+                                                                       {
+                                                                           "Text":  "I\u0027m not sure about that",
+                                                                           "Pursuit":  186,
+                                                                           "Option":  2
+                                                                       }
+                                                                   ],
+                                                       "Prompt":  null,
+                                                       "HasNext":  true
+                                                   }
+                                    }
+                   },
+                   {
+                       "Time":  "2026-10-09T23:24:32.9801182+00:00",
+                       "Character":  "Awesome",
+                       "Generation":  1834586039707651,
+                       "Revision":  789,
+                       "Opcode":  48,
+                       "Payload":  "AgEAABtxAUIEAAFCBAAAugA8AAEABVJpb25hAFRJIHdpbGwgYXNrIHlvdSBob3cgb2xkIHlvdSBhcmUsIGJ1dCBmaXJzdCwgbGV0IG1lIGtub3cgd2hpY2ggc2Vhc29uIHlvdSB3ZXJlIGJvcm4gaW4EBlNwcmluZwZTdW1tZXIERmFsbAZXaW50ZXI=",
+                       "Snapshot":  {
+                                        "Generation":  1834586039707651,
+                                        "Revision":  789,
+                                        "Name":  "Awesome",
+                                        "Id":  1179711,
+                                        "Connected":  true,
+                                        "Level":  4,
+                                        "Gold":  51,
+                                        "Experience":  12501,
+                                        "Hp":  891,
+                                        "Weight":  24,
+                                        "MaxWeight":  52,
+                                        "Map":  136,
+                                        "Position":  {
+                                                         "X":  5,
+                                                         "Y":  8
+                                                     },
+                                        "InventoryKnown":  true,
+                                        "Inventory":  {
+                                                          "1":  {
+                                                                    "Slot":  1,
+                                                                    "Name":  "Stick",
+                                                                    "Quantity":  1
+                                                                },
+                                                          "2":  {
+                                                                    "Slot":  2,
+                                                                    "Name":  "Wooden Shield",
+                                                                    "Quantity":  1
+                                                                },
+                                                          "3":  {
+                                                                    "Slot":  3,
+                                                                    "Name":  "Stick",
+                                                                    "Quantity":  1
+                                                                },
+                                                          "4":  {
+                                                                    "Slot":  4,
+                                                                    "Name":  "Tutorial Book",
+                                                                    "Quantity":  1
+                                                                },
+                                                          "5":  {
+                                                                    "Slot":  5,
+                                                                    "Name":  "Wooden Shield",
+                                                                    "Quantity":  1
+                                                                }
+                                                      },
+                                        "Entities":  {
+
+                                                     },
+                                        "Equipment":  {
+                                                          "1":  "Dirk",
+                                                          "2":  "Ragged Shirt",
+                                                          "7":  "Small Emerald Ring",
+                                                          "8":  "Small Spinel Ring",
+                                                          "13":  "Boots"
+                                                      },
+                                        "Skills":  {
+                                                       "1":  "Assail"
+                                                   },
+                                        "Spells":  {
+
+                                                   },
+                                        "Legends":  [
+
+                                                    ],
+                                        "Dialog":  {
+                                                       "Generation":  1834586039707651,
+                                                       "Revision":  789,
+                                                       "EntityId":  7025,
+                                                       "EntityType":  1,
+                                                       "Name":  "Riona",
+                                                       "Text":  "I will ask you how old you are, but first, let me know which season you were born in",
+                                                       "IsPursuit":  true,
+                                                       "Pursuit":  186,
+                                                       "Step":  60,
+                                                       "Type":  2,
+                                                       "Choices":  [
+                                                                       {
+                                                                           "Text":  "Spring",
+                                                                           "Pursuit":  186,
+                                                                           "Option":  1
+                                                                       },
+                                                                       {
+                                                                           "Text":  "Summer",
+                                                                           "Pursuit":  186,
+                                                                           "Option":  2
+                                                                       },
+                                                                       {
+                                                                           "Text":  "Fall",
+                                                                           "Pursuit":  186,
+                                                                           "Option":  3
+                                                                       },
+                                                                       {
+                                                                           "Text":  "Winter",
+                                                                           "Pursuit":  186,
+                                                                           "Option":  4
+                                                                       }
+                                                                   ],
+                                                       "Prompt":  null,
+                                                       "HasNext":  true
+                                                   }
+                                    }
+                   },
+                   {
+                       "Time":  "2026-10-09T23:24:34.4811242+00:00",
+                       "Character":  "Awesome",
+                       "Generation":  1834586039707651,
+                       "Revision":  791,
+                       "Opcode":  48,
+                       "Payload":  "BAEAABtxAUIEAAFCBAAAugBOAAEABVJpb25hAH9Ib3cgb2xkIGFyZSB5b3Ugbm93PyBBcyB5b3UgbWF5IGtub3csIGEgbXVuZGFuZSBjYW5ub3QgYmVjb21lIGFuIEFpc2xpbmcgYmVmb3JlIGhpcyAxMnRoIGJpcnRoZGF5LCBub3IgYWZ0ZXIgdGhlIDQwdGggYmlydGhkYXkuFE15IG11bmRhbmUgYmlydGggd2FzAxR5ZWFycyBhZ28gZnJvbSB0b2RheQ==",
+                       "Snapshot":  {
+                                        "Generation":  1834586039707651,
+                                        "Revision":  791,
+                                        "Name":  "Awesome",
+                                        "Id":  1179711,
+                                        "Connected":  true,
+                                        "Level":  4,
+                                        "Gold":  51,
+                                        "Experience":  12501,
+                                        "Hp":  891,
+                                        "Weight":  24,
+                                        "MaxWeight":  52,
+                                        "Map":  136,
+                                        "Position":  {
+                                                         "X":  5,
+                                                         "Y":  8
+                                                     },
+                                        "InventoryKnown":  true,
+                                        "Inventory":  {
+                                                          "1":  {
+                                                                    "Slot":  1,
+                                                                    "Name":  "Stick",
+                                                                    "Quantity":  1
+                                                                },
+                                                          "2":  {
+                                                                    "Slot":  2,
+                                                                    "Name":  "Wooden Shield",
+                                                                    "Quantity":  1
+                                                                },
+                                                          "3":  {
+                                                                    "Slot":  3,
+                                                                    "Name":  "Stick",
+                                                                    "Quantity":  1
+                                                                },
+                                                          "4":  {
+                                                                    "Slot":  4,
+                                                                    "Name":  "Tutorial Book",
+                                                                    "Quantity":  1
+                                                                },
+                                                          "5":  {
+                                                                    "Slot":  5,
+                                                                    "Name":  "Wooden Shield",
+                                                                    "Quantity":  1
+                                                                }
+                                                      },
+                                        "Entities":  {
+
+                                                     },
+                                        "Equipment":  {
+                                                          "1":  "Dirk",
+                                                          "2":  "Ragged Shirt",
+                                                          "7":  "Small Emerald Ring",
+                                                          "8":  "Small Spinel Ring",
+                                                          "13":  "Boots"
+                                                      },
+                                        "Skills":  {
+                                                       "1":  "Assail"
+                                                   },
+                                        "Spells":  {
+
+                                                   },
+                                        "Legends":  [
+
+                                                    ],
+                                        "Dialog":  {
+                                                       "Generation":  1834586039707651,
+                                                       "Revision":  791,
+                                                       "EntityId":  7025,
+                                                       "EntityType":  1,
+                                                       "Name":  "Riona",
+                                                       "Text":  "How old are you now? As you may know, a mundane cannot become an Aisling before his 12th birthday, nor after the 40th birthday.",
+                                                       "IsPursuit":  true,
+                                                       "Pursuit":  186,
+                                                       "Step":  78,
+                                                       "Type":  4,
+                                                       "Choices":  [
+
+                                                                   ],
+                                                       "Prompt":  "My mundane birth was",
+                                                       "HasNext":  true
+                                                   }
+                                    }
+                   },
+                   {
+                       "Time":  "2026-10-09T23:24:37.324495+00:00",
+                       "Character":  "Awesome",
+                       "Generation":  1834586039707651,
+                       "Revision":  818,
+                       "Opcode":  48,
+                       "Payload":  "AgEAABtxAUIEAAFCBAAAugCAAAEABVJpb25hABxXaGljaCBsYW5kIHdlcmUgeW91IGJvcm4gaW4/BwRBYmVsBk1pbGV0aARQaWV0CFJ1Y2VzaW9uBVN1b21pBlVuZGluZSBJJ3ZlIG1hZGUgc29tZSBlcnJvciwgZXhjdXNlIG1lLg==",
+                       "Snapshot":  {
+                                        "Generation":  1834586039707651,
+                                        "Revision":  818,
+                                        "Name":  "Awesome",
+                                        "Id":  1179711,
+                                        "Connected":  true,
+                                        "Level":  4,
+                                        "Gold":  51,
+                                        "Experience":  12501,
+                                        "Hp":  891,
+                                        "Weight":  24,
+                                        "MaxWeight":  52,
+                                        "Map":  136,
+                                        "Position":  {
+                                                         "X":  5,
+                                                         "Y":  8
+                                                     },
+                                        "InventoryKnown":  true,
+                                        "Inventory":  {
+                                                          "1":  {
+                                                                    "Slot":  1,
+                                                                    "Name":  "Stick",
+                                                                    "Quantity":  1
+                                                                },
+                                                          "2":  {
+                                                                    "Slot":  2,
+                                                                    "Name":  "Wooden Shield",
+                                                                    "Quantity":  1
+                                                                },
+                                                          "3":  {
+                                                                    "Slot":  3,
+                                                                    "Name":  "Stick",
+                                                                    "Quantity":  1
+                                                                },
+                                                          "4":  {
+                                                                    "Slot":  4,
+                                                                    "Name":  "Tutorial Book",
+                                                                    "Quantity":  1
+                                                                },
+                                                          "5":  {
+                                                                    "Slot":  5,
+                                                                    "Name":  "Wooden Shield",
+                                                                    "Quantity":  1
+                                                                }
+                                                      },
+                                        "Entities":  {
+
+                                                     },
+                                        "Equipment":  {
+                                                          "1":  "Dirk",
+                                                          "2":  "Ragged Shirt",
+                                                          "7":  "Small Emerald Ring",
+                                                          "8":  "Small Spinel Ring",
+                                                          "13":  "Boots"
+                                                      },
+                                        "Skills":  {
+                                                       "1":  "Assail"
+                                                   },
+                                        "Spells":  {
+
+                                                   },
+                                        "Legends":  [
+
+                                                    ],
+                                        "Dialog":  {
+                                                       "Generation":  1834586039707651,
+                                                       "Revision":  818,
+                                                       "EntityId":  7025,
+                                                       "EntityType":  1,
+                                                       "Name":  "Riona",
+                                                       "Text":  "Which land were you born in?",
+                                                       "IsPursuit":  true,
+                                                       "Pursuit":  186,
+                                                       "Step":  128,
+                                                       "Type":  2,
+                                                       "Choices":  [
+                                                                       {
+                                                                           "Text":  "Abel",
+                                                                           "Pursuit":  186,
+                                                                           "Option":  1
+                                                                       },
+                                                                       {
+                                                                           "Text":  "Mileth",
+                                                                           "Pursuit":  186,
+                                                                           "Option":  2
+                                                                       },
+                                                                       {
+                                                                           "Text":  "Piet",
+                                                                           "Pursuit":  186,
+                                                                           "Option":  3
+                                                                       },
+                                                                       {
+                                                                           "Text":  "Rucesion",
+                                                                           "Pursuit":  186,
+                                                                           "Option":  4
+                                                                       },
+                                                                       {
+                                                                           "Text":  "Suomi",
+                                                                           "Pursuit":  186,
+                                                                           "Option":  5
+                                                                       },
+                                                                       {
+                                                                           "Text":  "Undine",
+                                                                           "Pursuit":  186,
+                                                                           "Option":  6
+                                                                       },
+                                                                       {
+                                                                           "Text":  "I\u0027ve made some error, excuse me.",
+                                                                           "Pursuit":  186,
+                                                                           "Option":  7
+                                                                       }
+                                                                   ],
+                                                       "Prompt":  null,
+                                                       "HasNext":  true
+                                                   }
+                                    }
+                   }
+               ],
+    "Actions":  [
+                    {
+                        "Time":  "2026-10-09T23:22:14.3307842+00:00",
+                        "Character":  "Awesome",
+                        "Generation":  1834586039707651,
+                        "Revision":  706,
+                        "Kind":  "choose",
+                        "Selection":  "Mundane Birth",
+                        "Dialog":  {
+                                       "Generation":  1834586039707651,
+                                       "Revision":  701,
+                                       "EntityId":  7025,
+                                       "EntityType":  1,
+                                       "Name":  "Riona",
+                                       "Text":  "Hello.  What can I do for you?",
+                                       "IsPursuit":  false,
+                                       "Pursuit":  0,
+                                       "Step":  0,
+                                       "Type":  0,
+                                       "Choices":  [
+                                                       {
+                                                           "Text":  "Buy",
+                                                           "Pursuit":  64,
+                                                           "Option":  1
+                                                       },
+                                                       {
+                                                           "Text":  "Sell",
+                                                           "Pursuit":  65,
+                                                           "Option":  2
+                                                       },
+                                                       {
+                                                           "Text":  "Mileth Civics",
+                                                           "Pursuit":  1603,
+                                                           "Option":  3
+                                                       },
+                                                       {
+                                                           "Text":  "Swimming",
+                                                           "Pursuit":  2697,
+                                                           "Option":  4
+                                                       },
+                                                       {
+                                                           "Text":  "Training Quest",
+                                                           "Pursuit":  2042,
+                                                           "Option":  5
+                                                       },
+                                                       {
+                                                           "Text":  "Riona\u0027s Greeting",
+                                                           "Pursuit":  1209,
+                                                           "Option":  6
+                                                       },
+                                                       {
+                                                           "Text":  "Mundane Birth",
+                                                           "Pursuit":  1210,
+                                                           "Option":  7
+                                                       }
+                                                   ],
+                                       "Prompt":  null,
+                                       "HasNext":  false
+                                   },
+                        "Branches":  0,
+                        "Experience":  12601
+                    },
+                    {
+                        "Time":  "2026-10-09T23:22:16.5767951+00:00",
+                        "Character":  "Awesome",
+                        "Generation":  1834586039707651,
+                        "Revision":  707,
+                        "Kind":  "next",
+                        "Selection":  null,
+                        "Dialog":  {
+                                       "Generation":  1834586039707651,
+                                       "Revision":  707,
+                                       "EntityId":  7025,
+                                       "EntityType":  1,
+                                       "Name":  "Riona",
+                                       "Text":  "You recall your mundane birth? That is good. But be warned that once you recall your mundane birth it cannot be altered, except by realizing that many of your memories are false (( -100,000 Experience! )).",
+                                       "IsPursuit":  true,
+                                       "Pursuit":  186,
+                                       "Step":  42,
+                                       "Type":  0,
+                                       "Choices":  [
+
+                                                   ],
+                                       "Prompt":  null,
+                                       "HasNext":  true
+                                   },
+                        "Branches":  0,
+                        "Experience":  12601
+                    },
+                    {
+                        "Time":  "2026-10-09T23:22:24.4959341+00:00",
+                        "Character":  "Awesome",
+                        "Generation":  1834586039707651,
+                        "Revision":  712,
+                        "Kind":  "choose",
+                        "Selection":  "I have investigated my past",
+                        "Dialog":  {
+                                       "Generation":  1834586039707651,
+                                       "Revision":  709,
+                                       "EntityId":  7025,
+                                       "EntityType":  1,
+                                       "Name":  "Riona",
+                                       "Text":  "Do you know about the town in which you spent most of your mundane years? It must be close to one of the known towns of Eastern Temuair: Abel, Mileth, Piet, Rucesion, Suomi, or Undine. Ask fellow Aislings, or visit the library (( www.darkages.com/community ))",
+                                       "IsPursuit":  true,
+                                       "Pursuit":  186,
+                                       "Step":  44,
+                                       "Type":  2,
+                                       "Choices":  [
+                                                       {
+                                                           "Text":  "I am not sure about the mundane locations",
+                                                           "Pursuit":  186,
+                                                           "Option":  1
+                                                       },
+                                                       {
+                                                           "Text":  "I have investigated my past",
+                                                           "Pursuit":  186,
+                                                           "Option":  2
+                                                       }
+                                                   ],
+                                       "Prompt":  null,
+                                       "HasNext":  true
+                                   },
+                        "Branches":  0,
+                        "Experience":  12601
+                    },
+                    {
+                        "Time":  "2026-10-09T23:22:31.0874343+00:00",
+                        "Character":  "Awesome",
+                        "Generation":  1834586039707651,
+                        "Revision":  715,
+                        "Kind":  "choose",
+                        "Selection":  "I am committed to this",
+                        "Dialog":  {
+                                       "Generation":  1834586039707651,
+                                       "Revision":  713,
+                                       "EntityId":  7025,
+                                       "EntityType":  1,
+                                       "Name":  "Riona",
+                                       "Text":  "You know that a memory set cannot be altered without extreme hardship and agony (( -100,000 Experience! ))",
+                                       "IsPursuit":  true,
+                                       "Pursuit":  186,
+                                       "Step":  49,
+                                       "Type":  2,
+                                       "Choices":  [
+                                                       {
+                                                           "Text":  "I am committed to this",
+                                                           "Pursuit":  186,
+                                                           "Option":  1
+                                                       },
+                                                       {
+                                                           "Text":  "I\u0027m not sure about that",
+                                                           "Pursuit":  186,
+                                                           "Option":  2
+                                                       }
+                                                   ],
+                                       "Prompt":  null,
+                                       "HasNext":  true
+                                   },
+                        "Branches":  0,
+                        "Experience":  12601
+                    },
+                    {
+                        "Time":  "2026-10-09T23:22:49.1429166+00:00",
+                        "Character":  "Awesome",
+                        "Generation":  1834586039707651,
+                        "Revision":  725,
+                        "Kind":  "choose",
+                        "Selection":  "Winter",
+                        "Dialog":  {
+                                       "Generation":  1834586039707651,
+                                       "Revision":  716,
+                                       "EntityId":  7025,
+                                       "EntityType":  1,
+                                       "Name":  "Riona",
+                                       "Text":  "I will ask you how old you are, but first, let me know which season you were born in",
+                                       "IsPursuit":  true,
+                                       "Pursuit":  186,
+                                       "Step":  60,
+                                       "Type":  2,
+                                       "Choices":  [
+                                                       {
+                                                           "Text":  "Spring",
+                                                           "Pursuit":  186,
+                                                           "Option":  1
+                                                       },
+                                                       {
+                                                           "Text":  "Summer",
+                                                           "Pursuit":  186,
+                                                           "Option":  2
+                                                       },
+                                                       {
+                                                           "Text":  "Fall",
+                                                           "Pursuit":  186,
+                                                           "Option":  3
+                                                       },
+                                                       {
+                                                           "Text":  "Winter",
+                                                           "Pursuit":  186,
+                                                           "Option":  4
+                                                       }
+                                                   ],
+                                       "Prompt":  null,
+                                       "HasNext":  true
+                                   },
+                        "Branches":  0,
+                        "Experience":  12601
+                    },
+                    {
+                        "Time":  "2026-10-09T23:23:25.8942725+00:00",
+                        "Character":  "Awesome",
+                        "Generation":  1834586039707651,
+                        "Revision":  745,
+                        "Kind":  "input",
+                        "Selection":  null,
+                        "Dialog":  {
+                                       "Generation":  1834586039707651,
+                                       "Revision":  726,
+                                       "EntityId":  7025,
+                                       "EntityType":  1,
+                                       "Name":  "Riona",
+                                       "Text":  "How old are you now? As you may know, a mundane cannot become an Aisling before his 12th birthday, nor after the 40th birthday.",
+                                       "IsPursuit":  true,
+                                       "Pursuit":  186,
+                                       "Step":  78,
+                                       "Type":  4,
+                                       "Choices":  [
+
+                                                   ],
+                                       "Prompt":  "My mundane birth was",
+                                       "HasNext":  true
+                                   },
+                        "Branches":  0,
+                        "Experience":  12601
+                    },
+                    {
+                        "Time":  "2026-10-09T23:23:47.1764742+00:00",
+                        "Character":  "Awesome",
+                        "Generation":  1834586039707651,
+                        "Revision":  757,
+                        "Kind":  "choose",
+                        "Selection":  "Undine",
+                        "Dialog":  {
+                                       "Generation":  1834586039707651,
+                                       "Revision":  749,
+                                       "EntityId":  7025,
+                                       "EntityType":  1,
+                                       "Name":  "Riona",
+                                       "Text":  "Which land were you born in?",
+                                       "IsPursuit":  true,
+                                       "Pursuit":  186,
+                                       "Step":  128,
+                                       "Type":  2,
+                                       "Choices":  [
+                                                       {
+                                                           "Text":  "Abel",
+                                                           "Pursuit":  186,
+                                                           "Option":  1
+                                                       },
+                                                       {
+                                                           "Text":  "Mileth",
+                                                           "Pursuit":  186,
+                                                           "Option":  2
+                                                       },
+                                                       {
+                                                           "Text":  "Piet",
+                                                           "Pursuit":  186,
+                                                           "Option":  3
+                                                       },
+                                                       {
+                                                           "Text":  "Rucesion",
+                                                           "Pursuit":  186,
+                                                           "Option":  4
+                                                       },
+                                                       {
+                                                           "Text":  "Suomi",
+                                                           "Pursuit":  186,
+                                                           "Option":  5
+                                                       },
+                                                       {
+                                                           "Text":  "Undine",
+                                                           "Pursuit":  186,
+                                                           "Option":  6
+                                                       },
+                                                       {
+                                                           "Text":  "I\u0027ve made some error, excuse me.",
+                                                           "Pursuit":  186,
+                                                           "Option":  7
+                                                       }
+                                                   ],
+                                       "Prompt":  null,
+                                       "HasNext":  true
+                                   },
+                        "Branches":  0,
+                        "Experience":  12601
+                    },
+                    {
+                        "Time":  "2026-10-09T23:24:27.4851038+00:00",
+                        "Character":  "Awesome",
+                        "Generation":  1834586039707651,
+                        "Revision":  781,
+                        "Kind":  "choose",
+                        "Selection":  "Mundane Birth",
+                        "Dialog":  {
+                                       "Generation":  1834586039707651,
+                                       "Revision":  781,
+                                       "EntityId":  7025,
+                                       "EntityType":  1,
+                                       "Name":  "Riona",
+                                       "Text":  "Hello.  What can I do for you?",
+                                       "IsPursuit":  false,
+                                       "Pursuit":  0,
+                                       "Step":  0,
+                                       "Type":  0,
+                                       "Choices":  [
+                                                       {
+                                                           "Text":  "Buy",
+                                                           "Pursuit":  64,
+                                                           "Option":  1
+                                                       },
+                                                       {
+                                                           "Text":  "Sell",
+                                                           "Pursuit":  65,
+                                                           "Option":  2
+                                                       },
+                                                       {
+                                                           "Text":  "Mileth Civics",
+                                                           "Pursuit":  1603,
+                                                           "Option":  3
+                                                       },
+                                                       {
+                                                           "Text":  "Swimming",
+                                                           "Pursuit":  2697,
+                                                           "Option":  4
+                                                       },
+                                                       {
+                                                           "Text":  "Training Quest",
+                                                           "Pursuit":  2042,
+                                                           "Option":  5
+                                                       },
+                                                       {
+                                                           "Text":  "Riona\u0027s Greeting",
+                                                           "Pursuit":  1209,
+                                                           "Option":  6
+                                                       },
+                                                       {
+                                                           "Text":  "Mundane Birth",
+                                                           "Pursuit":  1210,
+                                                           "Option":  7
+                                                       }
+                                                   ],
+                                       "Prompt":  null,
+                                       "HasNext":  false
+                                   },
+                        "Branches":  0,
+                        "Experience":  12601
+                    },
+                    {
+                        "Time":  "2026-10-09T23:24:28.6497023+00:00",
+                        "Character":  "Awesome",
+                        "Generation":  1834586039707651,
+                        "Revision":  783,
+                        "Kind":  "choose",
+                        "Selection":  "I am changing my birth!",
+                        "Dialog":  {
+                                       "Generation":  1834586039707651,
+                                       "Revision":  783,
+                                       "EntityId":  7025,
+                                       "EntityType":  1,
+                                       "Name":  "Riona",
+                                       "Text":  "You\u0027ve already given me your birth information. I cannot possibly alter it. Did you remember it incorrectly? That would be so difficult to change. It would mean that your memory is not correct, too ((up to -100,000 experience points))",
+                                       "IsPursuit":  true,
+                                       "Pursuit":  186,
+                                       "Step":  15,
+                                       "Type":  2,
+                                       "Choices":  [
+                                                       {
+                                                           "Text":  "I\u0027m not sure",
+                                                           "Pursuit":  186,
+                                                           "Option":  1
+                                                       },
+                                                       {
+                                                           "Text":  "I am changing my birth!",
+                                                           "Pursuit":  186,
+                                                           "Option":  2
+                                                       }
+                                                   ],
+                                       "Prompt":  null,
+                                       "HasNext":  true
+                                   },
+                        "Branches":  0,
+                        "Experience":  12601
+                    },
+                    {
+                        "Time":  "2026-10-09T23:24:29.6573908+00:00",
+                        "Character":  "Awesome",
+                        "Generation":  1834586039707651,
+                        "Revision":  785,
+                        "Kind":  "next",
+                        "Selection":  null,
+                        "Dialog":  {
+                                       "Generation":  1834586039707651,
+                                       "Revision":  785,
+                                       "EntityId":  7025,
+                                       "EntityType":  1,
+                                       "Name":  "Riona",
+                                       "Text":  "You recall your mundane birth? That is good. But be warned that once you recall your mundane birth it cannot be altered, except by realizing that many of your memories are false (( -100,000 Experience! )).",
+                                       "IsPursuit":  true,
+                                       "Pursuit":  186,
+                                       "Step":  42,
+                                       "Type":  0,
+                                       "Choices":  [
+
+                                                   ],
+                                       "Prompt":  null,
+                                       "HasNext":  true
+                                   },
+                        "Branches":  0,
+                        "Experience":  12501
+                    },
+                    {
+                        "Time":  "2026-10-09T23:24:31.2148231+00:00",
+                        "Character":  "Awesome",
+                        "Generation":  1834586039707651,
+                        "Revision":  787,
+                        "Kind":  "choose",
+                        "Selection":  "I have investigated my past",
+                        "Dialog":  {
+                                       "Generation":  1834586039707651,
+                                       "Revision":  786,
+                                       "EntityId":  7025,
+                                       "EntityType":  1,
+                                       "Name":  "Riona",
+                                       "Text":  "Do you know about the town in which you spent most of your mundane years? It must be close to one of the known towns of Eastern Temuair: Abel, Mileth, Piet, Rucesion, Suomi, or Undine. Ask fellow Aislings, or visit the library (( www.darkages.com/community ))",
+                                       "IsPursuit":  true,
+                                       "Pursuit":  186,
+                                       "Step":  44,
+                                       "Type":  2,
+                                       "Choices":  [
+                                                       {
+                                                           "Text":  "I am not sure about the mundane locations",
+                                                           "Pursuit":  186,
+                                                           "Option":  1
+                                                       },
+                                                       {
+                                                           "Text":  "I have investigated my past",
+                                                           "Pursuit":  186,
+                                                           "Option":  2
+                                                       }
+                                                   ],
+                                       "Prompt":  null,
+                                       "HasNext":  true
+                                   },
+                        "Branches":  0,
+                        "Experience":  12501
+                    },
+                    {
+                        "Time":  "2026-10-09T23:24:32.5693926+00:00",
+                        "Character":  "Awesome",
+                        "Generation":  1834586039707651,
+                        "Revision":  788,
+                        "Kind":  "choose",
+                        "Selection":  "I am committed to this",
+                        "Dialog":  {
+                                       "Generation":  1834586039707651,
+                                       "Revision":  788,
+                                       "EntityId":  7025,
+                                       "EntityType":  1,
+                                       "Name":  "Riona",
+                                       "Text":  "You know that a memory set cannot be altered without extreme hardship and agony (( -100,000 Experience! ))",
+                                       "IsPursuit":  true,
+                                       "Pursuit":  186,
+                                       "Step":  49,
+                                       "Type":  2,
+                                       "Choices":  [
+                                                       {
+                                                           "Text":  "I am committed to this",
+                                                           "Pursuit":  186,
+                                                           "Option":  1
+                                                       },
+                                                       {
+                                                           "Text":  "I\u0027m not sure about that",
+                                                           "Pursuit":  186,
+                                                           "Option":  2
+                                                       }
+                                                   ],
+                                       "Prompt":  null,
+                                       "HasNext":  true
+                                   },
+                        "Branches":  0,
+                        "Experience":  12501
+                    },
+                    {
+                        "Time":  "2026-10-09T23:24:33.909179+00:00",
+                        "Character":  "Awesome",
+                        "Generation":  1834586039707651,
+                        "Revision":  790,
+                        "Kind":  "choose",
+                        "Selection":  "Winter",
+                        "Dialog":  {
+                                       "Generation":  1834586039707651,
+                                       "Revision":  789,
+                                       "EntityId":  7025,
+                                       "EntityType":  1,
+                                       "Name":  "Riona",
+                                       "Text":  "I will ask you how old you are, but first, let me know which season you were born in",
+                                       "IsPursuit":  true,
+                                       "Pursuit":  186,
+                                       "Step":  60,
+                                       "Type":  2,
+                                       "Choices":  [
+                                                       {
+                                                           "Text":  "Spring",
+                                                           "Pursuit":  186,
+                                                           "Option":  1
+                                                       },
+                                                       {
+                                                           "Text":  "Summer",
+                                                           "Pursuit":  186,
+                                                           "Option":  2
+                                                       },
+                                                       {
+                                                           "Text":  "Fall",
+                                                           "Pursuit":  186,
+                                                           "Option":  3
+                                                       },
+                                                       {
+                                                           "Text":  "Winter",
+                                                           "Pursuit":  186,
+                                                           "Option":  4
+                                                       }
+                                                   ],
+                                       "Prompt":  null,
+                                       "HasNext":  true
+                                   },
+                        "Branches":  0,
+                        "Experience":  12501
+                    },
+                    {
+                        "Time":  "2026-10-09T23:24:36.8046025+00:00",
+                        "Character":  "Awesome",
+                        "Generation":  1834586039707651,
+                        "Revision":  793,
+                        "Kind":  "input",
+                        "Selection":  null,
+                        "Dialog":  {
+                                       "Generation":  1834586039707651,
+                                       "Revision":  791,
+                                       "EntityId":  7025,
+                                       "EntityType":  1,
+                                       "Name":  "Riona",
+                                       "Text":  "How old are you now? As you may know, a mundane cannot become an Aisling before his 12th birthday, nor after the 40th birthday.",
+                                       "IsPursuit":  true,
+                                       "Pursuit":  186,
+                                       "Step":  78,
+                                       "Type":  4,
+                                       "Choices":  [
+
+                                                   ],
+                                       "Prompt":  "My mundane birth was",
+                                       "HasNext":  true
+                                   },
+                        "Branches":  0,
+                        "Experience":  12501
+                    },
+                    {
+                        "Time":  "2026-10-09T23:24:38.7920318+00:00",
+                        "Character":  "Awesome",
+                        "Generation":  1834586039707651,
+                        "Revision":  818,
+                        "Kind":  "choose",
+                        "Selection":  "Undine",
+                        "Dialog":  {
+                                       "Generation":  1834586039707651,
+                                       "Revision":  818,
+                                       "EntityId":  7025,
+                                       "EntityType":  1,
+                                       "Name":  "Riona",
+                                       "Text":  "Which land were you born in?",
+                                       "IsPursuit":  true,
+                                       "Pursuit":  186,
+                                       "Step":  128,
+                                       "Type":  2,
+                                       "Choices":  [
+                                                       {
+                                                           "Text":  "Abel",
+                                                           "Pursuit":  186,
+                                                           "Option":  1
+                                                       },
+                                                       {
+                                                           "Text":  "Mileth",
+                                                           "Pursuit":  186,
+                                                           "Option":  2
+                                                       },
+                                                       {
+                                                           "Text":  "Piet",
+                                                           "Pursuit":  186,
+                                                           "Option":  3
+                                                       },
+                                                       {
+                                                           "Text":  "Rucesion",
+                                                           "Pursuit":  186,
+                                                           "Option":  4
+                                                       },
+                                                       {
+                                                           "Text":  "Suomi",
+                                                           "Pursuit":  186,
+                                                           "Option":  5
+                                                       },
+                                                       {
+                                                           "Text":  "Undine",
+                                                           "Pursuit":  186,
+                                                           "Option":  6
+                                                       },
+                                                       {
+                                                           "Text":  "I\u0027ve made some error, excuse me.",
+                                                           "Pursuit":  186,
+                                                           "Option":  7
+                                                       }
+                                                   ],
+                                       "Prompt":  null,
+                                       "HasNext":  true
+                                   },
+                        "Branches":  0,
+                        "Experience":  12501
+                    }
+                ]
+}

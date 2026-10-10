@@ -1,0 +1,23 @@
+{
+  "Id": "spare-a-stick",
+  "Version": 1,
+  "Name": "Spare a Stick",
+  "Source": "https://vorlof.com/quests/spareastick.html",
+  "Capabilities": ["navigate", "dialog", "inventory", "bank", "walk-trigger"],
+  "CooldownHours": 8,
+  "Requirements": [
+    {"Kind":"level", "Minimum":1, "Maximum":11},
+    {"Kind":"gold", "Maximum":999, "Remediation":"bank"},
+    {"Kind":"inventory-weight", "UnknownPolicy":"wait"}
+  ],
+  "OutcomeConditions": ["validated-completion-dialog", "six-branch-decrease", "experience-increase"],
+  "RepeatPolicy": {"Default":"once", "OptionalIntervalHours":8, "ServerAuthoritative":true},
+  "Steps": [
+    {"Id":"preflight", "Action":"preflight", "Next":"bank"},
+    {"Id":"bank", "Action":"bank", "Next":"accept"},
+    {"Id":"accept", "Action":"accept", "Next":"gather", "Arguments":{"activationScope":"connection"}},
+    {"Id":"gather", "Action":"gather", "Next":"turn-in"},
+    {"Id":"turn-in", "Action":"turn-in", "Next":"confirm"},
+    {"Id":"confirm", "Action":"confirm", "Next":null}
+  ]
+}
