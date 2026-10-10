@@ -9,7 +9,7 @@
     <RepositoryUrl>https://github.com/BuildWithRaymond/DAQuester</RepositoryUrl>
     <PackageLicenseExpression>MIT</PackageLicenseExpression>
     <RestorePackagesPath>$(MSBuildThisFileDirectory)artifacts\packages</RestorePackagesPath>
-    <RestoreAdditionalProjectFallbackFolders>$(UserProfile)\.nuget\packages</RestoreAdditionalProjectFallbackFolders>
+    <RestoreAdditionalProjectFallbackFolders Condition="Exists('$(UserProfile)\.nuget\packages')">$(UserProfile)\.nuget\packages</RestoreAdditionalProjectFallbackFolders>
     <Deterministic>true</Deterministic>
   </PropertyGroup>
 </Project>
