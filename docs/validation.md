@@ -1,5 +1,14 @@
 # Validation status
 
+The 1.0.3 candidate adds a 1024 px native window check after release CI found
+the equal-width quest columns truncating "Start quest" at 95 px. The added
+check reproduced the failure locally at 94 px before the fix. Columns now share
+space by measured label, padding and margin requirements, recalculated on
+container, font and DPI changes. The full native UI gate passes, including this
+new case; its small-screen render is visually inspected. Publication checks
+remain enabled. All 385 automated cases pass again (3 minutes 35 seconds),
+with zero Release warnings/errors and verified 1.0.3 packages.
+
 The October 10 native UI refinement passes 159 focused cases and all 385 cases
 (full suite: 3 minutes 28 seconds), with a Release build at zero warnings/errors.
 The extended `tools/Test-UI.ps1` gate passes. Tests first reproduced opaque

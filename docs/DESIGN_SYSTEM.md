@@ -31,6 +31,8 @@ their native WinForms sizing rules. Compact workspaces scroll rather than hiding
 quest actions. Disabled actions remain readable. Keyboard focus uses a separate
 gold outline; active navigation also has a gold marker.
 Measure action labels with the control font when choosing fixed toolbar widths.
+Quest action columns share space in proportion to their measured label, padding
+and margin requirements. Recalculate after font, DPI and container-size changes.
 
 ## Rendering contract
 
@@ -56,7 +58,7 @@ parents, repeated repaints, and native bitmap printing. State sheets render at
 100%, 125%, 150% and 200% geometry/font scales and verify that labels remain
 visible. These synthetic scales do not claim physical mixed-DPI monitor coverage.
 
-Inspect standard and compact workspaces, dropdowns, library, login, settings,
+Inspect standard, compact and 1024 px workspaces, dropdowns, library, login, settings,
 client picker and update states. Check action labels fit without ellipsis; long
 file names in quiet list rows may truncate. Preserve the four quest policies, explicit
 update actions and Developer-only diagnostics. Run focused and full regression

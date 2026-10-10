@@ -1,12 +1,14 @@
 # Changelog
 
-## 1.0.2 — 2026-10-10
+## 1.0.3 — 2026-10-10
 
 - Fix stale button corners and text escaping partial repaint regions. Unify
   native dark button, checkbox and card rendering with Fluent 2 foundations,
   clear interaction/focus states, consistent spacing and interface typography.
 - Add native visual regression checks for clipping, repeated repaints, keyboard
   actions and scaled control geometry alongside standard/compact dialog renders.
+- Size quest action columns from their labels so actions remain readable on
+  small screens. Add a 1024 px window regression check.
 - Add optional fast walking per character: Excalibur's 160 ms pace when alone,
   returning to 430 ms around other players. Changes apply while quests run.
 - Match Excalibur's immediate fast-walk presentation and bounded movement queue

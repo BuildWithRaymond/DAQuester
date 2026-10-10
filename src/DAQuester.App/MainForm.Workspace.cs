@@ -92,6 +92,11 @@ public sealed partial class MainForm {
   var actions=new TableLayoutPanel{Dock=DockStyle.Fill,ColumnCount=4,RowCount=1,Margin=Padding.Empty};for(int i=0;i<4;i++)actions.ColumnStyles.Add(new(SizeType.Percent,25));
   Wire(startButton,()=>StartQuest());Wire(resumeButton,()=>StartQuest(true));Wire(pauseButton,()=>Pause("Paused by player"));Wire(stopButton,()=>Pause("Stopped; observed progress saved"));
   Button[] buttons=[startButton,resumeButton,pauseButton,stopButton];for(int i=0;i<4;i++){buttons[i].Dock=DockStyle.Fill;buttons[i].Margin=new(i==0?0:Theme.Space,0,i==3?0:Theme.Space,Theme.Space*2);actions.Controls.Add(buttons[i],i,0);}questLayout.Controls.Add(actions,0,7);
+  void SizeActionColumns(){
+   var widths=buttons.Select(button=>TextRenderer.MeasureText(button.Text,button.Font,Size.Empty,TextFormatFlags.SingleLine).Width+2*(int)Math.Round(12*button.DeviceDpi/96f)+button.Margin.Horizontal+Theme.Space).ToArray();
+   int total=widths.Sum();for(int i=0;i<widths.Length;i++)actions.ColumnStyles[i].Width=100f*widths[i]/total;
+  }
+  actions.Resize+=(_,_)=>SizeActionColumns();foreach(var button in buttons){button.FontChanged+=(_,_)=>SizeActionColumns();button.DpiChangedAfterParent+=(_,_)=>SizeActionColumns();}SizeActionColumns();
   var reassurance=Theme.Label("Manual movement pauses your quest. You stay in control.",8.5f,Theme.Muted);reassurance.Dock=DockStyle.Fill;reassurance.Padding=new(0,5,0,0);questLayout.Controls.Add(reassurance,0,8);quest.Controls.Add(questLayout);
   var journey=new JournalCard{Dock=DockStyle.Fill,Margin=Padding.Empty};var details=new TableLayoutPanel{Dock=DockStyle.Fill,ColumnCount=1,RowCount=9,Margin=Padding.Empty};details.ColumnStyles.Add(new(SizeType.Percent,100));
   foreach(int h in new[]{22,40,28,65,50,26})details.RowStyles.Add(new(SizeType.Absolute,h));details.RowStyles.Add(new(SizeType.Percent,100));details.RowStyles.Add(new(SizeType.Absolute,48));

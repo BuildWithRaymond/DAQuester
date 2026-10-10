@@ -62,6 +62,8 @@ internal static class Program {
     for(int i=0;i<30;i++)form.Log("Smoke test diagnostic sample "+i);Application.DoEvents();Render(form,"developer-smoke");
     developer.Checked=false;form.Size=form.MinimumSize;Application.DoEvents();
     Render(form,"compact-smoke");
+    form.MinimumSize=new(1024,768);form.Size=form.MinimumSize;Application.DoEvents();
+    Render(form,"small-screen-smoke");
     using(var library=new QuestLibraryForm(selector.Items.Cast<Core.QuestDefinition>())){
      library.Show();Application.DoEvents();Render(library,"library-smoke");
      var filter=(ComboBox)library.Controls.Find("questLibraryFilter",true).Single();var table=(DataGridView)library.Controls.Find("questLibraryTable",true).Single();var search=(TextBox)library.Controls.Find("questLibrarySearch",true).Single();
