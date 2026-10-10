@@ -11,6 +11,7 @@ public sealed partial class GameSession {
   while(true){
    var changed=Volatile.Read(ref movementChanged).Task;var window=connection.Movement;
    ct.ThrowIfCancellationRequested();if(!Snapshot.Connected)throw new IOException("Session disconnected or replaced.");
+   if(await DismissTravelNotice(ct))continue;
    if(window.Recovery){await RefreshView(ct);return;}
    if(window.Pending==0)return;
    var delay=window.Oldest!.Value.AddSeconds(2)-DateTimeOffset.UtcNow;
@@ -24,11 +25,14 @@ public sealed partial class GameSession {
    // Capture the pulse before inspecting state so an acknowledgment cannot be lost.
    var changed=Volatile.Read(ref movementChanged).Task;var window=connection.Movement;var state=Snapshot;
    ct.ThrowIfCancellationRequested();if(!state.Connected||state.Generation!=generation)throw new IOException("Session disconnected or replaced.");
+   // A town popup may reject a projected step. Close it before refresh or
+   // draining pending moves, then reanchor from authoritative server position.
+   if(await DismissTravelNotice(ct)){await SettleMovement(ct);return new(Snapshot.Map!=expectedMap||connection.Tracker.WorldMap is not null);}
    if(window.Recovery)return new(false,window.FirstTarget??target,state.Position,Corrected:true);
    if(connection.Tracker.WorldMap is not null||state.Map!=expectedMap)return new(true);
    if(state.Position is null){await changed.WaitAsync(TimeSpan.FromSeconds(2),ct);continue;}
    if(GoalReached(stopWhen)||replanWhen?.Invoke()==true||transferLanding is not null&&state.Position==transferLanding){draining=true;done=true;}
-   if(!FastMode||MovementCadence(state,window.Projected)!=160||IsTownNotice(state.Dialog))draining=true;
+   if(!FastMode||MovementCadence(state,window.Projected)!=160||IsTravelNotice(state))draining=true;
    var origin=window.Projected??state.Position;
    if(origin==target)draining=true;
    if(draining&&window.Pending==0)return new(done||state.Position==target);
@@ -52,7 +56,7 @@ public sealed partial class GameSession {
     byte direction=(byte)(next.Y<origin.Y?0:next.X>origin.X?1:next.Y>origin.Y?2:3);
     bool Allowed(){
      var observed=Snapshot;var pending=connection.Movement;
-     return FastMode&&!pending.Recovery&&pending.Pending<pending.Capacity&&pending.Projected==origin&&observed.Generation==generation&&observed.Map==state.Map&&observed.Position==state.Position&&ReferenceEquals(observed.Entities,state.Entities)&&!IsTownNotice(observed.Dialog)&&!GoalReached(stopWhen)&&replanWhen?.Invoke()!=true&&MovementCadence(observed,origin)==160;
+     return FastMode&&!pending.Recovery&&pending.Pending<pending.Capacity&&pending.Projected==origin&&observed.Generation==generation&&observed.Map==state.Map&&observed.Position==state.Position&&ReferenceEquals(observed.Entities,state.Entities)&&!IsTravelNotice(observed)&&!GoalReached(stopWhen)&&replanWhen?.Invoke()!=true&&MovementCadence(observed,origin)==160;
     }
     // The transport checks the guard under the same lock used to observe
     // players and acknowledgments, before consuming a movement counter.

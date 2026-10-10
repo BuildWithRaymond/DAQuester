@@ -14,6 +14,7 @@ public sealed partial class GameSession:IGameSession {
  readonly int cadence;
  DateTimeOffset lastMove;
  long dismissedMerchantRevision=-1;
+ bool townWeaponRemovalRequired;
  Dialog? preparedDepositPrompt;
  readonly EvidenceHistory history=new();
  public CharacterSnapshot Snapshot=>connection.Tracker.Snapshot;
@@ -164,14 +165,14 @@ public sealed partial class GameSession:IGameSession {
  }
  async Task Navigate(int destination,Tile? target,CancellationToken ct,InventoryGoal? stopWhen=null) {
   if(GoalReached(stopWhen))return;
-  await DismissTownNotice(ct);
+  await DismissTravelNotice(ct);
   await CloseDialog(Snapshot.Dialog,ct);
   if(Snapshot.Map is null||Snapshot.Position is null)throw new QuestBlockedException("Waiting for server map and position.");
   Tile? worldEntrance=null;
   while(true) {
    ct.ThrowIfCancellationRequested();
    if(GoalReached(stopWhen))return;
-   await DismissTownNotice(ct);
+   await DismissTravelNotice(ct);
    var world=connection.Tracker.WorldMap;
    if(world is not null) {
     var observed=Snapshot;
@@ -211,12 +212,38 @@ public sealed partial class GameSession:IGameSession {
    await WaitAsync(x=>connection.Tracker.WorldMap is not null||x.Map!=from&&x.Position is not null,Snapshot.Revision-1,TimeSpan.FromSeconds(5),ct);
   }
  }
- static bool IsTownNotice(Dialog? d)=>d is {IsPursuit:true,HasNext:true,EntityType:4,Type:0,Pursuit:0,Name:""}&&d.Choices.Length==0&&d.Text.StartsWith("((You are entering a role-playing town where role-playing is strictly enforced.",StringComparison.Ordinal);
- async Task<bool> DismissTownNotice(CancellationToken ct) {
-  var before=Snapshot;var notice=before.Dialog;if(!IsTownNotice(notice))return false;
-  await connection.SendAsync(Protocol.DialogPackets.Continue(before,notice!),before.Generation,ct);
-  await WaitAsync(s=>s.Map==before.Map&&s.Dialog is null,before.Revision,TimeSpan.FromSeconds(5),ct);
-  return true;
+ static bool IsTownNotice(Dialog? d)=>d is {IsPursuit:true,EntityType:4,Type:0,Prompt:null}&&d.Choices.Length==0&&d.Text.StartsWith("((You are entering a role-playing",StringComparison.Ordinal);
+ static bool IsWeaponNotice(CharacterSnapshot s)=>s.Map is 504 or 3008&&s.Dialog is {IsPursuit:true,EntityType:1 or 4,Type:0,Prompt:null} d&&d.Choices.Length==0&&d.Text.StartsWith("You can't bring weapons here!",StringComparison.Ordinal);
+ bool IsTravelNotice(CharacterSnapshot s)=>IsTownNotice(s.Dialog)||IsWeaponNotice(s)||townWeaponRemovalRequired;
+ async Task RemoveTownWeapon(CancellationToken ct){
+  var equipment=Snapshot;
+  if(equipment.Equipment.ContainsKey((byte)EquipmentSlot.Weapon)){
+   if(!equipment.InventoryKnown)throw new QuestBlockedException("Waiting for inventory before removing weapon. Resume when inventory is known.");
+   if(equipment.Inventory.Count>=59)throw new QuestBlockedException("Free an inventory slot for the weapon, then resume travel.");
+   await Send(new ClientRemoveEquipmentMessage{Slot=EquipmentSlot.Weapon},ct);
+   try{await WaitAsync(s=>!s.Equipment.ContainsKey((byte)EquipmentSlot.Weapon),equipment.Revision,TimeSpan.FromSeconds(5),ct);}
+   catch(TimeoutException){throw new QuestBlockedException("Weapon removal was not confirmed. Check equipment and resume travel.");}
+  }
+  townWeaponRemovalRequired=false;
+ }
+ async Task<bool> DismissTravelNotice(CancellationToken ct) {
+  bool handled=false;
+  for(int page=0;page<8;page++){
+   var before=Snapshot;var notice=before.Dialog;if(!IsTravelNotice(before))return handled;
+   if(IsWeaponNotice(before)){
+    townWeaponRemovalRequired=true;
+    await CloseDialog(notice,ct);
+    await RemoveTownWeapon(ct);
+   }else if(townWeaponRemovalRequired)await RemoveTownWeapon(ct);
+   else{
+    if(notice!.HasNext){
+     await connection.SendAsync(Protocol.DialogPackets.Continue(before,notice),before.Generation,ct);
+     await WaitAsync(s=>s.Dialog is null||s.Dialog.Revision>notice.Revision,before.Revision,TimeSpan.FromSeconds(5),ct);
+    }else await CloseDialog(notice,ct);
+   }
+   handled=true;
+  }
+  throw new QuestBlockedException("Town notice repeated eight times. Inspect the popup before resuming travel.");
  }
  async Task WalkTo(Tile target,CancellationToken ct,int? expectedMap=null,InventoryGoal? stopWhen=null,Tile? transferLanding=null,Func<bool>? replanWhen=null) {
   expectedMap??=Snapshot.Map;
@@ -224,7 +251,7 @@ public sealed partial class GameSession:IGameSession {
   while(Snapshot.Position!=target) {
    if(replanWhen?.Invoke()==true)return;
    if(GoalReached(stopWhen))return;
-   if(await DismissTownNotice(ct)){retries=0;avoided.Clear();}
+   if(await DismissTravelNotice(ct)){await SettleMovement(ct);retries=0;avoided.Clear();if(Snapshot.Map!=expectedMap||connection.Tracker.WorldMap is not null)return;}
    if(FastMode&&MovementCadence(Snapshot)==160){
     var fastOrigin=Snapshot.Position;
     long confirmed=VisibleMoves;
@@ -271,17 +298,19 @@ public sealed partial class GameSession:IGameSession {
    if(GoalReached(stopWhen))return; // Inventory often arrives just after the movement acknowledgment.
    var current=Snapshot;
    if(lastMove.AddMilliseconds(MovementCadence(current))>DateTimeOffset.UtcNow)continue;
-   if(IsTownNotice(current.Dialog))continue;
+   if(IsTravelNotice(current))continue;
    if(replanWhen is not null&&current.Map==before.Map&&current.Position is not null&&current.Position!=before.Position)return;
    if(current.Map!=before.Map||current.Position!=before.Position||current.Entities.Values.Any(e=>e.Blocks&&e.Id!=current.Id&&e.Position==next))continue;
-   await Send(new ClientMoveMessage{Direction=(WorldDirection)dir},ct);lastMove=DateTimeOffset.UtcNow;
+   try{await connection.SendAsync(Packet(new ClientMoveMessage{Direction=(WorldDirection)dir}),current.Generation,ct,movementAllowed:()=>!IsTravelNotice(Snapshot));}
+   catch(MovementReplanException){continue;}
+   lastMove=DateTimeOffset.UtcNow;
    CharacterSnapshot? ack=null;
    try {
-    ack=await WaitAsync(x=>IsTownNotice(x.Dialog)||connection.Tracker.WorldMap is not null||x.Map!=before.Map||x.Position is not null&&
+    ack=await WaitAsync(x=>IsTravelNotice(x)||connection.Tracker.WorldMap is not null||x.Map!=before.Map||x.Position is not null&&
      (x.Position==next||x.Position!=before.Position||connection.Tracker.LastMovementRevision>before.Revision&&x.Revision>=connection.Tracker.LastMovementRevision||connection.Tracker.LastPositionRevision>before.Revision&&x.Revision>=connection.Tracker.LastPositionRevision),before.Revision,TimeSpan.FromSeconds(2),ct);
    }catch(TimeoutException){} // A delayed reply must drain through refresh before another step.
    if(ack is not null) {
-    if(await DismissTownNotice(ct)){retries=0;avoided.Clear();continue;}
+    if(await DismissTravelNotice(ct)){await SettleMovement(ct);retries=0;avoided.Clear();if(Snapshot.Map!=expectedMap||connection.Tracker.WorldMap is not null)return;continue;}
     if(connection.Tracker.WorldMap is not null)return;
     if(ack.Map!=before.Map)return;
     if(transferLanding is not null&&ack.Position==transferLanding)return;

@@ -1,5 +1,21 @@
 # Changelog
 
+## 1.0.5 — 2026-10-10
+
+- Close Undine weapon warnings, remove the equipped weapon and wait for server
+  confirmation before continuing automated travel. Pause if inventory is full or
+  removal is unanswered, without repeatedly sending equipment commands.
+- Dismiss town roleplay notices before fast-walk recovery so Suomi entry no
+  longer stalls behind a popup or repeatedly rejected steps. Replan from the
+  destination when closing a notice finishes a map transfer.
+- Save the eight-hour next-attempt deadline for every verified ordinary Spare a
+  Stick reward, including single runs. Use the observed Callough reply time.
+- Retain completion replies and reconcile later reward packets after manual
+  interruption without resuming automation or submitting the turn-in again.
+  Keep pending transactions when evidence is missing, unrelated or stale.
+- Show completed ordinary attempts and their next date in the journal while
+  offline. Preserve their cooldown when resuming or pausing a completed run.
+
 ## 1.0.4 — 2026-10-10
 
 - Allow explicit Run again after a completed Spare a Stick attempt. Restore the

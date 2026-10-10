@@ -1,5 +1,20 @@
 # Validation status
 
+The 1.0.5 maintenance candidate passes 134 focused completion, ownership,
+recovery and movement cases and all 425 automated cases (native full suite:
+4 minutes 11 seconds). The Release build has zero warnings/errors. New tests
+first reproduce completion lost after interruption, missing single-run cooldowns,
+offline completion visibility, calibrated branch-name checks, town notices
+blocking fast-walk recovery, and old-map walking after notice dismissal.
+Synthetic Undine warnings verify close-before-unequip, delayed server confirmation,
+full-inventory pause, explicit Resume after the warning closes, and preservation
+of unrelated popups. Tests do not operate real characters or Excalibur.
+The native UI gate passes independently, including offline completion and the
+visible next deadline at compact sizes. A concurrent run completed its checks
+just after the gate's 120-second limit; the isolated rerun passes without code or
+timeout changes. Existing walking timing tests also pass in the final focused
+and complete runs without changing their thresholds.
+
 The 1.0.4 runner changes pass 162 focused quest cases and all 392 automated cases
 (native full suite: 3 minutes 28 seconds). A sandbox-only current-user pipe access
 failure was resolved by running the same isolated suite with native permissions.

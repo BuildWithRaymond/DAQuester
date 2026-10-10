@@ -64,6 +64,13 @@ Patrol rotates **armor-shop trees around (18,56)**, then **(54,43)** and **(64,4
 
 Callough's child-reminder reply saves **permanent completion** and disables repeats. Clock's actual response and optional Oak Stick are captured in the shipped replay. Passive tracking detects this reply during manual play as well. The full reply and server dialog IDs remain in the character's durable journal.
 
+An ordinary reward completes the current attempt, without permanent completion.
+The journal shows **Completed for now** and the next attempt eight hours after
+the observed completion reply, including single runs and offline characters.
+Validated Callough replies are retained across manual pauses; later correlated
+branch/experience packets can complete confirmation without resuming automation
+or submitting again. Missing or stale evidence keeps the transaction pending.
+
 ## Current operational limits
 
 Three characters completed Spare a Stick in game. Nuclear received Stick,

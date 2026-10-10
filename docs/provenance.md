@@ -87,6 +87,7 @@ server evidence. No Excalibur source, settings or process was changed.
 | ProxyBase/Client.TavalyMovementSync.cs | Acknowledged self-walk presentation (0x0C) and authoritative correction (0x04), including existing padding. Server-facing and client-facing ordinals are separate. |
 | ProxyBase/Server.Messages.cs | DATester 0x05 identity; stats, inventory, NPC, map, movement and dialog behavior. |
 | ProxyBase/Client.cs, deposit dispatch | Compared the proven merchant amount-input layout (pursuit 82) with Awesome's actual Cassidy capture. New implementation uses the live prompt's entity and pursuit rather than a fixed ID. |
+| ProxyBase/Client.cs, town popup dispatch | Compared the roleplay-entry and `You can't bring weapons here!` prefixes. Roleplay also has captured server evidence; weapon-warning fixtures are synthetic. DAQuester closes the observed warning and removes the observed weapon, using current dialog IDs rather than Excalibur's fixed pursuit response. |
 | ProxyBase/Map.cs | lod tile layout, collision rules, conservative unknown sprites and runtime walkable override. Archive entry length corrected to actual sotp.dat bounds. |
 | WorldLogs/*.json, AutoWalkRouteService.cs | 1,432 map/portal records normalized into content/routes.json; directed route search. |
 | ProxyBase/MainForm.cs | Suspended launch, hostname, port, intro and multi-instance patches. Installed binary hash verified before launch. Fallback PUSH instructions start at 0x4333C2; legacy 0x4333C3 began inside the first instruction. |

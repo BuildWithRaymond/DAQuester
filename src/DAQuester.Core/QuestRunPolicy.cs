@@ -1,6 +1,7 @@
 namespace DAQuester.Core;
 
 public static class QuestRunPolicy {
+ public static bool AttemptCompleted(QuestJob job)=>job.Pending is null&&job.Step=="complete"&&job.CompletedAt is not null;
  public static bool Finished(QuestDefinition recipe,QuestJob job)=>job.PermanentCompletion is not null||
   (!recipe.Repeatable&&job.CompletedAt is not null)||(recipe.Id=="perfect-hairstyle"&&job.LegendReward==true);
 

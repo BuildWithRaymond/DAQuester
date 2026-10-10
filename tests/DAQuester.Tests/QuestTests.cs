@@ -55,7 +55,7 @@ public class QuestTests {
   Assert.Null(c.Job.CompletedAt);
  }
  [Fact] public async Task Completion_survives_level_gain_and_optional_reward_absence() {
-  var s=new SimulatedSession();s.Set(Branches(s.Snapshot,0) with{Level=12,Experience=7000,Dialog=new(1,2,91,1,"Callough","Done",true,1,2,0,[])});
+  var s=new SimulatedSession();s.Set(Branches(s.Snapshot,0) with{Level=12,Experience=7000,Dialog=new(1,1,91,1,"Callough","Done",true,1,2,0,[])});
   var c=new QuestContext(s,new FileQuestJournal(dir),calibrated,new(){Character="Nuclear",Pending=new("turn-in",1,0,999,6,3500,DateTimeOffset.UtcNow)});
   await new StickActions().ExecuteAsync(c,new("confirm","confirm",null),default);
   Assert.NotNull(c.Job.CompletedAt);Assert.Null(c.Job.Pending);

@@ -80,17 +80,14 @@ public class StickActions:IQuestAction {
    case "confirm":
     var t=c.Job.Pending;
     if(t is null||t.Kind!="turn-in")throw new QuestBlockedException("No recorded turn-in transaction.");
-    bool Terminal(CharacterSnapshot x)=>ValidDialog(x,t.Generation,t.Revision,cal.Completed,cal);
+    bool Terminal(CharacterSnapshot x)=>StickCompletionEvidence.Reply(x,t,cal);
     if(!t.TerminalSeen||t.TerminalRevision is null) {
      var terminalEvidence=await session.WaitAsync(Terminal,t.Revision,dialogTimeout,cancellation);
-     await c.SaveAsync(c.Job with{Pending=t with{TerminalSeen=true,TerminalRevision=terminalEvidence.Revision}});t=c.Job.Pending!;
+     await c.SaveAsync(c.Job with{CompletionDialog=terminalEvidence.Dialog,Pending=t with{TerminalSeen=true,TerminalRevision=terminalEvidence.Dialog!.Revision}});t=c.Job.Pending!;
     }
-    bool Outcome(CharacterSnapshot x)=>x.Generation==t.Generation&&x.Revision>t.Revision&&
-      x.Count(cal.BranchName)<=t.Branches-6&&x.Experience>t.Experience;
+    bool Outcome(CharacterSnapshot x)=>StickCompletionEvidence.Outcome(x,t,t.TerminalRevision!.Value,cal);
     var done=await session.WaitAsync(Outcome,Math.Max(t.Revision,t.TerminalRevision!.Value-1),dialogTimeout,cancellation);
-    var completed=DateTimeOffset.UtcNow;
-    await c.SaveAsync(c.Job with{Pending=null,CompletedAt=completed,Accepted=false,NextRun=c.Job.Repeat?completed.AddHours(8):null,
-      Rewards=RewardEvidence.Record(t,done)});
+    await c.SaveAsync(StickCompletionEvidence.Complete(c.Job,done));
     break;
    default:throw new QuestBlockedException("Unsupported action: "+step.Action);
   }
@@ -106,7 +103,7 @@ public class StickActions:IQuestAction {
    if(c.Calibration.Matches(d.Text,c.Calibration.Refused)||c.Calibration.Matches(d.Text,c.Calibration.Cooldown))throw new QuestBlockedException("Server refused quest: "+d.Text);
    bool choice=d.Choices.Any(x=>x.Text.TrimEnd('.').Equals(text.TrimEnd('.'),StringComparison.OrdinalIgnoreCase));
    if(!choice&&(!d.HasNext||d.Choices.Length>0))throw new QuestBlockedException("Expected dialog option missing: "+text);
-   if(choice&&transaction is not null){c.Gate();await c.BeginAsync(transaction);}
+   if(choice&&transaction is not null){c.Gate();await c.BeginAsync(transaction,d.EntityId);}
    await c.Session.ExecuteAsync(choice?new("choose",Text:text,Dialog:d):new("next",Dialog:d),ct);
    var reply=await c.Session.WaitAsync(x=>x.Generation==before.Generation&&x.Dialog is {} next&&next.EntityId==d.EntityId&&next.Revision>before.Revision,before.Revision,dialogTimeout,ct);
    PermanentQuestCompletion.Check(reply);

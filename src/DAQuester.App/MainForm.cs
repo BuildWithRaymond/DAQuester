@@ -53,10 +53,12 @@ public sealed partial class MainForm:ThemedForm {
  void Ui(Action a) {if(IsDisposed||Disposing)return;if(InvokeRequired){try{BeginInvoke(a);}catch(InvalidOperationException){}}else a();}
  public void Log(string message)=>Ui(()=>{string line=DateTime.Now.ToString("HH:mm:ss")+"  "+message;log.Items.Add(line);try{File.AppendAllText(Path.Combine(AppSettings.DataPath,"diagnostics.log"),line+Environment.NewLine);}catch(IOException){}if(log.Items.Count>2000)log.Items.RemoveAt(0);log.TopIndex=Math.Max(0,log.Items.Count-1);});
  string Selected()=>grid.SelectedRows.Count>0?grid.SelectedRows[0].Cells[0].Value?.ToString()??"":settings.Characters.FirstOrDefault()??"";
+ DateTimeOffset? NextAttempt(QuestJob job)=>recipes.TryGetValue(job.Quest,out var quest)?QuestRunPolicy.NextAttempt(quest,job):job.NextRun;
+ bool OrdinaryAttemptComplete(QuestJob job)=>job.Quest==recipe.Id&&QuestRunPolicy.AttemptCompleted(job)&&job.PermanentCompletion is null;
  void AddCharacter(string character) {
   if(grid.Rows.Cast<DataGridViewRow>().Any(x=>string.Equals(x.Cells[0].Value?.ToString(),character,StringComparison.OrdinalIgnoreCase)))return;
   var job=journal.Load(character,SelectedQuest.Id);
-  grid.Rows.Add(character,"Disconnected","—","—","—","—",job.Status,job.Step,job.Reason,job.NextRun?.ToLocalTime().ToString("g")??"",QuestName(job.Quest));
+  grid.Rows.Add(character,"Disconnected","—","—","—","—",OrdinaryAttemptComplete(job)?"Completed for now":job.Status,job.Step,job.Reason,NextAttempt(job)?.ToLocalTime().ToString("g")??"",QuestName(job.Quest));
  }
  async void Bind(ProxyConnection connection) {
   string name=connection.Tracker.Snapshot.Name!;
@@ -69,8 +71,14 @@ public sealed partial class MainForm:ThemedForm {
    RefreshRow(name);
    if(PermanentQuestCompletion.Matches(snapshot)&&journal.Load(name,recipe.Id).PermanentCompletion is null&&(!permanentTasks.TryGetValue(name,out var task)||task.IsCompleted))
     permanentTasks[name]=ObservePermanent(name,session,snapshot);
+   else if(!controlActions.ContainsKey(name)&&(!calibrationTasks.TryGetValue(name,out var capture)||capture.IsCompleted)&&
+    runners.TryGetValue(name,out var runner)&&runner.Job.Quest==recipe.Id)ObserveOrdinaryCompletion(name,session,runner,snapshot);
   });
   session.Interrupted+=Log;RefreshRow(name);Log(name+" connected; server state tracking active.");
+ }
+ async void ObserveOrdinaryCompletion(string name,GameSession session,QuestRunner runner,CharacterSnapshot snapshot) {
+  try {if(sessions.GetValueOrDefault(name)==session&&runners.GetValueOrDefault(name)==runner)await runner.ReconcileAsync(snapshot);}
+  catch(Exception e){Log(name+": reward confirmation could not be saved: "+e.Message);}
  }
  async Task ObservePermanent(string name,GameSession session,CharacterSnapshot snapshot) {
   try {
@@ -88,11 +96,12 @@ public sealed partial class MainForm:ThemedForm {
   sessions.TryGetValue(name,out var session);
   var s=session?.Snapshot??new CharacterSnapshot{Name=name};var job=GetJob(name);
   bool birth=job.Quest=="mundane-birth",hair=job.Quest=="perfect-hairstyle",muisir=job.Quest=="entered-muisir-village";
+  bool ordinaryComplete=OrdinaryAttemptComplete(job)&&(!runners.TryGetValue(name,out var owner)||!owner.IsRunning);
   var eligibility=birth?MundaneBirthEvidence.Eligibility(s,job.BirthOptions):hair?PerfectHairstyleEvidence.Eligibility(s):muisir?MuisirEvidence.Eligibility(s):StickEligibility.Check(s,job.CompletedAt,DateTimeOffset.UtcNow);
   var row=grid.Rows.Cast<DataGridViewRow>().FirstOrDefault(x=>string.Equals(x.Cells[0].Value?.ToString(),name,StringComparison.OrdinalIgnoreCase));if(row is null)return;
   row.SetValues(name,s.Connected?"Online":"Offline",s.Level?.ToString()??"—",s.Gold?.ToString("N0")??"—",
-    s.Map+" · "+s.Position?.X+","+s.Position?.Y,birth?job.BirthOptions is {} o?$"{o.Season} · {o.Age} · {o.Town}":"Choose birth details":hair?job.LegendReward==true?"Suomi legend recorded":"Ponytail · no items":muisir?s.InventoryKnown?s.Count(MuisirEvidence.Mushroom)+"/5 mushrooms":"Unknown":s.InventoryKnown?s.Count(calibration.BranchName)+"/6 branches":"Unknown",(birth||hair||muisir)&&job.CompletedAt is not null?"Completed":job.Status,job.Step,
-    job.CompletionText??(job.PermanentCompletion is not null?job.Reason:job.Status=="Paused"&&job.Reason!="Ready"?job.Reason:!birth&&!hair&&!muisir&&!calibration.Ready?"Calibration required":eligibility.Reason),job.NextRun?.ToLocalTime().ToString("g")??"",QuestName(job.Quest));
+    s.Map+" · "+s.Position?.X+","+s.Position?.Y,birth?job.BirthOptions is {} o?$"{o.Season} · {o.Age} · {o.Town}":"Choose birth details":hair?job.LegendReward==true?"Suomi legend recorded":"Ponytail · no items":muisir?s.InventoryKnown?s.Count(MuisirEvidence.Mushroom)+"/5 mushrooms":"Unknown":s.InventoryKnown?s.Count(calibration.BranchName)+"/6 branches":"Unknown",ordinaryComplete?"Completed for now":(birth||hair||muisir)&&job.CompletedAt is not null?"Completed":job.Status,job.Step,
+    job.CompletionText??(job.PermanentCompletion is not null?job.Reason:job.Status=="Paused"&&job.Reason!="Ready"?job.Reason:!birth&&!hair&&!muisir&&!calibration.Ready?"Calibration required":eligibility.Reason),NextAttempt(job)?.ToLocalTime().ToString("g")??"",QuestName(job.Quest));
   if(Selected()==name)ShowDialogState();UpdateStatus();
  }
  void ShowDialogState() {

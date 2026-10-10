@@ -137,7 +137,20 @@ internal static class Program {
   Open("library");((Button)pages.Controls.Find("chooseQuest",true).Single()).PerformClick();Application.DoEvents();
   if(selector.SelectedItem is not Core.QuestDefinition{Id:"spare-a-stick"}||!pages.Controls.Find("journalPage",false).Single().Visible)throw new InvalidOperationException("Choosing a library quest must open its journal.");
   form.Size=new(1450,930);Application.DoEvents();foreach(string page in new[]{"library","settings","login","journal"})Open(page);
-  CheckQuestActions(form,selector);CheckPasswordBatch();
+  CheckQuestActions(form,selector);CheckOrdinaryCompletion(form,selector);CheckPasswordBatch();
+ }
+ static void CheckOrdinaryCompletion(MainForm form,ComboBox selector){
+  var completed=DateTimeOffset.UtcNow.AddMinutes(-1);var next=completed.AddHours(8);
+  var journal=new Core.FileQuestJournal(Path.Combine(AppSettings.DataPath,"journal"));
+  journal.SaveAsync(new(){Character="Nuclear",Step="complete",Status="Completed",CompletedAt=completed,NextRun=next,Rewards=new(){{"experience",3500}}}).GetAwaiter().GetResult();
+  selector.SelectedItem=selector.Items.Cast<Core.QuestDefinition>().Single(q=>q.Id=="mundane-birth");
+  selector.SelectedItem=selector.Items.Cast<Core.QuestDefinition>().Single(q=>q.Id=="spare-a-stick");Application.DoEvents();
+  var roster=(DataGridView)form.Controls.Find("characterRoster",true).Single();
+  var row=roster.Rows.Cast<DataGridViewRow>().Single(r=>r.Cells[0].Value?.ToString()=="Nuclear");roster.CurrentCell=row.Cells[0];row.Selected=true;Application.DoEvents();
+  if(row.Cells[6].Value?.ToString()!="Completed for now"||row.Cells[9].Value?.ToString()!=next.ToLocalTime().ToString("g"))throw new InvalidOperationException("An offline ordinary attempt must show completion and its next deadline.");
+  var message=form.Controls.Find("questProgressMessage",true).Single().Text;
+  if(!message.Contains(next.ToLocalTime().ToString("MMM d, h:mm tt"))||!message.Contains("completed",StringComparison.OrdinalIgnoreCase))throw new InvalidOperationException("Saved cooldown must remain visible while offline.");
+  Render(form,"ordinary-completion-smoke");form.Size=new(1024,768);Application.DoEvents();Render(form,"ordinary-completion-small-screen");
  }
  static void CheckPasswordBatch(){
   using var host=new ThemedForm{Text="Isolated account save check",ClientSize=new(1000,600)};

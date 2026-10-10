@@ -3,6 +3,7 @@ public class QuestRunner(IGameSession session,IQuestJournal journal,QuestDefinit
  public QuestJob Job {get;private set;}=journal.Load(session.Snapshot.Name??"Unknown",recipe.Id);
  private readonly SemaphoreSlim owner=new(1,1);
  private volatile CancellationTokenSource? active;
+ private readonly EvidenceHistory completionHistory=new();
  public bool IsRunning=>active is not null;
  private string pauseReason="Paused by player";
  public event Action<QuestJob>? Changed;
@@ -21,7 +22,8 @@ public class QuestRunner(IGameSession session,IQuestJournal journal,QuestDefinit
   using var token=CancellationTokenSource.CreateLinkedTokenSource(cancellation);
   active=token;pauseReason="Paused by player";
   void Interrupt(string reason){pauseReason=reason;token.Cancel();}
-  void Observe(CharacterSnapshot s){if(!s.Connected)Interrupt("Disconnected. Resume after fresh state.");}
+  void Observe(CharacterSnapshot s){completionHistory.Record(s);if(!s.Connected)Interrupt("Disconnected. Resume after fresh state.");}
+  completionHistory.Record(session.Snapshot);
   session.Interrupted+=Interrupt;session.Changed+=Observe;
   var c=new QuestContext(session,journal,calibration,Job with{Repeat=repeat});
   async Task Save(QuestJob value){await c.SaveAsync(value);Job=c.Job;Changed?.Invoke(Job);}
@@ -37,7 +39,7 @@ public class QuestRunner(IGameSession session,IQuestJournal journal,QuestDefinit
    bool completedAttempt=c.Job.CompletedAt.HasValue&&c.Job.Step=="complete";
    bool anotherAttempt=completedAttempt&&recipe.Repeatable&&(repeat||startNewAttempt)&&!QuestRunPolicy.Finished(recipe,c.Job);
    if(completedAttempt&&c.Job.Pending is not null)throw new QuestBlockedException("Pending transaction requires reconciliation before a new attempt.");
-   if(completedAttempt&&!anotherAttempt){await Save(c.Job with{Status="Completed",Repeat=false,NextRun=null,Reason=c.Job.CompletionText??"One completion verified"});return;}
+   if(completedAttempt&&!anotherAttempt){await Save(c.Job with{Status="Completed",Repeat=false,NextRun=QuestRunPolicy.NextAttempt(recipe,c.Job),Reason=c.Job.CompletionText??"One completion verified"});return;}
    if(QuestRunPolicy.NextAttempt(recipe,c.Job) is {} next && next>DateTimeOffset.UtcNow) {
     if(anotherAttempt&&!repeat)throw new QuestBlockedException("Eight-hour cooldown until "+next.ToLocalTime().ToString("g")+". Choose Repeat to schedule the next attempt.");
     await Save(c.Job with{NextRun=next});
@@ -82,11 +84,28 @@ public class QuestRunner(IGameSession session,IQuestJournal journal,QuestDefinit
   } catch(QuestPermanentlyCompletedException e) {await Save(PermanentQuestCompletion.Record(c.Job,e.Dialog,session.Snapshot));}
     catch(OperationCanceledException) {await Save(c.Job with{Status="Paused",Reason=pauseReason});}
     catch(Exception e) {await Save(c.Job with{Status="Paused",Reason=e.Message});}
-  finally {session.Interrupted-=Interrupt;session.Changed-=Observe;active=null;owner.Release();Changed?.Invoke(Job);}
+  finally {
+   try {if(recipe.Id=="spare-a-stick") {var reconciled=StickCompletionEvidence.Observe(c.Job,calibration,completionHistory);if(!ReferenceEquals(reconciled,c.Job))await Save(reconciled);}}
+   finally {session.Interrupted-=Interrupt;session.Changed-=Observe;active=null;owner.Release();Changed?.Invoke(Job);}
+  }
+  await ReconcileAsync(session.Snapshot);
+ }
+ public async Task ReconcileAsync(CharacterSnapshot snapshot) {
+  if(recipe.Id!="spare-a-stick")return;
+  completionHistory.Record(snapshot);
+  if(!await owner.WaitAsync(0))return;
+  bool changed=false;
+  try {
+   var reconciled=StickCompletionEvidence.Observe(Job,calibration,completionHistory);
+   if(ReferenceEquals(reconciled,Job))return;
+   await journal.SaveAsync(reconciled);Job=reconciled;changed=true;
+  }finally {owner.Release();}
+  if(changed)Changed?.Invoke(Job);
  }
  public async Task PauseAsync(string reason="Paused by player") {
   pauseReason=reason;active?.Cancel();
-  await owner.WaitAsync();owner.Release();
-  if(active is null&&Job.Status!="Paused"&&Job.PermanentCompletion is null) {Job=Job with{Status="Paused",Reason=reason};await journal.SaveAsync(Job);Changed?.Invoke(Job);}
+  await owner.WaitAsync();
+  try {if(active is null&&Job.Status!="Paused"&&Job.Status!="Completed"&&Job.PermanentCompletion is null) {Job=Job with{Status="Paused",Reason=reason};await journal.SaveAsync(Job);Changed?.Invoke(Job);}}
+  finally {owner.Release();}
  }
 }
