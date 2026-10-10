@@ -23,7 +23,7 @@ public sealed partial class GameSession:IGameSession {
  public event Action<string>? Interrupted;
  public GameSession(ProxyConnection c,MapRepository maps,int cadence=400) {
   connection=c;this.maps=maps;this.cadence=cadence;
-  history.Record(c.Tracker.Snapshot);c.Tracker.Changed+=s=>{history.Record(s);Changed?.Invoke(s);};c.Interrupted+=reason=>Interrupted?.Invoke(reason);
+  history.Record(c.Tracker.Snapshot);c.Tracker.Changed+=s=>{history.Record(s);PulseMovement();Changed?.Invoke(s);};c.MovementChanged+=PulseMovement;c.Interrupted+=reason=>Interrupted?.Invoke(reason);
  }
  public async Task<CharacterSnapshot> WaitAsync(Func<CharacterSnapshot,bool> test,long after,TimeSpan timeout,CancellationToken cancellation) {
   long generation=Snapshot.Generation;
@@ -55,6 +55,7 @@ public sealed partial class GameSession:IGameSession {
   await actions.WaitAsync(cancellation);
   try {
    cancellation.ThrowIfCancellationRequested();
+   await SettleMovement(cancellation);
    switch(command.Kind) {
     case "inspect-self":
      var self=Snapshot;await Send(new ClientSelfLookMessage(),cancellation);
@@ -98,7 +99,7 @@ public sealed partial class GameSession:IGameSession {
      await Send(new ClientUseSpellMessage{Slot=command.Slot.Value,TargetId=command.EntityId,TargetX=command.Target is null?null:(ushort)command.Target.X,TargetY=command.Target is null?null:(ushort)command.Target.Y,TextInput=command.Text},cancellation);break;
     default:throw new QuestBlockedException("Unsupported game command: "+command.Kind);
    }
-  }finally{actions.Release();}
+  }finally{if(cancellation.IsCancellationRequested)connection.CancelMovement();actions.Release();}
  }
  public static DialogChoice ResolveChoice(CharacterSnapshot s,Dialog d,string text) {
   if(d.Generation!=s.Generation||s.Dialog?.Revision!=d.Revision||d.EntityId!=s.Dialog.EntityId)throw new QuestBlockedException("Stale dialog. Reopen NPC.");
@@ -166,28 +167,49 @@ public sealed partial class GameSession:IGameSession {
   await DismissTownNotice(ct);
   await CloseDialog(Snapshot.Dialog,ct);
   if(Snapshot.Map is null||Snapshot.Position is null)throw new QuestBlockedException("Waiting for server map and position.");
-  while(Snapshot.Map!=destination) {
+  Tile? worldEntrance=null;
+  while(true) {
+   ct.ThrowIfCancellationRequested();
    if(GoalReached(stopWhen))return;
    await DismissTownNotice(ct);
    var world=connection.Tracker.WorldMap;
    if(world is not null) {
-    var node=maps.WorldDestination(destination,world.Locations);
+    var observed=Snapshot;
+    var node=maps.WorldDestination(destination,world.Locations,observed.Map!.Value,worldEntrance??observed.Position!,target,ct);
     var old=Snapshot;await Send(new ClientFieldMapMessage{MapId=node.MapId,X=node.MapX,Y=node.MapY,Checksum=node.Checksum},ct);
-    await WaitAsync(x=>x.Map==node.MapId&&x.Position is not null&&connection.Tracker.WorldMap is null,old.Revision,TimeSpan.FromSeconds(5),ct);continue;
+    await WaitAsync(x=>x.Map==node.MapId&&x.Position is not null&&connection.Tracker.WorldMap is null,old.Revision,TimeSpan.FromSeconds(5),ct);worldEntrance=null;continue;
    }
-   var portal=maps.Route(Snapshot.Map.Value,destination).First();int from=Snapshot.Map.Value;
-   if(maps.TransferTo(from,Snapshot.Position!,portal.From) is {} transfer) {
-    var entry=Snapshot;
-    await WalkTo(transfer.From,ct,from,stopWhen,transfer.To);
+   var entry=Snapshot;
+   if(entry.Map is null||entry.Position is null)entry=await WaitAsync(s=>s.Map is not null&&s.Position is not null,entry.Revision-1,TimeSpan.FromSeconds(2),ct);
+   if(entry.Map is null||entry.Position is null)throw new QuestBlockedException("Waiting for server map and position.");
+   if(entry.Map==destination&&(target is null||entry.Position==target))return;
+   int from=entry.Map.Value;
+   var obstacles=entry.Entities.Values.Where(e=>e.Blocks&&e.Id!=entry.Id).Select(e=>e.Position).ToHashSet();
+   TravelPlan plan;
+   try{plan=maps.Plan(from,entry.Position,destination,target,obstacles,ct);}
+   catch(InvalidOperationException)when(obstacles.Count>0){plan=maps.Plan(from,entry.Position,destination,target,ct:ct);}
+   if(Snapshot.Map!=from||Snapshot.Position!=entry.Position||!ReferenceEquals(Snapshot.Entities,entry.Entities))continue;
+   var step=plan.Steps.FirstOrDefault();
+   if(step is null){await WalkTo(target!,ct,destination,stopWhen);return;}
+   bool Replan()=>!ReferenceEquals(Snapshot.Entities,entry.Entities);
+   if(entry.Position==step.From){
+    var record=maps.Record(from);var triggers=record.Portals.Select(p=>p.From).Concat(record.InternalTransfers.Select(t=>t.From)).ToHashSet();
+    var off=Grid.Neighbors(step.From).FirstOrDefault(p=>!maps.Load(from).Blocked(p)&&!triggers.Contains(p)&&!obstacles.Contains(p))??throw new QuestBlockedException("Doorway cannot be re-entered while neighboring tiles are blocked.");
+    await WalkTo(off,ct,from,stopWhen,replanWhen:Replan);continue;
+   }
+   if(step.Map==from) {
+    await WalkTo(step.From,ct,from,stopWhen,step.To,Replan);
     if(GoalReached(stopWhen))return;
-    await WaitAsync(s=>s.Map==from&&s.Position==transfer.To,entry.Revision,TimeSpan.FromSeconds(5),ct);
+    if(Snapshot.Map==from&&Snapshot.Position!=step.From&&Snapshot.Position!=step.To)continue;
+    await WaitAsync(s=>s.Map==from&&s.Position==step.To,entry.Revision,TimeSpan.FromSeconds(5),ct);
     continue;
    }
-   await WalkTo(portal.From,ct,stopWhen:stopWhen);
+   if(step.WorldMap)worldEntrance=step.From;
+   await WalkTo(step.From,ct,from,stopWhen,replanWhen:Replan);
    if(GoalReached(stopWhen))return;
+   if(Snapshot.Map==from&&connection.Tracker.WorldMap is null&&Snapshot.Position!=step.From)continue;
    await WaitAsync(x=>connection.Tracker.WorldMap is not null||x.Map!=from&&x.Position is not null,Snapshot.Revision-1,TimeSpan.FromSeconds(5),ct);
   }
-  if(target is not null)await WalkTo(target,ct,destination,stopWhen);
  }
  static bool IsTownNotice(Dialog? d)=>d is {IsPursuit:true,HasNext:true,EntityType:4,Type:0,Pursuit:0,Name:""}&&d.Choices.Length==0&&d.Text.StartsWith("((You are entering a role-playing town where role-playing is strictly enforced.",StringComparison.Ordinal);
  async Task<bool> DismissTownNotice(CancellationToken ct) {
@@ -196,18 +218,38 @@ public sealed partial class GameSession:IGameSession {
   await WaitAsync(s=>s.Map==before.Map&&s.Dialog is null,before.Revision,TimeSpan.FromSeconds(5),ct);
   return true;
  }
- async Task WalkTo(Tile target,CancellationToken ct,int? expectedMap=null,InventoryGoal? stopWhen=null,Tile? transferLanding=null) {
+ async Task WalkTo(Tile target,CancellationToken ct,int? expectedMap=null,InventoryGoal? stopWhen=null,Tile? transferLanding=null,Func<bool>? replanWhen=null) {
   expectedMap??=Snapshot.Map;
   int retries=0;var avoided=new HashSet<Tile>();
   while(Snapshot.Position!=target) {
+   if(replanWhen?.Invoke()==true)return;
    if(GoalReached(stopWhen))return;
    if(await DismissTownNotice(ct)){retries=0;avoided.Clear();}
+   if(FastMode&&MovementCadence(Snapshot)==160){
+    var fastOrigin=Snapshot.Position;
+    long confirmed=VisibleMoves;
+    var fast=await WalkFast(target,expectedMap,stopWhen,transferLanding,replanWhen,avoided,ct);
+    if(fast.Done)return;
+    if(fast.Failed is {} failed){
+     if(VisibleMoves>confirmed)retries=0;
+     if(++retries>=3){
+      var route=maps.Record(expectedMap!.Value);
+      if(stopWhen is not null&&fast.Corrected&&fast.Origin==fastOrigin&&VisibleMoves==confirmed&&!route.Portals.Any(p=>p.From==target)&&!route.InternalTransfers.Any(t=>t.From==target)){await SettleMovement(ct);return;}
+      throw new QuestBlockedException("Fast movement corrected or unanswered three times. Inspect route.");
+     }
+     var fastRefresh=await RefreshView(ct);
+     if(connection.Tracker.WorldMap is not null||fastRefresh.Map!=expectedMap)return;
+     if(fastRefresh.Position!=fast.Origin){retries=0;avoided.Clear();if(replanWhen is not null)return;}else avoided.Add(failed);
+     continue;
+    }
+   }
    ct.ThrowIfCancellationRequested();var before=Snapshot;
    if(before.Map is null||before.Position is null)before=await WaitAsync(x=>x.Map is not null&&x.Position is not null,before.Revision-1,TimeSpan.FromSeconds(2),ct);
    if(before.Map is null||before.Position is null)throw new QuestBlockedException("Waiting for refreshed map and position.");
    if(before.Map!=expectedMap)throw new QuestBlockedException("Map changed while navigating; inspect doorway pushback.");
    var grid=maps.Load(before.Map.Value);
-   var permanentObstacles=maps.Record(before.Map.Value).Portals.Where(p=>p.From!=target).Select(p=>p.From).ToHashSet();
+   var record=maps.Record(before.Map.Value);
+   var permanentObstacles=record.Portals.Select(p=>p.From).Concat(record.InternalTransfers.Select(t=>t.From)).Where(p=>p!=target).ToHashSet();
    var blocked=before.Entities.Values.Where(x=>x.Blocks&&x.Id!=before.Id).Select(x=>x.Position).ToHashSet();
    blocked.UnionWith(permanentObstacles);
    blocked.UnionWith(avoided);
@@ -224,10 +266,13 @@ public sealed partial class GameSession:IGameSession {
    }
    if(path.Count==0)return;
    var next=path[0];byte dir=(byte)(next.Y<before.Position.Y?0:next.X>before.Position.X?1:next.Y>before.Position.Y?2:3);
-   var delay=lastMove.AddMilliseconds(cadence)-DateTimeOffset.UtcNow;if(delay>TimeSpan.Zero)await Task.Delay(delay,ct);
+   await WaitForMovementCadence(ct);
+   if(replanWhen?.Invoke()==true)return;
    if(GoalReached(stopWhen))return; // Inventory often arrives just after the movement acknowledgment.
    var current=Snapshot;
+   if(lastMove.AddMilliseconds(MovementCadence(current))>DateTimeOffset.UtcNow)continue;
    if(IsTownNotice(current.Dialog))continue;
+   if(replanWhen is not null&&current.Map==before.Map&&current.Position is not null&&current.Position!=before.Position)return;
    if(current.Map!=before.Map||current.Position!=before.Position||current.Entities.Values.Any(e=>e.Blocks&&e.Id!=current.Id&&e.Position==next))continue;
    await Send(new ClientMoveMessage{Direction=(WorldDirection)dir},ct);lastMove=DateTimeOffset.UtcNow;
    CharacterSnapshot? ack=null;
@@ -246,7 +291,7 @@ public sealed partial class GameSession:IGameSession {
    if(++retries>=3){if(stopWhen is not null&&!portalGoal&&ack?.Position==before.Position)return;throw new QuestBlockedException(ack is null?"Movement unacknowledged after three resynchronized attempts.":"Position corrected three times without walking progress. Inspect route.");}
    var refreshed=await RefreshView(ct);
    if(connection.Tracker.WorldMap is not null||refreshed.Map!=before.Map)return;
-   if(refreshed.Position!=before.Position){retries=0;avoided.Clear();}
+   if(refreshed.Position!=before.Position){retries=0;avoided.Clear();if(replanWhen is not null)return;}
    else avoided.Add(next);
   }
  }

@@ -18,7 +18,7 @@ public sealed partial class MainForm {
  string MapName(int? map)=>map is {} id?mapNames.GetValueOrDefault(id,"Unknown area"):"Location appears after sign-in";
  void BuildWorkspace() {
   Text="DAQuester · Quest journal";Size=new(1450,930);MinimumSize=new(1140,800);StartPosition=FormStartPosition.CenterScreen;Font=Theme.Body();BackColor=Theme.Ink;
-  var rail=new Panel{Dock=DockStyle.Left,Width=204,BackColor=Theme.Surface,Padding=new(18,28,18,22)};
+  var rail=new Panel{Dock=DockStyle.Left,Width=208,BackColor=Theme.Surface,Padding=new(20,28,20,24)};
   var brand=Theme.Label("DAQuester",21,Theme.Text,true);brand.Dock=DockStyle.Top;brand.Height=44;
   var brandNote=Theme.Label("DARK AGES COMPANION",8,Theme.Gold,true);brandNote.Dock=DockStyle.Top;brandNote.Height=48;
   var navigation=new FlowLayoutPanel{Dock=DockStyle.Top,Height=246,FlowDirection=FlowDirection.TopDown,WrapContents=false};
@@ -29,31 +29,39 @@ public sealed partial class MainForm {
   var stopAll=Navigation("Stop all quests",StopAll);stopAll.Danger=true;stopAll.Location=new(0,45);railBottom.Controls.Add(stopAll);
   var saved=Theme.Label("Your progress is saved\nautomatically.",9,Theme.Muted);saved.SetBounds(10,100,150,46);railBottom.Controls.Add(saved);
   rail.Controls.Add(navigation);rail.Controls.Add(brandNote);rail.Controls.Add(brand);rail.Controls.Add(railBottom);
-  var main=new Panel{Dock=DockStyle.Fill,Padding=new(28,16,28,8),BackColor=Theme.Ink};
+  var main=new Panel{Dock=DockStyle.Fill,Padding=new(24,16,24,8),BackColor=Theme.Ink};
   var scroll=new DarkScrollPanel{Dock=DockStyle.Fill,BackColor=Theme.Ink};
   var layout=new TableLayoutPanel{Dock=DockStyle.Top,AutoSize=true,ColumnCount=1,RowCount=5,Margin=Padding.Empty,BackColor=Theme.Ink};layout.ColumnStyles.Add(new(SizeType.Percent,100));
-  foreach(int height in new[]{98,182,20,462,36})layout.RowStyles.Add(new(SizeType.Absolute,height));
+  foreach(int height in new[]{98,182,20,492,36})layout.RowStyles.Add(new(SizeType.Absolute,height));
   layout.Controls.Add(BuildHeader(),0,0);layout.Controls.Add(BuildRoster(),0,1);layout.Controls.Add(BuildQuestArea(),0,3);
   status.Dock=DockStyle.Fill;status.Font=Theme.Body(9);status.ForeColor=Theme.Muted;status.Padding=new(2,10,0,0);layout.Controls.Add(status,0,4);
   scroll.Controls.Add(layout);main.Controls.Add(scroll);BuildDeveloperTools();main.Controls.Add(developerTools);
   Controls.Add(main);Controls.Add(rail);Theme.Apply(this);
   questTitle.Font=Theme.Display(25);conversation.BackColor=Theme.Surface;conversation.BorderStyle=BorderStyle.None;
   repeats.Margin=new(0,3,0,0);repeats.Font=Theme.Body(9);recording.CheckedChanged+=(_,_)=>recorder.Enabled=recording.Checked;
+  fastMode.Font=Theme.Body(9);fastMode.CheckedChanged+=(_,_)=>SaveFastMode();
   developerMode.CheckedChanged+=(_,_)=>{developerTools.Visible=developerMode.Checked;UpdateWorkspace();if(!IsSmoke)SavePresentationPreference();};
   if(!IsSmoke){try{developerMode.Checked=JsonDocument.Parse(File.ReadAllText(Path.Combine(AppSettings.DataPath,"appearance.json"))).RootElement.GetProperty("developerMode").GetBoolean();}catch(IOException){}catch(JsonException){}catch(KeyNotFoundException){}}
   UpdateWorkspace();
  }
  bool IsSmoke=>Environment.GetCommandLineArgs().Contains("--smoke");
+ void SaveFastMode(){
+  if(updatingWorkspace)return;string name=Selected();if(name.Length==0)return;
+  var previous=settings.FastModeCharacters;
+  settings.FastModeCharacters=previous.Where(n=>!n.Equals(name,StringComparison.OrdinalIgnoreCase)).Concat(fastMode.Checked?new[]{name}:Array.Empty<string>()).ToArray();
+  try{settings.Save();if(sessions.TryGetValue(name,out var session))session.FastMode=fastMode.Checked;UpdateWorkspace();}
+  catch(IOException e){settings.FastModeCharacters=previous;UpdateWorkspace();Theme.Error(this,e.Message,"Fast mode settings");}
+ }
  void SavePresentationPreference(){try{File.WriteAllText(Path.Combine(AppSettings.DataPath,"appearance.json"),JsonSerializer.Serialize(new{developerMode=developerMode.Checked}));}catch(IOException e){Log("Appearance preference could not be saved: "+e.Message);}}
- JournalButton Navigation(string label,Func<Task> action){var b=Theme.Button(label);b.Quiet=true;b.Width=166;b.Height=43;b.Margin=new(0,0,0,5);Wire(b,action);return b;}
+ JournalButton Navigation(string label,Func<Task> action){var b=Theme.Button(label);b.Quiet=true;b.Width=168;b.Height=44;b.Margin=new(0,0,0,4);Wire(b,action);return b;}
  void Wire(Button button,Func<Task> action){button.Click+=async(_,_)=>{try{await action();}catch(Exception e){Log(e.Message);Theme.Error(this,PlayerReason(e.Message));}finally{if(!IsDisposed)UpdateWorkspace();}};}
  Control BuildHeader(){
   var panel=new Panel{Dock=DockStyle.Fill};
-  var eyebrow=Theme.Label("YOUR QUEST JOURNAL",8.5f,Theme.Gold,true);eyebrow.SetBounds(2,4,500,20);
-  var title=Theme.Label("Every legend starts somewhere.",27);title.Font=Theme.Display(27);title.SetBounds(0,29,700,45);title.Anchor=AnchorStyles.Left|AnchorStyles.Top|AnchorStyles.Right;
+  var title=Theme.Label("Quest journal",24);title.Font=Theme.Heading();title.SetBounds(0,6,700,42);title.Anchor=AnchorStyles.Left|AnchorStyles.Top|AnchorStyles.Right;
+  var subtitle=Theme.Label("Manage quests and saved progress for every character.",10,Theme.Muted);subtitle.SetBounds(2,53,700,24);subtitle.Anchor=AnchorStyles.Left|AnchorStyles.Top|AnchorStyles.Right;
   var launch=Theme.Button("Open Dark Ages",true);launch.Width=164;launch.Anchor=AnchorStyles.Top|AnchorStyles.Right;Wire(launch,Launch);
-  panel.Controls.Add(eyebrow);panel.Controls.Add(title);panel.Controls.Add(launch);panel.Controls.Add(connectionSummary);
-  panel.Resize+=(_,_)=>{launch.SetBounds(panel.Width-164,22,164,42);title.Width=Math.Max(200,panel.Width-185);title.Font.Dispose();title.Font=Theme.Display(panel.Width<950?21:27);connectionSummary.SetBounds(panel.Width-190,68,190,22);connectionSummary.TextAlign=ContentAlignment.MiddleRight;};return panel;
+  panel.Controls.Add(title);panel.Controls.Add(subtitle);panel.Controls.Add(launch);panel.Controls.Add(connectionSummary);
+  panel.Resize+=(_,_)=>{launch.SetBounds(panel.Width-164,16,164,Theme.ControlHeight);title.Width=subtitle.Width=Math.Max(200,panel.Width-208);connectionSummary.SetBounds(panel.Width-200,60,200,22);connectionSummary.TextAlign=ContentAlignment.MiddleRight;};return panel;
  }
  Control BuildRoster(){
   grid.Name="characterRoster";
@@ -71,19 +79,20 @@ public sealed partial class MainForm {
   card.Controls.Add(grid);card.Controls.Add(heading);return card;
  }
  Control BuildQuestArea(){
-  var columns=new TableLayoutPanel{Dock=DockStyle.Fill,ColumnCount=3,RowCount=1,Margin=Padding.Empty};columns.ColumnStyles.Add(new(SizeType.Percent,60));columns.ColumnStyles.Add(new(SizeType.Absolute,18));columns.ColumnStyles.Add(new(SizeType.Percent,40));
+  var columns=new TableLayoutPanel{Dock=DockStyle.Fill,ColumnCount=3,RowCount=1,Margin=Padding.Empty};columns.ColumnStyles.Add(new(SizeType.Percent,60));columns.ColumnStyles.Add(new(SizeType.Absolute,Theme.Space*4));columns.ColumnStyles.Add(new(SizeType.Percent,40));
   var quest=new JournalCard{Dock=DockStyle.Fill,Margin=Padding.Empty};var questLayout=new TableLayoutPanel{Dock=DockStyle.Fill,ColumnCount=1,RowCount=10,Margin=Padding.Empty};questLayout.ColumnStyles.Add(new(SizeType.Percent,100));
-  foreach(int height in new[]{22,40,108,58,74,30,48,28})questLayout.RowStyles.Add(new(SizeType.Absolute,height));questLayout.RowStyles.Add(new(SizeType.Percent,100));
+  foreach(int height in new[]{22,40,108,58,74,30,30,48,28})questLayout.RowStyles.Add(new(SizeType.Absolute,height));questLayout.RowStyles.Add(new(SizeType.Percent,100));
   questRegion.Dock=DockStyle.Fill;questLayout.Controls.Add(questRegion,0,0);
   questChoice.Dock=DockStyle.Fill;questChoice.Margin=new(0,0,0,6);questChoice.AccessibleName="Choose a quest";questLayout.Controls.Add(questChoice,0,1);
   var hero=new TableLayoutPanel{Dock=DockStyle.Fill,ColumnCount=2,RowCount=2,Margin=Padding.Empty};hero.ColumnStyles.Add(new(SizeType.Percent,100));hero.ColumnStyles.Add(new(SizeType.Absolute,112));hero.RowStyles.Add(new(SizeType.Absolute,57));hero.RowStyles.Add(new(SizeType.Percent,100));
   questTitle.Dock=DockStyle.Fill;questDescription.Dock=DockStyle.Fill;hero.Controls.Add(questTitle,0,0);hero.Controls.Add(questDescription,0,1);var artwork=new JournalArtwork{Dock=DockStyle.Fill};hero.Controls.Add(artwork,1,0);hero.SetRowSpan(artwork,2);questLayout.Controls.Add(hero,0,2);
   questFacts.Dock=DockStyle.Fill;questFacts.Padding=new(0,8,0,0);questLayout.Controls.Add(questFacts,0,3);questLayout.Controls.Add(stages,0,4);
   repeats.Dock=DockStyle.Fill;repeats.AutoSize=false;questLayout.Controls.Add(repeats,0,5);
+  fastMode.Dock=DockStyle.Fill;fastMode.Margin=new(0,0,0,3);questLayout.Controls.Add(fastMode,0,6);
   var actions=new TableLayoutPanel{Dock=DockStyle.Fill,ColumnCount=4,RowCount=1,Margin=Padding.Empty};for(int i=0;i<4;i++)actions.ColumnStyles.Add(new(SizeType.Percent,25));
   Wire(startButton,()=>StartQuest());Wire(resumeButton,()=>StartQuest(true));Wire(pauseButton,()=>Pause("Paused by player"));Wire(stopButton,()=>Pause("Stopped; observed progress saved"));
-  Button[] buttons=[startButton,resumeButton,pauseButton,stopButton];for(int i=0;i<4;i++){buttons[i].Dock=DockStyle.Fill;buttons[i].Margin=new(i==0?0:5,2,i==3?0:3,6);actions.Controls.Add(buttons[i],i,0);}questLayout.Controls.Add(actions,0,6);
-  var reassurance=Theme.Label("Manual movement pauses your quest. You stay in control.",8.5f,Theme.Muted);reassurance.Dock=DockStyle.Fill;reassurance.Padding=new(0,5,0,0);questLayout.Controls.Add(reassurance,0,7);quest.Controls.Add(questLayout);
+  Button[] buttons=[startButton,resumeButton,pauseButton,stopButton];for(int i=0;i<4;i++){buttons[i].Dock=DockStyle.Fill;buttons[i].Margin=new(i==0?0:Theme.Space,0,i==3?0:Theme.Space,Theme.Space*2);actions.Controls.Add(buttons[i],i,0);}questLayout.Controls.Add(actions,0,7);
+  var reassurance=Theme.Label("Manual movement pauses your quest. You stay in control.",8.5f,Theme.Muted);reassurance.Dock=DockStyle.Fill;reassurance.Padding=new(0,5,0,0);questLayout.Controls.Add(reassurance,0,8);quest.Controls.Add(questLayout);
   var journey=new JournalCard{Dock=DockStyle.Fill,Margin=Padding.Empty};var details=new TableLayoutPanel{Dock=DockStyle.Fill,ColumnCount=1,RowCount=9,Margin=Padding.Empty};details.ColumnStyles.Add(new(SizeType.Percent,100));
   foreach(int h in new[]{22,40,28,65,50,26})details.RowStyles.Add(new(SizeType.Absolute,h));details.RowStyles.Add(new(SizeType.Percent,100));details.RowStyles.Add(new(SizeType.Absolute,48));
   var detailHeading=Theme.Label("CURRENT JOURNEY",8.5f,Theme.Gold,true);detailHeading.Dock=DockStyle.Fill;details.Controls.Add(detailHeading,0,0);
@@ -102,6 +111,8 @@ public sealed partial class MainForm {
   if(updatingWorkspace||questChoice.SelectedItem is null)return;updatingWorkspace=true;
   try{
    string name=Selected();sessions.TryGetValue(name,out var session);var snapshot=session?.Snapshot;var job=GetJob(name);bool connected=snapshot?.Connected==true;
+   fastMode.Enabled=name.Length>0;fastMode.Checked=settings.FastModeEnabled(name);
+   fastMode.Text="Fast mode · "+(fastMode.Checked?session?.FastModeDescription??"ready when connected":"slows near players");
    var quest=SelectedQuest;bool otherQuest=job.Quest!=quest.Id;bool complete=!otherQuest&&(job.PermanentCompletion is not null||job.Status=="Completed"||!quest.Repeatable&&job.CompletedAt is not null||quest.Id=="perfect-hairstyle"&&job.LegendReward==true);
    bool running=job.Status=="Running",scheduled=job.Status=="Scheduled";
    (string region,string description,string facts,string[] labels)=quest.Id switch{

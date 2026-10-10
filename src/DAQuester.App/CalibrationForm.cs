@@ -14,7 +14,7 @@ public sealed class CalibrationForm:ThemedForm {
   Text="Developer tools · Spare a Stick calibration";Size=new(1120,720);StartPosition=FormStartPosition.CenterParent;
   var info=new Label{Text="Auto-calibrate records and labels quest evidence automatically. This panel reviews the saved profile; manual marks are optional overrides. Unknown replies pause execution. Refusal and cooldown samples can accumulate later.",Dock=DockStyle.Top,Height=60,Padding=new(10)};
   var buttons=new FlowLayoutPanel{Dock=DockStyle.Top,AutoSize=true,Padding=new(8)};
-  void Button(string text,Action action){var b=Theme.Button(text);b.Width=182;b.Margin=new(3);b.Click+=(_,_)=>{try{action();RefreshSummary();}catch(Exception e){Theme.Error(this,e.Message,"Calibration");}};buttons.Controls.Add(b);}
+  void Button(string text,Action action){var b=Theme.Button(text);b.Width=Math.Max(182,TextRenderer.MeasureText(text,b.Font,Size.Empty,TextFormatFlags.SingleLine).Width+(int)Math.Round(24*b.DeviceDpi/96f));b.Margin=new(Theme.Space);b.Click+=(_,_)=>{try{action();RefreshSummary();}catch(Exception e){Theme.Error(this,e.Message,"Calibration");}};buttons.Controls.Add(b);}
   Button("Add patrol tile",()=>{
    var s=session.Snapshot;if(s.Map!=500||s.Position is null)throw new InvalidOperationException("Stand on a validated Mileth tree patrol tile.");
    Result=Result with{Patrol=Result.Patrol.Append(s.Position).Distinct().ToArray(),Validated=false};

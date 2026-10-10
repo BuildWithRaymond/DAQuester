@@ -54,7 +54,7 @@ public class StateTracker(long generation) {
      s=s with{Entities=s.Entities.SetItem(e.Id,new(e.Id,creature?.Name??"",new(e.X,e.Y),creature is not null&&creature.CreatureType!=CreatureType.Passable))};
     }break;
    case ServerDrawHumanObjectsMessage p:
-    s=s with{Entities=p.EntityId==s.Id?s.Entities.Remove(p.EntityId):s.Entities.SetItem(p.EntityId,new(p.EntityId,p.Name??"",new(p.X,p.Y),true))};break;
+    s=s with{Entities=p.EntityId==s.Id?s.Entities.Remove(p.EntityId):s.Entities.SetItem(p.EntityId,new(p.EntityId,p.Name??"",new(p.X,p.Y),true){IsPlayer=true})};break;
    case ServerRemoveObjectsMessage p:s=s with{Entities=s.Entities.Remove(p.EntityId),GroundItems=s.GroundItems.Remove(p.EntityId)};break;
    case ServerMoveObjectMessage p:
     if(s.Entities.TryGetValue(p.EntityId,out var entity))s=s with{Entities=s.Entities.SetItem(p.EntityId,entity with{Position=GridStep(new(p.OriginX,p.OriginY),(byte)p.Direction)})};break;

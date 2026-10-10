@@ -25,7 +25,9 @@ public record CharacterSnapshot {
  public ServerNotice? Notice {get;init;}
 }
 public record ServerNotice(long Generation,long Revision,byte Type,string Text,DateTimeOffset ObservedAt);
-public record Entity(uint Id,string Name,Tile Position,bool Blocks);
+public record Entity(uint Id,string Name,Tile Position,bool Blocks) {
+ public bool IsPlayer {get;init;}
+}
 public record GroundItem(uint Id,ushort Sprite,Tile Position);
 public record DialogChoice(string Text,ushort Pursuit,byte Option);
 public record Dialog(long Generation,long Revision,uint EntityId,byte EntityType,string Name,string Text,

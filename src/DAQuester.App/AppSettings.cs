@@ -9,6 +9,8 @@ public class AppSettings {
  public string[] Characters {get;set;}=["Aisling"];
  public bool AutomaticUpdateChecks {get;set;}=false;
  public int MovementMilliseconds {get;set;}=400;
+ public string[] FastModeCharacters {get;set;}=[];
+ public bool FastModeEnabled(string character)=>FastModeCharacters.Any(name=>name.Equals(character,StringComparison.OrdinalIgnoreCase));
  public static readonly JsonSerializerOptions Json=new(){WriteIndented=true,PropertyNameCaseInsensitive=true};
  static string? isolatedData;
  public static string DataPath=>isolatedData??Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.LocalApplicationData),"DAQuester","Data");

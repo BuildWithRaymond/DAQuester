@@ -7,6 +7,6 @@ public static class NpcApproach {
    if(grid.Blocked(next)||obstacles.Contains(next)||distance.ContainsKey(next))continue;
    distance[next]=distance[tile]+1;queue.Enqueue(next);
   }
-  return distance.Keys.Where(t=>t!=npc&&Math.Abs(t.X-npc.X)+Math.Abs(t.Y-npc.Y)<=range).OrderBy(t=>Math.Abs(t.X-npc.X)+Math.Abs(t.Y-npc.Y)).ThenBy(t=>distance[t]).FirstOrDefault()??throw new QuestBlockedException("NPC has no reachable interaction tile within "+range+" tiles.");
+  return distance.Keys.Where(t=>t!=npc&&Math.Abs(t.X-npc.X)+Math.Abs(t.Y-npc.Y)<=range).OrderBy(t=>distance[t]).ThenBy(t=>Math.Abs(t.X-npc.X)+Math.Abs(t.Y-npc.Y)).FirstOrDefault()??throw new QuestBlockedException("NPC has no reachable interaction tile within "+range+" tiles.");
  }
 }

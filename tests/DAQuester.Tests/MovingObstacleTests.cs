@@ -15,6 +15,7 @@ using System.Text.Json;
 using Xunit;
 namespace DAQuester.Tests;
 
+[Collection("Walking cadence")]
 public class MovingObstacleTests {
  [Fact] public async Task Ground_collection_picks_only_matching_sprite_and_stops_on_inventory_evidence() {
   await using var f=await Fixture.Create();
@@ -114,10 +115,11 @@ public class MovingObstacleTests {
    Assert.Equal(new Tile(4,1),f.Session.Snapshot.Position);Assert.Single(f.Commands,c=>c==0x38);
   }finally{await reply;}
  }
- [Theory][InlineData(3079,14)][InlineData(3080,7)]
- public async Task Threshold_route_uses_recorded_same_map_transfer_without_walking_through_walls(int map,int width) {
+ [Theory][InlineData(3079,14,false)][InlineData(3080,7,false)][InlineData(3079,14,true)][InlineData(3080,7,true)]
+ public async Task Threshold_route_uses_recorded_same_map_transfer_without_walking_through_walls(int map,int width,bool fast) {
   var record=JsonSerializer.Deserialize<MapRecord>("{\"Id\":"+map+",\"Name\":\"Threshold\",\"Width\":"+width+",\"Height\":7,\"Portals\":[{\"From\":{\"X\":4,\"Y\":6},\"Map\":500,\"To\":{\"X\":1,\"Y\":1}}],\"InternalTransfers\":[{\"From\":{\"X\":3,\"Y\":2},\"To\":{\"X\":3,\"Y\":5}}]}")!;
   await using var f=await Fixture.Create(record:record,origin:new(3,1),wall:(_,y)=>y is 3 or 4);
+  f.Session.FastMode=fast;
   int crossings=0;
   await f.Walk(new(4,1),async(_,next)=>{
    if(f.Session.Snapshot.Map!=map)return false;
@@ -136,7 +138,7 @@ public class MovingObstacleTests {
   },refresh:()=>Task.CompletedTask,cancellation:stop.Token));
   Assert.Single(f.Commands,c=>c==6);Assert.Single(f.Commands,c=>c==0x38);
  }
- static ServerPacket Human(uint id,Tile tile) {
+ internal static ServerPacket Human(uint id,Tile tile) {
   var message=new ServerDrawHumanObjectsMessage{EntityId=id,X=(ushort)tile.X,Y=(ushort)tile.Y,Name=id==42?"Nuclear":"OtherPlayer"};
   var builder=new NetworkPacketBuilder(ServerCommand.DrawHumanObjects);
   try{message.Serialize(ref builder);return (ServerPacket)builder.ToPacket();}finally{builder.Dispose();}
@@ -144,33 +146,37 @@ public class MovingObstacleTests {
  internal sealed class Fixture: IAsyncDisposable {
   public required ProxyHost Host;public required TcpClient Client,Server;public required ProxyConnection Connection;public required GameSession Session;
   readonly ServerPacketEncryptor encrypt=new();readonly ClientPacketEncryptor decrypt=new();byte ordinal=20;
+  readonly SemaphoreSlim serverWrites=new(1,1);
   public List<byte> Commands {get;}=[];
-  public static async Task<Fixture> Create(int cadence=1,MapRecord? record=null,Tile? origin=null,Func<int,int,bool>? wall=null) {
+  public static async Task<Fixture> Create(int cadence=1,MapRecord? record=null,Tile? origin=null,Func<int,int,bool>? wall=null,MapRecord[]? additional=null) {
    record??=new(500,"Mileth",5,5,[]);origin??=new(1,1);
    string folder=Path.Combine(Path.GetTempPath(),"DAQuester-moving-"+Guid.NewGuid());Directory.CreateDirectory(Path.Combine(folder,"maps"));
    await File.WriteAllBytesAsync(Path.Combine(folder,"maps","lod500.map"),new byte[5*5*6]);
    var asset=new byte[record.Width*record.Height*6];for(int y=0;y<record.Height;y++)for(int x=0;x<record.Width;x++)if(wall?.Invoke(x,y)==true)asset[(y*record.Width+x)*6+2]=1;
    await File.WriteAllBytesAsync(Path.Combine(folder,"maps","lod"+record.Id+".map"),asset);
    using(var writer=new BinaryWriter(File.Create(Path.Combine(folder,"ia.dat")))){writer.Write(2);writer.Write(25);writer.Write(Encoding.ASCII.GetBytes("sotp.dat".PadRight(13,'\0')));writer.Write(26);writer.Write((byte)15);}
-   string routes=Path.Combine(folder,"routes.json");await File.WriteAllTextAsync(routes,JsonSerializer.Serialize(record.Id==500?new[]{record}:new[]{record,new MapRecord(500,"Mileth",5,5,[])}));
+   var records=new[]{record}.Concat(additional??[]).DistinctBy(r=>r.Id).ToList();if(records.All(r=>r.Id!=500))records.Add(new(500,"Mileth",5,5,[]));
+   foreach(var extra in records.Where(r=>r.Id!=record.Id))await File.WriteAllBytesAsync(Path.Combine(folder,"maps","lod"+extra.Id+".map"),new byte[extra.Width*extra.Height*6]);
+   string routes=Path.Combine(folder,"routes.json");await File.WriteAllTextAsync(routes,JsonSerializer.Serialize(records));
    using var remote=new TcpListener(IPAddress.Loopback,0);remote.Start();using var probe=new TcpListener(IPAddress.Loopback,0);probe.Start();int port=((IPEndPoint)probe.LocalEndpoint).Port;probe.Stop();
    var connected=new TaskCompletionSource<ProxyConnection>(TaskCreationOptions.RunContinuationsAsynchronously);var host=new ProxyHost();host.Connected+=c=>connected.SetResult(c);await host.StartAsync(port,(IPEndPoint)remote.LocalEndpoint);
    var client=new TcpClient();await client.ConnectAsync(IPAddress.Loopback,port);var server=await remote.AcceptTcpClientAsync();var connection=await connected.Task;
    connection.Tracker.Identity("Nuclear",42);connection.Tracker.Observe(0x15,[(byte)(record.Id>>8),(byte)record.Id,(byte)record.Width,(byte)record.Height,0,0,0,0,0,0]);connection.Tracker.Observe(4,[0,(byte)origin.X,0,(byte)origin.Y,0,0,0,0]);connection.Tracker.Observe(0x58,[0]);
    return new(){Host=host,Client=client,Server=server,Connection=connection,Session=new(connection,new(folder,routes),cadence)};
   }
-  public async Task Send(byte opcode,byte[] payload)=>await Server.GetStream().WriteAsync(encrypt.Encrypt(new ServerPacket(opcode,payload),ordinal++).ToArray());
+  public async Task Send(byte opcode,byte[] payload){await serverWrites.WaitAsync();try{await Server.GetStream().WriteAsync(encrypt.Encrypt(new ServerPacket(opcode,payload),ordinal++).ToArray());}finally{serverWrites.Release();}}
   public Task Position(Tile p) {byte[] position=new byte[8];BinaryPrimitives.WriteUInt16BigEndian(position,(ushort)p.X);BinaryPrimitives.WriteUInt16BigEndian(position.AsSpan(2),(ushort)p.Y);return Send(4,position);}
   public Task Map(int map,int width,int height)=>Send(21,[(byte)(map>>8),(byte)map,(byte)width,(byte)height,0,0,0,0,0,0]);
-  public async Task Walk(Tile target,Func<int,Tile,Task<bool>> intercept,GameCommand? command=null,Func<ClientPacket,Task>? pickup=null,Func<Task>? refresh=null,CancellationToken cancellation=default) {
+  public async Task Walk(Tile target,Func<int,Tile,Task<bool>> intercept,GameCommand? command=null,Func<ClientPacket,Task>? pickup=null,Func<Task>? refresh=null,CancellationToken cancellation=default,bool projectedServer=false) {
    using var limit=CancellationTokenSource.CreateLinkedTokenSource(cancellation);limit.CancelAfter(TimeSpan.FromSeconds(12));int moves=0;
+   var serverPosition=Session.Snapshot.Position!;
    var response=Task.Run(async()=>{
     while(true) {
      byte[] header=new byte[3];await Server.GetStream().ReadExactlyAsync(header,limit.Token);byte[] data=new byte[(header[1]<<8)|header[2]];await Server.GetStream().ReadExactlyAsync(data,limit.Token);
      var packet=(ClientPacket)decrypt.Decrypt(new ClientPacket(data[0],data[1..]));byte opcode=(byte)packet.Command;Commands.Add(opcode);
      if(opcode==7&&pickup is not null){await pickup(packet);continue;}
      if(opcode!=6){Assert.Equal((byte)0x38,opcode);if(refresh is not null)await refresh();else await Position(Session.Snapshot.Position!);continue;}
-     byte direction=packet.Data[0];var before=Session.Snapshot.Position!;var next=StateTracker.GridStep(before,direction);
+     byte direction=packet.Data[0];var before=projectedServer?serverPosition:Session.Snapshot.Position!;var next=StateTracker.GridStep(before,direction);serverPosition=next;
      if(await intercept(++moves,next))continue;
      byte[] ack=new byte[10];ack[0]=direction;BinaryPrimitives.WriteUInt16BigEndian(ack.AsSpan(1),(ushort)before.X);BinaryPrimitives.WriteUInt16BigEndian(ack.AsSpan(3),(ushort)before.Y);await Send(11,ack);
     }

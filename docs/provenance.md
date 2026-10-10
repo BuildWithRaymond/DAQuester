@@ -48,6 +48,37 @@ read through a local working copy. Personal filesystem paths are omitted here.
 
 Base commit: **7d11dfe91e680de9a9b824137caa301f5429f03c**. Source files and runtime settings were read only.
 
+The optional fast-mode comparison reads Excalibur commit
+**5143a1a63f5a3e427ed943ef641ce19228560327** without modifying its working copy
+or settings. `ClientTab.fastwalk_CheckedChanged` selects 160 ms;
+`Client.WalkSpeed` uses 430 ms when ordinary walking is unsafe.
+`Client.SafeToWalkFast` and `AnyPlayer` identify on-screen players within
+Manhattan distance 20, calculated by `Location.DistanceFrom`. DAQuester uses
+the requested any-other-player rule, without Excalibur's friend/alt exemptions.
+Its map restrictions 10056 and 10180 remain normal speed. The October 10 follow-up
+compares `Client.TryWalk` (immediate presentation and separate client location),
+`Client.TavalyMovementSync.cs` (present-on-send and duplicate suppression), and
+`TavalyMovementSynchronizer.cs` (three initial slots, smoothed RTT/cadence capacity
+clamped to one through four). DAQuester adapts this bounded fast window to its
+async proxy while keeping snapshots server-only and draining before transfers.
+This is source and synthetic evidence, not a live fast-walking performance claim.
+A passive state query showed three nearby players during the reported quest,
+which intentionally requires normal pace. No game commands were issued for
+diagnosis or testing, and Excalibur was untouched.
+
+The same read-only Excalibur commit was compared for travel selection.
+`ProxyBase/AutoWalkRouteService.cs` performs breadth-first search by map ID;
+`Client.AutoWalk.cs` selects the next map's `ConnectedTo` doorway. Its collision
+paths and unintended-portal blocking do not price total inter-map walking.
+DAQuester previously made the same map-hop choice and discarded alternate
+arrivals. Its new weighted planner is independently implemented against the
+existing normalized portal/landing data and installed collision grids. An
+offline comparison from Mileth (33,37) to Suomi Inn reduced modeled actions from
+421 to 320; Mileth (33,37) to Inn landing (10,2) reduced walking from 27 to 1.
+These are collision-data calculations, not live journeys or measured travel
+times. World-map availability, NPC IDs, positions and selection checksums remain
+server evidence. No Excalibur source, settings or process was changed.
+
 | Source | Reuse |
 |---|---|
 | ProxyBase/PacketFrameBuffer.cs | Extracted directly with namespace/visibility adaptation and nullable suppression. Corrupt-prefix behavior carried into tests. |

@@ -8,7 +8,7 @@ if(Test-Path -LiteralPath $result){Remove-Item -LiteralPath $result}
 $process=Start-Process -FilePath $appPath -ArgumentList '--smoke' -WorkingDirectory $repoRoot -WindowStyle Hidden -PassThru
 try {
     if(-not $process.WaitForExit(120000)){throw 'UI checks timed out. Inspect the smoke process and artifacts.'}
-    if($process.ExitCode -ne 0){throw "UI checks failed (exit $($process.ExitCode)). See artifacts/app-smoke-error.txt."}
+    if($process.ExitCode -ne 0){throw "UI checks failed (exit $($process.ExitCode)). See artifacts/app-smoke.txt."}
     if(-not(Test-Path -LiteralPath $result)){throw 'UI checks did not produce a result.'}
     $summary=[IO.File]::ReadAllText($result)
     if($summary.StartsWith('Running')){throw 'UI checks did not finish.'}

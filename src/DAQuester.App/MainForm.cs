@@ -20,6 +20,7 @@ public sealed partial class MainForm:ThemedForm {
  readonly ListBox log=new DarkListBox(){Dock=DockStyle.Fill,IntegralHeight=false};
  readonly TextBox dialog=new(){Multiline=true,ReadOnly=true,Dock=DockStyle.Fill,ScrollBars=ScrollBars.Vertical};
  readonly CheckBox repeats=new JournalCheckBox(){Name="repeatQuest",Text="Repeat every 8 hours",AutoSize=true,Margin=new(10,9,5,0)};
+ readonly CheckBox fastMode=new JournalCheckBox(){Name="fastMode",Text="Fast mode · slows near players",AccessibleName="Fast mode, slows near other players",AutoSize=false};
  readonly CheckBox recording=new JournalCheckBox(){Text="Record evidence",Checked=true,AutoSize=true,Margin=new(10,9,5,0)};
  readonly Label status=new(){Dock=DockStyle.Bottom,Height=32,Padding=new(10,7,0,0)};
  bool ready,closing;
@@ -62,7 +63,7 @@ public sealed partial class MainForm:ThemedForm {
   if(runners.Remove(name,out var old))await old.PauseAsync("Connection replaced");
   CancelControl(name);
   var maps=new MapRepository(Path.GetDirectoryName(settings.ClientPath)!,Path.Combine(AppSettings.Content,"routes.json"));
-  var session=new GameSession(connection,maps,settings.MovementMilliseconds);sessions[name]=session;
+  var session=new GameSession(connection,maps,settings.MovementMilliseconds){FastMode=settings.FastModeEnabled(name)};sessions[name]=session;
   AddCharacter(name);session.Changed+=snapshot=>Ui(()=>{
    if(sessions.GetValueOrDefault(name)!=session)return;
    RefreshRow(name);

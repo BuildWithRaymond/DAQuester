@@ -15,6 +15,7 @@ internal static class Program {
   if(!ownsInstance)return;
   ApplicationConfiguration.Initialize();
   try {
+   if(smoke)ControlVisualChecks.Run();
    using var form=new MainForm();
    if(args.Contains("--smoke")) {
     Directory.CreateDirectory("artifacts");File.WriteAllText("artifacts/app-smoke.txt","Running dark UI smoke checks.");
@@ -36,6 +37,21 @@ internal static class Program {
     var diagnostics=form.Controls.Find("developerTools",true).Single();
     if(diagnostics.Visible)throw new InvalidOperationException("Raw diagnostics must be hidden in player mode.");
     var grid=(DataGridView)form.Controls.Find("characterRoster",true).Single();
+    var fast=(CheckBox?)form.Controls.Find("fastMode",true).SingleOrDefault();
+    if(fast is null||fast.Checked||!fast.Visible||!fast.Enabled)throw new InvalidOperationException("Fast mode must be available in player mode and off by default.");
+    fast.Checked=true;Application.DoEvents();
+    if(fast.Text!="Fast mode · ready when connected")throw new InvalidOperationException("Offline fast mode must explain when its pace applies.");
+    using(var saved=System.Text.Json.JsonDocument.Parse(System.Text.Json.JsonSerializer.Serialize(AppSettings.Load(),AppSettings.Json)))
+     if(!saved.RootElement.GetProperty("FastModeCharacters").EnumerateArray().Any(c=>c.GetString()==grid.Rows[0].Cells[0].Value?.ToString()))throw new InvalidOperationException("Fast mode must persist for the selected character.");
+    var preference=AppSettings.Load();if(!preference.FastModeEnabled(grid.Rows[0].Cells[0].Value!.ToString()!.ToUpperInvariant()))throw new InvalidOperationException("Fast mode character matching must ignore name casing.");
+    using(var restored=new MainForm())if(!((CheckBox)restored.Controls.Find("fastMode",true).Single()).Checked)throw new InvalidOperationException("Fast mode must restore when the journal is reopened.");
+    Render(form,"fast-mode-smoke");
+    grid.Rows.Add("OtherAisling","Disconnected","—","—","—","—","Idle","preflight","Ready","","Mundane Birth");
+    grid.CurrentCell=grid.Rows[1].Cells[0];Application.DoEvents();if(fast.Checked)throw new InvalidOperationException("Fast mode must not carry over to another character.");
+    grid.CurrentCell=grid.Rows[0].Cells[0];Application.DoEvents();if(!fast.Checked)throw new InvalidOperationException("Returning to a character must restore its fast mode choice.");
+    fast.Checked=false;Application.DoEvents();
+    using(var saved=System.Text.Json.JsonDocument.Parse(System.Text.Json.JsonSerializer.Serialize(AppSettings.Load(),AppSettings.Json)))
+     if(saved.RootElement.GetProperty("FastModeCharacters").GetArrayLength()!=0)throw new InvalidOperationException("Unchecking fast mode must persist normal walking.");
     if(grid.Rows.Cast<DataGridViewRow>().Any(row=>row.Cells[10].Value?.ToString()!="Mundane Birth"))throw new InvalidOperationException("Disconnected rows must show the selected quest journal.");
     if(form.FormBorderStyle!=FormBorderStyle.None)throw new InvalidOperationException("The main window must use fully dark custom window chrome.");
     Render(form,"app-smoke");
@@ -72,17 +88,18 @@ internal static class Program {
     Render(options,"birth-options-smoke");
     start.PerformClick();if(options.Result!=new Core.MundaneBirthOptions("Fall",25,"Piet"))throw new InvalidOperationException("Birth form did not return the exact chosen settings.");
     if(options.BackColor.GetBrightness()>.15f)throw new InvalidOperationException("Birth choices must use the shared dark theme.");
-    File.WriteAllText("artifacts/app-smoke.txt","Fully dark window chrome and rendered surfaces; player/developer visibility; four quest policies; selected journals; library search and availability; settings, login and file picker; birth choice gating, exact settings; standard/compact rendering passed.");return;
+    File.WriteAllText("artifacts/app-smoke.txt","Fully dark window chrome and rendered surfaces; complete rounded control painting and clipped partial repaints; button hover/press/disabled states, capture/focus cancellation, Space/Enter/Escape/mnemonics; repeated repaints and 100/125/150/200% scaled control geometry; visible labels and unclipped actions; player/developer visibility; per-character fast mode defaults, persistence and selection; four quest policies; selected journals; library search and availability; settings, login and file picker; birth choice gating, exact settings; standard/compact rendering passed.");return;
    }
    Application.Run(form);
   }catch(Exception e){if(args.Contains("--smoke")){Directory.CreateDirectory("artifacts");File.WriteAllText("artifacts/app-smoke.txt",e.ToString());Environment.ExitCode=1;}else Theme.Error(null,e.Message,"DAQuester startup");}
  }
  static void Render(Form form,string name){
-  CheckButtons(form,form);
+  CheckButtons(form,form);CheckActionLabels(form);
   using var bitmap=new Bitmap(form.Width,form.Height);form.DrawToBitmap(bitmap,new(0,0,bitmap.Width,bitmap.Height));bitmap.Save("artifacts/"+name+".png");
   for(int y=0;y<bitmap.Height-8;y+=4)for(int x=0;x<bitmap.Width-8;x+=4){bool light=true;for(int dy=0;dy<8&&light;dy++)for(int dx=0;dx<8;dx++){var c=bitmap.GetPixel(x+dx,y+dy);if(c.R<185||c.G<185||c.B<185){light=false;break;}}if(light)throw new InvalidOperationException($"Light native surface found in {name} at {x},{y}.");}
  }
  static void CheckButtons(Control root,Form form){foreach(Control control in root.Controls){if(control is Button&&control.Visible){var ancestors=new List<Control>();for(Control? p=control.Parent;p is not null&&p!=form;p=p.Parent)ancestors.Add(p);if(!ancestors.Any(p=>p is DarkScrollPanel)){var bounds=new Rectangle(form.PointToClient(control.PointToScreen(Point.Empty)),control.Size);var visible=bounds;foreach(var p in ancestors)visible=Rectangle.Intersect(visible,new(form.PointToClient(p.PointToScreen(Point.Empty)),p.ClientSize));if(visible.Height<bounds.Height-2||visible.Width<bounds.Width-2)throw new InvalidOperationException($"Button is clipped in {form.Text}: {control.Text}");}}CheckButtons(control,form);}}
+ static void CheckActionLabels(Control root){foreach(Control control in root.Controls){if(control is JournalButton{Visible:true,Quiet:false} button){int padding=(int)Math.Round(12*button.DeviceDpi/96f);int required=TextRenderer.MeasureText(button.Text,button.Font,Size.Empty,TextFormatFlags.SingleLine).Width;if(required>button.Width-padding*2)throw new InvalidOperationException($"Action label is truncated: {button.Text} ({button.Width}px button).");}CheckActionLabels(control);}}
  sealed class SmokeUpdateBackend:Core.IUpdateBackend {
   public bool IsInstalled=>true;
   public string? PendingVersion {get;private set;}

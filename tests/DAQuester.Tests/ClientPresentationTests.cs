@@ -7,6 +7,10 @@ using Arbiter.Net.Serialization;
 using Arbiter.Net.Server.Messages;
 namespace DAQuester.Tests;
 public class ClientPresentationTests {
+ [Fact] public void Npc_already_in_interaction_range_requires_no_extra_walking() {
+  var start=new Tile(1,1);var goal=NpcApproach.Find(new Grid(6,6,(_,_)=>false),start,new(1,4),new HashSet<Tile>{new(1,4)});
+  Assert.Equal(start,goal);
+ }
  static byte[] Ack(byte direction,int x,int y) {var b=new byte[10];b[0]=direction;BinaryPrimitives.WriteUInt16BigEndian(b.AsSpan(1),(ushort)x);BinaryPrimitives.WriteUInt16BigEndian(b.AsSpan(3),(ushort)y);return b;}
  [Fact] public void Automatic_ack_produces_real_player_walk_animation() {
   var s=FoundationTests.Ready();var p=PlayerPresentation.AcknowledgedMove(new(1,500,42,s.Position!,1),s,0x0B,Ack(1,20,20))!;

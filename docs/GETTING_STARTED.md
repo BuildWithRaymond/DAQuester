@@ -23,6 +23,18 @@ unsupported builds. No game binaries or assets are included.
    automation and retains the journal. Manual movement/NPC interaction pauses
    automation while gameplay continues.
 
+Optional **Fast mode · slows near players** saves separately for each character
+and defaults off. Check it for Excalibur's fast pace when alone; another player
+within 20 tiles automatically restores normal speed. It speeds up again when
+that player leaves. The checkbox shows **fast pace** or **normal pace near
+players**, so the slowdown is visible. Fast travel animates immediately and
+queues a few steps while waiting for replies; it settles them before entering
+doors or finishing travel. You can change it during a quest without restarting.
+
+Travel automatically compares walkable routes, alternate doors, landing points
+and recorded shortcuts. It chooses the shortest known walking route and adjusts
+when observed players block an exit. No separate route setting is needed.
+
 Quest-specific rewards, repeat policies and evidence limits are in
 [QUESTS](QUESTS.md). The library's **Guide only** entries require manual play.
 They are not available for automatic execution.

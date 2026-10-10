@@ -17,11 +17,27 @@ The proxy forwards gameplay and serializes automation through the same upstream 
 
 Automation checks cancellation before acquiring and using the send lock. Once a frame begins writing it completes with the connection lifetime token, avoiding partial frames when the player pauses. Old connections cannot send using a new generation.
 
-Every server response reaches the game client. Automated movement additionally presents Excalibur's self-walk animation after its server acknowledgment. A corrected move presents authoritative position. Synthetic packets share an ordered client send path; later server traffic is re-encrypted with its own client-facing ordinal sequence. Manual walking keeps the game's own prediction and does not get a second animation. Synthetic presentation never changes observed character state or proves quest progress.
+Every server response reaches the game client. Ordinary automated movement presents Excalibur's self-walk animation after its acknowledgment; safe fast movement presents it immediately and suppresses duplicate animation on matching replies. A corrected move presents authoritative position. Synthetic packets share an ordered client send path; later server traffic is re-encrypted with its own client-facing ordinal sequence. Manual walking keeps the game's own prediction and does not get a second animation. Synthetic presentation never changes observed character state or proves quest progress.
 
 Character identity comes from the client's transfer handshake name plus the server's 0x05 avatar ID (DATester 7.41), with 0x52 accepted where available. Stats remain nullable until observed. Inventory slot packets replace absolute quantities. NPC entities and dialog choices keep their current IDs. Merchant choices return their server pursuit ID; pursuit responses use received pursuit ID, received step plus one and the selected option.
 
 Map collision comes from the client's lod map files and sotp.dat inside ia.dat. Missing data blocks movement. Portal graphs contain 1,432 local Excalibur map records. Grid paths avoid entities and unintended portals. Known portal endpoints may be wall-flagged door sprites, so only that recorded destination gets Excalibur's endpoint exception. Intermediate walls remain blocked. Movement waits for a server acknowledgment or map change, replans on correction, and stops after bounded recovery.
+
+Travel uses Dijkstra search over distinct map/arrival-tile states, pricing each
+door and directed transfer with shortest collision-safe walking distance. A
+supplied final target contributes its remaining walk. World selection costs one
+additional action; ties prefer fewer transitions. Trigger tiles terminate a
+distance search rather than allowing paths through unexpected doors. Directed
+transfer chains compete with valid direct walks. Final approach stays in the
+destination map, preserving authored patrol coverage. Static fields are cached
+within 16 MiB per character; current-map occupancy is priced separately.
+Travel replans after transitions, position correction recovery and entity changes
+before the next send. Fully occupied exits retain bounded refresh recovery.
+World selection ranks available live nodes from recorded entrance/landing pairs;
+packets retain live coordinates and checksums. Without a recorded landing it
+uses graph selection, then replans from the actual server arrival. This optimizes
+known walking/action cost; future latency, unseen players and unrecorded transport
+are outside the model.
 
 Player appearances, object movement and removal update occupied tiles. Navigation
 rechecks the next tile after cadence waits. Rejected walking or missing movement
@@ -30,7 +46,22 @@ recovery attempts reset after acknowledged progress. A temporarily inaccessible
 patrol target yields to the next waypoint and is retried on later laps; static
 route failures and critical travel destinations retain bounded recovery.
 
-NPC visits use the current entity position and a reachable interaction tile within three tiles. Callough's guide coordinate (6,7) is behind the counter; (6,8) was unreachable. The live grid instead selects (6,10) from the weapon-shop landing (6,13). A map correction during approach pauses instead of navigating old coordinates in the new map. Approaching promptly clears the entrance before doorway pushback.
+Optional fast mode is saved per character and applied to new connection
+generations. It uses a 160 ms minimum interval alone and 430 ms when another
+observed player is within Manhattan distance 20; NPCs and self do not count.
+Maps 10056 and 10180 retain Excalibur's normal-speed restriction. Cadence waits
+wake on state or preference changes and recheck under the transport's movement
+lock before sending. Safe fast walking uses a separate projected tail, with
+three initial pending steps and a latency-adaptive capacity capped at four.
+Only matching replies increment confirmed visible steps. Pending movement drains
+before slowing, reaching a goal, replanning or entering a doorway/transfer.
+Corrections and timeouts require fresh F5 position before new sends; Stop or
+manual input invalidates the queue and resume settles it before any action.
+Unchecked fast mode retains the configured interval and one acknowledged step
+at a time. The checkbox explains the currently applicable pace. Server rate
+limits and latency beyond the bounded window can still limit achieved speed.
+
+NPC visits use the current entity position and the nearest reachable interaction tile by walking distance within three tiles. Already being in range requires no extra walking. Callough's guide coordinate (6,7) is behind the counter; (6,8) was unreachable. The live grid instead selects (6,10) from the weapon-shop landing (6,13). A map correction during approach pauses instead of navigating old coordinates in the new map.
 
 A QuestDefinition names a version, capabilities and steps. The runner's action registry resolves each step to an IQuestAction. New recipes must use authored data and handlers; website prose never executes. Transitions may be implemented by an action using observed state and checkpointing. Unsupported capabilities stop before commands. Add a handler and characterization/replay evidence before claiming a new capability.
 

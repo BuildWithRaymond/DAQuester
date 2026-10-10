@@ -6,10 +6,16 @@ namespace DAQuester.App;
 
 internal static class Theme {
  public static readonly Color Ink=Color.FromArgb(13,19,30),Surface=Color.FromArgb(21,30,43),Raised=Color.FromArgb(28,40,56),Line=Color.FromArgb(45,59,77),Text=Color.FromArgb(237,240,243),Muted=Color.FromArgb(160,174,192),Gold=Color.FromArgb(217,184,121),Mint=Color.FromArgb(139,207,179),Rose=Color.FromArgb(229,151,154);
+ // Fluent 2 foundations, implemented for native WinForms with our journal palette.
+ public static readonly Color ControlHover=Color.FromArgb(36,50,68),ControlPressed=Color.FromArgb(17,26,38),DisabledSurface=Color.FromArgb(22,30,42),DisabledText=Color.FromArgb(130,145,165),GoldHover=Color.FromArgb(230,199,141),GoldPressed=Color.FromArgb(194,158,93);
+ public const int Space=4,ControlRadius=6,CardRadius=8,ControlHeight=40;
+ public const TextFormatFlags ControlTextFlags=TextFormatFlags.VerticalCenter|TextFormatFlags.EndEllipsis|TextFormatFlags.SingleLine|TextFormatFlags.PreserveGraphicsClipping|TextFormatFlags.PreserveGraphicsTranslateTransform;
  public static Font Body(float size=10,FontStyle style=FontStyle.Regular)=>new("Segoe UI",size,style);
+ public static Font Heading(float size=24)=>new("Segoe UI Semibold",size);
  public static Font Display(float size=26)=>new("Georgia",size);
  public static Label Label(string text,float size=10,Color? color=null,bool bold=false)=>new(){Text=text,ForeColor=color??Text,Font=Body(size,bold?FontStyle.Bold:FontStyle.Regular),AutoSize=false,BackColor=Color.Transparent};
- public static JournalButton Button(string text, bool primary=false)=>new(){Text=text,Primary=primary,Height=40,Width=132,Margin=new(0,0,8,0)};
+ public static JournalButton Button(string text, bool primary=false)=>new(){Text=text,Primary=primary,Height=ControlHeight,Width=132,Margin=new(0,0,Space*2,0)};
+ public static Color Backdrop(Control control){for(var parent=control.Parent;parent is not null;parent=parent.Parent)if(parent.BackColor.A==255)return parent.BackColor;return Ink;}
  public static void Apply(Form form) {
   form.BackColor=Ink;form.ForeColor=Text;form.Font=Body();
   if(form is ThemedForm dark)dark.InitializeChrome();
@@ -58,30 +64,64 @@ internal static class Theme {
 }
 
 internal sealed class JournalButton:Button {
- [DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]public bool Primary {get;set;}
- [DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]public bool Quiet {get;set;}
- [DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]public bool Danger {get;set;}
- [DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]public bool Active {get;set;}
- bool hovered;
- public JournalButton(){SetStyle(ControlStyles.UserPaint|ControlStyles.AllPaintingInWmPaint|ControlStyles.OptimizedDoubleBuffer,true);FlatStyle=FlatStyle.Flat;FlatAppearance.BorderSize=0;Cursor=Cursors.Hand;Font=Theme.Body(10,FontStyle.Bold);}
+ [DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]public bool Primary {get=>primary;set{if(primary==value)return;primary=value;Invalidate();}}
+ [DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]public bool Quiet {get=>quiet;set{if(quiet==value)return;quiet=value;Invalidate();}}
+ [DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]public bool Danger {get=>danger;set{if(danger==value)return;danger=value;Invalidate();}}
+ [DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]public bool Active {get=>active;set{if(active==value)return;active=value;Invalidate();}}
+ bool primary,quiet,danger,active,hovered,mouseDown,spaceDown,defaultButton;
+ public JournalButton(){SetStyle(ControlStyles.UserPaint|ControlStyles.Opaque|ControlStyles.AllPaintingInWmPaint|ControlStyles.OptimizedDoubleBuffer|ControlStyles.ResizeRedraw,true);FlatStyle=FlatStyle.Flat;FlatAppearance.BorderSize=0;UseVisualStyleBackColor=false;Cursor=Cursors.Hand;Font=Theme.Heading(10);}
  protected override void OnMouseEnter(EventArgs e){hovered=true;Invalidate();base.OnMouseEnter(e);}
  protected override void OnMouseLeave(EventArgs e){hovered=false;Invalidate();base.OnMouseLeave(e);}
+ protected override void OnMouseMove(MouseEventArgs e){bool inside=ClientRectangle.Contains(e.Location);if(hovered!=inside){hovered=inside;Invalidate();}base.OnMouseMove(e);}
+ protected override void OnMouseDown(MouseEventArgs e){if(Enabled&&e.Button==MouseButtons.Left){mouseDown=true;hovered=ClientRectangle.Contains(e.Location);Invalidate();}base.OnMouseDown(e);}
+ protected override void OnMouseUp(MouseEventArgs e){if(e.Button==MouseButtons.Left){mouseDown=false;Invalidate();}base.OnMouseUp(e);}
+ protected override void OnMouseCaptureChanged(EventArgs e){mouseDown=false;Invalidate();base.OnMouseCaptureChanged(e);}
+ protected override void OnKeyDown(KeyEventArgs e){if(Enabled&&e.KeyData==Keys.Space){spaceDown=true;Invalidate();}base.OnKeyDown(e);}
+ protected override void OnKeyUp(KeyEventArgs e){spaceDown=false;Invalidate();base.OnKeyUp(e);}
+ protected override void OnGotFocus(EventArgs e){base.OnGotFocus(e);Invalidate();}
+ protected override void OnLostFocus(EventArgs e){mouseDown=spaceDown=false;base.OnLostFocus(e);Invalidate();}
+ protected override void OnEnabledChanged(EventArgs e){mouseDown=spaceDown=false;base.OnEnabledChanged(e);Invalidate();}
+ protected override void OnParentBackColorChanged(EventArgs e){base.OnParentBackColorChanged(e);Invalidate();}
+ public override void NotifyDefault(bool value){defaultButton=value;base.NotifyDefault(value);Invalidate();}
  protected override void OnPaint(PaintEventArgs e){
-  e.Graphics.SmoothingMode=SmoothingMode.AntiAlias;
-  var fill=!Enabled?Theme.Raised:Primary?Theme.Gold:Active||hovered?Theme.Raised:Quiet?Parent?.BackColor??Theme.Ink:Theme.Surface;
-  var ink=!Enabled?Theme.Muted:Primary?Theme.Ink:Danger?Theme.Rose:Active?Theme.Gold:Theme.Text;
-  using var path=Rounded(new(1,1,Width-3,Height-3),7);using var brush=new SolidBrush(fill);e.Graphics.FillPath(brush,path);
-  if(!Quiet||Focused){using var pen=new Pen(Focused?Theme.Gold:Primary&&Enabled?Theme.Gold:Theme.Line);e.Graphics.DrawPath(pen,path);}
-  var rect=new Rectangle(Quiet?14:6,0,Width-(Quiet?20:12),Height);
-  TextRenderer.DrawText(e.Graphics,Text,Font,rect,ink,TextFormatFlags.VerticalCenter|TextFormatFlags.EndEllipsis|(Quiet?TextFormatFlags.Left:TextFormatFlags.HorizontalCenter));
-  if(Active){using var pen=new Pen(Theme.Gold,2);e.Graphics.DrawLine(pen,3,11,3,Height-11);}
+  var g=e.Graphics;var state=g.Save();
+  try{
+   // ButtonBase is opaque: paint every invalidated pixel before the rounded face.
+   var backdrop=Theme.Backdrop(this);using(var background=new SolidBrush(backdrop))g.FillRectangle(background,ClientRectangle);
+   if(Width<5||Height<5)return;
+   float scale=DeviceDpi/96f,inset=2*scale;
+   bool pressed=Enabled&&(spaceDown||mouseDown&&hovered);
+   var fill=!Enabled?Theme.DisabledSurface:Primary?pressed?Theme.GoldPressed:hovered?Theme.GoldHover:Theme.Gold:pressed?Theme.ControlPressed:hovered?Theme.ControlHover:Active?Theme.Raised:Quiet?backdrop:Theme.Raised;
+   var ink=!Enabled?Theme.DisabledText:Primary?Theme.Ink:Danger?Theme.Rose:Active?Theme.Gold:Theme.Text;
+   g.SmoothingMode=SmoothingMode.AntiAlias;
+   using var path=Rounded(new(inset,inset,Math.Max(1,Width-inset*2-1),Math.Max(1,Height-inset*2-1)),Theme.ControlRadius*scale);
+   using(var brush=new SolidBrush(fill))g.FillPath(brush,path);
+   if(!Quiet||Focused||defaultButton){using var border=new Pen(!Enabled?Theme.Line:Primary?fill:defaultButton?Theme.Gold:Theme.Line,scale);g.DrawPath(border,path);}
+   if(Focused&&Enabled){using var focus=Rounded(new(.5f*scale,.5f*scale,Width-scale-1,Height-scale-1),(Theme.ControlRadius+2)*scale);using var pen=new Pen(Theme.Gold,scale);g.DrawPath(pen,focus);}
+   int padding=(int)Math.Round((Quiet?16:12)*scale);
+   var rect=new Rectangle(padding,0,Math.Max(0,Width-padding*2),Height);
+   var flags=Theme.ControlTextFlags|(Quiet?TextFormatFlags.Left:TextFormatFlags.HorizontalCenter);
+   if(!ShowKeyboardCues)flags|=TextFormatFlags.HidePrefix;
+   if(RightToLeft==RightToLeft.Yes)flags|=TextFormatFlags.RightToLeft|TextFormatFlags.Right;
+   if(rect.Width>0)TextRenderer.DrawText(g,Text,Font,rect,ink,flags);
+   if(Active){using var pen=new Pen(Enabled?Theme.Gold:Theme.DisabledText,2*scale);float x=RightToLeft==RightToLeft.Yes?Width-5*scale:4*scale;g.DrawLine(pen,x,12*scale,x,Math.Max(12*scale,Height-12*scale));}
+  }finally{g.Restore(state);}
  }
- internal static GraphicsPath Rounded(RectangleF r,float radius){var p=new GraphicsPath();float d=radius*2;p.AddArc(r.X,r.Y,d,d,180,90);p.AddArc(r.Right-d,r.Y,d,d,270,90);p.AddArc(r.Right-d,r.Bottom-d,d,d,0,90);p.AddArc(r.X,r.Bottom-d,d,d,90,90);p.CloseFigure();return p;}
+ internal static GraphicsPath Rounded(RectangleF r,float radius){var p=new GraphicsPath();if(r.Width<=0||r.Height<=0)return p;float d=Math.Min(Math.Max(0,radius*2),Math.Min(r.Width,r.Height));if(d==0){p.AddRectangle(r);return p;}p.AddArc(r.X,r.Y,d,d,180,90);p.AddArc(r.Right-d,r.Y,d,d,270,90);p.AddArc(r.Right-d,r.Bottom-d,d,d,0,90);p.AddArc(r.X,r.Bottom-d,d,d,90,90);p.CloseFigure();return p;}
 }
 
 internal sealed class JournalCard:Panel {
- public JournalCard(){DoubleBuffered=true;BackColor=Theme.Surface;Padding=new(22);}
- protected override void OnPaint(PaintEventArgs e){base.OnPaint(e);e.Graphics.SmoothingMode=SmoothingMode.AntiAlias;using var path=JournalButton.Rounded(new(0,0,Width-1,Height-1),10);using var pen=new Pen(Theme.Line);e.Graphics.DrawPath(pen,path);}
+ public JournalCard(){SetStyle(ControlStyles.Opaque|ControlStyles.ResizeRedraw,true);DoubleBuffered=true;BackColor=Theme.Surface;Padding=new(Theme.Space*6);}
+ protected override void OnPaint(PaintEventArgs e){
+  var g=e.Graphics;var state=g.Save();
+  try{
+   using(var backdrop=new SolidBrush(Theme.Backdrop(this)))g.FillRectangle(backdrop,ClientRectangle);
+   if(Width<2||Height<2)return;
+   float scale=DeviceDpi/96f;g.SmoothingMode=SmoothingMode.AntiAlias;
+   using var path=JournalButton.Rounded(new(.5f*scale,.5f*scale,Math.Max(1,Width-scale-1),Math.Max(1,Height-scale-1)),Theme.CardRadius*scale);
+   using(var fill=new SolidBrush(BackColor))g.FillPath(fill,path);using var pen=new Pen(Theme.Line,scale);g.DrawPath(pen,path);
+  }finally{g.Restore(state);}
+ }
 }
 
 internal sealed class JournalArtwork:Control {

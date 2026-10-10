@@ -14,14 +14,14 @@ internal sealed class QuestLibraryForm:ThemedForm {
  record LibraryEntry(string Name,string Levels,string Items,string Rewards,string Source,string? RecipeId);
  public string? SelectedQuestId {get;private set;}
  public QuestLibraryForm(IEnumerable<QuestDefinition> recipes) {
-  Text="DAQuester · Quest library";Size=new(1160,760);MinimumSize=new(950,630);StartPosition=FormStartPosition.CenterParent;Padding=new(26);
+  Text="DAQuester · Quest library";Size=new(1160,760);MinimumSize=new(950,630);StartPosition=FormStartPosition.CenterParent;Padding=new(24);
   var definitions=recipes.ToDictionary(q=>q.Name,StringComparer.OrdinalIgnoreCase);
   using var doc=JsonDocument.Parse(File.ReadAllText(Path.Combine(AppSettings.Content,"catalog.json")));
   foreach(var q in doc.RootElement.GetProperty("entries").EnumerateArray()){
    string Get(string key)=>q.TryGetProperty(key,out var value)&&value.ValueKind==JsonValueKind.String?value.GetString()??"":"";
    string name=Get("name");entries.Add(new(name,Get("level"),Get("requiredItems"),Get("rewards"),Get("source"),definitions.GetValueOrDefault(name)?.Id));
   }
-  var top=new Panel{Dock=DockStyle.Top,Height=123};var title=Theme.Label("The quest library",25);title.Font=Theme.Display(25);title.SetBounds(0,0,650,43);top.Controls.Add(title);
+  var top=new Panel{Dock=DockStyle.Top,Height=123};var title=Theme.Label("Quest library",24);title.Font=Theme.Heading();title.SetBounds(0,0,650,43);top.Controls.Add(title);
   var intro=Theme.Label($"{entries.Count} legend quests to explore. {definitions.Count} are ready for automatic journeys.",10,Theme.Muted);intro.SetBounds(0,47,800,28);top.Controls.Add(intro);
   var tools=new TableLayoutPanel{Dock=DockStyle.Bottom,Height=38,ColumnCount=3,RowCount=1,Margin=Padding.Empty};tools.RowStyles.Add(new(SizeType.Percent,100));tools.ColumnStyles.Add(new(SizeType.Percent,100));tools.ColumnStyles.Add(new(SizeType.Absolute,14));tools.ColumnStyles.Add(new(SizeType.Absolute,230));tools.Controls.Add(new InputField(search),0,0);tools.Controls.Add(filter,2,0);top.Controls.Add(tools);
   filter.Items.AddRange(["All legend quests","Ready to automate","Guide only"]);filter.SelectedIndex=0;
@@ -51,9 +51,9 @@ internal sealed class PlayerSettingsForm:ThemedForm {
  readonly TextBox characters=new(){Name="settingsCharacters",Multiline=true,Dock=DockStyle.Fill,ScrollBars=ScrollBars.Vertical};
  public AppSettings? Result {get;private set;}
  public PlayerSettingsForm(AppSettings settings,UpdateCoordinator? updates=null,Action? install=null) {
-  Text="DAQuester · Settings";ClientSize=new(720,777);MinimumSize=Size;StartPosition=FormStartPosition.CenterParent;Padding=new(26);MinimizeBox=false;MaximizeBox=false;
+  Text="DAQuester · Settings";ClientSize=new(720,777);MinimumSize=Size;StartPosition=FormStartPosition.CenterParent;Padding=new(24);MinimizeBox=false;MaximizeBox=false;
   var layout=new TableLayoutPanel{Dock=DockStyle.Fill,ColumnCount=1,RowCount=14};layout.ColumnStyles.Add(new(SizeType.Percent,100));foreach(int h in new[]{50,52,25,44,28,25,100,45,35,32,55,46,40,48})layout.RowStyles.Add(new(SizeType.Absolute,h));
-  var title=Theme.Label("Make yourself at home",24);title.Font=Theme.Display(24);title.Dock=DockStyle.Fill;layout.Controls.Add(title,0,0);
+  var title=Theme.Label("Settings",24);title.Font=Theme.Heading();title.Dock=DockStyle.Fill;layout.Controls.Add(title,0,0);
   var intro=Theme.Label("Choose your game client and the characters you want in your journal. Saved progress stays with each character.",10,Theme.Muted);intro.Dock=DockStyle.Fill;layout.Controls.Add(intro,0,1);
   var pathLabel=Theme.Label("Dark Ages application",10,Theme.Text,true);pathLabel.Dock=DockStyle.Fill;layout.Controls.Add(pathLabel,0,2);
   client.Text=settings.ClientPath;var path=new TableLayoutPanel{Dock=DockStyle.Fill,ColumnCount=3,RowCount=1,Margin=Padding.Empty};path.RowStyles.Add(new(SizeType.Percent,100));path.ColumnStyles.Add(new(SizeType.Percent,100));path.ColumnStyles.Add(new(SizeType.Absolute,10));path.ColumnStyles.Add(new(SizeType.Absolute,100));path.Controls.Add(new InputField(client),0,0);
@@ -61,7 +61,7 @@ internal sealed class PlayerSettingsForm:ThemedForm {
   var hint=Theme.Label("Used when you choose Open Dark Ages.",9,Theme.Muted);hint.Dock=DockStyle.Fill;layout.Controls.Add(hint,0,4);
   var names=Theme.Label("Your characters",10,Theme.Text,true);names.Dock=DockStyle.Fill;layout.Controls.Add(names,0,5);characters.Text=string.Join(Environment.NewLine,settings.Characters);layout.Controls.Add(new InputField(characters),0,6);
   var note=Theme.Label("One character name per line. Restart DAQuester after saving. Connection settings are available in Developer mode.",9,Theme.Muted);note.Dock=DockStyle.Fill;note.Padding=new(0,8,0,0);layout.Controls.Add(note,0,7);
-  var updateTitle=Theme.Label("Keep your journal up to date",19);updateTitle.Font=Theme.Display(19);updateTitle.Dock=DockStyle.Fill;layout.Controls.Add(updateTitle,0,8);
+  var updateTitle=Theme.Label("Application updates",16);updateTitle.Font=Theme.Heading(16);updateTitle.Dock=DockStyle.Fill;layout.Controls.Add(updateTitle,0,8);
   var automatic=new JournalCheckBox{Name="automaticUpdateChecks",Text="Check for updates when DAQuester opens",Checked=settings.AutomaticUpdateChecks,Dock=DockStyle.Fill,Enabled=updates?.Available==true};layout.Controls.Add(automatic,0,9);
   var updateStatus=Theme.Label("",10,Theme.Muted);updateStatus.Name="updateStatus";updateStatus.Dock=DockStyle.Fill;layout.Controls.Add(updateStatus,0,10);
   var updateActions=new FlowLayoutPanel{Dock=DockStyle.Fill,WrapContents=false,Margin=Padding.Empty};
@@ -86,9 +86,9 @@ internal sealed class PlayerSettingsForm:ThemedForm {
 
 internal sealed class SavedLoginForm:ThemedForm {
  public SavedLoginForm(string name,bool preview=false) {
-  Text="DAQuester · Saved login";ClientSize=new(500,315);FormBorderStyle=FormBorderStyle.FixedDialog;StartPosition=FormStartPosition.CenterParent;MaximizeBox=false;MinimizeBox=false;Padding=new(26);
+  Text="DAQuester · Saved login";ClientSize=new(500,315);FormBorderStyle=FormBorderStyle.FixedDialog;StartPosition=FormStartPosition.CenterParent;MaximizeBox=false;MinimizeBox=false;Padding=new(24);
   var layout=new TableLayoutPanel{Dock=DockStyle.Fill,ColumnCount=1,RowCount=6};layout.ColumnStyles.Add(new(SizeType.Percent,100));foreach(int h in new[]{44,62,28,38,42,46})layout.RowStyles.Add(new(SizeType.Absolute,h));
-  var title=Theme.Label($"Sign in as {name}",23);title.Font=Theme.Display(23);title.Dock=DockStyle.Fill;layout.Controls.Add(title,0,0);
+  var title=Theme.Label($"Sign in as {name}",22);title.Font=Theme.Heading(22);title.Dock=DockStyle.Fill;layout.Controls.Add(title,0,0);
   var info=Theme.Label("Keep your password on this Windows account for your next manual sign-in. Open Dark Ages to log in.",10,Theme.Muted);info.Dock=DockStyle.Fill;layout.Controls.Add(info,0,1);
   var label=Theme.Label("Password",10,Theme.Text,true);label.Dock=DockStyle.Fill;layout.Controls.Add(label,0,2);
   var password=new TextBox{Name="savedPassword",UseSystemPasswordChar=true,Text=preview?"":CredentialVault.Load(name)??""};layout.Controls.Add(new InputField(password),0,3);

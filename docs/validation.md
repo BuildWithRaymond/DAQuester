@@ -1,5 +1,23 @@
 # Validation status
 
+The October 10 native UI refinement passes 159 focused cases and all 385 cases
+(full suite: 3 minutes 28 seconds), with a Release build at zero warnings/errors.
+The extended `tools/Test-UI.ps1` gate passes. Tests first reproduced opaque
+buttons retaining corner pixels, button/checkbox text writing beyond the paint
+clip, and square card backgrounds under rounded borders. The shared painters
+now repaint complete surfaces and preserve clipping.
+
+Native checks cover hover/press/disabled states, keyboard press and cancellation,
+visible focus, Enter/Escape/mnemonics, property invalidation, tiny sizes,
+transparent parents, repeated repaints, action label fit and native bitmap printing.
+The label-fit check caught shortened file-picker actions and a long calibration
+action; picker columns and measured toolbar widths now fit those labels. State sheets
+exercise 100/125/150/200% geometry/font scales and visible labels; these are
+synthetic scales, not physical mixed-DPI monitor validation. Standard/compact
+workspaces and dialog states are rendered and visually inspected. The shared
+design contract is [DESIGN_SYSTEM.md](DESIGN_SYSTEM.md). No game characters,
+saved user data or Excalibur processes are operated by these checks.
+
 All 327 automated cases pass on the public release candidate, including 19 update
 consent, safe-exit and data migration cases, as well as the
 three-minute drought regression, full Vows introduction/claim replay, and observed
@@ -7,6 +25,47 @@ two-ring hairstyle reply. The packaged native UI smoke test also passes with the
 isolated sample settings and explicit update download/install states. Installer,
 portable and update feed verification passes. Four-project .NET 10 solution; self-contained
 win-x86 app. UI screenshots verify fully dark surfaces and unclipped dialog buttons.
+
+The initial fast-mode working build passed all 345 automated cases, including 18 new
+synthetic cadence/player tests. The current-user named-pipe case requires running
+the suite outside the restricted sandbox. Timing tests run separately from other
+test collections to avoid load-induced timing failures. Native Test-UI passes
+default-off, per-character persistence, case-insensitive names, reopening and
+character switching, plus standard/compact dark renders. The Release build has
+zero warnings and errors. That initial version retained acknowledgment gating,
+which limited walking and delayed animation; the October 10 follow-up below
+replaces this behavior for safe fast travel. No live fast-mode
+run is claimed; no real game characters or Excalibur processes were operated.
+
+The initial combined fast-mode and shortest-travel build passed all 367 cases
+(full suite: 3 minutes 8 seconds), with 67 focused movement/navigation cases.
+The 22 additional travel regressions cover alternate doors, distinct arrivals,
+final target distance, collision barriers, directed shortcut chains, live world
+selection, occupancy changes, correction recovery, reload position barriers and
+NPC interaction range. Release builds with zero warnings/errors; Test-UI passes.
+Seven installed-collision route samples were calculated offline. Among five
+samples with a valid direct-walking baseline, four became shorter and one tied:
+Mileth (33,37) to Suomi Inn fell from 421 to 320 modeled actions; the nearby
+Mileth Inn landing fell from 27 steps to 1. Repeat Suomi planning took about
+10 ms after caching on this machine. These are synthetic/offline checks,
+without live character movement; future server latency and unseen occupancy
+are not measured. Local audit output is ignored under `artifacts/travel-audit/`.
+
+The October 10 fast-travel correction passes all **385** cases (full suite:
+3 minutes 27 seconds) and **80** focused movement/navigation cases. Eighteen
+additional cases verify immediate presentation, 160 ms sends with 500 ms replies,
+bounded projection without invented snapshots, duplicate suppression and client
+ordinals, player arrival with pending steps, inventory stop draining, doors and
+same-map transfers, late replies, timeouts, manual input, Stop/resume, bounded
+patrol recovery, and incomplete replies that cannot confirm movement. Timing
+fixtures run in the nonparallel walking collection. The full suite uses normal
+test output paths because existing evidence fixtures resolve content from there.
+The final Release build has zero warnings/errors and Test-UI passes, including
+the pace explanation and standard/compact dark renders. The executable is under
+ignored `artifacts/fast-mode-fix/`. A passive state query found three players
+within the slowdown radius during the reported quest; normal pace there is
+intentional. No real character commands or live walking tests were performed,
+and Excalibur working copies and processes were untouched.
 
 Recent Vows hairstyle intervention was caused by a Windows journal replacement
 lock before final submission, followed by an unrecognized two-ring response after

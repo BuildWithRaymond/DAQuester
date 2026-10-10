@@ -8,7 +8,7 @@ public record MapTransfer(Tile From,Tile To);
 public record MapRecord(int Id,string Name,int Width,int Height,Portal[] Portals) {
  public MapTransfer[] InternalTransfers {get;init;}=[];
 }
-public class MapRepository(string clientDirectory,string routesPath) {
+public partial class MapRepository(string clientDirectory,string routesPath) {
  readonly Dictionary<int,MapRecord> records=(JsonSerializer.Deserialize<MapRecord[]>(File.ReadAllText(routesPath),new JsonSerializerOptions{PropertyNameCaseInsensitive=true})??[]).ToDictionary(x=>x.Id);
  readonly Dictionary<int,Grid> grids=[];
  public Grid Load(int id) {
@@ -55,17 +55,10 @@ public class MapRepository(string clientDirectory,string routesPath) {
   throw new InvalidOperationException("No recorded portal route from "+from+" to "+destination+". Record a route.");
  }
  public MapRecord Record(int id)=>records.TryGetValue(id,out var r)?r:throw new InvalidOperationException("Map "+id+" has no recorded dimensions or portals.");
- public MapTransfer? TransferTo(int map,Tile start,Tile target) {
-  var record=Record(map);if(record.InternalTransfers.Length==0)return null;
-  var grid=Load(map);var obstacles=record.Portals.Where(p=>p.From!=target).Select(p=>p.From).ToHashSet();
-  bool portalGoal=record.Portals.Any(p=>p.From==target);
-  try{grid.Path(start,target,obstacles,allowBlockedGoal:portalGoal);return null;}catch(InvalidOperationException){}
-  var candidates=new List<(MapTransfer Transfer,int Distance)>();
-  foreach(var transfer in record.InternalTransfers)try {
-   int distance=grid.Path(start,transfer.From,obstacles).Count+grid.Path(transfer.To,target,obstacles,allowBlockedGoal:portalGoal).Count;
-   candidates.Add((transfer,distance));
-  }catch(InvalidOperationException){}
-  return candidates.OrderBy(x=>x.Distance).Select(x=>x.Transfer).FirstOrDefault();
+ public MapTransfer? TransferTo(int map,Tile start,Tile target,ISet<Tile>? obstacles=null,CancellationToken ct=default) {
+  if(Record(map).InternalTransfers.Length==0)return null;
+  var step=Plan(map,start,map,target,obstacles,ct).Steps.FirstOrDefault();
+  return step is null?null:new(step.From,step.To);
  }
  public Arbiter.Net.Server.Types.ServerWorldMapNode WorldDestination(int destination,IEnumerable<Arbiter.Net.Server.Types.ServerWorldMapNode> nodes) {
   var reachable=new List<(Arbiter.Net.Server.Types.ServerWorldMapNode Node,int Distance)>();

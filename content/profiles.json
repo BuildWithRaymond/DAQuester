@@ -7,6 +7,7 @@
   "Characters":["Aisling"],
   "AutomaticUpdateChecks":false,
   "MovementMilliseconds":400,
+  "FastModeCharacters":[],
   "AcknowledgmentSeconds":2,
   "DialogSeconds":5,
   "RecoveryAttempts":3

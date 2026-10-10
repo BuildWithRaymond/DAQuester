@@ -1,5 +1,21 @@
 # Changelog
 
+## 1.0.2 — 2026-10-10
+
+- Fix stale button corners and text escaping partial repaint regions. Unify
+  native dark button, checkbox and card rendering with Fluent 2 foundations,
+  clear interaction/focus states, consistent spacing and interface typography.
+- Add native visual regression checks for clipping, repeated repaints, keyboard
+  actions and scaled control geometry alongside standard/compact dialog renders.
+- Add optional fast walking per character: Excalibur's 160 ms pace when alone,
+  returning to 430 ms around other players. Changes apply while quests run.
+- Match Excalibur's immediate fast-walk presentation and bounded movement queue
+  during quest travel. Show the current pace; retain authoritative recovery and
+  drain pending steps before doors, inventory goals and further actions.
+- Choose travel routes by collision-safe walking distance, comparing every door,
+  arrival point, world-map landing and directed shortcut. Replan when blockers or
+  authoritative positions change; avoid extra NPC approach steps already in range.
+
 ## 1.0.1 — 2026-10-09
 
 - Include the full Velopack MIT notice and exact .NET runtime licenses/notices in

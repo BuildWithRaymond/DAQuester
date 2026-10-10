@@ -95,12 +95,28 @@ internal sealed class JournalComboBox:ComboBox {
 }
 
 internal sealed class JournalCheckBox:CheckBox {
- public JournalCheckBox(){SetStyle(ControlStyles.UserPaint|ControlStyles.AllPaintingInWmPaint|ControlStyles.OptimizedDoubleBuffer,true);FlatStyle=FlatStyle.Flat;ForeColor=Theme.Muted;Cursor=Cursors.Hand;}
- public override Size GetPreferredSize(Size proposedSize){var text=TextRenderer.MeasureText(Text,Font,Size.Empty,TextFormatFlags.NoPadding);return new(text.Width+30,Math.Max(23,text.Height+6));}
+ bool hovered;
+ public JournalCheckBox(){SetStyle(ControlStyles.UserPaint|ControlStyles.Opaque|ControlStyles.AllPaintingInWmPaint|ControlStyles.OptimizedDoubleBuffer|ControlStyles.ResizeRedraw,true);FlatStyle=FlatStyle.Flat;ForeColor=Theme.Muted;Cursor=Cursors.Hand;}
+ public override Size GetPreferredSize(Size proposedSize){var text=TextRenderer.MeasureText(Text,Font,Size.Empty,TextFormatFlags.NoPadding);float scale=DeviceDpi/96f;return new(text.Width+(int)Math.Ceiling(32*scale),Math.Max((int)Math.Ceiling(24*scale),text.Height+(int)Math.Ceiling(6*scale)));}
+ protected override void OnMouseEnter(EventArgs e){hovered=true;Invalidate();base.OnMouseEnter(e);}
+ protected override void OnMouseLeave(EventArgs e){hovered=false;Invalidate();base.OnMouseLeave(e);}
+ protected override void OnGotFocus(EventArgs e){base.OnGotFocus(e);Invalidate();}
+ protected override void OnLostFocus(EventArgs e){base.OnLostFocus(e);Invalidate();}
+ protected override void OnEnabledChanged(EventArgs e){base.OnEnabledChanged(e);Invalidate();}
  protected override void OnPaint(PaintEventArgs e){
-  e.Graphics.Clear(Parent?.BackColor??Theme.Ink);int y=(Height-15)/2;using var fill=new SolidBrush(Checked?Theme.Gold:Theme.Raised);using var pen=new Pen(Enabled?Theme.Line:Theme.Raised);e.Graphics.FillRectangle(fill,0,y,14,14);e.Graphics.DrawRectangle(pen,0,y,14,14);
-  if(Checked){using var tick=new Pen(Theme.Ink,2);e.Graphics.DrawLines(tick,[new(3,y+7),new(6,y+10),new(11,y+4)]);}
-  TextRenderer.DrawText(e.Graphics,Text,Font,new Rectangle(23,0,Math.Max(0,Width-23),Height),Enabled?ForeColor:Theme.Muted,TextFormatFlags.VerticalCenter|TextFormatFlags.EndEllipsis);
-  if(Focused){using var focus=new Pen(Theme.Gold);e.Graphics.DrawRectangle(focus,0,0,Width-1,Height-1);}
+  var g=e.Graphics;var state=g.Save();
+  try{
+   using(var backdrop=new SolidBrush(Theme.Backdrop(this)))g.FillRectangle(backdrop,ClientRectangle);
+   if(Width<5||Height<5)return;
+   float scale=DeviceDpi/96f,box=14*scale,x=2*scale,y=(Height-box)/2;
+   var color=!Enabled?Theme.DisabledSurface:Checked?hovered?Theme.GoldHover:Theme.Gold:hovered?Theme.ControlHover:Theme.Raised;
+   g.SmoothingMode=SmoothingMode.AntiAlias;using var path=JournalButton.Rounded(new(x,y,box,box),2*scale);
+   using(var fill=new SolidBrush(color))g.FillPath(fill,path);using(var pen=new Pen(Enabled&&(hovered||Checked)?Theme.Gold:Theme.Line,scale))g.DrawPath(pen,path);
+   if(Checked){using var tick=new Pen(Enabled?Theme.Ink:Theme.DisabledText,2*scale);g.DrawLines(tick,new PointF[]{new(x+3*scale,y+7*scale),new(x+6*scale,y+10*scale),new(x+11*scale,y+4*scale)});}
+   int padding=(int)Math.Ceiling(25*scale);var rect=new Rectangle(padding,0,Math.Max(0,Width-padding),Height);var flags=Theme.ControlTextFlags|TextFormatFlags.Left;
+   if(!ShowKeyboardCues)flags|=TextFormatFlags.HidePrefix;
+   if(rect.Width>0)TextRenderer.DrawText(g,Text,Font,rect,Enabled?hovered?Theme.Text:ForeColor:Theme.DisabledText,flags);
+   if(Focused&&Enabled){using var focus=JournalButton.Rounded(new(.5f*scale,.5f*scale,Math.Max(1,Width-scale-1),Math.Max(1,Height-scale-1)),Theme.ControlRadius*scale);using var pen=new Pen(Theme.Gold,scale);g.DrawPath(pen,focus);}
+  }finally{g.Restore(state);}
  }
 }
