@@ -75,7 +75,8 @@ cooldown refusal and live player detours await live validation. Perfect Hairstyl
 manually assisted Nuclear run and fully automated Clock attempt are captured.
 Both received Emerald Ring/15,000 XP; their weekly legend goals remain unfinished.
 Mundane Birth completed live on Nuclear and Clock. Ambiguous submissions pause without resending.
-Login and reconnect login are manual; Saved login retrieves encrypted passwords.
+Login and reconnect login are manual. Account manager edits character names and
+stores optional passwords encrypted for the current Windows account.
 
 The catalog contains **70 quests with legend rewards**, filtered from 129 guides.
 Chance and conditional marks remain; 59 entries without quest legend rewards are

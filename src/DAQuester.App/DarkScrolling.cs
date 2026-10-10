@@ -23,7 +23,14 @@ internal sealed class DarkScrollPanel:Panel {
  readonly DarkScrollBar bar=new();Control? content;int offset;bool arranging;
  public DarkScrollPanel(){DoubleBuffered=true;AutoScroll=false;Controls.Add(bar);bar.Changed=value=>{offset=value;Arrange();};}
  protected override void OnControlAdded(ControlEventArgs e){base.OnControlAdded(e);if(e.Control is DarkScrollBar)return;content=e.Control;if(content is null)return;content.Dock=DockStyle.None;content.SizeChanged+=(_,_)=>Arrange();HookWheel(content);Arrange();}
- void HookWheel(Control control){control.MouseWheel+=(_,e)=>{if(e is HandledMouseEventArgs handled&&handled.Handled)return;ScrollBy(e.Delta);if(e is HandledMouseEventArgs h)h.Handled=true;};foreach(Control child in control.Controls)HookWheel(child);}
+ void HookWheel(Control control){control.MouseWheel+=(_,e)=>{if(e is HandledMouseEventArgs handled&&handled.Handled)return;ScrollBy(e.Delta);if(e is HandledMouseEventArgs h)h.Handled=true;};control.Enter+=(_,_)=>Reveal(control);foreach(Control child in control.Controls)HookWheel(child);}
+ void Reveal(Control control){
+  if(content is null||control==content||!control.Visible)return;
+  var bounds=new Rectangle(content.PointToClient(control.PointToScreen(Point.Empty)),control.Size);
+  if(bounds.Top<offset)offset=bounds.Top;
+  else if(bounds.Bottom>offset+ClientSize.Height)offset=Math.Min(bounds.Top,bounds.Bottom-ClientSize.Height);
+  Arrange();
+ }
  protected override void OnLayout(LayoutEventArgs e){base.OnLayout(e);Arrange();}
  protected override void OnMouseWheel(MouseEventArgs e){ScrollBy(e.Delta);if(e is HandledMouseEventArgs h)h.Handled=true;}
  void ScrollBy(int delta){offset=Math.Clamp(offset-delta/120*60,0,bar.Maximum);Arrange();}

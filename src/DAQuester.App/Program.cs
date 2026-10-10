@@ -3,7 +3,10 @@ internal static class Program {
  [STAThread] static void Main(string[] args) {
   if(args.Contains("--mcp")||args.Contains("--control")) {Environment.ExitCode=ControlMain.RunAsync(args).GetAwaiter().GetResult();return;}
   bool smoke=args.Contains("--smoke");
-  if(smoke)AppSettings.UseIsolatedData(Path.Combine(Environment.CurrentDirectory,"artifacts","smoke-data-"+Guid.NewGuid().ToString("N")));
+  if(smoke){
+   AppSettings.UseIsolatedData(Path.Combine(Environment.CurrentDirectory,"artifacts","smoke-data-"+Guid.NewGuid().ToString("N")));
+   var seed=AppSettings.Load();if(seed.Characters.Length!=0)throw new InvalidOperationException("New profiles must not invent a default character.");seed.Characters=["Nuclear"];seed.Save();
+  }
   else Velopack.VelopackApp.Build().SetAutoApplyOnStartup(false).Run();
   if(args.Contains("--check-updates")){
    Directory.CreateDirectory("artifacts");
@@ -20,6 +23,7 @@ internal static class Program {
    if(args.Contains("--smoke")) {
     Directory.CreateDirectory("artifacts");File.WriteAllText("artifacts/app-smoke.txt","Running dark UI smoke checks.");
     form.Show();Application.DoEvents();Directory.CreateDirectory("artifacts");
+    if(form.Controls.Find("workspacePages",true).Length!=1)throw new InvalidOperationException("Left navigation must switch pages inside the main workspace.");
     var selector=(ComboBox)form.Controls.Find("questSelector",true).Single();
     if(selector.Items.Count!=4)throw new InvalidOperationException("All four executable quests must be selectable.");
     selector.SelectedItem=selector.Items.Cast<Core.QuestDefinition>().Single(q=>q.Id=="entered-muisir-village");Application.DoEvents();
@@ -64,6 +68,7 @@ internal static class Program {
     Render(form,"compact-smoke");
     form.MinimumSize=new(1024,768);form.Size=form.MinimumSize;Application.DoEvents();
     Render(form,"small-screen-smoke");
+    CheckNavigation(form,selector);
     using(var library=new QuestLibraryForm(selector.Items.Cast<Core.QuestDefinition>())){
      library.Show();Application.DoEvents();Render(library,"library-smoke");
      var filter=(ComboBox)library.Controls.Find("questLibraryFilter",true).Single();var table=(DataGridView)library.Controls.Find("questLibraryTable",true).Single();var search=(TextBox)library.Controls.Find("questLibrarySearch",true).Single();
@@ -79,7 +84,7 @@ internal static class Program {
      smokeUpdates.StartAsync().GetAwaiter().GetResult();Application.DoEvents();if(smokeBackend.Downloads!=0||!download.Enabled||install.Enabled)throw new InvalidOperationException("Automatic checks must not download updates.");Render(settings,"update-available-smoke");
      download.PerformClick();Application.DoEvents();if(smokeBackend.Downloads!=1||download.Enabled||!install.Enabled)throw new InvalidOperationException("Downloading must expose a separate install action.");Render(settings,"update-ready-smoke");settings.Close();
     }
-    using(var login=new SavedLoginForm("Nuclear",preview:true)){login.Show();Application.DoEvents();var save=login.Controls.Find("savePassword",true).Single();var point=login.PointToClient(save.PointToScreen(Point.Empty));if(point.Y+save.Height>login.ClientSize.Height-login.Padding.Bottom)throw new InvalidOperationException("Saved login actions must remain fully visible.");Render(login,"saved-login-smoke");login.Close();}
+    using(var login=new SavedLoginForm("Nuclear",preview:true)){login.Show();Application.DoEvents();var save=login.Controls.Find("saveAccounts",true).Single();var point=login.PointToClient(save.PointToScreen(Point.Empty));if(point.Y+save.Height>login.ClientSize.Height-login.Padding.Bottom)throw new InvalidOperationException("Saved login actions must remain fully visible.");Render(login,"saved-login-smoke");login.Close();}
     using(var picker=new ClientPickerForm(AppSettings.Load().ClientPath)){picker.Show();Application.DoEvents();Render(picker,"client-picker-smoke");picker.Close();}
     var calibration=System.Text.Json.JsonSerializer.Deserialize<Core.Calibration>(File.ReadAllText(Path.Combine(AppSettings.Content,"calibration","datester-7.41.json")),AppSettings.Json)!;
     using(var review=new CalibrationForm(new SmokeSession(),new DarkAges.Diagnostics.ReplayRecorder(),calibration,Path.Combine(AppSettings.DataPath,"smoke-calibration.json"))){review.Show();Application.DoEvents();Render(review,"calibration-smoke");review.Close();}
@@ -90,10 +95,90 @@ internal static class Program {
     Render(options,"birth-options-smoke");
     start.PerformClick();if(options.Result!=new Core.MundaneBirthOptions("Fall",25,"Piet"))throw new InvalidOperationException("Birth form did not return the exact chosen settings.");
     if(options.BackColor.GetBrightness()>.15f)throw new InvalidOperationException("Birth choices must use the shared dark theme.");
-    File.WriteAllText("artifacts/app-smoke.txt","Fully dark window chrome and rendered surfaces; complete rounded control painting and clipped partial repaints; button hover/press/disabled states, capture/focus cancellation, Space/Enter/Escape/mnemonics; repeated repaints and 100/125/150/200% scaled control geometry; visible labels and unclipped actions; player/developer visibility; per-character fast mode defaults, persistence and selection; four quest policies; selected journals; library search and availability; settings, login and file picker; birth choice gating, exact settings; standard/compact rendering passed.");return;
+    File.WriteAllText("artifacts/app-smoke.txt","Fully dark window chrome and rendered surfaces; complete rounded control painting and clipped partial repaints; button hover/press/disabled states, capture/focus cancellation, Space/Enter/Escape/mnemonics; repeated repaints and 100/125/150/200% scaled control geometry; visible labels and unclipped actions; player/developer visibility; per-character fast mode defaults, persistence and selection; four quest policies; Run again/cooldown/live ownership controls; in-place pages and retained filters; bulk editing 20 accounts, duplicate validation, immediate journal changes, empty state; isolated encrypted password batch save, blank preservation and rename; client settings and separate update actions; birth choices; standard/compact/1024 px rendering passed.");return;
    }
    Application.Run(form);
   }catch(Exception e){if(args.Contains("--smoke")){Directory.CreateDirectory("artifacts");File.WriteAllText("artifacts/app-smoke.txt",e.ToString());Environment.ExitCode=1;}else Theme.Error(null,e.Message,"DAQuester startup");}
+ }
+ static void CheckNavigation(MainForm form,ComboBox selector){
+  var pages=form.Controls.Find("workspacePages",true).Single();
+  Button Nav(string id)=>(Button)form.Controls.Find("navigate"+id,true).Single();
+  void Open(string id){
+   Nav(id).PerformClick();Application.DoEvents();
+   if(form.OwnedForms.Length!=0)throw new InvalidOperationException("Navigation must not open a separate window.");
+   if(pages.Controls.Cast<Control>().Count(p=>p.Visible)!=1||!pages.Controls.Cast<Control>().Any(p=>p.Visible&&p.Name==id+"Page"))throw new InvalidOperationException("Navigation must show exactly the selected main page: "+id);
+   if(!((JournalButton)Nav(id)).Active)throw new InvalidOperationException("Current navigation must be highlighted.");
+   Render(form,"page-"+id+(form.Width<=1024?"-small-screen":"-standard"));
+  }
+  Open("library");
+  var filter=(ComboBox)pages.Controls.Find("questLibraryFilter",true).Single();var search=(TextBox)pages.Controls.Find("questLibrarySearch",true).Single();var library=(DataGridView)pages.Controls.Find("questLibraryTable",true).Single();
+  filter.SelectedIndex=1;search.Text="Spare";Application.DoEvents();if(library.Rows.Count!=1)throw new InvalidOperationException("Main library search must filter executable quests.");
+  Open("settings");Open("login");
+  if(pages.Controls.Find("settingsCharacters",true).Length!=0)throw new InvalidOperationException("Characters belong only in Account manager.");
+  var accounts=pages.Controls.Find("accountLoginsTable",true).SingleOrDefault() as DataGridView??throw new InvalidOperationException("Account manager must show all editable names and passwords together.");
+  if(accounts.ReadOnly||accounts.Columns[0].ReadOnly||accounts.Columns[1].ReadOnly||accounts.Rows.Count!=1||accounts.Rows[0].Cells[0].Value?.ToString()!="Nuclear")throw new InvalidOperationException("Account manager must use real saved names without a fake default.");
+  var add=(Button)pages.Controls.Find("addAccount",true).Single();var save=(Button)pages.Controls.Find("saveAccounts",true).Single();var remove=(Button)pages.Controls.Find("removeAccount",true).Single();
+  add.PerformClick();accounts.EndEdit();accounts.Rows[1].Cells[0].Value="Clock";save.PerformClick();Application.DoEvents();
+  if(!AppSettings.Load().Characters.SequenceEqual(new[]{"Nuclear","Clock"}))throw new InvalidOperationException("Bulk account edits must persist the complete character list.");
+  var roster=(DataGridView)form.Controls.Find("characterRoster",true).Single();if(roster.Rows.Count!=2)throw new InvalidOperationException("Saving accounts must update the journal immediately.");
+  accounts.Rows[1].Cells[0].Value="nuclear";save.PerformClick();Application.DoEvents();
+  if(AppSettings.Load().Characters.Length!=2||pages.Controls.Find("accountSaveStatus",true).Single().ForeColor!=Theme.Rose)throw new InvalidOperationException("Duplicate names must block the batch before saving.");Render(form,"accounts-validation-smoke");
+  accounts.Rows[1].Cells[0].Value="Clock";
+  for(int i=0;i<18;i++){add.PerformClick();accounts.EndEdit();accounts.Rows[^1].Cells[0].Value="Sample"+(char)('a'+i);}
+  save.PerformClick();Application.DoEvents();if(AppSettings.Load().Characters.Length!=20)throw new InvalidOperationException("Account manager must support editing many characters in one batch.");Render(form,"accounts-bulk-small-screen");
+  Open("journal");Open("library");if(filter.SelectedIndex!=1||search.Text!="Spare"||library.Rows.Count!=1)throw new InvalidOperationException("Library filters must survive page navigation.");
+  Open("login");if(accounts.Rows.Count!=20)throw new InvalidOperationException("Account list must survive page navigation.");
+  while(accounts.Rows.Count>0){accounts.ClearSelection();accounts.CurrentCell=accounts.Rows[0].Cells[0];accounts.Rows[0].Selected=true;remove.PerformClick();}
+  save.PerformClick();Application.DoEvents();if(AppSettings.Load().Characters.Length!=0||roster.Rows.Count!=0)throw new InvalidOperationException("Removing accounts must allow an empty journal.");
+  Open("journal");Render(form,"empty-journal-smoke");Open("login");if(save.Enabled)throw new InvalidOperationException("An empty account page must invite adding a real character.");
+  foreach(string name in new[]{"Nuclear","Clock"}){add.PerformClick();accounts.EndEdit();accounts.Rows[^1].Cells[0].Value=name;}save.PerformClick();Application.DoEvents();
+  Open("settings");var client=(TextBox)pages.Controls.Find("settingsClientPath",true).Single();client.Focus();client.SelectAll();client.SelectedText="";((Button)pages.Controls.Find("saveSettings",true).Single()).PerformClick();
+  if(AppSettings.Load().ClientPath!=""||AppSettings.Load().Characters.Length!=2)throw new InvalidOperationException("Client settings must save independently of account names.");
+  Open("library");((Button)pages.Controls.Find("chooseQuest",true).Single()).PerformClick();Application.DoEvents();
+  if(selector.SelectedItem is not Core.QuestDefinition{Id:"spare-a-stick"}||!pages.Controls.Find("journalPage",false).Single().Visible)throw new InvalidOperationException("Choosing a library quest must open its journal.");
+  form.Size=new(1450,930);Application.DoEvents();foreach(string page in new[]{"library","settings","login","journal"})Open(page);
+  CheckQuestActions(form,selector);CheckPasswordBatch();
+ }
+ static void CheckPasswordBatch(){
+  using var host=new ThemedForm{Text="Isolated account save check",ClientSize=new(1000,600)};
+  var settings=AppSettings.Load();var page=new AccountManagerPage(settings,["SyntheticCredential","SyntheticOther"]);host.Controls.Add(page);Theme.Apply(host);host.Show();Application.DoEvents();
+  var accounts=(DataGridView)page.Controls.Find("accountLoginsTable",true).Single();var save=(Button)page.Controls.Find("saveAccounts",true).Single();
+  accounts.CurrentCell=accounts.Rows[0].Cells[1];accounts.BeginEdit(false);Application.DoEvents();if(accounts.EditingControl is not TextBox password)throw new InvalidOperationException("Password cell must open a text editor.");
+  if(!password.UseSystemPasswordChar||password.ReadOnly||password.Text.Length!=0)throw new InvalidOperationException("Account passwords must be editable, masked and free of placeholder text.");
+  password.Text="isolated-credential-fixture";accounts.EndEdit();accounts.Rows[1].Cells[1].Value="second-isolated-fixture";
+  save.PerformClick();Application.DoEvents();
+  if(CredentialVault.Load("SyntheticCredential")!="isolated-credential-fixture"||CredentialVault.Load("SyntheticOther")!="second-isolated-fixture")throw new InvalidOperationException("Bulk password save must round-trip through the Windows account vault.");
+  if(System.Text.Encoding.UTF8.GetString(File.ReadAllBytes(Path.Combine(AppSettings.DataPath,"logins","SYNTHETICCREDENTIAL.bin"))).Contains("isolated-credential-fixture",StringComparison.Ordinal))throw new InvalidOperationException("Stored passwords must be encrypted.");
+  if(accounts.Rows.Cast<DataGridViewRow>().Any(r=>r.Cells[1].Value?.ToString() is {Length:>0}))throw new InvalidOperationException("Saved passwords must clear out of editable cells.");
+  accounts.Rows[0].Cells[1].Value="blocked-batch-fixture";accounts.Rows[1].Cells[0].Value="SyntheticCredential";save.PerformClick();Application.DoEvents();
+  if(CredentialVault.Load("SyntheticCredential")!="isolated-credential-fixture")throw new InvalidOperationException("Invalid account batches must not write passwords.");accounts.Rows[0].Cells[1].Value="";accounts.Rows[1].Cells[0].Value="SyntheticOther";
+  accounts.Rows[0].Cells[0].Value="";save.PerformClick();Application.DoEvents();if(AppSettings.Load().Characters.Length!=2||page.Controls.Find("accountSaveStatus",true).Single().ForeColor!=Theme.Rose)throw new InvalidOperationException("Clearing an existing name must require correction or explicit removal.");accounts.Rows[0].Cells[0].Value="SyntheticCredential";
+  save.PerformClick();Application.DoEvents();if(CredentialVault.Load("SyntheticCredential")!="isolated-credential-fixture")throw new InvalidOperationException("Blank password cells must preserve saved credentials.");
+  accounts.CurrentCell=accounts.Rows[0].Cells[1];accounts.BeginEdit(false);Application.DoEvents();if(accounts.EditingControl is not TextBox{Text.Length:0,UseSystemPasswordChar:true})throw new InvalidOperationException("Stored password hints must never become an editable password.");accounts.EndEdit();
+  accounts.Rows[0].Cells[0].Value="SyntheticOther";accounts.Rows[1].Cells[0].Value="SyntheticCredential";save.PerformClick();Application.DoEvents();
+  if(CredentialVault.Load("SyntheticOther")!="isolated-credential-fixture"||CredentialVault.Load("SyntheticCredential")!="second-isolated-fixture")throw new InvalidOperationException("Swapping account names must preserve both original passwords.");
+  accounts.Rows[0].Cells[0].Value="SyntheticCredential";accounts.Rows[1].Cells[0].Value="SyntheticOther";save.PerformClick();Application.DoEvents();
+  accounts.Rows[0].Cells[0].Value="SyntheticRenamed";save.PerformClick();Application.DoEvents();if(CredentialVault.Load("SyntheticRenamed")!="isolated-credential-fixture")throw new InvalidOperationException("Renaming an account must preserve its saved password.");
+  Render(host,"accounts-passwords-saved-smoke");host.Close();
+ }
+ static void CheckQuestActions(MainForm form,ComboBox selector){
+  form.Size=new(1024,768);Application.DoEvents();
+  var quest=selector.Items.Cast<Core.QuestDefinition>().Single(q=>q.Id=="spare-a-stick");selector.SelectedItem=quest;
+  Button Action(string name)=>(Button)form.Controls.Find(name+"Quest",true).Single();
+  var completed=new Core.QuestJob{Character="Nuclear",Status="Completed",Step="complete",CompletedAt=DateTimeOffset.UtcNow.AddHours(-9)};
+  form.UpdateQuestActions(quest,completed,true,false,false,false);
+  if(!Action("start").Enabled||Action("start").Text!="Run again"||Action("resume").Enabled||Action("pause").Enabled||Action("stop").Enabled)throw new InvalidOperationException("A completed single attempt must offer Run again without locking all buttons.");
+  Action("start").Focus();Application.DoEvents();Control? viewport=Action("start").Parent;while(viewport is not null&&viewport is not DarkScrollPanel)viewport=viewport.Parent;
+  if(viewport is null||!viewport.ClientRectangle.Contains(new Rectangle(viewport.PointToClient(Action("start").PointToScreen(Point.Empty)),Action("start").Size)))throw new InvalidOperationException("Keyboard focus must reveal Run again in the compact journal.");Render(form,"repeatable-actions-smoke");
+  var cooldown=completed with{CompletedAt=DateTimeOffset.UtcNow.AddHours(-1)};form.UpdateQuestActions(quest,cooldown,true,false,false,false);if(Action("start").Enabled)throw new InvalidOperationException("Run again must respect cooldown.");
+  form.UpdateQuestActions(quest,cooldown,true,false,false,true);if(!Action("start").Enabled||Action("start").Text!="Schedule")throw new InvalidOperationException("Repeat must offer scheduling during cooldown.");
+  var restored=new Core.QuestJob{Character="Nuclear",Status="Running",Step="gather",Reason="Saved checkpoint"};form.UpdateQuestActions(quest,restored,true,false,false,false);
+  if(!Action("start").Enabled||!Action("resume").Enabled||Action("pause").Enabled)throw new InvalidOperationException("Saved Running status must not lock controls without a live owner.");
+  form.UpdateQuestActions(quest,restored,true,true,false,false);if(Action("start").Enabled||Action("resume").Enabled||!Action("pause").Enabled||!Action("stop").Enabled)throw new InvalidOperationException("A live runner must offer Pause and Stop.");
+  var birth=selector.Items.Cast<Core.QuestDefinition>().Single(q=>q.Id=="mundane-birth");form.UpdateQuestActions(birth,completed with{Quest=birth.Id},true,false,false,false);if(Action("start").Enabled||Action("resume").Enabled)throw new InvalidOperationException("One-time completion must remain final.");
+  var hair=selector.Items.Cast<Core.QuestDefinition>().Single(q=>q.Id=="perfect-hairstyle");form.UpdateQuestActions(hair,completed with{Quest=hair.Id,LegendReward=true},true,false,false,true);if(Action("start").Enabled||Action("resume").Enabled)throw new InvalidOperationException("The verified Suomi legend must end weekly attempts.");
+  var refusal=new Core.Dialog(1,1,99,1,"Callough","You remind me of my child",true,177,1,0,[]);form.UpdateQuestActions(quest,completed with{PermanentCompletion=new(DateTimeOffset.UtcNow,refusal)},true,false,false,true);if(Action("start").Enabled||Action("resume").Enabled)throw new InvalidOperationException("Permanent server completion must disable further attempts.");
+  form.UpdateQuestActions(quest,completed,false,false,false,false);if(Action("start").Enabled)throw new InvalidOperationException("A disconnected character must not start quest actions.");
  }
  static void Render(Form form,string name){
   CheckButtons(form,form);CheckActionLabels(form);

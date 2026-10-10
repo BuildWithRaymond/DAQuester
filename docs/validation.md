@@ -1,5 +1,18 @@
 # Validation status
 
+The 1.0.4 runner changes pass 162 focused quest cases and all 392 automated cases
+(native full suite: 3 minutes 28 seconds). A sandbox-only current-user pipe access
+failure was resolved by running the same isolated suite with native permissions.
+The Release build has zero warnings/errors. Native UI verification covers main
+page navigation, retained filters, Run again/cooldown/live ownership controls,
+20-account bulk edits, duplicates, empty lists and immediate journal updates.
+Isolated password batches verify Windows encryption, blank-field preservation,
+rename and name swaps. The swap regression first reproduced a password overwrite;
+all original passwords are now read before writing renamed targets. A 1024 px
+keyboard-focus regression reproduced hidden quest actions; scrollable panels now
+reveal focused controls. No real character actions or personal credential writes
+are used for verification.
+
 The 1.0.3 candidate adds a 1024 px native window check after release CI found
 the equal-width quest columns truncating "Start quest" at 95 px. The added
 check reproduced the failure locally at 94 px before the fix. Columns now share

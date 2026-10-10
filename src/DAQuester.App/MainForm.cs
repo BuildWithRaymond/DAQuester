@@ -33,7 +33,7 @@ public sealed partial class MainForm:ThemedForm {
   questChoice.Items.Add(recipes[recipe.Id]);foreach(var q in recipes.Values.Where(q=>q.Id!=recipe.Id))questChoice.Items.Add(q);questChoice.SelectedIndex=0;
   BuildWorkspace();
   InitializeUpdates();
-  questChoice.SelectedIndexChanged+=(_,_)=>{bool hair=SelectedQuest.Id=="perfect-hairstyle";repeats.Text=hair?"Weekly until Suomi legend":"Repeat every 8 hours";repeats.Visible=SelectedQuest.Repeatable;repeats.Enabled=SelectedQuest.Repeatable&&!hair;repeats.Checked=hair;foreach(var row in grid.Rows.Cast<DataGridViewRow>().ToArray())RefreshRow(row.Cells[0].Value?.ToString()??"");UpdateStatus();};
+  questChoice.SelectedIndexChanged+=(_,_)=>{foreach(var row in grid.Rows.Cast<DataGridViewRow>().ToArray())RefreshRow(row.Cells[0].Value?.ToString()??"");UpdateStatus();};
   host.Diagnostic+=Log;
   host.Connected+=c=>{
    c.Tracker.Observed+=(opcode,payload)=>recorder.Record(opcode,payload,c.Tracker.Snapshot);
@@ -89,7 +89,7 @@ public sealed partial class MainForm:ThemedForm {
   var s=session?.Snapshot??new CharacterSnapshot{Name=name};var job=GetJob(name);
   bool birth=job.Quest=="mundane-birth",hair=job.Quest=="perfect-hairstyle",muisir=job.Quest=="entered-muisir-village";
   var eligibility=birth?MundaneBirthEvidence.Eligibility(s,job.BirthOptions):hair?PerfectHairstyleEvidence.Eligibility(s):muisir?MuisirEvidence.Eligibility(s):StickEligibility.Check(s,job.CompletedAt,DateTimeOffset.UtcNow);
-  var row=grid.Rows.Cast<DataGridViewRow>().First(x=>string.Equals(x.Cells[0].Value?.ToString(),name,StringComparison.OrdinalIgnoreCase));
+  var row=grid.Rows.Cast<DataGridViewRow>().FirstOrDefault(x=>string.Equals(x.Cells[0].Value?.ToString(),name,StringComparison.OrdinalIgnoreCase));if(row is null)return;
   row.SetValues(name,s.Connected?"Online":"Offline",s.Level?.ToString()??"—",s.Gold?.ToString("N0")??"—",
     s.Map+" · "+s.Position?.X+","+s.Position?.Y,birth?job.BirthOptions is {} o?$"{o.Season} · {o.Age} · {o.Town}":"Choose birth details":hair?job.LegendReward==true?"Suomi legend recorded":"Ponytail · no items":muisir?s.InventoryKnown?s.Count(MuisirEvidence.Mushroom)+"/5 mushrooms":"Unknown":s.InventoryKnown?s.Count(calibration.BranchName)+"/6 branches":"Unknown",(birth||hair||muisir)&&job.CompletedAt is not null?"Completed":job.Status,job.Step,
     job.CompletionText??(job.PermanentCompletion is not null?job.Reason:job.Status=="Paused"&&job.Reason!="Ready"?job.Reason:!birth&&!hair&&!muisir&&!calibration.Ready?"Calibration required":eligibility.Reason),job.NextRun?.ToLocalTime().ToString("g")??"",QuestName(job.Quest));
@@ -127,7 +127,7 @@ public sealed partial class MainForm:ThemedForm {
    }
   }
   var runner=await PrepareRunner(name,selected,options);
-  await runner.RunAsync(selected.Repeatable&&repeats.Checked);
+  await runner.RunAsync(selected.Repeatable&&repeats.Checked,startNewAttempt:!resume);
  }
  Task Pause(string reason){CancelControl(Selected());return runners.TryGetValue(Selected(),out var runner)?runner.PauseAsync(reason):Task.CompletedTask;}
  async Task StopAll(){CancelControl();foreach(var r in runners.Values.ToArray())await r.PauseAsync("Global stop; progress saved");await Task.WhenAll(calibrationTasks.Values.ToArray());await Task.WhenAll(permanentTasks.Values.ToArray());}
@@ -145,22 +145,11 @@ public sealed partial class MainForm:ThemedForm {
    Log(calibration.Ready?"Calibration saved; automatic runs enabled.":"Calibration draft saved.");
   }
  }
- Task Catalog() {
-  using var form=new QuestLibraryForm(recipes.Values);if(form.ShowDialog(this)==DialogResult.OK&&form.SelectedQuestId is {} id)questChoice.SelectedItem=recipes[id];return Task.CompletedTask;
- }
- async Task EditSettings() {
-  await StopAll();using var form=new PlayerSettingsForm(settings,updates,InstallUpdate);
-  if(form.ShowDialog(this)==DialogResult.OK&&form.Result is {} value){settings.AutomaticUpdateChecks=value.AutomaticUpdateChecks;updates.AutomaticChecks=value.AutomaticUpdateChecks;Log("Settings saved. Restart DAQuester to apply character or client changes.");}
- }
  async Task EditConnectionProfile() {
   await StopAll();using var form=new ThemedForm{Text="Connection profile · Save, then restart DAQuester",Size=new(700,650),StartPosition=FormStartPosition.CenterParent};
   var text=new TextBox{Multiline=true,ScrollBars=ScrollBars.Both,Dock=DockStyle.Fill,Font=new("Consolas",10),Text=JsonSerializer.Serialize(settings,AppSettings.Json)};
   var save=new Button{Text="Save profiles",Dock=DockStyle.Bottom,Height=40};
   save.Click+=(_,_)=>{try{var value=JsonSerializer.Deserialize<AppSettings>(text.Text,AppSettings.Json)??throw new InvalidDataException();value.Save();form.Close();Log("Profiles saved. Restart DAQuester to apply endpoint changes.");}catch(Exception e){Theme.Error(form,e.Message);}};
   form.Controls.Add(text);form.Controls.Add(save);Theme.Apply(form);form.ShowDialog(this);
- }
- Task Login() {
-  string name=Selected();if(!name.All(char.IsAsciiLetter)||name.Length==0)throw new InvalidOperationException("Select a valid character name.");
-  using var form=new SavedLoginForm(name);form.ShowDialog(this);return Task.CompletedTask;
  }
 }

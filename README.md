@@ -28,6 +28,7 @@ Choose a character, follow the journey, and keep the rewards you earn.
 - **Updates on your terms.** Optional startup checks, off by default. Download only when you choose, then install after finishing your quests and closing game clients.
 - **Tools when you need them.** Developer mode reveals calibration, evidence recording, connection profiles and diagnostics.
 - **Local storage.** Settings and journals stay on your Windows account. Optional saved passwords use Windows encryption; sign-in remains manual.
+- **One account manager.** Edit every character name and masked password in one table, add/remove rows, then save the batch. Names appear in the journal immediately.
 
 <table>
 <tr>
@@ -41,7 +42,7 @@ Choose a character, follow the journey, and keep the rewards you earn.
 ## Start a journey
 
 1. Download **DAQuester-win-Setup.exe** from [Releases](https://github.com/BuildWithRaymond/DAQuester/releases/latest), or extract **DAQuester-win-Portable.zip**. Both include .NET.
-2. Open **Settings**, select your supported `Darkages.exe`, and enter your character names. Restart DAQuester after changing the game client or roster.
+2. Open **Settings** and select your supported `Darkages.exe`. Add character names and optional passwords in **Account manager**, then **Save accounts**. Restart DAQuester after changing the game client.
 3. Choose **Open Dark Ages** and sign in manually. Select the connected character and a quest, then **Start quest**.
 4. Use **Pause**, **Resume** or **Stop** as needed. Progress is saved automatically.
 5. If desired, enable **Check for updates when DAQuester opens** in Settings. Checks never download automatically; **Download update** and **Install and exit** are separate choices.

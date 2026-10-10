@@ -4,7 +4,7 @@
   "RemotePorts":[2610,2611,2612],
   "LocalPorts":[2910,2911,2912],
   "ServerProfile":"datester-7.41",
-  "Characters":["Aisling"],
+  "Characters":[],
   "AutomaticUpdateChecks":false,
   "MovementMilliseconds":400,
   "FastModeCharacters":[],

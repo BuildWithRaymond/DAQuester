@@ -1,5 +1,23 @@
 # Changelog
 
+## 1.0.4 — 2026-10-10
+
+- Allow explicit Run again after a completed Spare a Stick attempt. Restore the
+  eight-hour cooldown when enabling repeat after a single run; preserve permanent
+  server completion, pending transactions and the other quest policies.
+- Restore quest controls after an action finishes; use live ownership instead of
+  saved Running/Scheduled status. Retain each character's repeat choice.
+- Open Quest journal, Quest library, Account manager and Settings as main pages.
+  Keep library filters and quest progress while navigating; opening Settings no
+  longer stops quests.
+- Scroll focused controls into view so keyboard navigation can reach quest
+  actions on compact screens.
+- Add one editable account table for character names and masked passwords, with
+  bulk save, add/remove, duplicate validation and immediate journal updates.
+  Blank passwords preserve existing credentials; renamed accounts retain them.
+- Remove placeholder Aisling from new profiles and character editing from
+  Settings. Keep client and update preferences in Settings.
+
 ## 1.0.3 — 2026-10-10
 
 - Fix stale button corners and text escaping partial repaint regions. Unify

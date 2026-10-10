@@ -5,6 +5,12 @@ DAQuester uses .NET Windows Forms. Its shared native controls adapt
 to the existing midnight journal palette. These are custom WinForms components;
 no web control library or runtime theme package is required.
 
+The persistent navigation rail switches the main content among Quest journal,
+Quest library, Account manager and Settings. Pages keep their working state and
+do not pause quests on navigation. Account manager uses the main area for a
+single editable table of names, masked password inputs and save states; Settings
+contains client and update preferences. Secondary pickers remain focused dialogs.
+
 ## Tokens and hierarchy
 
 `Theme` is the single source for colors, typography, spacing and control states.

@@ -13,8 +13,10 @@ unsupported builds. No game binaries or assets are included.
 
 ## Set up and play
 
-1. Open **Settings**. Select `Darkages.exe`, enter one character name per line,
-   and save. Restart DAQuester after changing the client or roster.
+1. Open **Settings**, select `Darkages.exe`, and save. Restart DAQuester after
+   changing the client. In **Account manager**, add rows for your character names
+   and optional passwords, then **Save accounts**. Names update the journal
+   immediately. Blank passwords keep existing saved passwords.
 2. Choose **Open Dark Ages**. Log in manually. Only clients opened through
    DAQuester connect through its proxy.
 3. Select the character and quest. Read the requirements, then **Start quest**.
@@ -22,6 +24,11 @@ unsupported builds. No game binaries or assets are included.
 4. **Pause** retains progress. **Resume** continues saved work. **Stop** cancels
    automation and retains the journal. Manual movement/NPC interaction pauses
    automation while gameplay continues.
+
+Left navigation opens pages in the same window. Library filters, account edits
+and quest progress stay in place when switching pages. For Spare a Stick,
+**Run again** starts another attempt after cooldown; **Repeat** schedules further
+attempts every eight hours until Callough confirms permanent completion.
 
 Optional **Fast mode · slows near players** saves separately for each character
 and defaults off. Check it for Excalibur's fast pace when alone; another player

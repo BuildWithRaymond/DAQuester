@@ -6,7 +6,7 @@ public class AppSettings {
  public int[] RemotePorts {get;set;}=[2610,2611,2612];
  public int[] LocalPorts {get;set;}=[2910,2911,2912];
  public string ServerProfile {get;set;}="datester-7.41";
- public string[] Characters {get;set;}=["Aisling"];
+ public string[] Characters {get;set;}=[];
  public bool AutomaticUpdateChecks {get;set;}=false;
  public int MovementMilliseconds {get;set;}=400;
  public string[] FastModeCharacters {get;set;}=[];

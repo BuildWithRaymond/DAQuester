@@ -10,7 +10,7 @@ public sealed partial class MainForm {
   if(controlActions.ContainsKey(name))throw new QuestBlockedException("A local action owns this character. Stop it first.");
   if(!sessions.TryGetValue(name,out var session)||!session.Snapshot.Connected)throw new QuestBlockedException("Launch DATester and log in as "+name+" first.");
   runners.TryGetValue(name,out var old);
-  if(old?.Job.Quest==selected.Id&&old.Job.Status is "Running" or "Scheduled")throw new QuestBlockedException("This quest already runs for "+name+". Pause before changing choices.");
+  if(old?.Job.Quest==selected.Id&&old.IsRunning)throw new QuestBlockedException("This quest already runs for "+name+". Pause before changing choices.");
   var saved=old?.Job.Quest==selected.Id?old.Job:journal.Load(name,selected.Id);
   if(selected.Id=="mundane-birth") {
    if(options is not null) {

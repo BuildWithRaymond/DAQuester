@@ -6,7 +6,9 @@ builds/verifies installer, portable and update packages.
 
 The UI smoke uses a unique ignored data folder and a synthetic update backend.
 It does not contact the game or update feed. It checks all four quest policies,
-Developer mode, library filtering, birth choices, update opt-in persistence and
+Developer mode, retained page navigation/library filters, editable account batches,
+duplicate validation, empty accounts, isolated Windows password save/encryption,
+repeatable quest action controls, birth choices, update opt-in persistence and
 separate download/install states. Rendered surfaces reject solid light patches
 and clipped buttons. Screenshots and test reports are retained as CI artifacts.
 

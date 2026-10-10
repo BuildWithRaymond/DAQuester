@@ -2,6 +2,7 @@ using System.Security.Cryptography;
 using System.Text;
 namespace DAQuester.App;
 public static class CredentialVault {
+ public static bool Exists(string character)=>File.Exists(Path.Combine(AppSettings.DataPath,"logins",character.ToUpperInvariant()+".bin"));
  public static void Save(string character,string password) {
   string file=Path.Combine(AppSettings.DataPath,"logins",character.ToUpperInvariant()+".bin");Directory.CreateDirectory(Path.GetDirectoryName(file)!);
   var bytes=Encoding.UTF8.GetBytes(password);

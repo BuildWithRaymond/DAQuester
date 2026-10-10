@@ -2,7 +2,8 @@ namespace DAQuester.Core;
 public class QuestRunner(IGameSession session,IQuestJournal journal,QuestDefinition recipe,Calibration calibration) {
  public QuestJob Job {get;private set;}=journal.Load(session.Snapshot.Name??"Unknown",recipe.Id);
  private readonly SemaphoreSlim owner=new(1,1);
- private CancellationTokenSource? active;
+ private volatile CancellationTokenSource? active;
+ public bool IsRunning=>active is not null;
  private string pauseReason="Paused by player";
  public event Action<QuestJob>? Changed;
  public Dictionary<string,IQuestAction> Actions {get;} = recipe.Id switch {
@@ -13,7 +14,7 @@ public class QuestRunner(IGameSession session,IQuestJournal journal,QuestDefinit
   _=>[]
  };
  public Dictionary<string,Func<QuestContext,bool?>> Conditions {get;}=[];
- public async Task RunAsync(bool repeat=false,CancellationToken cancellation=default) {
+ public async Task RunAsync(bool repeat=false,CancellationToken cancellation=default,bool startNewAttempt=false) {
   if(!await owner.WaitAsync(0,cancellation))return;
   bool hairstyle=recipe.Id=="perfect-hairstyle";
   repeat=recipe.Repeatable&&(repeat||hairstyle);
@@ -33,14 +34,17 @@ public class QuestRunner(IGameSession session,IQuestJournal journal,QuestDefinit
    if(hairstyle&&session.Snapshot.LegendsKnown&&PerfectHairstyleEvidence.HasLegend(session.Snapshot)) {
     await Save(c.Job with{Status="Completed",Step="complete",CompletedAt=c.Job.CompletedAt??DateTimeOffset.UtcNow,LegendReward=true,Repeat=false,NextRun=null,CompletionText=PerfectHairstyleEvidence.Legend,Reason="Suomi legend verified"});return;
    }
-   if(c.Job.NextRun is {} next && next>DateTimeOffset.UtcNow) {
+   bool completedAttempt=c.Job.CompletedAt.HasValue&&c.Job.Step=="complete";
+   bool anotherAttempt=completedAttempt&&recipe.Repeatable&&(repeat||startNewAttempt)&&!QuestRunPolicy.Finished(recipe,c.Job);
+   if(completedAttempt&&c.Job.Pending is not null)throw new QuestBlockedException("Pending transaction requires reconciliation before a new attempt.");
+   if(completedAttempt&&!anotherAttempt){await Save(c.Job with{Status="Completed",Repeat=false,NextRun=null,Reason=c.Job.CompletionText??"One completion verified"});return;}
+   if(QuestRunPolicy.NextAttempt(recipe,c.Job) is {} next && next>DateTimeOffset.UtcNow) {
+    if(anotherAttempt&&!repeat)throw new QuestBlockedException("Eight-hour cooldown until "+next.ToLocalTime().ToString("g")+". Choose Repeat to schedule the next attempt.");
+    await Save(c.Job with{NextRun=next});
     await Save(c.Job with{Status="Scheduled",Reason=hairstyle?"Waiting for seven-day cooldown":"Waiting for eight-hour cooldown"});
-    await Task.Delay(next-DateTimeOffset.UtcNow,token.Token);
+    var remaining=next-DateTimeOffset.UtcNow;if(remaining>TimeSpan.Zero)await Task.Delay(remaining,token.Token);
    }
-   if(c.Job.CompletedAt.HasValue&&c.Job.Step=="complete") {
-    if(!repeat||hairstyle&&c.Job.LegendReward==true){await Save(c.Job with{Status="Completed",Repeat=hairstyle?false:repeat,NextRun=hairstyle?null:c.Job.NextRun,Reason=c.Job.CompletionText??"One completion verified"});return;}
-    await Save(c.Job with{Step="preflight",Accepted=false});
-   }
+   if(anotherAttempt)await Save(c.Job with{Step="preflight",Accepted=false,AcceptedGeneration=null,NextRun=null});
    var activation=recipe.Steps.FirstOrDefault(s=>s.Action=="accept"&&s.Arguments?.GetValueOrDefault("activationScope")=="connection");
    if(activation is not null&&c.Job.Accepted&&c.Job.AcceptedGeneration!=session.Snapshot.Generation) {
     if(c.Job.Pending is not null)throw new QuestBlockedException("Pending transaction requires reconciliation before reconnect activation.");
@@ -73,12 +77,12 @@ public class QuestRunner(IGameSession session,IQuestJournal journal,QuestDefinit
     await Save(c.Job with{Status="Scheduled",Step=hairstyle?"preflight":c.Job.Step,Reason=hairstyle?"Waiting for seven-day cooldown; Suomi legend still needed":"Waiting for next run"});
     var delay=(c.Job.NextRun??DateTimeOffset.UtcNow)-DateTimeOffset.UtcNow;
     if(delay>TimeSpan.Zero)await Task.Delay(delay,token.Token);
-    await Save(c.Job with{Step="preflight"});
+    await Save(c.Job with{Step="preflight",Accepted=false,AcceptedGeneration=null});
    }while(!token.IsCancellationRequested);
   } catch(QuestPermanentlyCompletedException e) {await Save(PermanentQuestCompletion.Record(c.Job,e.Dialog,session.Snapshot));}
     catch(OperationCanceledException) {await Save(c.Job with{Status="Paused",Reason=pauseReason});}
     catch(Exception e) {await Save(c.Job with{Status="Paused",Reason=e.Message});}
-  finally {session.Interrupted-=Interrupt;session.Changed-=Observe;active=null;owner.Release();}
+  finally {session.Interrupted-=Interrupt;session.Changed-=Observe;active=null;owner.Release();Changed?.Invoke(Job);}
  }
  public async Task PauseAsync(string reason="Paused by player") {
   pauseReason=reason;active?.Cancel();

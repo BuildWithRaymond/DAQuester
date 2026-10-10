@@ -10,7 +10,7 @@ public sealed partial class MainForm {
  readonly Dictionary<string,AutomaticCalibration> calibrationRuns=new(StringComparer.OrdinalIgnoreCase);
  readonly Dictionary<string,Task> calibrationTasks=new(StringComparer.OrdinalIgnoreCase);
  TreeRegion[] CandidateRegions=>TreePatrol.Load(Path.Combine(AppSettings.Content,"calibration","mileth-tree-candidates.json"));
- QuestJob GetJob(string name)=>calibrationRuns.TryGetValue(name,out var run)?run.Job:runners.TryGetValue(name,out var runner)?runner.Job:journal.Load(name,SelectedQuest.Id);
+ QuestJob GetJob(string name)=>calibrationRuns.TryGetValue(name,out var run)?run.Job:runners.TryGetValue(name,out var runner)&&(runner.Job.Quest==SelectedQuest.Id||runner.IsRunning)?runner.Job:journal.Load(name,SelectedQuest.Id);
  void InitializeControl() {
   Shown+=(_,_)=>{if(Environment.GetCommandLineArgs().Contains("--smoke"))return;controlServer=new(r=>OnUiAsync(()=>ControlAsync(r)));controlServer.Start();Log("Local control bridge ready; current Windows user only.");};
   FormClosed+=async(_,_)=>{CancelControl();if(controlServer is not null)await controlServer.DisposeAsync();};
@@ -43,7 +43,7 @@ public sealed partial class MainForm {
    if(id=="mundane-birth"&&(TextArgument("season") is not null||TextArgument("town") is not null||r.Arguments is {} args&&args.TryGetProperty("age",out _)))
     options=new(TextArgument("season")??"",Number("age",0),TextArgument("town")??"");
    var runner=await PrepareRunner(name,selected,options);
-   _=runner.RunAsync(selected.Repeatable&&Flag("repeat"));return new{started=name,quest=id,birthChoices=runner.Job.BirthOptions};
+   _=runner.RunAsync(selected.Repeatable&&Flag("repeat"),startNewAttempt:true);return new{started=name,quest=id,birthChoices=runner.Job.BirthOptions};
   }
   if(r.Method!="command")throw new InvalidOperationException("Unsupported control method: "+r.Method);
   var command=JsonSerializer.Deserialize<GameCommand>(r.Arguments?.GetRawText()??"{}",AppSettings.Json)??throw new InvalidDataException("Game command missing.");
