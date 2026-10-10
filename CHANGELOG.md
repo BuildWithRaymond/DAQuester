@@ -1,5 +1,11 @@
 # Changelog
 
+## 1.0.1 — 2026-10-09
+
+- Include the full Velopack MIT notice and exact .NET runtime licenses/notices in
+  installer, portable and update packages.
+- Require these files in package verification. Quest and update behavior is unchanged.
+
 ## 1.0.0 — 2026-10-09
 
 - First public open-source release of DAQuester.

@@ -11,6 +11,10 @@
   <ItemGroup>
     <ProjectReference Include="..\DAQuester.DarkAges\DAQuester.DarkAges.csproj"/>
     <PackageReference Include="Velopack" Version="1.2.161"/>
+    <Content Include="Licenses\**\*">
+      <Link>licenses\%(RecursiveDir)%(Filename)%(Extension)</Link>
+      <CopyToPublishDirectory>PreserveNewest</CopyToPublishDirectory>
+    </Content>
     <Content Include="..\..\content\**\*">
       <Link>content\%(RecursiveDir)%(Filename)%(Extension)</Link>
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>

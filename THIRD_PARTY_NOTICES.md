@@ -16,12 +16,15 @@ Namespace/target adaptations and observed packet variants are described in
 
 Optional updates and Windows packaging use
 [Velopack](https://github.com/velopack/velopack), version 1.2.161, under MIT.
-Package-supplied license files are retained in published packages. The update
+The [complete upstream MIT notice](src/DAQuester.App/Licenses/Velopack/LICENSE.txt)
+is retained from package source commit `92d6a1c91716729d449034df5c50307dcce39493`
+and shipped under `licenses/Velopack/`. The update
 source is the public DAQuester repository and requires no account token.
 
 ## .NET and test dependencies
 
-Microsoft .NET runtime notices are included in self-contained distributions.
+Microsoft .NET runtime licenses and notices are copied from the exact restored
+core/desktop runtime packs into `licenses/` in self-contained distributions.
 Microsoft.NET.Test.Sdk, xUnit, and xunit.runner.visualstudio are development-only
 dependencies; their upstream licenses apply.
 
