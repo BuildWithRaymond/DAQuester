@@ -10,6 +10,33 @@ public sealed partial class MainForm {
  readonly Dictionary<string,CancellationTokenSource> pendingLaunches=new(StringComparer.OrdinalIgnoreCase);
  readonly Dictionary<string,string> launchStates=new(StringComparer.OrdinalIgnoreCase);
  readonly Dictionary<string,Task<int>> launchTasks=new(StringComparer.OrdinalIgnoreCase);
+ (string Path,DateTime Written,string? Error) clientCheck;
+ // Hashing the 3 MB client on every refresh is too slow; cache per path and write time.
+ string? ClientBlocker(){
+  string path=settings.ClientPath;
+  if(path.Length==0||!File.Exists(path))return "Dark Ages application not found. Set its path in Settings.";
+  var written=File.GetLastWriteTimeUtc(path);
+  if(clientCheck.Path!=path||clientCheck.Written!=written){
+   string? error=null;
+   try{ClientLauncher.Validate(path);}
+   catch(InvalidOperationException){error="This Dark Ages application isn't a supported 7.41 client. Choose it in Settings.";}
+   catch(Exception e) when(e is IOException or UnauthorizedAccessException){error="The Dark Ages application couldn't be read. Check its path in Settings.";}
+   clientCheck=(path,written,error);
+  }
+  return clientCheck.Error;
+ }
+ bool OwnsLiveClient(string name)=>ownedClients.TryGetValue(name,out var client)&&!client.HasExited;
+ // Why Launch is blocked for this character, in the order the launch itself checks; null means it can run.
+ internal string? LaunchBlocker(string name){
+  if(IsSmoke)return "Preview can't launch game clients.";
+  if(name.Length==0)return "Add a character on the Characters page, then select it here.";
+  if(!ready)return "The game connection isn't ready. Check the connection profile in Developer mode.";
+  if(pendingLaunches.ContainsKey(name))return launchStates.GetValueOrDefault(name,"Launching Dark Ages…");
+  if(OwnsLiveClient(name))return null;
+  if(sessions.TryGetValue(name,out var session)&&session.Snapshot.Connected)return name+" is already connected. Use its game window.";
+  return ClientBlocker();
+ }
+ internal string? LaunchHint(string name)=>OwnsLiveClient(name)?name+" is connected. Launch focuses its game window.":null;
  Task<int> LaunchCharacterAsync(string name,bool manualOnly=false){if(launchTasks.TryGetValue(name,out var active)&&!active.IsCompleted)return active;var task=LaunchOwnedCharacterAsync(name,manualOnly);launchTasks[name]=task;return task;}
  async Task<int> LaunchOwnedCharacterAsync(string name,bool manualOnly){
   if(IsSmoke)throw new InvalidOperationException("Preview cannot launch game clients.");

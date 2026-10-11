@@ -68,12 +68,19 @@ public sealed partial class MainForm {
   plannerEntries.Sort((a,b)=>{int ready=(b.RecipeId is not null).CompareTo(a.RecipeId is not null);return ready!=0?ready:a.Name.CompareTo(b.Name);});
  }
 
+ JournalButton? launchButton;
+ readonly JournalTip tip=new();
  Control BuildPlannerHeader(){
   var header=new Panel();var title=Theme.Label("Quest planner",25);title.Font=Theme.Heading(25);title.SetBounds(0,4,550,40);var sub=Theme.Label("Your quests. Your order. Your next adventure.",10,Theme.Muted);sub.SetBounds(1,48,550,26);
   var account=new JournalCard{Padding=new(10),Width=254,Height=70,Anchor=AnchorStyles.Top|AnchorStyles.Right};characterSeal.Location=new(10,14);account.Controls.Add(characterSeal);
   var info=new Panel{Location=new(59,7),Size=new(185,54)};characterSwitcher.Height=28;connectionSummary.Dock=DockStyle.Bottom;connectionSummary.Height=19;connectionSummary.Font=Theme.Body(8);info.Controls.Add(connectionSummary);info.Controls.Add(characterSwitcher);account.Controls.Add(info);
-  var launch=Theme.Button("Launch");launch.Name="launchSelectedCharacter";launch.Width=88;launch.Height=40;Wire(launch,()=>LaunchCharacterAsync(Selected()));
+  var launch=Theme.Button("Launch");launch.Name="launchSelectedCharacter";launch.Width=88;launch.Height=40;Wire(launch,()=>LaunchCharacterAsync(Selected()));launchButton=launch;
   header.Controls.AddRange([title,sub,account,launch]);header.Resize+=(_,_)=>{account.Location=new(header.Width-254,4);launch.Location=new(header.Width-354,16);title.Width=sub.Width=Math.Max(150,header.Width-375);};
+  // A disabled button gets no mouse messages; its parent shows the blocker instead.
+  bool blockerShown=false;
+  header.MouseMove+=(_,e)=>{bool over=!launch.Enabled&&launch.Bounds.Contains(e.Location);if(over==blockerShown)return;blockerShown=over;if(over)tip.ShowAt(launch.AccessibleDescription??"",header,new(launch.Left,launch.Bottom+4));else tip.Hide(header);};
+  header.MouseLeave+=(_,_)=>{if(!blockerShown)return;blockerShown=false;tip.Hide(header);};
+  Disposed+=(_,_)=>tip.Dispose();
   characterSwitcher.SelectedIndexChanged+=(_,_)=>{if(updatingPlanner||characterSwitcher.SelectedItem is not string name)return;SelectCharacter(name);};return header;
  }
 
@@ -153,7 +160,7 @@ public sealed partial class MainForm {
    characterSwitcher.SelectedItem=name;characterSeal.Character=name;characterSeal.Invalidate();characterSwitcher.Enabled=names.Length>0;
    sessions.TryGetValue(name,out var session);var remembered=RememberedCharacter(name);connectionSummary.Text=session?.Snapshot.Connected==true?$"Level {session.Snapshot.Level?.ToString()??"?"} · {MapName(session.Snapshot.Map)}":remembered.Level is {} level?$"Offline · level {level} saved":"Offline · progress saved";
    if(session?.Snapshot.Connected!=true&&launchStates.TryGetValue(name,out var launchState))connectionSummary.Text=launchState;
-   var launch=Controls.Find("launchSelectedCharacter",true).FirstOrDefault();if(launch is not null)launch.Enabled=name.Length>0&&ready&&!IsSmoke&&!pendingLaunches.ContainsKey(name);
+   if(launchButton is {} launch){string? blocker=LaunchBlocker(name);launch.Enabled=blocker is null;launch.AccessibleDescription=blocker??LaunchHint(name);tip.SetToolTip(launch,blocker is null?LaunchHint(name):null);}
    var queue=GetQueue(name);bool locked=queue.Locked||queueSaving.Contains(name)||queuePreparations.ContainsKey(name);var projected=plannerEntries.Select(e=>(Entry:e,Availability:Availability(e,name))).ToArray();
    filterCounts["all"]=projected.Length;filterCounts["ready"]=projected.Count(e=>e.Availability.Ready);filterCounts["completed"]=projected.Count(e=>e.Availability.State=="Completed");filterCounts["unavailable"]=projected.Count(e=>!e.Availability.Ready&&e.Availability.State!="Completed");
    foreach(var (id,button) in plannerFilters){string label=id switch{"all"=>"All quests","ready"=>"Ready","completed"=>"Completed",_=>"Unavailable"};button.Text=label+"  "+filterCounts[id];button.Active=id==plannerFilter;}
@@ -170,7 +177,7 @@ public sealed partial class MainForm {
   using var form=new ThemedForm{Text=entry.Name,ClientSize=new(630,520),StartPosition=FormStartPosition.CenterParent,Padding=new(24)};
   var title=Theme.Label(entry.Name,22,Theme.Text,true);title.Dock=DockStyle.Top;title.Height=58;
   var content=new TextBox{Multiline=true,ReadOnly=true,Dock=DockStyle.Fill,Text=$"{entry.Reward}\r\n\r\nRequirements\r\nLevel: {entry.Level}\r\n{entry.Requirements}\r\n\r\n{Availability(entry,Selected()).Reason}"};
-  var bottom=new FlowLayoutPanel{Dock=DockStyle.Bottom,Height=48,FlowDirection=FlowDirection.RightToLeft};var close=Theme.Button("Close");close.DialogResult=DialogResult.OK;bottom.Controls.Add(close);if(entry.RecipeId is {} quest){var add=Theme.Button("Add to queue",true);add.Width=145;add.Enabled=!GetQueue(Selected()).Locked&&!GetQueue(Selected()).Quests.Contains(quest)&&Availability(entry,Selected()).CanQueue;add.Click+=async(_,_)=>{await EditQueue(s=>s with{Quests=s.Quests.Append(quest).ToArray()});form.Close();};bottom.Controls.Add(add);}else if(Uri.TryCreate(entry.Source,UriKind.Absolute,out var url)&&url.Scheme=="https"){var guide=Theme.Button("Open guide");guide.Width=140;guide.Click+=(_,_)=>System.Diagnostics.Process.Start(new System.Diagnostics.ProcessStartInfo(url.AbsoluteUri){UseShellExecute=true});bottom.Controls.Add(guide);}
+  var bottom=new FlowLayoutPanel{Dock=DockStyle.Bottom,Height=48,FlowDirection=FlowDirection.RightToLeft};var close=Theme.Button("Close");close.DialogResult=DialogResult.OK;bottom.Controls.Add(close);if(entry.RecipeId is {} quest){var add=Theme.Button("Add to queue",true);add.Width=145;add.Enabled=!GetQueue(Selected()).Locked&&!GetQueue(Selected()).Quests.Contains(quest)&&Availability(entry,Selected()).CanQueue;add.Click+=async(_,_)=>{await EditQueue(s=>s with{Quests=s.Quests.Append(quest).ToArray()});form.Close();};bottom.Controls.Add(add);}if(Uri.TryCreate(entry.Source,UriKind.Absolute,out var url)&&url.Scheme=="https"){var guide=Theme.Button("Open guide");guide.Width=140;guide.Click+=(_,_)=>System.Diagnostics.Process.Start(new System.Diagnostics.ProcessStartInfo(url.AbsoluteUri){UseShellExecute=true});bottom.Controls.Add(guide);}
   form.Controls.Add(content);form.Controls.Add(title);form.Controls.Add(bottom);form.AcceptButton=close;form.CancelButton=close;Theme.Apply(form);form.ShowDialog(this);
  }
 }

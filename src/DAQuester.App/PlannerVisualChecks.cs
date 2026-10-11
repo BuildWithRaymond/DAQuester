@@ -32,6 +32,7 @@ internal static class PlannerVisualChecks {
   switcher.SelectedItem="Nuclear";Application.DoEvents();if(queue.Controls.OfType<PlannerQueueRow>().Count()!=2)throw new InvalidOperationException("Switching back must restore saved order.");
   roster.Rows.RemoveAt(1);((Button)Require("clearQueue")).PerformClick();Wait(()=>!queue.Controls.OfType<PlannerQueueRow>().Any());
   if(((Button)Require("startQueue")).Enabled)throw new InvalidOperationException("Offline preview must not start gameplay.");
+  var launch=(Button)Require("launchSelectedCharacter");if(launch.Enabled||string.IsNullOrEmpty(launch.AccessibleDescription))throw new InvalidOperationException("A blocked Launch button must say why.");
   var receipt=new Core.QueueOutcome("mundane-birth","Completed",DateTimeOffset.UtcNow,"Synthetic smoke fixture: verified birth receipt saved.");var saveHistory=store.SaveAsync(store.Load("Nuclear") with{History=[receipt]});Wait(()=>saveHistory.IsCompleted);saveHistory.GetAwaiter().GetResult();
   ((Dictionary<string,Core.QuestQueueState>)typeof(MainForm).GetField("queueCache",System.Reflection.BindingFlags.Instance|System.Reflection.BindingFlags.NonPublic)!.GetValue(form)!).Remove("Nuclear");
   ((Button)Require("navigatehistory")).PerformClick();Application.DoEvents();
