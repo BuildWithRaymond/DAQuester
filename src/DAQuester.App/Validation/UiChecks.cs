@@ -43,7 +43,7 @@ internal static class UiChecks
    async Task Capture(string name, double scale = 1, Window? target = null)
    {
     target ??= window;
-    await Settle(); target.UpdateLayout(); CheckVisibleActions(target);
+    await Settle(); target.UpdateLayout();
     string path = "artifacts/screenshots/" + name + ".png";
     if (Program.IsHeadless && scale == 1) { using var image = target.CaptureRenderedFrame() ?? throw new InvalidOperationException("Avalonia produced no rendered frame."); CheckDarkSurface(image, name); image.Save(path); }
     else
@@ -53,6 +53,7 @@ internal static class UiChecks
      image.Render(target); CheckDarkSurface(image, name); image.Save(path);
     }
     if (new FileInfo(path).Length < 1000) throw new InvalidOperationException("Avalonia render contains no meaningful pixels: " + name);
+    CheckVisibleActions(target);
     renders.Add(path);
    }
    async Task CapturePopup(ComboBox combo, string name)
@@ -419,7 +420,7 @@ internal static class UiChecks
    if (action.GetVisualAncestors().OfType<ScrollViewer>().Any()) continue;
    var origin = action.TranslatePoint(default, window); if (origin is null) continue;
    var bounds = new Rect(origin.Value, action.Bounds.Size);
-   if (bounds.X < -1 || bounds.Y < -1 || bounds.Right > window.ClientSize.Width + 1 || bounds.Bottom > window.ClientSize.Height + 1) throw new InvalidOperationException("Action clipped at current window size: " + (action.Name ?? action.Content));
+   if (bounds.X < -1 || bounds.Y < -1 || bounds.Right > window.ClientSize.Width + 1 || bounds.Bottom > window.ClientSize.Height + 1) throw new InvalidOperationException($"Action clipped at current window size: {action.Name ?? action.Content}; action={bounds}, client={window.ClientSize}, window={window.Bounds}, requested={window.Width}x{window.Height}, scaling={window.RenderScaling}");
   }
  }
 

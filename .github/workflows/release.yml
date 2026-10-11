@@ -27,14 +27,14 @@ jobs:
         run: dotnet restore DAQuester.slnx -m:1
       - name: Build
         run: dotnet build DAQuester.slnx -c Release --no-restore -m:1
+      - name: Native Avalonia screenshot matrix
+        run: ./tools/Capture-Screenshots.ps1
       - name: Test
         run: dotnet test tests/DAQuester.Tests -c Release --no-build -m:1 --logger trx --results-directory artifacts/test-results
       - name: Avalonia presentation regressions
         run: dotnet test tests/DAQuester.UiTests -c Release --no-build -m:1 --logger trx --results-directory artifacts/test-results
       - name: Avalonia interactions and dark UI checks
         run: ./tools/Test-UI.ps1
-      - name: Native Avalonia screenshot matrix
-        run: ./tools/Capture-Screenshots.ps1
       - name: Build verified release
         run: ./tools/Build-Release.ps1
       - name: Shipped Avalonia payload smoke
