@@ -1,0 +1,83 @@
+<Application xmlns="https://github.com/avaloniaui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             x:Class="DAQuester.App.App" RequestedThemeVariant="Dark">
+  <Application.Resources>
+    <SolidColorBrush x:Key="Ink">#0D131E</SolidColorBrush>
+    <SolidColorBrush x:Key="Rail">#101925</SolidColorBrush>
+    <SolidColorBrush x:Key="Surface">#151E2B</SolidColorBrush>
+    <SolidColorBrush x:Key="Raised">#1C2838</SolidColorBrush>
+    <SolidColorBrush x:Key="Line">#2D3B4D</SolidColorBrush>
+    <SolidColorBrush x:Key="Text">#EDF0F3</SolidColorBrush>
+    <SolidColorBrush x:Key="Muted">#A0AEC0</SolidColorBrush>
+    <SolidColorBrush x:Key="Gold">#D9B879</SolidColorBrush>
+    <SolidColorBrush x:Key="GoldSoft">#26291F</SolidColorBrush>
+    <SolidColorBrush x:Key="GoldLine">#665739</SolidColorBrush>
+    <SolidColorBrush x:Key="GoldHover">#E6C78D</SolidColorBrush>
+    <SolidColorBrush x:Key="GoldPressed">#C29E5D</SolidColorBrush>
+    <SolidColorBrush x:Key="Ready">#8BCFB3</SolidColorBrush>
+    <SolidColorBrush x:Key="ReadySurface">#152622</SolidColorBrush>
+    <SolidColorBrush x:Key="ReadyHover">#1B302A</SolidColorBrush>
+    <SolidColorBrush x:Key="UnavailableSurface">#101823</SolidColorBrush>
+    <SolidColorBrush x:Key="UnavailableHover">#131C28</SolidColorBrush>
+    <SolidColorBrush x:Key="ControlHover">#243244</SolidColorBrush>
+    <SolidColorBrush x:Key="ControlPressed">#111A26</SolidColorBrush>
+    <SolidColorBrush x:Key="DisabledSurface">#161E2A</SolidColorBrush>
+    <SolidColorBrush x:Key="DisabledText">#8291A5</SolidColorBrush>
+    <SolidColorBrush x:Key="Error">#E5979A</SolidColorBrush>
+    <SolidColorBrush x:Key="ErrorSurface">#30222D</SolidColorBrush>
+    <SolidColorBrush x:Key="ErrorLine">#71515C</SolidColorBrush>
+    <SolidColorBrush x:Key="NoticeLine">#3D5759</SolidColorBrush>
+    <SolidColorBrush x:Key="ComboBoxDropDownBackground">#151E2B</SolidColorBrush>
+    <SolidColorBrush x:Key="ComboBoxDropDownBorderBrush">#2D3B4D</SolidColorBrush>
+    <SolidColorBrush x:Key="ComboBoxBackgroundPointerOver">#243244</SolidColorBrush>
+    <SolidColorBrush x:Key="ComboBoxBorderBrushPointerOver">#2D3B4D</SolidColorBrush>
+    <SolidColorBrush x:Key="ComboBoxBackgroundPressed">#111A26</SolidColorBrush>
+    <SolidColorBrush x:Key="ComboBoxBorderBrushPressed">#2D3B4D</SolidColorBrush>
+    <SolidColorBrush x:Key="ComboBoxBackgroundUnfocused">#1C2838</SolidColorBrush>
+    <SolidColorBrush x:Key="ComboBoxBackgroundBorderBrushFocused">#D9B879</SolidColorBrush>
+    <SolidColorBrush x:Key="ComboBoxBackgroundDisabled">#161E2A</SolidColorBrush>
+    <SolidColorBrush x:Key="ComboBoxBorderBrushDisabled">#2D3B4D</SolidColorBrush>
+    <SolidColorBrush x:Key="ComboBoxForegroundDisabled">#8291A5</SolidColorBrush>
+    <SolidColorBrush x:Key="ComboBoxItemBackgroundPointerOver">#243244</SolidColorBrush>
+    <SolidColorBrush x:Key="ComboBoxItemBackgroundPressed">#111A26</SolidColorBrush>
+    <SolidColorBrush x:Key="ComboBoxItemBackgroundSelected">#1C2838</SolidColorBrush>
+    <SolidColorBrush x:Key="ComboBoxItemForegroundSelected">#D9B879</SolidColorBrush>
+    <SolidColorBrush x:Key="ComboBoxItemBackgroundSelectedPointerOver">#243244</SolidColorBrush>
+    <SolidColorBrush x:Key="ComboBoxItemForegroundSelectedPointerOver">#D9B879</SolidColorBrush>
+    <SolidColorBrush x:Key="ComboBoxItemBackgroundSelectedPressed">#111A26</SolidColorBrush>
+    <SolidColorBrush x:Key="ComboBoxItemForegroundSelectedPressed">#D9B879</SolidColorBrush>
+    <SolidColorBrush x:Key="ComboBoxItemBackgroundSelectedDisabled">#161E2A</SolidColorBrush>
+    <SolidColorBrush x:Key="ComboBoxItemForegroundSelectedDisabled">#8291A5</SolidColorBrush>
+    <SolidColorBrush x:Key="TextControlBackground">#1C2838</SolidColorBrush>
+    <SolidColorBrush x:Key="TextControlForeground">#EDF0F3</SolidColorBrush>
+    <SolidColorBrush x:Key="TextControlBorderBrush">#2D3B4D</SolidColorBrush>
+    <SolidColorBrush x:Key="TextControlBackgroundPointerOver">#243244</SolidColorBrush>
+    <SolidColorBrush x:Key="TextControlBackgroundFocused">#1C2838</SolidColorBrush>
+    <SolidColorBrush x:Key="TextControlBackgroundDisabled">#161E2A</SolidColorBrush>
+    <SolidColorBrush x:Key="TextControlBorderBrushFocused">#D9B879</SolidColorBrush>
+    <SolidColorBrush x:Key="TextControlForegroundDisabled">#8291A5</SolidColorBrush>
+    <SolidColorBrush x:Key="ExpanderHeaderBackground">#1C2838</SolidColorBrush>
+    <SolidColorBrush x:Key="ExpanderHeaderBorderBrush">#2D3B4D</SolidColorBrush>
+    <SolidColorBrush x:Key="ExpanderHeaderForeground">#EDF0F3</SolidColorBrush>
+    <SolidColorBrush x:Key="ExpanderHeaderBackgroundPointerOver">#243244</SolidColorBrush>
+    <SolidColorBrush x:Key="ExpanderHeaderBorderBrushPointerOver">#2D3B4D</SolidColorBrush>
+    <SolidColorBrush x:Key="ExpanderHeaderForegroundPointerOver">#EDF0F3</SolidColorBrush>
+    <SolidColorBrush x:Key="ExpanderHeaderBackgroundPressed">#111A26</SolidColorBrush>
+    <SolidColorBrush x:Key="ExpanderHeaderBorderBrushPressed">#2D3B4D</SolidColorBrush>
+    <SolidColorBrush x:Key="ExpanderHeaderForegroundPressed">#EDF0F3</SolidColorBrush>
+    <SolidColorBrush x:Key="ExpanderHeaderBackgroundDisabled">#161E2A</SolidColorBrush>
+    <SolidColorBrush x:Key="ExpanderHeaderBorderBrushDisabled">#2D3B4D</SolidColorBrush>
+    <SolidColorBrush x:Key="ExpanderHeaderForegroundDisabled">#8291A5</SolidColorBrush>
+    <SolidColorBrush x:Key="ExpanderChevronForeground">#A0AEC0</SolidColorBrush>
+    <SolidColorBrush x:Key="ExpanderChevronForegroundPointerOver">#EDF0F3</SolidColorBrush>
+    <SolidColorBrush x:Key="ExpanderChevronForegroundPressed">#EDF0F3</SolidColorBrush>
+    <SolidColorBrush x:Key="ExpanderChevronForegroundDisabled">#8291A5</SolidColorBrush>
+    <Color x:Key="SystemAccentColor">#D9B879</Color>
+    <Color x:Key="SystemAccentColorLight1">#E6C78D</Color>
+    <Color x:Key="SystemAccentColorDark1">#C29E5D</Color>
+  </Application.Resources>
+  <Application.Styles>
+    <FluentTheme />
+    <StyleInclude Source="avares://DAQuester/Views/JournalStyles.axaml" />
+  </Application.Styles>
+</Application>

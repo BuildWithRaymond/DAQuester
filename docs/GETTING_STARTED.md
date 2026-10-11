@@ -20,6 +20,8 @@ unsupported builds. No game binaries or assets are included.
 2. Use the **Launch** action beside a saved character. Its saved password signs
    into that character; without one, sign in manually. Only clients opened
    through DAQuester connect through its proxy. Existing owned clients are focused.
+   Before saving any characters, the header's **Launch** opens a blank client
+   without filling in or submitting a login.
 3. Use the header's character switcher, search the library, and select automatic
    quests. Drag the queue into order, or use its arrows; Ctrl+Up/Down also moves
    a focused entry and Delete removes it. Guide-only entries open their details.
@@ -30,8 +32,8 @@ unsupported builds. No game binaries or assets are included.
 5. **Pause run** retains progress and order. **Resume run** checks saved results.
    **Stop** cancels automation, keeps checkpoints, and unlocks queue edits.
    Manual movement/NPC interaction pauses automation while gameplay continues.
-   The journey card shows the next queue entry. Expand **Recent activity** for
-   saved receipts, or **Quest controls** for individual actions and fast mode.
+   The journey card shows the next queue entry. Open **Run history** for saved
+   receipts, or **Quest controls** for individual actions and fast mode.
 
 **Run history** combines verified queue outcomes with existing quest journals.
 To return after a queue, connect the character, move to the desired location,
@@ -74,7 +76,7 @@ They are not available for automatic execution.
 ## Optional updates
 
 Settings provides **Check for updates when DAQuester opens**, off by default.
-The preference is saved immediately. Startup checks only report newer stable
+Use **Save settings** to remember this preference. Startup checks only report newer stable
 releases. Use **Download update** to fetch one, then **Install and exit** to apply.
 Regular exits do not implicitly authorize installation of downloaded packages.
 
@@ -118,7 +120,7 @@ Do not publish your Data folder, passwords, login packets or session secrets.
 
 ## Operational limits
 
-Only the supported client/profile and four recipes are executable. Recorded live
+Only the supported client/profile and six automatic recipes are executable. Recorded live
 runs validate specific cases; synthetic tests do not guarantee every server
 condition. Gathering depends on actual drops and may continue during dry patrols.
 Unexpected dialogs and uncertain transactions pause rather than repeat blindly.

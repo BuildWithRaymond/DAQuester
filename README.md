@@ -1,12 +1,13 @@
 # DAQuester
 
-DAQuester runs quests for your Dark Ages characters and remembers where each one
-left off. Pick a character, choose a few quests, put them in order, and start the
-queue. You can pause at any point and come back to the saved progress later.
+DAQuester is a quest companion for your Dark Ages characters. Plan a journey,
+put quests in your preferred order, and keep each character's progress together.
+The new Avalonia desktop app pairs a quiet, fully dark journal with clear quest
+details, remembered character facts, and a queue you can pause and return to.
 
 [Download for Windows](https://github.com/BuildWithRaymond/DAQuester/releases/latest)
 · [Setup guide](docs/GETTING_STARTED.md)
-· [What's new in 1.0.6](docs/releases/v1.0.6.md)
+· [What's new in 1.1.0](docs/releases/v1.1.0.md)
 · [Report a bug](https://github.com/BuildWithRaymond/DAQuester/issues/new/choose)
 
 ![Quest planner with three ordered quests, completed legends, and character selection](docs/screenshots/planner.png)
@@ -37,6 +38,8 @@ queue. You can pause at any point and come back to the saved progress later.
    change that path.
 3. In **Characters**, add your character names and optional passwords, then click
    **Save accounts**. Use the character's **Launch** button to open the game.
+   With no saved characters, the top **Launch** button opens a blank client for
+   manual sign-in.
 4. Choose your character in the planner, select quests, arrange the queue, and
    click **Start queue**. Some quests ask you to choose an outcome first.
 
@@ -84,12 +87,14 @@ cd DAQuester
 dotnet restore DAQuester.slnx -m:1
 dotnet build DAQuester.slnx -c Release --no-restore -m:1
 dotnet test tests/DAQuester.Tests -c Release --no-build -m:1
+dotnet test tests/DAQuester.UiTests -c Release --no-build -m:1
 ./tools/Test-UI.ps1
+./tools/Capture-Screenshots.ps1
 ```
 
 | Folder | Contents |
 | --- | --- |
-| `src/DAQuester.App` | Windows Forms UI, accounts, saved login, and updates |
+| `src/DAQuester.App` | Avalonia views, view models, desktop orchestration, accounts, and updates |
 | `src/DAQuester.Core` | Quest rules, saved journals, queues, and character memory |
 | `src/DAQuester.DarkAges` | Game protocol, proxy, client launch, and navigation |
 | `tests` | Synthetic regression tests; no real character actions |
@@ -107,7 +112,7 @@ and banks; its saved-login approach is also used here.
 [DAMerchant](https://github.com/BuildWithRaymond/DAMerchant) handles trading, and
 [DASpeaker](https://github.com/BuildWithRaymond/DASpeaker) prepares speeches.
 
-DAQuester is [MIT licensed](LICENSE). It uses .NET, Windows Forms,
+DAQuester is [MIT licensed](LICENSE). It uses .NET, [Avalonia](https://avaloniaui.net),
 [Arbiter](https://github.com/ewrogers/Arbiter), and
 [Velopack](https://github.com/velopack/velopack). Quest references come from
 [Vorlof](https://vorlof.com/quests.html). See [third-party notices](THIRD_PARTY_NOTICES.md)

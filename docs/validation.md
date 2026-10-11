@@ -1,5 +1,37 @@
 # Validation status
 
+## Release 1.1.0 — October 11, 2026
+
+The Avalonia 11.3.12 Release solution builds with zero warnings or errors. All
+**36 presentation and lifecycle regressions** pass. `tools/Test-UI.ps1` passes
+**196 behavioral checks** and produces **78 actual Skia renders** of the
+application. Native `tools/Capture-Screenshots.ps1` passes **191 checks** and
+captures **74 renders**, including the four updated documentation screenshots.
+
+The inspected matrix includes all four pages at 1450 × 930, 1024 × 768,
+900 × 600 and the 900 × 560 minimum, plus 125%, 150% and 200% render scaling.
+It covers empty and populated workspaces, disconnected, running, paused,
+completed, blocked, loading and error states; keyboard focus, hover, press and
+drag insertion; saved and locked choices; dropdown menus; and the dark client
+picker. Native validation also confirms the preview window's immersive dark
+Windows title bar. Birth's full warning and stop condition remain visible at
+its default size, and compact queue actions and account-save controls remain
+reachable.
+
+Behavioral coverage exercises per-character queue ownership and persistence,
+keyboard and pointer reordering, pause/stop checkpoints, failed and pending
+saves, own observed levels and legends, repeat and cooldown policies, pending
+final-dialog reconciliation, and the saved one-deoch Faerie wait without a pet
+claim. Account checks use isolated encrypted credentials, blank-password
+preservation, renaming, duplicate rejection, twenty-account batches and removal
+back to a genuinely empty workspace. Empty and per-character Launch actions
+reach the guarded launcher. Updates remain opt-in; checking, downloading and
+installing stay separate, and loading/error states remain usable.
+
+These checks use synthetic sessions and unique files under ignored `artifacts`.
+They never connect to a game, start a client, apply an update, access real user
+Data or operate Excalibur. Live gameplay remains outside this validation.
+
 ## Release 1.0.7 — October 11, 2026
 
 The full Release suite passes **689 tests**, with zero failures or skips

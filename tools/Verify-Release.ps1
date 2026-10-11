@@ -33,7 +33,17 @@ foreach($archiveName in @('DAQuester-win-Portable.zip',$package)) {
     try {
         $names=@($archive.Entries | ForEach-Object FullName)
         if($names | Where-Object {$_ -match '(^|[\\/])Data([\\/]|$)|(^|[\\/])(\.aws|\.git|\.env)([\\/]|$)'}){throw "Private data in archive: $archiveName"}
-        foreach($required in @('DAQuester.exe','LICENSE','ARBITER-LICENSE.txt','THIRD_PARTY_NOTICES.md','content/catalog.json','content/routes.json','content/recipes/spare-a-stick.v1.json','content/recipes/mundane-birth.v1.json','content/recipes/perfect-hairstyle.v1.json','content/recipes/entered-muisir-village.v1.json','content/recipes/emerald-dawn.v1.json','content/recipes/shinewood-faerie.v1.json','licenses/Velopack/LICENSE.txt','licenses/microsoft.netcore.app.runtime.win-x86/LICENSE.TXT','licenses/microsoft.netcore.app.runtime.win-x86/THIRD-PARTY-NOTICES.TXT','licenses/microsoft.windowsdesktop.app.runtime.win-x86/LICENSE')) {
+        if($names | Where-Object {$_ -match '\.pdb$'}){throw "Private source paths may remain in bundled symbols: $archiveName"}
+        if($names | Where-Object {$_.Replace('\','/') -match '(^|/)(System\.Windows\.Forms|PresentationFramework|PresentationCore)\.dll$'}){throw "A Windows desktop framework remains in the Avalonia release: $archiveName"}
+        $runtimeEntries=@($archive.Entries | Where-Object {$_.FullName.Replace('\','/').EndsWith('DAQuester.runtimeconfig.json',[StringComparison]::OrdinalIgnoreCase)})
+        if($runtimeEntries.Count -ne 1){throw "Expected one application runtime configuration in $archiveName"}
+        $reader=[IO.StreamReader]::new($runtimeEntries[0].Open())
+        try {$runtimeConfig=$reader.ReadToEnd() | ConvertFrom-Json}
+        finally {$reader.Dispose()}
+        $frameworks=@($runtimeConfig.runtimeOptions.includedFrameworks)+@($runtimeConfig.runtimeOptions.frameworks)+@($runtimeConfig.runtimeOptions.framework)
+        if($frameworks | Where-Object {$_.name -like 'Microsoft.WindowsDesktop.App*'}){throw "Windows desktop runtime dependency in $archiveName"}
+        if(-not($runtimeConfig.runtimeOptions.includedFrameworks | Where-Object {$_.name -eq 'Microsoft.NETCore.App'})){throw "Missing self-contained core runtime in $archiveName"}
+        foreach($required in @('DAQuester.exe','Avalonia.Base.dll','Avalonia.Controls.dll','Avalonia.Desktop.dll','Avalonia.Win32.dll','Avalonia.Skia.dll','SkiaSharp.dll','HarfBuzzSharp.dll','libSkiaSharp.dll','libHarfBuzzSharp.dll','LICENSE','ARBITER-LICENSE.txt','THIRD_PARTY_NOTICES.md','content/catalog.json','content/routes.json','content/recipes/spare-a-stick.v1.json','content/recipes/mundane-birth.v1.json','content/recipes/perfect-hairstyle.v1.json','content/recipes/entered-muisir-village.v1.json','content/recipes/emerald-dawn.v1.json','content/recipes/shinewood-faerie.v1.json','licenses/Velopack/LICENSE.txt','licenses/Avalonia/LICENSE.txt','licenses/SkiaSharp/LICENSE.txt','licenses/SkiaSharp/THIRD-PARTY-NOTICES.txt','licenses/HarfBuzzSharp/LICENSE.txt','licenses/HarfBuzzSharp/THIRD-PARTY-NOTICES.txt','licenses/MicroCom.Runtime/LICENSE.txt','licenses/Tmds.DBus.Protocol/LICENSE.txt','licenses/microsoft.netcore.app.runtime.win-x86/LICENSE.TXT','licenses/microsoft.netcore.app.runtime.win-x86/THIRD-PARTY-NOTICES.TXT','licenses/ui-dependencies.json','licenses/avalonia/package.nuspec')) {
             if(-not($names | Where-Object {$_.Replace('\','/').EndsWith($required,[StringComparison]::OrdinalIgnoreCase)})){throw "Missing $required in $archiveName"}
         }
     }

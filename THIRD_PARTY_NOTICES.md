@@ -1,5 +1,36 @@
 # Third-party notices
 
+## Avalonia and rendering dependencies
+
+The desktop presentation uses [Avalonia](https://github.com/AvaloniaUI/Avalonia)
+11.3.12 under the MIT license. The upstream notice from commit
+`37fbd9655cc581ff5b1c6b1fb1be4e3118c889d0` is retained in
+[Avalonia/LICENSE.txt](src/DAQuester.App/Licenses/Avalonia/LICENSE.txt).
+Build telemetry is excluded from this application's dependency assets.
+
+Rendering uses SkiaSharp 2.88.9 and HarfBuzzSharp 8.3.1.1 under MIT. Their full
+licenses and generated native dependency notices are retained from the exact
+restored packages under [SkiaSharp](src/DAQuester.App/Licenses/SkiaSharp/) and
+[HarfBuzzSharp](src/DAQuester.App/Licenses/HarfBuzzSharp/). The MIT text was
+verified against the package source commits
+`9699cdf046a989423a5e5eca68e7fd813486d81c` and
+`64f24b1cddb68d30ec0ac6b661964178fc21d5ec`, respectively.
+
+Avalonia's COM interop uses MicroCom.Runtime 0.11.0 under MIT. Its
+[complete notice](src/DAQuester.App/Licenses/MicroCom.Runtime/LICENSE.txt) is
+retained from upstream commit `7e773759cfc1012a5d080d4129c4718a662884b0`, whose
+build metadata identifies version 0.11.0. That package's NuGet metadata does not
+record a repository commit.
+
+The pinned Tmds.DBus.Protocol 0.21.3 desktop dependency uses MIT. Its
+[full upstream notice](src/DAQuester.App/Licenses/Tmds.DBus.Protocol/LICENSE.txt)
+is retained from package source commit
+`8cb04f66c330b64244e996ff68f685f27f7381a0`.
+
+Release packaging also retains exact NuGet metadata and the .NET runtime
+notices under `licenses/`. No game artwork or fonts are bundled; the interface
+uses vector paths and Windows system typefaces.
+
 ## Arbiter
 
 Protocol serialization, security, opcodes, types, and message layouts in
@@ -54,7 +85,7 @@ source is the public DAQuester repository and requires no account token.
 ## .NET and test dependencies
 
 Microsoft .NET runtime licenses and notices are copied from the exact restored
-core/desktop runtime packs into `licenses/` in self-contained distributions.
+core runtime pack into `licenses/` in self-contained distributions.
 Microsoft.NET.Test.Sdk, xUnit, and xunit.runner.visualstudio are development-only
 dependencies; their upstream licenses apply.
 

@@ -29,10 +29,16 @@ jobs:
         run: dotnet build DAQuester.slnx -c Release --no-restore -m:1
       - name: Test
         run: dotnet test tests/DAQuester.Tests -c Release --no-build -m:1 --logger trx --results-directory artifacts/test-results
-      - name: Native dark UI checks
+      - name: Avalonia presentation regressions
+        run: dotnet test tests/DAQuester.UiTests -c Release --no-build -m:1 --logger trx --results-directory artifacts/test-results
+      - name: Avalonia interactions and dark UI checks
         run: ./tools/Test-UI.ps1
+      - name: Native Avalonia screenshot matrix
+        run: ./tools/Capture-Screenshots.ps1
       - name: Build verified release
         run: ./tools/Build-Release.ps1
+      - name: Older Windows Forms updater compatibility
+        run: ./tools/Test-UpdateCompatibility.ps1 -DownloadPrevious
       - uses: actions/upload-artifact@cf430e030ddbb5b0abf93d22962f4752f3646cd9 # v7
         with:
           name: release-${{ github.ref_name }}
@@ -46,7 +52,11 @@ jobs:
           path: |
             artifacts/test-results/*.trx
             artifacts/*.png
-            artifacts/app-smoke*.txt
+            artifacts/screenshots/**/*.png
+            artifacts/*checks.txt
+            artifacts/app-smoke.*
+            artifacts/screenshots.*
+            artifacts/update-compatibility.json
   publish:
     needs: validate
     runs-on: windows-latest

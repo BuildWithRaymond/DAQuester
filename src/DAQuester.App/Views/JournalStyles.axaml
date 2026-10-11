@@ -1,0 +1,80 @@
+<Styles xmlns="https://github.com/avaloniaui" xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml" xmlns:controls="using:DAQuester.App.Controls">
+  <Style Selector="Window">
+    <Setter Property="Background" Value="{DynamicResource Ink}" />
+    <Setter Property="Foreground" Value="{DynamicResource Text}" />
+    <Setter Property="FontFamily" Value="Segoe UI" />
+    <Setter Property="FontSize" Value="14" />
+  </Style>
+  <Style Selector="TextBlock"><Setter Property="Foreground" Value="{DynamicResource Text}" /></Style>
+  <Style Selector="TextBlock.muted"><Setter Property="Foreground" Value="{DynamicResource Muted}" /></Style>
+  <Style Selector="TextBlock.caption"><Setter Property="FontSize" Value="12" /><Setter Property="Foreground" Value="{DynamicResource Muted}" /></Style>
+  <Style Selector="TextBlock.heading"><Setter Property="FontFamily" Value="Georgia" /><Setter Property="FontSize" Value="27" /><Setter Property="LineHeight" Value="34" /></Style>
+  <Style Selector="TextBlock.section"><Setter Property="FontSize" Value="15" /><Setter Property="FontWeight" Value="SemiBold" /></Style>
+  <Style Selector="TextBlock.eyebrow"><Setter Property="FontSize" Value="11" /><Setter Property="FontWeight" Value="SemiBold" /><Setter Property="LetterSpacing" Value="1.4" /><Setter Property="Foreground" Value="{DynamicResource Gold}" /></Style>
+  <Style Selector="TextBlock.gold"><Setter Property="Foreground" Value="{DynamicResource Gold}" /></Style>
+  <Style Selector="TextBlock.ready"><Setter Property="Foreground" Value="{DynamicResource Ready}" /></Style>
+  <Style Selector="TextBlock.error"><Setter Property="Foreground" Value="{DynamicResource Error}" /></Style>
+  <Style Selector="Border.card"><Setter Property="Background" Value="{DynamicResource Surface}" /><Setter Property="BorderBrush" Value="{DynamicResource Line}" /><Setter Property="BorderThickness" Value="1" /><Setter Property="CornerRadius" Value="9" /></Style>
+  <Style Selector="Border.rule"><Setter Property="Background" Value="{DynamicResource Line}" /><Setter Property="Height" Value="1" /></Style>
+  <Style Selector="Button">
+    <Setter Property="MinHeight" Value="38" /><Setter Property="Padding" Value="14,8" /><Setter Property="CornerRadius" Value="6" />
+    <Setter Property="Background" Value="{DynamicResource Raised}" /><Setter Property="BorderBrush" Value="{DynamicResource Line}" /><Setter Property="BorderThickness" Value="1" />
+    <Setter Property="Foreground" Value="{DynamicResource Text}" /><Setter Property="FontSize" Value="13" /><Setter Property="HorizontalContentAlignment" Value="Center" />
+  </Style>
+  <Style Selector="Button:pointerover /template/ ContentPresenter#PART_ContentPresenter"><Setter Property="Background" Value="{DynamicResource ControlHover}" /><Setter Property="BorderBrush" Value="{DynamicResource Line}" /></Style>
+  <Style Selector="Button:pressed /template/ ContentPresenter#PART_ContentPresenter"><Setter Property="Background" Value="{DynamicResource ControlPressed}" /></Style>
+  <Style Selector="Button:focus-visible /template/ ContentPresenter#PART_ContentPresenter"><Setter Property="BorderBrush" Value="{DynamicResource Gold}" /><Setter Property="BorderThickness" Value="2" /></Style>
+  <Style Selector="Button:disabled /template/ ContentPresenter#PART_ContentPresenter"><Setter Property="Background" Value="{DynamicResource DisabledSurface}" /><Setter Property="Foreground" Value="{DynamicResource DisabledText}" /><Setter Property="BorderBrush" Value="{DynamicResource Line}" /><Setter Property="Opacity" Value="1" /></Style>
+  <Style Selector="Button.primary"><Setter Property="Background" Value="{DynamicResource Gold}" /><Setter Property="BorderBrush" Value="{DynamicResource Gold}" /><Setter Property="Foreground" Value="{DynamicResource Ink}" /><Setter Property="FontWeight" Value="SemiBold" /></Style>
+  <Style Selector="Button.primary TextBlock"><Setter Property="Foreground" Value="{DynamicResource Ink}" /></Style>
+  <Style Selector="Button.primary:pointerover /template/ ContentPresenter#PART_ContentPresenter"><Setter Property="Background" Value="{DynamicResource GoldHover}" /><Setter Property="BorderBrush" Value="{DynamicResource GoldHover}" /><Setter Property="Foreground" Value="{DynamicResource Ink}" /></Style>
+  <Style Selector="Button.primary:pressed /template/ ContentPresenter#PART_ContentPresenter"><Setter Property="Background" Value="{DynamicResource GoldPressed}" /><Setter Property="BorderBrush" Value="{DynamicResource GoldPressed}" /><Setter Property="Foreground" Value="{DynamicResource Ink}" /></Style>
+  <Style Selector="Button.primary:disabled /template/ ContentPresenter#PART_ContentPresenter"><Setter Property="Background" Value="{DynamicResource DisabledSurface}" /><Setter Property="BorderBrush" Value="{DynamicResource Line}" /><Setter Property="Foreground" Value="{DynamicResource DisabledText}" /></Style>
+  <Style Selector="Button.primary:disabled TextBlock"><Setter Property="Foreground" Value="{DynamicResource DisabledText}" /></Style>
+  <Style Selector="Button.quiet"><Setter Property="Background" Value="Transparent" /><Setter Property="BorderBrush" Value="Transparent" /><Setter Property="Foreground" Value="{DynamicResource Muted}" /></Style>
+  <Style Selector="Button.danger"><Setter Property="Foreground" Value="{DynamicResource Error}" /></Style>
+  <Style Selector="Button.danger TextBlock"><Setter Property="Foreground" Value="{DynamicResource Error}" /></Style>
+  <Style Selector="Button.icon"><Setter Property="MinHeight" Value="30" /><Setter Property="MinWidth" Value="30" /><Setter Property="Padding" Value="6" /><Setter Property="Background" Value="Transparent" /><Setter Property="BorderBrush" Value="Transparent" /></Style>
+  <Style Selector="Button.nav"><Setter Property="HorizontalContentAlignment" Value="Left" /><Setter Property="Padding" Value="12,12" /><Setter Property="Background" Value="Transparent" /><Setter Property="BorderBrush" Value="Transparent" /><Setter Property="Foreground" Value="{DynamicResource Muted}" /></Style>
+  <Style Selector="Button.nav.active"><Setter Property="Background" Value="{DynamicResource Raised}" /><Setter Property="BorderBrush" Value="{DynamicResource Line}" /><Setter Property="Foreground" Value="{DynamicResource Gold}" /></Style>
+  <Style Selector="Button.nav TextBlock"><Setter Property="Foreground" Value="{DynamicResource Muted}" /></Style>
+  <Style Selector="Button.nav.active TextBlock"><Setter Property="Foreground" Value="{DynamicResource Gold}" /></Style>
+  <Style Selector="Button.filter TextBlock"><Setter Property="Foreground" Value="{DynamicResource Muted}" /></Style>
+  <Style Selector="Button.filter.active TextBlock"><Setter Property="Foreground" Value="{DynamicResource Gold}" /></Style>
+  <Style Selector="Button.filter"><Setter Property="MinHeight" Value="34" /><Setter Property="Padding" Value="10,6" /><Setter Property="FontSize" Value="12" /><Setter Property="Background" Value="Transparent" /><Setter Property="BorderBrush" Value="Transparent" /><Setter Property="Foreground" Value="{DynamicResource Muted}" /></Style>
+  <Style Selector="Button.filter.active"><Setter Property="Background" Value="{DynamicResource Raised}" /><Setter Property="BorderBrush" Value="{DynamicResource GoldLine}" /><Setter Property="Foreground" Value="{DynamicResource Gold}" /></Style>
+  <Style Selector="TextBox"><Setter Property="MinHeight" Value="40" /><Setter Property="Padding" Value="12,9" /><Setter Property="Background" Value="{DynamicResource Raised}" /><Setter Property="BorderBrush" Value="{DynamicResource Line}" /><Setter Property="BorderThickness" Value="1" /><Setter Property="CornerRadius" Value="6" /><Setter Property="Foreground" Value="{DynamicResource Text}" /><Setter Property="FontSize" Value="13" /><Setter Property="CaretBrush" Value="{DynamicResource Gold}" /></Style>
+  <Style Selector="TextBox:focus /template/ Border#PART_BorderElement"><Setter Property="BorderBrush" Value="{DynamicResource Gold}" /></Style>
+  <Style Selector="ComboBox"><Setter Property="MinHeight" Value="38" /><Setter Property="Padding" Value="10,7" /><Setter Property="CornerRadius" Value="6" /><Setter Property="Background" Value="{DynamicResource Raised}" /><Setter Property="BorderBrush" Value="{DynamicResource Line}" /><Setter Property="Foreground" Value="{DynamicResource Text}" /><Setter Property="FontSize" Value="13" /></Style>
+  <Style Selector="ComboBoxItem:selected TextBlock"><Setter Property="Foreground" Value="{DynamicResource Gold}" /></Style>
+  <Style Selector="ComboBoxItem:disabled TextBlock"><Setter Property="Foreground" Value="{DynamicResource DisabledText}" /></Style>
+  <Style Selector="CheckBox"><Setter Property="FontSize" Value="12" /><Setter Property="Foreground" Value="{DynamicResource Muted}" /><Setter Property="MinHeight" Value="32" /></Style>
+  <Style Selector="CheckBox:checked /template/ Border#NormalRectangle"><Setter Property="Background" Value="{DynamicResource Gold}" /><Setter Property="BorderBrush" Value="{DynamicResource Gold}" /></Style>
+  <Style Selector="CheckBox:disabled"><Setter Property="Opacity" Value="1" /><Setter Property="Foreground" Value="{DynamicResource DisabledText}" /></Style>
+  <Style Selector="ListBox.library"><Setter Property="Background" Value="Transparent" /><Setter Property="BorderThickness" Value="0" /><Setter Property="Padding" Value="0" /></Style>
+  <Style Selector="ListBox.filePicker ListBoxItem"><Setter Property="HorizontalContentAlignment" Value="Stretch" /></Style>
+  <Style Selector="ListBox.library ListBoxItem"><Setter Property="Padding" Value="0" /><Setter Property="Margin" Value="0" /><Setter Property="HorizontalContentAlignment" Value="Stretch" /></Style>
+  <Style Selector="ListBox.library ListBoxItem:selected /template/ ContentPresenter"><Setter Property="Background" Value="Transparent" /></Style>
+  <Style Selector="ListBox.library ListBoxItem:pointerover /template/ ContentPresenter"><Setter Property="Background" Value="Transparent" /></Style>
+  <Style Selector="Border.questRow"><Setter Property="Background" Value="{DynamicResource Surface}" /><Setter Property="BorderBrush" Value="{DynamicResource Line}" /><Setter Property="BorderThickness" Value="0,0,0,1" /><Setter Property="MinHeight" Value="76" /><Setter Property="Padding" Value="14,9" /></Style>
+  <Style Selector="Border.questRow.ready"><Setter Property="Background" Value="{DynamicResource ReadySurface}" /></Style>
+  <Style Selector="Border.questRow.muted"><Setter Property="Background" Value="{DynamicResource UnavailableSurface}" /></Style>
+  <Style Selector="Border.questRow:pointerover"><Setter Property="Background" Value="{DynamicResource ControlHover}" /></Style>
+  <Style Selector="Border.questRow.ready:pointerover"><Setter Property="Background" Value="{DynamicResource ReadyHover}" /></Style>
+  <Style Selector="Border.questRow.muted:pointerover"><Setter Property="Background" Value="{DynamicResource UnavailableHover}" /></Style>
+  <Style Selector="ListBoxItem:selected Border.questRow"><Setter Property="BorderBrush" Value="{DynamicResource Gold}" /><Setter Property="BorderThickness" Value="3,0,0,1" /><Setter Property="Padding" Value="11,9,14,9" /></Style>
+  <Style Selector="Border.questRow.muted TextBlock.questName"><Setter Property="Foreground" Value="{DynamicResource Muted}" /></Style>
+  <Style Selector="Border.questRow.completed TextBlock.questName"><Setter Property="Foreground" Value="{DynamicResource Muted}" /></Style>
+  <Style Selector="controls|LineIcon.folderGlyph"><Setter Property="Foreground" Value="{DynamicResource Gold}" /></Style>
+  <Style Selector="controls|LineIcon.fileGlyph"><Setter Property="Foreground" Value="{DynamicResource Muted}" /></Style>
+  <Style Selector="controls|QuestGlyph"><Setter Property="Foreground" Value="{DynamicResource Muted}" /></Style>
+  <Style Selector="Border.questRow.ready controls|QuestGlyph"><Setter Property="Foreground" Value="{DynamicResource Ready}" /></Style>
+  <Style Selector="Border.questRow.muted controls|QuestGlyph"><Setter Property="Foreground" Value="{DynamicResource DisabledText}" /></Style>
+  <Style Selector="Border.questRow.completed controls|QuestGlyph"><Setter Property="Foreground" Value="{DynamicResource Muted}" /></Style>
+  <Style Selector="Border.queueRow"><Setter Property="Background" Value="{DynamicResource Ink}" /><Setter Property="BorderBrush" Value="{DynamicResource Line}" /><Setter Property="BorderThickness" Value="1" /><Setter Property="CornerRadius" Value="6" /><Setter Property="Padding" Value="10,8" /></Style>
+  <Style Selector="Border.queueRow.active"><Setter Property="Background" Value="{DynamicResource GoldSoft}" /><Setter Property="BorderBrush" Value="{DynamicResource GoldLine}" /></Style>
+  <Style Selector="Border.queueRow:focus-visible"><Setter Property="BorderBrush" Value="{DynamicResource Gold}" /></Style>
+  <Style Selector="Border.queueRow.dragging"><Setter Property="Opacity" Value="0.55" /></Style>
+  <Style Selector="Expander"><Setter Property="Foreground" Value="{DynamicResource Text}" /><Setter Property="Background" Value="Transparent" /><Setter Property="BorderBrush" Value="{DynamicResource Line}" /></Style>
+  <Style Selector="ToolTip"><Setter Property="Background" Value="{DynamicResource Raised}" /><Setter Property="Foreground" Value="{DynamicResource Text}" /><Setter Property="BorderBrush" Value="{DynamicResource Line}" /></Style>
+</Styles>

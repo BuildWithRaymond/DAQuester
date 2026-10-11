@@ -12,12 +12,21 @@ try {
     if(Test-Path -LiteralPath $releasePath){throw "Use a clean output directory: $releasePath already exists."}
     # A running checkout must not hold up release packaging or be replaced by it.
     $buildOutput=Join-Path $repoRoot "artifacts/build-package-$version/"
-    dotnet publish src/DAQuester.App -c Release -r win-x86 --self-contained true -o $payload -m:1 -p:UseSharedCompilation=false "-p:OutDir=$buildOutput"
+    # Local portable symbols embed checkout paths; omit them from public release builds only.
+    dotnet publish src/DAQuester.App -c Release -r win-x86 --self-contained true -o $payload -m:1 -p:UseSharedCompilation=false -p:DebugType=None -p:DebugSymbols=false -p:CopyOutputSymbolsToPublishDirectory=false "-p:OutDir=$buildOutput"
     if($LASTEXITCODE -ne 0){throw 'Application publish failed.'}
     if(Test-Path -LiteralPath (Join-Path $payload 'Data')){throw 'User Data must never enter the release payload.'}
+    if(Get-ChildItem -LiteralPath $payload -File -Recurse -Filter '*.pdb'){throw 'Release payload must exclude symbols with local source paths.'}
     $assets=Get-Content src/DAQuester.App/obj/project.assets.json -Raw | ConvertFrom-Json
-    $runtimePacks=@($assets.project.frameworks.PSObject.Properties.Value.downloadDependencies | Where-Object {$_.name -match '^Microsoft\.(NETCore|WindowsDesktop)\.App\.Runtime\.win-x86$'})
-    if($runtimePacks.Count -ne 2){throw 'Expected core and desktop runtime packs for license inclusion.'}
+    # SDK downloads can include unused packs; check the frameworks actually referenced and published.
+    $frameworkReferences=@($assets.project.frameworks.PSObject.Properties.Value.frameworkReferences.PSObject.Properties.Name)
+    if($frameworkReferences | Where-Object {$_ -like 'Microsoft.WindowsDesktop.App*'}){throw 'Avalonia releases must not reference the Windows desktop runtime.'}
+    $runtimeConfig=Get-Content -LiteralPath (Join-Path $payload 'DAQuester.runtimeconfig.json') -Raw | ConvertFrom-Json
+    $publishedFrameworks=@($runtimeConfig.runtimeOptions.includedFrameworks)+@($runtimeConfig.runtimeOptions.frameworks)+@($runtimeConfig.runtimeOptions.framework)
+    if($publishedFrameworks | Where-Object {$_.name -like 'Microsoft.WindowsDesktop.App*'}){throw 'Avalonia releases must not include the Windows desktop runtime.'}
+    if(-not($runtimeConfig.runtimeOptions.includedFrameworks | Where-Object {$_.name -eq 'Microsoft.NETCore.App'})){throw 'Expected the self-contained core runtime in the published application.'}
+    $runtimePacks=@($assets.project.frameworks.PSObject.Properties.Value.downloadDependencies | Where-Object {$_.name -eq 'Microsoft.NETCore.App.Runtime.win-x86'})
+    if(-not($runtimePacks | Where-Object {$_.name -eq 'Microsoft.NETCore.App.Runtime.win-x86'})){throw 'Expected the self-contained x86 core runtime pack.'}
     foreach($runtimePack in $runtimePacks) {
         $runtimeVersion=($runtimePack.version -split ',')[0].Trim('[',']',' ')
         $packageLocation=$null
@@ -32,6 +41,28 @@ try {
         New-Item -ItemType Directory -Path $noticeDestination -Force | Out-Null
         foreach($notice in $noticeFiles){Copy-Item -LiteralPath $notice.FullName -Destination (Join-Path $noticeDestination $notice.Name)}
     }
+    # Preserve notices from the exact restored UI/rendering packages rather than a moving source branch.
+    $dependencies=@()
+    foreach($library in $assets.libraries.PSObject.Properties | Where-Object {$_.Name -match '^(Avalonia|SkiaSharp|HarfBuzzSharp|MicroCom\.Runtime|Tmds\.DBus\.Protocol)([./]|$)'}) {
+        $identity=$library.Name -split '/';$packageName=$identity[0];$packageVersion=$identity[1]
+        $packageLocation=$null
+        foreach($packageFolder in $assets.packageFolders.PSObject.Properties.Name) {
+            $candidate=Join-Path $packageFolder ($packageName.ToLowerInvariant()+'/'+$packageVersion)
+            if(Test-Path -LiteralPath $candidate){$packageLocation=$candidate;break}
+        }
+        if(-not $packageLocation){throw "Cannot locate UI package: $($library.Name)"}
+        $noticeDestination=Join-Path $payload ('licenses/'+$packageName.ToLowerInvariant())
+        New-Item -ItemType Directory -Path $noticeDestination -Force | Out-Null
+        $noticeFiles=@(Get-ChildItem -LiteralPath $packageLocation -File -Recurse | Where-Object {$_.Name -match '^(LICENSE|LICENCE|NOTICE|THIRD-PARTY-NOTICES)(\..*)?$'})
+        foreach($notice in $noticeFiles){Copy-Item -LiteralPath $notice.FullName -Destination (Join-Path $noticeDestination $notice.Name) -Force}
+        $nuspec=Get-ChildItem -LiteralPath $packageLocation -File -Filter '*.nuspec' | Select-Object -First 1
+        if(-not $nuspec){throw "Missing package metadata: $($library.Name)"}
+        Copy-Item -LiteralPath $nuspec.FullName -Destination (Join-Path $noticeDestination 'package.nuspec')
+        [xml]$metadata=Get-Content -LiteralPath $nuspec.FullName
+        $dependencies+=@{name=$packageName;version=$packageVersion;license=[string]$metadata.package.metadata.license;notices=@($noticeFiles.Name)}
+    }
+    if(-not($dependencies | Where-Object {$_.name -eq 'Avalonia'})){throw 'Avalonia dependencies were not restored.'}
+    $dependencies | ConvertTo-Json -Depth 5 | Set-Content -LiteralPath (Join-Path $payload 'licenses/ui-dependencies.json') -Encoding UTF8
     dotnet tool restore
     if($LASTEXITCODE -ne 0){throw 'Release tool restore failed.'}
     dotnet tool run vpk -- pack --packId BuildWithRaymond.DAQuester --packTitle DAQuester --packAuthors BuildWithRaymond --packVersion $version --packDir $payload --mainExe DAQuester.exe --runtime win-x86 --outputDir $releasePath --releaseNotes "docs/releases/v$version.md" --shortcuts StartMenuRoot --delta None

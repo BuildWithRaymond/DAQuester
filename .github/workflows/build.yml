@@ -28,10 +28,16 @@ jobs:
         run: dotnet build DAQuester.slnx -c Release --no-restore -m:1
       - name: Unit and protocol tests
         run: dotnet test tests/DAQuester.Tests -c Release --no-build -m:1 --logger trx --results-directory artifacts/test-results
-      - name: Fully dark native UI and update controls
+      - name: Avalonia presentation regressions
+        run: dotnet test tests/DAQuester.UiTests -c Release --no-build -m:1 --logger trx --results-directory artifacts/test-results
+      - name: Avalonia interactions, dark renders and update controls
         run: ./tools/Test-UI.ps1
+      - name: Native Avalonia screenshot matrix
+        run: ./tools/Capture-Screenshots.ps1
       - name: Package and verify Windows release
         run: ./tools/Build-Release.ps1
+      - name: Older Windows Forms updater compatibility
+        run: ./tools/Test-UpdateCompatibility.ps1 -DownloadPrevious
       - name: Upload packages
         uses: actions/upload-artifact@cf430e030ddbb5b0abf93d22962f4752f3646cd9 # v7
         with:
@@ -46,4 +52,8 @@ jobs:
           path: |
             artifacts/test-results/*.trx
             artifacts/*.png
-            artifacts/app-smoke*.txt
+            artifacts/screenshots/**/*.png
+            artifacts/*checks.txt
+            artifacts/app-smoke.*
+            artifacts/screenshots.*
+            artifacts/update-compatibility.json

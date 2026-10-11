@@ -1,5 +1,22 @@
 # Changelog
 
+## 1.1.0 — 2026-10-11
+
+- Replace Windows Forms with an Avalonia desktop workspace: deep navy and slate surfaces,
+  warm gold accents, crisp vector icons, readable quest rows and shared controls.
+- Refine all four pages, dark choice dialogs, compact layouts, keyboard focus,
+  drag insertion feedback and character-owned queue editing.
+- Keep saved characters, encrypted passwords, observed levels and legends,
+  queues, history, settings and checkpoints compatible with previous releases.
+- Allow pending reward submissions to reconcile even when a recorded legend or
+  level restriction prevents a new quest attempt. Preserve final-dialog cleanup,
+  verified queue advancement and all existing quest policies.
+- Keep Pause available during a running queue, retain explicit account removals
+  during background refresh, and drain local actions safely before exit.
+- Retain optional update checks off by default and separate check, download and
+  install actions. Validate older Windows Forms packages against the new feed.
+
+
 ## 1.0.7 — 2026-10-11
 
 - Close verified Spare a Stick and Perfect Hairstyle reward popups before
