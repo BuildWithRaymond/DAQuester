@@ -12,6 +12,12 @@ repeatable quest action controls, birth choices, update opt-in persistence and
 separate download/install states. Rendered surfaces reject solid light patches
 and clipped buttons. Screenshots and test reports are retained as CI artifacts.
 
+The planner checks also cover drag and keyboard queue ordering, character
+isolation, saved level and legend restrictions, green ready rows, disabled
+states, and search hint painting. Documentation screenshots can be regenerated
+with `./tools/Capture-Screenshots.ps1`; this uses a separate isolated fixture and
+never opens proxy/control listeners, user data, or real game clients.
+
 Run locally:
 
 ```powershell

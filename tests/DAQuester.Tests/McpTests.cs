@@ -3,6 +3,13 @@ using System.Text.Json;
 using DAQuester.DarkAges.Control;
 namespace DAQuester.Tests;
 public class McpTests {
+ [Fact] public async Task Start_schema_exposes_emerald_dawn_and_explicit_outcome_without_default() {
+  var p=new McpProtocol(_=>Task.FromResult<object?>(null));using var response=JsonDocument.Parse((await p.HandleAsync("{\"jsonrpc\":\"2.0\",\"id\":1,\"method\":\"tools/list\"}"))!);
+  var props=response.RootElement.GetProperty("result").GetProperty("tools").EnumerateArray().Single(t=>t.GetProperty("name").GetString()=="daquester_start").GetProperty("inputSchema").GetProperty("properties");
+  Assert.Contains("emerald-dawn",props.GetProperty("quest").GetProperty("enum").EnumerateArray().Select(x=>x.GetString()));
+  Assert.Equal(new[]{"emerald-knights","necromancer-order","rogue-order"},props.GetProperty("outcome").GetProperty("enum").EnumerateArray().Select(x=>x.GetString()));
+  Assert.False(props.GetProperty("outcome").TryGetProperty("default",out _));Assert.False(props.GetProperty("visitDruid").GetProperty("default").GetBoolean());
+ }
  [Fact] public async Task Collection_command_schema_exposes_sprite_and_inventory_goal() {
   var p=new McpProtocol(_=>Task.FromResult<object?>(null));using var d=JsonDocument.Parse((await p.HandleAsync("{\"jsonrpc\":\"2.0\",\"id\":1,\"method\":\"tools/list\"}"))!);
   var props=d.RootElement.GetProperty("result").GetProperty("tools").EnumerateArray().Single(t=>t.GetProperty("name").GetString()=="daquester_command").GetProperty("inputSchema").GetProperty("properties");

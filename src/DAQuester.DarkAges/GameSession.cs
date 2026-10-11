@@ -61,11 +61,13 @@ public sealed partial class GameSession:IGameSession {
     case "inspect-self":
      var self=Snapshot;await Send(new ClientSelfLookMessage(),cancellation);
      await WaitAsync(s=>s.LegendsKnown&&s.LegendsRevision>self.Revision,self.Revision,TimeSpan.FromSeconds(5),cancellation);break;
-    case "visit":await Visit(command.Map??throw new QuestBlockedException("NPC map missing."),command.Text??throw new QuestBlockedException("NPC name missing."),cancellation);break;
+    case "visit":await Visit(command.Map??throw new QuestBlockedException("NPC map missing."),command.Text??throw new QuestBlockedException("NPC name missing."),cancellation,command.Target);break;
+    case "check-faerie-return":ValidateFaerieReturn();break;
+    case "walk-exit":await WalkDocumentedExit(command,cancellation);break;
     case "step":
      if(Snapshot.Position is not {} origin||command.Target is not {} destination||Math.Abs(origin.X-destination.X)+Math.Abs(origin.Y-destination.Y)!=1)throw new QuestBlockedException("Step target must be adjacent to observed position.");
      await WalkTo(destination,cancellation);break;
-    case "navigate":await Navigate(command.Map??throw new InvalidOperationException("Map missing"),command.Target??throw new InvalidOperationException("Tile missing"),cancellation,command.StopWhen);break;
+    case "navigate":await Navigate(command.Map??throw new InvalidOperationException("Map missing"),command.Target??throw new InvalidOperationException("Tile missing"),cancellation,command.StopWhen,popupGuard:command.PreservePopup?TravelPopupVisible:null);break;
     case "collect-ground":await CollectGround(command,cancellation);break;
     case "open":
      var npc=Snapshot.Entities.Values.SingleOrDefault(x=>x.Name.Equals(command.Text,StringComparison.OrdinalIgnoreCase))??throw new QuestBlockedException("NPC not visible: "+command.Text);
@@ -83,7 +85,13 @@ public sealed partial class GameSession:IGameSession {
     case "prepare-deposit":await PrepareDeposit(cancellation);break;
     case "deposit":await Deposit(command.Amount??0,command.Dialog??Snapshot.Dialog,cancellation);break;
     case "say":await Send(new ClientSayMessage{Content=command.Text??""},cancellation);break;
-    case "use-item":await Send(new ClientUseMessage{Slot=(byte)(command.Amount??0)},cancellation);break;
+    case "use-item":
+     byte itemSlot=(byte)(command.Amount??0);
+     if(command.ExpectedResource is {} itemName){
+      var actual=Snapshot.InventoryKnown?Snapshot.Inventory.Values.Where(i=>i.Quantity>0&&i.Name.Equals(itemName,StringComparison.OrdinalIgnoreCase)).OrderBy(i=>i.Slot).FirstOrDefault():null;
+      itemSlot=actual?.Slot??throw new ResourceUnavailableException("The selected town song is no longer carried. Check your escape supplies.");
+     }
+     await Send(new ClientUseMessage{Slot=itemSlot},cancellation);break;
     case "use-skill":await Send(new ClientUseSkillMessage{Slot=(byte)(command.Amount??0)},cancellation);break;
     case "equip":await Send(new ClientUseMessage{Slot=command.Slot??throw new QuestBlockedException("Equipment inventory slot missing.")},cancellation);break;
     case "unequip":await Send(new ClientRemoveEquipmentMessage{Slot=(EquipmentSlot)(command.Slot??throw new QuestBlockedException("Equipment slot missing."))},cancellation);break;
@@ -97,7 +105,13 @@ public sealed partial class GameSession:IGameSession {
      await connection.SendAsync(Protocol.ItemPackets.Give(command.Slot.Value,command.EntityId.Value,command.Amount.Value),Snapshot.Generation,cancellation);break;
     case "spell":
      if(command.Slot is null)throw new QuestBlockedException("Spell slot missing.");
-     await Send(new ClientUseSpellMessage{Slot=command.Slot.Value,TargetId=command.EntityId,TargetX=command.Target is null?null:(ushort)command.Target.X,TargetY=command.Target is null?null:(ushort)command.Target.Y,TextInput=command.Text},cancellation);break;
+     byte spellSlot=command.Slot.Value;
+     if(command.ExpectedResource is {} spellName){
+      var actual=Snapshot.SpellsKnown?Snapshot.Spells.OrderBy(p=>p.Key).FirstOrDefault(p=>ShinewoodFaerieEvidence.SpellNameEquals(p.Value,spellName)):default;
+      if(actual.Key==0||spellName.Equals("dachaidh",StringComparison.OrdinalIgnoreCase)&&(Snapshot.Mana is null||Snapshot.Mana<30))throw new ResourceUnavailableException("The selected return spell is no longer ready. Prepare dachaidh or a town song.");
+      spellSlot=actual.Key;
+     }
+     await Send(new ClientUseSpellMessage{Slot=spellSlot,TargetId=command.EntityId,TargetX=command.Target is null?null:(ushort)command.Target.X,TargetY=command.Target is null?null:(ushort)command.Target.Y,TextInput=command.Text},cancellation);break;
     default:throw new QuestBlockedException("Unsupported game command: "+command.Kind);
    }
   }finally{if(cancellation.IsCancellationRequested)connection.CancelMovement();actions.Release();}
@@ -142,14 +156,25 @@ public sealed partial class GameSession:IGameSession {
   preparedDepositPrompt=null; // A prepared prompt authorizes only one amount submission.
   await connection.SendAsync(packet,Snapshot.Generation,ct);
  }
- async Task Visit(int map,string name,CancellationToken ct) {
-  await Navigate(map,null,ct);var before=Snapshot;
-  if(!before.Entities.Values.Any(e=>e.Name.Equals(name,StringComparison.OrdinalIgnoreCase)))await WaitAsync(s=>s.Map==map&&s.Entities.Values.Any(e=>e.Name.Equals(name,StringComparison.OrdinalIgnoreCase)),before.Revision,TimeSpan.FromSeconds(5),ct);
+ async Task Visit(int map,string name,CancellationToken ct,Tile? anchor=null) {
+  bool faerie=map==ShinewoodFaerieEvidence.Map&&name.Equals("Faerie",StringComparison.OrdinalIgnoreCase)&&anchor==ShinewoodFaerieEvidence.Anchor;
+  await Navigate(map,faerie?ShinewoodFaerieEvidence.Approach:anchor,ct,popupGuard:faerie?TravelPopupVisible:null);var before=Snapshot;
+  bool Matches(Entity e)=>faerie?ShinewoodFaerieEvidence.FaerieEntity(e):e.Name.Equals(name,StringComparison.OrdinalIgnoreCase)&&(anchor is null||Math.Abs(e.Position.X-anchor.X)+Math.Abs(e.Position.Y-anchor.Y)<=4);
+  // The live Faerie is a map reactor, without a drawn creature. Her documented
+  // greeting tile is sufficient for speech; the reply supplies its real ID.
+  if(faerie&&!before.Entities.Values.Any(Matches)){
+   PreserveTravelPopup();
+   if(before.Map!=map||before.Position!=ShinewoodFaerieEvidence.Approach)throw new QuestBlockedException("Verified Faerie approach tile required before greeting.");
+   return;
+  }
+  if(!before.Entities.Values.Any(Matches))await WaitAsync(s=>s.Map==map&&(s.Entities.Values.Any(Matches)||faerie&&TravelPopupVisible()),before.Revision,TimeSpan.FromSeconds(5),ct);
+  if(faerie)PreserveTravelPopup();
   before=Snapshot;if(before.Map!=map||before.Position is null)throw new QuestBlockedException("Map changed before NPC approach; inspect doorway pushback.");
-  var npc=before.Entities.Values.Single(e=>e.Name.Equals(name,StringComparison.OrdinalIgnoreCase));
-  var blocked=before.Entities.Values.Where(e=>e.Blocks).Select(e=>e.Position).ToHashSet();blocked.UnionWith(maps.Record(map).Portals.Select(p=>p.From));
+  var npc=before.Entities.Values.Single(Matches);
+  var blocked=before.Entities.Values.Where(e=>e.Blocks).Select(e=>e.Position).ToHashSet();blocked.UnionWith(maps.Record(map).ExitTiles);
   var goal=NpcApproach.Find(maps.Load(map),before.Position,npc.Position,blocked);
-  await WalkTo(goal,ct,map);
+  await WalkTo(goal,ct,map,replanWhen:faerie?TravelPopupVisible:null);
+  if(faerie)PreserveTravelPopup();
   if(Snapshot.Map!=map)throw new QuestBlockedException("Server moved character away during NPC approach; inspect doorway pushback.");
  }
  bool GoalReached(InventoryGoal? goal)=>goal is not null&&Snapshot.InventoryKnown&&Snapshot.Count(goal.Item)>=goal.Count;
@@ -163,9 +188,13 @@ public sealed partial class GameSession:IGameSession {
    (s.Map!=before.Map||connection.Tracker.LastPositionRevision>before.Revision&&s.Revision>=connection.Tracker.LastPositionRevision),before.Revision,TimeSpan.FromSeconds(5),ct);}
   catch(TimeoutException){throw new QuestBlockedException("Server position refresh unanswered. Resume when connection recovers.");}
  }
- async Task Navigate(int destination,Tile? target,CancellationToken ct,InventoryGoal? stopWhen=null) {
+ async Task Navigate(int destination,Tile? target,CancellationToken ct,InventoryGoal? stopWhen=null,bool preservePopup=false,Func<bool>? popupGuard=null) {
+  bool PopupVisible()=>preservePopup&&CollectionPopupVisible()||popupGuard?.Invoke()==true;
+  void PreservePopup(){if(preservePopup)PreserveCollectionPopup();if(popupGuard?.Invoke()==true)PreserveTravelPopup();}
+  bool skipKeane=ReconcileKeaneTravel();
   if(GoalReached(stopWhen))return;
   await DismissTravelNotice(ct);
+  PreservePopup();
   await CloseDialog(Snapshot.Dialog,ct);
   if(Snapshot.Map is null||Snapshot.Position is null)throw new QuestBlockedException("Waiting for server map and position.");
   Tile? worldEntrance=null;
@@ -173,6 +202,7 @@ public sealed partial class GameSession:IGameSession {
    ct.ThrowIfCancellationRequested();
    if(GoalReached(stopWhen))return;
    await DismissTravelNotice(ct);
+   PreservePopup();
    var world=connection.Tracker.WorldMap;
    if(world is not null) {
     var observed=Snapshot;
@@ -190,16 +220,21 @@ public sealed partial class GameSession:IGameSession {
    try{plan=maps.Plan(from,entry.Position,destination,target,obstacles,ct);}
    catch(InvalidOperationException)when(obstacles.Count>0){plan=maps.Plan(from,entry.Position,destination,target,ct:ct);}
    if(Snapshot.Map!=from||Snapshot.Position!=entry.Position||!ReferenceEquals(Snapshot.Entities,entry.Entities))continue;
+   if(!skipKeane&&from==503&&plan.Steps.Any(s=>s.Map is 502 or 3014)){
+    if(await TryKeaneTravel(plan,ct))continue;
+    skipKeane=true;continue;
+   }
    var step=plan.Steps.FirstOrDefault();
-   if(step is null){await WalkTo(target!,ct,destination,stopWhen);return;}
-   bool Replan()=>!ReferenceEquals(Snapshot.Entities,entry.Entities);
+   if(step is null){await WalkTo(target!,ct,destination,stopWhen,replanWhen:preservePopup||popupGuard is not null?PopupVisible:null);PreservePopup();return;}
+   bool Replan()=>!ReferenceEquals(Snapshot.Entities,entry.Entities)||PopupVisible();
    if(entry.Position==step.From){
-    var record=maps.Record(from);var triggers=record.Portals.Select(p=>p.From).Concat(record.InternalTransfers.Select(t=>t.From)).ToHashSet();
+    var record=maps.Record(from);var triggers=record.ExitTiles.Concat(record.InternalTransfers.Select(t=>t.From)).ToHashSet();
     var off=Grid.Neighbors(step.From).FirstOrDefault(p=>!maps.Load(from).Blocked(p)&&!triggers.Contains(p)&&!obstacles.Contains(p))??throw new QuestBlockedException("Doorway cannot be re-entered while neighboring tiles are blocked.");
     await WalkTo(off,ct,from,stopWhen,replanWhen:Replan);continue;
    }
    if(step.Map==from) {
     await WalkTo(step.From,ct,from,stopWhen,step.To,Replan);
+    PreservePopup();
     if(GoalReached(stopWhen))return;
     if(Snapshot.Map==from&&Snapshot.Position!=step.From&&Snapshot.Position!=step.To)continue;
     await WaitAsync(s=>s.Map==from&&s.Position==step.To,entry.Revision,TimeSpan.FromSeconds(5),ct);
@@ -207,6 +242,7 @@ public sealed partial class GameSession:IGameSession {
    }
    if(step.WorldMap)worldEntrance=step.From;
    await WalkTo(step.From,ct,from,stopWhen,replanWhen:Replan);
+   PreservePopup();
    if(GoalReached(stopWhen))return;
    if(Snapshot.Map==from&&connection.Tracker.WorldMap is null&&Snapshot.Position!=step.From)continue;
    await WaitAsync(x=>connection.Tracker.WorldMap is not null||x.Map!=from&&x.Position is not null,Snapshot.Revision-1,TimeSpan.FromSeconds(5),ct);
@@ -276,11 +312,11 @@ public sealed partial class GameSession:IGameSession {
    if(before.Map!=expectedMap)throw new QuestBlockedException("Map changed while navigating; inspect doorway pushback.");
    var grid=maps.Load(before.Map.Value);
    var record=maps.Record(before.Map.Value);
-   var permanentObstacles=record.Portals.Select(p=>p.From).Concat(record.InternalTransfers.Select(t=>t.From)).Where(p=>p!=target).ToHashSet();
+   var permanentObstacles=record.ExitTiles.Concat(record.InternalTransfers.Select(t=>t.From)).Where(p=>p!=target).ToHashSet();
    var blocked=before.Entities.Values.Where(x=>x.Blocks&&x.Id!=before.Id).Select(x=>x.Position).ToHashSet();
    blocked.UnionWith(permanentObstacles);
    blocked.UnionWith(avoided);
-   bool portalGoal=maps.Record(before.Map.Value).Portals.Any(p=>p.From==target);
+   bool portalGoal=record.ExitTiles.Contains(target);
    IReadOnlyList<Tile> path;
    try{path=grid.Path(before.Position,target,blocked,allowBlockedGoal:portalGoal);}
    catch(InvalidOperationException)when(blocked.Except(permanentObstacles).Any()) {
@@ -301,7 +337,7 @@ public sealed partial class GameSession:IGameSession {
    if(IsTravelNotice(current))continue;
    if(replanWhen is not null&&current.Map==before.Map&&current.Position is not null&&current.Position!=before.Position)return;
    if(current.Map!=before.Map||current.Position!=before.Position||current.Entities.Values.Any(e=>e.Blocks&&e.Id!=current.Id&&e.Position==next))continue;
-   try{await connection.SendAsync(Packet(new ClientMoveMessage{Direction=(WorldDirection)dir}),current.Generation,ct,movementAllowed:()=>!IsTravelNotice(Snapshot));}
+   try{await connection.SendAsync(Packet(new ClientMoveMessage{Direction=(WorldDirection)dir}),current.Generation,ct,movementAllowed:()=>!IsTravelNotice(Snapshot)&&replanWhen?.Invoke()!=true);}
    catch(MovementReplanException){continue;}
    lastMove=DateTimeOffset.UtcNow;
    CharacterSnapshot? ack=null;

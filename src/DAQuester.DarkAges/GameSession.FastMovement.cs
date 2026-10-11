@@ -38,9 +38,9 @@ public sealed partial class GameSession {
    if(draining&&window.Pending==0)return new(done||state.Position==target);
    Tile? next=null;
    if(!draining&&window.Pending<window.Capacity){
-    var record=maps.Record(state.Map!.Value);var triggers=record.Portals.Select(p=>p.From).Concat(record.InternalTransfers.Select(t=>t.From)).ToHashSet();
+    var record=maps.Record(state.Map!.Value);var triggers=record.ExitTiles.Concat(record.InternalTransfers.Select(t=>t.From)).ToHashSet();
     var blocked=state.Entities.Values.Where(e=>e.Blocks&&e.Id!=state.Id).Select(e=>e.Position).ToHashSet();blocked.UnionWith(triggers.Where(t=>t!=target));blocked.UnionWith(avoided);
-    try{next=maps.Load(state.Map.Value).Path(origin,target,blocked,allowBlockedGoal:record.Portals.Any(p=>p.From==target)).FirstOrDefault();}
+    try{next=maps.Load(state.Map.Value).Path(origin,target,blocked,allowBlockedGoal:record.ExitTiles.Contains(target)).FirstOrDefault();}
     catch(InvalidOperationException){draining=true;}
     // Doors and internal transfers use the ordinary acknowledged path. Drain
     // the approach first; never project a step through a map transition.

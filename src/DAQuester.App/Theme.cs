@@ -8,6 +8,7 @@ internal static class Theme {
  public static readonly Color Ink=Color.FromArgb(13,19,30),Surface=Color.FromArgb(21,30,43),Raised=Color.FromArgb(28,40,56),Line=Color.FromArgb(45,59,77),Text=Color.FromArgb(237,240,243),Muted=Color.FromArgb(160,174,192),Gold=Color.FromArgb(217,184,121),Mint=Color.FromArgb(139,207,179),Rose=Color.FromArgb(229,151,154);
  // Fluent 2 foundations, implemented for native WinForms with our journal palette.
  public static readonly Color ControlHover=Color.FromArgb(36,50,68),ControlPressed=Color.FromArgb(17,26,38),DisabledSurface=Color.FromArgb(22,30,42),DisabledText=Color.FromArgb(130,145,165),GoldHover=Color.FromArgb(230,199,141),GoldPressed=Color.FromArgb(194,158,93);
+ public static readonly Color QuestReadySurface=Color.FromArgb(21,38,34),QuestReadyHover=Color.FromArgb(27,48,42),QuestUnavailableSurface=Color.FromArgb(16,24,35),QuestUnavailableHover=Color.FromArgb(19,28,40);
  public const int Space=4,ControlRadius=6,CardRadius=8,ControlHeight=40;
  public const TextFormatFlags ControlTextFlags=TextFormatFlags.VerticalCenter|TextFormatFlags.EndEllipsis|TextFormatFlags.SingleLine|TextFormatFlags.PreserveGraphicsClipping|TextFormatFlags.PreserveGraphicsTranslateTransform;
  public static Font Body(float size=10,FontStyle style=FontStyle.Regular)=>new("Segoe UI",size,style);
@@ -68,6 +69,7 @@ internal sealed class JournalButton:Button {
  [DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]public bool Quiet {get=>quiet;set{if(quiet==value)return;quiet=value;Invalidate();}}
  [DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]public bool Danger {get=>danger;set{if(danger==value)return;danger=value;Invalidate();}}
  [DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]public bool Active {get=>active;set{if(active==value)return;active=value;Invalidate();}}
+ [DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]public bool Compact {get;set;}
  bool primary,quiet,danger,active,hovered,mouseDown,spaceDown,defaultButton;
  public JournalButton(){SetStyle(ControlStyles.UserPaint|ControlStyles.Opaque|ControlStyles.AllPaintingInWmPaint|ControlStyles.OptimizedDoubleBuffer|ControlStyles.ResizeRedraw,true);FlatStyle=FlatStyle.Flat;FlatAppearance.BorderSize=0;UseVisualStyleBackColor=false;Cursor=Cursors.Hand;Font=Theme.Heading(10);}
  protected override void OnMouseEnter(EventArgs e){hovered=true;Invalidate();base.OnMouseEnter(e);}
@@ -98,7 +100,7 @@ internal sealed class JournalButton:Button {
    using(var brush=new SolidBrush(fill))g.FillPath(brush,path);
    if(!Quiet||Focused||defaultButton){using var border=new Pen(!Enabled?Theme.Line:Primary?fill:defaultButton?Theme.Gold:Theme.Line,scale);g.DrawPath(border,path);}
    if(Focused&&Enabled){using var focus=Rounded(new(.5f*scale,.5f*scale,Width-scale-1,Height-scale-1),(Theme.ControlRadius+2)*scale);using var pen=new Pen(Theme.Gold,scale);g.DrawPath(pen,focus);}
-   int padding=(int)Math.Round((Quiet?16:12)*scale);
+   int padding=(int)Math.Round((Compact?6:Quiet?16:12)*scale);
    var rect=new Rectangle(padding,0,Math.Max(0,Width-padding*2),Height);
    var flags=Theme.ControlTextFlags|(Quiet?TextFormatFlags.Left:TextFormatFlags.HorizontalCenter);
    if(!ShowKeyboardCues)flags|=TextFormatFlags.HidePrefix;
@@ -144,6 +146,7 @@ internal sealed class StageTrack:Control {
  public StageTrack(){DoubleBuffered=true;BackColor=Theme.Surface;Height=74;TabStop=false;AccessibleName="Quest stages";}
  protected override void OnPaint(PaintEventArgs e){
   base.OnPaint(e);if(Stages.Length==0)return;var g=e.Graphics;g.SmoothingMode=SmoothingMode.AntiAlias;
+  if(Width<Stages.Length*65){float segment=(Width-4f)/Stages.Length;for(int i=0;i<Stages.Length;i++){using var fill=new SolidBrush(Complete||i<=Current?Theme.Gold:Theme.Line);g.FillRectangle(fill,2+i*segment,11,Math.Max(2,segment-4),3);}using var label=Theme.Body(8.5f);TextRenderer.DrawText(g,Complete?"Journey complete":$"Step {Current+1} of {Stages.Length} · {Stages[Math.Clamp(Current,0,Stages.Length-1)]}",label,new Rectangle(0,23,Width,28),Complete?Theme.Mint:Theme.Muted,TextFormatFlags.SingleLine|TextFormatFlags.EndEllipsis);return;}
   float step=Width/(float)Stages.Length;
   for(int i=0;i<Stages.Length;i++){float x=step*(i+.5f);bool done=Complete||i<Current,active=i==Current&&!Complete;
    if(i<Stages.Length-1){using var line=new Pen(done?Color.FromArgb(100,Theme.Gold):Theme.Line,2);g.DrawLine(line,x+9,18,x+step-9,18);}

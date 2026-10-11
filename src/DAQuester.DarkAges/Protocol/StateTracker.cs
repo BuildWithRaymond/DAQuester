@@ -15,7 +15,7 @@ public class StateTracker(long generation) {
  public event Action<CharacterSnapshot>? Changed;
  public event Action<byte,byte[]>? Observed;
  public void Identity(string name,uint id) => Publish(Snapshot with{Name=name,Id=id,Connected=true});
- public void Disconnect()=>Publish(Snapshot with{Connected=false,Dialog=null,InventoryKnown=false,LegendsKnown=false,Notice=null,GroundItems=ImmutableDictionary<uint,GroundItem>.Empty});
+ public void Disconnect()=>Publish(Snapshot with{Connected=false,Dialog=null,InventoryKnown=false,SpellsKnown=false,Class=null,DisplayClass=null,IsMaster=null,IsPure=null,Mana=null,LegendsKnown=false,Notice=null,GroundItems=ImmutableDictionary<uint,GroundItem>.Empty});
  void Publish(CharacterSnapshot s) {Snapshot=s with{Revision=Snapshot.Revision+1};Changed?.Invoke(Snapshot);}
  public void Observe(byte opcode,byte[] payload) {
   if(opcode is not (0x04 or 0x05 or 0x07 or 0x08 or 0x0A or 0x0B or 0x0C or 0x0E or 0x0F or 0x10 or 0x15 or 0x17 or 0x18 or 0x2C or 0x2D or 0x2E or 0x2F or 0x30 or 0x33 or 0x37 or 0x38 or 0x39 or 0x58))return;
@@ -25,10 +25,10 @@ public class StateTracker(long generation) {
   switch(m) {
    case ServerUserAppearanceMessage p:s=s with{Id=p.UserId,Connected=s.Name is not null};break;
    case ServerStatusMessage p:
-    s=s with{Level=p.Level??s.Level,Gold=p.Gold??s.Gold,Experience=p.TotalExperience??s.Experience,Hp=p.Health??s.Hp,Weight=p.Weight??s.Weight,MaxWeight=p.MaxWeight??s.MaxWeight};break;
+    s=s with{Level=p.Level??s.Level,Gold=p.Gold??s.Gold,Experience=p.TotalExperience??s.Experience,Hp=p.Health??s.Hp,Mana=p.Mana??s.Mana,Weight=p.Weight??s.Weight,MaxWeight=p.MaxWeight??s.MaxWeight};break;
    case ServerSystemMessage p:
     var notice=new ServerNotice(generation,rev,(byte)p.MessageType,p.Message,DateTimeOffset.UtcNow);
-    s=s with{Notice=MundaneBirthEvidence.Matches(notice)||MuisirEvidence.IsKirilNotice(notice,s.Map)?notice:null};break;
+    s=s with{Notice=MundaneBirthEvidence.Matches(notice)||MuisirEvidence.IsKirilNotice(notice,s.Map)||EmeraldDawnEvidence.IsNotice(notice,s.Map)?notice:null};break;
    case ServerAddInventoryMessage p:
     s=s with{Inventory=s.Inventory.SetItem(p.Slot,new(p.Slot,p.Name,p.Quantity))};break;
    case ServerRemoveInventoryMessage p:s=s with{Inventory=s.Inventory.Remove(p.Slot)};break;
@@ -38,7 +38,10 @@ public class StateTracker(long generation) {
    case ServerRemoveSkillMessage p:s=s with{Skills=s.Skills.Remove(p.Slot)};break;
    case ServerAddSpellMessage p:s=s with{Spells=s.Spells.SetItem(p.Slot,p.Name)};break;
    case ServerRemoveSpellMessage p:s=s with{Spells=s.Spells.Remove(p.Slot)};break;
-   case ServerSelfLookMessage p:s=s with{Legends=p.LegendMarks.Select(x=>x.Text).ToImmutableArray(),LegendsKnown=true,LegendsRevision=rev};break;
+   case ServerSelfLookMessage p:s=s with{Legends=p.LegendMarks.Select(x=>x.Text).ToImmutableArray(),LegendsKnown=true,LegendsRevision=rev,
+    Class=p.Class==CharacterClass.None?null:p.Class.ToString(),DisplayClass=p.DisplayClass,
+    IsMaster=p.ShowMasterMetadata||p.ShowAbilityMetadata||p.DisplayClass.Contains("Master",StringComparison.OrdinalIgnoreCase),
+    IsPure=p.DisplayClass.StartsWith("Pure ",StringComparison.OrdinalIgnoreCase)?true:null};break;
    case ServerUserPositionMessage p:LastPositionRevision=rev;s=s with{Position=new(p.X,p.Y)};break;
    case ServerMoveMessage p:
     LastMovementRevision=rev;
@@ -46,7 +49,7 @@ public class StateTracker(long generation) {
     s=s with{Position=GridStep(prev,(byte)p.Direction)};break;
    case ServerMapSizeMessage p:
     Width=p.Width;Height=p.Height;WorldMap=null;
-    s=s with{Map=p.MapId,Position=null,Dialog=null,Entities=ImmutableDictionary<uint,Entity>.Empty,GroundItems=ImmutableDictionary<uint,GroundItem>.Empty};break;
+    s=s with{Map=p.MapId,MapName=p.Name,Position=null,Dialog=null,Entities=ImmutableDictionary<uint,Entity>.Empty,GroundItems=ImmutableDictionary<uint,GroundItem>.Empty};break;
    case ServerDrawObjectsMessage p:
     foreach(var e in p.Entities) {
      if(e is ServerItemEntity item){s=s with{GroundItems=s.GroundItems.SetItem(e.Id,new(e.Id,item.Sprite,new(e.X,e.Y)))};continue;}
@@ -58,7 +61,7 @@ public class StateTracker(long generation) {
    case ServerRemoveObjectsMessage p:s=s with{Entities=s.Entities.Remove(p.EntityId),GroundItems=s.GroundItems.Remove(p.EntityId)};break;
    case ServerMoveObjectMessage p:
     if(s.Entities.TryGetValue(p.EntityId,out var entity))s=s with{Entities=s.Entities.SetItem(p.EntityId,entity with{Position=GridStep(new(p.OriginX,p.OriginY),(byte)p.Direction)})};break;
-   case ServerUserReadyMessage:s=s with{InventoryKnown=true};break;
+   case ServerUserReadyMessage:s=s with{InventoryKnown=true,SpellsKnown=true};break;
    case ServerScreenMenuMessage p:
     s=s with{Dialog=new(generation,rev,p.EntityId??0,(byte)p.EntityType,p.Name??"",p.Content??"",false,p.PursuitId??0,0,(byte)p.MenuType,
       p.MenuChoices.Select((x,i)=>new DialogChoice(x.Text,x.PursuitId,(byte)(i+1))).ToImmutableArray(),p.Prompt){ObservedAt=DateTimeOffset.UtcNow}};break;

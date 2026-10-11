@@ -60,8 +60,16 @@ internal sealed class InputField:Panel {
 }
 
 internal sealed class JournalTextBox:TextBox {
- protected override void WndProc(ref Message m){base.WndProc(ref m);if(m.Msg is not (0xF or 0x317 or 0x318))return;if(TextLength!=0||PlaceholderText.Length==0)return;if(m.Msg==0xF){using var g=Graphics.FromHwnd(Handle);DrawHint(g);}else if(m.WParam!=IntPtr.Zero){using var g=Graphics.FromHdc(m.WParam);DrawHint(g);}}
- void DrawHint(Graphics g)=>TextRenderer.DrawText(g,PlaceholderText,Font,ClientRectangle,Theme.Muted,TextFormatFlags.VerticalCenter|TextFormatFlags.EndEllipsis);
+ string hint="";
+ // Keep the native cue empty: otherwise WM_PAINT renders it beneath our dark hint.
+ [System.ComponentModel.DesignerSerializationVisibility(System.ComponentModel.DesignerSerializationVisibility.Hidden)]
+ [System.Diagnostics.CodeAnalysis.AllowNull]
+ public new string PlaceholderText {get=>hint;set{hint=value??"";base.PlaceholderText="";AccessibleDescription=hint;Invalidate();}}
+ protected override void OnGotFocus(EventArgs e){base.OnGotFocus(e);Invalidate();}
+ protected override void OnLostFocus(EventArgs e){base.OnLostFocus(e);Invalidate();}
+ protected override void OnTextChanged(EventArgs e){base.OnTextChanged(e);Invalidate();}
+ protected override void WndProc(ref Message m){base.WndProc(ref m);if(m.Msg is not (0xF or 0x317 or 0x318))return;if(TextLength!=0||hint.Length==0)return;if(m.Msg==0xF){using var g=Graphics.FromHwnd(Handle);DrawHint(g);}else if(m.WParam!=IntPtr.Zero){using var g=Graphics.FromHdc(m.WParam);DrawHint(g);}}
+ void DrawHint(Graphics g)=>TextRenderer.DrawText(g,hint,Font,ClientRectangle,Theme.Muted,TextFormatFlags.VerticalCenter|TextFormatFlags.EndEllipsis|TextFormatFlags.SingleLine|TextFormatFlags.NoPrefix);
 }
 
 internal sealed class JournalComboBox:ComboBox {

@@ -1,5 +1,67 @@
 # Changelog
 
+## 1.0.6 — 2026-10-11
+
+- Rewrite the README, refresh native screenshots, organize historical design
+  notes, and remove the retired concept page, duplicate library/dialog code, and
+  completed implementation plans. Add isolated screenshot capture and require
+  all six recipes in release verification.
+- Keep character connection and password status on separate readable lines
+  after the shared theme is applied.
+
+- Remember observed levels and own legend marks per character and server, even
+  offline or after restart. Block Spare a Stick outside levels 1–11 and show
+  recognized finished legend goals as Completed without inventing reward receipts.
+  Preserve pending reconciliation, add green ready/choice rows and muted unavailable
+  states, and remove duplicate search-placeholder painting.
+- Redesign the native workspace around the concept's quest library, numbered
+  per-character queue, switcher, and current journey. Add search/filtering,
+  drag ordering, keyboard moves, removal, clear, and durable queue recovery.
+- Run one verified attempt per queue entry, preserving quest goals, repeat
+  intent, cooldowns, pending reconciliation, and generation isolation. Add
+  verified history and optional return to a character's observed saved home.
+- Add per-character Launch and Set home actions. Saved login follows
+  DAOrganizer's owned-window, verified-form, one-use ticket approach; manual
+  sign-in remains available. Tests never operate real game characters.
+
+- Handle the Faerie's observed failed bond and one-deoch wait, finish remaining
+  spells and return by town song. Reconcile saved refusals after manual closing
+  or returning without another adoption/song. Recognize Rucesion Threshold as
+  a safe landing and numeric spell level suffixes for known spells/dachaidh.
+- Fix the Faerie greeting after arrival: the live Faerie is a map reactor with
+  no drawn NPC. Say Hello from her verified approach and bind the real reply ID
+  instead of timing out while waiting for a creature that never appears.
+- Add Shinewood Faerie for every class: adopt one pet and learn all eligible
+  missing Priest/Wizard spells in the same visit. Keep durable acquisition and
+  return receipts, preserve unfamiliar pages, and reconcile ambiguous replies.
+- Recommend town songs/scrolls or ready dachaidh. Show a dark warning with Cancel
+  as default before an unprepared journey. Return by town song, dachaidh or
+  documented walking exits; observe actual landings and resolve current slots.
+- Include the requested pet/spell quest in the library despite no legend reward.
+  Explicit later visits check newly unlocked spells without a repeat timer.
+  Existing quest policies remain unchanged; full live Faerie validation is pending.
+- Add Emerald Dawn with explicit Knights, Necromancer and sale outcomes, optional
+  Gans consultation, Shinewood insignia collection, live dialog IDs and durable
+  recovery/submission checkpoints. Verify own legends and inventory/gold evidence;
+  record actual XP and preserve ambiguous claims without resending them.
+- Add dark outcome choices, journal stages, library availability and local/MCP
+  start options. Existing four quest policies remain unchanged. Guide-derived
+  implementation has synthetic coverage; full live Emerald Dawn validation is pending.
+- Keep the journal current during long quest actions by publishing each durable
+  checkpoint. Ground collection uses the existing fast-walk pipeline across
+  patrol and pickup paths, replans for newly visible loot and drains movement
+  before pickup; player proximity and inventory confirmation remain enforced.
+- Preserve walking discovery popups, finish the insignia's observed Next pages
+  even when inventory updates arrive first, and checkpoint each reply before
+  sending. Search stays in Shinewood Entrance; unfamiliar popups pause intact.
+- Replace Emerald Dawn's proximity patrol with a closed sweep of every reachable
+  non-door entrance tile. Preserve fast walking on straight runs and repeat the
+  full sweep until server inventory confirms the insignia.
+- Use Keane outside Suomi Inn for departures whose recorded route passes Abel.
+  Resolve the live travel choice and Next pages, replan from actual arrival, and
+  preserve unanswered submissions without repeating travel. Fall back to walking
+  when the NPC is unavailable before interaction.
+
 ## 1.0.5 — 2026-10-10
 
 - Close Undine weapon warnings, remove the equipped weapon and wait for server

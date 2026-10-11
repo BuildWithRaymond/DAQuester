@@ -9,10 +9,39 @@ internal static class ControlVisualChecks {
 
  internal static void Run(){
   var failures=new List<string>();
-  foreach(var check in new Action[]{CheckCorners,CheckPointerStates,CheckKeyboardStates,CheckPartialPaint,CheckSmallSizes,CheckPropertyRepaint,CheckCardCorners,CheckCheckboxClip,CheckDialogKeyboard,CheckRepaintCycles})
+  foreach(var check in new Action[]{CheckCorners,CheckPointerStates,CheckKeyboardStates,CheckPartialPaint,CheckSmallSizes,CheckPropertyRepaint,CheckCardCorners,CheckCheckboxClip,CheckDialogKeyboard,CheckRepaintCycles,CheckPlannerStateColors,CheckSearchPlaceholder})
    try{check();}catch(Exception error){failures.Add(check.Method.Name+": "+error.GetBaseException().Message);}
   if(failures.Count>0)throw new InvalidOperationException(string.Join(Environment.NewLine,failures));
   foreach(float scale in new[]{1f,1.25f,1.5f,2f})SaveStateSheet(scale);
+ }
+ static void CheckPlannerStateColors(){
+  string[] states=["Ready","Choices","Resume ready","Not checked","Completed","Blocked","Unavailable"];
+  using var sheet=new Bitmap(720,78*states.Length);using var composite=Graphics.FromImage(sheet);
+  int readyTitle=0;
+  for(int i=0;i<states.Length;i++){
+   string state=states[i];using var row=new PlannerQuestRow(new("test","Quest title","Legend reward","","1+","","","mundane-birth"),new(state,"Known reason",state is not ("Completed" or "Blocked" or "Unavailable"))){Width=720};
+   using var bitmap=new Bitmap(row.Width,row.Height);using(var graphics=Graphics.FromImage(bitmap))Paint(row,graphics,row.ClientRectangle);
+   var surface=bitmap.GetPixel(100,71);
+   if(state is "Ready" or "Choices" or "Resume ready"&&(surface.G<=surface.B||surface.G<=surface.R))throw new InvalidOperationException(state+" quest rows need a green surface tint.");
+   int maxTitle=0;for(int y=18;y<43;y++)for(int x=95;x<300;x++)maxTitle=Math.Max(maxTitle,bitmap.GetPixel(x,y).R);
+   if(state=="Ready")readyTitle=maxTitle;
+   if(state is "Blocked" or "Unavailable"&&maxTitle>=readyTitle)throw new InvalidOperationException("Blocked and unavailable quest titles must be muted compared with Ready.");
+   composite.DrawImageUnscaled(bitmap,0,i*78);
+  }
+  Directory.CreateDirectory("artifacts");sheet.Save("artifacts/quest-row-states.png");
+ }
+ static void CheckSearchPlaceholder(){
+  using var host=new Form{ClientSize=new(440,100),BackColor=Theme.Ink,ShowInTaskbar=false};
+  using var field=new JournalTextBox{PlaceholderText="Search quests, rewards, or requirements",BorderStyle=BorderStyle.None,BackColor=Theme.Raised,ForeColor=Theme.Text,Font=Theme.Body(10),Bounds=new(12,12,400,24)};
+  if(((TextBox)field).PlaceholderText.Length!=0)throw new InvalidOperationException("Native cue must remain empty when a custom dark placeholder is painted.");
+  using var other=Theme.Button("Other");other.SetBounds(12,50,100,35);host.Controls.AddRange([field,other]);host.Show();other.Focus();Application.DoEvents();
+  using var unfocused=new Bitmap(field.Width,field.Height);field.DrawToBitmap(unfocused,field.ClientRectangle);
+  field.Focus();Application.DoEvents();using var focused=new Bitmap(field.Width,field.Height);field.DrawToBitmap(focused,field.ClientRectangle);
+  for(int y=0;y<field.Height;y++)for(int x=8;x<field.Width-8;x++)if(unfocused.GetPixel(x,y)!=focused.GetPixel(x,y))throw new InvalidOperationException("Empty search placeholder changes text pixels on focus; duplicate native/custom hint painting must be removed.");
+  field.Text="Muisir";Application.DoEvents();using var typed=new Bitmap(field.Width,field.Height);field.DrawToBitmap(typed,field.ClientRectangle);
+  field.Text="";other.Focus();Application.DoEvents();using var cleared=new Bitmap(field.Width,field.Height);field.DrawToBitmap(cleared,field.ClientRectangle);
+  for(int y=0;y<field.Height;y++)for(int x=8;x<field.Width-8;x++)if(unfocused.GetPixel(x,y)!=cleared.GetPixel(x,y))throw new InvalidOperationException("Clearing a search must restore one clean placeholder.");
+  Directory.CreateDirectory("artifacts");unfocused.Save("artifacts/search-placeholder.png");
  }
 
  static void CheckCorners(){

@@ -14,9 +14,9 @@ public sealed partial class MainForm {
  Task ShowPage(string id){
   if(!pages.TryGetValue(id,out var page)){
    page=id switch{
-    "library"=>CreateLibraryPage(),
     "settings"=>CreateSettingsPage(),
     "login"=>CreateAccountManagerPage(),
+    "history"=>CreateHistoryPage(),
     _=>throw new InvalidOperationException("Unknown workspace page: "+id)
    };
    page.Visible=false;pages.Add(id,page);pageHost.Controls.Add(page);
@@ -27,11 +27,8 @@ public sealed partial class MainForm {
   foreach(var pair in navigationButtons)pair.Value.Active=pair.Key==id;
   Text="DAQuester · "+navigationButtons[id].Text;
   if(id=="journal")UpdateWorkspace();
+  if(id=="history")RefreshHistoryPage();
   return Task.CompletedTask;
- }
- QuestLibraryPage CreateLibraryPage(){
-  var page=new QuestLibraryPage(recipes.Values);
-  page.QuestChosen+=id=>{questChoice.SelectedItem=recipes[id];_=ShowPage("journal");questChoice.Focus();};return page;
  }
  PlayerSettingsPage CreateSettingsPage(){
   var page=new PlayerSettingsPage(settings,updates,InstallUpdate);
@@ -39,7 +36,9 @@ public sealed partial class MainForm {
   page.Cancelled+=()=>_=ShowPage("journal");return page;
  }
  AccountManagerPage CreateAccountManagerPage(){
-  var page=new AccountManagerPage(settings,settings.Characters.Concat(sessions.Where(p=>p.Value.Snapshot.Connected).Select(p=>p.Key)),IsSmoke);
+  var page=new AccountManagerPage(settings,settings.Characters.Concat(sessions.Where(p=>p.Value.Snapshot.Connected).Select(p=>p.Key)),IsSmoke,name=>!QueueReserves(name)&&!pendingLaunches.ContainsKey(name)&&!controlActions.ContainsKey(name)&&!(runners.TryGetValue(name,out var runner)&&runner.IsRunning),name=>{string state=sessions.TryGetValue(name,out var session)&&session.Snapshot.Connected?$"Online · level {session.Snapshot.Level?.ToString()??"?"}":launchStates.GetValueOrDefault(name,"Offline");int count=GetQueue(name).Quests.Length;return state+(count>0?$" · {count} queued":"");});
+  async void Action(string name,bool home){try{if(IsSmoke)throw new InvalidOperationException("Preview does not launch game clients or save observed home locations.");if(home)await SetHome(name);else await LaunchCharacterAsync(name);}catch(Exception e){Theme.Error(this,PlayerReason(e.Message),home?"Set home":"Launch character");}}
+  page.LaunchRequested+=name=>Action(name,false);page.HomeRequested+=name=>Action(name,true);
   page.Saved+=()=>{
    foreach(var row in grid.Rows.Cast<DataGridViewRow>().ToArray()){
     string name=row.Cells[0].Value?.ToString()??"";

@@ -14,21 +14,46 @@ unsupported builds. No game binaries or assets are included.
 ## Set up and play
 
 1. Open **Settings**, select `Darkages.exe`, and save. Restart DAQuester after
-   changing the client. In **Account manager**, add rows for your character names
+   changing the client. In **Characters**, add rows for your character names
    and optional passwords, then **Save accounts**. Names update the journal
    immediately. Blank passwords keep existing saved passwords.
-2. Choose **Open Dark Ages**. Log in manually. Only clients opened through
-   DAQuester connect through its proxy.
-3. Select the character and quest. Read the requirements, then **Start quest**.
-   Mundane Birth asks for its lasting choices before any movement.
-4. **Pause** retains progress. **Resume** continues saved work. **Stop** cancels
-   automation and retains the journal. Manual movement/NPC interaction pauses
-   automation while gameplay continues.
+2. Use the **Launch** action beside a saved character. Its saved password signs
+   into that character; without one, sign in manually. Only clients opened
+   through DAQuester connect through its proxy. Existing owned clients are focused.
+3. Use the header's character switcher, search the library, and select automatic
+   quests. Drag the queue into order, or use its arrows; Ctrl+Up/Down also moves
+   a focused entry and Delete removes it. Guide-only entries open their details.
+4. **Start queue** performs one verified attempt per entry. Birth and Emerald
+   Dawn choices are confirmed before movement. A weekly Hairstyle attempt can
+   finish without its Suomi legend; its cooldown and repeat intent remain saved.
+   A pending or blocked attempt pauses the queue before the next entry.
+5. **Pause run** retains progress and order. **Resume run** checks saved results.
+   **Stop** cancels automation, keeps checkpoints, and unlocks queue edits.
+   Manual movement/NPC interaction pauses automation while gameplay continues.
+   The journey card shows the next queue entry. Expand **Recent activity** for
+   saved receipts, or **Quest controls** for individual actions and fast mode.
+
+**Run history** combines verified queue outcomes with existing quest journals.
+To return after a queue, connect the character, move to the desired location,
+then use **Set home here** in Characters. Enable **Return home when finished**
+in that character's queue. Failed travel leaves a resumable return checkpoint.
+Saved-login form automation is tested synthetically; live login is not part of
+build or UI validation.
 
 Left navigation opens pages in the same window. Library filters, account edits
 and quest progress stay in place when switching pages. For Spare a Stick,
 **Run again** starts another attempt after cooldown; **Repeat** schedules further
 attempts every eight hours until Callough confirms permanent completion.
+
+DAQuester remembers each character's observed level and own legend marks,
+separately for each server profile. An idle connected character's legend is read
+after login and refreshed whenever the server sends a new own legend list.
+Those facts survive disconnects and app restarts. Spare a Stick is selectable
+only at known levels 1–11; a known level 99 is blocked. Recognized finished legend
+goals show **Completed**, including Muisir, Birth and Emerald final outcomes.
+The Hairstyle goal ends when its Suomi legend is recorded; a Stick legend alone
+does not end repeat attempts. Unknown requirements still need a live check.
+Green-tinted rows are Ready/Choices; blocked and unavailable rows are muted.
 
 Optional **Fast mode · slows near players** saves separately for each character
 and defaults off. Check it for Excalibur's fast pace when alone; another player

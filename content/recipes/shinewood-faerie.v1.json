@@ -1,0 +1,14 @@
+{
+  "id": "shinewood-faerie",
+  "version": 1,
+  "name": "Shinewood Faerie",
+  "source": "https://vorlof.com/general/shinewoodforest11.html",
+  "capabilities": ["navigate", "dialog", "inventory", "speech", "spell", "item"],
+  "cooldownHours": 0,
+  "repeatable": false,
+  "steps": [
+    {"id": "preflight", "action": "faerie-preflight", "next": "visit"},
+    {"id": "visit", "action": "faerie-visit", "next": "return"},
+    {"id": "return", "action": "faerie-return", "next": "complete"}
+  ]
+}

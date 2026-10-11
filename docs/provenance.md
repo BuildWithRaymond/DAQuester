@@ -1,5 +1,121 @@
 # Source provenance
 
+Saved-character launch adapts the MIT-licensed
+[DAOrganizer](https://github.com/BuildWithRaymond/DAOrganizer) login form reader,
+owned-window input, and verified field-entry workflow. Its numeric one-use
+ticket approach keeps saved passwords out of the game form. DAQuester's ticket
+rewriter, per-launch endpoint association, and queue integration have synthetic
+tests; automated login has not been tested on a real character in this change.
+The complete upstream copyright and MIT permission notice is retained in
+[third-party notices](../THIRD_PARTY_NOTICES.md).
+
+[Shinewood Faerie](https://vorlof.com/general/shinewoodforest11.html) supplies
+the Hello trigger, (71,37) anchor, Pet Faerie goal and six class/level spell
+rules. [Map 992](https://vorlof.com/map.php?map=992) identifies Shinewood Forest
+11 and its 100 by 100 dimensions. The archived map's display name agrees;
+its read-only WalkSpot supplies the preliminary approach at (73,38).
+Pet weight five comes from the guide's linked item listing.
+
+Normalized routes supply the outbound map chain and most return exits.
+Public connected-map listings supply three missing return door tiles:
+[547 to 546 at (29,49)](https://vorlof.com/map.php?map=547),
+[546 to 545 at (0,9)](https://vorlof.com/map.php?map=546), and
+[545 to 544 at (0,35)](https://vorlof.com/map.php?map=545).
+They are documented exit triggers, not observed reverse landing coordinates.
+The collision planner avoids these doors during other walking; the Faerie's
+walking return uses each actual server landing before choosing its next step.
+Connectivity probes near recorded ingress doors do not fabricate arrivals.
+
+[Town song documentation](https://vorlof.com/general/consumables.html) grounds
+the named town item whitelist and exclusion of Recall Scroll. Its numeric
+columns describe stack sizes, not level restrictions. The
+[spell listing](https://vorlof.com/spells.html) gives dachaidh's 30 mana cost.
+Class and master display metadata use pinned Arbiter own-look fields; only an
+explicit Pure display prefix proves pure status locally. Unknown pure status
+may be resolved through actual NPC spell offers, without inventing history.
+
+Read-only inspection of the player's 2026-10-10 manual greeting records arrival
+at (73,38), no drawn Faerie creature, and a pursuit introduction from entity
+type 4 with a server-provided nonzero ID, blank name and Next available. This
+establishes the map-reactor greeting path. Runtime greets only at the verified
+approach when no creature is drawn, then binds the actual reply's entity ID;
+it never hardcodes the captured ID. Unrelated popups remain preserved.
+`content/evidence/datester-7.41/shinewood-faerie-pet-wait.json` contains sanitized
+dialogue packets and correlated actions from that visit: the actual pet and
+spell menu choices, the adoption pages ending in a failed bond with a one-deoch
+wait, and the non-Priest/Wizard spell refusal. Runtime records this bound refusal
+separately from verified rewards, closes it and proceeds to return. A saved
+terminal refusal can reconcile after the player's manual close and return;
+unmatched or stale replies cannot clear a pending submission. No retry date is
+invented from the in-game interval. The player's manual Rucesion Song landed at
+Rucesion Threshold (3082), now an accepted safe arrival. Woodlands Threshold
+(3080) remains excluded. These manual observations are not an automated run.
+
+Successful pet adoption and Priest/Wizard learning remain unverified live.
+Other synthetic tests explicitly label their invented dialog text. Runtime
+resolves live choices and requires actual pet inventory/equipment and spellbook
+entries. Observed spellbook names carry numeric `(Lev:100/100)` suffixes; matching
+accepts that exact format without changing the raw evidence or treating other
+suffixes as known spells. Spell
+add/remove packets are included in optional replay exports for learning evidence.
+No game character is operated by tests, and no Excalibur files or processes
+are modified, restarted or relaunched.
+
+[Emerald Dawn](https://vorlof.com/quests/emeralddawn.html) supplies speech triggers,
+exact menu labels and NPC anchors: Mioas (413, 3,14), Berg (414, 5,5), Dislaidir
+(2052, 4,12), Sennaan (660, 21,39), Skan (425, 3,6) and Gans (701, 5,14).
+Read-only WorldLogs corroborate these maps and Shinewood Entrance 542; normalized
+routes already include their local and world-map transfers. Runtime entity,
+pursuit, step and menu option IDs come solely from fresh server replies.
+
+The guide links `images/items2/70.png`; 70 is a sprite candidate, not captured
+ground evidence. `tools/derive_emerald_patrol.py` reads installed DATester collision
+and the existing normalized route record. The corrected closed sweep exports
+110 turn/end waypoints for 620 walking steps across all 519 reachable non-door
+tiles. Straight legs retain the fast movement queue and cannot cut across the
+sweep in static collision. An offline check with the production pathfinder
+confirms no missed tiles, blocked tiles or doorway triggers. The old proximity
+loop walked only 114 of these tiles and missed (10,11), where the player's
+manual capture received the insignia. That position is evidence of acquisition,
+not a guaranteed drop location or proof of the server's discovery rule.
+The generator exports no game
+assets. NPC approaches were checked against actual read-only collision; Berg's
+decorative cross requires an approach two tiles away. No guaranteed drop tiles
+are claimed. Server inventory confirms the actual insignia acquisition.
+
+The guide uses both Recovered the Emerald Knight Insignia and Found Emerald
+Knight Insignia for recovery. The runner accepts those documented variants and
+persists the exact server mark. XP amounts are observed deltas, not website
+predictions. Knights/Necromancer delivery requires the selected new own legend
+and one consumed insignia; sale requires that consumption and exactly 1,000,000
+new carried gold. Gans retains the item and is optional before final disposition.
+`content/evidence/datester-7.41/emerald-dawn-discovery.json` retains three
+observed server packets from the player's manual entrance walk on 2026-10-10:
+one insignia is added before the unnamed reactor popup appears, its actual Next
+button is present, and the player's Next closes it. Recognition accepts this
+empty NPC name and does not dismiss Next pages prematurely. The inventory
+packet's sprite agrees with the guide's 70, but is not a ground-drop observation.
+Other Emerald Dawn test conversations and rewards remain explicitly synthetic;
+final recovery/disposition validation is still outstanding. Excalibur files,
+processes and settings were untouched, and no real character was operated by
+builds or tests.
+
+Keane's Suomi departure shortcut comes from read-only Excalibur `Client.cs`
+(NPC interaction around line 8230; approach near (40,59) around line 26459).
+It supplies map 503, Keane, two greeting variants and choice-then-Next behavior.
+The player supplies Abel as the destination. WorldLogs identify Abel Port 502
+and Abel Port Way 3014. Neither an exact travel label nor a landing tile is
+claimed as captured: runtime requires a unique observed Abel travel choice and
+replans from the actual server landing. Synthetic transport tests cover both
+merchant and pursuit menus with independent IDs, unavailable NPC fallback,
+preserved unfamiliar dialogue and reconciliation without repeating submissions.
+This shortcut applies when the recorded departure route already passes Abel;
+local Suomi and east-side routes retain their existing plans.
+An offline collision/route check from Berg's recorded Suomi landing to Shinewood
+Entrance confirms the existing route passes Abel: 314 modeled actions, versus
+56 walking steps to Keane's approach before transport. This is not a measured
+live shortcut duration or a claim about his uncaptured landing tile.
+
 Entered Muisir Village uses the player's corrected level requirement **1+**.
 The [Vorlof guide](https://www.vorlof.com/quests/muisirvillageentrance.html) and
 [Kiril listing](https://www.vorlof.com/npc.php?id=306_Kiril_5,2) ground the five

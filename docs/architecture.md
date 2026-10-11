@@ -1,5 +1,54 @@
 # Architecture and extension contract
 
+The native planner composes searchable catalog rows, per-character numbered
+queues, a character switcher, current journey, Characters, and Run history.
+Guide-only catalog entries cannot become executable queue entries. Availability
+uses journals, observed live requirements, and remembered character facts.
+Unobserved requirements remain unknown, including when offline.
+
+`FileCharacterMemory` stores observed levels and the complete own legend list
+under Data/characters, keyed by server profile and normalized character name.
+Only connected, identified, matching-character observations update memory;
+older snapshots, replaced generations, and unknown legend lists cannot overwrite
+it. A fresh complete self-look replaces the list, including an empty list.
+Files are written through and atomically replaced. Runtime identity, packet
+revisions, inventory and dialogs are never persisted in this planning record.
+
+After login, an idle, current session requests its own legend once server
+readiness is observed. All subsequent own self-look packets update memory.
+Known level limits prevent new Stick selections. Recognized Birth, Muisir,
+Emerald final outcomes and the Hairstyle legend goal display Completed, including
+offline. A partial Emerald recovery and repeatable Stick legend are not finished
+goals. Saved facts never become live runner evidence or synthetic reward receipts;
+pending submissions retain fresh-state reconciliation without another submission.
+
+`FileQuestQueueStore` hashes normalized character names and atomically replaces
+write-through checkpoints. Outcome history and entry removal share one write.
+`QuestQueueCoordinator` captures character identity and connection generation,
+serializes entries, and advances only after a settled verified outcome. The app
+holds the captured session's interruption subscription across the entire run,
+including gaps between runners. Queue preparation and pending saves reserve edits. Global Stop
+initiates every cancellation before awaiting writes, so one failed save cannot
+leave another owner active. Idle coordinator writes wait for pending edits before
+reading state, preserving a newly saved order or home. Paused queues with an active
+entry or return checkpoint reserve their character until Stop.
+
+Queue runs use `QuestRunner.RunAsync(singleAttempt:true)`. This preserves
+standalone repeat behavior while yielding after one real Hairstyle receipt or
+other verified attempt. Cooldowns and saved repeat intent survive. Activation
+records its timestamp and whether it resumes prior work; an older receipt cannot
+consume a fresh entry. Confirmed terminal receipts can normalize after a crash
+without replaying a submission. Return-home success requires the observed map
+and exact tile; interrupted or unconfirmed travel keeps its checkpoint.
+
+Each saved launch owns a one-shot loopback endpoint, process, window, and ticket.
+DAOrganizer's supported-client form reader verifies focus and field contents
+before a single submission. The form contains a random numeric ticket, never
+the vault password. The associated transport replaces only that exact ticket
+and character, once, retaining client login metadata. Cancellation immediately
+revokes the ticket. Redirects retain this launch association; other connections
+cannot consume it. Login packets and passwords never enter replay exports.
+
 Recipes select their own action handlers. Mundane Birth uses `MundaneBirthActions`
 and immutable per-character `BirthOptions`; Spare a Stick retains its existing
 handler and calibration. Callough's permanent-outcome check applies only to the
@@ -62,6 +111,11 @@ at a time. The checkbox explains the currently applicable pace. Server rate
 limits and latency beyond the bounded window can still limit achieved speed.
 
 NPC visits use the current entity position and the nearest reachable interaction tile by walking distance within three tiles. Already being in range requires no extra walking. Callough's guide coordinate (6,7) is behind the counter; (6,8) was unreachable. The live grid instead selects (6,10) from the weapon-shop landing (6,13). A map correction during approach pauses instead of navigating old coordinates in the new map.
+
+The Shinewood Faerie is a map reactor without a drawn NPC. Her visit verifies
+map 992 and approach (73,38) before greeting when no creature is visible. The
+Hello checkpoint leaves its entity ID unknown; only a fresh recognized type-4
+reply binds the real ID for subsequent pages. Unknown popups still stop travel.
 
 A QuestDefinition names a version, capabilities and steps. The runner's action registry resolves each step to an IQuestAction. New recipes must use authored data and handlers; website prose never executes. Transitions may be implemented by an action using observed state and checkpointing. Unsupported capabilities stop before commands. Add a handler and characterization/replay evidence before claiming a new capability.
 

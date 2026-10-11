@@ -4,6 +4,24 @@
   "sourceCatalog": "https://vorlof.com/quests.html",
   "entries": [
     {
+      "id": "shinewoodfaerie",
+      "name": "Shinewood Faerie",
+      "source": "https://vorlof.com/general/shinewoodforest11.html",
+      "level": "1+; spells vary",
+      "requiredItems": "1 free slot and 5 weight for pet; recommended town songs/scrolls or ready dachaidh",
+      "rewards": "Pet Faerie for every class; eligible missing Priest/Wizard spells",
+      "dependencies": null,
+      "cooldownHours": null,
+      "capabilities": ["navigate", "dialog", "inventory", "speech", "spell", "item"],
+      "status": "implemented; synthetic coverage, live dialog validation pending",
+      "metadataReviewRequired": true,
+      "capabilitiesInferred": false,
+      "cooldownNotes": ["Explicit visits only; no automatic repeats."],
+      "dependencyNotes": [],
+      "givesLegend": false,
+      "catalogException": "requested-pet-and-spells"
+    },
+    {
       "id": "mundanebirth",
       "name": "Mundane Birth",
       "source": "https://vorlof.com/quests/mundanebirth.html",
@@ -456,25 +474,23 @@
       "name": "Emerald Dawn",
       "source": "https://vorlof.com/quests/emeralddawn.html",
       "level": "11+",
-      "requiredItems": "None",
+      "requiredItems": "Collect one Emerald Knight Insignia in Shinewood Entrance; choose a final recipient",
       "rewards": "\"Recovered the Emerald Knight Insignia\" Experience + One of the Following: \"Aided the Emerald Knights\" \"Aided the Necromancer Order\" Coins",
       "dependencies": null,
       "cooldownHours": null,
       "capabilities": [
         "dialog",
         "navigate",
-        "combat-credit",
-        "party",
         "speech",
-        "walk-trigger",
-        "inventory"
+        "inventory",
+        "legend",
+        "ground-item"
       ],
-      "status": "guide-only",
-      "metadataReviewRequired": true,
-      "capabilitiesInferred": true,
-      "cooldownNotes": [
-        "th help from the Druids and the Necromancers, and none of the Knights were seen again"
-      ],
+      "status": "implemented",
+      "metadataReviewRequired": false,
+      "capabilitiesInferred": false,
+      "validationNotes": "Guide-derived recipe with synthetic verification; live Emerald Dawn capture remains outstanding. Sprite 70 is a guide image candidate; inventory proves collection. Explicit final choice; optional Gans consultation retains insignia; no repeats.",
+      "cooldownNotes": [],
       "dependencyNotes": [],
       "givesLegend": true,
       "legendEvidence": "Vorlof catalog reward cell: images/quests/legendaisling.png, images/quests/legendaisling.png, images/quests/legendaisling.png"

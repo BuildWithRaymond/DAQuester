@@ -5,11 +5,12 @@ DAQuester uses .NET Windows Forms. Its shared native controls adapt
 to the existing midnight journal palette. These are custom WinForms components;
 no web control library or runtime theme package is required.
 
-The persistent navigation rail switches the main content among Quest journal,
-Quest library, Account manager and Settings. Pages keep their working state and
-do not pause quests on navigation. Account manager uses the main area for a
-single editable table of names, masked password inputs and save states; Settings
-contains client and update preferences. Secondary pickers remain focused dialogs.
+The persistent rail switches among Quest planner, Run history, Characters, and
+Settings. The planner combines the searchable library, per-character queue, and
+current journey. Pages retain their working state and do not pause quests when
+you navigate. Characters uses one editable table with masked passwords, Launch,
+and Set home actions. Settings contains client and update preferences. Quest
+choices and secondary pickers remain focused dialogs.
 
 ## Tokens and hierarchy
 
@@ -26,6 +27,8 @@ track preserve the Dark Ages journal identity.
 | Primary action, selection, focus | `Gold` |
 | Success / destructive action | `Mint` / `Rose`, with explanatory text |
 | Pointer hover / press | `ControlHover` / `ControlPressed` |
+| Ready / Choices rows | `QuestReadySurface` with mint status and a green hover surface |
+| Blocked / Unavailable rows | `QuestUnavailableSurface`, muted titles, and a visible reason |
 | Primary hover / press | `GoldHover` / `GoldPressed` |
 | Spacing | 4 px base; 8 px action gap; 16 px card gap; 24 px content inset |
 | Shape | 6 px control radius; 8 px card radius |

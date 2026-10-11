@@ -33,7 +33,7 @@ foreach($archiveName in @('DAQuester-win-Portable.zip',$package)) {
     try {
         $names=@($archive.Entries | ForEach-Object FullName)
         if($names | Where-Object {$_ -match '(^|[\\/])Data([\\/]|$)|(^|[\\/])(\.aws|\.git|\.env)([\\/]|$)'}){throw "Private data in archive: $archiveName"}
-        foreach($required in @('DAQuester.exe','LICENSE','ARBITER-LICENSE.txt','THIRD_PARTY_NOTICES.md','content/recipes/spare-a-stick.v1.json','licenses/Velopack/LICENSE.txt','licenses/microsoft.netcore.app.runtime.win-x86/LICENSE.TXT','licenses/microsoft.netcore.app.runtime.win-x86/THIRD-PARTY-NOTICES.TXT','licenses/microsoft.windowsdesktop.app.runtime.win-x86/LICENSE')) {
+        foreach($required in @('DAQuester.exe','LICENSE','ARBITER-LICENSE.txt','THIRD_PARTY_NOTICES.md','content/catalog.json','content/routes.json','content/recipes/spare-a-stick.v1.json','content/recipes/mundane-birth.v1.json','content/recipes/perfect-hairstyle.v1.json','content/recipes/entered-muisir-village.v1.json','content/recipes/emerald-dawn.v1.json','content/recipes/shinewood-faerie.v1.json','licenses/Velopack/LICENSE.txt','licenses/microsoft.netcore.app.runtime.win-x86/LICENSE.TXT','licenses/microsoft.netcore.app.runtime.win-x86/THIRD-PARTY-NOTICES.TXT','licenses/microsoft.windowsdesktop.app.runtime.win-x86/LICENSE')) {
             if(-not($names | Where-Object {$_.Replace('\','/').EndsWith($required,[StringComparison]::OrdinalIgnoreCase)})){throw "Missing $required in $archiveName"}
         }
     }

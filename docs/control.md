@@ -1,5 +1,40 @@
 # Local testing and MCP
 
+Shinewood Faerie uses `quest: "shinewood-faerie"`. It adopts a pet and learns
+eligible missing spells, then returns by town song, ready dachaidh or walking.
+No repeat schedule applies. A later explicit start checks newly unlocked spells.
+An unprepared start is blocked unless the player explicitly accepts the danger
+warning with `allowUnsafeWalking: true`, which defaults off. The same preparation
+gate applies through UI and control. Walking acceptance is scoped to the current
+character, connection and visit, and requires the collision route to validate.
+Do not set this flag on the player's behalf without their acceptance.
+
+```json
+{"method":"start","character":"YourCharacter","arguments":{"quest":"shinewood-faerie"}}
+```
+
+Pending adoption/learning and return submissions remain separate. Resume
+reconciles actual state and never repeats an ambiguous reward or teleport.
+The definitive no-bond reply is saved in `job.FaeriePetWait`; completed visits
+without a pet report the one-deoch wait in `job.CompletionText`. This refusal
+permits return without a pet receipt and never creates an automatic retry date.
+Saved terminal refusals can reconcile after a manual close/return.
+
+Emerald Dawn uses `quest: "emerald-dawn"` and requires `outcome` on its first
+start: `emerald-knights`, `necromancer-order`, or `rogue-order`. Optional
+`visitDruid: true` visits Gans before the selected disposition. Defaults off.
+
+```json
+{"method":"start","character":"YourCharacter","arguments":{"quest":"emerald-dawn","outcome":"emerald-knights","visitDruid":false}}
+```
+
+Use the player's chosen recipient. No outcome is selected by default. Saved
+choices resume unchanged and lock after quest speech begins. Repeat is ignored.
+The start response includes `emeraldChoices`; state exposes `job.EmeraldOptions`,
+the recovery receipt, and final evidence. A
+recovery mark with no carried insignia pauses for reconciliation, since a prior
+sale cannot be proven from historical gold. Synthetic tests issue no live starts.
+
 The start tool defaults to `spare-a-stick`. To start the second quest, pass
 `quest: "mundane-birth"`, `season`, integer `age` (12–40) and `town`. Example pipe
 request:
@@ -41,6 +76,14 @@ complete automatic run. Unknown dialogs and ambiguous claims remain pending.
 DAQuester exposes its game services through a current-user Windows named pipe,
 `DAQuester.Control.v1`. The app must be running and characters must log in through
 its launcher. The bridge never attaches to Excalibur or exposes login packets.
+
+`state` also includes saved character `queues`, with order, current checkpoint,
+home target, and verified history. `launch` with a character uses that character's
+saved credentials through the owned login-ticket flow; omitted characters launch
+for manual sign-in. Existing owned windows are focused. `stop` cancels pending
+login automation and all matching queue/quest owners without closing clients.
+A running or paused queue must be stopped before separate start, command, or
+calibration actions can take over its character.
 
 The shipped executable is also a standard stdio MCP server:
 

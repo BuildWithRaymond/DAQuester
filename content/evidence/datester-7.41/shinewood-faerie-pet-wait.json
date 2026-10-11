@@ -1,0 +1,127 @@
+{
+  "Evidence": "Observed server dialogue packets from the player's 2026-10-10 Faerie visit and manual non-Priest spell inquiry. Pet bonding failed with an explicit one-deoch wait. Only dialogue packets/actions retained; no character identity, inventory or credentials. Runtime IDs must still come from fresh replies.",
+  "Map": 992,
+  "Events": [
+    {
+      "Revision": 126,
+      "Opcode": 48,
+      "Payload": "CgA="
+    },
+    {
+      "Revision": 143,
+      "Opcode": 48,
+      "Payload": "AAQAAEeHAEAAAABAAAAElQAAAAEAAAB+R3JlZXRpbmdzIEFpc2xpbmcuIEkgYW0gdGhlIHByaW5jZXNzIGZhZSBvZiBTaGluZXdvb2QgRm9yZXN0LiBNYW55IGZhZXJpZXMgaW5oYWJpdCBTaGluZXdvb2QsIHNvIGJlIGtpbmQgYW5kIGRvIG5vdCBodXJ0IHRoZW0u"
+    },
+    {
+      "Revision": 144,
+      "Opcode": 48,
+      "Payload": "AgQAAEeHAEAAAABAAAAElQABAQEAAAAcV2hhdCBjYW4gSSBkbyBmb3IgeW91IHRvZGF5PwIZSSB3YW50IGEgRmFlcmllIGFzIGEgcGV0LihEbyB5b3Uga25vdyBhbnkgc3BlbGxzIHlvdSBjYW4gdGVhY2ggbWU/"
+    },
+    {
+      "Revision": 145,
+      "Opcode": 48,
+      "Payload": "AAQAAEeHAEAAAABAAAAElQAcAAEAAAAvT25seSB0aGUga2luZCBhbmQgZ2VudGxlIGNhbiBiZWZyaWVuZCBhIGZhZXJpZS4="
+    },
+    {
+      "Revision": 146,
+      "Opcode": 48,
+      "Payload": "AAQAAEeHAEAAAABAAAAElQAgAAEAAABHSSBzZWUgeW91IGhhdmUgbm90IGhhcm1lZCBhbnkgZmFlcmllcyByZWNlbnRseS4gWW91IGhhdmUgdGhlIHBvdGVudGlhbC4="
+    },
+    {
+      "Revision": 147,
+      "Opcode": 48,
+      "Payload": "CgA="
+    },
+    {
+      "Revision": 148,
+      "Opcode": 48,
+      "Payload": "AAQAAEeHAEAAAABAAAAElQAzAAEAAAA4SSB3aWxsIG5vdyBzZWUgaWYgeW91IGhhdmUgYW55IGNvbm5lY3Rpb24gd2l0aCBhIGZhZXJpZS4="
+    },
+    {
+      "Revision": 149,
+      "Opcode": 48,
+      "Payload": "AAQAAEeHAEAAAABAAAAElQA2AAAAAABHU29ycnksIG5vIGZhZXJpZXMgYXJlIHdpbGxpbmcgdG8gYm9uZCB3aXRoIHlvdS4gQ29tZSBiYWNrIGluIG9uZSBkZW9jaC4="
+    },
+    {
+      "Revision": 150,
+      "Opcode": 48,
+      "Payload": "CgA="
+    },
+    {
+      "Revision": 151,
+      "Opcode": 48,
+      "Payload": "AAQAAEeHAEAAAABAAAAElQAAAAEAAAB+R3JlZXRpbmdzIEFpc2xpbmcuIEkgYW0gdGhlIHByaW5jZXNzIGZhZSBvZiBTaGluZXdvb2QgRm9yZXN0LiBNYW55IGZhZXJpZXMgaW5oYWJpdCBTaGluZXdvb2QsIHNvIGJlIGtpbmQgYW5kIGRvIG5vdCBodXJ0IHRoZW0u"
+    },
+    {
+      "Revision": 152,
+      "Opcode": 48,
+      "Payload": "AgQAAEeHAEAAAABAAAAElQABAQEAAAAcV2hhdCBjYW4gSSBkbyBmb3IgeW91IHRvZGF5PwIZSSB3YW50IGEgRmFlcmllIGFzIGEgcGV0LihEbyB5b3Uga25vdyBhbnkgc3BlbGxzIHlvdSBjYW4gdGVhY2ggbWU/"
+    },
+    {
+      "Revision": 153,
+      "Opcode": 48,
+      "Payload": "AAQAAEeHAEAAAABAAAAElQBgAAAAAAAsSSBvbmx5IGtub3cgc3BlbGxzIGZvciB0aGUgUHJpZXN0IG9yIFdpemFyZC4="
+    },
+    {
+      "Revision": 154,
+      "Opcode": 48,
+      "Payload": "CgA="
+    }
+  ],
+  "Actions": [
+    {
+      "Kind": "next",
+      "Selection": null,
+      "DialogRevision": 143,
+      "Step": 0
+    },
+    {
+      "Kind": "choose",
+      "Selection": "I want a Faerie as a pet.",
+      "DialogRevision": 144,
+      "Step": 1
+    },
+    {
+      "Kind": "next",
+      "Selection": null,
+      "DialogRevision": 145,
+      "Step": 28
+    },
+    {
+      "Kind": "next",
+      "Selection": null,
+      "DialogRevision": 146,
+      "Step": 32
+    },
+    {
+      "Kind": "next",
+      "Selection": null,
+      "DialogRevision": 148,
+      "Step": 51
+    },
+    {
+      "Kind": "close",
+      "Selection": null,
+      "DialogRevision": 149,
+      "Step": 54
+    },
+    {
+      "Kind": "next",
+      "Selection": null,
+      "DialogRevision": 151,
+      "Step": 0
+    },
+    {
+      "Kind": "choose",
+      "Selection": "Do you know any spells you can teach me?",
+      "DialogRevision": 152,
+      "Step": 1
+    },
+    {
+      "Kind": "close",
+      "Selection": null,
+      "DialogRevision": 153,
+      "Step": 96
+    }
+  ]
+}

@@ -33,8 +33,8 @@ public class McpProtocol(Func<ControlRequest,Task<object?>> call) {
   "export"=>"Export a sanitized packet replay; credentials and handshake secrets are omitted.",
   "analyze"=>"Label dialog evidence and branch collection regions automatically from recorded state changes.",
   "calibrate"=>"Start one monitored Spare a Stick calibration run. Only evidence-proven completion enables its recipe.",
-  "start"=>"Start a quest for a connected character. Mundane Birth requires season, whole-number age 12-40, and town before its first run; saved choices resume unchanged. Birth never repeats or rewrites an existing legend.",
-  "launch"=>"Launch a new supported DATester client through DAQuester's own proxy. Login is manual.",
+  "start"=>"Start a quest for a connected character. Mundane Birth requires season, whole-number age 12-40, and town. Emerald Dawn requires an explicit outcome, with an optional Gans visit. Saved choices resume unchanged; these quests never repeat.",
+  "launch"=>"Launch or focus this character's supported DATester client. Saved credentials use verified login; otherwise sign in manually.",
   _=>"Cancel automation and control actions for one character or all characters."};
  static object Schema(string method) {
   var properties=new Dictionary<string,object>{{"character",new{type="string"}}};
@@ -47,7 +47,10 @@ public class McpProtocol(Func<ControlRequest,Task<object?>> call) {
   }
   if(method=="start") {
    properties["repeat"]=new{type="boolean",@default=false};
-   properties["quest"]=new{type="string",@enum=new[]{"spare-a-stick","mundane-birth","perfect-hairstyle","entered-muisir-village"},@default="spare-a-stick"};
+   properties["quest"]=new{type="string",@enum=new[]{"spare-a-stick","mundane-birth","perfect-hairstyle","entered-muisir-village","emerald-dawn","shinewood-faerie"},@default="spare-a-stick"};
+   properties["allowUnsafeWalking"]=new{type="boolean",@default=false,description="Shinewood Faerie only: explicitly acknowledge dangerous walking return when no town song/scroll or ready dachaidh is carried."};
+   properties["outcome"]=new{type="string",@enum=Core.EmeraldDawnOptions.Outcomes};
+   properties["visitDruid"]=new{type="boolean",@default=false};
    properties["season"]=new{type="string",@enum=Core.MundaneBirthOptions.Seasons};
    properties["age"]=new{type="integer",minimum=12,maximum=40};
    properties["town"]=new{type="string",@enum=Core.MundaneBirthOptions.Towns};

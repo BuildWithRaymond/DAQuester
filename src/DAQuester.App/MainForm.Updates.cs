@@ -5,7 +5,7 @@ public sealed partial class MainForm {
  readonly List<Process> launchedClients=[];
  UpdateCoordinator updates=null!;
  bool installExitRequested;
- bool QuestActionsRunning=>runners.Values.Any(r=>r.IsRunning)||controlActions.Count>0||calibrationTasks.Values.Any(t=>!t.IsCompleted)||permanentTasks.Values.Any(t=>!t.IsCompleted);
+ bool QuestActionsRunning=>pendingLaunches.Count>0||queuePreparations.Count>0||queueSaving.Count>0||queueCoordinators.Values.Any(q=>q.IsRunning)||runners.Values.Any(r=>r.IsRunning)||controlActions.Count>0||calibrationTasks.Values.Any(t=>!t.IsCompleted)||permanentTasks.Values.Any(t=>!t.IsCompleted);
  bool ConnectedGame=>sessions.Values.Any(s=>s.Snapshot.Connected);
  bool LaunchedClientRunning=>launchedClients.Any(p=>{try{return !p.HasExited;}catch(InvalidOperationException){return false;}});
  void InitializeUpdates(){

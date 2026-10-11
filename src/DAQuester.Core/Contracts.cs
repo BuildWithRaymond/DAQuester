@@ -1,7 +1,7 @@
 using System.Collections.Immutable;
 namespace DAQuester.Core;
 public record InventoryGoal(string Item,int Count);
-public record GameCommand(string Kind,int? Map=null,Tile? Target=null,string? Text=null,uint? Amount=null,Dialog? Dialog=null,byte? Slot=null,uint? EntityId=null,InventoryGoal? StopWhen=null);
+public record GameCommand(string Kind,int? Map=null,Tile? Target=null,string? Text=null,uint? Amount=null,Dialog? Dialog=null,byte? Slot=null,uint? EntityId=null,InventoryGoal? StopWhen=null,string? ExpectedResource=null,bool PreservePopup=false);
 public interface IGameSession {
  CharacterSnapshot Snapshot {get;}
  IReadOnlySet<string> Capabilities {get;}
@@ -41,7 +41,10 @@ public record Transaction(string Kind,long Generation,long Revision,uint Gold,in
  public Dictionary<string,int> InventoryCounts {get;init;}=[];
  public bool InventoryBaselineKnown {get;init;}
  public uint? EntityId {get;init;}
+ public byte? EntityType {get;init;}
  public string[] Legends {get;init;}=[];
+ public string[] Spells {get;init;}=[];
+ public bool SpellsBaselineKnown {get;init;}
 }
 public record HairstyleAttempt(DateTimeOffset CompletedAt,Dialog Completion,Dictionary<string,int> Rewards,bool LegendReward);
 public record QuestJob {
@@ -60,6 +63,20 @@ public record QuestJob {
  public Transaction? Pending {get;init;}
  public Dictionary<string,int> Rewards {get;init;}=[];
  public MundaneBirthOptions? BirthOptions {get;init;}
+ public EmeraldDawnOptions? EmeraldOptions {get;init;}
+ public bool EmeraldMioasSeen {get;init;}
+ public bool EmeraldBergBriefed {get;init;}
+ public bool EmeraldDruidSeen {get;init;}
+ public EmeraldRecoveryReceipt? EmeraldRecovery {get;init;}
+ public string[] FaerieGoals {get;init;}=[];
+ public FaerieGoalReceipt[] FaerieReceipts {get;init;}=[];
+ public string[] FaerieUnavailable {get;init;}=[];
+ public Dialog? FaeriePetWait {get;init;}
+ public string? FaerieCurrentGoal {get;init;}
+ public Dialog? FaerieClosedDialog {get;init;}
+ public long? FaerieWalkAcknowledgedGeneration {get;init;}
+ public DateTimeOffset? FaerieWalkAcknowledgedAt {get;init;}
+ public FaerieReturnReceipt? FaerieReturn {get;init;}
  public ServerNotice? BirthCompletion {get;init;}
  public string? CompletionText {get;init;}
  public Dialog? CompletionDialog {get;init;}
@@ -75,11 +92,20 @@ public interface IQuestJournal {
 }
 public interface IQuestAction {Task ExecuteAsync(QuestContext context,QuestStep step,CancellationToken cancellation);}
 public class QuestBlockedException(string reason):Exception(reason);
-public class QuestContext(IGameSession session,IQuestJournal journal,Calibration calibration,QuestJob job) {
+public sealed class ResourceUnavailableException(string reason):QuestBlockedException(reason);
+public sealed class QuestPopupException(Dialog dialog,int? map):QuestBlockedException("Collection paused for a popup; it has been preserved for review.") {
+ public Dialog Dialog {get;}=dialog;
+ public int? Map {get;}=map;
+}
+public class QuestContext(IGameSession session,IQuestJournal journal,Calibration calibration,QuestJob job,Action<QuestJob>? saved=null) {
  public IGameSession Session {get;}=session; public Calibration Calibration {get;}=calibration;
  public QuestJob Job {get;private set;}=job;
- public async Task SaveAsync(QuestJob value) {await journal.SaveAsync(value);Job=value;}
- public async Task BeginAsync(string kind,uint? entityId=null,string? reason=null) {var s=Session.Snapshot;await SaveAsync(Job with{Reason=reason??Job.Reason,Pending=new(kind,s.Generation,s.Revision,s.Gold??0,s.Count(Calibration.BranchName),s.Experience??0,DateTimeOffset.UtcNow){EntityId=entityId,Legends=s.Legends.ToArray(),InventoryBaselineKnown=s.InventoryKnown,InventoryCounts=s.Inventory.Values.GroupBy(i=>i.Name,StringComparer.OrdinalIgnoreCase).ToDictionary(g=>g.Key,g=>checked((int)g.Sum(i=>(long)i.Quantity)),StringComparer.OrdinalIgnoreCase)}});}
+ public async Task SaveAsync(QuestJob value) {await journal.SaveAsync(value);Job=value;saved?.Invoke(value);}
+ public async Task BeginAsync(string kind,uint? entityId=null,string? reason=null,Dialog? observedDialog=null) {
+  var s=Session.Snapshot;
+  if(observedDialog is {} d&&(s.Dialog!=d||d.Generation!=s.Generation||d.Revision<=0||d.Revision>s.Revision||entityId!=d.EntityId))throw new QuestBlockedException("Fresh observed popup required before saving its transaction.");
+  await SaveAsync(Job with{Reason=reason??Job.Reason,CompletionDialog=observedDialog??Job.CompletionDialog,Pending=new(kind,s.Generation,observedDialog is {} known?known.Revision-1:s.Revision,s.Gold??0,s.Count(Calibration.BranchName),s.Experience??0,DateTimeOffset.UtcNow){EntityId=entityId,EntityType=observedDialog?.EntityType,Legends=s.Legends.ToArray(),Spells=s.Spells.Values.ToArray(),SpellsBaselineKnown=s.SpellsKnown,InventoryBaselineKnown=s.InventoryKnown,InventoryCounts=s.Inventory.Values.GroupBy(i=>i.Name,StringComparer.OrdinalIgnoreCase).ToDictionary(g=>g.Key,g=>checked((int)g.Sum(i=>(long)i.Quantity)),StringComparer.OrdinalIgnoreCase)}});
+ }
  public void Gate(bool allowGold=false) {
   PermanentQuestCompletion.Check(Session.Snapshot);
   var e=StickEligibility.Check(Session.Snapshot,Job.CompletedAt,DateTimeOffset.UtcNow);

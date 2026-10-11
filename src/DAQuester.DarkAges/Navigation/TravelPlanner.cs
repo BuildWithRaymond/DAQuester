@@ -23,7 +23,7 @@ public partial class MapRepository {
  int[] WalkingDistances(int map,Tile origin,ISet<Tile>? obstacles,CancellationToken ct){
   bool reusable=obstacles is null||obstacles.Count==0;var key=(map,origin);
   if(reusable&&distanceFields.TryGetValue(key,out var saved))return saved;
-  var r=Record(map);var field=Load(map).Distances(origin,r.Portals.Select(p=>p.From),r.InternalTransfers.Select(t=>t.From),obstacles,ct);
+  var r=Record(map);var field=Load(map).Distances(origin,r.ExitTiles,r.InternalTransfers.Select(t=>t.From),obstacles,ct);
   if(reusable){
    while(distanceFields.Count>0&&(distanceFields.Count>=2048||cachedCells+field.Length>MaxCachedCells)){
     var expired=fieldOrder.Dequeue();cachedCells-=distanceFields[expired].Length;distanceFields.Remove(expired);
@@ -36,7 +36,7 @@ public partial class MapRepository {
  int TriggerDistance(MapRecord r,int[] field,Tile origin,Tile portal,ISet<Tile>? obstacles){
   int distance=Distance(r,field,portal);if(distance!=0)return distance;
   // Standing on a doorway does not re-enter it. Leave and step back onto it.
-  var triggers=r.Portals.Select(p=>p.From).Concat(r.InternalTransfers.Select(t=>t.From)).ToHashSet();
+  var triggers=r.ExitTiles.Concat(r.InternalTransfers.Select(t=>t.From)).ToHashSet();
   return Grid.Neighbors(origin).Any(p=>!Load(r.Id).Blocked(p)&&!triggers.Contains(p)&&obstacles?.Contains(p)!=true)?2:-1;
  }
  public TravelPlan Plan(int from,Tile origin,int destination,Tile? target=null,ISet<Tile>? obstacles=null,CancellationToken ct=default){

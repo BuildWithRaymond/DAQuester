@@ -9,6 +9,11 @@ public record CharacterSnapshot {
  public string? Name {get;init;} public uint? Id {get;init;} public bool Connected {get;init;}
  public int? Level {get;init;} public uint? Gold {get;init;} public uint? Experience {get;init;}
  public uint? Hp {get;init;} public int? Weight {get;init;} public int? MaxWeight {get;init;}
+ public uint? Mana {get;init;}
+ public string? Class {get;init;} public string? DisplayClass {get;init;}
+ public bool? IsMaster {get;init;} public bool? IsPure {get;init;}
+ public bool SpellsKnown {get;init;}
+ public string? MapName {get;init;}
  public int? Map {get;init;} public Tile? Position {get;init;}
  public bool InventoryKnown {get;init;}
  public ImmutableDictionary<byte,Item> Inventory {get;init;} = ImmutableDictionary<byte,Item>.Empty;

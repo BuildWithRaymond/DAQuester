@@ -20,6 +20,7 @@ public sealed partial class ProxyConnection(TcpClient client,TcpClient remote,lo
  public long VisibleMoves=>Interlocked.Read(ref visibleMoves);
  string? name;
  bool identified;
+ internal DAQuester.Core.SavedLoginTicket? LoginTicket {get;set;}
  readonly HashSet<byte> serverOpcodes=[];
  public StateTracker Tracker {get;}=new(generation);
  public event Action<string>? Interrupted;
@@ -49,6 +50,12 @@ public sealed partial class ProxyConnection(TcpClient client,TcpClient remote,lo
      try {
       var wire=new ClientPacket(frame[3],frame[4..]);
       var plain=(ClientPacket)clientCrypto.Decrypt(wire);
+      bool loginRewritten=false;
+      if((byte)plain.Command==0x03&&LoginTicket is {} ticket){
+       var replacement=ticket.Rewrite(plain.Data,DateTimeOffset.UtcNow);
+       if(replacement.Blocked)continue;
+       if(replacement.Payload is {} data&&!ReferenceEquals(data,plain.Data)){plain=new ClientPacket(0x03,data,plain.Checksum){Sequence=plain.Sequence};loginRewritten=true;}
+      }
       if((byte)plain.Command==0x10) {
        var r=new NetworkPacketReader(plain);byte seed=r.ReadByte();var key=r.ReadBytes(r.ReadByte());name=r.ReadString8();
        var p=new NetworkEncryptionParameters(seed,key,name);clientCrypto.Parameters=p;serverCrypto.Parameters=p;
@@ -62,7 +69,7 @@ public sealed partial class ProxyConnection(TcpClient client,TcpClient remote,lo
       if((byte)plain.Command is 0x39 or 0x3A)DialogAction?.Invoke(plain);
       var encrypted=clientCrypto.Encrypt(plain,sequence);
       if(ClientPacketEncryptor.IsEncrypted((byte)plain.Command))sequence++;
-      await remote.GetStream().WriteAsync(encrypted.ToArray(),token);
+      try{await remote.GetStream().WriteAsync(encrypted.ToArray(),token);}finally{if(loginRewritten)System.Security.Cryptography.CryptographicOperations.ZeroMemory(plain.Data);}
      }finally{toServer.Release();}
     } else {
      var wire=new ServerPacket(frame[3],frame[4..]);

@@ -12,35 +12,61 @@ public class QuestRunner(IGameSession session,IQuestJournal journal,QuestDefinit
   "mundane-birth"=>new[]{"birth-preflight","birth-dialog","birth-confirm"}.ToDictionary(x=>x,x=>(IQuestAction)new MundaneBirthActions()),
   "perfect-hairstyle"=>new[]{"hair-preflight","hair-dialog","hair-confirm"}.ToDictionary(x=>x,x=>(IQuestAction)new PerfectHairstyleActions()),
   "entered-muisir-village"=>new[]{"muisir-preflight","muisir-gather","muisir-dialog","muisir-confirm"}.ToDictionary(x=>x,x=>(IQuestAction)new MuisirActions()),
+  "emerald-dawn"=>new[]{"emerald-preflight","emerald-mioas","emerald-briefing","emerald-gather","emerald-recover","emerald-druid","emerald-deliver","emerald-confirm"}.ToDictionary(x=>x,x=>(IQuestAction)new EmeraldDawnActions()),
+  "shinewood-faerie"=>new[]{"faerie-preflight","faerie-visit","faerie-return"}.ToDictionary(x=>x,x=>(IQuestAction)new ShinewoodFaerieActions()),
   _=>[]
  };
  public Dictionary<string,Func<QuestContext,bool?>> Conditions {get;}=[];
- public async Task RunAsync(bool repeat=false,CancellationToken cancellation=default,bool startNewAttempt=false) {
+ public async Task RunAsync(bool repeat=false,CancellationToken cancellation=default,bool startNewAttempt=false,bool singleAttempt=false) {
   if(!await owner.WaitAsync(0,cancellation))return;
   bool hairstyle=recipe.Id=="perfect-hairstyle";
-  repeat=recipe.Repeatable&&(repeat||hairstyle);
+  repeat=recipe.Repeatable&&(repeat||hairstyle||singleAttempt&&Job.Repeat);
   using var token=CancellationTokenSource.CreateLinkedTokenSource(cancellation);
   active=token;pauseReason="Paused by player";
   void Interrupt(string reason){pauseReason=reason;token.Cancel();}
-  void Observe(CharacterSnapshot s){completionHistory.Record(s);if(!s.Connected)Interrupt("Disconnected. Resume after fresh state.");}
+  long runGeneration=session.Snapshot.Generation;
+  string? captureCharacter=session.Snapshot.Name;
+  void Observe(CharacterSnapshot s){completionHistory.Record(s);if(!s.Connected)Interrupt("Disconnected. Resume after fresh state.");
+   else if((recipe.Id==ShinewoodFaerieEvidence.Id||singleAttempt)&&(s.Generation!=runGeneration||!string.Equals(s.Name,captureCharacter,StringComparison.OrdinalIgnoreCase)))Interrupt("Character connection changed. Resume to reconcile fresh state.");}
   completionHistory.Record(session.Snapshot);
   session.Interrupted+=Interrupt;session.Changed+=Observe;
-  var c=new QuestContext(session,journal,calibration,Job with{Repeat=repeat});
-  async Task Save(QuestJob value){await c.SaveAsync(value);Job=c.Job;Changed?.Invoke(Job);}
+  var c=new QuestContext(session,journal,calibration,Job with{Repeat=repeat},value=>{Job=value;Changed?.Invoke(value);});
+  var priorHairAttempt=c.Job.LastAttemptAt;
+  Task Save(QuestJob value)=>c.SaveAsync(value);
   try {
+   if(singleAttempt&&!string.Equals(c.Job.Character,captureCharacter,StringComparison.OrdinalIgnoreCase))throw new QuestBlockedException("Saved quest checkpoint belongs to a different character. Select its connected character before resuming.");
    if(c.Job.PermanentCompletion is not null){await Save(c.Job with{Status="PermanentlyCompleted",Repeat=false,NextRun=null});return;}
    if(recipe.Id=="spare-a-stick")PermanentQuestCompletion.Check(session.Snapshot);
    var missing=recipe.Capabilities.Where(x=>!session.Capabilities.Contains(x)).ToArray();
    if(missing.Length>0)throw new QuestBlockedException("Unsupported capabilities: "+string.Join(", ",missing));
    if(c.Job.Version!=recipe.Version)throw new QuestBlockedException("Recipe version changed. Reconcile saved job before continuing.");
+   if(singleAttempt&&!startNewAttempt&&QueueAttemptOutcome.HasTerminalReceipt(c.Job)){
+    bool finished=QuestRunPolicy.Finished(recipe,c.Job);
+    await Save(c.Job with{Step="complete",Status=hairstyle&&c.Job.LegendReward!=true?"AttemptCompleted":"Completed",Repeat=!finished&&c.Job.Repeat,NextRun=finished?null:c.Job.NextRun,Reason=c.Job.CompletionText??"Saved terminal outcome verified"});return;
+   }
    if(hairstyle&&session.Snapshot.LegendsKnown&&PerfectHairstyleEvidence.HasLegend(session.Snapshot)) {
     await Save(c.Job with{Status="Completed",Step="complete",CompletedAt=c.Job.CompletedAt??DateTimeOffset.UtcNow,LegendReward=true,Repeat=false,NextRun=null,CompletionText=PerfectHairstyleEvidence.Legend,Reason="Suomi legend verified"});return;
    }
    bool completedAttempt=c.Job.CompletedAt.HasValue&&c.Job.Step=="complete";
-   bool anotherAttempt=completedAttempt&&recipe.Repeatable&&(repeat||startNewAttempt)&&!QuestRunPolicy.Finished(recipe,c.Job);
+   if(singleAttempt&&hairstyle&&!startNewAttempt&&c.Job.Pending is null&&c.Job.LastAttemptAt is {} verified&&
+     c.Job.HairstyleAttempts.Any(a=>a.CompletedAt==verified)&&c.Job.Step=="complete"){
+    bool legend=c.Job.LegendReward==true;
+    await Save(c.Job with{Status=legend?"Completed":"AttemptCompleted",Repeat=!legend&&c.Job.Repeat,NextRun=legend?null:c.Job.NextRun,Reason=c.Job.CompletionText??(legend?"Suomi legend verified":"Weekly attempt verified; Suomi legend still needed")});return;
+   }
+   if(completedAttempt&&recipe.Id==ShinewoodFaerieEvidence.Id&&startNewAttempt&&c.Job.Pending is null){
+    await Save(c.Job with{Step="preflight",CompletedAt=null,CompletionText=null,FaerieReturn=null,FaerieGoals=[],FaerieUnavailable=[],FaerieWalkAcknowledgedGeneration=c.Job.FaerieWalkAcknowledgedAt>c.Job.CompletedAt?c.Job.FaerieWalkAcknowledgedGeneration:null});completedAttempt=false;
+   }
+   bool anotherAttempt=completedAttempt&&recipe.Repeatable&&(repeat&&!singleAttempt||startNewAttempt)&&!QuestRunPolicy.Finished(recipe,c.Job);
    if(completedAttempt&&c.Job.Pending is not null)throw new QuestBlockedException("Pending transaction requires reconciliation before a new attempt.");
-   if(completedAttempt&&!anotherAttempt){await Save(c.Job with{Status="Completed",Repeat=false,NextRun=QuestRunPolicy.NextAttempt(recipe,c.Job),Reason=c.Job.CompletionText??"One completion verified"});return;}
-   if(QuestRunPolicy.NextAttempt(recipe,c.Job) is {} next && next>DateTimeOffset.UtcNow) {
+   if(completedAttempt&&!anotherAttempt){await Save(c.Job with{Status="Completed",Repeat=singleAttempt&&!QuestRunPolicy.Finished(recipe,c.Job)&&c.Job.Repeat,NextRun=QuestRunPolicy.NextAttempt(recipe,c.Job),Reason=c.Job.CompletionText??"One completion verified"});return;}
+   var nextAttempt=QuestRunPolicy.NextAttempt(recipe,c.Job);
+   if(singleAttempt&&hairstyle&&c.Job.LastAttemptAt is {} previous&&c.Job.HairstyleAttempts.Any(a=>a.CompletedAt==previous)){
+    var due=previous.AddHours(recipe.CooldownHours);if(nextAttempt is null||due>nextAttempt)nextAttempt=due;
+   }
+   if(singleAttempt&&startNewAttempt&&c.Job.Pending is null&&(anotherAttempt||hairstyle&&c.Job.LastAttemptAt is not null))
+    await Save(c.Job with{Step="preflight",CompletedAt=null,CompletionText=null,HairstyleCompletion=hairstyle?null:c.Job.HairstyleCompletion,Accepted=false,AcceptedGeneration=null,NextRun=nextAttempt});
+   if(nextAttempt is {} next && next>DateTimeOffset.UtcNow) {
+    if(singleAttempt)throw new QuestBlockedException((hairstyle?"Seven-day":"Eight-hour")+" cooldown until "+next.ToLocalTime().ToString("g")+". Queue paused before the next attempt.");
     if(anotherAttempt&&!repeat)throw new QuestBlockedException("Eight-hour cooldown until "+next.ToLocalTime().ToString("g")+". Choose Repeat to schedule the next attempt.");
     await Save(c.Job with{NextRun=next});
     await Save(c.Job with{Status="Scheduled",Reason=hairstyle?"Waiting for seven-day cooldown":"Waiting for eight-hour cooldown"});
@@ -74,7 +100,9 @@ public class QuestRunner(IGameSession session,IQuestJournal journal,QuestDefinit
      await Save(c.Job with{Step=nextStep??"complete"});
     }
     if(c.Job.CompletedAt is null&&!(hairstyle&&c.Job.LastAttemptAt is not null&&c.Job.NextRun is not null))throw new QuestBlockedException("Recipe ended without verified completion.");
+    if(singleAttempt&&hairstyle&&c.Job.LegendReward!=true&&(c.Job.LastAttemptAt is not {} attempt||attempt==priorHairAttempt||!c.Job.HairstyleAttempts.Any(a=>a.CompletedAt==attempt)))throw new QuestBlockedException("Recipe ended without a newly verified weekly attempt.");
     if(!hairstyle||c.Job.LegendReward==true)await Save(c.Job with{Status="Completed",Reason=c.Job.CompletionText??"Completion verified"});
+    if(singleAttempt){if(hairstyle&&c.Job.LegendReward!=true)await Save(c.Job with{Status="AttemptCompleted",Reason=c.Job.CompletionText??"Weekly attempt verified; Suomi legend still needed"});break;}
     if(!repeat||!c.Job.Repeat)break;
     await Save(c.Job with{Status="Scheduled",Step=hairstyle?"preflight":c.Job.Step,Reason=hairstyle?"Waiting for seven-day cooldown; Suomi legend still needed":"Waiting for next run"});
     var delay=(c.Job.NextRun??DateTimeOffset.UtcNow)-DateTimeOffset.UtcNow;

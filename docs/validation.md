@@ -1,5 +1,254 @@
 # Validation status
 
+## Release 1.0.6 — October 11, 2026
+
+The full Release suite passes **670 tests**, with zero failures or skips
+(4 minutes 12 seconds). All 34 focused fast-walking regressions also pass.
+An earlier full run overlapped packaging and native rendering and failed three
+wall-clock movement assertions; the focused rerun and subsequent full run passed
+without changing movement code or weakening assertions. Keep timing checks
+separate from packaging and rendering when running locally.
+
+Native UI checks pass for the planner, character memory, queue ordering, history,
+and character status wrapping after theming. Four documentation screenshots
+render the actual application at 1450 × 930 with isolated sample characters.
+The screenshot mode opens no proxy/control listeners, game clients, user data,
+or credential vaults. It checks actual level-99 and existing Muisir legend gates.
+
+Release packaging and verification check installer/portable assets, full update
+packages, feed versions and hashes, all six recipes, upstream/runtime licenses,
+and private-data exclusion. Repository checks find no private paths, game
+binaries, user Data, or build output in the publish set. Local Markdown links
+resolve and content JSON parses. Historic design notes are grouped under
+`docs/design`; superseded UI/dialog code and completed task plans are removed.
+
+The actual public 1.0.5 portable package passes its read-only `--check-updates`
+path before publication. Public 1.0.0 and 1.0.5 packages are staged for update
+discovery checks after publication. These checks never download or apply an
+application update and never operate a game character.
+
+Full live validation remains pending for Emerald Dawn, successful Faerie rewards,
+the queue, automatic saved login, own-legend refresh, and home return. The existing
+quest policies, observed-evidence boundaries, and reconciliation rules remain
+covered by synthetic regressions.
+
+## Remembered character facts and planner states — October 11, 2026
+
+The normal Release solution build passes with zero warnings and errors. The
+full suite passes **670 tests**, with no failures or skips (4 minutes 31 seconds).
+The focused memory, Muisir, level, legend, queue and reward checks pass 129 tests.
+The full run used the required current-user named-pipe context outside the
+restricted sandbox. All existing quest execution policies remain covered.
+
+Regressions reproduced known offline level 99 and pending submissions being
+selectable, Muisir's own mark being presented as ready, and ready rows lacking a
+green tint. Coverage now verifies persisted levels and complete own legend lists,
+character/server separation, disconnect and unknown-state preservation, stale
+generation rejection, fresh empty-list replacement, cancellation, and safe
+character filenames. Known Birth, Muisir, Emerald final marks and the Hairstyle
+goal prevent another selection; repeatable Stick marks and partial Emerald
+recovery remain unfinished. Planning memory contains no runtime transaction
+evidence and cannot fabricate a reward receipt.
+
+`tools/Test-UI.ps1` passes against the normal Release executable. Added native
+checks verify saved level 99 gating without a session, disabled checkbox/Space
+selection, Completed filtering and journey status, choices after a fresh own
+observation, and Resume for an existing pending queue. Render checks cover mint
+Ready/Choices surfaces, muted Blocked/Unavailable titles, and a single custom
+search hint with the native cue suppressed across focus and clearing. The
+ready-state, saved-completion, state-sheet and search renders were inspected.
+The expanded smoke run has a four-minute timeout; the earlier two-minute watcher
+expired while a successful run continued rendering its remaining checks.
+
+No real character, game command or Excalibur process was used in validation.
+Own legend refresh after real login remains live validation work. Documentation
+and the approved design follow-ups describe the saved-fact boundaries. Packaging
+configuration is unchanged.
+
+## Quest planner and saved-character launch — October 10, 2026
+
+The Release solution build passes with zero warnings and errors. The full suite
+passes **640 tests**, with no failures or skipped tests (3 minutes 58 seconds).
+Focused queue, runner, and login regressions pass 196 tests; the final queue,
+saved-ticket, native-reader, owned-login transport, and control checks pass 49.
+The current-user pipe check requires execution outside the restricted sandbox;
+the successful full-suite run used that context.
+
+`tools/Test-UI.ps1` passes with isolated synthetic data. Its planner checks cover
+real catalog search, persisted membership, button/keyboard/drag ordering, retained
+keyboard focus, cross-character drag rejection, character isolation, offline
+start gating, durable history, next entry, recent activity, and per-character
+Launch/Home actions. Runtime ownership regressions cover manual input and
+disconnect between entries, Stop despite a failed checkpoint write, and Stop
+overlapping a pending order/home save. The native finish checks include expanding
+scroll content, wrapped history receipts at 1024px, dark surfaces, action labels,
+and 100/125/150/200% scaled controls. Actual planner, queued, Characters, history,
+activity, dialog, and minimum-size renders were inspected under `artifacts/`.
+
+Saved login has synthetic form and encrypted loopback transport coverage; real
+login and live queue/home navigation remain untested in this UI change. No real
+character was operated and no Excalibur process or working copy was changed.
+Packaging configuration is unchanged. User instructions, architecture, source
+provenance, and DAOrganizer's upstream MIT notice match the implementation.
+
+The Faerie pet-wait follow-up (2026-10-10) passes 76 focused Faerie checks and
+all 577 native Windows tests (4 minutes 1 second). Regressions first reproduced
+the observed no-bond reply blocking return, the real spell-menu wording being
+unrecognized, Rucesion Threshold being rejected as a safe landing, and saved
+terminal refusals failing to reconcile after manual closing/return. They now
+verify the one-deoch wait without pet rewards, immediate Rucesion Song return,
+the non-Priest/Wizard refusal, and Resume without duplicate adoption or songs,
+including reconnect. Mismatched replies and another/disconnected character
+cannot clear the saved submission. Numeric spellbook level suffixes work for
+already-known spells, newly learned spells and current dachaidh slots; an old
+ranked baseline never proves a new reward.
+
+The separate Release build has zero warnings/errors. `tools/Test-UI.ps1` passes
+against it, including an isolated failed-bond journal with the one-deoch wait
+visible offline and no pet-success claim. Its dark journal render was visually
+inspected. The original policy, warning, keyboard and layout checks still pass.
+Core and DarkAges assemblies match the test binaries by SHA-256. No builds or UI
+checks ran alongside the final full suite. No real character was operated,
+no running application was stopped, and Excalibur was untouched.
+After DAQuester was no longer running, its usual launch folder was rebuilt with
+zero warnings/errors. The executable and App/Core/DarkAges assemblies match the
+UI-tested separate build by SHA-256. Restart and live Resume are player actions.
+
+The sanitized fixture captures the player's actual failure and non-caster
+dialogues; the manual Rucesion Song landing supplies return evidence. Successful
+pet adoption, Priest/Wizard learning and a complete automated live visit remain
+unverified. Packaging is unchanged.
+
+The Faerie reactor greeting fix (2026-10-10) passes 122 focused quest, travel,
+fast-walking and collection checks, plus all 559 native Windows cases in the
+final isolated full run (4 minutes 7 seconds). Runner and transport regressions
+first reproduced the failed visible-NPC gate. They now verify greeting from
+(73,38) without a drawn NPC, a blank-name reactor introduction with Next, binding
+the reply's real entity ID, successful synthetic adoption/return, and refusal to
+greet away from the verified approach. Existing popup and reconciliation guards
+remain covered. An initial full run overlapped build/UI work and hit three
+stopwatch-based walking failures; those unchanged tests pass alone and in the
+final full run. No cadence thresholds or production walking safeguards changed.
+
+Both normal and isolated Release builds have zero warnings/errors. Their App,
+Core and DarkAges assemblies match by SHA-256. `tools/Test-UI.ps1` passes against
+the isolated build, including all six quests, dark preparation warnings and the
+existing keyboard/layout/policy checks. No running app or game was stopped by
+the agent; the normal launch folder was rebuilt after DAQuester was closed.
+
+Read-only replay inspection confirms the original pause five seconds after
+arrival, no drawn Faerie, and the player's manual greeting producing a type-4
+reactor introduction. Full live acquisition/return still needs verification.
+Walking replies arrive in roughly half-second to one-second bursts without
+rejected steps or nearby players. This is consistent with the bounded fast
+queue waiting for acknowledgments; send timestamps were not recorded, so the
+capture does not isolate network delay from server processing or local scheduling.
+
+Shinewood Faerie (2026-10-10) passes 117 focused quest, state, transport, catalog,
+Emerald Dawn and Suomi travel checks and all 556 native Windows automated cases
+(4 minutes 3 seconds). The sandbox denied the existing current-user pipe test;
+the isolated native pipe test and complete native suite pass.
+Coverage includes all six classes, cumulative spell thresholds,
+unknown pure status resolved from actual offers, carried/equipped pets, current
+item/spell slots, mana, dangerous walking acknowledgment, real landing checks,
+stale/wrong replies, manual interruption and reconnect without duplicate reward
+or teleport submissions. Controlled reply ordering rejects the previous menu as
+a new selection reply, without short timer assumptions. Actual pet/spellbook
+rewards can also complete when the server closes the dialog. Travel dispatch
+preserves newly opened popups before Faerie visits and the final walk home.
+
+The Release build has zero warnings/errors. `tools/Test-UI.ps1` passes with six
+selectable quests, the Faerie library entry, dark danger warning, default/focused
+Cancel, and disabled walking confirmation when its route is unavailable. Journal,
+library and both warning renders were visually inspected under ignored artifacts/.
+The existing keyboard, compact-layout and four original quest-policy gates pass.
+
+A read-only offline probe using installed collision and the production planner
+validates all eight documented walking-return exits and the entrance-to-Mileth
+route. Outbound travel to the Faerie uses eight transitions and 751 modeled
+actions. Missing reverse landings remain unknown; runtime uses actual server
+positions after each exit. No connection or character is operated by the probe.
+
+Full live Faerie menu/reward/return validation remains pending. Automated quest
+dialogs and transport peers are explicitly synthetic. Existing uncommitted work,
+user data, running game characters and Excalibur working copies/processes are
+preserved. Packaging was unchanged.
+
+The entrance tile-sweep follow-up (2026-10-10) passes 65 focused Emerald Dawn,
+progress and fast-collection cases and all 501 native Windows automated cases
+(4 minutes 17 seconds). The new regression rejects the old proximity patrol
+and verifies 519 distinct swept tiles, no door tiles, straight legs, a closed
+lap, inclusion of the observed manual acquisition position and exact agreement
+between the recipe and calibration. A read-only offline check using installed
+collision and the production pathfinder confirms all 519 reachable non-door
+tiles are walked in 620 steps through 110 turn/end waypoints, with none missed.
+The old repeated loop covered only 114 tiles and missed the manual discovery
+position (10,11). This proves a coverage gap, not the server's discovery rule
+or an animation-related cause.
+
+The separate `artifacts/emerald-dawn-entrance-sweep/DAQuester.exe` Release build
+has zero warnings/errors and contains the verified sweep. `tools/Test-UI.ps1`
+passes against it with isolated sample data; `git diff --check` passes. Existing
+fast movement, popup handling and durable quest behavior remain covered. Live
+acquisition with the new sweep remains unverified. No real game characters were
+operated by tests; neither the running application nor Excalibur was restarted.
+
+The discovery-popup and Suomi shortcut follow-up (2026-10-10) passes 90 focused
+quest, collection, routing and transport cases and all 500 automated cases in
+the native Windows full suite (about four minutes). New regressions first
+reproduced search popups being closed or ignored, walking out of Suomi rather
+than interacting with Keane, and inventory arriving before its late discovery
+page. The observed discovery fixture verifies item-before-popup wire order,
+the actual unnamed reactor Next page and its server close. Synthetic cases
+cover unknown popup preservation, saved Next requests, late item confirmation,
+reconnect without resending, both Keane greetings, reordered pursuit/merchant
+choices, actual-arrival replanning, unavailable NPC fallback and missing travel
+reply reconciliation.
+
+The separate `artifacts/emerald-dawn-popup-keane-fix/DAQuester.exe` Release build
+has zero warnings/errors. `tools/Test-UI.ps1` passes against that build with
+isolated sample data, including all five quest policies, dark surfaces, Emerald
+Dawn outcome choices and fast-mode settings. `git diff --check` passes. The
+read-only offline route probe confirms Berg-to-Shinewood travel passes Abel;
+no Keane landing is invented. Search remains exclusively in Entrance 542.
+Full live Emerald Dawn and Keane shortcut validation remain pending. No real
+game characters were operated by tests, and neither the live application nor
+Excalibur was changed or restarted.
+
+The Shinewood search follow-up (2026-10-10) passes 20 focused movement/progress
+checks and all 482 automated cases in the native Windows run (3 minutes
+54 seconds). New regressions first reproduced collection waiting for each
+movement reply and a runner retaining the previous dialogue reason during a
+long action. Collection now uses the existing fast movement queue for patrol
+and pickup approaches, replans when matching loot appears, and drains pending
+moves before pickup. Durable action checkpoints update the runner and its UI
+notification immediately after the journal write succeeds.
+
+The separate Release build has zero warnings/errors; tools/Test-UI.ps1 passes
+against it using isolated sample data. Read-only live state showed both
+introduction checkpoints complete, no pending transaction and no open dialogue
+while gathering in Shinewood. No game commands were sent. Live insignia
+acquisition was unverified at that check; the later manual discovery capture is
+documented in provenance. Ground-drop evidence and final outcomes remain
+unverified; the running application was not replaced or restarted.
+
+Emerald Dawn (2026-10-10) passes 73 final focused quest/MCP/status cases and all
+478 automated cases in the native Windows run (3 minutes 47 seconds). The Release
+build has zero warnings/errors. The full suite includes the original four quest
+policies, navigation, recovery, transport and update checks. A restricted sandbox
+could not connect the existing current-user test pipe; its isolated native check
+and the complete native suite pass. The delayed-notice fixture uses deterministic
+event ordering rather than a short wall-clock delay.
+
+The native tools/Test-UI.ps1 gate passes with five selectable/available quests,
+all three explicit Emerald Dawn choices, optional Gans visits, restored choices,
+dark surfaces, unclipped buttons and the existing compact/keyboard checks.
+Emerald Dawn journal, library and outcome renders were visually inspected under
+ignored artifacts/. Full live Emerald Dawn validation remains pending. Conversations,
+rewards and status packets in the new tests are synthetic; sprite 70 is guide
+metadata and only server inventory proves pickup. No real game character or
+Excalibur file/process was operated.
+
 The 1.0.5 maintenance candidate passes 134 focused completion, ownership,
 recovery and movement cases and all 425 automated cases (native full suite:
 4 minutes 11 seconds). The Release build has zero warnings/errors. New tests

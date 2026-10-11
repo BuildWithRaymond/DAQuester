@@ -1,0 +1,10 @@
+{
+  "Evidence": "Observed server packets during player-controlled walking in Shinewood Entrance, 2026-10-10. Item arrives before the popup. Player clicked Next; server closed it. No character identity or unrelated inventory retained.",
+  "Map": 542,
+  "Actions": [{ "Kind": "next", "DialogRevision": 5529 }],
+  "Events": [
+    { "Revision": 5526, "Opcode": 15, "Payload": "CoBGABdFbWVyYWxkIEtuaWdodCBJbnNpZ25pYQAAAAEAAAAAAAAAAAAA" },
+    { "Revision": 5529, "Opcode": 48, "Payload": "AAQAE/ZbAEAAAABAAAAAAAABAAEAAABhRm9yIGEgbW9tZW50LCB5b3UgZG91YnRlZCB5b3Vyc2VsZiBpZiB5b3Ugd2VyZSB3b3J0aHkgZW5vdWdoIHRvIGZpbmQgdGhlIEVtZXJhbGQgS25pZ2h0IEluc2lnbmlhLg==" },
+    { "Revision": 5534, "Opcode": 48, "Payload": "CgA=" }
+  ]
+}

@@ -27,6 +27,7 @@ public sealed partial class MainForm:ThemedForm {
  Calibration calibration;
  string CalibrationPath=>Path.Combine(AppSettings.DataPath,"calibration",settings.ServerProfile+".json");
  public MainForm() {
+  characterMemory=new(Path.Combine(AppSettings.DataPath,"characters"),settings.ServerProfile);
   Directory.CreateDirectory(Path.GetDirectoryName(CalibrationPath)!);
   if(!File.Exists(CalibrationPath))File.Copy(Path.Combine(AppSettings.Content,"calibration","datester-7.41.json"),CalibrationPath);
   calibration=JsonSerializer.Deserialize<Calibration>(File.ReadAllText(CalibrationPath),AppSettings.Json)!;
@@ -40,15 +41,16 @@ public sealed partial class MainForm:ThemedForm {
    c.DialogAction+=packet=>recorder.RecordDialogPacket(packet,c.Tracker.Snapshot);
    c.Authenticated+=connection=>Ui(()=>Bind(connection));
   };
-  Shown+=async(_,_)=>{if(Environment.GetCommandLineArgs().Contains("--smoke"))return;await StartProxy();};
+  Shown+=async(_,_)=>{if(IsSmoke)return;await StartProxy();};
   FormClosing+=async(_,e)=>{
-   if(closing)return;e.Cancel=true;closing=true;await StopAll();
+   if(closing)return;e.Cancel=true;closing=true;try{await StopAll();}catch(Exception failure){closing=false;Theme.Error(this,PlayerReason(failure.Message),"Save progress before closing");return;}
    bool prepared=updates.PrepareExit(QuestActionsRunning,ConnectedGame,LaunchedClientRunning);
    if(installExitRequested&&!prepared){closing=false;installExitRequested=false;Theme.Error(this,updates.Status+" Finish quests and close game clients, then try again.","Install update");return;}
-   await host.DisposeAsync();Close();
+   characterMemoryLifetime.Cancel();await host.DisposeAsync();await Task.WhenAll(characterMemoryWrites.ToArray());Close();
   };
   UpdateStatus();
   InitializeControl();
+  Disposed+=(_,_)=>characterMemoryLifetime.Dispose();
  }
  void Ui(Action a) {if(IsDisposed||Disposing)return;if(InvokeRequired){try{BeginInvoke(a);}catch(InvalidOperationException){}}else a();}
  public void Log(string message)=>Ui(()=>{string line=DateTime.Now.ToString("HH:mm:ss")+"  "+message;log.Items.Add(line);try{File.AppendAllText(Path.Combine(AppSettings.DataPath,"diagnostics.log"),line+Environment.NewLine);}catch(IOException){}if(log.Items.Count>2000)log.Items.RemoveAt(0);log.TopIndex=Math.Max(0,log.Items.Count-1);});
@@ -68,13 +70,14 @@ public sealed partial class MainForm:ThemedForm {
   var session=new GameSession(connection,maps,settings.MovementMilliseconds){FastMode=settings.FastModeEnabled(name)};sessions[name]=session;
   AddCharacter(name);session.Changed+=snapshot=>Ui(()=>{
    if(sessions.GetValueOrDefault(name)!=session)return;
+   RememberCharacter(name,session,snapshot);
    RefreshRow(name);
    if(PermanentQuestCompletion.Matches(snapshot)&&journal.Load(name,recipe.Id).PermanentCompletion is null&&(!permanentTasks.TryGetValue(name,out var task)||task.IsCompleted))
     permanentTasks[name]=ObservePermanent(name,session,snapshot);
    else if(!controlActions.ContainsKey(name)&&(!calibrationTasks.TryGetValue(name,out var capture)||capture.IsCompleted)&&
     runners.TryGetValue(name,out var runner)&&runner.Job.Quest==recipe.Id)ObserveOrdinaryCompletion(name,session,runner,snapshot);
   });
-  session.Interrupted+=Log;RefreshRow(name);Log(name+" connected; server state tracking active.");
+  session.Interrupted+=Log;RememberCharacter(name,session,session.Snapshot);_=ReadOwnLegendAsync(name,session);RefreshRow(name);Log(name+" connected; server state tracking active.");
  }
  async void ObserveOrdinaryCompletion(string name,GameSession session,QuestRunner runner,CharacterSnapshot snapshot) {
   try {if(sessions.GetValueOrDefault(name)==session&&runners.GetValueOrDefault(name)==runner)await runner.ReconcileAsync(snapshot);}
@@ -95,13 +98,14 @@ public sealed partial class MainForm:ThemedForm {
  void RefreshRow(string name) {
   sessions.TryGetValue(name,out var session);
   var s=session?.Snapshot??new CharacterSnapshot{Name=name};var job=GetJob(name);
-  bool birth=job.Quest=="mundane-birth",hair=job.Quest=="perfect-hairstyle",muisir=job.Quest=="entered-muisir-village";
+  bool birth=job.Quest=="mundane-birth",hair=job.Quest=="perfect-hairstyle",muisir=job.Quest=="entered-muisir-village",emerald=job.Quest=="emerald-dawn",faerie=job.Quest==ShinewoodFaerieEvidence.Id;
   bool ordinaryComplete=OrdinaryAttemptComplete(job)&&(!runners.TryGetValue(name,out var owner)||!owner.IsRunning);
-  var eligibility=birth?MundaneBirthEvidence.Eligibility(s,job.BirthOptions):hair?PerfectHairstyleEvidence.Eligibility(s):muisir?MuisirEvidence.Eligibility(s):StickEligibility.Check(s,job.CompletedAt,DateTimeOffset.UtcNow);
+  var eligibility=birth?MundaneBirthEvidence.Eligibility(s,job.BirthOptions):hair?PerfectHairstyleEvidence.Eligibility(s):muisir?MuisirEvidence.Eligibility(s):emerald?EmeraldDawnEvidence.Eligibility(s):faerie?ShinewoodFaerieEvidence.Eligibility(s,job):StickEligibility.Check(s,job.CompletedAt,DateTimeOffset.UtcNow);
   var row=grid.Rows.Cast<DataGridViewRow>().FirstOrDefault(x=>string.Equals(x.Cells[0].Value?.ToString(),name,StringComparison.OrdinalIgnoreCase));if(row is null)return;
   row.SetValues(name,s.Connected?"Online":"Offline",s.Level?.ToString()??"—",s.Gold?.ToString("N0")??"—",
-    s.Map+" · "+s.Position?.X+","+s.Position?.Y,birth?job.BirthOptions is {} o?$"{o.Season} · {o.Age} · {o.Town}":"Choose birth details":hair?job.LegendReward==true?"Suomi legend recorded":"Ponytail · no items":muisir?s.InventoryKnown?s.Count(MuisirEvidence.Mushroom)+"/5 mushrooms":"Unknown":s.InventoryKnown?s.Count(calibration.BranchName)+"/6 branches":"Unknown",ordinaryComplete?"Completed for now":(birth||hair||muisir)&&job.CompletedAt is not null?"Completed":job.Status,job.Step,
-    job.CompletionText??(job.PermanentCompletion is not null?job.Reason:job.Status=="Paused"&&job.Reason!="Ready"?job.Reason:!birth&&!hair&&!muisir&&!calibration.Ready?"Calibration required":eligibility.Reason),NextAttempt(job)?.ToLocalTime().ToString("g")??"",QuestName(job.Quest));
+    s.Map+" · "+s.Position?.X+","+s.Position?.Y,birth?job.BirthOptions is {} o?$"{o.Season} · {o.Age} · {o.Town}":"Choose birth details":hair?job.LegendReward==true?"Suomi legend recorded":"Ponytail · no items":muisir?s.InventoryKnown?s.Count(MuisirEvidence.Mushroom)+"/5 mushrooms":"Unknown":emerald?job.EmeraldOptions?.Label??"Choose insignia recipient":s.InventoryKnown?s.Count(calibration.BranchName)+"/6 branches":"Unknown",ordinaryComplete?"Completed for now":(birth||hair||muisir||emerald)&&job.CompletedAt is not null?"Completed":job.Status,job.Step,
+    job.CompletionText??(job.PermanentCompletion is not null?job.Reason:job.Status=="Paused"&&job.Reason!="Ready"?job.Reason:!birth&&!hair&&!muisir&&!emerald&&!faerie&&!calibration.Ready?"Calibration required":eligibility.Reason),NextAttempt(job)?.ToLocalTime().ToString("g")??"",QuestName(job.Quest));
+  if(faerie)row.Cells[5].Value=ShinewoodFaerieEvidence.HasPet(s)||job.FaerieReceipts.Any(r=>r.Goal==ShinewoodFaerieEvidence.Pet)?"Pet verified":job.FaeriePetWait is {} wait&&ShinewoodFaerieEvidence.PetWaitPage(wait)?"Pet wait · 1 deoch":"Pet + missing spells";
   if(Selected()==name)ShowDialogState();UpdateStatus();
  }
  void ShowDialogState() {
@@ -118,28 +122,59 @@ public sealed partial class MainForm:ThemedForm {
    ready=true;Log("Loopback proxies ready on "+string.Join(", ",settings.LocalPorts));UpdateWorkspace();
   }catch(Exception e){Log("Proxy startup blocked: "+e.Message);status.Text="Connection unavailable. Check the connection profile in Developer mode, then restart DAQuester.";connectionSummary.Text="Connection unavailable";}
  }
- async Task Launch() {
-  if(!ready)throw new InvalidOperationException("The game connection isn't ready. Check the connection profile in Developer mode, then restart DAQuester.");
-  int pid=await Task.Run(()=>ClientLauncher.Launch(settings.ClientPath,settings.LocalPorts[0]));
-  try{launchedClients.Add(System.Diagnostics.Process.GetProcessById(pid));}catch(ArgumentException){}
-  Log("New DATester client launched (PID "+pid+"). Log in as "+Selected()+".");
- }
  async Task StartQuest(bool resume=false) {
   string name=Selected();
+  if(QueueReserves(name))throw new QuestBlockedException("Stop the queue before starting a separate quest.");
+  var selected=SelectedQuest;
+  if(!await ConfigureQuest(name,selected,resume))return;
+  var runner=await PrepareRunner(name,selected);
+  await runner.RunAsync(selected.Repeatable&&repeats.Checked,startNewAttempt:!resume);
+ }
+ async Task<bool> ConfigureQuest(string name,QuestDefinition selected,bool resume) {
   if(!sessions.TryGetValue(name,out var session)||!session.Snapshot.Connected)throw new InvalidOperationException("Launch DATester and log in as "+name+" first.");
   if(controlActions.ContainsKey(name))throw new QuestBlockedException("A local control action owns this character. Stop it first.");
-  var selected=SelectedQuest;MundaneBirthOptions? options=null;
+  MundaneBirthOptions? options=null;EmeraldDawnOptions? emeraldOptions=null;
   if(selected.Id=="mundane-birth") {
    var saved=runners.TryGetValue(name,out var existing)&&existing.Job.Quest==selected.Id?existing.Job:journal.Load(name,selected.Id);
    if(saved.Pending is null&&saved.CompletedAt is null&&(!resume||saved.BirthOptions is null)) {
-    using var form=new MundaneBirthOptionsForm(name,saved.BirthOptions);if(form.ShowDialog(this)!=DialogResult.OK)return;options=form.Result;
+    using var form=new MundaneBirthOptionsForm(name,saved.BirthOptions);if(form.ShowDialog(this)!=DialogResult.OK)return false;options=form.Result;
    }
   }
-  var runner=await PrepareRunner(name,selected,options);
-  await runner.RunAsync(selected.Repeatable&&repeats.Checked,startNewAttempt:!resume);
+  if(selected.Id=="emerald-dawn") {
+   var saved=runners.TryGetValue(name,out var existing)&&existing.Job.Quest==selected.Id?existing.Job:journal.Load(name,selected.Id);
+   if(EmeraldDawnEvidence.FinalMark(session.Snapshot) is null&&!EmeraldChoicesLocked(saved)&&(!resume||saved.EmeraldOptions is null)) {
+    using var form=new EmeraldDawnOptionsForm(name,saved.EmeraldOptions);if(form.ShowDialog(this)!=DialogResult.OK)return false;emeraldOptions=form.Result;
+   }
+  }
+  bool allowUnsafeWalking=false;
+  if(selected.Id==ShinewoodFaerieEvidence.Id){
+   var saved=runners.TryGetValue(name,out var existing)&&existing.Job.Quest==selected.Id?existing.Job:journal.Load(name,selected.Id);
+   if(saved.Pending?.Kind.StartsWith("faerie-return",StringComparison.Ordinal)!=true&&ShinewoodFaerieEvidence.Escape(session.Snapshot) is null&&
+     (ShinewoodFaerieEvidence.Goals(session.Snapshot,saved).Length>0||ShinewoodFaerieEvidence.InForest(session.Snapshot.Map))){
+    string? error=null;try{session.ValidateFaerieReturn();}catch(Exception e){error=e.Message;}
+    using var warning=new ShinewoodFaerieWarningForm(name,error);if(warning.ShowDialog(this)!=DialogResult.OK)return false;allowUnsafeWalking=true;
+   }
+  }
+  var job=runners.TryGetValue(name,out var owner)&&owner.Job.Quest==selected.Id?owner.Job:journal.Load(name,selected.Id);
+  bool repeatChanged=repeatChoices.TryGetValue((name.ToUpperInvariant(),selected.Id),out bool repeatChoice)&&job.Repeat!=(selected.Repeatable&&repeatChoice);
+  if(repeatChanged)job=job with{Repeat=selected.Repeatable&&repeatChoice};
+  if(options is not null)job=job with{BirthOptions=options,Repeat=false,NextRun=null};
+  if(emeraldOptions is not null)job=job with{EmeraldOptions=emeraldOptions,Repeat=false,NextRun=null};
+  if(allowUnsafeWalking){session.ValidateFaerieReturn();job=job with{FaerieWalkAcknowledgedGeneration=session.Snapshot.Generation,FaerieWalkAcknowledgedAt=DateTimeOffset.UtcNow};}
+  if(options is not null||emeraldOptions is not null||allowUnsafeWalking||repeatChanged){if(owner is not null&&owner.Job.Quest==selected.Id){await owner.PauseAsync("Quest choices saved");runners.Remove(name);}await journal.SaveAsync(job);}
+  return true;
  }
- Task Pause(string reason){CancelControl(Selected());return runners.TryGetValue(Selected(),out var runner)?runner.PauseAsync(reason):Task.CompletedTask;}
- async Task StopAll(){CancelControl();foreach(var r in runners.Values.ToArray())await r.PauseAsync("Global stop; progress saved");await Task.WhenAll(calibrationTasks.Values.ToArray());await Task.WhenAll(permanentTasks.Values.ToArray());}
+ async Task Pause(string reason){string name=Selected();if(QueueReserves(name)){await PauseQueue(name,reason.StartsWith("Stopped"));return;}CancelControl(name);if(runners.TryGetValue(name,out var runner))await runner.PauseAsync(reason);}
+ internal Task StopAll()=>StopOwners(null);
+ async Task StopOwners(string? character){
+  CancelLaunches(character);CancelControl(character);
+  foreach(var prepare in queuePreparations.Where(p=>character is null||p.Key.Equals(character,StringComparison.OrdinalIgnoreCase)).Select(p=>p.Value).ToArray())prepare.Cancel();
+  bool Match(string name)=>character is null||name.Equals(character,StringComparison.OrdinalIgnoreCase);
+  // Start every cancellation before any checkpoint failure can stop the caller.
+  var queues=settings.Characters.Concat(queueCache.Keys).Concat(queueCoordinators.Keys).Distinct(StringComparer.OrdinalIgnoreCase).Where(Match).Select(name=>PauseQueue(name,true)).ToArray();
+  var quests=runners.Where(p=>Match(p.Key)).Select(p=>p.Value.PauseAsync("Stopped; progress saved")).ToArray();
+  await Task.WhenAll(queues.Concat(quests).Append(AwaitLaunches(character)).Append(WaitForQueueSaves(character)).Concat(calibrationTasks.Where(p=>Match(p.Key)).Select(p=>p.Value)).Concat(permanentTasks.Where(p=>Match(p.Key)).Select(p=>p.Value)));
+ }
  Task Export() {
   var folder=Path.Combine(AppSettings.DataPath,"replays");Directory.CreateDirectory(folder);
   string path=Path.Combine(folder,"capture-"+DateTime.Now.ToString("yyyyMMdd-HHmmss")+".json");recorder.Export(path);Log("Sanitized replay: "+path);UpdateStatus();return Task.CompletedTask;

@@ -12,7 +12,7 @@ public sealed partial class MainForm {
  TreeRegion[] CandidateRegions=>TreePatrol.Load(Path.Combine(AppSettings.Content,"calibration","mileth-tree-candidates.json"));
  QuestJob GetJob(string name)=>calibrationRuns.TryGetValue(name,out var run)?run.Job:runners.TryGetValue(name,out var runner)&&(runner.Job.Quest==SelectedQuest.Id||runner.IsRunning)?runner.Job:journal.Load(name,SelectedQuest.Id);
  void InitializeControl() {
-  Shown+=(_,_)=>{if(Environment.GetCommandLineArgs().Contains("--smoke"))return;controlServer=new(r=>OnUiAsync(()=>ControlAsync(r)));controlServer.Start();Log("Local control bridge ready; current Windows user only.");};
+  Shown+=(_,_)=>{if(IsSmoke)return;controlServer=new(r=>OnUiAsync(()=>ControlAsync(r)));controlServer.Start();Log("Local control bridge ready; current Windows user only.");};
   FormClosed+=async(_,_)=>{CancelControl();if(controlServer is not null)await controlServer.DisposeAsync();};
  }
  Task<object?> OnUiAsync(Func<Task<object?>> action) {
@@ -26,11 +26,11 @@ public sealed partial class MainForm {
   int Number(string key,int fallback)=>r.Arguments is {} a&&a.TryGetProperty(key,out var v)?v.GetInt32():fallback;
   string? TextArgument(string key)=>r.Arguments is {} a&&a.TryGetProperty(key,out var v)?v.GetString():null;
   string name=r.Character??"";
-  if(r.Method=="state")return new{characters=sessions.Where(p=>name.Length==0||p.Key.Equals(name,StringComparison.OrdinalIgnoreCase)).Select(p=>new{character=p.Key,snapshot=p.Value.Snapshot,job=GetJob(p.Key),visibleSteps=p.Value.VisibleMoves}).ToArray(),calibration,quests=recipes.Values.Select(q=>new{q.Id,q.Name,q.Repeatable}).ToArray(),selectedQuest=SelectedQuest.Id,recordedEvents=recorder.Count,controlActions=controlActions.Keys.ToArray()};
-  if(r.Method=="stop"){CancelControl(r.Character);foreach(var pair in runners.ToArray())if(r.Character is null||pair.Key.Equals(name,StringComparison.OrdinalIgnoreCase))await pair.Value.PauseAsync("Stopped through local control; progress saved");return new{stopped=r.Character??"all"};}
+  if(r.Method=="state")return new{characters=sessions.Where(p=>name.Length==0||p.Key.Equals(name,StringComparison.OrdinalIgnoreCase)).Select(p=>new{character=p.Key,snapshot=p.Value.Snapshot,job=GetJob(p.Key),visibleSteps=p.Value.VisibleMoves}).ToArray(),queues=settings.Characters.Concat(sessions.Keys).Distinct(StringComparer.OrdinalIgnoreCase).Where(n=>name.Length==0||n.Equals(name,StringComparison.OrdinalIgnoreCase)).Select(GetQueue).ToArray(),calibration,quests=recipes.Values.Select(q=>new{q.Id,q.Name,q.Repeatable}).ToArray(),selectedQuest=SelectedQuest.Id,recordedEvents=recorder.Count,controlActions=controlActions.Keys.ToArray()};
+  if(r.Method=="stop"){await StopOwners(r.Character);return new{stopped=r.Character??"all"};}
   if(r.Method=="export") {var folder=Path.Combine(AppSettings.DataPath,"replays");Directory.CreateDirectory(folder);string path=Path.Combine(folder,"capture-"+DateTime.Now.ToString("yyyyMMdd-HHmmssfff")+".json");recorder.Export(path);return new{path,events=recorder.Count};}
   if(r.Method=="analyze")return new{evidence=recorder.Analyze(),candidateRegions=CandidateRegions};
-  if(r.Method=="launch") {if(!ready)throw new QuestBlockedException("Proxy not ready.");int pid=await Task.Run(()=>DAQuester.DarkAges.Launcher.ClientLauncher.Launch(settings.ClientPath,settings.LocalPorts[0]));Log("New DATester client launched (PID "+pid+"). Log in manually.");return new{pid};}
+  if(r.Method=="launch") {int pid=await LaunchCharacterAsync(name,manualOnly:name.Length==0);return new{pid};}
   if(r.Method=="map") {
    int map=Number("map",500);var repository=new MapRepository(Path.GetDirectoryName(settings.ClientPath)!,Path.Combine(AppSettings.Content,"routes.json"));var record=repository.Record(map);var g=repository.Load(map);
    var rows=Enumerable.Range(0,record.Height).Select(y=>new string(Enumerable.Range(0,record.Width).Select(x=>g.Blocked(new(x,y))?'#':'.').ToArray())).ToArray();return new{record,collisionRows=rows,candidateRegions=map==500?CandidateRegions:[],candidatePatrol=map==500?TreePatrol.Build(g,new(13,69),CandidateRegions).Where(t=>!record.Portals.Any(p=>p.From==t)).ToArray():[]};
@@ -38,14 +38,19 @@ public sealed partial class MainForm {
   if(!sessions.TryGetValue(name,out var session)||!session.Snapshot.Connected)throw new QuestBlockedException("Connected character required: "+name);
   if(r.Method=="calibrate")return await StartAutomaticCalibration(name);
   if(r.Method=="start") {
+   if(QueueReserves(name))throw new QuestBlockedException("A queue owns this character. Stop it before starting a separate quest.");
    string id=TextArgument("quest")??recipe.Id;if(!recipes.TryGetValue(id,out var selected))throw new QuestBlockedException("Unsupported quest: "+id);
    MundaneBirthOptions? options=null;
    if(id=="mundane-birth"&&(TextArgument("season") is not null||TextArgument("town") is not null||r.Arguments is {} args&&args.TryGetProperty("age",out _)))
     options=new(TextArgument("season")??"",Number("age",0),TextArgument("town")??"");
-   var runner=await PrepareRunner(name,selected,options);
-   _=runner.RunAsync(selected.Repeatable&&Flag("repeat"),startNewAttempt:true);return new{started=name,quest=id,birthChoices=runner.Job.BirthOptions};
+   EmeraldDawnOptions? emeraldOptions=null;
+   if(id=="emerald-dawn"&&(TextArgument("outcome") is not null||r.Arguments is {} emeraldArgs&&emeraldArgs.TryGetProperty("visitDruid",out _)))
+    emeraldOptions=new(TextArgument("outcome")??"",Flag("visitDruid"));
+   var runner=await PrepareRunner(name,selected,options,emeraldOptions,Flag("allowUnsafeWalking"));
+   _=runner.RunAsync(selected.Repeatable&&Flag("repeat"),startNewAttempt:true);return new{started=name,quest=id,birthChoices=runner.Job.BirthOptions,emeraldChoices=runner.Job.EmeraldOptions};
   }
   if(r.Method!="command")throw new InvalidOperationException("Unsupported control method: "+r.Method);
+  if(QueueReserves(name))throw new QuestBlockedException("A queue owns this character. Stop it before a control action.");
   var command=JsonSerializer.Deserialize<GameCommand>(r.Arguments?.GetRawText()??"{}",AppSettings.Json)??throw new InvalidDataException("Game command missing.");
   if(command.Kind is not ("navigate" or "visit" or "step" or "open" or "choose" or "next" or "close" or "input" or "say" or "collect-ground" or "pickup" or "inspect-self"))throw new QuestBlockedException("Command is unavailable through control bridge.");
   if(controlActions.ContainsKey(name))throw new QuestBlockedException("A control action already owns this character. Stop it first.");
@@ -61,6 +66,7 @@ public sealed partial class MainForm {
   }finally{session.Interrupted-=Interrupt;controlActions.Remove(name);RefreshRow(name);}
  }
  async Task<object?> StartAutomaticCalibration(string name) {
+  if(QueueReserves(name))throw new QuestBlockedException("A queue owns this character. Stop it before calibration.");
   if(!sessions.TryGetValue(name,out var session)||!session.Snapshot.Connected)throw new QuestBlockedException("Connect "+name+" first.");
   if(controlActions.ContainsKey(name))throw new QuestBlockedException("An action already owns this character. Stop it first.");
   if(!recorder.Enabled)throw new QuestBlockedException("Enable Record evidence before automatic calibration.");

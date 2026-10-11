@@ -7,6 +7,8 @@ public record Portal(Tile From,int Map,Tile To,bool WorldMap=false);
 public record MapTransfer(Tile From,Tile To);
 public record MapRecord(int Id,string Name,int Width,int Height,Portal[] Portals) {
  public MapTransfer[] InternalTransfers {get;init;}=[];
+ [System.Text.Json.Serialization.JsonIgnore]
+ public IEnumerable<Tile> ExitTiles=>Portals.Select(p=>p.From).Concat(ShinewoodFaerieEvidence.ReturnExits.Where(e=>e.SourceMap==Id).Select(e=>e.From)).Distinct();
 }
 public partial class MapRepository(string clientDirectory,string routesPath) {
  readonly Dictionary<int,MapRecord> records=(JsonSerializer.Deserialize<MapRecord[]>(File.ReadAllText(routesPath),new JsonSerializerOptions{PropertyNameCaseInsensitive=true})??[]).ToDictionary(x=>x.Id);
