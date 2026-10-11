@@ -7,7 +7,7 @@ Download the installer or portable ZIP from
 Use the installer for a Start menu shortcut, or extract the portable ZIP and open
 its `DAQuester.exe`. Keep the complete portable folder together. .NET is included.
 
-DAQuester supports the exact DATester 7.41 client hash in
+DAQuester supports the exact DATester 7.41 client hashes in
 [provenance](provenance.md). It checks the executable before launching and rejects
 unsupported builds. No game binaries or assets are included.
 

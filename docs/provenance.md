@@ -252,7 +252,7 @@ from the current server world-map response. No Excalibur files were changed.
 
 Sanitized own-character acceptance, inventory, rewards and both terminal dialog variants: `content/evidence/datester-7.41/spare-a-stick.json`, captured on 2026-10-09. Clock's permanent outcome rule was supplied by the player and matched its observed Callough child-reminder reply. No rewards or completion dates are inferred from website prose.
 
-Installed DATester client SHA-256: **054A5D6ADC56099C6BFD9D2A58675AFF62DC788B63209A3D906492F5B89E96C6**. No game executable is modified on disk. The launcher patches only a freshly created supported DATester process.
+Installed DATester client SHA-256, single instance (stock): **054A5D6ADC56099C6BFD9D2A58675AFF62DC788B63209A3D906492F5B89E96C6**. Multi instance (stock plus the common one-byte patch, `75`→`EB` at 0x57A7D9): **B168856A22A5315D2EB0FC942CA1CB6EF38E81035A445BC2CC9710D3D1A5715F**. DAQuester never modifies a game executable on disk. The launcher patches only a freshly created supported DATester process.
 
 Sanitized Cassidy menu, amount prompt, gold updates and manual action timing:
 `content/evidence/datester-7.41/cassidy-deposit.json`, captured from Awesome on
