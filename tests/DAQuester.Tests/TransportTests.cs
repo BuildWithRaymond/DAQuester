@@ -65,6 +65,27 @@ public class TransportTests {
   await server.GetStream().WriteAsync(crypto.Encrypt(new Arbiter.Net.Server.ServerPacket(1,[0]),23).ToArray(),timeout.Token);
   var afterManual=await ReadFrame(client.GetStream(),timeout.Token);Assert.Equal((byte)1,afterManual[3]);Assert.Equal((byte)24,afterManual[4]);Assert.Equal(1,connection.VisibleMoves);
  }
+ [Fact] public async Task Failing_interrupt_handler_is_reported_and_keeps_the_connection() {
+  using var remote=new TcpListener(IPAddress.Loopback,0);remote.Start();
+  using var probe=new TcpListener(IPAddress.Loopback,0);probe.Start();int port=((IPEndPoint)probe.LocalEndpoint).Port;probe.Stop();
+  var connected=new TaskCompletionSource<ProxyConnection>(TaskCreationOptions.RunContinuationsAsynchronously);
+  await using var host=new ProxyHost();host.Connected+=c=>connected.TrySetResult(c);await host.StartAsync(port,(IPEndPoint)remote.LocalEndpoint);
+  using var client=new TcpClient();await client.ConnectAsync(IPAddress.Loopback,port);using var server=await remote.AcceptTcpClientAsync();var connection=await connected.Task;
+  var diagnostics=new List<string>();connection.Diagnostic+=m=>{lock(diagnostics)diagnostics.Add(m);};
+  var interrupted=new List<string>();connection.Interrupted+=reason=>{lock(interrupted)interrupted.Add(reason);throw new ObjectDisposedException("stale token");};
+  using var timeout=new CancellationTokenSource(TimeSpan.FromSeconds(3));var crypto=new Arbiter.Net.Client.ClientPacketEncryptor();
+  await client.GetStream().WriteAsync(crypto.Encrypt(new Arbiter.Net.Client.ClientPacket(0x11,[1]),0).ToArray(),timeout.Token);
+  Assert.Equal((byte)0x11,(await ReadFrame(server.GetStream(),timeout.Token))[3]);
+  await client.GetStream().WriteAsync(crypto.Encrypt(new Arbiter.Net.Client.ClientPacket(0x43,[1,0,0,0,5]),1).ToArray(),timeout.Token);
+  Assert.Equal((byte)0x43,(await ReadFrame(server.GetStream(),timeout.Token))[3]);
+  Assert.True(connection.Connected);
+  lock(interrupted)Assert.Equal(["Manual dialog or turn paused automation.","Manual dialog or turn paused automation."],interrupted);
+  lock(diagnostics){
+   Assert.Contains(diagnostics,m=>m.Contains("0x11 (turn)"));Assert.Contains(diagnostics,m=>m.Contains("0x43 (click)"));
+   Assert.Contains(diagnostics,m=>m.StartsWith("Interrupt handler failed: ")&&m.Contains("ObjectDisposedException")&&m.Contains("stale token"));
+   Assert.DoesNotContain(diagnostics,m=>m.StartsWith("Transport failed"));
+  }
+ }
  [Fact] public async Task Malformed_state_packet_still_passes_through() {
   using var remote=new TcpListener(IPAddress.Loopback,0);remote.Start();
   using var probe=new TcpListener(IPAddress.Loopback,0);probe.Start();int port=((IPEndPoint)probe.LocalEndpoint).Port;probe.Stop();
