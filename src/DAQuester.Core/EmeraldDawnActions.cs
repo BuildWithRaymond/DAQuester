@@ -99,7 +99,8 @@ public sealed class EmeraldDawnActions:IQuestAction {
  static async Task Speak(QuestContext c,Conversation flow,string kind,CancellationToken ct) {
   if(c.Session.Snapshot.Map==542&&c.Session.Snapshot.Dialog is not null)await Discovery(c,ct);
   if(c.Session.Snapshot.Dialog is {} open)await c.Session.ExecuteAsync(new("close",Dialog:open),ct);
-  await c.Session.ExecuteAsync(new("navigate",flow.Map,flow.Approach),ct);
+  // The approach tile only needs to bring the NPC into view; Visit picks the exact free tile beside them.
+  await c.Session.ExecuteAsync(new("navigate",flow.Map,flow.Approach,Tolerance:4),ct);
   await c.Session.ExecuteAsync(new("visit",flow.Map,Text:flow.Npc),ct);
   var s=c.Session.Snapshot;
   if(s.Map!=flow.Map||!s.Connected)throw new QuestBlockedException("Fresh "+flow.Npc+" location required.");

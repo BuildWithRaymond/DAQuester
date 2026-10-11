@@ -1,7 +1,7 @@
 using System.Collections.Immutable;
 namespace DAQuester.Core;
 public record InventoryGoal(string Item,int Count);
-public record GameCommand(string Kind,int? Map=null,Tile? Target=null,string? Text=null,uint? Amount=null,Dialog? Dialog=null,byte? Slot=null,uint? EntityId=null,InventoryGoal? StopWhen=null,string? ExpectedResource=null,bool PreservePopup=false);
+public record GameCommand(string Kind,int? Map=null,Tile? Target=null,string? Text=null,uint? Amount=null,Dialog? Dialog=null,byte? Slot=null,uint? EntityId=null,InventoryGoal? StopWhen=null,string? ExpectedResource=null,bool PreservePopup=false,int Tolerance=0);
 public interface IGameSession {
  CharacterSnapshot Snapshot {get;}
  IReadOnlySet<string> Capabilities {get;}
