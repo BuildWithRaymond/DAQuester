@@ -1,4 +1,5 @@
 using System.Collections.Immutable;
+using System.Diagnostics;
 using System.Text.Json;
 using System.Runtime.InteropServices;
 using Avalonia;
@@ -31,6 +32,7 @@ internal static class UiChecks
   string result = Program.IsScreenshots ? "artifacts/screenshots.txt" : "artifacts/app-smoke.txt";
   string evidence = Program.IsScreenshots ? "artifacts/screenshots.json" : "artifacts/app-smoke.json";
   var checks = new List<string>(); var renders = new List<string>(); var states = new HashSet<string>();
+  var viewports = new Dictionary<string, Size>();
   Directory.CreateDirectory("artifacts/screenshots"); File.WriteAllText(result, "Running Avalonia synthetic UI checks.");
   try
   {
@@ -44,15 +46,19 @@ internal static class UiChecks
    {
     target ??= window;
     await Settle(); target.UpdateLayout();
+    Exception? layoutError = null;
+    if (!Program.IsHeadless) { try { await AwaitNativeLayout(target); } catch (InvalidOperationException error) { layoutError = error; } }
+    viewports[name] = target.ClientSize;
     string path = "artifacts/screenshots/" + name + ".png";
-    if (Program.IsHeadless && scale == 1) { using var image = target.CaptureRenderedFrame() ?? throw new InvalidOperationException("Avalonia produced no rendered frame."); CheckDarkSurface(image, name); image.Save(path); }
+    if (Program.IsHeadless && scale == 1) { using var image = target.CaptureRenderedFrame() ?? throw new InvalidOperationException("Avalonia produced no rendered frame."); image.Save(path); CheckDarkSurface(image, name); }
     else
     {
      var size = target.ClientSize;
      using var image = new RenderTargetBitmap(new PixelSize((int)Math.Ceiling(size.Width * scale), (int)Math.Ceiling(size.Height * scale)), new Vector(96 * scale, 96 * scale));
-     image.Render(target); CheckDarkSurface(image, name); image.Save(path);
+     image.Render(target); image.Save(path); CheckDarkSurface(image, name);
     }
     if (new FileInfo(path).Length < 1000) throw new InvalidOperationException("Avalonia render contains no meaningful pixels: " + name);
+    if (layoutError is not null) throw layoutError;
     CheckVisibleActions(target);
     renders.Add(path);
    }
@@ -64,7 +70,7 @@ internal static class UiChecks
     var child = popup.Child!; child.UpdateLayout(); var size = child.Bounds.Size;
     Check(size.Width > 0 && size.Height > 0, "ComboBox popup has visible content: " + name);
     string path = "artifacts/screenshots/" + name + ".png";
-    using (var bitmap = new RenderTargetBitmap(new PixelSize((int)Math.Ceiling(size.Width), (int)Math.Ceiling(size.Height)), new Vector(96, 96))) { bitmap.Render(child); CheckDarkSurface(bitmap, name); bitmap.Save(path); }
+    using (var bitmap = new RenderTargetBitmap(new PixelSize((int)Math.Ceiling(size.Width), (int)Math.Ceiling(size.Height)), new Vector(96, 96))) { bitmap.Render(child); bitmap.Save(path); CheckDarkSurface(bitmap, name); }
     Check(new FileInfo(path).Length >= 1000, "ComboBox popup contains actual rendered items: " + name); renders.Add(path);
     combo.IsDropDownOpen = false; await Settle();
    }
@@ -397,7 +403,7 @@ internal static class UiChecks
     await Page(page); foreach (double scale in new[] { 1.25, 1.5, 2.0 }) await Capture(page.ToLowerInvariant() + "-scale-" + (int)(scale * 100), scale);
    }
    Check(!vm.Runtime.LaunchedClientRunning, "Synthetic verification launched no game client");
-   var manifest = new { framework = "Avalonia", renderer = Program.IsHeadless ? "headless-skia" : "native", isolated = true, synthetic = true, failed = 0, checks, states = states.Order().ToArray(), renders };
+   var manifest = new { framework = "Avalonia", renderer = Program.IsHeadless ? "headless-skia" : "native", isolated = true, synthetic = true, failed = 0, checks, states = states.Order().ToArray(), renders, viewports };
    File.WriteAllText(evidence, JsonSerializer.Serialize(manifest, AppSettings.Json));
    File.WriteAllText(result, $"Avalonia: {checks.Count} behavioral checks and {renders.Count} actual rendered screenshots passed. All four screens, empty, disconnected, running, paused, completed, blocked and error states verified using isolated synthetic data. No game connection, client launch or update install.");
    // Restore the four documentation captures to populated views after the state matrix.
@@ -406,10 +412,30 @@ internal static class UiChecks
   }
   catch (Exception error)
   {
-   File.WriteAllText(result, error.ToString()); File.WriteAllText(evidence, JsonSerializer.Serialize(new { framework = "Avalonia", isolated = true, synthetic = true, failed = 1, checks, states, renders, error = error.ToString() }, AppSettings.Json));
+   File.WriteAllText(result, error.ToString()); File.WriteAllText(evidence, JsonSerializer.Serialize(new { framework = "Avalonia", isolated = true, synthetic = true, failed = 1, checks, states, renders, viewports, error = error.ToString() }, AppSettings.Json));
    try { await vm.Runtime.ShutdownAsync(); } catch { }
    if (Application.Current?.ApplicationLifetime is IClassicDesktopStyleApplicationLifetime desktop) desktop.Shutdown(1);
   }
+ }
+
+ static async Task AwaitNativeLayout(Window window)
+ {
+  var timeout = Stopwatch.StartNew(); Size previous = default; int stable = 0;
+  while (timeout.Elapsed < TimeSpan.FromSeconds(2))
+  {
+   Dispatcher.UIThread.RunJobs(); window.UpdateLayout();
+   var size = window.ClientSize;
+   bool valid = size.Width > 0 && size.Height > 0 && window.IsMeasureValid && window.IsArrangeValid && window.Bounds.Size == size;
+   if (window.Content is Control content)
+   {
+    var origin = content.TranslatePoint(default, window);
+    valid &= content.IsMeasureValid && content.IsArrangeValid && origin is { } point && point.X >= -1 && point.Y >= -1 && point.X + content.Bounds.Width <= size.Width + 1 && point.Y + content.Bounds.Height <= size.Height + 1;
+   }
+   stable = valid && size == previous ? stable + 1 : 0;
+   if (stable >= 3) return;
+   previous = size; await Task.Delay(20);
+  }
+  throw new InvalidOperationException($"Native layout did not settle within its accepted viewport; client={window.ClientSize}, window={window.Bounds}, content={(window.Content as Control)?.Bounds}, requested={window.Width}x{window.Height}, scaling={window.RenderScaling}");
  }
 
  static void CheckVisibleActions(Window window)

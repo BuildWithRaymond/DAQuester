@@ -3,13 +3,13 @@
 ## Release 1.1.0 — October 11, 2026
 
 The Avalonia 11.3.12 Release solution builds with zero warnings or errors. All
-**45 presentation and lifecycle regressions** pass. `tools/Test-UI.ps1` passes
+**46 presentation and lifecycle regressions** pass. `tools/Test-UI.ps1` passes
 **206 behavioral checks** and produces **80 actual Skia renders** of the
 application. Native `tools/Capture-Screenshots.ps1` passes **201 checks** and
 captures **76 renders**, including the four updated documentation screenshots.
 
 The full Core and protocol suite passes **707 tests**, with zero failures or
-skips (4 minutes 24 seconds). Together with the presentation suite, **752 tests**
+skips (4 minutes 24 seconds). Together with the presentation suite, **753 tests**
 pass. The final test-project build also has zero warnings or errors.
 
 All **36 focused fast-walking tests** and **28 focused launcher, transport,
@@ -32,6 +32,14 @@ confirms the preview window's immersive dark
 Windows title bar. Birth's full warning and stop condition remain visible at
 its default size, and compact queue actions and account-save controls remain
 reachable.
+
+Native CI caught an oversized window request whose 1450 × 930 content remained
+larger than Windows' accepted 1028 × 749 client area. The shell now follows the
+accepted viewport without changing future window-size requests. A focused
+regression covers initial sizing, a rejected oversized request and later supported
+growth, including valid layout and visible header/stop actions. Native captures
+wait for stable layout, record accepted dimensions and preserve failure images;
+the strict clipping assertions remain in place.
 
 Behavioral coverage exercises per-character queue ownership and persistence,
 keyboard and pointer reordering, pause/stop checkpoints, failed and pending

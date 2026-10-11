@@ -2,6 +2,7 @@ using System.Runtime.InteropServices;
 using Avalonia;
 using Avalonia.Controls;
 using Avalonia.Input;
+using Avalonia.Layout;
 using Avalonia.Threading;
 using Avalonia.VisualTree;
 using DAQuester.App.Controls;
@@ -27,7 +28,15 @@ public partial class MainWindow : Window
  void AdaptLayout()
  {
   bool compact = Bounds.Width < 1160;
-  var shell = this.FindControl<Grid>("shell")!; shell.ColumnDefinitions[0].Width = new GridLength(compact ? 64 : 180);
+  var shell = this.FindControl<Grid>("shell")!;
+  // Native windows can reject a requested size without changing their current client area.
+  // Keep content measurement within that viewport while preserving future resize requests.
+  if (double.IsFinite(ClientSize.Width) && double.IsFinite(ClientSize.Height) && ClientSize.Width > 0 && ClientSize.Height > 0)
+  {
+   shell.Width = ClientSize.Width; shell.Height = ClientSize.Height;
+   shell.HorizontalAlignment = HorizontalAlignment.Left; shell.VerticalAlignment = VerticalAlignment.Top;
+  }
+  shell.ColumnDefinitions[0].Width = new GridLength(compact ? 64 : 180);
   foreach (string name in new[] { "brandName", "brandSubtitle", "railSaveNote", "railVersion", "stopAllText" }) this.FindControl<Control>(name)!.IsVisible = !compact;
   foreach (var label in this.GetVisualDescendants().OfType<TextBlock>().Where(x => x.Classes.Contains("navLabel"))) label.IsVisible = !compact;
   this.FindControl<TextBlock>("pageSubtitle")!.MaxWidth = compact ? 340 : 650;
