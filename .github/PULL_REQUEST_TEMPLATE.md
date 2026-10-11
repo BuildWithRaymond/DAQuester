@@ -6,7 +6,7 @@ Describe the trigger and resulting behavior.
 
 - [ ] Relevant tests pass
 - [ ] Full suite passes
-- [ ] Dark UI smoke passes for UI changes
+- [ ] Interface changes reviewed manually (dark theme, sizing, keyboard and error states)
 - [ ] Package verification passes for release/update changes
 - [ ] Evidence/provenance updated for protocol or quest changes
 

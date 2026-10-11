@@ -1,6 +1,5 @@
 using System.Text.Json;
 using Avalonia;
-using Avalonia.Headless;
 
 namespace DAQuester.App;
 
@@ -8,19 +7,23 @@ internal static class Program
 {
  public static string[] Arguments { get; private set; } = [];
  public static bool IsScreenshots => Arguments.Contains("--screenshots");
- public static bool IsValidation => Arguments.Contains("--smoke") || IsScreenshots;
- public static bool IsHeadless => Arguments.Contains("--smoke") && !IsScreenshots;
+ public static bool IsValidation => IsScreenshots;
 
  [STAThread]
  static int Main(string[] args)
  {
   Arguments = args;
+  if (args.Contains("--smoke"))
+  {
+   Console.Error.WriteLine("The render test suite was removed. Run the xUnit projects; use --screenshots for documentation captures.");
+   return 1;
+  }
   if (args.Contains("--mcp") || args.Contains("--control")) return ControlMain.RunAsync(args).GetAwaiter().GetResult();
   if (args.Contains("--verify-local-update")) return Validation.UpdateCompatibility.RunAsync(args).GetAwaiter().GetResult();
   if (IsValidation)
   {
    Directory.CreateDirectory("artifacts");
-   AppSettings.UseIsolatedData(Path.Combine(Environment.CurrentDirectory, "artifacts", "smoke-data-" + Guid.NewGuid().ToString("N")));
+   AppSettings.UseIsolatedData(Path.Combine(Environment.CurrentDirectory, "artifacts", "screenshot-data-" + Guid.NewGuid().ToString("N")));
    var seed = AppSettings.Load();
    if (seed.Characters.Length != 0) throw new InvalidOperationException("New profiles must not invent a default character.");
    seed.ClientPath = ""; seed.AutomaticUpdateChecks = false; seed.Characters = []; seed.Save();
@@ -32,17 +35,13 @@ internal static class Program
   try { return BuildAvaloniaApp().StartWithClassicDesktopLifetime(args); }
   catch (Exception error)
   {
-   if (IsValidation) { Directory.CreateDirectory("artifacts"); File.WriteAllText(IsScreenshots ? "artifacts/screenshots.txt" : "artifacts/app-smoke.txt", error.ToString()); }
+   if (IsValidation) { Directory.CreateDirectory("artifacts"); File.WriteAllText("artifacts/screenshots.txt", error.ToString()); }
    else File.WriteAllText(Path.Combine(Path.GetTempPath(), "DAQuester-startup-error.txt"), error.ToString());
    return 1;
   }
  }
 
- public static AppBuilder BuildAvaloniaApp()
- {
-  var builder = AppBuilder.Configure<App>();
-  return IsHeadless ? builder.UseSkia().UseHeadless(new AvaloniaHeadlessPlatformOptions { UseHeadlessDrawing = false }) : builder.UsePlatformDetect();
- }
+ public static AppBuilder BuildAvaloniaApp() => AppBuilder.Configure<App>().UsePlatformDetect();
 
  static int CheckUpdates()
  {

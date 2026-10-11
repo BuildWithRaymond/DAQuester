@@ -175,8 +175,10 @@ public class MovingObstacleTests {
      byte[] header=new byte[3];await Server.GetStream().ReadExactlyAsync(header,limit.Token);byte[] data=new byte[(header[1]<<8)|header[2]];await Server.GetStream().ReadExactlyAsync(data,limit.Token);
      var packet=(ClientPacket)decrypt.Decrypt(new ClientPacket(data[0],data[1..]));byte opcode=(byte)packet.Command;Commands.Add(opcode);
      if(opcode==7&&pickup is not null){await pickup(packet);continue;}
-     if(opcode!=6){Assert.Equal((byte)0x38,opcode);if(refresh is not null)await refresh();else await Position(Session.Snapshot.Position!);continue;}
-     byte direction=packet.Data[0];var before=projectedServer?serverPosition:Session.Snapshot.Position!;var next=StateTracker.GridStep(before,direction);serverPosition=next;
+     if(opcode!=6){Assert.Equal((byte)0x38,opcode);if(refresh is not null)await refresh();else await Position(Session.Snapshot.Position??serverPosition);continue;}
+     // A map packet clears client position while an earlier move can still be
+     // in flight. The simulated server retains its position during that gap.
+     byte direction=packet.Data[0];var before=projectedServer?serverPosition:Session.Snapshot.Position??serverPosition;var next=StateTracker.GridStep(before,direction);serverPosition=next;
      if(await intercept(++moves,next))continue;
      byte[] ack=new byte[10];ack[0]=direction;BinaryPrimitives.WriteUInt16BigEndian(ack.AsSpan(1),(ushort)before.X);BinaryPrimitives.WriteUInt16BigEndian(ack.AsSpan(3),(ushort)before.Y);await Send(11,ack);
     }

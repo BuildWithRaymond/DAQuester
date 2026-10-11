@@ -1,2 +1,2 @@
 using System.Runtime.CompilerServices;
-[assembly:InternalsVisibleTo("DAQuester.UiTests")]
+[assembly:InternalsVisibleTo("DAQuester.AppTests")]

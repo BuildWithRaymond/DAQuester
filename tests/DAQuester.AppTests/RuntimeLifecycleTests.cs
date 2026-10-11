@@ -13,7 +13,7 @@ using DAQuester.DarkAges.Navigation;
 using DAQuester.DarkAges.Transport;
 using Xunit;
 
-namespace DAQuester.UiTests;
+namespace DAQuester.AppTests;
 
 public sealed class RuntimeLifecycleTests
 {

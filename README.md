@@ -7,7 +7,7 @@ details, remembered character facts, and a queue you can pause and return to.
 
 [Download for Windows](https://github.com/BuildWithRaymond/DAQuester/releases/latest)
 · [Setup guide](docs/GETTING_STARTED.md)
-· [What's new in 1.1.0](docs/releases/v1.1.0.md)
+· [What's new in 1.1.1](docs/releases/v1.1.1.md)
 · [Report a bug](https://github.com/BuildWithRaymond/DAQuester/issues/new/choose)
 
 ![Quest planner with three ordered quests, completed legends, and character selection](docs/screenshots/planner.png)
@@ -93,9 +93,7 @@ cd DAQuester
 dotnet restore DAQuester.slnx -m:1
 dotnet build DAQuester.slnx -c Release --no-restore -m:1
 dotnet test tests/DAQuester.Tests -c Release --no-build -m:1
-dotnet test tests/DAQuester.UiTests -c Release --no-build -m:1
-./tools/Test-UI.ps1
-./tools/Capture-Screenshots.ps1
+dotnet test tests/DAQuester.AppTests -c Release --no-build -m:1
 ```
 
 | Folder | Contents |
@@ -103,14 +101,16 @@ dotnet test tests/DAQuester.UiTests -c Release --no-build -m:1
 | `src/DAQuester.App` | Avalonia views, view models, desktop orchestration, accounts, and updates |
 | `src/DAQuester.Core` | Quest rules, saved journals, queues, and character memory |
 | `src/DAQuester.DarkAges` | Game protocol, proxy, client launch, and navigation |
-| `tests` | Synthetic regression tests; no real character actions |
+| `tests` | Core/protocol and app behavior regressions; no real character actions |
 | `content` | Recipes, catalog, routes, functional walkability, calibration, and sanitized evidence |
 | `docs` | Player guides, contributor references, release notes, and screenshots |
-| `tools` | UI checks, screenshot capture, content tools, and release packaging |
+| `tools` | Optional screenshots, content tools, and release packaging |
 
 Start with [Contributing](CONTRIBUTING.md) or browse the [documentation index](docs/README.md).
 Calibration, connection profile, diagnostics and replay export are reachable through
 the [control bridge and MCP](docs/control.md) and the Data folder, not the window.
+Documentation screenshots are optional: run `./tools/Capture-Screenshots.ps1`
+after a Release build to capture four pages with isolated sample data.
 
 ## Related projects and credits
 

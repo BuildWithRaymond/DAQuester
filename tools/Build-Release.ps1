@@ -1,4 +1,4 @@
-param([string]$Output='artifacts/release')
+param([string]$Output='artifacts/release',[switch]$NoBuild)
 $ErrorActionPreference='Stop'
 $repoRoot=Split-Path $PSScriptRoot -Parent
 Push-Location $repoRoot
@@ -7,17 +7,21 @@ try {
     [xml]$props=Get-Content -LiteralPath Directory.Build.props
     $version=[string]$props.Project.PropertyGroup.Version
     if($version -notmatch '^\d+\.\d+\.\d+$'){throw 'Stable packaging requires a major.minor.patch version.'}
-    $payload=Join-Path $repoRoot "artifacts/package-$version"
     $releasePath=if([IO.Path]::IsPathRooted($Output)){$Output}else{Join-Path $repoRoot $Output}
+    $packageRoot=Split-Path ([IO.Path]::GetFullPath($releasePath)) -Parent
+    $payload=Join-Path $packageRoot "package-$version"
     if(Test-Path -LiteralPath $payload){throw "Use a clean package directory: $payload already exists."}
     if(Test-Path -LiteralPath $releasePath){throw "Use a clean output directory: $releasePath already exists."}
-    # A running checkout must not hold up release packaging or be replaced by it.
-    $buildOutput=Join-Path $repoRoot "artifacts/build-package-$version/"
-    # Local portable symbols embed checkout paths; omit them from public release builds only.
-    # Rebuild every project so unchanged Core intermediates cannot retain old CodeView paths.
-    dotnet build src/DAQuester.App -c Release -r win-x86 --self-contained true --force --no-incremental -m:1 -p:UseSharedCompilation=false -p:DebugType=None -p:DebugSymbols=false -p:CopyOutputSymbolsToPublishDirectory=false "-p:OutDir=$buildOutput"
-    if($LASTEXITCODE -ne 0){throw 'Clean release compilation failed.'}
-    dotnet publish src/DAQuester.App -c Release -r win-x86 --self-contained true --no-build -o $payload -m:1 -p:UseSharedCompilation=false -p:DebugType=None -p:DebugSymbols=false -p:CopyOutputSymbolsToPublishDirectory=false "-p:OutDir=$buildOutput"
+    # CI already builds and tests a symbol-free Release payload. Local packaging
+    # retains a clean, isolated build so running checkout files are not replaced.
+    $buildArguments=@('-p:DebugType=None','-p:DebugSymbols=false','-p:CopyOutputSymbolsToPublishDirectory=false')
+    if(-not $NoBuild) {
+        $buildOutput=Join-Path $packageRoot "build-package-$version/"
+        $buildArguments+="-p:OutDir=$buildOutput"
+        dotnet build src/DAQuester.App -c Release -r win-x86 --self-contained true --force --no-incremental -m:1 -p:UseSharedCompilation=false @buildArguments
+        if($LASTEXITCODE -ne 0){throw 'Clean release compilation failed.'}
+    }
+    dotnet publish src/DAQuester.App -c Release -r win-x86 --self-contained true --no-build -o $payload -m:1 -p:UseSharedCompilation=false @buildArguments
     if($LASTEXITCODE -ne 0){throw 'Application publish failed.'}
     if(Test-Path -LiteralPath (Join-Path $payload 'Data')){throw 'User Data must never enter the release payload.'}
     if(Get-ChildItem -LiteralPath $payload -File -Recurse -Filter '*.pdb'){throw 'Release payload must exclude symbols with local source paths.'}
@@ -84,7 +88,7 @@ try {
     $dependencies | ConvertTo-Json -Depth 5 | Set-Content -LiteralPath (Join-Path $payload 'licenses/ui-dependencies.json') -Encoding UTF8
     dotnet tool restore
     if($LASTEXITCODE -ne 0){throw 'Release tool restore failed.'}
-    dotnet tool run vpk -- pack --packId BuildWithRaymond.DAQuester --packTitle DAQuester --packAuthors BuildWithRaymond --packVersion $version --packDir $payload --mainExe DAQuester.exe --runtime win-x86 --outputDir $releasePath --releaseNotes "docs/releases/v$version.md" --shortcuts StartMenuRoot --delta None
+    dotnet tool run vpk -- pack --packId BuildWithRaymond.DAQuester --packTitle DAQuester --packAuthors BuildWithRaymond --packVersion $version --packDir $payload --mainExe DAQuester.exe --icon src/DAQuester.App/Assets/daquester.ico --runtime win-x86 --outputDir $releasePath --releaseNotes "docs/releases/v$version.md" --shortcuts StartMenuRoot --delta None
     if($LASTEXITCODE -ne 0){throw 'Velopack packaging failed.'}
     foreach($suffix in @('Setup.exe','Portable.zip')) {
         Move-Item -LiteralPath (Join-Path $releasePath "BuildWithRaymond.DAQuester-win-$suffix") -Destination (Join-Path $releasePath "DAQuester-win-$suffix")

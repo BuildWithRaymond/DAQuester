@@ -1,6 +1,6 @@
 # Changelog
 
-## Unreleased
+## 1.1.1 — 2026-10-11
 
 - Remove the Developer tools panel. Nothing it showed is lost: every diagnostic line
   goes to `Data\diagnostics.log` and the control bridge `log` method, calibration and
@@ -12,6 +12,22 @@
   characters never fight over a spot.
 - An open popup survives a same-map refresh, so the insignia discovery page is read
   instead of walked away from.
+- Share durable JSON checkpoint writes and clean temporary files after canceled
+  journal saves while retaining previous checkpoints and existing data formats.
+- Consolidate packet tests and replace a three-minute test sleep with repeated
+  synthetic empty patrols. Retain quest, protocol and recovery regressions.
+- Check movement speed-selection rules deterministically; measure integration
+  cadence from packet send times rather than delayed receive callbacks.
+- Remove automated UI render matrices, the headless dependency and `Test-UI`.
+  Retain account, planning, ownership and shutdown checks in `DAQuester.AppTests`;
+  documentation screenshots are now an optional four-page capture.
+- Package the tested CI build instead of compiling it again. Preserve release
+  payload validation, checksums, licenses and previous-updater compatibility.
+- Clarify contributor entry points and use conventional layout in changed code.
+- Apply the supported client agreement bypass before a newly launched client
+  resumes, with synthetic lobby/redirect coverage; existing clients and files
+  on disk remain untouched.
+- Add the DAQuester application icon to the executable and desktop windows.
 
 ## 1.1.0 — 2026-10-11
 

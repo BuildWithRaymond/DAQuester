@@ -15,7 +15,7 @@ public partial class App : Application
  {
   if (ApplicationLifetime is IClassicDesktopStyleApplicationLifetime desktop)
   {
-   var runtime = new DesktopRuntime(Program.IsValidation, Program.IsValidation ? new Validation.SyntheticUpdateBackend() : null) { Dispatch = action => Dispatcher.UIThread.Post(action) };
+   var runtime = new DesktopRuntime(Program.IsValidation) { Dispatch = action => Dispatcher.UIThread.Post(action) };
    var vm = new MainWindowViewModel(runtime);
    var window = new MainWindow(vm); desktop.MainWindow = window;
    runtime.ChooseQuestAsync = (character, quest, job, error) => QuestChoiceDialog.ShowChoiceAsync(window, character, quest, job, error);
@@ -32,7 +32,7 @@ public partial class App : Application
    timer.Tick += (_, _) => vm.Refresh(); window.Closed += (_, _) => timer.Stop();
    window.Opened += async (_, _) =>
    {
-    if (Program.IsValidation) { Dispatcher.UIThread.Post(async () => await Validation.UiChecks.RunAsync(window, vm)); return; }
+    if (Program.IsValidation) { Dispatcher.UIThread.Post(async () => await Validation.ScreenshotCapture.RunAsync(window, vm)); return; }
     timer.Start(); try { await runtime.StartAsync(); } catch (Exception error) { vm.ReportError(error); }
    };
   }

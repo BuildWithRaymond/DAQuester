@@ -7,12 +7,29 @@ clear. Keep credentials and personal Data out of issues and pull requests.
 ## Local setup
 
 Use Windows and .NET 10. Follow the build commands in [README](README.md).
-`./tools/Test-UI.ps1` renders isolated sample data without starting a game or
-accessing your journals. Generated output stays under ignored `artifacts/`.
-
-Run focused tests while working, then the full test suite and UI checks before
-submitting. Packaging changes also require `./tools/Build-Release.ps1` and
+Run focused tests while working, then both complete xUnit projects before
+submitting. `DAQuester.Tests` covers quest rules, persistence, protocol and travel;
+`DAQuester.AppTests` covers account editing, planning, ownership and shutdown.
+Neither suite operates real characters. Packaging changes also require `./tools/Build-Release.ps1` and
 `./tools/Verify-Release.ps1`. Include the relevant results in the PR.
+
+## Finding the code
+
+Start at `src/DAQuester.App/Program.cs` for startup, then `App.axaml.cs` for the
+desktop window and runtime. `MainWindowViewModel` presents state and commands;
+`Services/DesktopRuntime.*` owns launches, quest runs, queues and local control.
+The runtime delegates rules to Core and game communication to DarkAges.
+
+Core's `QuestRunner` follows recipe steps through quest-specific action classes.
+`Journal`, `QuestQueue` and `CharacterMemory` own their distinct persistence rules
+and share `AtomicJsonFile` for durable writes. DarkAges separates navigation,
+protocol parsing and transport. The partial `GameSession` files group movement,
+collection and special travel without separate frameworks.
+
+Add tests beside the behavior they protect. Prefer deterministic fixtures and
+existing regression coverage; avoid real-time waits when only repeated progress
+or cancellation matters. Vendored Arbiter code and sanitized evidence retain
+their upstream/provenance role; do not treat them as unused application files.
 
 ## Quest and protocol changes
 
@@ -34,6 +51,9 @@ appear in it; they belong in diagnostics.log, the Data folder and the control
 bridge (see [control](docs/control.md)). Use the shared dark theme for all windows and states,
 including native chrome, menus, scrollbars and error dialogs. Verify minimum
 window sizes, disabled states, long text and keyboard interaction.
+Review these visually rather than adding screenshot or pixel tests. Optional
+`./tools/Capture-Screenshots.ps1` captures four documentation pages with isolated
+sample data; it is not a release gate.
 
 ## Updates and releases
 

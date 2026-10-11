@@ -4,6 +4,11 @@ using System.Text;
 using System.ComponentModel;
 namespace DAQuester.DarkAges.Launcher;
 public class ClientLauncher {
+ // DAOrganizer's supported-7.41 agreement bypass. Keep both jump destinations.
+ public static void ApplyAgreementBypass(Action<int,byte[]> patch) {
+  patch(0x4B897C,[0xEB,0x6C]);
+  patch(0x4B8ACF,[0xEB,0x6D]);
+ }
  public static readonly string[] SupportedHashes=[
   // Single instance: stock 7.41.
   "054A5D6ADC56099C6BFD9D2A58675AFF62DC788B63209A3D906492F5B89E96C6",
@@ -32,6 +37,8 @@ public class ClientLauncher {
    // Multi instance: GetLastError -> xor eax,eax, so the Nexon.SingleInstance check never exits.
    Write(pi.Process,new(0x57A7CE),[0x31,0xC0,0x90,0x90,0x90,0x90]);
    Write(pi.Process,new(0x42E61F),[0x83,0xFA,0,0x90,0x90,0x90]);
+   // Only this newly created, hash-validated, still-suspended client is patched.
+   ApplyAgreementBypass((address,bytes)=>Write(pi.Process,new(address),bytes));
    FlushInstructionCache(pi.Process,IntPtr.Zero,0);
    if(ResumeThread(pi.Thread)==uint.MaxValue)throw new Win32Exception();
    return (int)pi.ProcessId;

@@ -24,8 +24,8 @@ URL and package ID must remain consistent across releases.
 ## Publish
 
 Commit the verified source, then push an annotated `v<Version>` tag. The release
-workflow checks that the tag matches `Directory.Build.props`, repeats tests and
-UI verification, packages the app, and publishes only after all checks pass.
+workflow checks that the tag matches `Directory.Build.props`, runs both behavior
+test suites, packages the tested build, and publishes only after all checks pass.
 Use a stable version; prereleases are not part of the stable update source.
 The first public version is `v1.0.0`.
 
@@ -33,7 +33,7 @@ If CI fails, fix it before publishing. Never overwrite an already published
 version's packages to change behavior; increment the version.
 After release, verify the public assets and manually check from a packaged app.
 An older packaged app should offer the newer release; the latest reports no
-available update. UI smoke never performs a real install.
+available update. The automated compatibility probe never performs a real install.
 
 ## Update consent and safety
 

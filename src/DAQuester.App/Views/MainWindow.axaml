@@ -8,7 +8,7 @@
       <Grid RowDefinitions="Auto,*,Auto" Margin="12,26,12,18">
         <StackPanel Margin="6,0,0,30" Spacing="9">
           <StackPanel Orientation="Horizontal" Spacing="9">
-            <controls:LineIcon Width="24" Height="24" Foreground="{DynamicResource Gold}" Data="M12,1 A11,11 0 1 1 11.99,1 M7,18 L11,5 L18,8 Z M11,5 L12,13 L7,18" />
+            <Image Width="24" Height="24" Source="avares://DAQuester/Assets/daquester.png" />
             <TextBlock Name="brandName" Text="DAQuester" FontSize="18" FontWeight="SemiBold" />
           </StackPanel>
           <TextBlock Name="brandSubtitle" Text="DARK AGES COMPANION" FontSize="9" LetterSpacing="1.25" Foreground="{DynamicResource Muted}" />

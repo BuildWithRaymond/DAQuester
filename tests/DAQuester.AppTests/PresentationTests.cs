@@ -7,7 +7,7 @@ using Xunit;
 
 [assembly: CollectionBehavior(DisableTestParallelization = true)]
 
-namespace DAQuester.UiTests;
+namespace DAQuester.AppTests;
 
 public class PresentationTests
 {

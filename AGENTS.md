@@ -12,6 +12,8 @@
   disconnect and on exit.
 - Update checks are optional and default off. Download and install require
   separate user actions. Preserve user Data and check exit safety before applying.
-- Run focused tests, the full suite, and tools/Test-UI.ps1 for affected changes.
+- Run focused tests and both complete xUnit projects for affected changes.
   Packaging changes also require tools/Build-Release.ps1 and Verify-Release.ps1.
+- Review interface changes manually. Documentation screenshots are optional;
+  there is no automated render matrix or pixel test gate.
 - Do not commit Data, credentials, game files, generated artifacts or private paths.

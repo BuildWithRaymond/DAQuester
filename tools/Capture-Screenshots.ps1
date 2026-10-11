@@ -12,7 +12,7 @@ try {
     if(-not(Test-Path -LiteralPath $result)){throw 'Screenshot capture produced no result.'}
     $manifest=Get-Content -LiteralPath (Join-Path $repoRoot 'artifacts/screenshots.json') -Raw | ConvertFrom-Json
     if($manifest.framework -ne 'Avalonia' -or $manifest.renderer -ne 'native' -or -not $manifest.isolated -or $manifest.failed -ne 0){throw 'Documentation screenshots must be native Avalonia renders with isolated synthetic data.'}
-    # Headless smoke uses the shared capture filenames; keep native evidence at distinct stable paths.
+    # Retain captures at stable paths for documentation review.
     $renderRoot=[IO.Path]::GetFullPath((Join-Path $repoRoot 'artifacts/screenshots'))+[IO.Path]::DirectorySeparatorChar
     $nativeRoot=Join-Path $renderRoot 'native'
     New-Item -ItemType Directory -Path $nativeRoot -Force | Out-Null

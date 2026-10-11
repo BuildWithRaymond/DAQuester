@@ -6,6 +6,6 @@
   </Folder>
   <Folder Name="/tests/">
     <Project Path="tests/DAQuester.Tests/DAQuester.Tests.csproj" />
-    <Project Path="tests/DAQuester.UiTests/DAQuester.UiTests.csproj" />
+    <Project Path="tests/DAQuester.AppTests/DAQuester.AppTests.csproj" />
   </Folder>
 </Solution>

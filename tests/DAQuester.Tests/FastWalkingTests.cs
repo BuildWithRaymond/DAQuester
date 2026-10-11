@@ -20,32 +20,35 @@ public class FastWalkingTests {
   try{message.Serialize(ref builder);return ((ServerPacket)builder.ToPacket()).Data;}finally{builder.Dispose();}
  }
  static async Task<double> Interval(MovingObstacleTests.Fixture f,Action? first=null){
-  long sent=0;double elapsed=0;
+  DateTimeOffset sent=default;double elapsed=0;
   await f.Walk(new(3,1),(n,_)=>{
-   if(n==1){sent=Stopwatch.GetTimestamp();first?.Invoke();}
-   else elapsed=Stopwatch.GetElapsedTime(sent).TotalMilliseconds;
+   // Receipt callbacks can be delayed independently of the client's cadence.
+   // Read the transport's send timestamp before the synthetic reply consumes it.
+   var sentAt=f.Connection.Movement.Oldest??throw new InvalidOperationException("Expected an unacknowledged movement packet.");
+   if(n==1){sent=sentAt;first?.Invoke();}
+   else elapsed=(sentAt-sent).TotalMilliseconds;
    return Task.FromResult(false);
   },new("navigate",f.Session.Snapshot.Map,new(3,1)));return elapsed;
  }
  [Fact] public async Task Checkbox_off_preserves_configured_cadence(){
   await using var f=await MovingObstacleTests.Fixture.Create(60);
-  Assert.False(f.Session.FastMode);Assert.InRange(await Interval(f),40,350);
+  Assert.False(f.Session.FastMode);Assert.Equal(60,f.Session.MovementCadence(f.Session.Snapshot));
  }
  [Fact] public async Task Fast_mode_uses_excalibur_160ms_cadence_alone(){
   await using var f=await MovingObstacleTests.Fixture.Create(600);f.Session.FastMode=true;
-  Assert.InRange(await Interval(f),140,500);
+  Assert.Equal(160,f.Session.MovementCadence(f.Session.Snapshot));
  }
  [Theory][InlineData("OtherPlayer")][InlineData("")]
  public async Task Other_player_including_unnamed_uses_excalibur_430ms_cadence(string name){
   await using var f=await MovingObstacleTests.Fixture.Create(600);f.Session.FastMode=true;
   f.Connection.Tracker.Observe(0x33,Human(99,new(1,4),name));
-  Assert.InRange(await Interval(f),410,570);
+  Assert.Equal(430,f.Session.MovementCadence(f.Session.Snapshot));
  }
  [Fact] public async Task Npc_and_self_do_not_slow_fast_walking(){
   await using var f=await MovingObstacleTests.Fixture.Create(600);f.Session.FastMode=true;
   f.Connection.Tracker.Observe(0x33,Human(42,new(1,1),"Nuclear"));
   f.Connection.Tracker.Observe(7,Payload(new ServerDrawObjectsMessage{Entities=[new ServerCreatureEntity{Id=88,X=1,Y=4,Name="Mundane"}]}));
-  Assert.InRange(await Interval(f),140,500);
+  Assert.Equal(160,f.Session.MovementCadence(f.Session.Snapshot));
  }
  [Fact] public async Task Player_appearing_during_fast_wait_extends_current_interval(){
   await using var f=await MovingObstacleTests.Fixture.Create();f.Session.FastMode=true;Task arrival=Task.CompletedTask;
@@ -77,7 +80,10 @@ public class FastWalkingTests {
  public async Task Player_radius_matches_excalibur_20_tile_manhattan_boundary(int y,bool normal){
   await using var f=await MovingObstacleTests.Fixture.Create(600,record:new MapRecord(500,"Synthetic",40,40,[]));f.Session.FastMode=true;
   f.Connection.Tracker.Observe(0x33,Human(99,new(2,y)));
-  double interval=await Interval(f);Assert.InRange(interval,normal?410:140,normal?570:350);
+  // The old interval fixture checked cadence after the first step to (2,1).
+  // Protect that boundary for both observed and still-pending projected steps.
+  Assert.Equal(normal?430:160,f.Session.MovementCadence(f.Session.Snapshot with{Position=new(2,1)}));
+  Assert.Equal(normal?430:160,f.Session.MovementCadence(f.Session.Snapshot,new(2,1)));
  }
  [Fact] public async Task Player_moving_into_radius_during_fast_wait_slows_next_step(){
   await using var f=await MovingObstacleTests.Fixture.Create(600,record:new MapRecord(500,"Synthetic",40,40,[]));f.Session.FastMode=true;Task approach=Task.CompletedTask;
@@ -88,7 +94,7 @@ public class FastWalkingTests {
  [Theory][InlineData(10056)][InlineData(10180)]
  public async Task Excalibur_restricted_maps_keep_normal_speed_even_when_alone(int map){
   await using var f=await MovingObstacleTests.Fixture.Create(600,record:new MapRecord(map,"Synthetic",5,5,[]));f.Session.FastMode=true;
-  Assert.InRange(await Interval(f),410,570);
+  Assert.Equal(430,f.Session.MovementCadence(f.Session.Snapshot));
  }
  [Fact] public void Player_classification_survives_movement_and_clears_on_removal_and_map_reload(){
   var tracker=new StateTracker(1);tracker.Identity("Nuclear",42);
@@ -146,14 +152,36 @@ public class FastWalkingTests {
   Assert.Equal(new Tile(1,1),f.Session.Snapshot.Position);Assert.Equal(0,f.Connection.VisibleMoves);
  }
  [Fact] public async Task Player_appearing_with_a_pending_fast_step_drains_then_uses_normal_cadence(){
-  await using var f=await MovingObstacleTests.Fixture.Create();f.Session.FastMode=true;Task arrival=Task.CompletedTask;var times=new List<long>();
-  try{await f.Walk(new(4,1),(n,_)=>{
-   times.Add(Stopwatch.GetTimestamp());if(n!=1)return Task.FromResult(false);
-   arrival=Task.Run(async()=>{await Task.Delay(70);await f.Send(0x33,Human(99,new(1,4)));await Task.Delay(430);await f.Send(11,[1,0,1,0,1,0,0,0,0,0]);});return Task.FromResult(true);
-  });}finally{await arrival;}
-  Assert.InRange(Stopwatch.GetElapsedTime(times[0],times[1]).TotalMilliseconds,490,900);
-  Assert.InRange(Stopwatch.GetElapsedTime(times[1],times[2]).TotalMilliseconds,410,750);
-  Assert.Equal("normal pace near players",f.Session.FastModeDescription);
+  await using var f=await MovingObstacleTests.Fixture.Create(record:new(500,"Synthetic",12,5,[]));f.Session.FastMode=true;
+  using var stop=new CancellationTokenSource(TimeSpan.FromSeconds(12));
+  var firstStep=new TaskCompletionSource(TaskCreationOptions.RunContinuationsAsynchronously);
+  var acknowledge=new TaskCompletionSource(TaskCreationOptions.RunContinuationsAsynchronously);
+  int outstanding=0;
+  var walking=f.Walk(new(8,1),async(n,next)=>{
+   if(n==1){firstStep.SetResult();await acknowledge.Task.WaitAsync(stop.Token);}
+   else if(n>outstanding){
+    Assert.Equal(1,f.Connection.Movement.Pending);
+    Assert.Equal(next with{X=next.X-1},f.Session.Snapshot.Position);
+   }
+   return false;
+  },cancellation:stop.Token,projectedServer:true);
+  try{
+   await firstStep.Task.WaitAsync(TimeSpan.FromSeconds(3));
+   long before=f.Session.Snapshot.Revision;
+   await f.Send(0x33,Human(99,new(1,4)));
+   await f.Session.WaitAsync(s=>s.Entities.ContainsKey(99),before,TimeSpan.FromSeconds(3),stop.Token);
+   outstanding=f.Connection.Movement.Pending;
+   Assert.InRange(outstanding,1,3);
+   // Hold replies across a fast interval: observing a player must stop new
+   // projected sends, even when several earlier packets were already in flight.
+   await Task.Delay(200,stop.Token);
+   Assert.Equal(outstanding,f.Connection.Movement.Pending);
+   acknowledge.SetResult();await walking;
+   Assert.Equal("normal pace near players",f.Session.FastModeDescription);
+  }finally{
+   acknowledge.TrySetResult();stop.Cancel();
+   try{await walking;}catch(OperationCanceledException){}
+  }
  }
  [Fact] public async Task Inventory_goal_drains_already_sent_steps_before_navigation_returns(){
   await using var f=await MovingObstacleTests.Fixture.Create(record:new MapRecord(500,"Synthetic",10,5,[]));f.Session.FastMode=true;var replies=new List<Task>();

@@ -1,5 +1,82 @@
 # Validation status
 
+## Release 1.1.1 candidate — October 11, 2026
+
+Integrated the latest `origin/main` merge, `5d29a39`, with the maintainability,
+supported-client agreement bypass and application icon changes. A fresh,
+symbol-free Release solution build completed with zero warnings or errors.
+All **16 focused integration/launcher/checkpoint tests**, **719 Core/protocol
+tests** and **46 app behavior tests** passed. The complete Core/protocol suite
+took 1 minute 38 seconds; the app suite took 19 seconds.
+
+The installer, portable ZIP and full update package passed release verification:
+checksums and feed metadata agree, required recipes and licenses are present,
+functional walkability covers 1,417 of 1,432 maps, and user Data, raw game assets,
+symbols and private checkout paths are excluded. The packaged app, Core and
+DarkAges DLLs match the tested assemblies byte for byte.
+The pinned public 1.0.7 updater discovered and verified the local 1.1.1 package
+with unchanged application identity and updater bytes; no installation occurred.
+
+Four optional native documentation previews completed with isolated synthetic
+data. The planner and Settings previews were reviewed for the new icon, retained
+dark theme and removed Developer panel. Automated render/pixel matrices are no
+longer a release gate; nonvisual account, planning, ownership and shutdown
+regressions remain. No test launched a real game client or operated a character.
+Live native-client login and quest-evidence limits below still apply.
+
+## Local DAOrganizer agreement bypass and redirect checks — October 11, 2026
+
+At the player's request, the launcher applies DAOrganizer's two agreement-skip
+branches before resuming a newly created supported client. The failed fixed-click
+attempt is removed. No installed game file, existing client, Excalibur process
+or user data is changed.
+
+An isolated copy of the committed baseline plus these launcher/test changes was
+used because a concurrent maintainability task was moving projects in the shared
+working tree. Its Release solution builds with zero warnings/errors. All **15
+focused launcher, login-reader, saved-login and owned-transport tests** pass,
+including three early/fragmented lobby redirect cases with immediate lobby EOF
+and delayed handler setup. All **46 presentation/lifecycle tests** and
+`tools/Test-UI.ps1` (**206 checks, 80 renders**) pass.
+
+The full skip-build Core/protocol run completed **708 tests**: 706 passed and
+two existing walking cadence tests failed timing assertions. Both failed tests
+passed when run alone. The three redirect cases added after that full run passed
+in the focused run. Walking behavior and timing assertions are unchanged.
+
+The reported terms-skip lobby/redirect packet drop was not reproduced. Synthetic
+tests verify buffered packets, preserved transfer metadata, replacement identity
+and separate generations. The exact skip branches retain normal stipulation
+processing; handlers are configured before packet pumps start. No production
+transport patch was made without a demonstrated failure. These checks do not
+establish live native-client success. This is a local build, not a published
+package.
+
+## Superseded terms-click attempt — October 11, 2026
+
+The initial saved-login change waited for the active Agreement pane, accepted once, confirmed
+closure and only then opens and fills login. Synthetic coverage includes an
+early menu, delayed terms, delayed acceptance, missing terms, acceptance timeout,
+cancellation, unstable pane/menu snapshots and terms over an underlying login.
+
+The focused login run passed 15 tests; the subsequent full build also includes
+the additional underlying-dialog regression. Release solution build passed with
+zero warnings/errors. The final full Core/protocol run passed **714 tests** in
+4 minutes 32 seconds; **46 presentation/lifecycle tests** also passed, for
+**760 total**. `tools/Test-UI.ps1` passed **206 behavioral checks** and **80
+renders** with isolated synthetic data.
+
+The first sandboxed full run hit Windows current-user named-pipe access denial
+and two previously documented walking timing failures while validation helpers
+overlapped. The isolated pipe test and final full suite passed outside that
+sandbox. Walking code and timing assertions are unchanged.
+
+Player feedback and read-only launch diagnostics subsequently established that
+the fixed accept coordinate missed the actual OK button. This attempt is removed
+in favor of the player's requested DAOrganizer agreement bypass. Its synthetic
+test results did not establish live acceptance. No real character was operated
+by tests; Excalibur files/processes and user data were unchanged.
+
 ## Release 1.1.0 — October 11, 2026
 
 The Avalonia 11.3.12 Release solution builds with zero warnings or errors. All

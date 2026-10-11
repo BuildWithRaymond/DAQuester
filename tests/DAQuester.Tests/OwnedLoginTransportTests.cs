@@ -2,6 +2,8 @@ using System.Net;
 using System.Net.Sockets;
 using System.Text;
 using Arbiter.Net.Client;
+using Arbiter.Net.Server;
+using Arbiter.Net.Security;
 using DAQuester.Core;
 using DAQuester.DarkAges.Transport;
 using Xunit;
@@ -9,6 +11,55 @@ namespace DAQuester.Tests;
 public class OwnedLoginTransportTests {
  static byte[] Payload(string name,string password)=>new[]{(byte)name.Length}.Concat(Encoding.ASCII.GetBytes(name)).Concat(new[]{(byte)password.Length}).Concat(Encoding.ASCII.GetBytes(password)).Concat(new byte[]{1,2,3,4,5,6,7,8}).ToArray();
  static async Task<byte[]> Frame(NetworkStream stream,CancellationToken ct){byte[] header=new byte[3];await stream.ReadExactlyAsync(header,ct);byte[] data=new byte[(header[1]<<8)|header[2]];await stream.ReadExactlyAsync(data,ct);return data;}
+ [Theory]
+ [InlineData(false,false)]
+ [InlineData(false,true)]
+ [InlineData(true,true)]
+ public async Task Early_lobby_notice_and_redirect_survive_immediate_close_and_delayed_handler_setup(bool fragmented,bool delaySetup){
+  // Synthetic lobby/game servers only. No client executable or real login is used.
+  using var lobby=new TcpListener(IPAddress.Loopback,0);lobby.Start();
+  using var game=new TcpListener(IPAddress.Loopback,0);game.Start();
+  using var timeout=new CancellationTokenSource(TimeSpan.FromSeconds(15));
+  using var releaseSetup=new ManualResetEventSlim();
+  var authenticated=new TaskCompletionSource<ProxyConnection>(TaskCreationOptions.RunContinuationsAsynchronously);
+  var configured=new System.Collections.Concurrent.ConcurrentQueue<ProxyConnection>();var setups=0;
+  void Configure(ProxyConnection connection){
+   if(Interlocked.Increment(ref setups)==1&&delaySetup&&!releaseSetup.Wait(TimeSpan.FromSeconds(10)))throw new TimeoutException("Synthetic handler gate timed out.");
+   configured.Enqueue(connection);connection.Authenticated+=c=>authenticated.TrySetResult(c);
+  }
+  await using var host=new ProxyHost();int port=await host.StartOwnedAsync((IPEndPoint)lobby.LocalEndpoint,null,Configure);
+  using var client=new TcpClient();await client.ConnectAsync(IPAddress.Loopback,port,timeout.Token);
+  using var server=await lobby.AcceptTcpClientAsync(timeout.Token);
+  var key=Encoding.ASCII.GetBytes("test-key!");var parameters=new NetworkEncryptionParameters(3,key);var crypto=new ServerPacketEncryptor(parameters);
+  var greeting=new ServerPacket(0x7E,[65,66,10]).ToArray();
+  var version=new ServerPacket(0x00,new byte[]{0,0,0,0,0,3,9}.Concat(key).ToArray()).ToArray();
+  var notice=crypto.Encrypt(new ServerPacket(0x60,[0,0,0,0,1]),0).ToArray();
+  int gamePort=((IPEndPoint)game.LocalEndpoint).Port;
+  byte[] transferMetadata=new byte[]{3,9}.Concat(key).Concat(new byte[]{9}).Concat(Encoding.ASCII.GetBytes("Synthetic")).Concat(new byte[]{0,0,0,42}).ToArray();
+  byte[] redirectPayload=new byte[]{1,0,0,127,(byte)(gamePort>>8),(byte)gamePort,(byte)transferMetadata.Length}.Concat(transferMetadata).ToArray();
+  var redirect=new ServerPacket(0x03,redirectPayload).ToArray();
+  var burst=greeting.Concat(version).Concat(notice).Concat(redirect).ToArray();
+  try{
+   if(fragmented){for(int offset=0;offset<burst.Length;offset+=2)await server.GetStream().WriteAsync(burst.AsMemory(offset,Math.Min(2,burst.Length-offset)),timeout.Token);}
+   else await server.GetStream().WriteAsync(burst,timeout.Token);
+   server.Client.Shutdown(SocketShutdown.Send); // EOF immediately after the last redirect byte.
+  }finally{releaseSetup.Set();}
+  Assert.Equal(greeting[3..],await Frame(client.GetStream(),timeout.Token));
+  Assert.Equal(version[3..],await Frame(client.GetStream(),timeout.Token));
+  Assert.Equal(notice[3..],await Frame(client.GetStream(),timeout.Token));
+  var forwarded=await Frame(client.GetStream(),timeout.Token);Assert.Equal((byte)3,forwarded[0]);
+  Assert.Equal(new byte[]{1,0,0,127},forwarded[1..5]);Assert.Equal(redirectPayload[6..],forwarded[7..]);
+  int localPort=(forwarded[5]<<8)|forwarded[6];
+  using var replacement=new TcpClient();await replacement.ConnectAsync(IPAddress.Loopback,localPort,timeout.Token);
+  using var gameServer=await game.AcceptTcpClientAsync(timeout.Token);
+  var handshake=new ClientPacket(0x10,transferMetadata).ToArray();await replacement.GetStream().WriteAsync(handshake,timeout.Token);
+  Assert.Equal(handshake[3..],await Frame(gameServer.GetStream(),timeout.Token));
+  var gameCrypto=new ServerPacketEncryptor(new NetworkEncryptionParameters(3,key,"Synthetic"));
+  var identity=gameCrypto.Encrypt(new ServerPacket(0x05,[0,0,0,42,0,0,1,0,0]),0).ToArray();
+  await gameServer.GetStream().WriteAsync(identity,timeout.Token);Assert.Equal(identity[3..],await Frame(replacement.GetStream(),timeout.Token));
+  var connection=await authenticated.Task.WaitAsync(timeout.Token);Assert.Equal("Synthetic",connection.Tracker.Snapshot.Name);
+  Assert.Equal(2,configured.Count);Assert.NotEqual(configured.First().Tracker.Snapshot.Generation,connection.Tracker.Snapshot.Generation);
+ }
  [Fact] public async Task Separate_owned_endpoints_only_rewrite_their_own_character_ticket(){
   using var remote=new TcpListener(IPAddress.Loopback,0);remote.Start();await using var host=new ProxyHost();
   var one=new SavedLoginTicket("First",()=>"first-secret");var two=new SavedLoginTicket("Second",()=>"second-secret");

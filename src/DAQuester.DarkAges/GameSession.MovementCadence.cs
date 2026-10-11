@@ -10,7 +10,7 @@ public sealed partial class GameSession {
  }
  void PulseMovement()=>Interlocked.Exchange(ref movementChanged,new(TaskCreationOptions.RunContinuationsAsynchronously)).TrySetResult();
  public string FastModeDescription=>!FastMode?"slows near players":!Snapshot.Connected?"ready when connected":Snapshot.Position is null||Snapshot.Id is null?"waiting for location":Snapshot.Map is 10056 or 10180?"normal pace in this area":MovementCadence(Snapshot)==160?"fast pace":"normal pace near players";
- int MovementCadence(CharacterSnapshot state,Tile? projected=null){
+ internal int MovementCadence(CharacterSnapshot state,Tile? projected=null){
   if(!FastMode)return cadence;
   // Excalibur Fast is 160ms; unsafe ordinary walking is 430ms. Every other
   // observed player counts here, without friend or alt exemptions.

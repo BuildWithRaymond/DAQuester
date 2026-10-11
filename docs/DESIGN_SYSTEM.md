@@ -91,9 +91,8 @@ without opening or launching files. Errors use a red banner or dark dialog;
 successful settings changes use a separate neutral notice. Raw protocol details
 stay out of the window: diagnostics.log and the control bridge carry them.
 
-Run tools/Test-UI.ps1 after interface changes. Its isolated synthetic fixtures
-exercise real Avalonia views and commands without game sessions or user Data.
-Review the generated renders for every page, important quest states, dark dialogs,
-compact windows and Windows display scaling. Automated bounds checks complement
-visual inspection; they do not replace checking readable hierarchy and clear
-interactions.
+Review interface changes manually: every page, important quest states, dark
+dialogs, compact windows, keyboard controls and Windows display scaling.
+`tools/Capture-Screenshots.ps1` optionally captures the four documentation pages
+using isolated sample data. Automated pixel and layout test matrices have been
+removed; app behavior regressions remain in `DAQuester.AppTests`.

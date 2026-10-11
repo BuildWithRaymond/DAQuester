@@ -9,6 +9,26 @@ tests; automated login has not been tested on a real character in this change.
 The complete upstream copyright and MIT permission notice is retained in
 [third-party notices](../THIRD_PARTY_NOTICES.md).
 
+At the player's request, launch now follows DAOrganizer's `ClientLauncher`
+agreement bypass: `0x4B897C` changes `75 6C` to `EB 6C`, and `0x4B8ACF`
+changes `75 6D` to `EB 6D`. Offline inspection of the supported stock 7.41
+image confirms both branches skip Agreement construction and continue through
+the client's normal stipulation/menu processing. Only the newly created,
+hash-validated, suspended client's memory is patched; no game executable on
+disk, Excalibur working copy, or already-running game client is changed.
+Synthetic tests verify both branches and unchanged surrounding bytes.
+
+A follow-up report suggested the terms-skip patches could miss the lobby notice
+or game-server redirect. Offline inspection shows these branches skip Agreement
+construction, retaining normal stipulation processing. DAQuester configures the
+connection before starting either packet pump and opens each dedicated redirect
+listener before forwarding the redirect. Synthetic lobby/game-server tests cover
+burst and fragmented greeting, encryption, notice and redirect packets, packets
+buffered before handler registration finishes, immediate lobby EOF and successful
+replacement-connection identity. They preserve redirect metadata and connection
+generation isolation. This did not reproduce the reported packet drop and does
+not establish live native-client success on every network.
+
 [Shinewood Faerie](https://vorlof.com/general/shinewoodforest11.html) supplies
 the Hello trigger, (71,37) anchor, Pet Faerie goal and six class/level spell
 rules. [Map 992](https://vorlof.com/map.php?map=992) identifies Shinewood Forest

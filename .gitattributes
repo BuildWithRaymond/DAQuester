@@ -6,4 +6,5 @@
 *.yml text eol=lf
 *.ps1 text eol=lf
 *.png binary
+*.ico binary
 src/DAQuester.DarkAges/Vendor/** -whitespace
