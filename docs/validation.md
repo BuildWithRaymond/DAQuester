@@ -83,6 +83,11 @@ calls an install or apply operation. Native and headless render manifests
 retain separate image copies, so subsequent validation cannot relabel earlier
 captures by overwriting shared filenames.
 
+The compatibility fixture is the published 1.0.7 full package, kept separately
+from local release builds. Both downloaded and cached fixtures must match its
+pinned public SHA-256 digest. The check rejects a locally rebuilt package before
+starting the updater probe.
+
 These checks use synthetic sessions and unique files under ignored `artifacts`.
 They never connect to a game, start a client, apply an update, access real user
 Data or operate Excalibur. Live gameplay remains outside this validation.

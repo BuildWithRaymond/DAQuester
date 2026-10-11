@@ -1,6 +1,6 @@
 param(
     [string]$Output='artifacts/release',
-    [string]$PreviousPackage='artifacts/release-1.0.7/BuildWithRaymond.DAQuester-1.0.7-full.nupkg',
+    [string]$PreviousPackage='artifacts/update-fixtures/v1.0.7/BuildWithRaymond.DAQuester-1.0.7-full.nupkg',
     [string]$Executable,
     [switch]$DownloadPrevious
 )
@@ -21,10 +21,12 @@ if(-not(Test-Path -LiteralPath $previousPath) -and $DownloadPrevious) {
     if([IO.Path]::GetFileName($previousPath) -ne 'BuildWithRaymond.DAQuester-1.0.7-full.nupkg'){throw 'The pinned download fixture is version 1.0.7.'}
     New-Item -ItemType Directory -Path (Split-Path $previousPath -Parent) -Force | Out-Null
     Invoke-WebRequest -Uri 'https://github.com/BuildWithRaymond/DAQuester/releases/download/v1.0.7/BuildWithRaymond.DAQuester-1.0.7-full.nupkg' -OutFile $previousPath
-    $digest=(Get-FileHash -LiteralPath $previousPath -Algorithm SHA256).Hash
-    if($digest -ne 'B856C6E646C3DDA595CFA2BE6B96F4876086B3C496FC951FC783FCA382FF62DB'){throw 'The pinned previous package digest did not match.'}
 }
 foreach($required in @($appPath,$previousPath,(Join-Path $releasePath 'releases.win.json'))){if(-not(Test-Path -LiteralPath $required)){throw "Compatibility fixture missing: $required"}}
+# Pin the published release, including cached fixtures; a local rebuild is not the public package.
+$expectedDigest='B69A41DEFDBC9CDBC70FF2BA2B1449F56FE3D461FB88E97CD37ACFB309D9E706'
+$digest=(Get-FileHash -LiteralPath $previousPath -Algorithm SHA256).Hash
+if($digest -ne $expectedDigest){throw "The pinned public 1.0.7 package digest did not match. Expected $expectedDigest; received $digest."}
 $result=Join-Path $repoRoot 'artifacts/update-compatibility.json'
 if(Test-Path -LiteralPath $result){Remove-Item -LiteralPath $result}
 $arguments=@('--verify-local-update','--feed',('"'+$releasePath+'"'),'--previous-package',('"'+$previousPath+'"'))
