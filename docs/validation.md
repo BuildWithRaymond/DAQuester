@@ -23,6 +23,13 @@ queue ownership, dark rendering, scaled controls and retained quest policies.
 Installer, portable ZIP and full update packages pass asset, checksum, feed,
 license and private-data verification. Packaging uses its own build folder and
 does not replace the running checkout.
+
+Both GitHub workflows pass for release commit `44f70d6`. All seven public 1.0.7
+assets pass release verification and match GitHub's recorded SHA-256 digests.
+The actual public **1.0.0** and **1.0.6** apps report **1.0.7 available**; the
+public **1.0.7** app reports no newer version. All report no pending install.
+These read-only checks do not apply an application update or operate characters.
+
 This patch still needs live confirmation; build and regression runs operate
 synthetic sessions only.
 
