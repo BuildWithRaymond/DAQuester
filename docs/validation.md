@@ -22,10 +22,12 @@ binaries, user Data, or build output in the publish set. Local Markdown links
 resolve and content JSON parses. Historic design notes are grouped under
 `docs/design`; superseded UI/dialog code and completed task plans are removed.
 
-The actual public 1.0.5 portable package passes its read-only `--check-updates`
-path before publication. Public 1.0.0 and 1.0.5 packages are staged for update
-discovery checks after publication. These checks never download or apply an
-application update and never operate a game character.
+Both GitHub workflows pass for release commit `7fd48cf`. All seven published
+assets pass release verification and match GitHub's recorded SHA-256 digests.
+The actual public **1.0.0** and **1.0.5** portable apps report **1.0.6 available**;
+the public **1.0.6** app reports no newer version. All three report no pending
+installation. These read-only checks never download or apply an application
+update, open user Data, or operate a game character.
 
 Full live validation remains pending for Emerald Dawn, successful Faerie rewards,
 the queue, automatic saved login, own-legend refresh, and home return. The existing
