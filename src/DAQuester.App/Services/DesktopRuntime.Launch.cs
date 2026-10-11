@@ -39,7 +39,7 @@ public sealed partial class DesktopRuntime
   if (closing || shuttingDown) return "DAQuester is closing. Wait for progress to finish saving.";
   if (name.Length == 0 && Settings.Characters.Length > 0) return "Select a saved character before launching.";
   if (name.Length > 0 && !name.All(char.IsAsciiLetter)) return "Enter a character name using letters only.";
-  if (!Ready) return "The game connection isn't ready. Check the connection profile in Developer mode.";
+  if (!Ready) return "The game connection isn't ready. Check the connection profile in profiles.json, then restart DAQuester.";
   if (LaunchPending(name)) return launchStates.GetValueOrDefault(name, "Launching Dark Ages…");
   if (OwnsLiveClient(name)) return null;
   if (name.Length > 0 && Snapshot(name).Connected) return name + " is already connected. Use its game window.";
@@ -61,7 +61,7 @@ public sealed partial class DesktopRuntime
   RequireOpen();
   if (Preview) throw new InvalidOperationException("Preview cannot launch game clients.");
   if (name.Length > 0 && !name.All(char.IsAsciiLetter)) throw new InvalidOperationException("Enter a character name using letters only.");
-  if (!Ready) throw new InvalidOperationException("The game connection isn't ready. Check the connection profile in Developer mode.");
+  if (!Ready) throw new InvalidOperationException("The game connection isn't ready. Check the connection profile in profiles.json, then restart DAQuester.");
   string key = LaunchKey(name);
   if (pendingLaunches.ContainsKey(key)) throw new InvalidOperationException("This character's client is already launching.");
   if (ownedClients.TryGetValue(key, out var existing) && !existing.HasExited) { LoginWindowInput.Focus(existing.Id); return existing.Id; }

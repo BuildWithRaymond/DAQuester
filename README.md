@@ -109,7 +109,8 @@ dotnet test tests/DAQuester.UiTests -c Release --no-build -m:1
 | `tools` | UI checks, screenshot capture, content tools, and release packaging |
 
 Start with [Contributing](CONTRIBUTING.md) or browse the [documentation index](docs/README.md).
-Developer mode in the app exposes calibration and protocol diagnostics.
+Calibration, connection profile, diagnostics and replay export are reachable through
+the [control bridge and MCP](docs/control.md) and the Data folder, not the window.
 
 ## Related projects and credits
 

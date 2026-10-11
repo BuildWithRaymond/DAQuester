@@ -30,7 +30,7 @@ public sealed partial class DesktopRuntime
    "shinewood-faerie" => ShinewoodFaerieEvidence.Eligibility(snapshot, job),
    _ => StickEligibility.Check(snapshot, job.CompletedAt, DateTimeOffset.UtcNow)
   };
-  if (quest.Id == "spare-a-stick" && !Calibration.Ready) return new("Blocked", "Review quest calibration in Developer mode", false);
+  if (quest.Id == "spare-a-stick" && !Calibration.Ready) return new("Blocked", "Quest calibration is not validated yet; run calibration through the control bridge", false);
   return eligibility.Kind == EligibilityKind.Eligible ? new(job.Step is not ("preflight" or "complete") ? "Resume ready" : "Ready", eligibility.Reason, true) : new(eligibility.Kind == EligibilityKind.Unknown ? "Not checked" : "Blocked", PlayerReason(eligibility.Reason), eligibility.Kind == EligibilityKind.Unknown);
  }
  public bool RepeatEnabled(string name, string id) => recipes.TryGetValue(id, out var quest) && quest.Repeatable && repeatChoices.GetValueOrDefault((name.ToUpperInvariant(), id), journal.Load(name, id).Repeat);

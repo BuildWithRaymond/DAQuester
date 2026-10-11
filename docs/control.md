@@ -99,7 +99,20 @@ Only JSON-RPC messages go to stdout. Diagnostics go to stderr.
 
 Tools: `daquester_state`, `daquester_map`, `daquester_command`,
 `daquester_export`, `daquester_analyze`, `daquester_calibrate`,
-`daquester_start`, `daquester_stop`, `daquester_launch`.
+`daquester_start`, `daquester_stop`, `daquester_launch`, `daquester_log`,
+`daquester_calibration`, `daquester_settings`.
+
+The window has no developer panel. What it used to show is here instead:
+
+- `log` returns every diagnostic line kept in memory (pass `count` for the tail)
+  plus the `diagnostics.log` path and whether writing to it is failing. The same
+  lines are appended to `Data\diagnostics.log`.
+- `calibration` reads the Spare a Stick calibration; pass `json` to replace it.
+- `settings` reads the connection profile (`Data\profiles.json`); pass `json` to
+  replace its connection fields, then restart DAQuester.
+- `export` writes a sanitized replay on demand. Replays are also written
+  automatically when a character disconnects and when DAQuester exits.
+- Evidence recording is always on.
 
 Agents can also use the same bridge without installing an MCP configuration:
 write a JSON request file and run `DAQuester.exe --control <request-file>`.

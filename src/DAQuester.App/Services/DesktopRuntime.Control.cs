@@ -29,6 +29,9 @@ public sealed partial class DesktopRuntime
   if (r.Method == "stop") { await StopOwnersAsync(r.Character); return new { stopped = r.Character ?? "all" }; }
   if (r.Method == "export") { var folder = Path.Combine(AppSettings.DataPath, "replays"); Directory.CreateDirectory(folder); string path = Path.Combine(folder, "capture-" + DateTime.Now.ToString("yyyyMMdd-HHmmssfff") + ".json"); recorder.Export(path); return new { path, events = recorder.Count }; }
   if (r.Method == "analyze") return new { evidence = recorder.Analyze(), candidateRegions = CandidateRegions };
+  if (r.Method == "log") { var lines = Logs; int count = Number("count", lines.Length); return new { lines = lines.TakeLast(Math.Max(0, count)).ToArray(), logFile = Path.Combine(AppSettings.DataPath, "diagnostics.log"), logFileFailed }; }
+  if (r.Method == "calibration") { if (TextArgument("json") is { } json) SaveCalibration(json); return new { calibration = Calibration, path = CalibrationPath }; }
+  if (r.Method == "settings") { if (TextArgument("json") is { } json) SaveConnectionProfile(json); return new { settings = Settings, path = Path.Combine(AppSettings.DataPath, "profiles.json") }; }
   if (r.Method == "launch") { int pid = await LaunchAsync(name, manualOnly: name.Length == 0); return new { pid }; }
   if (r.Method == "map")
   {
