@@ -1,5 +1,18 @@
 # Changelog
 
+## Unreleased
+
+- Remove the Developer tools panel. Nothing it showed is lost: every diagnostic line
+  goes to `Data\diagnostics.log` and the control bridge `log` method, calibration and
+  the connection profile are read and saved through the bridge (`calibration`,
+  `settings`), evidence recording is always on, and sanitized replays are saved
+  automatically when a character disconnects and when DAQuester exits.
+- Quest conversations no longer need one exact tile: a blocked or occupied approach
+  tile is replaced by the nearest free tile beside the NPC, so two of your own
+  characters never fight over a spot.
+- An open popup survives a same-map refresh, so the insignia discovery page is read
+  instead of walked away from.
+
 ## 1.1.0 — 2026-10-11
 
 - Replace Windows Forms with an Avalonia desktop workspace: deep navy and slate surfaces,

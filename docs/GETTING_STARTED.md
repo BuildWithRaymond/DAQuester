@@ -117,12 +117,13 @@ exists, first back it up and review which data to keep; automatic migration will
 not replace it. Saved passwords remain bound to the original Windows account.
 Keep a backup before switching releases or moving machines.
 
-## Developer mode and connection issues
+## Diagnostics and connection issues
 
-Developer mode reveals logs, connection profiles, recording and calibration.
+Every diagnostic line is appended to `Data\diagnostics.log`; sanitized replays are
+saved to `Data\replays` whenever a character disconnects and when DAQuester exits.
 Default local proxy ports are 2910–2912; other DA tools may use their own ports.
-Resolve port conflicts through the connection profile, save, then restart
-DAQuester. It does not change Excalibur's settings or processes.
+Resolve port conflicts in `Data\profiles.json` (or the control bridge `settings`
+method), then restart DAQuester. It does not change Excalibur's settings or processes.
 
 For evidence export or local automation, see [Control and MCP](control.md).
 Do not publish your Data folder, passwords, login packets or session secrets.

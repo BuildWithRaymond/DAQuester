@@ -54,8 +54,8 @@ library, the selected character’s queue and current journey. Characters uses
 editable cards with masked password fields, a Launch action for every saved
 character, and explicit Save accounts and Discard edits actions. Run history
 places each result explanation on a second line rather than forcing it into a
-narrow table column. Settings groups the client path, separate update actions and
-optional Developer tools.
+narrow table column. Settings groups the client path and the separate update
+actions.
 
 Color supplements a written state; it never establishes eligibility or proves
 completion. Ready and Choices rows have a teal green tint. Unavailable, Blocked and
@@ -89,7 +89,7 @@ warning focuses Cancel and makes it the default action; an unverified return
 route disables continuing. The client picker reads folders and .exe names
 without opening or launching files. Errors use a red banner or dark dialog;
 successful settings changes use a separate neutral notice. Raw protocol details
-remain in Developer mode.
+stay out of the window: diagnostics.log and the control bridge carry them.
 
 Run tools/Test-UI.ps1 after interface changes. Its isolated synthetic fixtures
 exercise real Avalonia views and commands without game sessions or user Data.

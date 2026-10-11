@@ -5,7 +5,11 @@
 - Never operate real game characters as part of a build or synthetic test.
 - Preserve the four quest policies, observed-evidence boundaries, generation
   isolation and checkpoint/reconciliation behavior. See CONTRIBUTING.md.
-- Use the shared fully dark theme; keep protocol diagnostics in Developer mode.
+- Use the shared fully dark theme. There is no Developer mode: protocol diagnostics,
+  calibration, connection profile and replay export live in diagnostics.log, the Data
+  folder and the control bridge/MCP (`log`, `calibration`, `settings`, `export`), never
+  in the player window. Every diagnostic line is kept; replays auto-export on
+  disconnect and on exit.
 - Update checks are optional and default off. Download and install require
   separate user actions. Preserve user Data and check exit safety before applying.
 - Run focused tests, the full suite, and tools/Test-UI.ps1 for affected changes.

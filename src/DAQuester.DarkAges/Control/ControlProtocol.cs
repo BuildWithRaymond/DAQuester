@@ -2,7 +2,7 @@ using System.Text.Json;
 namespace DAQuester.DarkAges.Control;
 public record ControlRequest(string Method,string? Character=null,JsonElement? Arguments=null);
 public class McpProtocol(Func<ControlRequest,Task<object?>> call) {
- static readonly string[] Methods=["state","map","command","export","analyze","calibrate","start","stop","launch"];
+ static readonly string[] Methods=["state","map","command","export","analyze","calibrate","start","stop","launch","log","calibration","settings"];
  public async Task<string?> HandleAsync(string line) {
   JsonElement id=default;
   try {
@@ -35,10 +35,15 @@ public class McpProtocol(Func<ControlRequest,Task<object?>> call) {
   "calibrate"=>"Start one monitored Spare a Stick calibration run. Only evidence-proven completion enables its recipe.",
   "start"=>"Start a quest for a connected character. Mundane Birth requires season, whole-number age 12-40, and town. Emerald Dawn requires an explicit outcome, with an optional Gans visit. Saved choices resume unchanged; these quests never repeat.",
   "launch"=>"Launch or focus this character's supported DATester client. Saved credentials use verified login; otherwise sign in manually.",
+  "log"=>"Read the diagnostics lines kept in memory (all by default, or the last `count`). The same lines are appended to diagnostics.log.",
+  "calibration"=>"Read the Spare a Stick calibration, or replace it by passing `json`. Saving requires no active operations.",
+  "settings"=>"Read the connection profile and client settings, or replace the connection fields by passing `json`. Restart DAQuester to apply.",
   _=>"Cancel automation and control actions for one character or all characters."};
  static object Schema(string method) {
   var properties=new Dictionary<string,object>{{"character",new{type="string"}}};
   if(method=="map")properties["map"]=new{type="integer"};
+  if(method=="log")properties["count"]=new{type="integer",minimum=1};
+  if(method is "calibration" or "settings")properties["json"]=new{type="string"};
   if(method=="command") {
    properties["kind"]=new{type="string",@enum=new[]{"navigate","visit","step","open","choose","next","close","input","say","collect-ground","pickup","inspect-self"}};
    properties["map"]=new{type="integer"};properties["target"]=new{type="object",properties=new{x=new{type="integer"},y=new{type="integer"}},required=new[]{"x","y"},additionalProperties=false};properties["text"]=new{type="string"};

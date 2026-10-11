@@ -137,7 +137,7 @@ public sealed partial class DesktopRuntime
    for (int i = 0; i < 3; i++) await host.StartAsync(Settings.LocalPorts[i], new(IPAddress.Parse(Settings.RemoteAddress), Settings.RemotePorts[i]));
    Ready = true; ConnectionStatus = "Connection ready"; ConnectionError = null; Log("Loopback proxies ready on " + string.Join(", ", Settings.LocalPorts));
   }
-  catch (Exception e) { ConnectionError = e.Message; ConnectionStatus = "Connection unavailable. Check the connection profile in Developer mode, then restart DAQuester."; Log("Proxy startup blocked: " + e.Message); }
+  catch (Exception e) { ConnectionError = e.Message; ConnectionStatus = "Connection unavailable. Check the connection profile in profiles.json, then restart DAQuester."; Log("Proxy startup blocked: " + e.Message); }
   controlServer = new(request => OnUiAsync(() => ControlAsync(request))); controlServer.Start();
   Log("Local control bridge ready; current Windows user only.");
   await Updates.StartAsync(); Notify();
@@ -161,7 +161,10 @@ public sealed partial class DesktopRuntime
     if (PermanentQuestCompletion.Matches(snapshot) && journal.Load(name, "spare-a-stick").PermanentCompletion is null && (!permanentTasks.TryGetValue(name, out var task) || task.IsCompleted)) permanentTasks[name] = ObservePermanentAsync(name, session, snapshot);
     else if (!controlActions.ContainsKey(name) && (!calibrationTasks.TryGetValue(name, out var capture) || capture.IsCompleted) && runners.TryGetValue(name, out var runner) && runner.Job.Quest == "spare-a-stick") _ = ObserveOrdinaryCompletionAsync(name, session, runner, snapshot);
    });
-   session.Interrupted += Log; RememberCharacter(name, session, session.Snapshot); _ = ReadOwnLegendAsync(name, session); Notify(); Log(name + " connected; server state tracking active.");
+   session.Interrupted += Log;
+   // Evidence lives in memory; a dropped connection is exactly when it must not be lost.
+   session.Interrupted += reason => { if (reason == "Disconnected") Ui(() => AutoExport(name + " disconnected")); };
+   RememberCharacter(name, session, session.Snapshot); _ = ReadOwnLegendAsync(name, session); Notify(); Log(name + " connected; server state tracking active.");
   }
   catch (Exception e) { Log("Character connection could not be bound: " + e.Message); }
  }
@@ -250,6 +253,7 @@ public sealed partial class DesktopRuntime
    await StopOwnersAsync();
    bool prepared = Updates.PrepareExit(QuestActionsRunning, ConnectedGame, LaunchedClientRunning);
    if (installRequested && !prepared) throw new InvalidOperationException(Updates.Status + " Finish quests and close game clients, then try again.");
+   AutoExport("closing");
    closing = true; characterMemoryLifetime.Cancel();
    await host.DisposeAsync(); if (controlServer is not null) await controlServer.DisposeAsync();
    await Task.WhenAll(characterMemoryWrites.ToArray());
@@ -263,11 +267,27 @@ public sealed partial class DesktopRuntime
   var folder = Path.Combine(AppSettings.DataPath, "replays"); Directory.CreateDirectory(folder);
   string path = Path.Combine(folder, "capture-" + DateTime.Now.ToString("yyyyMMdd-HHmmssfff") + ".json"); recorder.Export(path); Log("Sanitized replay: " + path); Notify(); return Task.FromResult(path);
  }
+ void AutoExport(string why)
+ {
+  if (Preview || recorder.Count == 0) return;
+  try { var folder = Path.Combine(AppSettings.DataPath, "replays"); Directory.CreateDirectory(folder); string path = Path.Combine(folder, "capture-" + DateTime.Now.ToString("yyyyMMdd-HHmmssfff") + ".json"); recorder.Export(path); Log("Sanitized replay saved (" + why + "): " + path); }
+  catch (Exception e) when (e is IOException or UnauthorizedAccessException) { Log("Replay could not be saved (" + why + "): " + e.Message); }
+ }
+ public void SaveConnectionProfile(string json)
+ {
+  var value = JsonSerializer.Deserialize<AppSettings>(json, AppSettings.Json) ?? throw new InvalidDataException("Connection profile is missing.");
+  if (value.LocalPorts.Length != 3 || value.RemotePorts.Length != 3 || value.LocalPorts.Concat(value.RemotePorts).Any(p => p is < 1 or > 65535) || !IPAddress.TryParse(value.RemoteAddress, out _)) throw new InvalidDataException("Use a valid IP address and exactly three local and remote ports.");
+  // Only connection fields change here; accounts and consent keep their own workflows.
+  var copy = AppSettings.Load();
+  copy.LocalPorts = value.LocalPorts; copy.RemotePorts = value.RemotePorts; copy.RemoteAddress = value.RemoteAddress; copy.MovementMilliseconds = value.MovementMilliseconds; copy.Save();
+  Settings.LocalPorts = copy.LocalPorts; Settings.RemotePorts = copy.RemotePorts; Settings.RemoteAddress = copy.RemoteAddress; Settings.MovementMilliseconds = copy.MovementMilliseconds;
+  Log("Connection profile saved; restart DAQuester to apply it."); Notify();
+ }
  public void SaveCalibration(string json)
  {
   if (QuestActionsRunning) throw new QuestBlockedException("Stop active operations before saving calibration.");
   var value = JsonSerializer.Deserialize<Calibration>(json, AppSettings.Json) ?? throw new InvalidDataException("Calibration is missing.");
   File.WriteAllText(CalibrationPath, JsonSerializer.Serialize(value, AppSettings.Json)); Calibration = value; runners.Clear(); Log(value.Ready ? "Calibration saved; automatic runs enabled." : "Calibration draft saved."); Notify();
  }
- public static string PlayerReason(string value) => value.Replace("observed progress", "progress", StringComparison.OrdinalIgnoreCase).Replace("server-observed", "confirmed", StringComparison.OrdinalIgnoreCase).Replace("server identity", "character details", StringComparison.OrdinalIgnoreCase).Replace("server level", "level", StringComparison.OrdinalIgnoreCase).Replace("server inventory", "inventory", StringComparison.OrdinalIgnoreCase).Replace("Local control", "Developer tools", StringComparison.OrdinalIgnoreCase).Replace("local control", "developer tools", StringComparison.OrdinalIgnoreCase).Replace("Connection replaced", "Your character reconnected", StringComparison.OrdinalIgnoreCase).Replace("preflight", "quest requirements", StringComparison.OrdinalIgnoreCase);
+ public static string PlayerReason(string value) => value.Replace("observed progress", "progress", StringComparison.OrdinalIgnoreCase).Replace("server-observed", "confirmed", StringComparison.OrdinalIgnoreCase).Replace("server identity", "character details", StringComparison.OrdinalIgnoreCase).Replace("server level", "level", StringComparison.OrdinalIgnoreCase).Replace("server inventory", "inventory", StringComparison.OrdinalIgnoreCase).Replace("Local control", "Control bridge", StringComparison.OrdinalIgnoreCase).Replace("local control", "control bridge", StringComparison.OrdinalIgnoreCase).Replace("Connection replaced", "Your character reconnected", StringComparison.OrdinalIgnoreCase).Replace("preflight", "quest requirements", StringComparison.OrdinalIgnoreCase);
 }

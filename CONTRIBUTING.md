@@ -29,8 +29,9 @@ submitting. Packaging changes also require `./tools/Build-Release.ps1` and
 
 ## Interface changes
 
-Player mode should explain actions in game terms. Raw IDs, logs and calibration
-belong in Developer mode. Use the shared dark theme for all windows and states,
+The window explains actions in game terms. Raw IDs, logs and calibration never
+appear in it; they belong in diagnostics.log, the Data folder and the control
+bridge (see [control](docs/control.md)). Use the shared dark theme for all windows and states,
 including native chrome, menus, scrollbars and error dialogs. Verify minimum
 window sizes, disabled states, long text and keyboard interaction.
 

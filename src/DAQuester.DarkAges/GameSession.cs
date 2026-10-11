@@ -67,7 +67,7 @@ public sealed partial class GameSession:IGameSession {
     case "step":
      if(Snapshot.Position is not {} origin||command.Target is not {} destination||Math.Abs(origin.X-destination.X)+Math.Abs(origin.Y-destination.Y)!=1)throw new QuestBlockedException("Step target must be adjacent to observed position.");
      await WalkTo(destination,cancellation);break;
-    case "navigate":await Navigate(command.Map??throw new InvalidOperationException("Map missing"),command.Target??throw new InvalidOperationException("Tile missing"),cancellation,command.StopWhen,popupGuard:command.PreservePopup?TravelPopupVisible:null);break;
+    case "navigate":await Navigate(command.Map??throw new InvalidOperationException("Map missing"),command.Target??throw new InvalidOperationException("Tile missing"),cancellation,command.StopWhen,popupGuard:command.PreservePopup?TravelPopupVisible:null,tolerance:command.Tolerance);break;
     case "collect-ground":await CollectGround(command,cancellation);break;
     case "open":
      var npc=Snapshot.Entities.Values.SingleOrDefault(x=>x.Name.Equals(command.Text,StringComparison.OrdinalIgnoreCase))??throw new QuestBlockedException("NPC not visible: "+command.Text);
@@ -188,7 +188,8 @@ public sealed partial class GameSession:IGameSession {
    (s.Map!=before.Map||connection.Tracker.LastPositionRevision>before.Revision&&s.Revision>=connection.Tracker.LastPositionRevision),before.Revision,TimeSpan.FromSeconds(5),ct);}
   catch(TimeoutException){throw new QuestBlockedException("Server position refresh unanswered. Resume when connection recovers.");}
  }
- async Task Navigate(int destination,Tile? target,CancellationToken ct,InventoryGoal? stopWhen=null,bool preservePopup=false,Func<bool>? popupGuard=null) {
+ // tolerance>0: a blocked or occupied target is replaced by the nearest free reachable tile within that many tiles.
+ async Task Navigate(int destination,Tile? target,CancellationToken ct,InventoryGoal? stopWhen=null,bool preservePopup=false,Func<bool>? popupGuard=null,int tolerance=0) {
   bool PopupVisible()=>preservePopup&&CollectionPopupVisible()||popupGuard?.Invoke()==true;
   void PreservePopup(){if(preservePopup)PreserveCollectionPopup();if(popupGuard?.Invoke()==true)PreserveTravelPopup();}
   bool skipKeane=ReconcileKeaneTravel();
@@ -213,19 +214,28 @@ public sealed partial class GameSession:IGameSession {
    var entry=Snapshot;
    if(entry.Map is null||entry.Position is null)entry=await WaitAsync(s=>s.Map is not null&&s.Position is not null,entry.Revision-1,TimeSpan.FromSeconds(2),ct);
    if(entry.Map is null||entry.Position is null)throw new QuestBlockedException("Waiting for server map and position.");
-   if(entry.Map==destination&&(target is null||entry.Position==target))return;
    int from=entry.Map.Value;
    var obstacles=entry.Entities.Values.Where(e=>e.Blocks&&e.Id!=entry.Id).Select(e=>e.Position).ToHashSet();
-   TravelPlan plan;
-   try{plan=maps.Plan(from,entry.Position,destination,target,obstacles,ct);}
-   catch(InvalidOperationException)when(obstacles.Count>0){plan=maps.Plan(from,entry.Position,destination,target,ct:ct);}
+   var goal=target;
+   if(tolerance>0&&target is not null&&from==destination){
+    var here=maps.Record(from);var standing=new HashSet<Tile>(obstacles);standing.UnionWith(here.ExitTiles);standing.UnionWith(here.InternalTransfers.Select(t=>t.From));
+    goal=NpcApproach.Resolve(maps.Load(from),entry.Position,target,standing,tolerance);
+   }
+   if(entry.Map==destination&&(goal is null||entry.Position==goal))return;
+   TravelPlan? plan=null;
+   try{plan=maps.Plan(from,entry.Position,destination,goal,obstacles,ct);}
+   catch(InvalidOperationException)when(obstacles.Count>0||tolerance>0&&from!=destination){
+    if(obstacles.Count>0)try{plan=maps.Plan(from,entry.Position,destination,goal,ct:ct);}catch(InvalidOperationException)when(tolerance>0&&from!=destination){}
+    // Reach the map first; the substitute tile is chosen once there.
+    plan??=maps.Plan(from,entry.Position,destination,null,ct:ct);
+   }
    if(Snapshot.Map!=from||Snapshot.Position!=entry.Position||!ReferenceEquals(Snapshot.Entities,entry.Entities))continue;
    if(!skipKeane&&from==503&&plan.Steps.Any(s=>s.Map is 502 or 3014)){
     if(await TryKeaneTravel(plan,ct))continue;
     skipKeane=true;continue;
    }
    var step=plan.Steps.FirstOrDefault();
-   if(step is null){await WalkTo(target!,ct,destination,stopWhen,replanWhen:preservePopup||popupGuard is not null?PopupVisible:null);PreservePopup();return;}
+   if(step is null){await WalkTo(goal!,ct,destination,stopWhen,replanWhen:preservePopup||popupGuard is not null?PopupVisible:null);PreservePopup();return;}
    // The walker checks current occupancy before every step. Off-path monster
    // updates must not drain fast movement and restart the entire town route.
    // Reconsider the route when its selected doorway becomes occupied.

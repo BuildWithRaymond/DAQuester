@@ -12,8 +12,8 @@ public sealed class MainWindowViewModel : ObservableObject
  readonly List<QuestItemVM> library = [];
  readonly List<AsyncCommand> commands = [];
  readonly HashSet<string> removedAccounts = new(StringComparer.OrdinalIgnoreCase);
- bool refreshing, developerMode;
- string page = "Planner", search = "", filter = "All", errorMessage = "", noticeMessage = "", clientPath, accountStatus = "", calibrationJson, connectionProfileJson;
+ bool refreshing;
+ string page = "Planner", search = "", filter = "All", errorMessage = "", noticeMessage = "", clientPath, accountStatus = "";
  bool automaticUpdateChecks;
  CharacterItemVM? selectedCharacter;
  QuestItemVM? selectedQuest;
@@ -113,17 +113,12 @@ public sealed class MainWindowViewModel : ObservableObject
  public string JourneyNext => QueueState.Quests.FirstOrDefault(id => id != QueueState.ActiveQuest) is { } next ? "Next · " + Runtime.QuestName(next) : QueueState.ReturnHome && QueueState.Home is { } home ? "Next · " + home.Label : JourneyQuest is { } q && QuestRunPolicy.NextAttempt(q, JourneyJob) is { } due ? "Next attempt · " + due.ToLocalTime().ToString("MMM d, h:mm tt") : "Progress saved for each character";
  public string ClientPath { get => clientPath; set => Set(ref clientPath, value); }
  public bool AutomaticUpdateChecks { get => automaticUpdateChecks; set => Set(ref automaticUpdateChecks, value); }
- public bool DeveloperMode { get => developerMode; set { if (Set(ref developerMode, value)) { File.WriteAllText(Path.Combine(AppSettings.DataPath, "appearance.json"), JsonSerializer.Serialize(new { developerMode = value })); RaiseAll(); } } }
- public bool RecordEvidence { get => Runtime.RecordingEnabled; set => Runtime.RecordingEnabled = value; }
  public string VersionText => "DAQuester " + UpdateVersion.Current;
  public string UpdateStatus => Runtime.Updates.Status;
  public string? AvailableUpdate => Runtime.Updates.PendingVersion ?? Runtime.Updates.AvailableVersion;
  public bool CanCheckUpdates => Runtime.Updates.Available && !Runtime.Updates.Working;
  public bool CanDownloadUpdate => CanCheckUpdates && Runtime.Updates.AvailableVersion is not null && Runtime.Updates.PendingVersion is null;
  public bool CanInstallUpdate => CanCheckUpdates && Runtime.Updates.PendingVersion is not null && !Runtime.QuestActionsRunning && !Runtime.ConnectedGame && !Runtime.LaunchedClientRunning;
- public string Diagnostics => string.Join("\n", Runtime.Logs.TakeLast(200));
- public string CalibrationJson { get => calibrationJson; set => Set(ref calibrationJson, value); }
- public string ConnectionProfileJson { get => connectionProfileJson; set => Set(ref connectionProfileJson, value); }
  public string AccountStatus { get => accountStatus; set => Set(ref accountStatus, value); }
  public string ErrorMessage { get => errorMessage; set { if (Set(ref errorMessage, value)) Raise(nameof(HasError)); } }
  public bool HasError => ErrorMessage.Length > 0;
@@ -153,15 +148,9 @@ public sealed class MainWindowViewModel : ObservableObject
  public AsyncCommand DownloadUpdateCommand { get; }
  public AsyncCommand InstallUpdateCommand { get; }
  public AsyncCommand BrowseClientCommand { get; }
- public AsyncCommand SaveCalibrationCommand { get; }
- public AsyncCommand SaveConnectionProfileCommand { get; }
- public AsyncCommand ExportReplayCommand { get; }
- public AsyncCommand AutoCalibrateCommand { get; }
  public MainWindowViewModel(DesktopRuntime runtime)
  {
   Runtime = runtime; clientPath = runtime.Settings.ClientPath; automaticUpdateChecks = runtime.Settings.AutomaticUpdateChecks;
-  calibrationJson = JsonSerializer.Serialize(runtime.Calibration, AppSettings.Json); connectionProfileJson = JsonSerializer.Serialize(runtime.Settings, AppSettings.Json);
-  try { developerMode = JsonDocument.Parse(File.ReadAllText(Path.Combine(AppSettings.DataPath, "appearance.json"))).RootElement.GetProperty("developerMode").GetBoolean(); } catch (Exception e) when (e is IOException or JsonException or KeyNotFoundException) { }
   NavigateCommand = new(p => Page = p as string ?? "Planner"); FilterCommand = new(p => Filter = p as string ?? "All"); DismissErrorCommand = new(_ => ErrorMessage = ""); DismissNoticeCommand = new(_ => NoticeMessage = "");
   AddCharacterCommand = new(_ => { var item = new CharacterItemVM(this, ""); Characters.Add(item); SelectedCharacter = item; AccountEdited(); Raise(nameof(CharactersEmpty)); });
   DiscardAccountsCommand = new(_ => { removedAccounts.Clear(); Characters.Clear(); selectedCharacter = null; LoadCharacters(); Refresh(); AccountStatus = "Edits discarded."; });
@@ -182,12 +171,8 @@ public sealed class MainWindowViewModel : ObservableObject
   DownloadUpdateCommand = Command(_ => runtime.Updates.DownloadAsync(), _ => CanDownloadUpdate);
   InstallUpdateCommand = Command(_ => { runtime.RequestInstall(); InstallRequested = true; RequestClose?.Invoke(); return Task.CompletedTask; }, _ => CanInstallUpdate);
   BrowseClientCommand = Command(async _ => { if (PickClientAsync is not null && await PickClientAsync() is { } path) ClientPath = path; });
-  SaveCalibrationCommand = Command(_ => { runtime.SaveCalibration(CalibrationJson); return Task.CompletedTask; }, _ => DeveloperMode && !runtime.QuestActionsRunning);
-  SaveConnectionProfileCommand = Command(_ => { SaveConnectionProfile(); return Task.CompletedTask; }, _ => DeveloperMode);
-  ExportReplayCommand = Command(async _ => { await runtime.ExportAsync(); }, _ => DeveloperMode);
-  AutoCalibrateCommand = Command(async _ => { await runtime.StartAutomaticCalibration(CharacterName); }, _ => DeveloperMode && runtime.Snapshot(CharacterName).Connected && !QueueLocked);
   LoadCharacters(); LoadLibrary(); SelectedCharacter = Characters.FirstOrDefault(); SelectedQuest = library.FirstOrDefault();
-  Runtime.Changed += Refresh; Runtime.Diagnostic += _ => Raise(nameof(Diagnostics)); Refresh();
+  Runtime.Changed += Refresh; Refresh();
  }
  internal AsyncCommand Command(Func<object?, Task> action, Func<object?, bool>? can = null, bool allowConcurrent = false)
  {
@@ -290,15 +275,6 @@ public sealed class MainWindowViewModel : ObservableObject
   settings.ClientPath = ClientPath.Trim(); settings.AutomaticUpdateChecks = AutomaticUpdateChecks;
   try { var persisted = AppSettings.Load(); persisted.ClientPath = settings.ClientPath; persisted.AutomaticUpdateChecks = AutomaticUpdateChecks; persisted.Save(); Runtime.Updates.AutomaticChecks = AutomaticUpdateChecks; NoticeMessage = oldPath != settings.ClientPath ? "Settings saved. Restart DAQuester to apply the game client path." : "Settings saved."; }
   catch { settings.ClientPath = oldPath; settings.AutomaticUpdateChecks = oldChecks; throw; }
- }
- void SaveConnectionProfile()
- {
-  var value = JsonSerializer.Deserialize<AppSettings>(ConnectionProfileJson, AppSettings.Json) ?? throw new InvalidDataException("Connection profile is missing.");
-  if (value.LocalPorts.Length != 3 || value.RemotePorts.Length != 3 || value.LocalPorts.Concat(value.RemotePorts).Any(p => p is < 1 or > 65535) || !System.Net.IPAddress.TryParse(value.RemoteAddress, out _)) throw new InvalidDataException("Use a valid IP address and exactly three local and remote ports.");
-  // Profile editor only changes connection fields; account and consent edits stay in their own workflows.
-  var copy = AppSettings.Load();
-  copy.LocalPorts = value.LocalPorts; copy.RemotePorts = value.RemotePorts; copy.RemoteAddress = value.RemoteAddress; copy.MovementMilliseconds = value.MovementMilliseconds; copy.Save();
-  NoticeMessage = "Connection profile saved. Restart DAQuester to apply it.";
  }
  internal void OpenGuide(string source) { if (Uri.TryCreate(source, UriKind.Absolute, out var uri) && uri.Scheme is "https" or "http") try { Process.Start(new ProcessStartInfo(source) { UseShellExecute = true }); } catch (Exception e) { ReportError(e); } }
 }

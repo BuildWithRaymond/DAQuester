@@ -100,7 +100,7 @@ internal static class UiChecks
    await vm.LaunchSelectedCommand.ExecuteAsync(null);
    Check(vm.HasError && vm.ErrorMessage.Contains("Preview cannot launch") && !vm.Runtime.LaunchedClientRunning && vm.Characters.Count == 0, "Empty-workspace Launch reaches the guarded manual launcher without adding accounts or starting a client");
    vm.DismissErrorCommand.Execute(null);
-   Check(!vm.AutomaticUpdateChecks && !vm.DeveloperMode, "Update checks and Developer mode default off");
+   Check(!vm.AutomaticUpdateChecks, "Update checks default off");
    var updateBackend = SyntheticUpdateBackend.Current ?? throw new InvalidOperationException("Validation must inject the synthetic update backend.");
    Check(updateBackend.Checks == 0 && updateBackend.Downloads == 0 && updateBackend.Installs == 0, "Preview startup performs no update check, download or install");
    window.Width = 1450; window.Height = 930; await Page("Planner"); states.Add("empty"); await Capture("planner-empty");
@@ -341,7 +341,7 @@ internal static class UiChecks
    Check(!vm.Runtime.Updates.PrepareExit(false, false, false), "Downloading never authorizes install on exit");
    Check(updateBackend.Downloads == 1 && updateBackend.Installs == 0, "Explicit Download prepares exactly one package without install");
    updateBackend.Failure = new IOException("Connection unavailable"); await Click("checkUpdates"); Check(vm.UpdateStatus.Contains("Connection unavailable") && Require<Button>("checkUpdates").IsEffectivelyEnabled, "Update errors remain readable and retryable"); await Capture("settings-update-error"); updateBackend.Failure = null;
-   vm.DeveloperMode = true; await Settle(); Check(Require<TextBox>("diagnostics").IsEffectivelyVisible, "Developer mode reveals protocol diagnostics"); await Capture("settings-developer"); vm.DeveloperMode = false; await Settle(); Check(!Require<TextBox>("diagnostics").IsEffectivelyVisible, "Player mode hides protocol diagnostics");
+   Check(window.FindControl<TextBox>("diagnostics") is null && window.FindControl<CheckBox>("developerMode") is null, "Protocol diagnostics and Developer mode are absent from the window");
 
    await Page("Planner");
    await FixtureQueue(vm.Runtime.Queue("Agent") with { State = "Running", ActiveQuest = "shinewood-faerie", ActiveStartedAt = now, Reason = "Travelling to Shinewood" }); vm.Runtime.SetPreviewQueueRunning("Agent", true); vm.Refresh(); await Settle();
