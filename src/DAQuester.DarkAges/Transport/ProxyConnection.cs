@@ -36,9 +36,14 @@ public sealed partial class ProxyConnection(TcpClient client,TcpClient remote,lo
    var b=Pump(remote.GetStream(),false,linked.Token);
    await Task.WhenAny(a,b);linked.Cancel();
    try{await Task.WhenAll(a,b);}catch(OperationCanceledException){}
-  }catch(Exception e) {Diagnostic?.Invoke(e.GetType().Name+" in transport");}
-  finally {lifetime.Cancel();Tracker.Disconnect();Interrupted?.Invoke("Disconnected");}
+  }catch(Exception e) {Diagnostic?.Invoke("Transport failed: "+Flatten(e));}
+  finally {lifetime.Cancel();Tracker.Disconnect();Interrupt("Disconnected");}
  }
+ static string Flatten(Exception e)=>e.ToString().ReplaceLineEndings(" | ");
+ // Subscribers run inside the packet loop; their failures must not drop the connection.
+ void Interrupt(string reason){try{Interrupted?.Invoke(reason);}catch(Exception e){Diagnostic?.Invoke("Interrupt handler failed: "+Flatten(e));}}
+ static string ClientOpcodeName(byte opcode)=>opcode switch{0x06=>"walk",0x11=>"turn",0x39=>"merchant reply",0x3A=>"dialog reply",0x43=>"click",_=>"client packet"};
+ void InterruptForClientPacket(byte opcode,string reason){CancelMovement();Diagnostic?.Invoke($"Client opcode 0x{opcode:X2} ({ClientOpcodeName(opcode)}) interrupted automation");Interrupt(reason);}
  async Task Pump(NetworkStream source,bool fromClient,CancellationToken token) {
   var frames=new FrameBuffer();var bytes=new byte[8192];
   while(!token.IsCancellationRequested) {
@@ -61,11 +66,10 @@ public sealed partial class ProxyConnection(TcpClient client,TcpClient remote,lo
        var p=new NetworkEncryptionParameters(seed,key,name);clientCrypto.Parameters=p;serverCrypto.Parameters=p;
       }
       if((byte)plain.Command==0x06) {
-       CancelMovement();
-       Interrupted?.Invoke("Manual movement paused automation.");
+       InterruptForClientPacket(0x06,"Manual movement paused automation.");
        if(plain.Data.Length>=2)plain.Data[1]=walkCounter++;
       }
-      if((byte)plain.Command is 0x39 or 0x3A or 0x43 or 0x11){CancelMovement();Interrupted?.Invoke("Manual dialog or turn paused automation.");}
+      if((byte)plain.Command is 0x39 or 0x3A or 0x43 or 0x11)InterruptForClientPacket((byte)plain.Command,"Manual dialog or turn paused automation.");
       if((byte)plain.Command is 0x39 or 0x3A)DialogAction?.Invoke(plain);
       var encrypted=clientCrypto.Encrypt(plain,sequence);
       if(ClientPacketEncryptor.IsEncrypted((byte)plain.Command))sequence++;
@@ -87,7 +91,7 @@ public sealed partial class ProxyConnection(TcpClient client,TcpClient remote,lo
       // Unique one-shot listener per redirect prevents cross-character handoffs.
       wire.Data[0]=1;wire.Data[1]=0;wire.Data[2]=0;wire.Data[3]=127;
       wire.Data[4]=(byte)(local>>8);wire.Data[5]=(byte)local;
-      frame=wire.ToArray();Interrupted?.Invoke("Server redirect. Resume on replacement connection.");
+      frame=wire.ToArray();Interrupt("Server redirect. Resume on replacement connection.");
      }
      if(((byte)plain.Command is 0x05 or 0x52)&&name is not null&&plain.Data.Length>=4) {
       var r=new NetworkPacketReader(plain);Tracker.Identity(name,r.ReadUInt32());
@@ -108,7 +112,7 @@ public sealed partial class ProxyConnection(TcpClient client,TcpClient remote,lo
     presentation=ObserveMovement(before,(byte)plain.Command,plain.Data);
     if(Tracker.WorldMap is not null)ResetMovement();
    }}
-   catch(Exception e) {CancelMovement();Interrupted?.Invoke("Unrecognized server state packet "+((byte)plain.Command).ToString("X2"));Diagnostic?.Invoke("State decode "+((byte)plain.Command).ToString("X2")+": "+e.GetType().Name);}
+   catch(Exception e) {CancelMovement();Interrupt("Unrecognized server state packet "+((byte)plain.Command).ToString("X2"));Diagnostic?.Invoke("State decode "+((byte)plain.Command).ToString("X2")+": "+Flatten(e));}
    bool encrypted=ServerPacketEncryptor.IsEncrypted((byte)plain.Command);
    if(presenting&&encrypted)frame=serverCrypto.Encrypt(plain,clientSequence++).ToArray();
    else if(encrypted)clientSequence=unchecked((byte)(frame[4]+1));

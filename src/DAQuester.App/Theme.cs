@@ -112,6 +112,19 @@ internal sealed class JournalButton:Button {
  internal static GraphicsPath Rounded(RectangleF r,float radius){var p=new GraphicsPath();if(r.Width<=0||r.Height<=0)return p;float d=Math.Min(Math.Max(0,radius*2),Math.Min(r.Width,r.Height));if(d==0){p.AddRectangle(r);return p;}p.AddArc(r.X,r.Y,d,d,180,90);p.AddArc(r.Right-d,r.Y,d,d,270,90);p.AddArc(r.Right-d,r.Bottom-d,d,d,0,90);p.AddArc(r.X,r.Bottom-d,d,d,90,90);p.CloseFigure();return p;}
 }
 
+internal sealed class JournalTip:ToolTip {
+ string shown="";
+ public JournalTip(){OwnerDraw=true;ShowAlways=true;InitialDelay=250;ReshowDelay=100;AutoPopDelay=10000;UseAnimation=false;UseFading=false;Popup+=OnPopup;Draw+=OnDraw;}
+ // Explicit Show has no SetToolTip text, so Popup measures the text remembered here.
+ public void ShowAt(string text,Control anchor,Point point){shown=text;Show(text,anchor,point);}
+ string TextFor(Control? control)=>control is not null&&GetToolTip(control) is {Length:>0} text?text:shown;
+ void OnPopup(object? _,PopupEventArgs e){using var font=Theme.Body(9);var size=TextRenderer.MeasureText(TextFor(e.AssociatedControl),font,new Size(320,0),TextFormatFlags.WordBreak);e.ToolTipSize=new(size.Width+20,size.Height+12);}
+ void OnDraw(object? _,DrawToolTipEventArgs e){
+  using var fill=new SolidBrush(Theme.Surface);e.Graphics.FillRectangle(fill,e.Bounds);using var pen=new Pen(Theme.Line);e.Graphics.DrawRectangle(pen,0,0,e.Bounds.Width-1,e.Bounds.Height-1);
+  using var font=Theme.Body(9);TextRenderer.DrawText(e.Graphics,e.ToolTipText,font,Rectangle.Inflate(e.Bounds,-10,-6),Theme.Text,TextFormatFlags.WordBreak|TextFormatFlags.Left|TextFormatFlags.NoPrefix);
+ }
+}
+
 internal sealed class JournalCard:Panel {
  public JournalCard(){SetStyle(ControlStyles.Opaque|ControlStyles.ResizeRedraw,true);DoubleBuffered=true;BackColor=Theme.Surface;Padding=new(Theme.Space*6);}
  protected override void OnPaint(PaintEventArgs e){

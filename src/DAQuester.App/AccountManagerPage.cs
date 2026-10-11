@@ -14,11 +14,14 @@ internal sealed class AccountManagerPage:UserControl {
  readonly Func<string,bool> canChange;
  readonly Font statusFont=Theme.Body(9);
  readonly Func<string,string> journeyStatus;
- public AccountManagerPage(AppSettings settings,IEnumerable<string> names,bool preview=false,Func<string,bool>? canChange=null,Func<string,string>? journeyStatus=null){
+ readonly Func<string,string?> launchBlocker,launchHint;
+ readonly JournalTip tip=new();
+ public AccountManagerPage(AppSettings settings,IEnumerable<string> names,bool preview=false,Func<string,bool>? canChange=null,Func<string,string>? journeyStatus=null,Func<string,string?>? launchBlocker=null,Func<string,string?>? launchHint=null){
   this.settings=settings;this.preview=preview;
   this.canChange=canChange??(_=>true);
   this.journeyStatus=journeyStatus??(_=>"");
-  Disposed+=(_,_)=>statusFont.Dispose();
+  this.launchBlocker=launchBlocker??(_=>null);this.launchHint=launchHint??(_=>null);
+  Disposed+=(_,_)=>{statusFont.Dispose();tip.Dispose();};
   Name="loginPage";Dock=DockStyle.Fill;BackColor=Theme.Ink;ForeColor=Theme.Text;Font=Theme.Body();Padding=new(24,16,24,8);
   var header=new Panel{Dock=DockStyle.Top,Height=112};
   var title=Theme.Label("Characters",24);title.Font=Theme.Heading();title.Dock=DockStyle.Top;title.Height=50;
@@ -31,11 +34,14 @@ internal sealed class AccountManagerPage:UserControl {
   table.Columns.Add(new DataGridViewButtonColumn{Name="Launch",HeaderText="Dark Ages",Text="Launch",UseColumnTextForButtonValue=true,FillWeight=90,MinimumWidth=88,ReadOnly=true});
   table.Columns.Add(new DataGridViewButtonColumn{Name="Home",HeaderText="Return location",Text="Set home here",UseColumnTextForButtonValue=true,FillWeight=120,MinimumWidth=126,ReadOnly=true});
   table.CellPainting+=(_,e)=>{
-   if(e.RowIndex<0||e.ColumnIndex<3)return;e.PaintBackground(e.ClipBounds,true);var bounds=Rectangle.Inflate(e.CellBounds,-6,-7);using var shape=JournalButton.Rounded(bounds,5);using var fill=new SolidBrush(e.ColumnIndex==3?Theme.Raised:Theme.Surface);using var pen=new Pen(Theme.Line);using var font=Theme.Body(8.5f);e.Graphics!.SmoothingMode=System.Drawing.Drawing2D.SmoothingMode.AntiAlias;e.Graphics.FillPath(fill,shape);e.Graphics.DrawPath(pen,shape);TextRenderer.DrawText(e.Graphics,e.FormattedValue?.ToString()??"",font,bounds,e.ColumnIndex==3?Theme.Gold:Theme.Muted,TextFormatFlags.HorizontalCenter|TextFormatFlags.VerticalCenter);e.Handled=true;
+   if(e.RowIndex<0||e.ColumnIndex<3)return;e.PaintBackground(e.ClipBounds,true);var bounds=Rectangle.Inflate(e.CellBounds,-6,-7);bool blocked=e.ColumnIndex==3&&Blocker(table.Rows[e.RowIndex]) is not null;using var shape=JournalButton.Rounded(bounds,5);using var fill=new SolidBrush(blocked?Theme.DisabledSurface:e.ColumnIndex==3?Theme.Raised:Theme.Surface);using var pen=new Pen(Theme.Line);using var font=Theme.Body(8.5f);e.Graphics!.SmoothingMode=System.Drawing.Drawing2D.SmoothingMode.AntiAlias;e.Graphics.FillPath(fill,shape);e.Graphics.DrawPath(pen,shape);TextRenderer.DrawText(e.Graphics,e.FormattedValue?.ToString()??"",font,bounds,blocked?Theme.DisabledText:e.ColumnIndex==3?Theme.Gold:Theme.Muted,TextFormatFlags.HorizontalCenter|TextFormatFlags.VerticalCenter);e.Handled=true;
   };
+  table.CellMouseEnter+=(_,e)=>{if(e.RowIndex<0||e.ColumnIndex!=3)return;var row=table.Rows[e.RowIndex];string? text=Blocker(row)??(IsSaved(row)?this.launchHint(RowName(row)):null);if(text is null)return;var cell=table.GetCellDisplayRectangle(e.ColumnIndex,e.RowIndex,false);tip.ShowAt(text,table,new(cell.Left,cell.Bottom+2));};
+  table.CellMouseLeave+=(_,e)=>{if(e.ColumnIndex==3)tip.Hide(table);};
   table.CellContentClick+=(_,e)=>{
-   if(e.RowIndex<0||e.ColumnIndex<3)return;table.EndEdit();var row=table.Rows[e.RowIndex];string name=row.Cells[0].Value?.ToString()?.Trim()??"";
-   if(row.Tag is not Origin origin||!origin.Name.Equals(name,StringComparison.OrdinalIgnoreCase)||(row.Cells[1].Value?.ToString()?.Length??0)>0||!settings.Characters.Contains(name,StringComparer.OrdinalIgnoreCase)){message.ForeColor=Theme.Gold;message.Text="Save this character’s edits before launching or setting home.";return;}
+   if(e.RowIndex<0||e.ColumnIndex<3)return;table.EndEdit();var row=table.Rows[e.RowIndex];string name=RowName(row);
+   if(!IsSaved(row)){message.ForeColor=Theme.Gold;message.Text="Save this character’s edits before launching or setting home.";return;}
+   if(e.ColumnIndex==3&&this.launchBlocker(name) is {} blocker){message.ForeColor=Theme.Gold;message.Text=blocker;return;}
    if(e.ColumnIndex==3)LaunchRequested?.Invoke(name);else HomeRequested?.Invoke(name);
   };
   foreach(DataGridViewColumn column in table.Columns)column.SortMode=DataGridViewColumnSortMode.NotSortable;
@@ -69,7 +75,10 @@ internal sealed class AccountManagerPage:UserControl {
   string saved=password.Length>0?"New password · unsaved":origin is null||name!=origin.Name?"Name changed · unsaved":origin.PasswordSaved?"Password saved":"No saved password";
   string status=journeyStatus(name);row.Cells[2].Value=status.Length==0?saved:status+"\n"+saved;row.Height=status.Length==0?45:64;row.Cells[2].Style.Font=statusFont;
  }
- public void RefreshStatus(){foreach(DataGridViewRow row in table.Rows)UpdateRow(row);}
+ public void RefreshStatus(){foreach(DataGridViewRow row in table.Rows)UpdateRow(row);table.InvalidateColumn(3);}
+ static string RowName(DataGridViewRow row)=>row.Cells[0].Value?.ToString()?.Trim()??"";
+ bool IsSaved(DataGridViewRow row){string name=RowName(row);return row.Tag is Origin origin&&origin.Name.Equals(name,StringComparison.OrdinalIgnoreCase)&&(row.Cells[1].Value?.ToString()?.Length??0)==0&&settings.Characters.Contains(name,StringComparer.OrdinalIgnoreCase);}
+ string? Blocker(DataGridViewRow row)=>IsSaved(row)?launchBlocker(RowName(row)):null;
  void UpdateActions(){
   if(loading)return;remove.Enabled=table.SelectedRows.Count>0;save.Enabled=dirty||table.Rows.Count>0;discard.Enabled=dirty;
   message.ForeColor=Theme.Muted;message.Text=dirty?"Unsaved changes. Save accounts to apply them.":table.Rows.Count==0?"Add your first character to get started.":$"{table.Rows.Count} accounts · click a cell to edit · passwords stay masked";
