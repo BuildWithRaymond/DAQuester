@@ -36,6 +36,11 @@ jobs:
         run: ./tools/Capture-Screenshots.ps1
       - name: Package and verify Windows release
         run: ./tools/Build-Release.ps1
+      - name: Shipped Avalonia payload smoke
+        shell: pwsh
+        run: |
+          [xml]$props=Get-Content Directory.Build.props
+          ./tools/Test-UI.ps1 -Executable "artifacts/package-$($props.Project.PropertyGroup.Version)/DAQuester.exe"
       - name: Older Windows Forms updater compatibility
         run: ./tools/Test-UpdateCompatibility.ps1 -DownloadPrevious
       - name: Upload packages

@@ -18,3 +18,5 @@ Data/
 *.exe
 .env
 .env.*
+__pycache__/
+*.pyc

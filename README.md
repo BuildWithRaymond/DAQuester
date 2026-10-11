@@ -47,6 +47,12 @@ DAQuester supports Windows and the exact **DATester 7.41** client documented in
 [client provenance](docs/provenance.md). Launch clients through DAQuester; it
 doesn't attach to clients that are already open. The game itself isn't included.
 
+The supported profile includes walkability data for **1,417 recorded maps**.
+Travel uses it automatically when the client has no cached map data, so moving
+DAQuester to another PC does not require copying a populated map cache. Fifteen
+recorded maps remain uncovered; movement pauses if neither source has usable
+collision data. Raw game maps and artwork are not bundled.
+
 ## Available quests
 
 The library has 71 entries. These six have automatic recipes:
@@ -98,7 +104,7 @@ dotnet test tests/DAQuester.UiTests -c Release --no-build -m:1
 | `src/DAQuester.Core` | Quest rules, saved journals, queues, and character memory |
 | `src/DAQuester.DarkAges` | Game protocol, proxy, client launch, and navigation |
 | `tests` | Synthetic regression tests; no real character actions |
-| `content` | Recipes, catalog, routes, calibration, and sanitized evidence |
+| `content` | Recipes, catalog, routes, functional walkability, calibration, and sanitized evidence |
 | `docs` | Player guides, contributor references, release notes, and screenshots |
 | `tools` | UI checks, screenshot capture, content tools, and release packaging |
 

@@ -12,6 +12,16 @@ namespace DAQuester.UiTests;
 public class PresentationTests
 {
  [Fact]
+ public async Task SavedLaunchActionsWaitForConnectionReadiness()
+ {
+  var runtime = Runtime(preview: false); var vm = new MainWindowViewModel(runtime);
+  Assert.False(vm.LaunchSelectedCommand.CanExecute(null));
+  Assert.Contains("connection isn't ready", vm.LaunchTooltip);
+  Assert.All(vm.Characters, c => Assert.False(c.LaunchCommand.CanExecute(null)));
+  Assert.All(vm.Characters, c => Assert.Contains("connection isn't ready", c.LaunchStatus));
+  await runtime.ShutdownAsync();
+ }
+ [Fact]
  public async Task RenamingObservedAccountDoesNotRecreateItsOldEditorRow()
  {
   var runtime = Runtime(); runtime.SetPreviewSnapshot(new() { Name = "Elara", Id = 1, Connected = true, Generation = 7, Revision = 1 });
@@ -46,10 +56,10 @@ public class PresentationTests
   var run = command.ExecuteAsync(); Assert.True(running); Assert.True(command.CanExecute(null));
   await command.ExecuteAsync(); await run;
  }
- static DesktopRuntime Runtime()
+ static DesktopRuntime Runtime(bool preview = true)
  {
   AppSettings.UseIsolatedData(Path.Combine(AppContext.BaseDirectory, "test-data", Guid.NewGuid().ToString("N")));
-  var settings = AppSettings.Load(); settings.Characters = ["Elara", "Wren"]; settings.ClientPath = ""; settings.Save(); return new(preview: true);
+  var settings = AppSettings.Load(); settings.Characters = ["Elara", "Wren"]; settings.ClientPath = ""; settings.Save(); return new(preview: preview);
  }
  [Theory]
  [InlineData("Elara", "Wren", false, 0, 3, false)]

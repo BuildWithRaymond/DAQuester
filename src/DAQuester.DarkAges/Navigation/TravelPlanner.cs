@@ -44,6 +44,7 @@ public partial class MapRepository {
   var costs=new Dictionary<RouteNode,(int Actions,int Changes)>{{start,(0,0)}};
   var parents=new Dictionary<RouteNode,(RouteNode Before,TravelStep? Via)>();
   var open=new PriorityQueue<RouteNode,(int Actions,int Changes)>();open.Enqueue(start,(0,0));
+  HashSet<int> unavailableCollision=[];
   void Offer(RouteNode node,RouteNode before,TravelStep? via,(int Actions,int Changes) cost){
    if(costs.TryGetValue(node,out var old)&&Comparer<(int,int)>.Default.Compare(cost,old)>=0)return;
    costs[node]=cost;parents[node]=(before,via);open.Enqueue(node,cost);
@@ -58,7 +59,7 @@ public partial class MapRepository {
    if(!reachable.Contains(node.Map)||!records.TryGetValue(node.Map,out var r))continue;
    var blocks=node.Map==from?obstacles:null;int[] field;
    try{field=WalkingDistances(node.Map,node.Position,blocks,ct);}
-   catch(Exception e)when(node!=start&&e is FileNotFoundException or InvalidDataException or InvalidOperationException){continue;}
+   catch(Exception e)when(node!=start&&e is FileNotFoundException or InvalidDataException or InvalidOperationException){unavailableCollision.Add(node.Map);continue;}
    if(node.Map==destination&&target is not null&&Distance(r,field,target) is >=0 and var tail)
     Offer(new(destination,target,true),node,null,(cost.Actions+tail,cost.Changes));
    foreach(var p in r.Portals.Where(p=>reachable.Contains(p.Map)&&(node.Map!=destination||p.Map==destination))){
@@ -70,7 +71,8 @@ public partial class MapRepository {
     Offer(new(node.Map,t.To),node,new(node.Map,t.From,node.Map,t.To),(cost.Actions+walk,cost.Changes+1));
    }
   }
-  throw new InvalidOperationException("No walkable recorded route from "+from+" to "+destination+". Check map data or blocked exits.");
+  string unavailable=unavailableCollision.Count==0?"":" Collision data could not be loaded for: "+string.Join(", ",unavailableCollision.Order().Select(MapLabel))+".";
+  throw new InvalidOperationException("No walkable recorded route from "+from+" to "+destination+". Check map data or blocked exits."+unavailable);
  }
  public ServerWorldMapNode WorldDestination(int destination,IEnumerable<ServerWorldMapNode> available,int sourceMap,Tile entrance,Tile? target=null,CancellationToken ct=default){
   var nodes=available.ToArray();var exits=Record(sourceMap).Portals.Where(p=>p.WorldMap&&p.From==entrance).ToArray();

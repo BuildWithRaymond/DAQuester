@@ -34,7 +34,9 @@ public sealed class CharacterItemVM : ObservableObject
  }
  public string HomeText => OriginalName.Length == 0 ? "Home not set" : owner.Runtime.Queue(OriginalName).Home is { } home ? "Home · " + home.Label : "Home not set";
  public string LoginText => Password.Length > 0 ? "New password · unsaved" : Name != OriginalName ? "Unsaved character edits" : OriginalName.Length > 0 && CredentialVault.Exists(OriginalName) ? "Password saved securely" : "Manual sign-in";
- public string LaunchStatus => owner.Runtime.LaunchState(OriginalName);
+ public string? LaunchBlocker => Saved ? owner.Runtime.LaunchBlocker(OriginalName) : "Save this character’s edits before launching.";
+ public string LaunchTooltip => LaunchBlocker ?? owner.Runtime.LaunchHint(OriginalName) ?? "Launch Dark Ages";
+ public string LaunchStatus => LaunchBlocker ?? owner.Runtime.LaunchState(OriginalName);
  public AsyncCommand LaunchCommand { get; }
  public AsyncCommand SetHomeCommand { get; }
  public RelayCommand SelectCommand { get; }
@@ -42,7 +44,7 @@ public sealed class CharacterItemVM : ObservableObject
  public CharacterItemVM(MainWindowViewModel owner, string original)
  {
   this.owner = owner; OriginalName = name = original;
-  LaunchCommand = owner.Command(_ => owner.Runtime.LaunchAsync(OriginalName), _ => Saved);
+  LaunchCommand = owner.Command(_ => owner.Runtime.LaunchAsync(OriginalName), _ => LaunchBlocker is null);
   SetHomeCommand = owner.Command(_ => owner.Runtime.SetHomeAsync(OriginalName), _ => Saved && owner.Runtime.Snapshot(OriginalName) is { Connected: true, Map: not null, Position: not null } && !owner.Runtime.QueueReserves(OriginalName));
   SelectCommand = new(_ => { owner.SelectedCharacter = this; owner.Page = "Planner"; }, _ => OriginalName.Length > 0);
   RemoveCommand = new(_ => owner.RemoveCharacter(this));

@@ -3,6 +3,7 @@ $ErrorActionPreference='Stop'
 $repoRoot=Split-Path $PSScriptRoot -Parent
 Push-Location $repoRoot
 try {
+    . (Join-Path $PSScriptRoot 'Assert-WalkabilityAsset.ps1')
     [xml]$props=Get-Content -LiteralPath Directory.Build.props
     $version=[string]$props.Project.PropertyGroup.Version
     if($version -notmatch '^\d+\.\d+\.\d+$'){throw 'Stable packaging requires a major.minor.patch version.'}
@@ -13,10 +14,26 @@ try {
     # A running checkout must not hold up release packaging or be replaced by it.
     $buildOutput=Join-Path $repoRoot "artifacts/build-package-$version/"
     # Local portable symbols embed checkout paths; omit them from public release builds only.
-    dotnet publish src/DAQuester.App -c Release -r win-x86 --self-contained true -o $payload -m:1 -p:UseSharedCompilation=false -p:DebugType=None -p:DebugSymbols=false -p:CopyOutputSymbolsToPublishDirectory=false "-p:OutDir=$buildOutput"
+    # Rebuild every project so unchanged Core intermediates cannot retain old CodeView paths.
+    dotnet build src/DAQuester.App -c Release -r win-x86 --self-contained true --force --no-incremental -m:1 -p:UseSharedCompilation=false -p:DebugType=None -p:DebugSymbols=false -p:CopyOutputSymbolsToPublishDirectory=false "-p:OutDir=$buildOutput"
+    if($LASTEXITCODE -ne 0){throw 'Clean release compilation failed.'}
+    dotnet publish src/DAQuester.App -c Release -r win-x86 --self-contained true --no-build -o $payload -m:1 -p:UseSharedCompilation=false -p:DebugType=None -p:DebugSymbols=false -p:CopyOutputSymbolsToPublishDirectory=false "-p:OutDir=$buildOutput"
     if($LASTEXITCODE -ne 0){throw 'Application publish failed.'}
     if(Test-Path -LiteralPath (Join-Path $payload 'Data')){throw 'User Data must never enter the release payload.'}
     if(Get-ChildItem -LiteralPath $payload -File -Recurse -Filter '*.pdb'){throw 'Release payload must exclude symbols with local source paths.'}
+    if(Get-ChildItem -LiteralPath $payload -File -Recurse | Where-Object {$_.Extension -eq '.map' -or $_.Name -in @('ia.dat','sotp.dat')}){throw 'Raw game map and collision archives must never enter the release payload.'}
+    $walkabilityPath=Join-Path $payload 'content/maps/datester-7.41.walkability.json'
+    if(-not(Test-Path -LiteralPath $walkabilityPath)){throw 'Missing supported-profile functional walkability asset.'}
+    $walkability=Get-Content -LiteralPath $walkabilityPath -Raw | ConvertFrom-Json
+    $routeRecords=Get-Content -LiteralPath (Join-Path $payload 'content/routes.json') -Raw | ConvertFrom-Json
+    $coverage=Assert-WalkabilityAsset -Asset $walkability -Routes $routeRecords
+    Write-Output "Functional walkability: $($coverage.covered)/$($coverage.recorded) maps ($($coverage.missing) unavailable)."
+    $privatePaths=@($repoRoot,$repoRoot.Replace('\','/'),$repoRoot.Replace('\','\\'))
+    foreach($file in Get-ChildItem -LiteralPath $payload -File -Recurse) {
+        $bytes=[IO.File]::ReadAllBytes($file.FullName)
+        $decoded=@([Text.Encoding]::UTF8.GetString($bytes),[Text.Encoding]::Unicode.GetString($bytes))
+        foreach($text in $decoded){foreach($privatePath in $privatePaths){if($text.IndexOf($privatePath,[StringComparison]::OrdinalIgnoreCase) -ge 0){throw "Local checkout path embedded in release payload: $($file.Name)"}}}
+    }
     $assets=Get-Content src/DAQuester.App/obj/project.assets.json -Raw | ConvertFrom-Json
     # SDK downloads can include unused packs; check the frameworks actually referenced and published.
     $frameworkReferences=@($assets.project.frameworks.PSObject.Properties.Value.frameworkReferences.PSObject.Properties.Name)
@@ -59,7 +76,9 @@ try {
         if(-not $nuspec){throw "Missing package metadata: $($library.Name)"}
         Copy-Item -LiteralPath $nuspec.FullName -Destination (Join-Path $noticeDestination 'package.nuspec')
         [xml]$metadata=Get-Content -LiteralPath $nuspec.FullName
-        $dependencies+=@{name=$packageName;version=$packageVersion;license=[string]$metadata.package.metadata.license;notices=@($noticeFiles.Name)}
+        $license=$metadata.package.metadata.license
+        $licenseText=if($license -is [Xml.XmlElement]){$license.InnerText}else{[string]$license}
+        $dependencies+=@{name=$packageName;version=$packageVersion;license=$licenseText;notices=@($noticeFiles | ForEach-Object Name)}
     }
     if(-not($dependencies | Where-Object {$_.name -eq 'Avalonia'})){throw 'Avalonia dependencies were not restored.'}
     $dependencies | ConvertTo-Json -Depth 5 | Set-Content -LiteralPath (Join-Path $payload 'licenses/ui-dependencies.json') -Encoding UTF8

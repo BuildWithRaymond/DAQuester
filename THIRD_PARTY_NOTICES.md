@@ -107,6 +107,14 @@ respective owners. Raw game files are read from a user's installation and are
 not included in this repository or release packages. Routes contain normalized
 map identifiers, labels and portal observations, rather than raw map files.
 
+The supported DATester profile also includes functional walkability grids:
+one blocked/open flag per tile, recorded dimensions and source SHA-256 digests.
+They cover 1,417 recorded maps; the manifest lists 15 unavailable maps. These
+grids contain no floor or sprite identifiers, artwork, raw map files or archive
+entries. They retain the existing collision rules and explicit map-97 entrance
+exception. Their derivation and coverage are documented in
+[provenance](docs/provenance.md).
+
 The compass and other UI drawings are original code-native artwork. Screenshots
 are actual isolated application renders with sample characters. Segoe UI,
 Georgia and Consolas are requested from Windows; no font files are bundled.

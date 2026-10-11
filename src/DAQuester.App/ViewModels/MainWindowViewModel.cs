@@ -47,6 +47,8 @@ public sealed class MainWindowViewModel : ObservableObject
  public bool CharactersEmpty => Characters.Count == 0;
  public bool HistoryEmpty => History.Count == 0;
  public string SelectedCharacterInfo => SelectedCharacter?.LevelText ?? "Choose your character";
+ public string? LaunchBlocker => Runtime.Settings.Characters.Length == 0 ? Runtime.LaunchBlocker("") : SelectedCharacter?.Saved == true ? Runtime.LaunchBlocker(CharacterName) : "Save this character’s edits before launching.";
+ public string LaunchTooltip => LaunchBlocker ?? Runtime.LaunchHint(Runtime.Settings.Characters.Length == 0 ? "" : CharacterName) ?? (Runtime.Settings.Characters.Length == 0 ? "Open Dark Ages without entering a login." : "Launch Dark Ages");
  public string ConnectionStatus => CharacterName.Length == 0 ? "No character selected" : Runtime.Snapshot(CharacterName).Connected ? "Connected · fresh state" : Runtime.Preview ? "Offline · sample workspace" : Runtime.ConnectionError is not null ? "Connection unavailable · check Settings" : "Offline · connect to begin";
  public string QueueHeading => CharacterName.Length == 0 ? "Your queue" : CharacterName + "’s queue";
  public string QueueHint => QueueLocked ? "Stop this run to edit its order." : "Drag to reorder · Ctrl + ↑ / ↓";
@@ -165,7 +167,7 @@ public sealed class MainWindowViewModel : ObservableObject
   DiscardAccountsCommand = new(_ => { removedAccounts.Clear(); Characters.Clear(); selectedCharacter = null; LoadCharacters(); Refresh(); AccountStatus = "Edits discarded."; });
   LaunchSelectedCommand = Command(_ => runtime.Settings.Characters.Length == 0
    ? runtime.LaunchAsync("", manualOnly: true)
-   : runtime.LaunchAsync(CharacterName), _ => runtime.Settings.Characters.Length == 0 || SelectedCharacter?.Saved == true);
+   : runtime.LaunchAsync(CharacterName), _ => LaunchBlocker is null);
   StartQueueCommand = Command(_ => runtime.StartQueueAsync(CharacterName), _ => runtime.QueueRunning(CharacterName) || !runtime.QueueBusy(CharacterName) && runtime.QueueStartReason(CharacterName, QueueState).Length == 0, allowConcurrent: true);
   StopQueueCommand = Command(_ => runtime.PauseQueueAsync(CharacterName, true), _ => QueueLocked);
   ClearQueueCommand = Command(_ => runtime.EditQueueAsync(CharacterName, s => s with { Quests = [], ActiveQuest = null }), _ => !QueueLocked && !QueueEmpty);

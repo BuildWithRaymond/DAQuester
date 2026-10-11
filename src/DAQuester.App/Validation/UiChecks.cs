@@ -2,6 +2,7 @@ using System.Collections.Immutable;
 using System.Text.Json;
 using System.Runtime.InteropServices;
 using Avalonia;
+using Avalonia.Automation;
 using Avalonia.Automation.Peers;
 using Avalonia.Controls;
 using Avalonia.Controls.ApplicationLifetimes;
@@ -18,6 +19,7 @@ using DAQuester.App.Services;
 using DAQuester.App.ViewModels;
 using DAQuester.App.Views;
 using DAQuester.Core;
+using DAQuester.DarkAges.Navigation;
 
 namespace DAQuester.App.Validation;
 
@@ -70,6 +72,11 @@ internal static class UiChecks
 
    Check(vm.Runtime.Preview, "Validation runtime is preview only");
    Check(Path.GetFullPath(AppSettings.DataPath).StartsWith(Path.GetFullPath("artifacts") + Path.DirectorySeparatorChar, StringComparison.OrdinalIgnoreCase), "User Data is isolated under ignored artifacts");
+   string emptyClientCache = Path.Combine(AppSettings.DataPath, "empty-client-cache"); Directory.CreateDirectory(emptyClientCache);
+   var packagedMaps = new MapRepository(emptyClientCache, Path.Combine(AppSettings.Content, "routes.json"), vm.Runtime.Settings.ServerProfile);
+   var packagedRoute = packagedMaps.Plan(500, new(33, 37), 413, new(3, 13));
+   Check(packagedRoute.Steps.Count > 0 && packagedRoute.Steps.Last().Map == 413 && packagedRoute.Cost > 0 && !Directory.EnumerateFiles(emptyClientCache, "*", SearchOption.AllDirectories).Any(), "Shipped functional grids plan Mileth to Suomi Tavern with an empty client map cache");
+   Check(!packagedMaps.Load(97).Blocked(new(46, 21)), "Packaged walkability preserves the established map-97 entrance override");
    await vm.Runtime.StartAsync(); Check(!vm.Runtime.Ready && !vm.Runtime.ConnectedGame, "Preview startup opens no game listeners or sessions");
    if (Program.IsScreenshots)
    {
@@ -128,6 +135,32 @@ internal static class UiChecks
    foreach (var observed in observedCharacters) vm.Runtime.SetPreviewSnapshot(observed);
    vm.Refresh(); await Settle(); await Select("Agent"); states.Add("populated");
    await CapturePopup(Require<ComboBox>("characterSwitcher"), "character-switcher-menu");
+   // Exercise production readiness presentation without ever starting its listeners or launch commands.
+   var blockedRuntime = new DesktopRuntime(preview: false, updateBackend: updateBackend);
+   try
+   {
+    var blockedVm = new MainWindowViewModel(blockedRuntime);
+    window.DataContext = blockedVm; await Settle();
+    Check(!blockedRuntime.Preview && !blockedRuntime.Ready && !blockedRuntime.ConnectedGame && !blockedRuntime.LaunchedClientRunning, "The launcher-readiness fixture has no listeners, sessions or launched clients");
+    Check(blockedVm.SelectedCharacter?.Name == "Agent" && blockedVm.LaunchBlocker?.Contains("connection", StringComparison.OrdinalIgnoreCase) == true, "The selected saved account explains the unavailable game connection");
+    var headerLaunch = Require<Button>("launchSelected");
+    Check(!headerLaunch.IsEffectivelyEnabled && !blockedVm.LaunchSelectedCommand.CanExecute(null), "Connection readiness disables the actual header Launch action");
+    Check(Equals(ToolTip.GetTip(headerLaunch), blockedVm.LaunchBlocker) && ToolTip.GetShowOnDisabled(headerLaunch) && AutomationProperties.GetHelpText(headerLaunch) == blockedVm.LaunchBlocker, "The disabled header Launch exposes its connection reason to hover and accessibility");
+    await Capture("planner-launch-blocked");
+    blockedVm.NavigateCommand.Execute("Characters"); await Settle();
+    var cardLaunches = window.GetVisualDescendants().OfType<Button>().Where(b => b.Name == "launchCharacter").ToArray();
+    var cardStatuses = window.GetVisualDescendants().OfType<TextBlock>().Where(t => t.Name == "cardLaunchStatus").ToArray();
+    Check(cardLaunches.Length == 3 && cardLaunches.All(b => !b.IsEffectivelyEnabled), "Connection readiness disables every saved character's actual Launch action");
+    Check(cardLaunches.All(b => b.DataContext is CharacterItemVM character && !character.LaunchCommand.CanExecute(null) && character.LaunchBlocker?.Contains("connection", StringComparison.OrdinalIgnoreCase) == true && Equals(ToolTip.GetTip(b), character.LaunchBlocker) && ToolTip.GetShowOnDisabled(b) && AutomationProperties.GetHelpText(b) == character.LaunchBlocker), "Each disabled character Launch exposes its own explicit connection reason");
+    Check(cardStatuses.Length == 3 && cardStatuses.All(t => t.IsEffectivelyVisible && t.Bounds.Width > 0 && t.Bounds.Height > 0 && t.DataContext is CharacterItemVM character && t.Text == character.LaunchBlocker), "Every character card renders its launch-blocking reason as visible status text");
+    await Capture("characters-launch-blocked"); states.Add("launch-blocked");
+    Check(updateBackend.Checks == 0 && updateBackend.Downloads == 0 && updateBackend.Installs == 0, "The unstarted readiness fixture performs no update actions");
+   }
+   finally
+   {
+    window.DataContext = vm;
+    await blockedRuntime.ShutdownAsync(); vm.Refresh(); await Settle();
+   }
    Check(vm.Runtime.Memory("Agent").Level == 99, "Observed character level persists");
    Check(vm.Runtime.Memory("Agent").Legends.Contains(snapshot.Legends[0]), "Observed own legend persists");
    Check(vm.Runtime.Memory("Elara").Level == 11 && !vm.Runtime.Memory("Elara").Legends.Contains(snapshot.Legends[0]), "Observed memory remains per character");

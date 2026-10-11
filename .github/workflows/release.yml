@@ -37,6 +37,11 @@ jobs:
         run: ./tools/Capture-Screenshots.ps1
       - name: Build verified release
         run: ./tools/Build-Release.ps1
+      - name: Shipped Avalonia payload smoke
+        shell: pwsh
+        run: |
+          [xml]$props=Get-Content Directory.Build.props
+          ./tools/Test-UI.ps1 -Executable "artifacts/package-$($props.Project.PropertyGroup.Version)/DAQuester.exe"
       - name: Older Windows Forms updater compatibility
         run: ./tools/Test-UpdateCompatibility.ps1 -DownloadPrevious
       - uses: actions/upload-artifact@cf430e030ddbb5b0abf93d22962f4752f3646cd9 # v7

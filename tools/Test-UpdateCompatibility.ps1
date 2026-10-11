@@ -1,12 +1,17 @@
 param(
     [string]$Output='artifacts/release',
     [string]$PreviousPackage='artifacts/release-1.0.7/BuildWithRaymond.DAQuester-1.0.7-full.nupkg',
-    [string]$Executable='src/DAQuester.App/bin/Release/net10.0-windows/win-x86/DAQuester.exe',
+    [string]$Executable,
     [switch]$DownloadPrevious
 )
 $ErrorActionPreference='Stop'
 $repoRoot=Split-Path $PSScriptRoot -Parent
 function Resolve-RepoPath([string]$Value){if([IO.Path]::IsPathRooted($Value)){[IO.Path]::GetFullPath($Value)}else{[IO.Path]::GetFullPath((Join-Path $repoRoot $Value))}}
+if(-not $Executable) {
+    [xml]$props=Get-Content -LiteralPath (Join-Path $repoRoot 'Directory.Build.props')
+    $payloadExecutable=Join-Path $repoRoot ('artifacts/package-'+$props.Project.PropertyGroup.Version+'/DAQuester.exe')
+    $Executable=if(Test-Path -LiteralPath $payloadExecutable){$payloadExecutable}else{'src/DAQuester.App/bin/Release/net10.0-windows/win-x86/DAQuester.exe'}
+}
 $appPath=Resolve-RepoPath $Executable
 $releasePath=Resolve-RepoPath $Output
 $previousPath=Resolve-RepoPath $PreviousPackage

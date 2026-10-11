@@ -36,6 +36,7 @@ public sealed partial class DesktopRuntime
  readonly HashSet<string> previewRunning = new(StringComparer.OrdinalIgnoreCase);
  readonly HashSet<string> previewQueueRunning = new(StringComparer.OrdinalIgnoreCase);
  bool closing, started, shuttingDown;
+ bool logFileFailed;
  Task? shutdownTask;
  string CalibrationPath => Path.Combine(AppSettings.DataPath, "calibration", Settings.ServerProfile + ".json");
  public AppSettings Settings { get; }
@@ -88,9 +89,21 @@ public sealed partial class DesktopRuntime
  public void Log(string message) => Ui(() =>
  {
   string line = DateTime.Now.ToString("HH:mm:ss") + "  " + message;
-  lock (logs) { logs.Add(line); if (logs.Count > 2000) logs.RemoveAt(0); }
-  try { File.AppendAllText(Path.Combine(AppSettings.DataPath, "diagnostics.log"), line + Environment.NewLine); } catch (IOException) { }
+  string? failure = null;
+  lock (logs) logs.Add(line);
+  try { File.AppendAllText(Path.Combine(AppSettings.DataPath, "diagnostics.log"), line + Environment.NewLine); logFileFailed = false; }
+  catch (Exception e) when (e is IOException or UnauthorizedAccessException)
+  {
+   if (!logFileFailed)
+   {
+    logFileFailed = true;
+    failure = DateTime.Now.ToString("HH:mm:ss") + "  diagnostics.log not written: " + e.Message;
+    lock (logs) logs.Add(failure);
+   }
+  }
+  lock (logs) while (logs.Count > 2000) logs.RemoveAt(0);
   Diagnostic?.Invoke(line);
+  if (failure is not null) Diagnostic?.Invoke(failure);
  });
  public CharacterSnapshot Snapshot(string name) => Preview && previewSnapshots.TryGetValue(name, out var snapshot) ? snapshot : sessions.GetValueOrDefault(name)?.Snapshot ?? new() { Name = name };
  public Dialog? CurrentDialog(string name) => Snapshot(name).Dialog;
@@ -139,7 +152,7 @@ public sealed partial class DesktopRuntime
    if (runners.Remove(name, out var old)) await old.PauseAsync("Connection replaced");
    if (closing || shuttingDown) return;
    CancelControl(name);
-   var maps = new MapRepository(Path.GetDirectoryName(Settings.ClientPath)!, Path.Combine(AppSettings.Content, "routes.json"));
+   var maps = new MapRepository(Path.GetDirectoryName(Settings.ClientPath)!, Path.Combine(AppSettings.Content, "routes.json"), Settings.ServerProfile);
    var session = new GameSession(connection, maps, Settings.MovementMilliseconds) { FastMode = Settings.FastModeEnabled(name) }; sessions[name] = session;
    session.Changed += snapshot => Ui(() =>
    {

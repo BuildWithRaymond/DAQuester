@@ -25,6 +25,19 @@ try {
         if(-not(Test-Path -LiteralPath $renderPath) -or (Get-Item -LiteralPath $renderPath).Length -lt 1000){throw "UI render is missing or empty: $render"}
     }
     if(@($checks.renders).Count -lt 12){throw 'Avalonia UI checks did not produce the complete render matrix.'}
+    # Native capture subsequently replaces shared filenames; retain the exact headless evidence too.
+    $renderRoot=[IO.Path]::GetFullPath((Join-Path $repoRoot 'artifacts/screenshots'))+[IO.Path]::DirectorySeparatorChar
+    $headlessRoot=Join-Path $renderRoot 'headless'
+    New-Item -ItemType Directory -Path $headlessRoot -Force | Out-Null
+    $headlessRenders=@();$copiedNames=@{}
+    foreach($render in $checks.renders) {
+        $source=[IO.Path]::GetFullPath((Join-Path $repoRoot $render));$name=[IO.Path]::GetFileName($source)
+        if(-not $source.StartsWith($renderRoot,[StringComparison]::OrdinalIgnoreCase) -or $name -notmatch '\.png$' -or $copiedNames.ContainsKey($name)){throw 'Unsafe or duplicate headless render path.'}
+        Copy-Item -LiteralPath $source -Destination (Join-Path $headlessRoot $name) -Force
+        $headlessRenders+='artifacts/screenshots/headless/'+$name;$copiedNames[$name]=$true
+    }
+    $checks.renders=@($headlessRenders)
+    $checks | ConvertTo-Json -Depth 10 | Set-Content -LiteralPath $evidence -Encoding UTF8
     Write-Output $summary
 }
 finally {$process.Dispose()}

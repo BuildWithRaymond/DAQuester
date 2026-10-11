@@ -1,4 +1,5 @@
 using System.Reflection;
+using System.Diagnostics;
 using System.Net.Sockets;
 using System.Text.Json;
 using DAQuester.App;
@@ -21,6 +22,121 @@ public sealed class RuntimeLifecycleTests
   AppSettings.UseIsolatedData(Path.Combine(AppContext.BaseDirectory, "test-data", Guid.NewGuid().ToString("N")));
   var settings = AppSettings.Load(); settings.Characters = ["Elara"]; settings.ClientPath = ""; settings.Save();
   return new(preview: preview, updateBackend: new NoUpdates());
+ }
+
+ [Fact]
+ public async Task ProductionLaunchBlockerReportsReadinessAndMissingClientWithoutLaunching()
+ {
+  var runtime = Runtime();
+  try
+  {
+   Assert.Contains("connection isn't ready", runtime.LaunchBlocker("Elara"));
+   typeof(DesktopRuntime).GetProperty(nameof(DesktopRuntime.Ready))!.SetValue(runtime, true);
+   Assert.Contains("application not found", runtime.LaunchBlocker("Elara"));
+   Assert.False(runtime.LaunchPending("Elara")); Assert.False(runtime.QuestActionsRunning);
+  }
+  finally { await runtime.ShutdownAsync(); }
+ }
+
+ [Fact]
+ public async Task ClientPreflightCachesImageValidationUntilPathOrWriteTimeChanges()
+ {
+  var runtime = Runtime();
+  typeof(DesktopRuntime).GetProperty(nameof(DesktopRuntime.Ready))!.SetValue(runtime, true);
+  string first = Path.Combine(AppSettings.DataPath, "synthetic-client.exe"), second = Path.Combine(AppSettings.DataPath, "another-synthetic-client.exe");
+  File.WriteAllText(first, "An unsupported synthetic image, never executed."); File.WriteAllText(second, "Another unsupported synthetic image, never executed.");
+  runtime.Settings.ClientPath = first;
+  try
+  {
+   string? unsupported = runtime.LaunchBlocker("Elara"); Assert.Contains("supported 7.41 client", unsupported);
+   // An unchanged image need not be read again when another operation holds its file handle.
+   using (var locked = new FileStream(first, FileMode.Open, FileAccess.ReadWrite, FileShare.None)) Assert.Equal(unsupported, runtime.LaunchBlocker("Elara"));
+   File.SetLastWriteTimeUtc(first, File.GetLastWriteTimeUtc(first).AddSeconds(10));
+   using (var locked = new FileStream(first, FileMode.Open, FileAccess.ReadWrite, FileShare.None)) Assert.Contains("couldn't be read", runtime.LaunchBlocker("Elara"));
+   runtime.Settings.ClientPath = second; Assert.Contains("supported 7.41 client", runtime.LaunchBlocker("Elara"));
+   runtime.Settings.ClientPath = Path.Combine(AppSettings.DataPath, "missing-client.exe"); Assert.Contains("application not found", runtime.LaunchBlocker("Elara"));
+   Assert.False(runtime.QuestActionsRunning);
+  }
+  finally { await runtime.ShutdownAsync(); }
+ }
+
+ [Fact]
+ public async Task OwnedClientFocusRemainsAvailableWithoutRevalidatingAnImage()
+ {
+  var runtime = Runtime(); typeof(DesktopRuntime).GetProperty(nameof(DesktopRuntime.Ready))!.SetValue(runtime, true);
+  var owned = (Dictionary<string, Process>)typeof(DesktopRuntime).GetField("ownedClients", BindingFlags.Instance | BindingFlags.NonPublic)!.GetValue(runtime)!;
+  // Observe only this test process's liveness. LaunchAsync and native focus are never invoked.
+  using var process = Process.GetCurrentProcess(); owned.Add("Elara", process);
+  try { Assert.Null(runtime.LaunchBlocker("Elara")); Assert.Contains("focuses", runtime.LaunchHint("Elara")); }
+  finally { owned.Remove("Elara"); await runtime.ShutdownAsync(); }
+ }
+
+ [Fact]
+ public async Task ConnectedCharacterUsesItsGameWindowInsteadOfLaunchingAnotherClient()
+ {
+  var runtime = Runtime(); typeof(DesktopRuntime).GetProperty(nameof(DesktopRuntime.Ready))!.SetValue(runtime, true);
+  using var client = new TcpClient(); using var remote = new TcpClient();
+  await using var connection = new ProxyConnection(client, remote, 7, _ => throw new InvalidOperationException("Synthetic launcher tests never connect."));
+  typeof(DAQuester.DarkAges.Protocol.StateTracker).GetProperty("Snapshot")!.SetValue(connection.Tracker, new CharacterSnapshot { Name = "Elara", Connected = true, Generation = 7 });
+  var session = new GameSession(connection, new MapRepository(AppSettings.DataPath, Path.Combine(AppSettings.Content, "routes.json")));
+  var sessions = (Dictionary<string, GameSession>)typeof(DesktopRuntime).GetField("sessions", BindingFlags.Instance | BindingFlags.NonPublic)!.GetValue(runtime)!; sessions.Add("Elara", session);
+  try { Assert.Contains("already connected", runtime.LaunchBlocker("Elara")); Assert.Null(runtime.LaunchHint("Elara")); }
+  finally { sessions.Remove("Elara"); await runtime.ShutdownAsync(); }
+ }
+
+ [Fact]
+ public async Task BlankManualLaunchUsesTheManualPendingKeyOnlyWithAnEmptySavedAccountList()
+ {
+  var runtime = Runtime(); typeof(DesktopRuntime).GetProperty(nameof(DesktopRuntime.Ready))!.SetValue(runtime, true);
+  var pending = (Dictionary<string, CancellationTokenSource>)typeof(DesktopRuntime).GetField("pendingLaunches", BindingFlags.Instance | BindingFlags.NonPublic)!.GetValue(runtime)!;
+  var states = (Dictionary<string, string>)typeof(DesktopRuntime).GetField("launchStates", BindingFlags.Instance | BindingFlags.NonPublic)!.GetValue(runtime)!;
+  using var owner = new CancellationTokenSource();
+  try
+  {
+   Assert.Contains("select", runtime.LaunchBlocker(""), StringComparison.OrdinalIgnoreCase);
+   runtime.Settings.Characters = []; Assert.Contains("application not found", runtime.LaunchBlocker(""));
+   pending.Add("(manual)", owner); states[""] = "Client open · sign in manually";
+   Assert.True(runtime.LaunchPending("")); Assert.Equal(states[""], runtime.LaunchBlocker(""));
+   pending.Remove("(manual)"); pending.Add("Elara", owner); states["Elara"] = "Waiting for login screen…";
+   Assert.True(runtime.LaunchPending("Elara")); Assert.Equal(states["Elara"], runtime.LaunchBlocker("Elara"));
+  }
+  finally { pending.Clear(); await runtime.ShutdownAsync(); }
+ }
+
+ [Fact]
+ public async Task PreviewLaunchRemainsInteractiveButCannotReachAProxyOrClient()
+ {
+  var runtime = Runtime(preview: true);
+  try
+  {
+   Assert.Null(runtime.LaunchBlocker("Elara")); Assert.Null(runtime.LaunchBlocker(""));
+   Assert.Contains("Preview cannot launch", runtime.LaunchHint("Elara"));
+   var error = await Assert.ThrowsAsync<InvalidOperationException>(() => runtime.LaunchAsync("Elara")); Assert.Contains("Preview cannot launch", error.Message);
+   Assert.False(runtime.Ready); Assert.False(runtime.QuestActionsRunning); Assert.False(runtime.LaunchedClientRunning);
+  }
+  finally { await runtime.ShutdownAsync(); }
+ }
+
+ [Theory]
+ [InlineData(false)]
+ [InlineData(true)]
+ public async Task DiagnosticWriteFailureIsReportedOncePerFailurePeriodWithoutLosingMemoryLogs(bool blockedByDirectory)
+ {
+  var runtime = Runtime(preview: true); string path = Path.Combine(AppSettings.DataPath, "diagnostics.log");
+  List<string> emitted = []; runtime.Diagnostic += emitted.Add; FileStream? locked = null;
+  void Block() { if (blockedByDirectory) { File.Delete(path); Directory.CreateDirectory(path); } else locked = new FileStream(path, FileMode.OpenOrCreate, FileAccess.Write, FileShare.None); }
+  void Unblock() { if (blockedByDirectory && Directory.Exists(path)) Directory.Delete(path); locked?.Dispose(); locked = null; }
+  try
+  {
+   Block(); runtime.Log("first diagnostic"); runtime.Log("second diagnostic");
+   Assert.Contains(runtime.Logs, line => line.EndsWith("first diagnostic")); Assert.Contains(runtime.Logs, line => line.EndsWith("second diagnostic"));
+   Assert.Single(runtime.Logs, line => line.Contains("diagnostics.log not written:")); Assert.Single(emitted, line => line.Contains("diagnostics.log not written:"));
+   Unblock(); runtime.Log("write recovered"); Assert.Contains("write recovered", File.ReadAllText(path));
+   Block(); runtime.Log("third diagnostic");
+   Assert.Equal(2, runtime.Logs.Count(line => line.Contains("diagnostics.log not written:"))); Assert.Equal(2, emitted.Count(line => line.Contains("diagnostics.log not written:")));
+   Assert.Contains(runtime.Logs, line => line.EndsWith("third diagnostic"));
+  }
+  finally { Unblock(); await runtime.ShutdownAsync(); }
  }
 
  [Fact]

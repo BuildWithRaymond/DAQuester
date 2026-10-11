@@ -32,7 +32,7 @@ public sealed partial class DesktopRuntime
   if (r.Method == "launch") { int pid = await LaunchAsync(name, manualOnly: name.Length == 0); return new { pid }; }
   if (r.Method == "map")
   {
-   int map = Number("map", 500); var repository = new MapRepository(Path.GetDirectoryName(Settings.ClientPath)!, Path.Combine(AppSettings.Content, "routes.json")); var record = repository.Record(map); var g = repository.Load(map);
+   int map = Number("map", 500); var repository = new MapRepository(Path.GetDirectoryName(Settings.ClientPath)!, Path.Combine(AppSettings.Content, "routes.json"), Settings.ServerProfile); var record = repository.Record(map); var g = repository.Load(map);
    var rows = Enumerable.Range(0, record.Height).Select(y => new string(Enumerable.Range(0, record.Width).Select(x => g.Blocked(new(x, y)) ? '#' : '.').ToArray())).ToArray(); return new { record, collisionRows = rows, candidateRegions = map == 500 ? CandidateRegions : [], candidatePatrol = map == 500 ? TreePatrol.Build(g, new(13, 69), CandidateRegions).Where(t => !record.Portals.Any(p => p.From == t)).ToArray() : [] };
   }
   if (!sessions.TryGetValue(name, out var session) || !session.Snapshot.Connected) throw new QuestBlockedException("Connected character required: " + name);
@@ -87,7 +87,7 @@ public sealed partial class DesktopRuntime
   RequireOpen();
   if (RunnerBusy(name) || QueueReserves(name) || controlActions.ContainsKey(name) || runners.GetValueOrDefault(name) != owner) throw new QuestBlockedException("Another action owns this character.");
   if (sessions.GetValueOrDefault(name) != session || !session.Snapshot.Connected || session.Snapshot.Generation != generation) throw new QuestBlockedException("Character connection changed. Resume after fresh state.");
-  var repository = new MapRepository(Path.GetDirectoryName(Settings.ClientPath)!, Path.Combine(AppSettings.Content, "routes.json")); var map = repository.Record(500);
+  var repository = new MapRepository(Path.GetDirectoryName(Settings.ClientPath)!, Path.Combine(AppSettings.Content, "routes.json"), Settings.ServerProfile); var map = repository.Record(500);
   // Use the weapon-shop return landing, not the wall-flagged entrance door.
   var patrol = TreePatrol.Build(repository.Load(500), new(13, 69), CandidateRegions).Where(t => !map.Portals.Any(p => p.From == t)).ToArray();
   var cancellation = new CancellationTokenSource(); controlActions[name] = cancellation;
