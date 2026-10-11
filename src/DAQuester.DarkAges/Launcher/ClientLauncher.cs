@@ -4,10 +4,15 @@ using System.Text;
 using System.ComponentModel;
 namespace DAQuester.DarkAges.Launcher;
 public class ClientLauncher {
- public const string SupportedHash="054A5D6ADC56099C6BFD9D2A58675AFF62DC788B63209A3D906492F5B89E96C6";
+ public static readonly string[] SupportedHashes=[
+  // Single instance: stock 7.41.
+  "054A5D6ADC56099C6BFD9D2A58675AFF62DC788B63209A3D906492F5B89E96C6",
+  // Multi instance: stock 7.41 with jnz->jmp (75->EB) at 0x57A7D9; the 0x57A7CE patch below has the same effect.
+  "B168856A22A5315D2EB0FC942CA1CB6EF38E81035A445BC2CC9710D3D1A5715F",
+ ];
  public static void Validate(string file) {
   if(!File.Exists(file))throw new FileNotFoundException("DATester client not found.",file);
-  if(!Convert.ToHexString(SHA256.HashData(File.ReadAllBytes(file))).Equals(SupportedHash,StringComparison.Ordinal))
+  if(Array.IndexOf(SupportedHashes,Convert.ToHexString(SHA256.HashData(File.ReadAllBytes(file))))<0)
    throw new InvalidOperationException("Unsupported client image. Configure the validated DATester 7.41 binary.");
  }
  public static int Launch(string file,int port) {
@@ -24,6 +29,7 @@ public class ClientLauncher {
    // Installed image has PUSH's opcode at C2 and its first operand at C3.
    // Patch whole instructions starting at C2, correcting the legacy C3 offset.
    Write(pi.Process,new(0x4333C2),[0x6A,1,0x6A,0,0x6A,0,0x6A,127]);
+   // Multi instance: GetLastError -> xor eax,eax, so the Nexon.SingleInstance check never exits.
    Write(pi.Process,new(0x57A7CE),[0x31,0xC0,0x90,0x90,0x90,0x90]);
    Write(pi.Process,new(0x42E61F),[0x83,0xFA,0,0x90,0x90,0x90]);
    FlushInstructionCache(pi.Process,IntPtr.Zero,0);
