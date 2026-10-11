@@ -49,7 +49,8 @@ public class StateTracker(long generation) {
     s=s with{Position=GridStep(prev,(byte)p.Direction)};break;
    case ServerMapSizeMessage p:
     Width=p.Width;Height=p.Height;WorldMap=null;
-    s=s with{Map=p.MapId,MapName=p.Name,Position=null,Dialog=null,Entities=ImmutableDictionary<uint,Entity>.Empty,GroundItems=ImmutableDictionary<uint,GroundItem>.Empty};break;
+    // The client keeps an open popup across a same-map refresh (insignia discovery, 2026-10-11).
+    s=s with{Map=p.MapId,MapName=p.Name,Position=null,Dialog=p.MapId==s.Map?s.Dialog:null,Entities=ImmutableDictionary<uint,Entity>.Empty,GroundItems=ImmutableDictionary<uint,GroundItem>.Empty};break;
    case ServerDrawObjectsMessage p:
     foreach(var e in p.Entities) {
      if(e is ServerItemEntity item){s=s with{GroundItems=s.GroundItems.SetItem(e.Id,new(e.Id,item.Sprite,new(e.X,e.Y)))};continue;}
