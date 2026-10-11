@@ -1,5 +1,29 @@
 # Changelog
 
+## 1.1.0 — 2026-10-11
+
+- Replace Windows Forms with an Avalonia desktop workspace: deep navy and slate surfaces,
+  warm gold accents, crisp vector icons, readable quest rows and shared controls.
+- Refine all four pages, dark choice dialogs, compact layouts, keyboard focus,
+  drag insertion feedback and character-owned queue editing.
+- Explain unavailable Launch actions, focus existing owned clients, and open a
+  blank client without entering a login when no characters have been saved.
+- Retain the upstream transport fix that reports interruption-handler failures
+  while keeping the connection alive.
+- Include functional walkability for 1,417 recorded DATester maps, allowing
+  travel on another PC without a populated client map cache. Keep 15 unavailable
+  maps explicit and continue excluding raw game files.
+- Keep saved characters, encrypted passwords, observed levels and legends,
+  queues, history, settings and checkpoints compatible with previous releases.
+- Allow pending reward submissions to reconcile even when a recorded legend or
+  level restriction prevents a new quest attempt. Preserve final-dialog cleanup,
+  verified queue advancement and all existing quest policies.
+- Keep Pause available during a running queue, retain explicit account removals
+  during background refresh, and drain local actions safely before exit.
+- Retain optional update checks off by default and separate check, download and
+  install actions. Validate older Windows Forms packages against the new feed.
+
+
 ## 1.0.7 — 2026-10-11
 
 - Close verified Spare a Stick and Perfect Hairstyle reward popups before

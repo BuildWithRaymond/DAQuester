@@ -248,6 +248,32 @@ travel adds 1,226 directed WorldMaps edges from the same read-only Excalibur
 WorldLogs through `tools/import_world_exits.py`; node coordinates/checksums come
 from the current server world-map response. No Excalibur files were changed.
 
+### Portable walkability data
+
+`tools/export_walkability.py` reads the supported local DATester installation
+without changing it and exports functional collision flags to
+`content/maps/datester-7.41.walkability.json`. It uses the existing lod tile and
+`sotp.dat` collision interpretation, including the established map-97 entrance
+exception at (46,21). The export audits every packed bit against that
+interpretation. It contains dimensions, one blocked/open flag per tile and
+source digests, with no floor/sprite identifiers, artwork, archive entries or
+private source paths.
+
+The October 11 export covers **1,417 of 1,432** recorded maps and **3,861,594**
+tiles. Its 917,603-byte manifest has SHA-256
+`a48240d7dfb0de2bcb7e6d8b56c5759c8af2242a7f588e42b1b13cb425361d1e`;
+the source collision-table digest is
+`70bc628f47f530ee526168289085021d96ccba6c866d5314a20c8131b5f9cc82`.
+Each map retains its own source-file digest. Unavailable IDs are explicitly
+listed: 3096, 3150, 3151, 3636, 6619, 10276, 10277, 11540, 11541, 11542, 11543,
+11544, 11546, 11547 and 11548.
+
+Runtime prefers usable installed collision files and falls back to the matching
+server-profile grids when a map or collision archive is missing. Present but
+malformed client data still blocks travel. An uncovered map also blocks travel
+when its client data is unavailable. Raw game maps, sprites, client binaries and
+collision archives remain outside the repository and release packages.
+
 [Spare a Stick](https://vorlof.com/quests/spareastick.html), [Callough](https://vorlof.com/npc.php?id=132_Callough_6,7) and local portals ground the first recipe. `tools/derive_tree_regions.py` detects three red circles in the [marked tree illustration](https://vorlof.com/images/quests/spareasticktrees.png). The western circle is beside Armor Shop: its portal is (18,62), and the neighboring collision-filtered tree park is swept around (18,56), radius four. This is an authored coverage area, not a claimed guaranteed drop tile. Central (54,43) and east (64,44) retain [Tutorial Book](https://darkages.fandom.com/wiki/Tutorial_Book) coordinates and live branch evidence. The book's older reward amount is not used. The prior western substitution at (40,40) omitted Armor Shop's area. All three guide regions remain in the corrected 90-waypoint route; exact armor-area drop evidence remains outstanding.
 
 Sanitized own-character acceptance, inventory, rewards and both terminal dialog variants: `content/evidence/datester-7.41/spare-a-stick.json`, captured on 2026-10-09. Clock's permanent outcome rule was supplied by the player and matched its observed Callough child-reminder reply. No rewards or completion dates are inferred from website prose.

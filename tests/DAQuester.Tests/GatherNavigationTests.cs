@@ -8,6 +8,7 @@ using System.Text;
 using System.Text.Json;
 using Xunit;
 namespace DAQuester.Tests;
+[Collection("Walking cadence")]
 public class GatherNavigationTests {
  [Fact] public async Task Long_patrol_walk_stops_after_server_inventory_reaches_six() {
   string folder=Path.Combine(Path.GetTempPath(),"DAQuester-navigation-"+Guid.NewGuid());Directory.CreateDirectory(Path.Combine(folder,"maps"));

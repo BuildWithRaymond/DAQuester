@@ -1,5 +1,97 @@
 # Validation status
 
+## Release 1.1.0 — October 11, 2026
+
+The Avalonia 11.3.12 Release solution builds with zero warnings or errors. All
+**46 presentation and lifecycle regressions** pass. `tools/Test-UI.ps1` passes
+**206 behavioral checks** and produces **80 actual Skia renders** of the
+application. Native `tools/Capture-Screenshots.ps1` passes **201 checks** and
+captures **76 renders**, including the four updated documentation screenshots.
+
+The full Core and protocol suite passes **707 tests**, with zero failures or
+skips (4 minutes 24 seconds). Together with the presentation suite, **753 tests**
+pass. The final test-project build also has zero warnings or errors.
+
+All **36 focused fast-walking tests** and **28 focused launcher, transport,
+account and update regressions** pass. Timing-sensitive checks run alone,
+without builds, packaging or rendering competing for resources.
+Earlier full runs exposed scheduling races in the navigation inventory and
+player-arrival fixtures, plus stopwatch-based walking failures. The inventory
+fixture and all nine shortest-travel tests pass alone; both classes now share
+the existing nonparallel walking collection. The final full run passes with all
+validation helpers idle. Production movement, assertions and timing thresholds
+are unchanged.
+
+The inspected matrix includes all four pages at 1450 × 930, 1024 × 768,
+900 × 600 and the 900 × 560 minimum, plus 125%, 150% and 200% render scaling.
+It covers empty and populated workspaces, disconnected, running, paused,
+completed, blocked, loading and error states; keyboard focus, hover, press and
+drag insertion; saved and locked choices; dropdown menus; disabled Launch actions
+with connection explanations; and the dark client picker. Native validation also
+confirms the preview window's immersive dark
+Windows title bar. Birth's full warning and stop condition remain visible at
+its default size, and compact queue actions and account-save controls remain
+reachable.
+
+Native CI caught an oversized window request whose 1450 × 930 content remained
+larger than Windows' accepted 1028 × 749 client area. The shell now follows the
+accepted viewport without changing future window-size requests. A focused
+regression covers initial sizing, a rejected oversized request and later supported
+growth, including valid layout and visible header/stop actions. Native captures
+wait for stable layout, record accepted dimensions and preserve failure images;
+the strict clipping assertions remain in place.
+
+Behavioral coverage exercises per-character queue ownership and persistence,
+keyboard and pointer reordering, pause/stop checkpoints, failed and pending
+saves, own observed levels and legends, repeat and cooldown policies, pending
+final-dialog reconciliation, and the saved one-deoch Faerie wait without a pet
+claim. Account checks use isolated encrypted credentials, blank-password
+preservation, renaming, duplicate rejection, twenty-account batches and removal
+back to a genuinely empty workspace. Empty and per-character Launch actions
+reach the guarded launcher. An unstarted production runtime disables saved-account
+Launch actions and exposes the connection reason through card text, disabled
+tooltips and accessibility help. Updates remain opt-in; checking, downloading and
+installing stay separate, and loading/error states remain usable.
+
+The shipped self-contained payload also passes all **206 UI checks**. Release
+packaging uses a separate output folder and rebuilds every project without
+symbols; its compilation finishes with zero warnings or errors. Installer,
+portable and full update assets pass checksum, feed, content, dependency,
+license and private-data verification. The package uses only the .NET core
+runtime and contains no Forms/WPF implementation libraries or PDB files. An
+independent binary audit confirms that all three project DLLs contain no
+CodeView record or embedded checkout path, and all 24 UI dependency entries
+retain usable license metadata and notice arrays.
+
+Portable walkability covers **1,417 of 1,432 recorded maps**, with **3,861,594**
+source-audited tile flags and 15 explicitly unavailable maps. All **30 focused
+collision and navigation regressions** pass. Using the actual bundled grids and
+an empty client folder, the normal map repository plans from Mileth (500) at
+(33,37) to Suomi Tavern (413) at (3,13) in **430 modeled actions**, through
+500 → 3006 → 3210 → 3081 → 502 → 3008 → 504 → 3016 → 503 → 412 → 413.
+This is an offline route calculation, without movement or a game session.
+The shipped UI checks also exercise the real bundled-grid fallback with an empty
+client cache and confirm the map-97 entrance exception. Both release archives
+validate functional-grid coverage, dimensions, bit encoding and source digests,
+and reject raw map or collision archive files.
+
+The updater DLL shipped in the public **1.0.7** package is byte-identical to
+the current Velopack DLL. An isolated local-feed probe using that updater
+discovers **1.1.0**, keeps the existing application identity, and downloads and
+verifies the candidate full package into a unique synthetic cache. It never
+calls an install or apply operation. Native and headless render manifests
+retain separate image copies, so subsequent validation cannot relabel earlier
+captures by overwriting shared filenames.
+
+The compatibility fixture is the published 1.0.7 full package, kept separately
+from local release builds. Both downloaded and cached fixtures must match its
+pinned public SHA-256 digest. The check rejects a locally rebuilt package before
+starting the updater probe.
+
+These checks use synthetic sessions and unique files under ignored `artifacts`.
+They never connect to a game, start a client, apply an update, access real user
+Data or operate Excalibur. Live gameplay remains outside this validation.
+
 ## Release 1.0.7 — October 11, 2026
 
 The full Release suite passes **689 tests**, with zero failures or skips

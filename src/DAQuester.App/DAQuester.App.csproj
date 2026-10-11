@@ -1,7 +1,6 @@
 <Project Sdk="Microsoft.NET.Sdk">
   <PropertyGroup>
     <TargetFramework>net10.0-windows</TargetFramework>
-    <UseWindowsForms>true</UseWindowsForms>
     <OutputType>WinExe</OutputType>
     <PlatformTarget>x86</PlatformTarget>
     <RuntimeIdentifier>win-x86</RuntimeIdentifier>
@@ -10,6 +9,13 @@
   </PropertyGroup>
   <ItemGroup>
     <ProjectReference Include="..\DAQuester.DarkAges\DAQuester.DarkAges.csproj"/>
+    <PackageReference Include="Avalonia.Desktop" Version="11.3.12"/>
+    <PackageReference Include="Avalonia.Themes.Fluent" Version="11.3.12"/>
+    <PackageReference Include="Avalonia.Headless" Version="11.3.12"/>
+    <!-- BuildServices supplies optional telemetry; XAML compilation comes from Avalonia itself. -->
+    <PackageReference Include="Avalonia.BuildServices" Version="11.3.2" ExcludeAssets="all" PrivateAssets="all"/>
+    <PackageReference Include="Tmds.DBus.Protocol" Version="0.21.3"/>
+    <PackageReference Include="System.Security.Cryptography.ProtectedData" Version="10.0.0"/>
     <PackageReference Include="Velopack" Version="1.2.161"/>
     <Content Include="Licenses\**\*">
       <Link>licenses\%(RecursiveDir)%(Filename)%(Extension)</Link>

@@ -9,6 +9,7 @@ documented in [CI](CI.md).
 ```powershell
 ./tools/Build-Release.ps1
 ./tools/Verify-Release.ps1
+./tools/Test-UpdateCompatibility.ps1 -DownloadPrevious
 ```
 
 Output in `artifacts/release` includes the self-contained `DAQuester-win-Setup.exe`

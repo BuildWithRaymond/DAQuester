@@ -10,7 +10,8 @@ public record MapRecord(int Id,string Name,int Width,int Height,Portal[] Portals
  [System.Text.Json.Serialization.JsonIgnore]
  public IEnumerable<Tile> ExitTiles=>Portals.Select(p=>p.From).Concat(ShinewoodFaerieEvidence.ReturnExits.Where(e=>e.SourceMap==Id).Select(e=>e.From)).Distinct();
 }
-public partial class MapRepository(string clientDirectory,string routesPath) {
+public partial class MapRepository(string clientDirectory,string routesPath,string serverProfile="datester-7.41") {
+ readonly string collisionProfile=serverProfile,routeFile=routesPath;
  readonly Dictionary<int,MapRecord> records=(JsonSerializer.Deserialize<MapRecord[]>(File.ReadAllText(routesPath),new JsonSerializerOptions{PropertyNameCaseInsensitive=true})??[]).ToDictionary(x=>x.Id);
  readonly Dictionary<int,Grid> grids=[];
  public Grid Load(int id) {
@@ -19,9 +20,12 @@ public partial class MapRepository(string clientDirectory,string routesPath) {
   var paths=new List<string>{Path.Combine(clientDirectory,"maps","lod"+id+".map")};
   var drive=Path.GetPathRoot(clientDirectory);
   if(drive is not null)paths.Add(Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.LocalApplicationData),"VirtualStore",clientDirectory[drive.Length..],"maps","lod"+id+".map"));
-  string file=paths.FirstOrDefault(File.Exists)??throw new FileNotFoundException("Missing lod"+id+".map. Visit this map manually to load client assets.");
+  string? file=paths.FirstOrDefault(File.Exists);
+  if(file is null)return LoadPackaged(id)??throw new FileNotFoundException("Missing collision data for "+MapLabel(id)+". This server profile has no packaged grid; visit the map manually to load client assets.");
   var map=File.ReadAllBytes(file);if(map.Length<r.Width*r.Height*6)throw new InvalidDataException("Truncated map asset.");
-  var sotp=ReadSotp(Path.Combine(clientDirectory,"ia.dat"));
+  string archive=Path.Combine(clientDirectory,"ia.dat");
+  if(!File.Exists(archive))return LoadPackaged(id)??throw new FileNotFoundException("Missing client collision table for "+MapLabel(id)+". This server profile has no packaged grid.");
+  var sotp=ReadSotp(archive);
   bool Wall(ushort sprite)=>sprite!=0&&(sprite>sotp.Length||(sotp[sprite-1]&15)==15);
   bool Blocked(int x,int y) {
    if(id==97&&x==46&&y==21)return false;
@@ -57,6 +61,7 @@ public partial class MapRepository(string clientDirectory,string routesPath) {
   throw new InvalidOperationException("No recorded portal route from "+from+" to "+destination+". Record a route.");
  }
  public MapRecord Record(int id)=>records.TryGetValue(id,out var r)?r:throw new InvalidOperationException("Map "+id+" has no recorded dimensions or portals.");
+ string MapLabel(int id)=>records.TryGetValue(id,out var r)&&!string.IsNullOrWhiteSpace(r.Name)?r.Name+" ("+id+")":"Map "+id;
  public MapTransfer? TransferTo(int map,Tile start,Tile target,ISet<Tile>? obstacles=null,CancellationToken ct=default) {
   if(Record(map).InternalTransfers.Length==0)return null;
   var step=Plan(map,start,map,target,obstacles,ct).Steps.FirstOrDefault();

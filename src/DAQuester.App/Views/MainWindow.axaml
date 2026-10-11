@@ -1,0 +1,154 @@
+<Window xmlns="https://github.com/avaloniaui" xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:controls="using:DAQuester.App.Controls" x:Class="DAQuester.App.Views.MainWindow"
+        x:CompileBindings="False" Title="DAQuester" Width="1420" Height="900" MinWidth="900" MinHeight="560"
+        WindowStartupLocation="CenterScreen">
+  <Window.Resources><controls:InverseBooleanConverter x:Key="Not" /><controls:ObjectPresenceConverter x:Key="Present" /></Window.Resources>
+  <Grid ColumnDefinitions="180,*" Name="shell">
+    <Border Grid.Column="0" Background="{DynamicResource Rail}" BorderBrush="{DynamicResource Line}" BorderThickness="0,0,1,0">
+      <Grid RowDefinitions="Auto,*,Auto" Margin="12,26,12,18">
+        <StackPanel Margin="6,0,0,30" Spacing="9">
+          <StackPanel Orientation="Horizontal" Spacing="9">
+            <controls:LineIcon Width="24" Height="24" Foreground="{DynamicResource Gold}" Data="M12,1 A11,11 0 1 1 11.99,1 M7,18 L11,5 L18,8 Z M11,5 L12,13 L7,18" />
+            <TextBlock Name="brandName" Text="DAQuester" FontSize="18" FontWeight="SemiBold" />
+          </StackPanel>
+          <TextBlock Name="brandSubtitle" Text="DARK AGES COMPANION" FontSize="9" LetterSpacing="1.25" Foreground="{DynamicResource Muted}" />
+        </StackPanel>
+        <StackPanel Grid.Row="1" Spacing="6">
+          <Button Name="navPlanner" Classes="nav" Classes.active="{Binding IsPlanner}" Command="{Binding NavigateCommand}" CommandParameter="Planner" ToolTip.Tip="Quest planner">
+            <StackPanel Orientation="Horizontal" Spacing="10"><controls:LineIcon Width="17" Height="17" Data="M2,2 L10,2 L10,18 L2,18 Z M10,2 L18,2 L18,18 L10,18 M5,6 L8,6 M13,6 L16,6 M5,10 L8,10 M13,10 L16,10" /><TextBlock Classes="navLabel" Text="Quest planner" /></StackPanel>
+          </Button>
+          <Button Name="navCharacters" Classes="nav" Classes.active="{Binding IsCharacters}" Command="{Binding NavigateCommand}" CommandParameter="Characters" ToolTip.Tip="Characters">
+            <StackPanel Orientation="Horizontal" Spacing="10"><controls:LineIcon Width="17" Height="17" Data="M7,1 A4,4 0 1 1 6.99,1 M1,18 L1,15 Q1,10 7,10 Q13,10 13,15 L13,18 Z M15,2 A3,3 0 0 1 15,8 M15,11 Q19,11 19,15 L19,18" /><TextBlock Classes="navLabel" Text="Characters" /></StackPanel>
+          </Button>
+          <Button Name="navHistory" Classes="nav" Classes.active="{Binding IsHistory}" Command="{Binding NavigateCommand}" CommandParameter="History" ToolTip.Tip="Run history">
+            <StackPanel Orientation="Horizontal" Spacing="10"><controls:LineIcon Width="17" Height="17" Data="M2,9 A8,8 0 1 1 4,16 M2,3 L2,9 L8,9 M10,5 L10,10 L14,12" /><TextBlock Classes="navLabel" Text="Run history" /></StackPanel>
+          </Button>
+          <Button Name="navSettings" Classes="nav" Classes.active="{Binding IsSettings}" Command="{Binding NavigateCommand}" CommandParameter="Settings" ToolTip.Tip="Settings">
+            <StackPanel Orientation="Horizontal" Spacing="10"><controls:LineIcon Width="17" Height="17" Data="M7,1 L13,1 L14,5 L18,7 L18,13 L14,15 L13,19 L7,19 L6,15 L2,13 L2,7 L6,5 Z M10,6 A4,4 0 1 1 9.99,6" /><TextBlock Classes="navLabel" Text="Settings" /></StackPanel>
+          </Button>
+        </StackPanel>
+        <StackPanel Grid.Row="2" Spacing="18">
+          <StackPanel Name="railSaveNote" Orientation="Horizontal" Spacing="8" Margin="7,0"><controls:LineIcon Width="15" Height="15" Foreground="{DynamicResource Ready}" Data="M10,1 L18,4 L18,10 Q18,16 10,19 Q2,16 2,10 L2,4 Z M6,10 L9,13 L14,7" /><TextBlock Text="Progress stays with&#10;your character" Classes="caption" /></StackPanel>
+          <Button Name="stopAll" Classes="danger" Command="{Binding StopAllCommand}" ToolTip.Tip="Stop all quests and keep progress"><StackPanel Orientation="Horizontal" Spacing="8"><controls:LineIcon Width="13" Height="13" Data="M2,2 L18,2 L18,18 L2,18 Z" /><TextBlock Name="stopAllText" Text="Stop all quests" /></StackPanel></Button>
+          <TextBlock Name="railVersion" Text="{Binding VersionText}" Classes="caption" FontSize="10" Margin="8,0" />
+        </StackPanel>
+      </Grid>
+    </Border>
+    <Grid Grid.Column="1" RowDefinitions="Auto,Auto,*,Auto" Margin="24,22,24,12" Name="mainWorkspace">
+      <Grid RowDefinitions="Auto,Auto" ColumnDefinitions="*,Auto" Margin="0,0,0,22">
+        <StackPanel Spacing="7" VerticalAlignment="Center"><TextBlock Text="{Binding PageTitle}" Classes="heading" /><TextBlock Name="pageSubtitle" Text="{Binding PageSubtitle}" Classes="muted" FontSize="13" TextWrapping="Wrap" HorizontalAlignment="Left" TextAlignment="Left" /></StackPanel>
+        <StackPanel Grid.Column="1" Orientation="Horizontal" Spacing="10" VerticalAlignment="Center" Margin="20,0,0,0">
+          <Button Name="launchSelected" Content="Launch" Command="{Binding LaunchSelectedCommand}" ToolTip.Tip="{Binding LaunchTooltip}" ToolTip.ShowOnDisabled="True" AutomationProperties.HelpText="{Binding LaunchTooltip}" />
+          <Border Classes="card" Padding="10,8" MinWidth="215" MaxWidth="285">
+            <Grid ColumnDefinitions="35,*" ColumnSpacing="9"><Border CornerRadius="6" Background="{DynamicResource GoldSoft}" BorderBrush="{DynamicResource GoldLine}" BorderThickness="1" Width="34" Height="38"><TextBlock Text="{Binding SelectedCharacter.Initial}" FontFamily="Georgia" FontSize="23" Foreground="{DynamicResource Gold}" VerticalAlignment="Center" HorizontalAlignment="Center" /></Border><StackPanel Grid.Column="1" Spacing="4"><ComboBox Name="characterSwitcher" ItemsSource="{Binding Characters}" SelectedItem="{Binding SelectedCharacter,Mode=TwoWay}" MinHeight="27" Padding="5,0" BorderThickness="0" Background="Transparent" HorizontalAlignment="Stretch" AutomationProperties.Name="Selected character"><ComboBox.ItemTemplate><DataTemplate><TextBlock Text="{Binding DisplayName}" FontWeight="SemiBold" /></DataTemplate></ComboBox.ItemTemplate></ComboBox><TextBlock Text="{Binding SelectedCharacterInfo}" Classes="caption" FontSize="12" TextTrimming="CharacterEllipsis" /></StackPanel></Grid>
+          </Border>
+        </StackPanel>
+      </Grid>
+      <StackPanel Grid.Row="1">
+        <Border Name="errorBanner" IsVisible="{Binding HasError}" Background="{DynamicResource ErrorSurface}" BorderBrush="{DynamicResource ErrorLine}" BorderThickness="1" CornerRadius="7" Padding="14,10" Margin="0,0,0,16">
+          <Grid ColumnDefinitions="*,Auto" ColumnSpacing="12"><TextBlock Text="{Binding ErrorMessage}" Classes="error" TextWrapping="Wrap" VerticalAlignment="Center" /><Button Grid.Column="1" Classes="quiet" Content="Dismiss" Command="{Binding DismissErrorCommand}" /></Grid>
+        </Border>
+        <Border Name="noticeBanner" IsVisible="{Binding HasNotice}" Background="{DynamicResource Raised}" BorderBrush="{DynamicResource NoticeLine}" BorderThickness="1" CornerRadius="7" Padding="14,10" Margin="0,0,0,16">
+          <Grid ColumnDefinitions="*,Auto" ColumnSpacing="12"><TextBlock Text="{Binding NoticeMessage}" TextWrapping="Wrap" VerticalAlignment="Center" /><Button Grid.Column="1" Classes="quiet" Content="Dismiss" Command="{Binding DismissNoticeCommand}" /></Grid>
+        </Border>
+      </StackPanel>
+      <Grid Grid.Row="2" Name="plannerPage" IsVisible="{Binding IsPlanner}" ColumnDefinitions="*,18,330">
+        <Border Classes="card" Grid.Column="0">
+          <Grid RowDefinitions="Auto,*,Auto,Auto">
+            <StackPanel Margin="16,16,16,12" Spacing="12">
+              <Grid ColumnDefinitions="*,Auto"><TextBlock Text="Quest library" Classes="section" /><TextBlock Grid.Column="1" Text="{Binding CompletedCount,StringFormat='{}{0} completed'}" Classes="caption ready" VerticalAlignment="Center" /></Grid>
+              <TextBox Name="plannerSearch" Text="{Binding Search,Mode=TwoWay}" Watermark="Search quests, rewards, or requirements" AutomationProperties.Name="Search quests" />
+              <WrapPanel Orientation="Horizontal">
+                <Button Name="filterAll" Classes="filter" Classes.active="{Binding IsAllFilter}" Command="{Binding FilterCommand}" CommandParameter="All" Margin="0,0,4,0"><StackPanel Orientation="Horizontal" Spacing="7"><TextBlock Text="All quests" /><TextBlock Text="{Binding AllCount}" Opacity="0.7" /></StackPanel></Button>
+                <Button Name="filterReady" Classes="filter" Classes.active="{Binding IsReadyFilter}" Command="{Binding FilterCommand}" CommandParameter="Ready" Margin="0,0,4,0"><StackPanel Orientation="Horizontal" Spacing="7"><TextBlock Text="Ready" /><TextBlock Text="{Binding ReadyCount}" Opacity="0.7" /></StackPanel></Button>
+                <Button Name="filterCompleted" Classes="filter" Classes.active="{Binding IsCompletedFilter}" Command="{Binding FilterCommand}" CommandParameter="Completed" Margin="0,0,4,0"><StackPanel Orientation="Horizontal" Spacing="7"><TextBlock Text="Completed" /><TextBlock Text="{Binding CompletedCount}" Opacity="0.7" /></StackPanel></Button>
+                <Button Name="filterUnavailable" Classes="filter" Classes.active="{Binding IsUnavailableFilter}" Command="{Binding FilterCommand}" CommandParameter="Unavailable"><StackPanel Orientation="Horizontal" Spacing="7"><TextBlock Text="Unavailable" /><TextBlock Text="{Binding UnavailableCount}" Opacity="0.7" /></StackPanel></Button>
+              </WrapPanel>
+            </StackPanel>
+            <Grid Grid.Row="1">
+              <ListBox Name="questLibrary" Classes="library" ItemsSource="{Binding Quests}" SelectedItem="{Binding SelectedQuest,Mode=TwoWay}" AutomationProperties.Name="Quest library">
+                <ListBox.ItemTemplate><DataTemplate>
+                  <Border Classes="questRow" Classes.ready="{Binding IsReady}" Classes.muted="{Binding IsMuted}" Classes.completed="{Binding IsCompleted}" ToolTip.Tip="{Binding Reason}">
+                    <Grid ColumnDefinitions="22,36,*,96" ColumnSpacing="10">
+                      <Grid VerticalAlignment="Center"><CheckBox IsChecked="{Binding IsQueued,Mode=TwoWay}" IsEnabled="{Binding CanQueue}" IsVisible="{Binding IsCompleted,Converter={StaticResource Not}}" MinHeight="28" Padding="0" AutomationProperties.Name="{Binding Name,StringFormat='Queue {0}'}" /><controls:LineIcon IsVisible="{Binding IsCompleted}" Width="17" Height="17" Foreground="{DynamicResource Ready}" Data="M2,10 L7,15 L18,3" /></Grid>
+                      <Border Grid.Column="1" Background="{DynamicResource Raised}" BorderBrush="{DynamicResource Line}" BorderThickness="1" CornerRadius="6" Width="35" Height="37" VerticalAlignment="Center"><controls:QuestGlyph QuestId="{Binding Id}" Width="20" Height="20" VerticalAlignment="Center" HorizontalAlignment="Center" /></Border>
+                      <StackPanel Grid.Column="2" Spacing="4" VerticalAlignment="Center"><TextBlock Text="{Binding Name}" Classes="questName" FontSize="14" FontWeight="SemiBold" TextWrapping="Wrap" /><TextBlock Text="{Binding Rewards}" Classes="caption" TextTrimming="CharacterEllipsis" /><TextBlock Text="{Binding Reason}" Classes="caption" FontSize="12" TextTrimming="CharacterEllipsis" /></StackPanel>
+                      <StackPanel Grid.Column="3" Spacing="7" VerticalAlignment="Center" HorizontalAlignment="Right"><TextBlock Text="{Binding Status}" FontSize="12" TextWrapping="Wrap" TextAlignment="Right" Classes.ready="{Binding IsReady}" Classes.muted="{Binding IsMuted}" /><TextBlock Text="Queued" Foreground="{DynamicResource Gold}" FontSize="11" IsVisible="{Binding IsQueued}" HorizontalAlignment="Right" /></StackPanel>
+                    </Grid>
+                  </Border>
+                </DataTemplate></ListBox.ItemTemplate>
+              </ListBox>
+              <StackPanel IsVisible="{Binding EmptyLibrary}" HorizontalAlignment="Center" VerticalAlignment="Center" Spacing="9" Margin="30"><TextBlock Text="No matching quests" FontWeight="SemiBold" FontSize="16" HorizontalAlignment="Center" /><TextBlock Text="Try another name or choose All quests." Classes="muted" TextWrapping="Wrap" TextAlignment="Center" /></StackPanel>
+            </Grid>
+            <Border Grid.Row="2" BorderBrush="{DynamicResource Line}" BorderThickness="0,1,0,0" Padding="16,10"><TextBlock Text="{Binding LibrarySummary}" Classes="caption" TextWrapping="Wrap" /></Border>
+            <Expander Grid.Row="3" Name="questDetails" Header="Quest details" IsVisible="{Binding SelectedQuest,Converter={StaticResource Present}}" MaxHeight="300" IsExpanded="False" Margin="0" HorizontalAlignment="Stretch">
+              <ScrollViewer MaxHeight="235"><StackPanel DataContext="{Binding SelectedQuest}" Spacing="9" Margin="16,5,16,16"><TextBlock Text="{Binding Region}" Classes="eyebrow" /><TextBlock Text="{Binding Name}" Classes="section" /><TextBlock Text="{Binding Description}" Classes="muted" TextWrapping="Wrap" /><TextBlock Text="{Binding Level,StringFormat='Level: {0}'}" Classes="caption" /><TextBlock Text="{Binding Requirements}" Classes="caption" TextWrapping="Wrap" /><TextBlock Text="{Binding Rewards,StringFormat='Rewards: {0}'}" Classes="caption" TextWrapping="Wrap" /><TextBlock Text="{Binding Reason}" Classes="gold" TextWrapping="Wrap" /><Button Classes="quiet" Content="Open quest guide" Command="{Binding OpenGuideCommand}" HorizontalAlignment="Left" /></StackPanel></ScrollViewer>
+            </Expander>
+          </Grid>
+        </Border>
+        <ScrollViewer Grid.Column="2" HorizontalScrollBarVisibility="Disabled" VerticalScrollBarVisibility="Auto">
+          <StackPanel Spacing="16">
+            <Border Classes="card" Padding="14">
+              <Grid RowDefinitions="Auto,Auto,Auto,Auto,Auto" RowSpacing="11">
+                <Grid ColumnDefinitions="*,Auto"><TextBlock Text="{Binding QueueHeading}" Classes="section" TextWrapping="Wrap" VerticalAlignment="Center" /><Button Name="queueClear" Grid.Column="1" Classes="quiet" Content="Clear" Command="{Binding ClearQueueCommand}" MinHeight="28" Padding="8,3" /></Grid>
+                <TextBlock Grid.Row="1" Text="{Binding QueueHint}" Classes="caption" TextWrapping="Wrap" />
+                <Grid Grid.Row="2">
+                  <ScrollViewer Name="queueScroll" MaxHeight="264" HorizontalScrollBarVisibility="Disabled"><ItemsControl Name="queueList" ItemsSource="{Binding QueueItems}"><ItemsControl.ItemTemplate><DataTemplate>
+                    <Grid Margin="0,0,0,8">
+                      <Border Name="queueRow" Classes="queueRow" Classes.active="{Binding IsActive}" Focusable="True" KeyDown="QueueKeyDown" AutomationProperties.Name="{Binding Name,StringFormat='Queue item {0}'}">
+                        <Grid RowDefinitions="Auto,Auto" ColumnDefinitions="18,*,Auto" RowSpacing="6" ColumnSpacing="7">
+                          <Border Name="queueGrip" Grid.RowSpan="2" Background="Transparent" Cursor="SizeAll" PointerPressed="QueuePointerPressed" PointerMoved="QueuePointerMoved" PointerReleased="QueuePointerReleased" PointerCaptureLost="QueuePointerCaptureLost" ToolTip.Tip="Drag to reorder. Ctrl+Up or Ctrl+Down also moves this quest."><controls:GripGlyph Width="10" Height="24" Foreground="{DynamicResource Muted}" VerticalAlignment="Top" Margin="0,6,0,0" /></Border>
+                          <Grid Grid.Column="1" ColumnDefinitions="22,*" ColumnSpacing="5"><TextBlock Text="{Binding Number}" FontSize="11" Classes="muted" VerticalAlignment="Center" /><TextBlock Grid.Column="1" Text="{Binding Name}" FontWeight="SemiBold" FontSize="13" TextWrapping="Wrap" /></Grid>
+                          <Button Grid.Column="2" Classes="icon" Command="{Binding RemoveCommand}" IsEnabled="{Binding CanEdit}" ToolTip.Tip="Remove from queue" AutomationProperties.Name="{Binding Name,StringFormat='Remove {0}'}"><controls:LineIcon Width="11" Height="11" Data="M2,2 L18,18 M18,2 L2,18" /></Button>
+                          <TextBlock Grid.Row="1" Grid.Column="1" Text="{Binding Detail}" Classes="caption" FontSize="12" TextWrapping="Wrap" VerticalAlignment="Center" />
+                          <StackPanel Grid.Row="1" Grid.Column="2" Orientation="Horizontal"><Button Classes="icon" Command="{Binding MoveUpCommand}" IsEnabled="{Binding CanEdit}" ToolTip.Tip="Move up" AutomationProperties.Name="{Binding Name,StringFormat='Move up {0}'}"><controls:LineIcon Width="12" Height="12" Data="M3,12 L10,5 L17,12 M10,5 L10,19" /></Button><Button Classes="icon" Command="{Binding MoveDownCommand}" IsEnabled="{Binding CanEdit}" ToolTip.Tip="Move down" AutomationProperties.Name="{Binding Name,StringFormat='Move down {0}'}"><controls:LineIcon Width="12" Height="12" Data="M3,8 L10,15 L17,8 M10,15 L10,1" /></Button></StackPanel>
+                        </Grid>
+                      </Border>
+                      <Border Name="insertionBefore" Background="{DynamicResource Gold}" Height="3" VerticalAlignment="Top" IsVisible="False" IsHitTestVisible="False" />
+                      <Border Name="insertionAfter" Background="{DynamicResource Gold}" Height="3" VerticalAlignment="Bottom" IsVisible="False" IsHitTestVisible="False" />
+                    </Grid>
+                  </DataTemplate></ItemsControl.ItemTemplate></ItemsControl></ScrollViewer>
+                  <StackPanel IsVisible="{Binding QueueEmpty}" Margin="12,16" Spacing="7"><TextBlock Text="Plan your next journey" FontSize="14" FontWeight="SemiBold" /><TextBlock Text="Select quests in the library to add them to this character’s queue." Classes="caption" TextWrapping="Wrap" /></StackPanel>
+                </Grid>
+                <TextBlock Grid.Row="3" Text="{Binding QueueReadiness}" Classes="caption" TextWrapping="Wrap" />
+                <StackPanel Grid.Row="4" Spacing="10"><Grid ColumnDefinitions="*,Auto" ColumnSpacing="8"><Button Name="queueStart" Classes="primary" Content="{Binding QueuePrimaryLabel}" Command="{Binding StartQueueCommand}" /><Button Name="queueStop" Grid.Column="1" Content="Stop" Command="{Binding StopQueueCommand}" /></Grid><CheckBox Name="returnHome" Content="Return home when finished" IsChecked="{Binding ReturnHome,Mode=TwoWay}" IsEnabled="{Binding CanReturnHome}" /></StackPanel>
+              </Grid>
+            </Border>
+            <Border Classes="card" Padding="16">
+              <StackPanel Spacing="11"><TextBlock Text="CURRENT JOURNEY" Classes="eyebrow" /><TextBlock Text="{Binding JourneyTitle}" FontSize="17" FontWeight="SemiBold" TextWrapping="Wrap" /><TextBlock Text="{Binding JourneyState}" Classes="gold" FontSize="12" /><TextBlock Text="{Binding JourneyMessage}" Classes="muted" FontSize="13" TextWrapping="Wrap" /><ProgressBar Name="journeyProgress" Value="{Binding JourneyProgress}" Minimum="0" Maximum="100" Height="4" Background="{DynamicResource Raised}" Foreground="{DynamicResource Gold}" /><TextBlock Text="{Binding JourneyNext}" Classes="caption" TextWrapping="Wrap" /><Border Classes="rule" /><Expander Name="journeyControls" Header="Quest controls" HorizontalAlignment="Stretch"><StackPanel Spacing="10" Margin="0,8,0,4"><CheckBox Content="{Binding FastModeLabel}" IsChecked="{Binding FastMode,Mode=TwoWay}" /><CheckBox Content="{Binding RepeatLabel}" IsChecked="{Binding Repeat,Mode=TwoWay}" IsVisible="{Binding RepeatVisible}" IsEnabled="{Binding RepeatEnabled}" /><Grid ColumnDefinitions="*,*" RowDefinitions="Auto,Auto" ColumnSpacing="8" RowSpacing="8"><Button Name="startQuest" Content="{Binding StartQuestLabel}" Classes="primary" Command="{Binding StartQuestCommand}" /><Button Name="resumeQuest" Grid.Column="1" Content="Resume" Command="{Binding ResumeQuestCommand}" /><Button Name="pauseQuest" Grid.Row="1" Content="Pause" Command="{Binding PauseQuestCommand}" /><Button Name="stopQuest" Grid.Column="1" Grid.Row="1" Content="Stop" Command="{Binding StopQuestCommand}" /></Grid><TextBlock Text="{Binding JourneyRewards}" Classes="caption ready" TextWrapping="Wrap" /></StackPanel></Expander><Expander Header="Conversation" HorizontalAlignment="Stretch"><TextBlock Text="{Binding JourneyConversation}" Classes="caption" TextWrapping="Wrap" Margin="0,8,0,4" /></Expander></StackPanel>
+            </Border>
+          </StackPanel>
+        </ScrollViewer>
+      </Grid>
+      <Grid Grid.Row="2" Name="charactersPage" IsVisible="{Binding IsCharacters}" RowDefinitions="*,Auto">
+        <ScrollViewer HorizontalScrollBarVisibility="Disabled"><StackPanel Spacing="12">
+          <Border Classes="card" IsVisible="{Binding CharactersEmpty}" Padding="32"><StackPanel Spacing="9"><TextBlock Text="Your next journey starts here" FontSize="20" FontFamily="Georgia" /><TextBlock Text="Add a character name. Save a password for Launch, or sign in manually." Classes="muted" TextWrapping="Wrap" /><Button Content="Add character" Command="{Binding AddCharacterCommand}" Classes="primary" HorizontalAlignment="Left" Margin="0,8,0,0" /></StackPanel></Border>
+          <ItemsControl ItemsSource="{Binding Characters}"><ItemsControl.ItemTemplate><DataTemplate>
+            <Border Classes="card" Padding="18" Margin="0,0,0,12"><Grid ColumnDefinitions="44,*,Auto" RowDefinitions="Auto,Auto" ColumnSpacing="16" RowSpacing="14">
+              <Border Background="{DynamicResource GoldSoft}" BorderBrush="{DynamicResource GoldLine}" BorderThickness="1" CornerRadius="7" Height="44" Width="42"><TextBlock Text="{Binding Initial}" Foreground="{DynamicResource Gold}" FontFamily="Georgia" FontSize="27" VerticalAlignment="Center" HorizontalAlignment="Center" /></Border>
+              <StackPanel Grid.Column="1" Spacing="5"><TextBlock Text="{Binding DisplayName}" FontSize="17" FontWeight="SemiBold" /><TextBlock Name="cardLaunchStatus" Text="{Binding LaunchStatus}" Classes="caption" TextWrapping="Wrap" /><WrapPanel Orientation="Horizontal"><TextBlock Text="{Binding LevelText}" Classes="caption" Margin="0,0,16,0" /><TextBlock Text="{Binding LoginText}" Classes="caption" /></WrapPanel></StackPanel>
+              <WrapPanel Grid.Column="2" Orientation="Horizontal" VerticalAlignment="Top"><Button Name="launchCharacter" Content="Launch" Classes="primary" Command="{Binding LaunchCommand}" ToolTip.Tip="{Binding LaunchTooltip}" ToolTip.ShowOnDisabled="True" AutomationProperties.HelpText="{Binding LaunchTooltip}" Margin="0,0,8,0" /><Button Classes="quiet" Content="Select" Command="{Binding SelectCommand}" /></WrapPanel>
+              <Grid Grid.Row="1" Grid.Column="1" ColumnDefinitions="*,*" RowDefinitions="Auto,Auto,Auto" ColumnSpacing="16" RowSpacing="7"><TextBlock Text="Character name" Classes="caption" /><TextBlock Grid.Column="1" Text="New password" Classes="caption" /><TextBox Grid.Row="1" Text="{Binding Name,Mode=TwoWay}" Watermark="Character name" AutomationProperties.Name="Character name" /><TextBox Grid.Row="1" Grid.Column="1" Text="{Binding Password,Mode=TwoWay}" PasswordChar="●" Watermark="Leave blank to keep saved password" AutomationProperties.Name="New password" /><StackPanel Grid.Row="2" Grid.ColumnSpan="2" Spacing="6" Margin="0,5,0,0"><TextBlock Text="{Binding LegendText}" Classes="caption" TextWrapping="Wrap" /><TextBlock Text="{Binding HomeText}" Classes="caption" TextWrapping="Wrap" /></StackPanel></Grid>
+              <StackPanel Grid.Row="1" Grid.Column="2" Spacing="8" VerticalAlignment="Top"><Button Content="Set home here" Command="{Binding SetHomeCommand}" ToolTip.Tip="Save the connected character’s current location" /><Button Classes="quiet danger" Content="Remove" Command="{Binding RemoveCommand}" /></StackPanel>
+            </Grid></Border>
+          </DataTemplate></ItemsControl.ItemTemplate></ItemsControl>
+        </StackPanel></ScrollViewer>
+        <Border Grid.Row="1" BorderBrush="{DynamicResource Line}" BorderThickness="0,1,0,0" Padding="0,16,0,0"><Grid ColumnDefinitions="*,Auto"><TextBlock Text="{Binding AccountStatus}" Classes="caption" TextWrapping="Wrap" VerticalAlignment="Center" /><StackPanel Grid.Column="1" Orientation="Horizontal" Spacing="8"><Button Name="addCharacter" Content="Add character" Command="{Binding AddCharacterCommand}" /><Button Content="Discard edits" Classes="quiet" Command="{Binding DiscardAccountsCommand}" /><Button Name="saveAccounts" Content="Save accounts" Classes="primary" Command="{Binding SaveAccountsCommand}" /></StackPanel></Grid></Border>
+      </Grid>
+      <Border Grid.Row="2" Name="historyPage" IsVisible="{Binding IsHistory}" Classes="card">
+        <Grid RowDefinitions="Auto,*,Auto"><Border BorderBrush="{DynamicResource Line}" BorderThickness="0,0,0,1" Padding="18,15"><Grid ColumnDefinitions="110,*,145,145" ColumnSpacing="12"><TextBlock Text="Character" Classes="caption" /><TextBlock Grid.Column="1" Text="Quest and result" Classes="caption" /><TextBlock Grid.Column="2" Text="Outcome" Classes="caption" /><TextBlock Grid.Column="3" Text="When" Classes="caption" /></Grid></Border>
+          <Grid Grid.Row="1"><ScrollViewer HorizontalScrollBarVisibility="Disabled"><ItemsControl Name="runHistory" ItemsSource="{Binding History}"><ItemsControl.ItemTemplate><DataTemplate><Border BorderBrush="{DynamicResource Line}" BorderThickness="0,0,0,1" Padding="18,16"><Grid ColumnDefinitions="110,*,145,145" RowDefinitions="Auto,Auto" ColumnSpacing="12" RowSpacing="8"><TextBlock Text="{Binding Character}" FontWeight="SemiBold" TextWrapping="Wrap" /><TextBlock Grid.Column="1" Text="{Binding Quest}" TextWrapping="Wrap" /><TextBlock Grid.Column="2" Text="{Binding Outcome}" Classes="ready" TextWrapping="Wrap" FontSize="12" /><TextBlock Grid.Column="3" Text="{Binding When}" Classes="caption" TextWrapping="Wrap" /><TextBlock Grid.Row="1" Grid.Column="1" Grid.ColumnSpan="3" Text="{Binding Summary}" Classes="caption" TextWrapping="Wrap" /></Grid></Border></DataTemplate></ItemsControl.ItemTemplate></ItemsControl></ScrollViewer><StackPanel IsVisible="{Binding HistoryEmpty}" VerticalAlignment="Center" HorizontalAlignment="Center" Spacing="10" Margin="30"><TextBlock Text="A journal of your journeys" FontFamily="Georgia" FontSize="21" HorizontalAlignment="Center" /><TextBlock Text="Verified outcomes appear here after a quest attempt." Classes="muted" TextWrapping="Wrap" TextAlignment="Center" /></StackPanel></Grid>
+          <Border Grid.Row="2" BorderBrush="{DynamicResource Line}" BorderThickness="0,1,0,0" Padding="18,11"><TextBlock Text="Your journal records confirmed outcomes and completed attempts." Classes="caption" /></Border>
+        </Grid>
+      </Border>
+      <ScrollViewer Grid.Row="2" Name="settingsPage" IsVisible="{Binding IsSettings}" HorizontalScrollBarVisibility="Disabled">
+        <StackPanel Spacing="16" MaxWidth="880" HorizontalAlignment="Left">
+          <Border Classes="card" Padding="22"><StackPanel Spacing="12"><TextBlock Text="Game client" Classes="section" /><TextBlock Text="Choose the Dark Ages application used by each character’s Launch button." Classes="caption" TextWrapping="Wrap" /><Grid ColumnDefinitions="*,Auto" ColumnSpacing="10"><TextBox Name="clientPath" Text="{Binding ClientPath,Mode=TwoWay}" Watermark="Choose a Dark Ages application" AutomationProperties.Name="Dark Ages application" /><Button Grid.Column="1" Content="Browse…" Command="{Binding BrowseClientCommand}" /></Grid><Button Name="saveSettings" Content="Save settings" Command="{Binding SaveSettingsCommand}" Classes="primary" HorizontalAlignment="Left" /></StackPanel></Border>
+          <Border Classes="card" Padding="22"><StackPanel Spacing="13"><Grid ColumnDefinitions="*,Auto"><TextBlock Text="Application updates" Classes="section" /><TextBlock Grid.Column="1" Text="{Binding VersionText}" Classes="caption" /></Grid><CheckBox Name="automaticUpdates" Content="Check for updates when DAQuester opens" IsChecked="{Binding AutomaticUpdateChecks,Mode=TwoWay}" /><TextBlock Text="{Binding UpdateStatus}" Classes="muted" TextWrapping="Wrap" /><WrapPanel Orientation="Horizontal"><Button Name="checkUpdates" Content="Check for updates" Command="{Binding CheckUpdatesCommand}" IsEnabled="{Binding CanCheckUpdates}" Margin="0,0,8,8" /><Button Name="downloadUpdate" Content="Download update" Command="{Binding DownloadUpdateCommand}" IsEnabled="{Binding CanDownloadUpdate}" Margin="0,0,8,8" /><Button Name="installUpdate" Content="Install and exit" Classes="primary" Command="{Binding InstallUpdateCommand}" IsEnabled="{Binding CanInstallUpdate}" Margin="0,0,0,8" /></WrapPanel><TextBlock Text="Checks are optional. Download and install are separate choices. Finish quests and close launched game clients before installing." Classes="caption" TextWrapping="Wrap" /></StackPanel></Border>
+          <Border Classes="card" Padding="22"><StackPanel Spacing="12"><TextBlock Text="Developer tools" Classes="section" /><CheckBox Name="developerMode" Content="Developer mode" IsChecked="{Binding DeveloperMode,Mode=TwoWay}" /><TextBlock Text="Show protocol diagnostics, calibration, and replay tools." Classes="caption" /><StackPanel IsVisible="{Binding DeveloperMode}" Spacing="14"><CheckBox Content="Record sanitized evidence" IsChecked="{Binding RecordEvidence,Mode=TwoWay}" /><TextBlock Text="Quest calibration" Classes="section" /><TextBox Name="calibrationJson" Text="{Binding CalibrationJson,Mode=TwoWay}" AcceptsReturn="True" FontFamily="Consolas" MinHeight="180" MaxHeight="260" TextWrapping="NoWrap" ScrollViewer.HorizontalScrollBarVisibility="Auto" ScrollViewer.VerticalScrollBarVisibility="Auto" /><WrapPanel Orientation="Horizontal"><Button Content="Save calibration" Command="{Binding SaveCalibrationCommand}" Margin="0,0,8,0" /><Button Content="Auto-calibrate" Command="{Binding AutoCalibrateCommand}" /></WrapPanel><TextBlock Text="Connection profile" Classes="section" /><TextBox Name="connectionProfileJson" Text="{Binding ConnectionProfileJson,Mode=TwoWay}" AcceptsReturn="True" FontFamily="Consolas" MinHeight="150" MaxHeight="240" TextWrapping="NoWrap" ScrollViewer.HorizontalScrollBarVisibility="Auto" ScrollViewer.VerticalScrollBarVisibility="Auto" /><Button Content="Save connection profile" Command="{Binding SaveConnectionProfileCommand}" HorizontalAlignment="Left" /><TextBlock Text="Diagnostics" Classes="section" /><TextBox Name="diagnostics" Text="{Binding Diagnostics}" IsReadOnly="True" AcceptsReturn="True" FontFamily="Consolas" MinHeight="160" MaxHeight="280" TextWrapping="Wrap" ScrollViewer.VerticalScrollBarVisibility="Auto" /><Button Content="Export replay" Command="{Binding ExportReplayCommand}" HorizontalAlignment="Left" /></StackPanel></StackPanel></Border>
+        </StackPanel>
+      </ScrollViewer>
+      <Grid Grid.Row="3" ColumnDefinitions="*,Auto" Margin="0,12,0,0"><TextBlock Text="{Binding ConnectionStatus}" Classes="caption" FontSize="12" TextTrimming="CharacterEllipsis" /><TextBlock Name="footerSaveNote" Grid.Column="1" Text="Progress saved for each character" Classes="caption" FontSize="11" /></Grid>
+    </Grid>
+  </Grid>
+</Window>

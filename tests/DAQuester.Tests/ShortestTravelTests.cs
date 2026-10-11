@@ -3,6 +3,7 @@ using DAQuester.DarkAges.Navigation;
 using Xunit;
 namespace DAQuester.Tests;
 
+[Collection("Walking cadence")]
 public class ShortestTravelTests {
  [Fact] public async Task Same_map_reload_during_cadence_waits_for_authoritative_position(){
   var door=new Tile(4,1);Task reload=Task.CompletedTask;

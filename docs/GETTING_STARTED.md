@@ -9,20 +9,23 @@ its `DAQuester.exe`. Keep the complete portable folder together. .NET is include
 
 DAQuester supports the exact DATester 7.41 client hashes in
 [provenance](provenance.md). It checks the executable before launching and rejects
-unsupported builds. No game binaries or assets are included.
+unsupported builds. Raw game files are not included.
 
 ## Set up and play
 
 1. Open **Settings**, select `Darkages.exe`, and save. Restart DAQuester after
    changing the client. In **Characters**, add rows for your character names
-   and optional passwords, then **Save accounts**. Names update the journal
-   immediately. Blank passwords keep existing saved passwords.
+   and optional passwords, then **Save accounts** to apply name changes.
+   Blank passwords keep existing saved passwords.
 2. Use the **Launch** action beside a saved character. Its saved password signs
    into that character; without one, sign in manually. Only clients opened
    through DAQuester connect through its proxy. Existing owned clients are focused.
+   Before saving any characters, the header's **Launch** opens a blank client
+   without filling in or submitting a login.
 3. Use the header's character switcher, search the library, and select automatic
    quests. Drag the queue into order, or use its arrows; Ctrl+Up/Down also moves
-   a focused entry and Delete removes it. Guide-only entries open their details.
+   a focused entry and Delete removes it. Select any quest and expand
+   **Quest details** for its requirements, rewards and **Open quest guide** action.
 4. **Start queue** performs one verified attempt per entry. Birth and Emerald
    Dawn choices are confirmed before movement. A weekly Hairstyle attempt can
    finish without its Suomi legend; its cooldown and repeat intent remain saved.
@@ -30,8 +33,8 @@ unsupported builds. No game binaries or assets are included.
 5. **Pause run** retains progress and order. **Resume run** checks saved results.
    **Stop** cancels automation, keeps checkpoints, and unlocks queue edits.
    Manual movement/NPC interaction pauses automation while gameplay continues.
-   The journey card shows the next queue entry. Expand **Recent activity** for
-   saved receipts, or **Quest controls** for individual actions and fast mode.
+   The journey card shows the next queue entry. Open **Run history** for saved
+   receipts, or **Quest controls** for individual actions and fast mode.
 
 **Run history** combines verified queue outcomes with existing quest journals.
 To return after a queue, connect the character, move to the desired location,
@@ -67,6 +70,13 @@ Travel automatically compares walkable routes, alternate doors, landing points
 and recorded shortcuts. It chooses the shortest known walking route and adjusts
 when observed players block an exit. No separate route setting is needed.
 
+The supported DATester profile includes walkability data for 1,417 of its 1,432
+recorded maps. DAQuester uses those grids automatically when your client has no
+cached maps or collision archive, including on another computer. You do not need
+to copy a populated map cache. Fifteen recorded maps are listed as unavailable;
+if neither client data nor bundled coverage is usable, travel pauses safely.
+Raw map files, sprites and the game client are not part of the package.
+
 Quest-specific rewards, repeat policies and evidence limits are in
 [QUESTS](QUESTS.md). The library's **Guide only** entries require manual play.
 They are not available for automatic execution.
@@ -74,7 +84,7 @@ They are not available for automatic execution.
 ## Optional updates
 
 Settings provides **Check for updates when DAQuester opens**, off by default.
-The preference is saved immediately. Startup checks only report newer stable
+Use **Save settings** to remember this preference. Startup checks only report newer stable
 releases. Use **Download update** to fetch one, then **Install and exit** to apply.
 Regular exits do not implicitly authorize installation of downloaded packages.
 
@@ -84,8 +94,9 @@ closes game processes for you. Start DAQuester again after installation.
 Failed/offline checks leave the app usable and can be retried.
 
 Updates are supported by the installer and Velopack portable package. A raw
-`dotnet publish` folder shows updates as unavailable. Older builds need one
-manual installation of this release to gain the updater.
+`dotnet publish` folder shows updates as unavailable. Builds from before the
+updater was introduced need one manual installation to gain automatic update
+discovery; existing Velopack releases can update to this version directly.
 
 ## Existing data
 
@@ -118,7 +129,7 @@ Do not publish your Data folder, passwords, login packets or session secrets.
 
 ## Operational limits
 
-Only the supported client/profile and four recipes are executable. Recorded live
+Only the supported client/profile and six automatic recipes are executable. Recorded live
 runs validate specific cases; synthetic tests do not guarantee every server
 condition. Gathering depends on actual drops and may continue during dry patrols.
 Unexpected dialogs and uncertain transactions pause rather than repeat blindly.

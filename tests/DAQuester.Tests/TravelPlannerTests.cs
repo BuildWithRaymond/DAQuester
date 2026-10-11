@@ -1,5 +1,6 @@
 using System.Text;
 using System.Text.Json;
+using System.Text.Json.Nodes;
 using Arbiter.Net.Server.Types;
 using DAQuester.Core;
 using DAQuester.DarkAges.Navigation;
@@ -7,6 +8,47 @@ using Xunit;
 namespace DAQuester.Tests;
 
 public class TravelPlannerTests {
+ [Fact] public void Packaged_collision_preserves_walls_portal_overrides_and_shortest_walk_with_no_raw_assets(){
+  MapRecord[] records=[new(1,"Start",9,9,[new(new(3,1),2,new(1,1)),new(new(1,4),2,new(1,1))]),new(2,"End",5,5,[])];
+  bool Wall(int m,int x,int y)=>m==1&&(x==2&&y<8||x==1&&y==4);
+  using var f=new Assets(records,Wall);f.WritePack(Wall);
+  var empty=Path.Combine(f.Folder,"empty-client");var packaged=new MapRepository(empty,Path.Combine(f.Folder,"routes.json"));
+  Assert.True(packaged.Load(1).Blocked(new(2,1)));Assert.True(packaged.Load(1).Blocked(new(1,4)));
+  var plan=packaged.Plan(1,new(1,1),2,new(2,1));Assert.Equal(new Tile(1,4),plan.Steps[0].From);var local=f.Maps.Plan(1,new(1,1),2,new(2,1));Assert.Equal(local.Cost,plan.Cost);Assert.Equal<TravelStep>(local.Steps,plan.Steps);
+  Assert.Throws<InvalidOperationException>(()=>packaged.Plan(1,new(1,1),1,new(2,1)));
+  Assert.Same(packaged.Load(1),packaged.Load(1));
+  using var cancelled=new CancellationTokenSource();cancelled.Cancel();Assert.Throws<OperationCanceledException>(()=>packaged.Plan(1,new(1,1),2,new(2,1),ct:cancelled.Token));
+ }
+ [Fact] public void Valid_local_collision_overrides_packaged_geometry_and_malformed_local_map_is_not_ignored(){
+  using var f=new Assets([new(1,"Map",5,5,[])],(_,x,_)=>x==2);f.WritePack();
+  Assert.True(f.Maps.Load(1).Blocked(new(2,1)));
+  File.WriteAllBytes(Path.Combine(f.Folder,"maps/lod1.map"),[0]);
+  Assert.Throws<InvalidDataException>(()=>new MapRepository(f.Folder,Path.Combine(f.Folder,"routes.json")).Load(1));
+ }
+ [Fact] public void Missing_collision_archive_can_use_packaged_geometry_without_reading_game_resources(){
+  using var f=new Assets([new(1,"Map",5,5,[])]);f.WritePack((_,x,_)=>x==2);File.Delete(Path.Combine(f.Folder,"ia.dat"));
+  Assert.True(new MapRepository(f.Folder,Path.Combine(f.Folder,"routes.json")).Load(1).Blocked(new(2,1)));
+ }
+ [Theory]
+ [InlineData("version")][InlineData("profile")][InlineData("dimensions")][InlineData("short bits")][InlineData("base64")][InlineData("duplicate map")][InlineData("padding")]
+ public void Invalid_packaged_geometry_fails_before_a_grid_or_route_can_be_used(string corruption){
+  using var f=new Assets([new(1,"Map",5,5,[])]);string path=f.WritePack();var pack=JsonNode.Parse(File.ReadAllText(path))!;var map=pack["maps"]![0]!;
+  switch(corruption){
+   case "version":pack["schemaVersion"]=2;break;case "profile":pack["serverProfile"]="different-server";break;
+   case "dimensions":map["width"]=6;break;case "short bits":map["blockedBits"]="AA==";break;case "base64":map["blockedBits"]="not base64!";break;
+   case "duplicate map":((JsonArray)pack["maps"]!).Add(map.DeepClone());break;
+   case "padding":map["blockedBits"]=Convert.ToBase64String(new byte[]{0,0,0,128});break;
+  }
+  File.WriteAllText(path,pack.ToJsonString());
+  var repository=new MapRepository(Path.Combine(f.Folder,"empty-client"),Path.Combine(f.Folder,"routes.json"));
+  Assert.Throws<InvalidDataException>(()=>repository.Load(1));
+ }
+ [Fact] public void Unavailable_intermediate_collision_names_the_map_instead_of_hiding_it_as_a_blocked_door(){
+  using var f=new Assets([new(1,"Start",5,5,[new(new(2,1),2,new(1,1))]),new(2,"Middle",5,5,[new(new(2,1),3,new(1,1))]),new(3,"End",5,5,[])]);
+  File.Delete(Path.Combine(f.Folder,"maps/lod2.map"));
+  var error=Assert.Throws<InvalidOperationException>(()=>f.Maps.Plan(1,new(1,1),3,new(1,1)));
+  Assert.Contains("Middle (2)",error.Message);Assert.Contains("collision",error.Message,StringComparison.OrdinalIgnoreCase);
+ }
  [Fact] public void Final_target_distance_can_outweigh_distance_to_first_door(){
   using var f=new Assets([new(1,"Start",20,5,[new(new(2,1),2,new(18,1)),new(new(8,1),2,new(1,1))]),new(2,"End",20,5,[])]);
   var plan=f.Maps.Plan(1,new(1,1),2,new(2,1));Assert.Equal(new Tile(8,1),Assert.Single(plan.Steps).From);Assert.Equal(10,plan.Cost);
@@ -63,11 +105,17 @@ public class TravelPlannerTests {
  internal sealed class Assets:IDisposable {
   public string Folder {get;}=Path.Combine(Path.GetTempPath(),"DAQuester-planner-"+Guid.NewGuid());
   public MapRepository Maps {get;}
+  readonly MapRecord[] records;
   public Assets(MapRecord[] records,Func<int,int,int,bool>? wall=null){
+   this.records=records;
    Directory.CreateDirectory(Path.Combine(Folder,"maps"));
    foreach(var r in records){var data=new byte[r.Width*r.Height*6];for(int y=0;y<r.Height;y++)for(int x=0;x<r.Width;x++)if(wall?.Invoke(r.Id,x,y)==true)data[(y*r.Width+x)*6+2]=1;File.WriteAllBytes(Path.Combine(Folder,"maps","lod"+r.Id+".map"),data);}
    using(var w=new BinaryWriter(File.Create(Path.Combine(Folder,"ia.dat")))){w.Write(2);w.Write(25);w.Write(Encoding.ASCII.GetBytes("sotp.dat".PadRight(13,'\0')));w.Write(26);w.Write((byte)15);}
    string routes=Path.Combine(Folder,"routes.json");File.WriteAllText(routes,JsonSerializer.Serialize(records));Maps=new(Folder,routes);
+  }
+  public string WritePack(Func<int,int,int,bool>? wall=null){
+   var maps=records.Select(r=>{var bits=new byte[(r.Width*r.Height+7)/8];for(int y=0;y<r.Height;y++)for(int x=0;x<r.Width;x++)if(wall?.Invoke(r.Id,x,y)==true){int i=y*r.Width+x;bits[i/8]|=(byte)(1<<(i%8));}return new{id=r.Id,width=r.Width,height=r.Height,blockedBits=Convert.ToBase64String(bits),sourceSha256=new string('0',64)};}).ToArray();
+   string path=Path.Combine(Folder,"maps/datester-7.41.walkability.json");File.WriteAllText(path,JsonSerializer.Serialize(new{schemaVersion=1,serverProfile="datester-7.41",sotpSha256=new string('0',64),maps,missingMapIds=Array.Empty<int>()}));return path;
   }
   public void Dispose()=>Directory.Delete(Folder,true);
  }
