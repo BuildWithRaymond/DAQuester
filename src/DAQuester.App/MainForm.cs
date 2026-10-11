@@ -53,7 +53,13 @@ public sealed partial class MainForm:ThemedForm {
   Disposed+=(_,_)=>characterMemoryLifetime.Dispose();
  }
  void Ui(Action a) {if(IsDisposed||Disposing)return;if(InvokeRequired){try{BeginInvoke(a);}catch(InvalidOperationException){}}else a();}
- public void Log(string message)=>Ui(()=>{string line=DateTime.Now.ToString("HH:mm:ss")+"  "+message;log.Items.Add(line);try{File.AppendAllText(Path.Combine(AppSettings.DataPath,"diagnostics.log"),line+Environment.NewLine);}catch(IOException){}if(log.Items.Count>2000)log.Items.RemoveAt(0);log.TopIndex=Math.Max(0,log.Items.Count-1);});
+ bool logFileFailed;
+ public void Log(string message)=>Ui(()=>{
+  string line=DateTime.Now.ToString("HH:mm:ss")+"  "+message;log.Items.Add(line);
+  try{File.AppendAllText(Path.Combine(AppSettings.DataPath,"diagnostics.log"),line+Environment.NewLine);logFileFailed=false;}
+  catch(Exception e)when(e is IOException or UnauthorizedAccessException){if(!logFileFailed){logFileFailed=true;log.Items.Add(DateTime.Now.ToString("HH:mm:ss")+"  diagnostics.log not written: "+e.Message);}}
+  while(log.Items.Count>2000)log.Items.RemoveAt(0);log.TopIndex=Math.Max(0,log.Items.Count-1);
+ });
  string Selected()=>grid.SelectedRows.Count>0?grid.SelectedRows[0].Cells[0].Value?.ToString()??"":settings.Characters.FirstOrDefault()??"";
  DateTimeOffset? NextAttempt(QuestJob job)=>recipes.TryGetValue(job.Quest,out var quest)?QuestRunPolicy.NextAttempt(quest,job):job.NextRun;
  bool OrdinaryAttemptComplete(QuestJob job)=>job.Quest==recipe.Id&&QuestRunPolicy.AttemptCompleted(job)&&job.PermanentCompletion is null;
