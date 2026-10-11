@@ -3,6 +3,7 @@
 **Shinewood Faerie** visits the Faerie near (71,37) in Shinewood Forest 11 and
 says **Hello**. Every class may adopt one **Pet Faerie**. Existing carried or
 equipped pets and verified adoption receipts prevent duplicate adoption.
+Requires **level 11+** to pass Shinewood Forest 7, as reported by the player.
 Reserve one free inventory slot and five weight if a pet is still needed.
 
 During the same visit, priests learn missing **deo lamh** at level 11 and

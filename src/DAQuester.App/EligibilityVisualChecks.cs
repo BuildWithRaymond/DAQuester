@@ -72,6 +72,11 @@ internal static class EligibilityVisualChecks {
    queues[name]=new(){Character=name,State="Paused",ActiveQuest="spare-a-stick",ActiveResume=true,Quests=["spare-a-stick"]};
    Check((string)typeof(MainForm).GetMethod("QueueStartReason",flags)!.Invoke(form,[name,queues[name]])! == "","Existing pending queue must still allow fresh reconciliation at level 99.");
    queues.Remove(name);
+   Set(session.Snapshot with{Level=10,Revision=3});
+   Check(State("shinewood-faerie").State=="Blocked"&&!State("shinewood-faerie").CanQueue&&State("shinewood-faerie").Reason.Contains("11"),"Level 10 must block a new Faerie queue before other stats are known.");
+   Wait(memory.ObserveAsync(name,session.Snapshot));sessions.Remove(name);
+   Check(!State("shinewood-faerie").CanQueue&&State("shinewood-faerie").Reason.Contains("11"),"Saved offline level 10 must still block the Faerie route.");
+   sessions.Add(name,session);
    Set(session.Snapshot with{Level=11,Gold=999,Experience=10,Weight=1,MaxWeight=100,InventoryKnown=true,Legends=[],LegendsRevision=3,Revision=3});
    int readyIndex=roster.Rows.Add(name,"Online","11","999","—","—","Idle","preflight","Ready","","Spare a Stick");
    try{
@@ -83,6 +88,6 @@ internal static class EligibilityVisualChecks {
    Check(memory.Load("Nuclear").Level is null&&State("shinewood-faerie").CanQueue,"Remembered restrictions must not leak to other characters or quests.");
   }finally{sessions.Remove(name);connection.DisposeAsync().AsTask().GetAwaiter().GetResult();}
   if(failures.Count>0)throw new InvalidOperationException(string.Join("\n",failures));
-  File.WriteAllText("artifacts/character-memory-checks.txt","Known and saved level 99 gating, pending selection gating, own and saved Muisir completion, per-character memory persistence, offline checkbox/keyboard rejection, Completed filtering, and pending queue reconciliation passed. No game commands or connections executed.");
+  File.WriteAllText("artifacts/character-memory-checks.txt","Known and saved level 99 Stick gating and level 10 Faerie gating, pending selection gating, own and saved Muisir completion, per-character memory persistence, offline checkbox/keyboard rejection, Completed filtering, and pending queue reconciliation passed. No game commands or connections executed.");
  }
 }

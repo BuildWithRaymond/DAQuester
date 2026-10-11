@@ -42,17 +42,22 @@ public class AwesomeCompletionTests {
  sealed class CaptureSession(Fixture f):IGameSession {
   readonly EvidenceHistory history=History(f);
   static EvidenceHistory History(Fixture f){var h=new EvidenceHistory();foreach(var e in f.Events)h.Record(e.Snapshot);return h;}
-  public CharacterSnapshot Snapshot=>Terminal(f).Snapshot;
+  public CharacterSnapshot Snapshot {get;private set;}=Terminal(f).Snapshot;
+  public List<GameCommand> Commands {get;}=[];
   public IReadOnlySet<string> Capabilities=>new HashSet<string>();
   public event Action<CharacterSnapshot>? Changed {add{}remove{}}
   public event Action<string>? Interrupted {add{}remove{}}
-  public Task ExecuteAsync(GameCommand command,CancellationToken cancellation)=>throw new InvalidOperationException("Completed turn-in must never be resent.");
+  public Task ExecuteAsync(GameCommand command,CancellationToken cancellation){
+   cancellation.ThrowIfCancellationRequested();Assert.Equal("close",command.Kind);Assert.Equal(Snapshot.Dialog,command.Dialog);
+   DialogPackets.Close(Snapshot,command.Dialog!);Commands.Add(command);Snapshot=Snapshot with{Revision=Snapshot.Revision+1,Dialog=null};return Task.CompletedTask;
+  }
   public Task<CharacterSnapshot> WaitAsync(Func<CharacterSnapshot,bool> predicate,long after,TimeSpan timeout,CancellationToken cancellation)=>history.Find(Snapshot.Generation,after,predicate) is {} found?Task.FromResult(found):throw new TimeoutException("Matching captured evidence missing.");
  }
  [Fact] public async Task Pending_coin_turnin_confirms_from_history_without_resending() {
   var f=Load();var journal=new FileQuestJournal(Path.Combine(Path.GetTempPath(),"DAQuester-tests",Guid.NewGuid().ToString()));
-  var c=new QuestContext(new CaptureSession(f),journal,Profile(),new QuestJob{Character="Awesome",Step="confirm",Accepted=true,Pending=Before(f)});
+  var session=new CaptureSession(f);var c=new QuestContext(session,journal,Profile(),new QuestJob{Character="Awesome",Step="confirm",Accepted=true,Pending=Before(f)});
   await new StickActions().ExecuteAsync(c,new("confirm","confirm",null),default);
   Assert.Null(c.Job.Pending);Assert.NotNull(c.Job.CompletedAt);Assert.False(c.Job.Accepted);Assert.Equal(50,c.Job.Rewards["gold"]);
+  Assert.Equal("close",Assert.Single(session.Commands).Kind);Assert.Null(session.Snapshot.Dialog);
  }
 }

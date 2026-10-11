@@ -177,6 +177,34 @@ public class FastWalkingTests {
   Assert.Equal(501,f.Session.Snapshot.Map);Assert.Equal(0,f.Connection.Movement.Pending);
   }finally{await Task.WhenAll(replies);}
  }
+ [Fact] public async Task Unrelated_monster_update_does_not_drain_fast_portal_approach(){
+  var record=new MapRecord(500,"Synthetic forest",10,5,[new(new(6,1),501,new(1,1))]);
+  await using var f=await MovingObstacleTests.Fixture.Create(record:record,additional:[new(501,"Destination",5,5,[])]);f.Session.FastMode=true;
+  var secondStep=new TaskCompletionSource(TaskCreationOptions.RunContinuationsAsynchronously);var replies=new List<Task>();bool continuedBeforeAck=false;
+  try{await f.Walk(new(1,1),async(n,next)=>{
+   if(n==2)secondStep.TrySetResult();
+   if(next==new Tile(6,1)){Assert.Equal(new Tile(5,1),f.Session.Snapshot.Position);await f.Map(501,5,5);await f.Position(new(1,1));return true;}
+   var origin=next with{X=next.X-1};
+   if(n==1){await f.Send(7,Payload(new ServerDrawObjectsMessage{Entities=[new ServerCreatureEntity{Id=88,X=8,Y=4,Name="Synthetic monster"}]}));
+    replies.Add(Task.Run(async()=>{try{await secondStep.Task.WaitAsync(TimeSpan.FromMilliseconds(900));continuedBeforeAck=true;}catch(TimeoutException){}await f.Send(11,[1,0,(byte)origin.X,0,(byte)origin.Y,0,0,0,0,0]);}));}
+   else replies.Add(Task.Run(async()=>{await Task.Delay(300);await f.Send(11,[1,0,(byte)origin.X,0,(byte)origin.Y,0,0,0,0,0]);}));
+   return true;
+  },new("navigate",501,new(1,1)),projectedServer:true);}finally{await Task.WhenAll(replies);}
+  Assert.True(continuedBeforeAck,"An unrelated monster update stopped fast walking until the first step was acknowledged");Assert.Equal(501,f.Session.Snapshot.Map);Assert.Equal(0,f.Connection.Movement.Pending);
+ }
+ [Fact] public async Task Monster_blocking_next_fast_step_is_avoided_before_reaching_the_exit(){
+  var record=new MapRecord(500,"Synthetic forest",10,5,[new(new(6,1),501,new(1,1))]);
+  await using var f=await MovingObstacleTests.Fixture.Create(record:record,additional:[new(501,"Destination",5,5,[])]);f.Session.FastMode=true;
+  var replies=new List<Task>();var origin=new Tile(1,1);bool detoured=false;
+  try{await f.Walk(new(1,1),async(n,next)=>{
+   Assert.NotEqual(new Tile(3,1),next);detoured|=next.Y!=1;
+   if(next==new Tile(6,1)){Assert.Equal(origin,f.Session.Snapshot.Position);await f.Map(501,5,5);await f.Position(new(1,1));return true;}
+   var sentFrom=origin;origin=next;byte direction=(byte)(next.Y<sentFrom.Y?0:next.X>sentFrom.X?1:next.Y>sentFrom.Y?2:3);
+   if(n==1)await f.Send(7,Payload(new ServerDrawObjectsMessage{Entities=[new ServerCreatureEntity{Id=88,X=3,Y=1,Name="Blocking monster"}]}));
+   replies.Add(Task.Run(async()=>{await Task.Delay(450);await f.Send(11,[direction,0,(byte)sentFrom.X,0,(byte)sentFrom.Y,0,0,0,0,0]);}));return true;
+  },new("navigate",501,new(1,1)),projectedServer:true);}finally{await Task.WhenAll(replies);}
+  Assert.True(detoured);Assert.Equal(501,f.Session.Snapshot.Map);Assert.Equal(0,f.Connection.Movement.Pending);
+ }
  [Fact] public async Task Fast_rejection_reanchors_before_detouring_and_corrects_immediate_presentation(){
   await using var f=await MovingObstacleTests.Fixture.Create();f.Session.FastMode=true;bool refreshing=false;Task reply=Task.CompletedTask;
   try{await f.Walk(new(4,1),async(n,next)=>{

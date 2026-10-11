@@ -40,6 +40,10 @@ public sealed class PerfectHairstyleActions:IQuestAction {
   await c.SaveAsync(c.Job with{Reason="Walking to Eeva in Suomi Inn; Ponytail needs no items"});
   await c.Session.ExecuteAsync(new("visit",950,Text:"Eeva"),ct);
   await Open(c,ct);await Choose(c,"The Perfect Hairstyle",ct);
+  if(Current(c) is {Type:0,Prompt:null,Choices.Length:0} already&&already.Text=="Thanks again for the new hairstyle.") {
+   await QuestCompletionDialogs.DismissAsync(c,already,ct);
+   throw new QuestBlockedException("Eeva has already received this hairstyle. Wait for the seven-day cooldown before trying again; no new reward was recorded.");
+  }
   if(Has(c,"It's a bit bland to be honest")) {
    await Choose(c,"It's a bit bland to be honest",ct);
    await Choose(c,"I'd love to help. what do you need?",ct);
@@ -84,8 +88,7 @@ public sealed class PerfectHairstyleActions:IQuestAction {
     var reply=await c.Session.WaitAsync(s=>PerfectHairstyleEvidence.FreshReply(s,t),t.Revision,timeout,ct);
     await c.SaveAsync(c.Job with{HairstyleCompletion=reply.Dialog,Pending=t with{TerminalSeen=true,TerminalRevision=reply.Dialog!.Revision}});t=c.Job.Pending!;
    }
-   var current=c.Session.Snapshot.Dialog;
-   if(current is {HasNext:true}&&current.Revision==t.TerminalRevision&&current.Generation==t.Generation&&current.EntityId==t.EntityId)await c.Session.ExecuteAsync(new("next",Dialog:current),ct);
+   await QuestCompletionDialogs.DismissAsync(c,c.Job.HairstyleCompletion,ct);
    long beforeInspect=c.Session.Snapshot.Revision;
    await c.Session.ExecuteAsync(new("inspect-self"),ct);
    var done=await c.Session.WaitAsync(s=>reconnected?s.LegendsRevision>beforeInspect&&PerfectHairstyleEvidence.ReconcilesAfterReconnect(s,c.Job):s.Revision>=t.TerminalRevision&&PerfectHairstyleEvidence.Rewards(s,t),reconnected?beforeInspect:t.Revision,timeout,ct);

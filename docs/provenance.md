@@ -103,14 +103,26 @@ builds or tests.
 Keane's Suomi departure shortcut comes from read-only Excalibur `Client.cs`
 (NPC interaction around line 8230; approach near (40,59) around line 26459).
 It supplies map 503, Keane, two greeting variants and choice-then-Next behavior.
-The player supplies Abel as the destination. WorldLogs identify Abel Port 502
-and Abel Port Way 3014. Neither an exact travel label nor a landing tile is
-claimed as captured: runtime requires a unique observed Abel travel choice and
-replans from the actual server landing. Synthetic transport tests cover both
+The player supplies Abel as the destination and corrected the live menu path
+on 2026-10-11: **Suomi Help**, **Please escort me out of suomi**, then **Next**.
+WorldLogs identify Abel Port 502 and Abel Port Way 3014. The labels are
+player-reported rather than captured packets; runtime resolves unique choices
+from fresh Keane menus and replans from the actual server landing. A unique
+direct Abel travel option is also supported. Synthetic transport tests cover both
 merchant and pursuit menus with independent IDs, unavailable NPC fallback,
 preserved unfamiliar dialogue and reconciliation without repeating submissions.
 This shortcut applies when the recorded departure route already passes Abel;
 local Suomi and east-side routes retain their existing plans.
+The same player reports that passing Shinewood Forest 7 requires level 11+.
+Faerie planning and preflight now enforce that limit, including saved offline
+levels. This is a player-reported access rule, not a newly captured wire refusal.
+
+The 1.0.7 completion cleanup uses existing observed Callough/Eeva terminal
+receipts and the player's popup report. Eeva's “Thanks again for the new
+hairstyle.” was read from a paused local journal. It is recognized as a prior
+attempt response, without inventing its reward, completion date or cooldown
+deadline. Regression fixtures for cleanup, queue advancement and blocked-step
+walking remain synthetic; no real character was operated during this fix.
 An offline collision/route check from Berg's recorded Suomi landing to Shinewood
 Entrance confirms the existing route passes Abel: 314 modeled actions, versus
 56 walking steps to Keane's approach before transport. This is not a measured

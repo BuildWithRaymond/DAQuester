@@ -1,5 +1,31 @@
 # Validation status
 
+## Release 1.0.7 — October 11, 2026
+
+The full Release suite passes **689 tests**, with zero failures or skips
+(4 minutes 8 seconds). The focused quest, queue, travel, memory and recovery
+run passes **315 checks**. All 36 fast-walking tests pass in the full suite,
+including continuing past off-path monster updates and avoiding a monster that
+blocks the next step. Existing player-proximity and doorway checks remain intact.
+
+New completion regressions cover Callough and Eeva popup cleanup before the next
+queue entry, a terminal reward discovered during timeout reconciliation, failed
+close recovery without another submission, weekly Hairstyle outcomes, unfamiliar
+page preservation, Keane's two-menu escort path, and level-11 Faerie access.
+Captured replay tests explicitly allow the final close while rejecting a repeated
+turn-in. No reward, completion date or cooldown deadline is inferred from Eeva's
+already-helped response.
+
+The Release solution build passes with zero warnings or errors in a separate
+output folder. The running checkout and all game processes remain untouched.
+Native UI checks pass, including live and saved offline level-10 Faerie gates,
+queue ownership, dark rendering, scaled controls and retained quest policies.
+Installer, portable ZIP and full update packages pass asset, checksum, feed,
+license and private-data verification. Packaging uses its own build folder and
+does not replace the running checkout.
+This patch still needs live confirmation; build and regression runs operate
+synthetic sessions only.
+
 ## Release 1.0.6 — October 11, 2026
 
 The full Release suite passes **670 tests**, with zero failures or skips

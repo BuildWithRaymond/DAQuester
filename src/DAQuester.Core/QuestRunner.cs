@@ -41,6 +41,7 @@ public class QuestRunner(IGameSession session,IQuestJournal journal,QuestDefinit
    if(missing.Length>0)throw new QuestBlockedException("Unsupported capabilities: "+string.Join(", ",missing));
    if(c.Job.Version!=recipe.Version)throw new QuestBlockedException("Recipe version changed. Reconcile saved job before continuing.");
    if(singleAttempt&&!startNewAttempt&&QueueAttemptOutcome.HasTerminalReceipt(c.Job)){
+    await QuestCompletionDialogs.DismissAsync(c,hairstyle?c.Job.HairstyleCompletion:recipe.Id=="spare-a-stick"?c.Job.CompletionDialog:null,token.Token);
     bool finished=QuestRunPolicy.Finished(recipe,c.Job);
     await Save(c.Job with{Step="complete",Status=hairstyle&&c.Job.LegendReward!=true?"AttemptCompleted":"Completed",Repeat=!finished&&c.Job.Repeat,NextRun=finished?null:c.Job.NextRun,Reason=c.Job.CompletionText??"Saved terminal outcome verified"});return;
    }
@@ -50,6 +51,7 @@ public class QuestRunner(IGameSession session,IQuestJournal journal,QuestDefinit
    bool completedAttempt=c.Job.CompletedAt.HasValue&&c.Job.Step=="complete";
    if(singleAttempt&&hairstyle&&!startNewAttempt&&c.Job.Pending is null&&c.Job.LastAttemptAt is {} verified&&
      c.Job.HairstyleAttempts.Any(a=>a.CompletedAt==verified)&&c.Job.Step=="complete"){
+    await QuestCompletionDialogs.DismissAsync(c,c.Job.HairstyleCompletion,token.Token);
     bool legend=c.Job.LegendReward==true;
     await Save(c.Job with{Status=legend?"Completed":"AttemptCompleted",Repeat=!legend&&c.Job.Repeat,NextRun=legend?null:c.Job.NextRun,Reason=c.Job.CompletionText??(legend?"Suomi legend verified":"Weekly attempt verified; Suomi legend still needed")});return;
    }
@@ -58,7 +60,7 @@ public class QuestRunner(IGameSession session,IQuestJournal journal,QuestDefinit
    }
    bool anotherAttempt=completedAttempt&&recipe.Repeatable&&(repeat&&!singleAttempt||startNewAttempt)&&!QuestRunPolicy.Finished(recipe,c.Job);
    if(completedAttempt&&c.Job.Pending is not null)throw new QuestBlockedException("Pending transaction requires reconciliation before a new attempt.");
-   if(completedAttempt&&!anotherAttempt){await Save(c.Job with{Status="Completed",Repeat=singleAttempt&&!QuestRunPolicy.Finished(recipe,c.Job)&&c.Job.Repeat,NextRun=QuestRunPolicy.NextAttempt(recipe,c.Job),Reason=c.Job.CompletionText??"One completion verified"});return;}
+   if(completedAttempt&&!anotherAttempt){await QuestCompletionDialogs.DismissAsync(c,hairstyle?c.Job.HairstyleCompletion:recipe.Id=="spare-a-stick"?c.Job.CompletionDialog:null,token.Token);await Save(c.Job with{Status="Completed",Repeat=singleAttempt&&!QuestRunPolicy.Finished(recipe,c.Job)&&c.Job.Repeat,NextRun=QuestRunPolicy.NextAttempt(recipe,c.Job),Reason=c.Job.CompletionText??"One completion verified"});return;}
    var nextAttempt=QuestRunPolicy.NextAttempt(recipe,c.Job);
    if(singleAttempt&&hairstyle&&c.Job.LastAttemptAt is {} previous&&c.Job.HairstyleAttempts.Any(a=>a.CompletedAt==previous)){
     var due=previous.AddHours(recipe.CooldownHours);if(nextAttempt is null||due>nextAttempt)nextAttempt=due;
@@ -113,7 +115,18 @@ public class QuestRunner(IGameSession session,IQuestJournal journal,QuestDefinit
     catch(OperationCanceledException) {await Save(c.Job with{Status="Paused",Reason=pauseReason});}
     catch(Exception e) {await Save(c.Job with{Status="Paused",Reason=e.Message});}
   finally {
-   try {if(recipe.Id=="spare-a-stick") {var reconciled=StickCompletionEvidence.Observe(c.Job,calibration,completionHistory);if(!ReferenceEquals(reconciled,c.Job))await Save(reconciled);}}
+   try {if(recipe.Id=="spare-a-stick") {
+    var reconciled=StickCompletionEvidence.Observe(c.Job,calibration,completionHistory);
+    if(!ReferenceEquals(reconciled,c.Job)) {
+     await Save(reconciled);
+     // A terminal reward can arrive at the timeout boundary. Settle its
+     // popup before yielding ownership to the next queued quest, while
+     // manual interruption remains passive and never sends a close.
+     if(!token.IsCancellationRequested&&c.Job.Status=="Completed"&&c.Job.Pending is null)
+      try{await QuestCompletionDialogs.DismissAsync(c,c.Job.CompletionDialog,token.Token);}
+      catch(Exception e){await Save(c.Job with{Status="Paused",Reason=e is OperationCanceledException?pauseReason:e.Message});}
+    }
+   }}
    finally {session.Interrupted-=Interrupt;session.Changed-=Observe;active=null;owner.Release();Changed?.Invoke(Job);}
   }
   await ReconcileAsync(session.Snapshot);

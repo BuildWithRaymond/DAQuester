@@ -10,7 +10,9 @@ try {
     $releasePath=if([IO.Path]::IsPathRooted($Output)){$Output}else{Join-Path $repoRoot $Output}
     if(Test-Path -LiteralPath $payload){throw "Use a clean package directory: $payload already exists."}
     if(Test-Path -LiteralPath $releasePath){throw "Use a clean output directory: $releasePath already exists."}
-    dotnet publish src/DAQuester.App -c Release -r win-x86 --self-contained true -o $payload -m:1 -p:UseSharedCompilation=false
+    # A running checkout must not hold up release packaging or be replaced by it.
+    $buildOutput=Join-Path $repoRoot "artifacts/build-package-$version/"
+    dotnet publish src/DAQuester.App -c Release -r win-x86 --self-contained true -o $payload -m:1 -p:UseSharedCompilation=false "-p:OutDir=$buildOutput"
     if($LASTEXITCODE -ne 0){throw 'Application publish failed.'}
     if(Test-Path -LiteralPath (Join-Path $payload 'Data')){throw 'User Data must never enter the release payload.'}
     $assets=Get-Content src/DAQuester.App/obj/project.assets.json -Raw | ConvertFrom-Json

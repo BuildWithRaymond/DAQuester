@@ -7,7 +7,7 @@
       "id": "shinewoodfaerie",
       "name": "Shinewood Faerie",
       "source": "https://vorlof.com/general/shinewoodforest11.html",
-      "level": "1+; spells vary",
+      "level": "11+; spells vary",
       "requiredItems": "1 free slot and 5 weight for pet; recommended town songs/scrolls or ready dachaidh",
       "rewards": "Pet Faerie for every class; eligible missing Priest/Wizard spells",
       "dependencies": null,
@@ -17,7 +17,7 @@
       "metadataReviewRequired": true,
       "capabilitiesInferred": false,
       "cooldownNotes": ["Explicit visits only; no automatic repeats."],
-      "dependencyNotes": [],
+      "dependencyNotes": ["Level 11+ required to pass Shinewood Forest 7, reported by the player."],
       "givesLegend": false,
       "catalogException": "requested-pet-and-spells"
     },

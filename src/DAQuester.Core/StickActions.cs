@@ -88,6 +88,7 @@ public class StickActions:IQuestAction {
     bool Outcome(CharacterSnapshot x)=>StickCompletionEvidence.Outcome(x,t,t.TerminalRevision!.Value,cal);
     var done=await session.WaitAsync(Outcome,Math.Max(t.Revision,t.TerminalRevision!.Value-1),dialogTimeout,cancellation);
     await c.SaveAsync(StickCompletionEvidence.Complete(c.Job,done));
+    await QuestCompletionDialogs.DismissAsync(c,c.Job.CompletionDialog,cancellation);
     break;
    default:throw new QuestBlockedException("Unsupported action: "+step.Action);
   }

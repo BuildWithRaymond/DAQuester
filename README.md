@@ -55,7 +55,7 @@ The library has 71 entries. These six have automatic recipes:
 | Perfect Hairstyle | Follows Eeva's Ponytail conversation. Weekly attempts can continue until your own Suomi legend is recorded. |
 | Entered Muisir Village | Collects five Undine Mushrooms and verifies the legend and four Shrinking Potions. An existing Muisir legend shows Completed. |
 | Emerald Dawn | Find an insignia and choose Knights, Necromancer, or sale. Includes an optional visit to Gans. Full live validation is still pending. |
-| Shinewood Faerie | Try for a pet and learn eligible missing Priest/Wizard spells. Handles the observed failed-bond wait and the trip home. Successful rewards still need live validation. |
+| Shinewood Faerie | Level **11+** to pass Forest 7. Try for a pet and learn eligible missing Priest/Wizard spells. Handles the observed failed-bond wait and the trip home. Successful rewards still need live validation. |
 
 The remaining entries are guides for manual play. See [quest details](docs/QUESTS.md)
 for requirements, repeat rules, and the evidence behind each recipe. The new queue,

@@ -12,7 +12,7 @@ public class ShinewoodFaerieTests {
   ["navigate","dialog","inventory","speech","spell","item"],[
    new("preflight","faerie-preflight","visit"),new("visit","faerie-visit","return"),new("return","faerie-return","complete")],0){Repeatable=false};
  static FileQuestJournal Journal()=>new(Path.Combine(Path.GetTempPath(),"DAQuester-tests",Guid.NewGuid().ToString()));
- static CharacterSnapshot State(string cls="Warrior",int level=1,bool master=false,bool? pure=null)=>
+ static CharacterSnapshot State(string cls="Warrior",int level=11,bool master=false,bool? pure=null)=>
   JsonSerializer.Deserialize<CharacterSnapshot>(JsonSerializer.Serialize(new{
    Name="Nuclear",Id=42,Connected=true,Generation=1,Level=level,Hp=100,Mana=100,Gold=999,Weight=1,MaxWeight=100,
    InventoryKnown=true,SpellsKnown=true,Class=cls,IsMaster=master,IsPure=pure,Map=500,Position=new{X=20,Y=20},
@@ -38,12 +38,20 @@ public class ShinewoodFaerieTests {
  }
  [Theory][InlineData("Peasant")][InlineData("Warrior")][InlineData("Rogue")][InlineData("Monk")][InlineData("Wizard")][InlineData("Priest")]
  public async Task Every_class_gets_pet_and_returns_by_town_song(string cls){
-  var s=Session(State(cls));var j=Journal();Flow(s,j,[]);var r=new QuestRunner(s,j,Recipe(),new());await r.RunAsync(true);
+  var state=State(cls);if(cls=="Priest")state=state with{Spells=state.Spells.Add(9,"deo lamh")};
+  var s=Session(state);var j=Journal();Flow(s,j,[]);var r=new QuestRunner(s,j,Recipe(),new());await r.RunAsync(true);
   Assert.Equal("Completed",r.Job.Status);Assert.NotNull(r.Job.CompletedAt);Assert.Null(r.Job.Pending);Assert.False(r.Job.Repeat);
   Assert.Equal(1,s.Snapshot.Count(Pet));Assert.Single(s.Commands,c=>c.Kind=="choose"&&c.Text=="Adopt a Pet Faerie");
   Assert.Single(s.Commands,c=>c.Kind=="use-item");Assert.Null(r.Job.NextRun);
  }
- [Theory][InlineData("Priest",10,false,false,"")][InlineData("Priest",11,false,false,"deo lamh")]
+ [Theory][InlineData(1)][InlineData(10)][InlineData(11)]
+ public async Task Shinewood_access_requires_level_eleven_before_any_travel(int level){
+  var s=Session(State(level:level));var job=new QuestJob{Character="Nuclear",Quest=Id};
+  var gate=ShinewoodFaerieEvidence.Eligibility(s.Snapshot,job);
+  Assert.Equal(level<11?EligibilityKind.Blocked:EligibilityKind.Eligible,gate.Kind);
+  if(level<11){var runner=new QuestRunner(s,Journal(),Recipe(),new());await runner.RunAsync();Assert.Empty(s.Commands);Assert.Contains("11",runner.Job.Reason);}
+ }
+ [Theory][InlineData("Priest",11,false,false,"deo lamh")]
  [InlineData("Priest",20,false,false,"deo lamh|creag neart")]
  [InlineData("Priest",99,true,false,"deo lamh|creag neart|deo searg gar")]
  [InlineData("Priest",99,true,true,"deo lamh|creag neart|deo searg gar|deo searg")]
@@ -162,8 +170,9 @@ public class ShinewoodFaerieTests {
   var r=new QuestRunner(s,j,Recipe(),new());await r.RunAsync();Assert.Equal("Paused",r.Job.Status);Assert.Null(r.Job.CompletedAt);Assert.DoesNotContain(s.Commands,c=>c.Kind=="use-item");
  }
  [Fact] public async Task Later_explicit_visit_picks_up_newly_unlocked_spell_without_another_pet(){
-  var s=Session(State("Priest",10,false,false));var j=Journal();Flow(s,j,["deo lamh"]);var r=new QuestRunner(s,j,Recipe(),new());await r.RunAsync();
-  s.Set(s.Snapshot with{Level=11});await r.RunAsync(startNewAttempt:true);Assert.Equal("Completed",r.Job.Status);Assert.Contains("deo lamh",s.Snapshot.Spells.Values);Assert.Single(s.Commands,c=>c.Text=="Adopt a Pet Faerie");
+  var s=Session(State("Priest",11,false,false));var j=Journal();Flow(s,j,["deo lamh","creag neart"]);var r=new QuestRunner(s,j,Recipe(),new());await r.RunAsync();
+  Assert.Contains("deo lamh",s.Snapshot.Spells.Values);Assert.DoesNotContain("creag neart",s.Snapshot.Spells.Values);
+  s.Set(s.Snapshot with{Level=20});await r.RunAsync(startNewAttempt:true);Assert.Equal("Completed",r.Job.Status);Assert.Contains("creag neart",s.Snapshot.Spells.Values);Assert.Single(s.Commands,c=>c.Text=="Adopt a Pet Faerie");
  }
  [Fact] public async Task Merchant_close_is_presentation_only_and_does_not_block_later_goals_or_return(){
   var s=Session(State("Priest",20,false,false));var j=Journal();Flow(s,j,["deo lamh","creag neart"]);var flow=s.OnCommand!;

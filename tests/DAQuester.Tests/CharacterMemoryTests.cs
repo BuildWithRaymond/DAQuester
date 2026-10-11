@@ -21,6 +21,11 @@ public class CharacterMemoryTests : IDisposable {
   Assert.Null(Store().Load("Other").Level);Assert.Empty(Store().Load("Other").Legends);
   Assert.Null(Store("another-server").Load("Clock").Level);Assert.Empty(Store("another-server").Load("Clock").Legends);
  }
+ [Theory][InlineData(10,true)][InlineData(11,false)]
+ public async Task Remembered_level_enforces_Shinewood_access_without_connection(int level,bool blocked){
+  await Store().ObserveAsync("Clock",Own() with{Level=level});
+  Assert.Equal(blocked,Store().Load("Clock").SelectionRestriction(ShinewoodFaerieEvidence.Id) is not null);
+ }
  [Theory][InlineData(false,"Clock",42u)][InlineData(true,"Other",42u)][InlineData(true,"Clock",null)]
  public async Task Disconnected_foreign_or_unidentified_observations_are_not_saved(bool connected,string name,uint? id){
   var store=Store();await store.ObserveAsync("Clock",Own() with{Connected=connected,Name=name,Id=id});

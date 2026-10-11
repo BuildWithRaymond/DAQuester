@@ -14,6 +14,7 @@ public class PerfectHairstyleTests {
   var s=new SimulatedSession();((HashSet<string>)s.Capabilities).Add("legend");
   s.Set(s.Snapshot with{Experience=1000});
   s.OnCommand=c=>{
+   if(c.Kind=="close")s.Set(s.Snapshot with{Dialog=null});
    if(c.Kind=="inspect-self")s.Set(s.Snapshot with{LegendsKnown=true});
    if(c.Kind=="open")Reply(s,"Welcome","Other Quest","The Perfect Hairstyle");
    if(c.Kind=="choose")switch(c.Text) {
@@ -35,6 +36,25 @@ public class PerfectHairstyleTests {
  }
  [Fact] public async Task Already_accepted_ponytail_goes_directly_to_material_confirmation() {
   var s=Session(returning:true);var r=new QuestRunner(s,Journal(),Recipe(),new());await HairstyleScheduleTests.RunAttempt(r);Assert.NotNull(r.Job.LastAttemptAt);Assert.DoesNotContain(s.Commands,c=>c.Text=="It's a bit bland to be honest");
+ }
+ [Theory][InlineData(false)][InlineData(true)]
+ public async Task Queue_dismisses_Eeva_terminal_page_and_records_weekly_attempt_before_advancing(bool nextFirst) {
+  var s=Session(x=>{Reply(x,PerfectHairstyleEvidence.Completion);x.Set(x.Snapshot with{Dialog=x.Snapshot.Dialog! with{HasNext=nextFirst},Experience=x.Snapshot.Experience+15000,Inventory=x.Snapshot.Inventory.SetItem(8,new(8,"Emerald Ring",1))});});
+  var flow=s.OnCommand;s.OnCommand=c=>{flow!(c);if(c.Kind=="next")Reply(s,PerfectHairstyleEvidence.Completion);if(c.Kind=="close")s.Set(s.Snapshot with{Dialog=null});};
+  var journal=Journal();var store=new FileQuestQueueStore(Path.Combine(Path.GetTempPath(),"DAQuester-queue-"+Guid.NewGuid()));
+  var queue=new QuestQueueCoordinator(store,new(){Character="Nuclear",Quests=["perfect-hairstyle","next"]},()=>s.Snapshot,async(id,_,ct)=>{
+   if(id=="next"){Assert.Null(s.Snapshot.Dialog);return new(){Character="Nuclear",Quest=id,Step="complete",Status="Completed",CompletedAt=DateTimeOffset.UtcNow};}
+   var runner=new QuestRunner(s,journal,Recipe(),new());await runner.RunAsync(cancellation:ct,singleAttempt:true);return runner.Job;
+  },(_,_)=>Task.CompletedTask);
+  await queue.RunAsync();Assert.Equal("Idle",queue.State.State);Assert.Empty(queue.State.Quests);
+  Assert.Equal("AttemptCompleted",queue.State.History[0].Outcome);Assert.Single(s.Commands,c=>c.Kind=="close");
+  var job=journal.Load("Nuclear","perfect-hairstyle");Assert.Null(job.CompletedAt);Assert.NotNull(job.NextRun);Assert.Single(job.HairstyleAttempts);
+ }
+ [Fact] public async Task Eeva_already_helped_reply_closes_popup_without_inventing_new_reward_or_completion() {
+  var s=Session(returning:true);var flow=s.OnCommand;s.OnCommand=c=>{flow!(c);if(c.Text=="The Perfect Hairstyle")Reply(s,"Thanks again for the new hairstyle.");if(c.Kind=="close")s.Set(s.Snapshot with{Dialog=null});};
+  var runner=new QuestRunner(s,Journal(),Recipe(),new());await runner.RunAsync(singleAttempt:true);
+  Assert.Null(s.Snapshot.Dialog);Assert.Null(runner.Job.Pending);Assert.Null(runner.Job.LastAttemptAt);Assert.Empty(runner.Job.HairstyleAttempts);
+  Assert.Contains("already",runner.Job.Reason,StringComparison.OrdinalIgnoreCase);Assert.DoesNotContain(s.Commands,c=>c.Text=="Yes I did");
  }
  [Fact] public async Task New_legend_and_50000_xp_confirm_without_ring_and_survive_level_gain() {
   var s=Session(x=>{Reply(x,PerfectHairstyleEvidence.Completion);x.Set(x.Snapshot with{Legends=ImmutableArray.Create("Loved by Suomi Mundanes"),Experience=x.Snapshot.Experience+50000,Level=12});});

@@ -27,6 +27,7 @@ public sealed record CharacterMemory {
   bool own=IsOwn(current,Character);
   int? level=own?current!.Level??Level:Level;
   if(quest=="spare-a-stick"&&level is <1 or >11)return new(EligibilityKind.Blocked,"Requires level 1–11.");
+  if(quest==ShinewoodFaerieEvidence.Id&&level is {} known&&known<ShinewoodFaerieEvidence.MinimumLevel)return new(EligibilityKind.Blocked,"Requires level 11+ to pass Shinewood Forest 7 and reach the Faerie.");
   if(CompletedLegend(quest,current) is {} legend)return new(EligibilityKind.Blocked,"Already completed: "+legend+".");
   return null;
  }

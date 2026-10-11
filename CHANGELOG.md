@@ -1,5 +1,20 @@
 # Changelog
 
+## 1.0.7 — 2026-10-11
+
+- Close verified Spare a Stick and Perfect Hairstyle reward popups before
+  advancing the queue. Resume unfinished cleanup without another turn-in,
+  and keep unfamiliar pages open for review.
+- Recognize Eeva's already-helped reply, close it and explain the weekly
+  cooldown without inventing a new reward or legend completion.
+- Follow Keane's Suomi Help → escort → Next menu path using live choice IDs.
+- Keep fast walking moving when monsters update off the path. Still avoid
+  blocked steps, reconsider occupied exits and slow down near other players.
+- Require level 11+ for Shinewood Faerie because Forest 7 blocks lower levels.
+  Enforce the limit in preflight and saved character planning.
+- Package releases in a separate build folder so an open checkout remains
+  untouched.
+
 ## 1.0.6 — 2026-10-11
 
 - Rewrite the README, refresh native screenshots, organize historical design

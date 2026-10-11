@@ -226,7 +226,11 @@ public sealed partial class GameSession:IGameSession {
    }
    var step=plan.Steps.FirstOrDefault();
    if(step is null){await WalkTo(target!,ct,destination,stopWhen,replanWhen:preservePopup||popupGuard is not null?PopupVisible:null);PreservePopup();return;}
-   bool Replan()=>!ReferenceEquals(Snapshot.Entities,entry.Entities)||PopupVisible();
+   // The walker checks current occupancy before every step. Off-path monster
+   // updates must not drain fast movement and restart the entire town route.
+   // Reconsider the route when its selected doorway becomes occupied.
+   bool BlocksDoor(Entity e)=>e.Blocks&&e.Id!=entry.Id&&e.Position==step.From;
+   bool Replan()=>PopupVisible()||!entry.Entities.Values.Any(BlocksDoor)&&Snapshot.Entities.Values.Any(BlocksDoor);
    if(entry.Position==step.From){
     var record=maps.Record(from);var triggers=record.ExitTiles.Concat(record.InternalTransfers.Select(t=>t.From)).ToHashSet();
     var off=Grid.Neighbors(step.From).FirstOrDefault(p=>!maps.Load(from).Blocked(p)&&!triggers.Contains(p)&&!obstacles.Contains(p))??throw new QuestBlockedException("Doorway cannot be re-entered while neighboring tiles are blocked.");

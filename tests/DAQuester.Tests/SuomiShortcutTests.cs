@@ -43,6 +43,20 @@ public class SuomiShortcutTests {
  [Fact] public async Task Local_destination_does_not_open_transport_NPC(){
   await using var f=await Create();await Run(f,p=>{Assert.Equal((byte)6,(byte)p.Command);return Ack(f,p);},new("navigate",503,new(40,55)));Assert.Single(f.Commands);
  }
+ [Theory][InlineData(false)][InlineData(true)]
+ public async Task Departure_selects_Suomi_Help_then_observed_escort_choice_and_Next(bool merchant){
+  await using var f=await Create();int choices=0,nexts=0;
+  byte[] HelpMenu()=>merchant?Payload(new ServerScreenMenuMessage{MenuType=DialogMenuType.Menu,EntityType=EntityTypeFlags.Creature,EntityId=77,Name="Keane",Content="Hello.  What can I do for you?",MenuChoices=[new(){Text="Other",PursuitId=125},new(){Text="Suomi Help",PursuitId=987}]}):
+   Payload(new ServerPursuitMessage{DialogType=DialogType.Menu,EntityType=EntityTypeFlags.Creature,EntityId=77,PursuitId=654,StepId=9,Name="Keane",Content="Hello.  What can I do for you?",MenuChoices=["Other","Suomi Help"]});
+  byte[] EscortMenu()=>Payload(new ServerPursuitMessage{DialogType=DialogType.Menu,EntityType=EntityTypeFlags.Creature,EntityId=77,PursuitId=765,StepId=20,Name="Keane",Content="Synthetic Suomi help menu",MenuChoices=["Renounce Abel Citizenship","Please escort me out of suomi","Other"]});
+  await Run(f,async p=>{
+   if((byte)p.Command==0x43){await f.Send(merchant?(byte)0x2F:(byte)0x30,HelpMenu());return;}
+   if(merchant&&choices==0){Assert.Equal((byte)ClientCommand.Merchant,(byte)p.Command);var c=new ClientMerchantMessage();c.Deserialize(new NetworkPacketReader(p));Assert.Equal(987,c.PursuitId);Assert.Equal(77u,c.EntityId);choices++;await f.Send(0x30,EscortMenu());return;}
+   Assert.Equal((byte)0x3A,(byte)p.Command);var d=new ClientPursuitMessage();d.Deserialize(new NetworkPacketReader(p));Assert.Equal(77u,d.EntityId);
+   if(d.ArgsType==DialogArgsType.MenuChoice){Assert.Equal((byte?)2,d.MenuChoice);if(++choices==1){Assert.Equal(654,d.PursuitId);Assert.Equal(10,d.StepId);await f.Send(0x30,EscortMenu());}else{Assert.Equal(765,d.PursuitId);Assert.Equal(21,d.StepId);await f.Send(0x30,Next());}}
+   else{Assert.Equal(DialogArgsType.None,d.ArgsType);Assert.Equal(1,++nexts);await f.Map(502,5,5);await f.Position(new(1,1));}
+  });Assert.Equal(2,choices);Assert.Equal(1,nexts);Assert.Null(f.Session.Snapshot.Dialog);
+ }
  [Fact] public async Task Unfamiliar_menu_is_preserved_without_selecting_citizenship(){
   await using var f=await Create();await Assert.ThrowsAsync<QuestBlockedException>(()=>Run(f,async p=>{Assert.Equal((byte)0x43,(byte)p.Command);await f.Send(0x30,Menu("Hello.  What can I do for you?",false));}));Assert.Single(f.Commands);Assert.NotNull(f.Session.Snapshot.Dialog);
  }

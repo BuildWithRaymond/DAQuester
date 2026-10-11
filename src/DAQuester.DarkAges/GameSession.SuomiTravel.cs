@@ -7,6 +7,7 @@ namespace DAQuester.DarkAges;
 
 public sealed partial class GameSession {
  // Read-only Excalibur Client.cs: Keane, map 503, approach (40,59), choice then Next.
+ // Player-corrected menu path: Suomi Help -> Please escort me out of suomi.
  // Destination supplied by the player. No landing, pursuit or option IDs are assumed.
  sealed record KeaneTravel(long Generation,uint EntityId,long Revision,bool Submitted=false);
  KeaneTravel? keaneTravel;
@@ -25,6 +26,7 @@ public sealed partial class GameSession {
   Regex.IsMatch(text,@"\bAbel\b",RegexOptions.IgnoreCase|RegexOptions.CultureInvariant)&&
   !Regex.IsMatch(text,@"\b(citizenship|renounce|join|birth|register)\b",RegexOptions.IgnoreCase|RegexOptions.CultureInvariant)&&
   (text.Trim().TrimEnd('.').Equals("Abel",StringComparison.OrdinalIgnoreCase)||Regex.IsMatch(text,@"\b(go|travel|take|send|return|transport|depart|journey|ride|visit)\b",RegexOptions.IgnoreCase|RegexOptions.CultureInvariant));
+ static bool KeaneChoice(string observed,string expected)=>observed.Trim().TrimEnd('.','!','?').Equals(expected,StringComparison.OrdinalIgnoreCase);
  async Task<bool> TryKeaneTravel(TravelPlan plan,CancellationToken ct){
   var entry=Snapshot;
   if(entry.Map!=503||!plan.Steps.Any(s=>s.Map is 502 or 3014))return false;
@@ -48,11 +50,21 @@ public sealed partial class GameSession {
    await connection.SendAsync(Packet(new ClientRequestObjectInfoMessage{InteractionType=InteractionType.Entity,TargetId=npc.Id}),observed.Generation,ct);
    await WaitAsync(s=>s.Map!=503||s.Dialog is {} d&&d.EntityId==npc.Id,observed.Revision,TimeSpan.FromSeconds(5),ct);
    var menu=Snapshot.Dialog;
-   if(Snapshot.Map!=503||menu is null||menu.Generation!=observed.Generation||menu.Revision<=observed.Revision||menu.Revision>Snapshot.Revision||menu.EntityId!=npc.Id||menu.EntityType!=1||!KeaneDialog(menu)||menu.Prompt is not null||menu.HasNext||
+   bool FreshMenu(long after)=>Snapshot.Map==503&&Snapshot.Generation==observed.Generation&&Snapshot.Dialog is {} d&&d.Generation==observed.Generation&&d.Revision>after&&d.Revision<=Snapshot.Revision&&d.EntityId==npc.Id&&d.EntityType==1&&KeaneDialog(d)&&d.Prompt is null&&d.Choices.Length>0;
+   if(!FreshMenu(observed.Revision)||menu is null||
     !(menu.Text.StartsWith("Hello.  What can I do for you?",StringComparison.Ordinal)||menu.Text.StartsWith("Good day, Aisling. Can I be of some assistance to you?",StringComparison.Ordinal)))
     throw new QuestBlockedException("Unexpected Keane menu. It is preserved; no travel choice submitted.");
    var choices=menu.Choices.Where(c=>AbelTravelChoice(c.Text)).ToArray();
-   if(choices.Length!=1)throw new QuestBlockedException("Keane's menu has no unique Abel travel choice. It is preserved for review.");
+   if(choices.Length==0){
+    var help=menu.Choices.Where(c=>KeaneChoice(c.Text,"Suomi Help")).ToArray();
+    if(help.Length!=1)throw new QuestBlockedException("Keane's menu has no unique Suomi Help or Abel travel choice. It is preserved for review.");
+    var helpBefore=Snapshot;keaneTravel=keaneTravel with{Submitted=true,Revision=helpBefore.Revision};
+    await connection.SendAsync(Protocol.DialogPackets.Choice(helpBefore,menu,help[0].Text),helpBefore.Generation,ct);
+    await KeaneReply(helpBefore.Revision,ct);
+    if(!FreshMenu(helpBefore.Revision))throw new QuestBlockedException("Unexpected Keane help reply. It is preserved; no escort choice submitted.");
+    menu=Snapshot.Dialog!;choices=menu.Choices.Where(c=>KeaneChoice(c.Text,"Please escort me out of suomi")).ToArray();
+   }
+   if(choices.Length!=1)throw new QuestBlockedException("Keane's menu has no unique escort travel choice. It is preserved for review.");
    var before=Snapshot;
    keaneTravel=keaneTravel with{Submitted=true,Revision=before.Revision};
    await connection.SendAsync(Protocol.DialogPackets.Choice(before,menu,choices[0].Text),before.Generation,ct);
