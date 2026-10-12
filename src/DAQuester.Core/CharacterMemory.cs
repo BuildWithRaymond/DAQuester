@@ -38,9 +38,13 @@ public sealed record CharacterMemory
             "mundane-birth" => legends.FirstOrDefault(l => l.Contains("mundane birth", StringComparison.OrdinalIgnoreCase)),
             "emerald-dawn" => EmeraldDawnEvidence.FinalMark(new() { LegendsKnown = true, Legends = legends }),
             "perfect-hairstyle" => legends.FirstOrDefault(l => l.Contains(PerfectHairstyleEvidence.Legend, StringComparison.OrdinalIgnoreCase)),
+            SickChildEvidence.Id => SickChildEvidence.Mark(legends, SickChildEvidence.Legend),
+            SickChildEvidence.AnamanId => SickChildEvidence.Mark(legends, SickChildEvidence.AnamanLegend),
             _ => null
         };
     }
+
+    string[] KnownLegends(CharacterSnapshot? current) => IsOwn(current, Character) && current!.Connected && FreshLegends(current) ? current.Legends.ToArray() : LegendsObservedAt is not null ? Legends : [];
 
     public Eligibility? SelectionRestriction(string quest, CharacterSnapshot? current = null)
     {
@@ -50,8 +54,12 @@ public sealed record CharacterMemory
             return new(EligibilityKind.Blocked, "Requires level 1–11.");
         if (quest == ShinewoodFaerieEvidence.Id && level is { } known && known < ShinewoodFaerieEvidence.MinimumLevel)
             return new(EligibilityKind.Blocked, "Requires level 11+ to pass Shinewood Forest 7 and reach the Faerie.");
+        if (SickChildEvidence.For(quest) is not null && level is { } sick && sick < 11)
+            return new(EligibilityKind.Blocked, "Requires level 11+.");
         if (CompletedLegend(quest, current) is { } legend)
             return new(EligibilityKind.Blocked, "Already completed: " + legend + ".");
+        if (SickChildEvidence.Lockout(quest, KnownLegends(current)) is { } locked)
+            return new(EligibilityKind.Blocked, locked);
         return null;
     }
 

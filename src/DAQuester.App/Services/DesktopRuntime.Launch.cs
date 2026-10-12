@@ -8,6 +8,8 @@ namespace DAQuester.App.Services;
 public sealed partial class DesktopRuntime
 {
     readonly List<Process> launchedClients = [];
+    // Login typing needs window focus, so overlapping launches take turns at the login form.
+    readonly SemaphoreSlim loginGate = new(1, 1);
     public string LaunchState(string name) => launchStates.GetValueOrDefault(name, Snapshot(name).Connected ? "Connected" : "Offline");
     public bool LaunchPending(string name) => pendingLaunches.ContainsKey(LaunchKey(name));
     (string Path, DateTime Written, string? Error) clientCheck;
@@ -169,8 +171,20 @@ public sealed partial class DesktopRuntime
                 await Task.Delay(50, timeout.Token);
             }
 
-            using var form = new NativeLoginForm(pid);
-            await LoginFormAutomation.Run(form, name, ticket!.Ticket, Progress, timeout.Token);
+            if (loginGate.CurrentCount == 0)
+                Progress("Waiting for another login to finish…");
+            await loginGate.WaitAsync(cancellation.Token);
+            try
+            {
+                timeout.CancelAfter(TimeSpan.FromSeconds(90));
+                using var form = new NativeLoginForm(pid);
+                await LoginFormAutomation.Run(form, name, ticket!.Ticket, Progress, timeout.Token);
+            }
+            finally
+            {
+                loginGate.Release();
+            }
+
             Progress("Login submitted · waiting for character…");
             string actual = await authenticated.Task.WaitAsync(TimeSpan.FromSeconds(30), cancellation.Token);
             if (!actual.Equals(name, StringComparison.OrdinalIgnoreCase))

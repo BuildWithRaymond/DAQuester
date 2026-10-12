@@ -13,7 +13,7 @@ public sealed record QuestAvailability(string Status, string Reason, bool CanQue
     public bool Ready => Status is "Ready" or "Choices" or "Resume ready";
 }
 
-public sealed record QuestChoiceResult(MundaneBirthOptions? BirthOptions = null, EmeraldDawnOptions? EmeraldOptions = null, bool AllowUnsafeWalking = false);
+public sealed record QuestChoiceResult(MundaneBirthOptions? BirthOptions = null, EmeraldDawnOptions? EmeraldOptions = null, bool AllowUnsafeWalking = false, SickChildOptions? SickChildOptions = null, bool OpenCharacters = false);
 /// <summary>Owns game connections and durable operations independently of the desktop presentation.</summary>
 public sealed partial class DesktopRuntime
 {
@@ -146,9 +146,14 @@ public sealed partial class DesktopRuntime
             connection.Tracker.Observed += (opcode, payload) => recorder.Record(opcode, payload, connection.Tracker.Snapshot);
             connection.Tracker.ServerMessage += (_, text) => Log((connection.Tracker.Snapshot.Name ?? "Connecting") + ": server: " + text);
             connection.DialogAction += packet => recorder.RecordDialogPacket(packet, connection.Tracker.Snapshot);
+            connection.ExchangeAction += packet => recorder.RecordExchangePacket(packet, connection.Tracker.Snapshot);
             connection.Authenticated += authenticated => Ui(() => _ = BindAsync(authenticated));
         };
     }
+
+    // Read from the proxy threads while walking, so it is swapped whole rather than edited.
+    volatile System.Collections.Immutable.ImmutableHashSet<string> ownCharacters = System.Collections.Immutable.ImmutableHashSet.Create<string>(StringComparer.OrdinalIgnoreCase);
+    void RefreshOwnCharacters() => ownCharacters = System.Collections.Immutable.ImmutableHashSet.CreateRange(StringComparer.OrdinalIgnoreCase, sessions.Where(p => p.Value.Snapshot.Connected).Select(p => p.Key));
 
     void Ui(Action action)
     {
@@ -315,13 +320,16 @@ public sealed partial class DesktopRuntime
             var maps = new MapRepository(Path.GetDirectoryName(Settings.ClientPath)!, Path.Combine(AppSettings.Content, "routes.json"), Settings.ServerProfile);
             var session = new GameSession(connection, maps, Settings.MovementMilliseconds)
             {
-                FastMode = Settings.FastModeEnabled(name)
+                FastMode = Settings.FastModeEnabled(name),
+                IsOwnCharacter = n => ownCharacters.Contains(n)
             };
             sessions[name] = session;
             session.Changed += snapshot => Ui(() =>
             {
                 if (sessions.GetValueOrDefault(name) != session)
                     return;
+                if (ownCharacters.Contains(name) != snapshot.Connected)
+                    RefreshOwnCharacters();
                 RememberCharacter(name, session, snapshot);
                 Notify();
                 if (PermanentQuestCompletion.Matches(snapshot) && journal.Load(name, "spare-a-stick").PermanentCompletion is null && (!permanentTasks.TryGetValue(name, out var task) || task.IsCompleted))
@@ -448,20 +456,20 @@ public sealed partial class DesktopRuntime
 
     public void SetFastMode(string name, bool enabled)
     {
-        var previous = Settings.FastModeCharacters;
+        var previous = Settings.FastModeOffCharacters;
         try
         {
             var persisted = AppSettings.Load();
-            persisted.FastModeCharacters = persisted.FastModeCharacters.Where(n => !n.Equals(name, StringComparison.OrdinalIgnoreCase)).Concat(enabled ? new[] { name } : []).ToArray();
+            persisted.FastModeOffCharacters = persisted.FastModeOffCharacters.Where(n => !n.Equals(name, StringComparison.OrdinalIgnoreCase)).Concat(enabled ? [] : new[] { name }).ToArray();
             persisted.Save();
-            Settings.FastModeCharacters = persisted.FastModeCharacters;
+            Settings.FastModeOffCharacters = persisted.FastModeOffCharacters;
             if (sessions.TryGetValue(name, out var session))
                 session.FastMode = enabled;
             Notify();
         }
         catch
         {
-            Settings.FastModeCharacters = previous;
+            Settings.FastModeOffCharacters = previous;
             Notify();
             throw;
         }

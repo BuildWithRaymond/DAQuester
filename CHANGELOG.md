@@ -1,5 +1,32 @@
 # Changelog
 
+## Unreleased
+
+- New quest: **Cured the Sick Child**. Pick one flower a day on the quester, or let
+  DAQuester log in your other saved characters to pick flowers at Mehadi, trade
+  them over in Paulin's room and log them back out, finishing in one day. Every
+  flower is given with the 5,000 coins so it reaches the child. Characters that
+  can't pick yet are shown with the time they picked or were refused.
+- New quest: **Aided the Pact of Anaman**, the same flower run with Golden Blossoms
+  from Mehadi and the same helper option. Each flower goes plainly to Paulin for
+  the chief physician, with no gold. Its legend mark is brown and other players
+  can't see it; the quest says so before you start. A character's one flower a day
+  counts across both quests.
+- Cured the Sick Child and Pact of Anaman block each other once either legend mark
+  is on a character, since only one of the two can be earned.
+- Launch stays available while another character is still logging in. Overlapping
+  launches open their game windows right away and type their logins one at a time,
+  so they never fight over window focus.
+- Fast mode is now on for every character unless you switch it off.
+- Your own characters connected in DAQuester no longer count as nearby players, so
+  they don't slow each other's fast walking. Other players still do.
+- Clicking the ground or your own character in a game window, for example to bring
+  it to the front, no longer pauses automation. Clicking an NPC, monster or player
+  still does, and the log now names the character and what was clicked.
+- Only the game's action messages, such as "You received 20,000 gold coins.", are
+  kept in replays and the diagnostics log. Chat, world shouts and popups stay out.
+- Replays now include trades between characters: each step either side takes and
+  each trade update the server sends back.
 ## 1.2.0 — 2026-10-11
 
 - Combine the current journey and compact character queue in a full-width card,

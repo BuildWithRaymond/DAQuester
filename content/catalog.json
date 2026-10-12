@@ -400,7 +400,7 @@
       "source": "https://vorlof.com/quests/aidedthepactofanaman.html",
       "level": "11+",
       "requiredItems": "5x Tulsi Blossom",
-      "rewards": "\"Aided the Pact of Anaman\" 50,000 Experience",
+      "rewards": "\"Aided the Pact of Anaman\" 25,000 Experience",
       "dependencies": null,
       "cooldownHours": null,
       "capabilities": [

@@ -49,6 +49,20 @@ public record CharacterSnapshot
     public long LegendsRevision { get; init; }
     public Dialog? Dialog { get; init; }
     public ServerNotice? Notice { get; init; }
+    public Exchange? Exchange { get; init; }
+}
+
+// Party 0 is this character, 1 the trade partner (live 2026-10-11).
+public record ExchangeItem(byte Party, string Name);
+public record Exchange(long Generation, long Revision, uint PartnerId, string PartnerName)
+{
+    public ImmutableArray<ExchangeItem> Items { get; init; } = [];
+    public uint OwnGold { get; init; }
+    public uint PartnerGold { get; init; }
+    public bool OwnAccepted { get; init; }
+    public bool PartnerAccepted { get; init; }
+    public bool Cancelled { get; init; }
+    public string? Message { get; init; }
 }
 
 public record ServerNotice(long Generation, long Revision, byte Type, string Text, DateTimeOffset ObservedAt);

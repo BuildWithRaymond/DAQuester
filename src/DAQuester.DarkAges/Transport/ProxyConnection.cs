@@ -37,6 +37,7 @@ public sealed partial class ProxyConnection(TcpClient client, TcpClient remote, 
     public event Action<string>? Diagnostic;
     public event Action<ProxyConnection>? Authenticated;
     public event Action<ClientPacket>? DialogAction;
+    public event Action<ClientPacket>? ExchangeAction;
     public bool Connected => !lifetime.IsCancellationRequested && client.Connected && remote.Connected;
 
     public async Task RunAsync(CancellationToken cancellation)
@@ -93,11 +94,21 @@ public sealed partial class ProxyConnection(TcpClient client, TcpClient remote, 
         0x43 => "click",
         _ => "client packet"
     };
-    void InterruptForClientPacket(byte opcode, string reason)
+    void InterruptForClientPacket(byte opcode, string reason, uint? target = null)
     {
         CancelMovement();
-        Diagnostic?.Invoke($"Client opcode 0x{opcode:X2} ({ClientOpcodeName(opcode)}) interrupted automation");
+        string on = target is { } id ? " on " + (Tracker.Snapshot.Entities.TryGetValue(id, out var e) && e.Name.Length > 0 ? e.Name : "#" + id) : "";
+        Diagnostic?.Invoke($"{Tracker.Snapshot.Name ?? "Connecting"}: client opcode 0x{opcode:X2} ({ClientOpcodeName(opcode)}){on} interrupted automation");
         Interrupt(reason);
+    }
+
+    // A left click on the ground or on yourself only focuses the window; clicking another entity is an interaction.
+    uint? ClickedEntity(byte[] data)
+    {
+        if (data.Length < 5 || data[0] != 1)
+            return null;
+        uint id = (uint)(data[1] << 24 | data[2] << 16 | data[3] << 8 | data[4]);
+        return id == Tracker.Snapshot.Id ? null : id;
     }
 
     async Task Pump(NetworkStream source, bool fromClient, CancellationToken token)
@@ -153,10 +164,14 @@ public sealed partial class ProxyConnection(TcpClient client, TcpClient remote, 
                                 plain.Data[1] = walkCounter++;
                         }
 
-                        if ((byte)plain.Command is 0x39 or 0x3A or 0x43 or 0x11)
+                        if ((byte)plain.Command is 0x39 or 0x3A or 0x11)
                             InterruptForClientPacket((byte)plain.Command, "Manual dialog or turn paused automation.");
+                        if ((byte)plain.Command == 0x43 && ClickedEntity(plain.Data) is { } clicked)
+                            InterruptForClientPacket(0x43, "Manual dialog or turn paused automation.", clicked);
                         if ((byte)plain.Command is 0x39 or 0x3A)
                             DialogAction?.Invoke(plain);
+                        if ((byte)plain.Command == 0x4A)
+                            ExchangeAction?.Invoke(plain);
                         var encrypted = clientCrypto.Encrypt(plain, sequence);
                         if (ClientPacketEncryptor.IsEncrypted((byte)plain.Command))
                             sequence++;
@@ -309,6 +324,8 @@ public sealed partial class ProxyConnection(TcpClient client, TcpClient remote, 
                 throw new IOException("Session generation no longer active.");
             if ((byte)packet.Command is 0x39 or 0x3A)
                 DialogAction?.Invoke(packet);
+            if ((byte)packet.Command == 0x4A)
+                ExchangeAction?.Invoke(packet);
             bool movement = (byte)packet.Command == 0x06 && packet.Data.Length >= 1;
             if (movement)
                 await toClient.WaitAsync(token);

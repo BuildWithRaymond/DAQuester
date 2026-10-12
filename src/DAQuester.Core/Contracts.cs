@@ -264,6 +264,9 @@ public record QuestJob
     }
     public HairstyleAttempt[] HairstyleAttempts { get;
         init; } = [];
+    public SickChildOptions? SickChildOptions { get; init; }
+    public SickChildTurnIn[] SickChildTurnIns { get; init; } = [];
+    public SickChildPick[] SickChildPicks { get; init; } = [];
 }
 
 public interface IQuestJournal
@@ -285,10 +288,11 @@ public sealed class QuestPopupException(Dialog dialog, int? map) : QuestBlockedE
     public int? Map { get; } = map;
 }
 
-public class QuestContext(IGameSession session, IQuestJournal journal, Calibration calibration, QuestJob job, Action<QuestJob>? saved = null)
+public class QuestContext(IGameSession session, IQuestJournal journal, Calibration calibration, QuestJob job, Action<QuestJob>? saved = null, IQuestHelpers? helpers = null)
 {
     public IGameSession Session { get; } = session;
     public Calibration Calibration { get; } = calibration;
+    public IQuestHelpers? Helpers { get; } = helpers;
     public QuestJob Job { get; private set; } = job;
 
     public async Task SaveAsync(QuestJob value)

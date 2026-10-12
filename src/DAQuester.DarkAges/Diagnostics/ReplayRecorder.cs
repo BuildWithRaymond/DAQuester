@@ -20,10 +20,10 @@ public class ReplayRecorder
 
     public void Record(byte opcode, byte[] payload, CharacterSnapshot snapshot)
     {
-        if (!Enabled || opcode is not (0x04 or 0x07 or 0x08 or 0x0A or 0x0B or 0x0C or 0x0E or 0x0F or 0x10 or 0x15 or 0x17 or 0x18 or 0x2F or 0x30 or 0x33 or 0x58))
+        if (!Enabled || opcode is not (0x04 or 0x07 or 0x08 or 0x0A or 0x0B or 0x0C or 0x0E or 0x0F or 0x10 or 0x15 or 0x17 or 0x18 or 0x2F or 0x30 or 0x33 or 0x42 or 0x58))
             return;
-        // Server messages carry quest information beyond any guess from character state; keep them all.
-        if (opcode == 0x0A && (payload.Length == 0 || DAQuester.DarkAges.Protocol.StateTracker.IsPlayerText(payload[0])))
+        // Active messages carry quest information beyond any guess from character state; other 0x0A types are chat or popups.
+        if (opcode == 0x0A && (payload.Length == 0 || !DAQuester.DarkAges.Protocol.StateTracker.IsActiveMessage(payload[0])))
             return;
         lock (gate)
         {
@@ -108,6 +108,28 @@ public class ReplayRecorder
         }
         catch (Exception)
         { /* Optional recorder decoding must never disrupt gameplay forwarding. */
+        }
+    }
+
+    public void RecordExchangePacket(ClientPacket packet, CharacterSnapshot s)
+    {
+        try
+        {
+            var m = new ClientExchangeMessage();
+            m.Deserialize(new NetworkPacketReader(packet));
+            RecordAction("exchange", $"{m.Action} target={m.TargetId} slot={m.Slot} quantity={m.Quantity} gold={m.GoldAmount}", s);
+        }
+        catch (Exception)
+        { /* Optional recorder decoding must never disrupt gameplay forwarding. */
+        }
+    }
+
+    public int ActionCount
+    {
+        get
+        {
+            lock (gate)
+                return actions.Count;
         }
     }
 

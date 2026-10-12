@@ -39,7 +39,8 @@ public sealed partial class GameSession : IGameSession
         "spell",
         "equipment",
         "status-message",
-        "legend"
+        "legend",
+        "trade"
     };
 
     public event Action<CharacterSnapshot>? Changed;
@@ -218,6 +219,20 @@ public sealed partial class GameSession : IGameSession
                     }
 
                     await Send(new ClientUseSpellMessage { Slot = spellSlot, TargetId = command.EntityId, TargetX = command.Target is null ? null : (ushort)command.Target.X, TargetY = command.Target is null ? null : (ushort)command.Target.Y, TextInput = command.Text }, cancellation);
+                    break;
+                case "trade-start":
+                case "trade-item":
+                case "trade-accept":
+                case "trade-cancel":
+                    uint partner = command.EntityId ?? throw new QuestBlockedException("Trade partner missing.");
+                    var trade = command.Kind switch
+                    {
+                        "trade-start" => Protocol.ExchangePackets.Start(partner),
+                        "trade-item" => Protocol.ExchangePackets.AddItem(partner, command.Slot ?? throw new QuestBlockedException("Trade item slot missing.")),
+                        "trade-accept" => Protocol.ExchangePackets.Accept(partner),
+                        _ => Protocol.ExchangePackets.Cancel(partner)
+                    };
+                    await connection.SendAsync(trade, Snapshot.Generation, cancellation);
                     break;
                 default:
                     throw new QuestBlockedException("Unsupported game command: " + command.Kind);

@@ -74,7 +74,7 @@ public class EmeraldDawnStatusTests
         t.Observed += (o, p) => recorder.Record(o, p, t.Snapshot);
         t.Observe(0x0A, Packet(type, "Emerald Knight Insignia private message"));
         Assert.Null(t.Snapshot.Notice);
-        Assert.Equal(StateTracker.IsPlayerText(type) ? 0 : 1, recorder.Count);
+        Assert.Equal(0, recorder.Count);
     }
 
     [Fact]

@@ -22,7 +22,13 @@ public partial class App : Application
             var vm = new MainWindowViewModel(runtime);
             var window = new MainWindow(vm);
             desktop.MainWindow = window;
-            runtime.ChooseQuestAsync = (character, quest, job, error) => QuestChoiceDialog.ShowChoiceAsync(window, character, quest, job, error);
+            runtime.ChooseQuestAsync = async (character, quest, job, error) =>
+            {
+                var result = await QuestChoiceDialog.ShowChoiceAsync(window, character, quest, job, error, DAQuester.Core.SickChildEvidence.For(quest.Id) is not null ? runtime.SickChildChoice(character, quest.Id) : null);
+                if (result?.OpenCharacters == true)
+                    vm.Page = "Characters";
+                return result;
+            };
             vm.PickClientAsync = () => ClientPickerDialog.ShowAsync(window, vm.ClientPath);
             vm.RequestClose += window.Close;
             bool closing = false, closed = false;
