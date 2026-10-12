@@ -154,6 +154,58 @@ Validated Callough replies are retained across manual pauses; later correlated
 branch/experience packets can complete confirmation without resuming automation
 or submitting again. Missing or stale evidence keeps the transaction pending.
 
+**Cured the Sick Child** is available in the selector and library. Requires level
+11+ and 5,000 gold per flower. Paulin (Loures Cyril Corridor, map 3070) needs five
+Sevti Blossoms, one per visit; the flower is the White Blossom picked by stepping
+onto (2,9) in Mehadi Heart West (map 3077). Each character can pick one flower a
+day; Paulin takes any number on the same day (verified live 2026-10-11). The mark
+locks out "Aided the Pact of Anaman" and the other way round; only the legend mark
+blocks, never partial progress.
+
+Before starting, choose **One flower a day** (only this character picks) or
+**Bring flowers from my other characters**. Helpers come from the saved character
+list: DAQuester logs them in through the launch queue, picks at Mehadi, walks them
+next to the quester in Paulin's room and trades the flower over, then logs out the
+helpers it logged in. Helpers already online stay online. Whenever a flower falls
+through (a refused pick, a failed login, a helper you take over), the next checked
+helper starts at once; a failed login is retried once, and a helper launched by
+hand meanwhile is used as it is. A helper you take over is never logged out.
+Fewer helpers than needed is allowed; the rest follow on later days. Set **Flowers already given to Paulin**
+for turn-ins made by hand, since the server shows no count.
+
+Each turn-in always chooses "Give Sevti Blossom and 5000 coins" and is proven by
+exactly 5,000 gold and one White Blossom gone plus the server's "150000
+experience!" message. A trade is proven only by the flower arriving in the
+quester's inventory; "You exchanged." also follows the first OK. A refused pick
+("You notice a small white flower that has been picked") is recorded and shown;
+DAQuester expects that character can pick again 24 hours after its last pick. The
+quest completes when the own legend shows "Cured a sick child in Loures". The fifth
+turn-in also sends "A sick child recovers because of you". Verified live 2026-10-12
+on valadriel: Ferda, swallow and Disillusion picked, traded and were logged out
+automatically, and the legend appeared after the fifth flower.
+
+**Aided the Pact of Anaman** runs on the same engine as Cured the Sick Child, with
+the Tulsi Blossom instead of the Sevti. Walking onto (11,3) in Mehadi Heart West
+opens "You see a flower here." and "You see a flower here with seven green leaves
+and blue center." before "Pick the flower"; the item is the **Golden Blossom**.
+Paulin: "The sick child, how is she?", "Offer Tulsi Blossom", Next, then always the
+plain "Give Tulsi Blossom", which hands it to the chief physician, who is in on the
+pact. It costs no gold. Proof is one Golden Blossom gone with gold unchanged, plus
+the experience message; whatever page follows the give is logged and closed. The
+coins option ("Give Tulsi Blossom and 5000 coins") sends it secretly to the child
+instead: on 2026-10-12 kullan gave five that way, each paying 10,000 experience,
+and earned no legend mark, so those turn-ins don't count toward the pact. The
+legend is "Aided the Pact of Anaman" after five plain gives: a brown mark, written
+"- Aided the Pact of Anaman - Deoch …", that other players can't see. Verified
+live 2026-10-12 on heartc with four helpers: each plain give paid "5000
+experience!" (Vorlof says 10,000) and Paulin "takes the blossom and thanks you";
+the fourth also brought "A faint but palpable shadow looms near you". One pick a day is shared across every flower: zemial, after picking
+a Tulsi, was refused at the Sevti spot. The Tulsi spot refuses with "You notice a
+green leaved plant that has been picked"; the Sevti spot with "You notice a small
+white flower that has been picked". DAQuester keeps one pick record per
+character for both quests. The swamp can also blind for about 17 seconds ("All
+goes black" … "You can see again.").
+
 ## Current operational limits
 
 Three characters completed Spare a Stick in game. Nuclear received Stick,

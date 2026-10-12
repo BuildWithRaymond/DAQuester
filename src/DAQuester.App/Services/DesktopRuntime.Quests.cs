@@ -7,6 +7,8 @@ public sealed partial class DesktopRuntime
     public string QuestName(string id) => recipes.TryGetValue(id, out var quest) ? quest.Name : id;
     public QuestAvailability Availability(string name, string id)
     {
+        if (name.Length > 0 && id == SickChildEvidence.AnamanCatalogId && Memory(name).SelectionRestriction(id, Snapshot(name)) is { } locked)
+            return new("Blocked", locked.Reason, false);
         if (!recipes.TryGetValue(id, out var quest))
             return new("Unavailable", "Automatic journey unavailable. Open the guide for manual play.", false);
         if (name.Length == 0)
@@ -34,6 +36,8 @@ public sealed partial class DesktopRuntime
             return new("Choices", "Choose season, age, and town before starting", true);
         if (quest.Id == "emerald-dawn" && job.EmeraldOptions is null)
             return new("Choices", "Choose who receives the insignia before starting", true);
+        if (SickChildEvidence.For(quest.Id) is not null && job.SickChildOptions is null)
+            return new("Choices", "Choose how to get the flowers before starting", true);
         Eligibility eligibility = quest.Id switch
         {
             "mundane-birth" => MundaneBirthEvidence.Eligibility(snapshot, job.BirthOptions),
@@ -41,6 +45,8 @@ public sealed partial class DesktopRuntime
             "entered-muisir-village" => MuisirEvidence.Eligibility(snapshot),
             "emerald-dawn" => EmeraldDawnEvidence.Eligibility(snapshot),
             "shinewood-faerie" => ShinewoodFaerieEvidence.Eligibility(snapshot, job),
+            SickChildEvidence.Id => SickChildEvidence.Eligibility(snapshot, job, SickChildEvidence.Sevti),
+            SickChildEvidence.AnamanId => SickChildEvidence.Eligibility(snapshot, job, SickChildEvidence.Tulsi),
             _ => StickEligibility.Check(snapshot, job.CompletedAt, DateTimeOffset.UtcNow)
         };
         if (quest.Id == "spare-a-stick" && !Calibration.Ready)
@@ -129,7 +135,7 @@ public sealed partial class DesktopRuntime
     }
 
     static bool EmeraldChoicesLocked(QuestJob job) => EmeraldDawnEvidence.ChoicesLocked(job);
-    public static bool HasChoices(string questId) => questId is "emerald-dawn" or "mundane-birth";
+    public static bool HasChoices(string questId) => questId is "emerald-dawn" or "mundane-birth" or SickChildEvidence.Id or SickChildEvidence.AnamanId;
     public bool ChoicesLocked(string name, string questId)
     {
         var job = Job(name, questId);
@@ -137,9 +143,12 @@ public sealed partial class DesktopRuntime
         {
             "emerald-dawn" => EmeraldChoicesLocked(job) || EmeraldDawnEvidence.FinalMark(Snapshot(name)) is not null,
             "mundane-birth" => job.Pending is not null || job.CompletedAt is not null,
+            SickChildEvidence.Id or SickChildEvidence.AnamanId => SickChildEvidence.ChoicesLocked(job) || SickChildEvidence.Mark(Snapshot(name), SickChildEvidence.For(questId)!.Legend) is not null,
             _ => true
         };
     }
+
+    static bool SameSickChoices(SickChildOptions? a, SickChildOptions? b) => a is null ? b is null : b is not null && a.Mode == b.Mode && a.PriorTurnIns == b.PriorTurnIns && a.Helpers.SequenceEqual(b.Helpers, StringComparer.OrdinalIgnoreCase);
 
     /// <summary>Re-opens the choice dialog for a saved quest and stores the new answer; the quest must not be running.</summary>
     public async Task ChangeQuestChoicesAsync(string name, string questId)
@@ -169,8 +178,9 @@ public sealed partial class DesktopRuntime
         bool birth = selected.Id == "mundane-birth" && saved.Pending is null && saved.CompletedAt is null && (change || !resume || saved.BirthOptions is null);
         bool emerald = selected.Id == "emerald-dawn" && EmeraldDawnEvidence.FinalMark(session.Snapshot) is null && !EmeraldChoicesLocked(saved) && (change || !resume || saved.EmeraldOptions is null);
         bool walk = selected.Id == ShinewoodFaerieEvidence.Id && saved.Pending?.Kind.StartsWith("faerie-return", StringComparison.Ordinal) != true && ShinewoodFaerieEvidence.Escape(session.Snapshot) is null && (ShinewoodFaerieEvidence.Goals(session.Snapshot, saved).Length > 0 || ShinewoodFaerieEvidence.InForest(session.Snapshot.Map));
+        bool sick = SickChildEvidence.For(selected.Id) is { } flower && SickChildEvidence.Mark(session.Snapshot, flower.Legend) is null && !SickChildEvidence.ChoicesLocked(saved) && (change || !resume || saved.SickChildOptions is null);
         QuestChoiceResult? choice = null;
-        if (birth || emerald || walk)
+        if (birth || emerald || walk || sick)
         {
             string? error = null;
             if (walk)
@@ -194,7 +204,7 @@ public sealed partial class DesktopRuntime
                 throw new QuestBlockedException("Character connection changed. Choose again after fresh state.");
             if (controlActions.ContainsKey(name))
                 throw new QuestBlockedException("Another action owns this character.");
-            if (birth && choice.BirthOptions is null || emerald && choice.EmeraldOptions is null || walk && !choice.AllowUnsafeWalking)
+            if (birth && choice.BirthOptions is null || emerald && choice.EmeraldOptions is null || walk && !choice.AllowUnsafeWalking || sick && choice.SickChildOptions is null)
                 return false;
         }
 
@@ -252,6 +262,19 @@ public sealed partial class DesktopRuntime
                 job = job with
                 {
                     EmeraldOptions = emeraldOptions,
+                    Repeat = false,
+                    NextRun = null
+                };
+            }
+
+            if (choice?.SickChildOptions is { } sickOptions)
+            {
+                sickOptions.Validate();
+                if (SickChildEvidence.ChoicesLocked(job) && !SameSickChoices(job.SickChildOptions, sickOptions))
+                    throw new QuestBlockedException("A turn-in is waiting for confirmation, so the flower choices can't change yet.");
+                job = job with
+                {
+                    SickChildOptions = sickOptions,
                     Repeat = false,
                     NextRun = null
                 };
@@ -385,7 +408,7 @@ public sealed partial class DesktopRuntime
                 throw new QuestBlockedException("Character connection changed. Resume after fresh state.");
             if (runners.ContainsKey(name))
                 throw new QuestBlockedException("Another quest now owns this character.");
-            var runner = new QuestRunner(session, journal, selected, Calibration);
+            var runner = new QuestRunner(session, journal, selected, Calibration, SickChildEvidence.For(selected.Id) is not null ? new QuestHelperHub(this, name) : null);
             runners[name] = runner;
             runner.Changed += job => Ui(() =>
             {

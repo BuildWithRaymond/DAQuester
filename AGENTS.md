@@ -10,10 +10,10 @@
   folder and the control bridge/MCP (`log`, `calibration`, `settings`, `export`), never
   in the player window. Every diagnostic line is kept; replays auto-export on
   disconnect and on exit.
-- Keep server messages (0x0A) in replays and the diagnostics log. They state
-  rewards and outcomes exactly ("You received 20,000 gold coins."), beyond what
-  character state changes can prove. Only player chat (whisper, shout, group,
-  guild) is left out.
+- Keep active messages (0x0A type 3) in replays and the diagnostics log. The game
+  sends them in response to actions and they state rewards and outcomes exactly
+  ("You received 20,000 gold coins.", "You cast ..."), beyond what character state
+  changes can prove. Every other 0x0A type (chat, shouts, popups) is left out.
 - Update checks are optional and default off. Download and install require
   separate user actions. Preserve user Data and check exit safety before applying.
 - Run focused tests and both complete xUnit projects for affected changes.

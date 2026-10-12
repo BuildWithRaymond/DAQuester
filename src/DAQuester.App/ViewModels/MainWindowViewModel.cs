@@ -274,7 +274,7 @@ public sealed partial class MainWindowViewModel : ObservableObject
             Refresh();
             AccountStatus = "Edits discarded.";
         });
-        LaunchSelectedCommand = Command(_ => runtime.Settings.Characters.Length == 0 ? runtime.LaunchAsync("", manualOnly: true) : runtime.LaunchAsync(CharacterName), _ => LaunchBlocker is null);
+        LaunchSelectedCommand = Command(_ => runtime.Settings.Characters.Length == 0 ? runtime.LaunchAsync("", manualOnly: true) : runtime.LaunchAsync(CharacterName), _ => LaunchBlocker is null, allowConcurrent: true);
         StartQueueCommand = Command(_ => runtime.StartQueueAsync(CharacterName), _ => runtime.QueueRunning(CharacterName) || !runtime.QueueBusy(CharacterName) && runtime.QueueStartReason(CharacterName, QueueState).Length == 0, allowConcurrent: true);
         StopQueueCommand = Command(_ => runtime.PauseQueueAsync(CharacterName, true), _ => QueueLocked);
         ClearQueueCommand = Command(_ => runtime.EditQueueAsync(CharacterName, s => s with { Quests = [], ActiveQuest = null }), _ => !QueueLocked && !QueueEmpty);
@@ -401,6 +401,8 @@ public sealed partial class MainWindowViewModel : ObservableObject
         "entered-muisir-village" => ("Bring Kiril five Undine Mushrooms. Verify your Muisir legend and four Shrinking Potions.", "UNDINE · KIRIL"),
         "emerald-dawn" => ("Recover an Emerald Knight Insignia, hear Berg's story, then give it to the Knights, the Necromancers, or sell it to Skan.", "SUOMI · SHINEWOOD"),
         "shinewood-faerie" => ("Try for a Pet Faerie and learn eligible missing spells. Prepare a safe return before entering the forest.", "SHINEWOOD · FAERIE"),
+        "cured-sick-child" => ("Pick White Blossoms at Mehadi and give Paulin five, one a day or with help from your other characters. Locks out Aided the Pact of Anaman.", "LOURES · PAULIN"),
+        "aided-pact-of-anaman" => ("Pick Golden Blossoms at Mehadi and give Paulin five for the physician, one a day or with help from your other characters. The legend mark is brown and other players can't see it. Locks out Cured the Sick Child.", "LOURES · PAULIN"),
         _ => ("This quest is a guide for manual play. Open its source for the full journey.", "QUEST GUIDE")
     };
     public void Refresh()

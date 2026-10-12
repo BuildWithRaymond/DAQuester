@@ -20,11 +20,11 @@ public class StateTracker(long generation)
 
     public event Action<CharacterSnapshot>? Changed;
     public event Action<byte, byte[]>? Observed;
-    // Server messages describe rewards and outcomes; player chat stays private.
+    // Active messages (0x0A type 3) state action outcomes exactly ("You received 20,000 gold coins."); every other type is chat or popup.
     public event Action<byte, string>? ServerMessage;
-    public static bool IsPlayerText(byte messageType) => messageType is 0 or 5 or 11 or 12; // whisper, world shout, group, guild
+    public static bool IsActiveMessage(byte messageType) => messageType == 3;
     public void Identity(string name, uint id) => Publish(Snapshot with { Name = name, Id = id, Connected = true, Appearance = Snapshot.Id == id && Snapshot.Name == name ? Snapshot.Appearance : null, Motion = Snapshot.Id == id && Snapshot.Name == name ? Snapshot.Motion : null });
-    public void Disconnect() => Publish(Snapshot with { Connected = false, Appearance = null, Motion = null, Dialog = null, InventoryKnown = false, SpellsKnown = false, Class = null, DisplayClass = null, IsMaster = null, IsPure = null, Mana = null, LegendsKnown = false, Notice = null, GroundItems = ImmutableDictionary<uint, GroundItem>.Empty });
+    public void Disconnect() => Publish(Snapshot with { Connected = false, Appearance = null, Motion = null, Dialog = null, InventoryKnown = false, SpellsKnown = false, Class = null, DisplayClass = null, IsMaster = null, IsPure = null, Mana = null, LegendsKnown = false, Notice = null, Exchange = null, GroundItems = ImmutableDictionary<uint, GroundItem>.Empty });
     void Publish(CharacterSnapshot s)
     {
         Snapshot = s with
@@ -34,9 +34,26 @@ public class StateTracker(long generation)
         Changed?.Invoke(Snapshot);
     }
 
+    Exchange? Trade(Exchange? current, ServerExchangeMessage p, long rev)
+    {
+        if (p.Event == ExchangeServerEventType.Started)
+            return new(generation, rev, p.TargetId ?? 0, p.TargetName ?? "");
+        if (current is null || current.Cancelled)
+            return current;
+        bool own = p.Party == ExchangeParty.You;
+        return p.Event switch
+        {
+            ExchangeServerEventType.ItemAdded => current with { Items = current.Items.Add(new((byte)(p.Party ?? ExchangeParty.Them), p.ItemName ?? "")) },
+            ExchangeServerEventType.GoldAdded => own ? current with { OwnGold = p.GoldAmount ?? 0 } : current with { PartnerGold = p.GoldAmount ?? 0 },
+            ExchangeServerEventType.Accepted => own ? current with { OwnAccepted = true, Message = p.Message } : current with { PartnerAccepted = true, Message = p.Message },
+            ExchangeServerEventType.Cancelled => current with { Cancelled = true, Message = p.Message },
+            _ => current
+        };
+    }
+
     public void Observe(byte opcode, byte[] payload)
     {
-        if (opcode is not (0x04 or 0x05 or 0x07 or 0x08 or 0x0A or 0x0B or 0x0C or 0x0E or 0x0F or 0x10 or 0x11 or 0x15 or 0x17 or 0x18 or 0x1A or 0x2C or 0x2D or 0x2E or 0x2F or 0x30 or 0x33 or 0x37 or 0x38 or 0x39 or 0x58))
+        if (opcode is not (0x04 or 0x05 or 0x07 or 0x08 or 0x0A or 0x0B or 0x0C or 0x0E or 0x0F or 0x10 or 0x11 or 0x15 or 0x17 or 0x18 or 0x1A or 0x2C or 0x2D or 0x2E or 0x2F or 0x30 or 0x33 or 0x37 or 0x38 or 0x39 or 0x42 or 0x58))
             return;
         // Failed decodes stop automation upstream; raw gameplay still passes through.
         var m = ServerMessageFactory.Default.Create(new ServerPacket(opcode, payload));
@@ -68,9 +85,9 @@ public class StateTracker(long generation)
                 var notice = new ServerNotice(generation, rev, (byte)p.MessageType, p.Message, DateTimeOffset.UtcNow);
                 s = s with
                 {
-                    Notice = MundaneBirthEvidence.Matches(notice) || MuisirEvidence.IsKirilNotice(notice, s.Map) || EmeraldDawnEvidence.IsNotice(notice, s.Map) ? notice : null
+                    Notice = MundaneBirthEvidence.Matches(notice) || MuisirEvidence.IsKirilNotice(notice, s.Map) || EmeraldDawnEvidence.IsNotice(notice, s.Map) || SickChildEvidence.IsNotice(notice, s.Map) ? notice : null
                 };
-                if (!IsPlayerText((byte)p.MessageType))
+                if (IsActiveMessage((byte)p.MessageType))
                     ServerMessage?.Invoke((byte)p.MessageType, p.Message);
                 break;
             case ServerAddInventoryMessage p:
@@ -254,6 +271,9 @@ public class StateTracker(long generation)
                 break;
             case ServerFieldMapMessage p:
                 WorldMap = p;
+                break;
+            case ServerExchangeMessage p:
+                s = s with { Exchange = Trade(s.Exchange, p, rev) };
                 break;
         }
 

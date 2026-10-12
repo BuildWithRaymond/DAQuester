@@ -1,0 +1,33 @@
+{
+  "Id": "aided-pact-of-anaman",
+  "Version": 1,
+  "Name": "Aided the Pact of Anaman",
+  "Source": "https://vorlof.com/quests/aidedthepactofanaman.html",
+  "Capabilities": [
+    "navigate",
+    "dialog",
+    "inventory",
+    "legend",
+    "status-message",
+    "trade"
+  ],
+  "CooldownHours": 0,
+  "Repeatable": false,
+  "Requirements": [],
+  "OutcomeConditions": [
+    "Each turn-in: Paulin's \"Give Tulsi Blossom and 5000 coins\" choice, exactly 5,000 gold and one Golden Blossom gone, and the server's experience message",
+    "Completion: own legend contains \"Aided the Pact of Anaman\" after the fifth flower"
+  ],
+  "Steps": [
+    {
+      "Id": "preflight",
+      "Action": "sick-preflight",
+      "Next": "run"
+    },
+    {
+      "Id": "run",
+      "Action": "sick-run",
+      "Next": "complete"
+    }
+  ]
+}

@@ -59,9 +59,9 @@ owner before switching quests. Each quest has a separate journal key.
 Birth records a pending transaction before its final town choice. A fresh server
 status notice (0x0A) stores generation, revision, message type and observation time.
 Only the recognized legend-confirmation bar text is recorded; whispers and other
-messages are excluded from that evidence. Separately, every server message (0x0A
-other than whisper, world shout, group and guild chat) is kept in the replay and
-written to the diagnostics log: lines such as "You received 20,000 gold coins."
+messages are excluded from that evidence. Separately, every active message (0x0A
+type 3, sent by the game in response to actions) is kept in the replay and written
+to the diagnostics log; other types (chat, shouts, popups) are not. Lines such as "You received 20,000 gold coins."
 state rewards exactly, beyond what changes in character state can prove. Confirmation reconciles this notice against the saved
 submission and never resends after ambiguity. An unfinished conversation restarts
 safely with saved settings before the final submission.

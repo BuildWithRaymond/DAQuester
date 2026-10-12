@@ -82,6 +82,18 @@ public class FastWalkingTests
     }
 
     [Fact]
+    public async Task Own_characters_in_DAQuester_do_not_slow_fast_walking_but_strangers_do()
+    {
+        await using var f = await MovingObstacleTests.Fixture.Create(600);
+        f.Session.FastMode = true;
+        f.Session.IsOwnCharacter = n => n.Equals("Zemial", StringComparison.OrdinalIgnoreCase);
+        f.Connection.Tracker.Observe(0x33, Human(99, new(1, 4), "zemial"));
+        Assert.Equal(160, f.Session.MovementCadence(f.Session.Snapshot));
+        f.Connection.Tracker.Observe(0x33, Human(98, new(1, 5), "Delaney"));
+        Assert.Equal(430, f.Session.MovementCadence(f.Session.Snapshot));
+    }
+
+    [Fact]
     public async Task Npc_and_self_do_not_slow_fast_walking()
     {
         await using var f = await MovingObstacleTests.Fixture.Create(600);

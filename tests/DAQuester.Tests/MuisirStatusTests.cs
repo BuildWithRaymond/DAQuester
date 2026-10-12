@@ -70,6 +70,6 @@ public class MuisirStatusTests
         t.Observed += (o, p) => r.Record(o, p, t.Snapshot);
         t.Observe(0x0A, Packet(type, "You must be registered."));
         Assert.Null(t.Snapshot.Notice);
-        Assert.Equal(StateTracker.IsPlayerText(type) ? 0 : 1, r.Count);
+        Assert.Equal(0, r.Count);
     }
 }

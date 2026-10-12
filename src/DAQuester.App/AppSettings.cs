@@ -22,8 +22,10 @@ public class AppSettings
         set; } = 400;
     public string[] FastModeCharacters { get;
         set; } = [];
+    // Fast mode is on unless switched off for that character.
+    public string[] FastModeOffCharacters { get; set; } = [];
 
-    public bool FastModeEnabled(string character) => FastModeCharacters.Any(name => name.Equals(character, StringComparison.OrdinalIgnoreCase));
+    public bool FastModeEnabled(string character) => !FastModeOffCharacters.Any(name => name.Equals(character, StringComparison.OrdinalIgnoreCase));
     public static readonly JsonSerializerOptions Json = new()
     {
         WriteIndented = true,

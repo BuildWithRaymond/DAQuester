@@ -200,6 +200,57 @@ public class TransportTests
     }
 
     [Fact]
+    public async Task Focus_clicks_on_the_ground_or_yourself_never_interrupt()
+    {
+        using var remote = new TcpListener(IPAddress.Loopback, 0);
+        remote.Start();
+        using var probe = new TcpListener(IPAddress.Loopback, 0);
+        probe.Start();
+        int port = ((IPEndPoint)probe.LocalEndpoint).Port;
+        probe.Stop();
+        var connected = new TaskCompletionSource<ProxyConnection>(TaskCreationOptions.RunContinuationsAsynchronously);
+        await using var host = new ProxyHost();
+        host.Connected += c => connected.TrySetResult(c);
+        await host.StartAsync(port, (IPEndPoint)remote.LocalEndpoint);
+        using var client = new TcpClient();
+        await client.ConnectAsync(IPAddress.Loopback, port);
+        using var server = await remote.AcceptTcpClientAsync();
+        var connection = await connected.Task;
+        connection.Tracker.Identity("Ferda", 0x01020304);
+        var diagnostics = new List<string>();
+        connection.Diagnostic += m =>
+        {
+            lock (diagnostics)
+                diagnostics.Add(m);
+        };
+        var interrupted = new List<string>();
+        connection.Interrupted += reason =>
+        {
+            lock (interrupted)
+                interrupted.Add(reason);
+        };
+        using var timeout = new CancellationTokenSource(TimeSpan.FromSeconds(3));
+        var crypto = new Arbiter.Net.Client.ClientPacketEncryptor();
+        byte sequence = 0;
+        async Task Click(byte[] data)
+        {
+            await client.GetStream().WriteAsync(crypto.Encrypt(new Arbiter.Net.Client.ClientPacket(0x43, data), sequence++).ToArray(), timeout.Token);
+            Assert.Equal((byte)0x43, (await ReadFrame(server.GetStream(), timeout.Token))[3]);
+        }
+
+        // Ground tile, then the character's own id: both are focus clicks.
+        await Click([3, 0, 12, 0, 9]);
+        await Click([1, 1, 2, 3, 4]);
+        lock (interrupted)
+            Assert.Empty(interrupted);
+        await Click([1, 0, 0, 0x1A, 0x94]);
+        lock (interrupted)
+            Assert.Single(interrupted);
+        lock (diagnostics)
+            Assert.Contains(diagnostics, m => m.StartsWith("Ferda: client opcode 0x43 (click) on #6804"));
+    }
+
+    [Fact]
     public async Task Malformed_state_packet_still_passes_through()
     {
         using var remote = new TcpListener(IPAddress.Loopback, 0);

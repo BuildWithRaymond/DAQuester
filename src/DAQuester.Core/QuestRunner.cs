@@ -1,6 +1,6 @@
 namespace DAQuester.Core;
 
-public class QuestRunner(IGameSession session, IQuestJournal journal, QuestDefinition recipe, Calibration calibration)
+public class QuestRunner(IGameSession session, IQuestJournal journal, QuestDefinition recipe, Calibration calibration, IQuestHelpers? helpers = null)
 {
     public QuestJob Job { get; private set; } = journal.Load(session.Snapshot.Name ?? "Unknown", recipe.Id);
 
@@ -61,6 +61,8 @@ public class QuestRunner(IGameSession session, IQuestJournal journal, QuestDefin
             "faerie-visit",
             "faerie-return"
         }.ToDictionary(x => x, x => (IQuestAction)new ShinewoodFaerieActions()),
+        SickChildEvidence.Id => new[] { "sick-preflight", "sick-run" }.ToDictionary(x => x, x => (IQuestAction)new SickChildActions(SickChildEvidence.Sevti)),
+        SickChildEvidence.AnamanId => new[] { "sick-preflight", "sick-run" }.ToDictionary(x => x, x => (IQuestAction)new SickChildActions(SickChildEvidence.Tulsi)),
         _ => []
     };
     public Dictionary<string, Func<QuestContext, bool?>> Conditions { get; } = [];
@@ -74,10 +76,17 @@ public class QuestRunner(IGameSession session, IQuestJournal journal, QuestDefin
         using var token = CancellationTokenSource.CreateLinkedTokenSource(cancellation);
         active = token;
         pauseReason = "Paused by player";
+        // Two client packets can interrupt in the same instant; the second may arrive after the run has ended.
         void Interrupt(string reason)
         {
             pauseReason = reason;
-            token.Cancel();
+            try
+            {
+                token.Cancel();
+            }
+            catch (ObjectDisposedException)
+            {
+            }
         }
 
         long runGeneration = session.Snapshot.Generation;
@@ -101,7 +110,7 @@ public class QuestRunner(IGameSession session, IQuestJournal journal, QuestDefin
         {
             Job = value;
             Changed?.Invoke(value);
-        });
+        }, helpers);
         var priorHairAttempt = c.Job.LastAttemptAt;
         Task Save(QuestJob value) => c.SaveAsync(value);
         try
@@ -225,7 +234,7 @@ public class QuestRunner(IGameSession session, IQuestJournal journal, QuestDefin
             if (nextAttempt is { } next && next > DateTimeOffset.UtcNow)
             {
                 if (singleAttempt)
-                    throw new QuestBlockedException((hairstyle ? "Seven-day" : "Eight-hour") + " cooldown until " + next.ToLocalTime().ToString("g") + ". Queue paused before the next attempt.");
+                    throw new QuestBlockedException((hairstyle ? "Seven-day cooldown" : SickChildEvidence.For(recipe.Id) is not null ? "Next flower" : "Eight-hour cooldown") + " until " + next.ToLocalTime().ToString("g") + ". Queue paused before the next attempt.");
                 if (anotherAttempt && !repeat)
                     throw new QuestBlockedException("Eight-hour cooldown until " + next.ToLocalTime().ToString("g") + ". Choose Repeat to schedule the next attempt.");
                 await Save(c.Job with
