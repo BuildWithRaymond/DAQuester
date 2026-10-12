@@ -5,6 +5,7 @@ using DAQuester.App.Services;
 using DAQuester.Core;
 
 namespace DAQuester.App.ViewModels;
+
 public sealed partial class MainWindowViewModel
 {
     public AsyncCommand AddJourneyToQueueCommand { get; private set; } = null!;
@@ -24,7 +25,7 @@ public sealed partial class MainWindowViewModel
     public string QueueHeading => CharacterName.Length == 0 ? "Your queue" : CharacterName + "’s queue";
     public string QueueSummary => QueueItems.Count == 1 ? "1 quest in queue" : $"{QueueItems.Count} quests in queue";
     public string QueueHint => QueueLocked ? "Stop this run to edit its order." : "Drag to reorder · Ctrl + ↑ / ↓";
-    public string QueueReadiness => Runtime.QueueRunning(CharacterName) ? "Running for " + CharacterName : QueueState.State == "Paused" ? DesktopRuntime.PlayerReason(QueueState.Reason) : Runtime.QueueStartReason(CharacterName, QueueState)is { Length: > 0 } reason ? reason : QueueState.Reason == "Queue completed" ? "Journey complete · progress saved" : "All selected quests are ready";
+    public string QueueReadiness => Runtime.QueueRunning(CharacterName) ? "Running for " + CharacterName : QueueState.State == "Paused" ? DesktopRuntime.PlayerReason(QueueState.Reason) : Runtime.QueueStartReason(CharacterName, QueueState) is { Length: > 0 } reason ? reason : QueueState.Reason == "Queue completed" ? "Journey complete · progress saved" : "All selected quests are ready";
     public string QueuePrimaryLabel => Runtime.QueueRunning(CharacterName) ? "Pause run" : QueueState.State == "Paused" ? "Resume run" : $"Start queue · {QueueItems.Count}";
     public bool QueueLocked => Runtime.QueueReserves(CharacterName);
     public bool QueueEmpty => QueueItems.Count == 0;
@@ -59,7 +60,7 @@ public sealed partial class MainWindowViewModel
         Character = CharacterName
     };
     public bool RepeatVisible => JourneyQuest?.Repeatable == true;
-    public bool RepeatEnabled => RepeatVisible && JourneyQuestId != "perfect-hairstyle" && !QueueLocked && !Runtime.IsRunning(CharacterName) && Runtime.RunningQuestId(CharacterName)is null && !Runtime.RunnerBusy(CharacterName) && !Runtime.ControlActions.Contains(CharacterName, StringComparer.OrdinalIgnoreCase) && !QuestRunPolicy.Finished(JourneyQuest!, JourneyJob);
+    public bool RepeatEnabled => RepeatVisible && JourneyQuestId != "perfect-hairstyle" && !QueueLocked && !Runtime.IsRunning(CharacterName) && Runtime.RunningQuestId(CharacterName) is null && !Runtime.RunnerBusy(CharacterName) && !Runtime.ControlActions.Contains(CharacterName, StringComparer.OrdinalIgnoreCase) && !QuestRunPolicy.Finished(JourneyQuest!, JourneyJob);
 
     public bool Repeat
     {
@@ -89,13 +90,13 @@ public sealed partial class MainWindowViewModel
                 return "Awaiting confirmation";
             if (JourneyQuestId == ShinewoodFaerieEvidence.Id && job.FaeriePetWait is not null)
                 return "Pet wait · one deoch";
-            if (JourneyQuest is { } quest && (QuestRunPolicy.Finished(quest, job) || Runtime.Memory(CharacterName).CompletedLegend(quest.Id, s)is not null))
+            if (JourneyQuest is { } quest && (QuestRunPolicy.Finished(quest, job) || Runtime.Memory(CharacterName).CompletedLegend(quest.Id, s) is not null))
                 return "Completed";
-            if (Runtime.RunningQuestId(CharacterName)is not null || Runtime.IsRunning(CharacterName) || Runtime.QueueRunning(CharacterName))
+            if (Runtime.RunningQuestId(CharacterName) is not null || Runtime.IsRunning(CharacterName) || Runtime.QueueRunning(CharacterName))
                 return job.Status switch
                 {
                     "Calibrating" => "Calibration in progress",
-                    "Scheduled" => "Next attempt scheduled",
+                    "Scheduled" => JourneyQuestId == AltarWorshipEvidence.Id ? "Waiting for next offering" : "Next attempt scheduled",
                     _ => "Quest in progress"
                 };
             if (job.CompletedAt is not null)
@@ -119,7 +120,7 @@ public sealed partial class MainWindowViewModel
                 return "Your last action is awaiting confirmation. Resume checks its result before continuing.";
             if (job.CompletionText is { Length: > 0 } text)
                 return DesktopRuntime.PlayerReason(text);
-            if (JourneyQuest is { } quest && Runtime.Memory(CharacterName).CompletedLegend(quest.Id, Runtime.Snapshot(CharacterName))is { } legend)
+            if (JourneyQuest is { } quest && Runtime.Memory(CharacterName).CompletedLegend(quest.Id, Runtime.Snapshot(CharacterName)) is { } legend)
                 return "Legend already recorded: " + legend;
             if (job.Reason is { Length: > 0 } reason && reason != "Ready")
                 return DesktopRuntime.PlayerReason(reason);
@@ -133,6 +134,7 @@ public sealed partial class MainWindowViewModel
     public string JourneyGameDirectory => Path.GetDirectoryName(Runtime.Settings.ClientPath) ?? "";
     public double JourneyProgress => JourneySteps.Percent;
     public bool JourneyAnimating => Runtime.Snapshot(CharacterName).Connected && JourneySteps.Current > 0 && JourneyJob.Status is not ("Paused" or "Scheduled" or "Completed") && Runtime.IsRunning(CharacterName);
-    public string JourneyRewards => JourneyJob.Rewards.Count > 0 ? string.Join(" · ", JourneyJob.Rewards.Select(p => $"{p.Value:N0} {p.Key}")) : "Confirmed rewards are saved to your journal.";
-    public string JourneyNext => QueueState.Quests.FirstOrDefault(id => id != QueueState.ActiveQuest)is { } next ? "Next · " + Runtime.QuestName(next) : JourneyQuest is { } quest && QuestRunPolicy.NextAttempt(quest, JourneyJob)is { } due ? "Next attempt · " + due.ToLocalTime().ToString("MMM d, h:mm tt") : "Progress saved for each character";
+    public string JourneyRewards => JourneyQuestId == AltarWorshipEvidence.Id && JourneyJob.CompletedAt is null ? AltarGoldLeft(JourneyJob) : JourneyJob.Rewards.Count > 0 ? string.Join(" · ", JourneyJob.Rewards.Select(p => $"{p.Value:N0} {p.Key}")) : "Confirmed rewards are saved to your journal.";
+    static string AltarGoldLeft(QuestJob job) => Math.Max(0, AltarWorshipEvidence.Goal - AltarWorshipEvidence.Made(job)) is var left and > 0 ? (left * AltarWorshipEvidence.ShieldPrice).ToString("N0") + " gold for the " + left + " offering" + (left == 1 ? "" : "s") + " left" : "Confirmed rewards are saved to your journal.";
+    public string JourneyNext => JourneyQuestId == AltarWorshipEvidence.Id && AltarWorshipEvidence.NextOffering(JourneyJob) is { } offering ? "Next offering · " + offering.ToLocalTime().ToString("MMM d, h:mm tt") : QueueState.Quests.FirstOrDefault(id => id != QueueState.ActiveQuest) is { } next ? "Next · " + Runtime.QuestName(next) : JourneyQuest is { } quest && QuestRunPolicy.NextAttempt(quest, JourneyJob) is { } due ? "Next attempt · " + due.ToLocalTime().ToString("MMM d, h:mm tt") : "Progress saved for each character";
 }

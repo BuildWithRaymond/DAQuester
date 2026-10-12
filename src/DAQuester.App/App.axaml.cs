@@ -24,7 +24,7 @@ public partial class App : Application
             desktop.MainWindow = window;
             runtime.ChooseQuestAsync = async (character, quest, job, error) =>
             {
-                var result = await QuestChoiceDialog.ShowChoiceAsync(window, character, quest, job, error, DAQuester.Core.SickChildEvidence.For(quest.Id) is not null ? runtime.SickChildChoice(character, quest.Id) : null);
+                var result = await QuestChoiceDialog.ShowChoiceAsync(window, character, quest, job, error, DAQuester.Core.SickChildEvidence.For(quest.Id) is not null ? runtime.SickChildChoice(character, quest.Id) : null, runtime.CharacterClass(character));
                 if (result?.OpenCharacters == true)
                     vm.Page = "Characters";
                 return result;

@@ -25,50 +25,101 @@ public interface IGameSession
 public record QuestStep(string Id, string Action, string? Next, Dictionary<string, string>? Arguments = null, Dictionary<string, string>? Transitions = null);
 public record QuestDefinition(string Id, int Version, string Name, string Source, string[] Capabilities, QuestStep[] Steps, double CooldownHours = 8)
 {
-    public QuestRequirement[] Requirements { get;
-        init; } = [];
-    public string[] OutcomeConditions { get;
-        init; } = [];
-    public bool Repeatable { get;
-        init; } = true;
+    public QuestRequirement[] Requirements
+    {
+        get;
+        init;
+    } = [];
+    public string[] OutcomeConditions
+    {
+        get;
+        init;
+    } = [];
+    public bool Repeatable
+    {
+        get;
+        init;
+    } = true;
 }
 
 public record PatrolWaypoint(int Map, Tile Position);
 public record Calibration
 {
-    public string ServerProfile { get;
-        init; } = "datester-7.41";
+    public string ServerProfile
+    {
+        get;
+        init;
+    } = "datester-7.41";
     public bool Validated
     {
         get;
         init;
     }
-    public string BranchName { get;
-        init; } = "Branch";
-    public int BranchWeight { get;
-        init; } = 1;
-    public int RewardWeightReserve { get;
-        init; } = 5;
-    public Tile[] Patrol { get;
-        init; } = [];
-    public PatrolWaypoint[] AdditionalPatrol { get;
-        init; } = [];
-    public string PatrolBasis { get;
-        init; } = "Configured route; collection is proved by server inventory";
-    public Tile[] ObservedDropPositions { get;
-        init; } = [];
-    public string[] Accepted { get;
-        init; } = [];
-    public string[] Completed { get;
-        init; } = [];
-    public string[] Refused { get;
-        init; } = [];
-    public string[] Cooldown { get;
-        init; } = [];
-    public string[] EvidenceFiles { get;
-        init; } = [];
-    public string[] ValidatedCharacters { get;
-        init; } = [];
+    public string BranchName
+    {
+        get;
+        init;
+    } = "Branch";
+    public int BranchWeight
+    {
+        get;
+        init;
+    } = 1;
+    public int RewardWeightReserve
+    {
+        get;
+        init;
+    } = 5;
+    public Tile[] Patrol
+    {
+        get;
+        init;
+    } = [];
+    public PatrolWaypoint[] AdditionalPatrol
+    {
+        get;
+        init;
+    } = [];
+    public string PatrolBasis
+    {
+        get;
+        init;
+    } = "Configured route; collection is proved by server inventory";
+    public Tile[] ObservedDropPositions
+    {
+        get;
+        init;
+    } = [];
+    public string[] Accepted
+    {
+        get;
+        init;
+    } = [];
+    public string[] Completed
+    {
+        get;
+        init;
+    } = [];
+    public string[] Refused
+    {
+        get;
+        init;
+    } = [];
+    public string[] Cooldown
+    {
+        get;
+        init;
+    } = [];
+    public string[] EvidenceFiles
+    {
+        get;
+        init;
+    } = [];
+    public string[] ValidatedCharacters
+    {
+        get;
+        init;
+    } = [];
     public bool Ready => Validated && Patrol.Length > 0 && Accepted.Length > 0 && Completed.Length > 0 && EvidenceFiles.Length > 0;
 
     public bool Matches(string text, string[] patterns) => patterns.Any(p => p.Length > 0 && text.Equals(p, StringComparison.Ordinal));
@@ -81,8 +132,11 @@ public record Transaction(string Kind, long Generation, long Revision, uint Gold
         get;
         init;
     }
-    public Dictionary<string, int> InventoryCounts { get;
-        init; } = [];
+    public Dictionary<string, int> InventoryCounts
+    {
+        get;
+        init;
+    } = [];
     public bool InventoryBaselineKnown
     {
         get;
@@ -98,10 +152,16 @@ public record Transaction(string Kind, long Generation, long Revision, uint Gold
         get;
         init;
     }
-    public string[] Legends { get;
-        init; } = [];
-    public string[] Spells { get;
-        init; } = [];
+    public string[] Legends
+    {
+        get;
+        init;
+    } = [];
+    public string[] Spells
+    {
+        get;
+        init;
+    } = [];
     public bool SpellsBaselineKnown
     {
         get;
@@ -112,18 +172,36 @@ public record Transaction(string Kind, long Generation, long Revision, uint Gold
 public record HairstyleAttempt(DateTimeOffset CompletedAt, Dialog Completion, Dictionary<string, int> Rewards, bool LegendReward);
 public record QuestJob
 {
-    public string Character { get;
-        init; } = "";
-    public string Quest { get;
-        init; } = "spare-a-stick";
-    public int Version { get;
-        init; } = 1;
-    public string Step { get;
-        init; } = "preflight";
-    public string Status { get;
-        init; } = "Paused";
-    public string Reason { get;
-        init; } = "Ready";
+    public string Character
+    {
+        get;
+        init;
+    } = "";
+    public string Quest
+    {
+        get;
+        init;
+    } = "spare-a-stick";
+    public int Version
+    {
+        get;
+        init;
+    } = 1;
+    public string Step
+    {
+        get;
+        init;
+    } = "preflight";
+    public string Status
+    {
+        get;
+        init;
+    } = "Paused";
+    public string Reason
+    {
+        get;
+        init;
+    } = "Ready";
     public bool Accepted
     {
         get;
@@ -159,8 +237,11 @@ public record QuestJob
         get;
         init;
     }
-    public Dictionary<string, int> Rewards { get;
-        init; } = [];
+    public Dictionary<string, int> Rewards
+    {
+        get;
+        init;
+    } = [];
     public MundaneBirthOptions? BirthOptions
     {
         get;
@@ -191,12 +272,21 @@ public record QuestJob
         get;
         init;
     }
-    public string[] FaerieGoals { get;
-        init; } = [];
-    public FaerieGoalReceipt[] FaerieReceipts { get;
-        init; } = [];
-    public string[] FaerieUnavailable { get;
-        init; } = [];
+    public string[] FaerieGoals
+    {
+        get;
+        init;
+    } = [];
+    public FaerieGoalReceipt[] FaerieReceipts
+    {
+        get;
+        init;
+    } = [];
+    public string[] FaerieUnavailable
+    {
+        get;
+        init;
+    } = [];
     public Dialog? FaeriePetWait
     {
         get;
@@ -262,11 +352,22 @@ public record QuestJob
         get;
         init;
     }
-    public HairstyleAttempt[] HairstyleAttempts { get;
-        init; } = [];
-    public SickChildOptions? SickChildOptions { get; init; }
+    public HairstyleAttempt[] HairstyleAttempts
+    {
+        get;
+        init;
+    } = [];
+    public SickChildOptions? SickChildOptions
+    {
+        get; init;
+    }
     public SickChildTurnIn[] SickChildTurnIns { get; init; } = [];
     public SickChildPick[] SickChildPicks { get; init; } = [];
+    public AltarOffering[] AltarOfferings { get; init; } = [];
+    public bool AltarNoMarkAccepted
+    {
+        get; init;
+    }
 }
 
 public interface IQuestJournal

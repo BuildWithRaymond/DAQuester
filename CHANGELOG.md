@@ -2,6 +2,16 @@
 
 ## Unreleased
 
+- New quest: **Altar Worship**. DAQuester buys a Leather Shield from Torrance in
+  the Mileth Armor Shop for 750 gold, or uses one already in the bag, and drops it
+  on the Mileth Altar. It makes one offering every 3 hours and stops after the
+  10th. The planner shows how many offerings are made, when the next one is due
+  and how much gold the rest will cost.
+- Only Priests earn the "Mileth Altar Worshipper" legend mark; other classes get a
+  Red Jade Ring and experience. The quest says so in its details, the library row
+  names the character's class, and starting it on a character that isn't a Priest
+  asks once to continue for the experience.
+
 ## 1.3.0 — 2026-10-12
 
 - New quest: **Cured the Sick Child**. Pick one flower a day on the quester, or let

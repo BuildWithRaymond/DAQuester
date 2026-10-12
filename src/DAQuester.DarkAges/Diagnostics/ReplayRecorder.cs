@@ -93,7 +93,7 @@ public class ReplayRecorder
                 if (m.EntityId != d.EntityId || d.IsPursuit)
                     return;
                 var choice = d.Choices.FirstOrDefault(c => c.Pursuit == m.PursuitId);
-                RecordAction(choice is null ? "input" : "choose", choice?.Text, s);
+                RecordAction(choice is null ? "input" : "choose", choice?.Text ?? $"pursuit={m.PursuitId} slot={m.Slot} args={string.Join("|", m.Arguments)}", s);
             }
             else
             {
@@ -118,6 +118,19 @@ public class ReplayRecorder
             var m = new ClientExchangeMessage();
             m.Deserialize(new NetworkPacketReader(packet));
             RecordAction("exchange", $"{m.Action} target={m.TargetId} slot={m.Slot} quantity={m.Quantity} gold={m.GoldAmount}", s);
+        }
+        catch (Exception)
+        { /* Optional recorder decoding must never disrupt gameplay forwarding. */
+        }
+    }
+
+    public void RecordDropPacket(ClientPacket packet, CharacterSnapshot s)
+    {
+        try
+        {
+            var m = new ClientDropMessage();
+            m.Deserialize(new NetworkPacketReader(packet));
+            RecordAction("drop", $"slot={m.Slot} x={m.X} y={m.Y} quantity={m.Quantity}", s);
         }
         catch (Exception)
         { /* Optional recorder decoding must never disrupt gameplay forwarding. */

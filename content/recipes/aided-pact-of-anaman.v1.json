@@ -15,7 +15,7 @@
   "Repeatable": false,
   "Requirements": [],
   "OutcomeConditions": [
-    "Each turn-in: Paulin's \"Give Tulsi Blossom and 5000 coins\" choice, exactly 5,000 gold and one Golden Blossom gone, and the server's experience message",
+    "Each turn-in: Paulin's plain \"Give Tulsi Blossom\" choice, one Golden Blossom gone with gold unchanged, and the server's experience message",
     "Completion: own legend contains \"Aided the Pact of Anaman\" after the fifth flower"
   ],
   "Steps": [

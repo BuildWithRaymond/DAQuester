@@ -206,6 +206,12 @@ public sealed partial class GameSession : IGameSession
                         throw new QuestBlockedException("Give requires slot, target and quantity.");
                     await connection.SendAsync(Protocol.ItemPackets.Give(command.Slot.Value, command.EntityId.Value, command.Amount.Value), Snapshot.Generation, cancellation);
                     break;
+                case "buy":
+                    await Buy(command.Dialog ?? Snapshot.Dialog, command.Text ?? throw new QuestBlockedException("Item to buy missing."), cancellation);
+                    break;
+                case "drop":
+                    await Drop(command.Slot ?? throw new QuestBlockedException("Item slot to drop missing."), command.Target ?? throw new QuestBlockedException("Drop tile missing."), command.Amount ?? 1, cancellation);
+                    break;
                 case "spell":
                     if (command.Slot is null)
                         throw new QuestBlockedException("Spell slot missing.");
@@ -258,6 +264,43 @@ public sealed partial class GameSession : IGameSession
         var d = command.Dialog ?? Snapshot.Dialog ?? throw new QuestBlockedException("No dialog.");
         var packet = Protocol.DialogPackets.Choice(Snapshot, d, command.Text ?? "");
         await connection.SendAsync(packet, Snapshot.Generation, ct);
+    }
+
+    // A shop list (menu type 4) is answered with its pursuit and the item's name, one item per request (live 2026-10-12).
+    async Task Buy(Dialog? shop, string name, CancellationToken ct)
+    {
+        var before = Snapshot;
+        if (shop is null || shop.IsPursuit || shop.Type != 4 || before.Dialog?.Revision != shop.Revision || shop.Generation != before.Generation)
+            throw new QuestBlockedException("The shop list is no longer open.");
+        var item = shop.Items.FirstOrDefault(i => i.Name.Equals(name, StringComparison.OrdinalIgnoreCase)) ?? throw new QuestBlockedException(shop.Name + " doesn't sell " + name + ".");
+        if (!before.InventoryKnown || before.Gold is null || before.Gold < item.Price)
+            throw new ResourceUnavailableException("Not enough gold for " + item.Name + ".");
+        int had = before.Count(item.Name);
+        await Send(new ClientMerchantMessage { EntityType = (EntityTypeFlags)shop.EntityType, EntityId = shop.EntityId, PursuitId = shop.Pursuit, Arguments = [item.Name] }, ct);
+        try
+        {
+            await WaitAsync(s => s.Count(item.Name) > had, before.Revision, TimeSpan.FromSeconds(5), ct);
+        }
+        catch (TimeoutException)
+        {
+            throw new QuestBlockedException("The " + item.Name + " didn't arrive in the bag.");
+        }
+    }
+
+    async Task Drop(byte slot, Tile tile, uint quantity, CancellationToken ct)
+    {
+        var before = Snapshot;
+        if (!before.InventoryKnown || !before.Inventory.TryGetValue(slot, out var item) || item.Quantity < quantity || quantity == 0)
+            throw new QuestBlockedException("Nothing to drop in bag slot " + slot + ".");
+        await Send(new ClientDropMessage { Slot = slot, X = (ushort)tile.X, Y = (ushort)tile.Y, Quantity = quantity }, ct);
+        try
+        {
+            await WaitAsync(s => !s.Inventory.TryGetValue(slot, out var left) || left.Name != item.Name || left.Quantity < item.Quantity, before.Revision, TimeSpan.FromSeconds(5), ct);
+        }
+        catch (TimeoutException)
+        {
+            throw new QuestBlockedException("The " + item.Name + " didn't leave the bag.");
+        }
     }
 
     async Task CloseDialog(Dialog? dialog, CancellationToken ct)

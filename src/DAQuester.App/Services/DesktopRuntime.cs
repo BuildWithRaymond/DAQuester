@@ -8,12 +8,13 @@ using DAQuester.DarkAges.Transport;
 
 namespace DAQuester.App.Services;
 
-public sealed record QuestAvailability(string Status, string Reason, bool CanQueue)
+public sealed record QuestAvailability(string Status, string Reason, bool CanQueue, bool Warning = false)
 {
-    public bool Ready => Status is "Ready" or "Choices" or "Resume ready";
+    // A started altar run waits for its next offering itself.
+    public bool Ready => Status is "Ready" or "Choices" or "Resume ready" or "Next offering";
 }
 
-public sealed record QuestChoiceResult(MundaneBirthOptions? BirthOptions = null, EmeraldDawnOptions? EmeraldOptions = null, bool AllowUnsafeWalking = false, SickChildOptions? SickChildOptions = null, bool OpenCharacters = false);
+public sealed record QuestChoiceResult(MundaneBirthOptions? BirthOptions = null, EmeraldDawnOptions? EmeraldOptions = null, bool AllowUnsafeWalking = false, SickChildOptions? SickChildOptions = null, bool OpenCharacters = false, bool AltarNoMarkAccepted = false);
 /// <summary>Owns game connections and durable operations independently of the desktop presentation.</summary>
 public sealed partial class DesktopRuntime
 {
@@ -147,6 +148,7 @@ public sealed partial class DesktopRuntime
             connection.Tracker.ServerMessage += (_, text) => Log((connection.Tracker.Snapshot.Name ?? "Connecting") + ": server: " + text);
             connection.DialogAction += packet => recorder.RecordDialogPacket(packet, connection.Tracker.Snapshot);
             connection.ExchangeAction += packet => recorder.RecordExchangePacket(packet, connection.Tracker.Snapshot);
+            connection.DropAction += packet => recorder.RecordDropPacket(packet, connection.Tracker.Snapshot);
             connection.Authenticated += authenticated => Ui(() => _ = BindAsync(authenticated));
         };
     }

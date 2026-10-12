@@ -63,6 +63,7 @@ public class QuestRunner(IGameSession session, IQuestJournal journal, QuestDefin
         }.ToDictionary(x => x, x => (IQuestAction)new ShinewoodFaerieActions()),
         SickChildEvidence.Id => new[] { "sick-preflight", "sick-run" }.ToDictionary(x => x, x => (IQuestAction)new SickChildActions(SickChildEvidence.Sevti)),
         SickChildEvidence.AnamanId => new[] { "sick-preflight", "sick-run" }.ToDictionary(x => x, x => (IQuestAction)new SickChildActions(SickChildEvidence.Tulsi)),
+        AltarWorshipEvidence.Id => new[] { "altar-preflight", "altar-run" }.ToDictionary(x => x, x => (IQuestAction)new AltarWorshipActions()),
         _ => []
     };
     public Dictionary<string, Func<QuestContext, bool?>> Conditions { get; } = [];

@@ -48,7 +48,7 @@
       "name": "Altar Worship",
       "source": "https://vorlof.com/quests/altarworship.html",
       "level": "1+",
-      "requiredItems": "Any item",
+      "requiredItems": "10x item worth over 500 gold (DAQuester buys a Leather Shield for 750)",
       "rewards": "All Classes: Red Jade Ring + 50,000 Experience Priests: \"Mileth Altar Worshipper (#)\" + Jade Ring / Amethyst Ring 100,000 Experience",
       "dependencies": null,
       "cooldownHours": null,
