@@ -17,9 +17,11 @@ public class BirthStatusTests {
   tracker.Observe(0x0A,Packet(0,"private message"));Assert.Equal(0,recorder.Count);
   tracker.Observe(0x0A,Packet(3,"She winks, \"It's on your legend now\""));Assert.Equal(1,recorder.Count);
  }
- [Theory][InlineData(0)][InlineData(5)][InlineData(8)][InlineData(9)][InlineData(10)][InlineData(11)][InlineData(12)]
- public void Chat_and_popup_text_cannot_be_recorded_as_birth_status(byte type) {
+ [Theory][InlineData(0,false)][InlineData(5,false)][InlineData(8,true)][InlineData(9,true)][InlineData(10,true)][InlineData(11,false)][InlineData(12,false)]
+ public void Chat_and_popup_text_cannot_be_recorded_as_birth_status(byte type,bool serverMessage) {
   var recorder=new ReplayRecorder();var tracker=new StateTracker(42);tracker.Identity("Awesome",1179711);tracker.Observed+=(o,p)=>recorder.Record(o,p,tracker.Snapshot);
-  tracker.Observe(0x0A,Packet(type,"She winks, \"It's on your legend now\""));Assert.Equal(0,recorder.Count);
+  tracker.Observe(0x0A,Packet(type,"She winks, \"It's on your legend now\""));
+  // Server messages stay in the replay; player chat never does. Neither becomes birth status.
+  Assert.Equal(serverMessage?1:0,recorder.Count);Assert.Null(tracker.Snapshot.Notice is {} n&&DAQuester.Core.MundaneBirthEvidence.Matches(n)?n:null);
  }
 }

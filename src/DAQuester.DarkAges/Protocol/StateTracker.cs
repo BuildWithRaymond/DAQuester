@@ -14,6 +14,9 @@ public class StateTracker(long generation) {
  public long LastPositionRevision {get;private set;}
  public event Action<CharacterSnapshot>? Changed;
  public event Action<byte,byte[]>? Observed;
+ // Server messages state rewards and outcomes exactly ("You received 20,000 gold coins."); only what other players typed is excluded.
+ public event Action<byte,string>? ServerMessage;
+ public static bool IsPlayerText(byte messageType)=>messageType is 0 or 5 or 11 or 12; // whisper, world shout, group, guild
  public void Identity(string name,uint id) => Publish(Snapshot with{Name=name,Id=id,Connected=true});
  public void Disconnect()=>Publish(Snapshot with{Connected=false,Dialog=null,InventoryKnown=false,SpellsKnown=false,Class=null,DisplayClass=null,IsMaster=null,IsPure=null,Mana=null,LegendsKnown=false,Notice=null,GroundItems=ImmutableDictionary<uint,GroundItem>.Empty});
  void Publish(CharacterSnapshot s) {Snapshot=s with{Revision=Snapshot.Revision+1};Changed?.Invoke(Snapshot);}
@@ -28,7 +31,8 @@ public class StateTracker(long generation) {
     s=s with{Level=p.Level??s.Level,Gold=p.Gold??s.Gold,Experience=p.TotalExperience??s.Experience,Hp=p.Health??s.Hp,Mana=p.Mana??s.Mana,Weight=p.Weight??s.Weight,MaxWeight=p.MaxWeight??s.MaxWeight};break;
    case ServerSystemMessage p:
     var notice=new ServerNotice(generation,rev,(byte)p.MessageType,p.Message,DateTimeOffset.UtcNow);
-    s=s with{Notice=MundaneBirthEvidence.Matches(notice)||MuisirEvidence.IsKirilNotice(notice,s.Map)||EmeraldDawnEvidence.IsNotice(notice,s.Map)?notice:null};break;
+    s=s with{Notice=MundaneBirthEvidence.Matches(notice)||MuisirEvidence.IsKirilNotice(notice,s.Map)||EmeraldDawnEvidence.IsNotice(notice,s.Map)?notice:null};
+    if(!IsPlayerText((byte)p.MessageType))ServerMessage?.Invoke((byte)p.MessageType,p.Message);break;
    case ServerAddInventoryMessage p:
     s=s with{Inventory=s.Inventory.SetItem(p.Slot,new(p.Slot,p.Name,p.Quantity))};break;
    case ServerRemoveInventoryMessage p:s=s with{Inventory=s.Inventory.Remove(p.Slot)};break;

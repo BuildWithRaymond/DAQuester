@@ -12,6 +12,6 @@ public class MuisirStatusTests {
   t.Observe(0x0A,Packet(3,"You must be registered."));Assert.Equal("You must be registered.",t.Snapshot.Notice?.Text);Assert.Equal(1,r.Count);
  }
  [Theory][InlineData(0)][InlineData(5)][InlineData(8)] public void Private_text_never_becomes_quest_evidence(byte type) {
-  var t=Tracker();var r=new ReplayRecorder();t.Observed+=(o,p)=>r.Record(o,p,t.Snapshot);t.Observe(0x0A,Packet(type,"You must be registered."));Assert.Null(t.Snapshot.Notice);Assert.Equal(0,r.Count);
+  var t=Tracker();var r=new ReplayRecorder();t.Observed+=(o,p)=>r.Record(o,p,t.Snapshot);t.Observe(0x0A,Packet(type,"You must be registered."));Assert.Null(t.Snapshot.Notice);Assert.Equal(StateTracker.IsPlayerText(type)?0:1,r.Count);
  }
 }
