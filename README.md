@@ -7,7 +7,7 @@ details, remembered character facts, and a queue you can pause and return to.
 
 [Download for Windows](https://github.com/BuildWithRaymond/DAQuester/releases/latest)
 · [Setup guide](docs/GETTING_STARTED.md)
-· [What's new in 1.1.1](docs/releases/v1.1.1.md)
+· [What's new in 1.3.0](docs/releases/v1.3.0.md)
 · [Report a bug](https://github.com/BuildWithRaymond/DAQuester/issues/new/choose)
 
 ![Quest planner with three ordered quests, completed legends, and character selection](docs/screenshots/planner.png)

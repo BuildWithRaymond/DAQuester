@@ -2,6 +2,8 @@
 
 ## Unreleased
 
+## 1.3.0 — 2026-10-12
+
 - New quest: **Cured the Sick Child**. Pick one flower a day on the quester, or let
   DAQuester log in your other saved characters to pick flowers at Mehadi, trade
   them over in Paulin's room and log them back out, finishing in one day. Every

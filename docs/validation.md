@@ -1,5 +1,35 @@
 # Validation status
 
+## Release 1.3.0 candidate — October 12, 2026
+
+The release includes merged flower quests from PR #10 (`e63aaeb`): Cured the Sick
+Child, Aided the Pact of Anaman, helper picking/trading/logout, shared daily
+flower records, overlapping login launches, fast-mode defaults, own-character
+walking exclusions and action-message/trade replay recording.
+
+An isolated, symbol-free Release solution build and the separate clean packaging
+build both completed with zero warnings or errors. All **73 focused flower,
+trade-recording, fast-walking and transport tests**, **783 complete Core/protocol
+tests** and **69 complete app behavior tests** passed with no failures or skips.
+The final Core/protocol run took 1 minute 57 seconds with normal Windows named-pipe
+access. Isolated test output retained the directory depth needed by source-fixture
+lookups and used installed test runtimes rather than the packaged app's local host.
+
+`Build-Release.ps1` and a separate `Verify-Release.ps1` run passed. Both new recipes
+are now required in the portable and update archives, alongside all six existing
+recipes. Assets, hashes, update feeds, runtime and third-party notices agree.
+Functional walkability covers 1,417 of 1,432 maps (15 unavailable); packages exclude
+user Data, raw game files, symbols and private checkout paths. The packaged app,
+Core and DarkAges assemblies match the tested assemblies byte for byte.
+The pinned public 1.0.7 updater verified the local 1.3.0 package with unchanged
+identity and updater bytes; no installation was performed.
+
+Native manual review covered the planner and both flower-choice dialogs with
+isolated synthetic characters, including disabled helper/confirmation controls
+and scrollable helper content in the shared dark theme. Capture artifacts remain
+outside tracked documentation. No test operated real game characters, changed
+Excalibur working copies or restarted Excalibur.
+
 ## Release 1.2.0 candidate — October 11, 2026
 
 The planner, original character previews and maintainability changes are integrated
