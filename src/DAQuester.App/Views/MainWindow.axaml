@@ -62,7 +62,7 @@
         </StackPanel>
         <StackPanel Grid.Column="1" Orientation="Horizontal" Spacing="10" VerticalAlignment="Center" Margin="20,0,0,0">
           <Button Name="launchSelected" Classes="workspaceHeader" Content="Launch" Command="{Binding LaunchSelectedCommand}" ToolTip.Tip="{Binding LaunchTooltip}" ToolTip.ShowOnDisabled="True" AutomationProperties.HelpText="{Binding LaunchTooltip}"/>
-          <ComboBox Name="characterSwitcher" Classes="workspaceHeader" MinWidth="215" MaxWidth="285" Padding="10,4" ItemsSource="{Binding Characters}" SelectedItem="{Binding SelectedCharacter,Mode=TwoWay}" HorizontalContentAlignment="Stretch" AutomationProperties.Name="Selected character">
+          <ComboBox Name="characterSwitcher" Classes="workspaceHeader" MinWidth="215" MaxWidth="285" Padding="10,4" ItemsSource="{Binding SwitcherCharacters}" SelectedItem="{Binding SelectedCharacter,Mode=TwoWay}" HorizontalContentAlignment="Stretch" AutomationProperties.Name="Selected character">
             <ComboBox.ItemTemplate>
               <DataTemplate>
                 <Grid ColumnDefinitions="32,*" ColumnSpacing="9" VerticalAlignment="Center">
@@ -351,7 +351,7 @@
                 <Button Content="Add character" Command="{Binding AddCharacterCommand}" Classes="primary" HorizontalAlignment="Left" Margin="0,8,0,0"/>
               </StackPanel>
             </Border>
-            <ItemsControl ItemsSource="{Binding Characters}">
+            <ItemsControl Name="characterList" ItemsSource="{Binding Characters}">
               <ItemsControl.ItemTemplate>
                 <DataTemplate>
                   <Border Classes="card" Padding="18" Margin="0,0,0,12">
@@ -372,7 +372,7 @@
                       <Grid Grid.Row="1" Grid.Column="1" ColumnDefinitions="*,*" RowDefinitions="Auto,Auto,Auto" ColumnSpacing="16" RowSpacing="7">
                         <TextBlock Text="Character name" Classes="caption"/>
                         <TextBlock Grid.Column="1" Text="New password" Classes="caption"/>
-                        <TextBox Grid.Row="1" Text="{Binding Name,Mode=TwoWay}" Watermark="Character name" AutomationProperties.Name="Character name"/>
+                        <TextBox Grid.Row="1" Name="characterName" Text="{Binding Name,Mode=TwoWay}" Watermark="Character name" AutomationProperties.Name="Character name"/>
                         <TextBox Grid.Row="1" Grid.Column="1" Text="{Binding Password,Mode=TwoWay}" PasswordChar="●" Watermark="Leave blank to keep saved password" AutomationProperties.Name="New password"/>
                         <StackPanel Grid.Row="2" Grid.ColumnSpan="2" Spacing="6" Margin="0,5,0,0">
                           <TextBlock Text="{Binding LegendText}" Classes="caption" TextWrapping="Wrap"/>

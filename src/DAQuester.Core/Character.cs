@@ -54,6 +54,15 @@ public record CharacterSnapshot
     {
         get; init;
     }
+    public int? AbilityLevel
+    {
+        get; init;
+    }
+    // Zero once a character is master (Talos's master test for weapons).
+    public uint? ToNextLevel
+    {
+        get; init;
+    }
     public uint? Hp
     {
         get; init;
@@ -135,6 +144,26 @@ public record CharacterSnapshot
     {
         get; init;
     }
+    public ImmutableDictionary<string, SkillCooldown> SkillCooldowns { get; init; } = ImmutableDictionary.Create<string, SkillCooldown>(StringComparer.OrdinalIgnoreCase);
+    // Own status-bar icons (0x3A): icon to duration colour.
+    public ImmutableDictionary<ushort, byte> Effects { get; init; } = ImmutableDictionary<ushort, byte>.Empty;
+    public bool SkillsBlockedOnMap
+    {
+        get; init;
+    }
+    // Revisions of the combat replies the basher answers: "You can't attack.", an equipment refusal, an asgall reflect.
+    public long CantAttackRevision
+    {
+        get; init;
+    }
+    public long SkillRefusedRevision
+    {
+        get; init;
+    }
+    public long AsgallReflectRevision
+    {
+        get; init;
+    }
 }
 
 // Party 0 is this character, 1 the trade partner (live 2026-10-11).
@@ -175,6 +204,34 @@ public record Entity(uint Id, string Name, Tile Position, bool Blocks)
     {
         get; init;
     }
+    public ushort Sprite
+    {
+        get; init;
+    }
+    // Arbiter CreatureType: 0 monster, 1 passable, 2 merchant, 3 solid, 4 aisling.
+    public byte Kind
+    {
+        get; init;
+    }
+    public byte Direction
+    {
+        get; init;
+    }
+    public DateTimeOffset LastStep
+    {
+        get; init;
+    }
+    public DateTimeOffset FirstSeen
+    {
+        get; init;
+    }
+    public byte HealthPercent { get; init; } = 100;
+}
+
+// A skill's last server cooldown (0x3F); it stays recorded after it runs out, as the skill's known length.
+public record SkillCooldown(DateTimeOffset Started, double Seconds)
+{
+    public bool Over(DateTimeOffset now) => now >= Started.AddSeconds(Seconds);
 }
 
 public record GroundItem(uint Id, ushort Sprite, Tile Position);

@@ -16,26 +16,51 @@ public class PresentationTests
         var runtime = Runtime();
         try
         {
-            runtime.SetPreviewSnapshot(new() { Name = "Elara", Id = 1, Connected = true, Generation = 1, Revision = 1 });
+            runtime.SetPreviewSnapshot(new()
+            {
+                Name = "Elara",
+                Id = 1,
+                Connected = true,
+                Generation = 1,
+                Revision = 1
+            });
             var vm = new MainWindowViewModel(runtime);
             vm.SelectedQuest = vm.Quests.Single(q => q.RecipeId == "perfect-hairstyle");
             Assert.False(vm.ChangeChoicesVisible);
             vm.SelectedQuest = vm.Quests.Single(q => q.RecipeId == "emerald-dawn");
             var journal = new FileQuestJournal(Path.Combine(AppSettings.DataPath, "journal"));
-            await journal.SaveAsync(new() { Character = "Elara", Quest = "emerald-dawn", Step = "recover", EmeraldMioasSeen = true, EmeraldBergBriefed = true });
+            await journal.SaveAsync(new()
+            {
+                Character = "Elara",
+                Quest = "emerald-dawn",
+                Step = "recover",
+                EmeraldMioasSeen = true,
+                EmeraldBergBriefed = true
+            });
             vm.Refresh();
             Assert.True(vm.ChangeChoicesVisible);
             Assert.True(vm.ChangeChoicesCommand.CanExecute(null));
             runtime.SetPreviewRunning("Elara", true);
             Assert.False(vm.ChangeChoicesCommand.CanExecute(null));
             runtime.SetPreviewRunning("Elara", false);
-            await journal.SaveAsync(new() { Character = "Elara", Quest = "emerald-dawn", Step = "deliver", Pending = new("emerald-delivery-dialog", 1, 1, 0, 0, 0, DateTimeOffset.UtcNow) });
+            await journal.SaveAsync(new()
+            {
+                Character = "Elara",
+                Quest = "emerald-dawn",
+                Step = "deliver",
+                Pending = new("emerald-delivery-dialog", 1, 1, 0, 0, 0, DateTimeOffset.UtcNow)
+            });
             vm.Refresh();
             Assert.False(vm.ChangeChoicesCommand.CanExecute(null));
             vm.SelectedQuest = vm.Quests.Single(q => q.RecipeId == "mundane-birth");
             Assert.True(vm.ChangeChoicesVisible);
             Assert.True(vm.ChangeChoicesCommand.CanExecute(null));
-            await journal.SaveAsync(new() { Character = "Elara", Quest = "mundane-birth", CompletedAt = DateTimeOffset.UtcNow });
+            await journal.SaveAsync(new()
+            {
+                Character = "Elara",
+                Quest = "mundane-birth",
+                CompletedAt = DateTimeOffset.UtcNow
+            });
             vm.Refresh();
             Assert.False(vm.ChangeChoicesCommand.CanExecute(null));
         }
@@ -51,24 +76,53 @@ public class PresentationTests
         var runtime = Runtime();
         try
         {
-            runtime.SetPreviewSnapshot(new() { Name = "Elara", Id = 1, Connected = true, Generation = 1, Revision = 1 });
+            runtime.SetPreviewSnapshot(new()
+            {
+                Name = "Elara",
+                Id = 1,
+                Connected = true,
+                Generation = 1,
+                Revision = 1
+            });
             var vm = new MainWindowViewModel(runtime);
             vm.SelectedQuest = vm.Quests.Single(q => q.RecipeId == "perfect-hairstyle");
             var journal = new FileQuestJournal(Path.Combine(AppSettings.DataPath, "journal"));
-            await journal.SaveAsync(new() { Character = "Elara", Quest = "perfect-hairstyle", Reason = "Preflight interrupted" });
+            await journal.SaveAsync(new()
+            {
+                Character = "Elara",
+                Quest = "perfect-hairstyle",
+                Reason = "Preflight interrupted"
+            });
             vm.Refresh();
             Assert.False(vm.ResumeQuestCommand.CanExecute(null));
             Assert.False(vm.PauseQuestCommand.CanExecute(null));
             Assert.False(vm.StopQuestCommand.CanExecute(null));
 
-            await journal.SaveAsync(new() { Character = "Elara", Quest = "perfect-hairstyle", Pending = new("offer", 1, 1, 0, 0, 0, DateTimeOffset.UtcNow) });
+            await journal.SaveAsync(new()
+            {
+                Character = "Elara",
+                Quest = "perfect-hairstyle",
+                Pending = new("offer", 1, 1, 0, 0, 0, DateTimeOffset.UtcNow)
+            });
             vm.Refresh();
             Assert.True(vm.ResumeQuestCommand.CanExecute(null));
-            await journal.SaveAsync(new() { Character = "Elara", Quest = "perfect-hairstyle", Accepted = true, AcceptedGeneration = 1 });
+            await journal.SaveAsync(new()
+            {
+                Character = "Elara",
+                Quest = "perfect-hairstyle",
+                Accepted = true,
+                AcceptedGeneration = 1
+            });
             vm.Refresh();
             Assert.True(vm.ResumeQuestCommand.CanExecute(null));
 
-            await journal.SaveAsync(new() { Character = "Elara", Quest = "perfect-hairstyle", Step = "eeva", Reason = "Paused by player" });
+            await journal.SaveAsync(new()
+            {
+                Character = "Elara",
+                Quest = "perfect-hairstyle",
+                Step = "eeva",
+                Reason = "Paused by player"
+            });
             vm.Refresh();
             Assert.True(vm.ResumeQuestCommand.CanExecute(null));
             Assert.False(vm.PauseQuestCommand.CanExecute(null));
@@ -79,7 +133,13 @@ public class PresentationTests
             Assert.True(vm.PauseQuestCommand.CanExecute(null));
             Assert.True(vm.StopQuestCommand.CanExecute(null));
             runtime.SetPreviewRunning("Elara", false);
-            runtime.SetPreviewQueue(new() { Character = "Elara", State = "Paused", Quests = ["perfect-hairstyle"], ActiveQuest = "perfect-hairstyle" });
+            runtime.SetPreviewQueue(new()
+            {
+                Character = "Elara",
+                State = "Paused",
+                Quests = ["perfect-hairstyle"],
+                ActiveQuest = "perfect-hairstyle"
+            });
             Assert.False(vm.PauseQuestCommand.CanExecute(null));
             Assert.False(vm.StopQuestCommand.CanExecute(null));
             Assert.True(vm.StopQueueCommand.CanExecute(null));
@@ -107,7 +167,13 @@ public class PresentationTests
             vm.SelectedQuest = vm.Quests.First(q => q.RecipeId.Length == 0);
             Assert.False(vm.AddJourneyToQueueCommand.CanExecute(null));
             vm.SelectedQuest = vm.Quests.Single(q => q.RecipeId == "perfect-hairstyle");
-            runtime.SetPreviewQueue(new() { Character = "Wren", State = "Running", Quests = ["emerald-dawn"], ActiveQuest = "emerald-dawn" });
+            runtime.SetPreviewQueue(new()
+            {
+                Character = "Wren",
+                State = "Running",
+                Quests = ["emerald-dawn"],
+                ActiveQuest = "emerald-dawn"
+            });
             Assert.False(vm.AddJourneyToQueueCommand.CanExecute(null));
         }
         finally { await runtime.ShutdownAsync(); }
@@ -172,6 +238,25 @@ public class PresentationTests
         Assert.Contains("Preview cannot launch game clients", vm.ErrorMessage);
         Assert.Empty(AppSettings.Load().Characters);
         Assert.False(runtime.LaunchedClientRunning);
+        await runtime.ShutdownAsync();
+    }
+
+    [Fact]
+    public async Task HeaderSwitcherListsCharactersByNameWhileTheCharactersPageKeepsItsOrder()
+    {
+        var runtime = Runtime();
+        runtime.Settings.Characters = ["kullan", "Zemial", "verranjr", "Cerda"];
+        runtime.Settings.Save();
+        var vm = new MainWindowViewModel(runtime);
+        Assert.Equal(["Cerda", "kullan", "verranjr", "Zemial"], vm.SwitcherCharacters.Select(c => c.DisplayName));
+        Assert.Equal(["kullan", "Zemial", "verranjr", "Cerda"], vm.Characters.Select(c => c.DisplayName));
+        var selected = vm.SelectedCharacter;
+        vm.AddCharacterCommand.Execute(null);
+        Assert.Same(vm.Characters[^1], vm.SelectedCharacter);
+        Assert.Contains(vm.SelectedCharacter!, vm.SwitcherCharacters);
+        vm.SelectedCharacter = selected;
+        vm.Refresh();
+        Assert.Same(selected, vm.SelectedCharacter);
         await runtime.ShutdownAsync();
     }
 
@@ -269,10 +354,26 @@ public class PresentationTests
     public async Task SavedAppearanceFeedsChooserJourneyAndHistoryWithoutInventingLiveEvidence()
     {
         var runtime = Runtime();
-        var look = CharacterPreviewAppearance.From(null).Look with { Head = 9, Face = 0 };
+        var look = CharacterPreviewAppearance.From(null).Look with
+        {
+            Head = 9,
+            Face = 0
+        };
         await new FileCharacterMemory(Path.Combine(AppSettings.DataPath, "characters"), runtime.Settings.ServerProfile)
-            .ObserveAsync("Elara", new() { Name = "Elara", Id = 1, Connected = true, Generation = 1, Revision = 1, Appearance = look });
-        runtime.SetPreviewQueue(new() { Character = "Elara", History = [new("perfect-hairstyle", "Completed", DateTimeOffset.UtcNow, "Saved outcome")] });
+            .ObserveAsync("Elara", new()
+            {
+                Name = "Elara",
+                Id = 1,
+                Connected = true,
+                Generation = 1,
+                Revision = 1,
+                Appearance = look
+            });
+        runtime.SetPreviewQueue(new()
+        {
+            Character = "Elara",
+            History = [new("perfect-hairstyle", "Completed", DateTimeOffset.UtcNow, "Saved outcome")]
+        });
         var vm = new MainWindowViewModel(runtime);
         var row = Assert.Single(vm.History);
         Assert.Equal(look, vm.SelectedCharacter!.RememberedAppearance);
@@ -282,8 +383,19 @@ public class PresentationTests
         Assert.Null(runtime.Snapshot("Elara").Appearance);
         bool notified = false;
         row.PropertyChanged += (_, _) => notified = true;
-        var live = look with { Head = 12 };
-        runtime.SetPreviewSnapshot(new() { Name = "Elara", Id = 1, Connected = true, Generation = 2, Revision = 1, Appearance = live });
+        var live = look with
+        {
+            Head = 12
+        };
+        runtime.SetPreviewSnapshot(new()
+        {
+            Name = "Elara",
+            Id = 1,
+            Connected = true,
+            Generation = 2,
+            Revision = 1,
+            Appearance = live
+        });
         vm.Refresh();
         Assert.Same(row, Assert.Single(vm.History));
         Assert.True(notified);

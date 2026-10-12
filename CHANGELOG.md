@@ -11,6 +11,13 @@
   Red Jade Ring and experience. The quest says so in its details, the library row
   names the character's class, and starting it on a character that isn't a Priest
   asks once to continue for the experience.
+- A melee fighter for combat quests: the character picks the nearest monster,
+  chases it, faces it, assails, and uses whichever of its skills fit the moment,
+  for any class. With no melee weapon in hand it equips the best one in the bag,
+  and with nothing in sight it roams the map to find more. For now it is started
+  through the control bridge while the first combat quests are built.
+- Add character scrolls to the new card and puts the cursor in its name box.
+- The character switcher at the top lists characters alphabetically.
 
 ## 1.3.0 — 2026-10-12
 

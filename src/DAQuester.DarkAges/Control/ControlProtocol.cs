@@ -5,7 +5,7 @@ namespace DAQuester.DarkAges.Control;
 public record ControlRequest(string Method, string? Character = null, JsonElement? Arguments = null);
 public class McpProtocol(Func<ControlRequest, Task<object?>> call)
 {
-    static readonly string[] Methods = ["state", "map", "command", "export", "analyze", "calibrate", "start", "stop", "launch", "log", "calibration", "settings"];
+    static readonly string[] Methods = ["state", "map", "command", "export", "analyze", "calibrate", "start", "stop", "launch", "log", "calibration", "settings", "fight"];
     public async Task<string?> HandleAsync(string line)
     {
         JsonElement id = default;
@@ -136,6 +136,7 @@ public class McpProtocol(Func<ControlRequest, Task<object?>> call)
         "log" => "Read the diagnostics lines kept in memory (all by default, or the last `count`). The same lines are appended to diagnostics.log.",
         "calibration" => "Read the Spare a Stick calibration, or replace it by passing `json`. Saving requires no active operations.",
         "settings" => "Read the connection profile and client settings, or replace the connection fields by passing `json`. Restart DAQuester to apply.",
+        "fight" => "Start the melee basher for a connected character: it fights monsters in reach and, with `roam` (default on), walks random waypoints to find more; it ends after `idleSeconds` without a monster (default 120, or 30 without roaming). `sprites` are preferred monsters; with `priorityOnly` only they are fought. Stop or manual input ends it.",
         _ => "Cancel automation and control actions for one character or all characters."
     };
     static object Schema(string method)
@@ -246,6 +247,37 @@ public class McpProtocol(Func<ControlRequest, Task<object?>> call)
             };
         }
 
+        if (method == "fight")
+        {
+            properties["sprites"] = new
+            {
+                type = "array",
+                items = new
+                {
+                    type = "integer",
+                    minimum = 1,
+                    maximum = 1000
+                }
+            };
+            properties["priorityOnly"] = new
+            {
+                type = "boolean",
+                @default = false
+            };
+            properties["roam"] = new
+            {
+                type = "boolean",
+                @default = true
+            };
+            properties["idleSeconds"] = new
+            {
+                type = "integer",
+                minimum = 5,
+                maximum = 3600,
+                @default = 120
+            };
+        }
+
         if (method == "start")
         {
             properties["repeat"] = new
@@ -311,7 +343,7 @@ public class McpProtocol(Func<ControlRequest, Task<object?>> call)
                 "kind"
             }
 
-            : method is "calibrate" or "start" ? new[]
+            : method is "calibrate" or "start" or "fight" ? new[]
             {
                 "character"
             }

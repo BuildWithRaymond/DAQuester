@@ -185,7 +185,8 @@ public sealed partial class GameSession : IGameSession
                     await Send(new ClientUseMessage { Slot = itemSlot }, cancellation);
                     break;
                 case "use-skill":
-                    await Send(new ClientUseSkillMessage { Slot = (byte)(command.Amount ?? 0) }, cancellation);
+                    // Arbiter's ClientUseSkillMessage cannot serialize; the wire form is 3E <slot> (verified client packet).
+                    await connection.SendAsync(new ClientPacket(0x3E, [(byte)(command.Amount ?? 0)]), Snapshot.Generation, cancellation);
                     break;
                 case "equip":
                     await Send(new ClientUseMessage { Slot = command.Slot ?? throw new QuestBlockedException("Equipment inventory slot missing.") }, cancellation);
@@ -205,6 +206,18 @@ public sealed partial class GameSession : IGameSession
                     if (command.Slot is null || command.EntityId is null || command.Amount is null)
                         throw new QuestBlockedException("Give requires slot, target and quantity.");
                     await connection.SendAsync(Protocol.ItemPackets.Give(command.Slot.Value, command.EntityId.Value, command.Amount.Value), Snapshot.Generation, cancellation);
+                    break;
+                case "assail":
+                    await Assail(cancellation);
+                    break;
+                case "turn":
+                    await Turn((byte)(command.Amount ?? throw new QuestBlockedException("Turn direction missing.")), cancellation);
+                    break;
+                case "pathfind":
+                    await StepToward(command.Target ?? throw new QuestBlockedException("Pathfind tile missing."), cancellation);
+                    break;
+                case "refresh":
+                    await RefreshView(cancellation);
                     break;
                 case "buy":
                     await Buy(command.Dialog ?? Snapshot.Dialog, command.Text ?? throw new QuestBlockedException("Item to buy missing."), cancellation);

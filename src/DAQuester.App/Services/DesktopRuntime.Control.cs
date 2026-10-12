@@ -181,6 +181,20 @@ public sealed partial class DesktopRuntime
             };
         }
 
+        if (r.Method == "fight")
+        {
+            ushort[] sprites = r.Arguments is { } fa && fa.TryGetProperty("sprites", out var list) && list.ValueKind == JsonValueKind.Array ? list.EnumerateArray().Select(v => checked((ushort)v.GetInt32())).ToArray() : [];
+            bool roam = r.Arguments is not { } ra || !ra.TryGetProperty("roam", out var rv) || rv.ValueKind != JsonValueKind.False;
+            StartFight(name, new BashOptions { PrioritySprites = sprites, PriorityOnly = Flag("priorityOnly") }, TimeSpan.FromSeconds(Number("idleSeconds", roam ? 120 : 30)), roam);
+            return new
+            {
+                fighting = name,
+                sprites,
+                priorityOnly = Flag("priorityOnly"),
+                roam
+            };
+        }
+
         if (r.Method != "command")
             throw new InvalidOperationException("Unsupported control method: " + r.Method);
         if (RunnerBusy(name))
@@ -228,6 +242,56 @@ public sealed partial class DesktopRuntime
             session.Interrupted -= Interrupt;
             controlActions.Remove(name);
             Notify();
+        }
+    }
+
+    // A melee fight owned by the control bridge; stop, the app's stop button or manual input ends it.
+    void StartFight(string name, BashOptions options, TimeSpan idle, bool roam)
+    {
+        RequireOpen();
+        if (!sessions.TryGetValue(name, out var session) || !session.Snapshot.Connected)
+            throw new QuestBlockedException("Connect " + name + " first.");
+        if (RunnerBusy(name) || QueueReserves(name) || IsRunning(name) || controlActions.ContainsKey(name))
+            throw new QuestBlockedException("Another action owns this character. Stop it first.");
+        var cancellation = new CancellationTokenSource();
+        controlActions[name] = cancellation;
+        void Interrupt(string reason)
+        {
+            cancellation.Cancel();
+            Log(name + ": fight paused: " + reason);
+        }
+
+        session.Interrupted += Interrupt;
+        Log(name + ": fight started");
+        Notify();
+        _ = Run();
+        async Task Run()
+        {
+            try
+            {
+                var fight = options with
+                {
+                    IsFriend = session.IsOwnCharacter,
+                    Note = line => Log(name + ": " + line)
+                };
+                var end = await Task.Run(() => MeleeFight.RunAsync(session, session, fight, null, idle, cancellation.Token, roam));
+                Log(name + ": fight ended · " + (end == FightEnd.NoTargets ? (roam ? "no monster found for " : "nothing in reach for ") + idle.TotalSeconds + " s" : "goal reached"));
+            }
+            catch (OperationCanceledException)
+            {
+                Log(name + ": fight stopped");
+            }
+            catch (Exception e)
+            {
+                Log(name + ": fight stopped · " + e.Message);
+            }
+            finally
+            {
+                session.Interrupted -= Interrupt;
+                controlActions.Remove(name);
+                cancellation.Dispose();
+                Notify();
+            }
         }
     }
 
