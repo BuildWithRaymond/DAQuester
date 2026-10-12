@@ -2,7 +2,7 @@
 
 DAQuester is a quest companion for your Dark Ages characters. Plan a journey,
 put quests in your preferred order, and keep each character's progress together.
-The new Avalonia desktop app pairs a quiet, fully dark journal with clear quest
+The Avalonia desktop app pairs a quiet, fully dark journal with clear quest
 details, remembered character facts, and a queue you can pause and return to.
 
 [Download for Windows](https://github.com/BuildWithRaymond/DAQuester/releases/latest)
@@ -22,7 +22,15 @@ details, remembered character facts, and a queue you can pause and return to.
   remembers your character's observed level and own legends between sessions.
 - **Launch from your character list.** Each saved character has a Launch button.
   Save a password for automatic sign-in, or leave it blank and sign in yourself.
-  Saved passwords are encrypted by Windows.
+  Saved passwords are encrypted by Windows. You can launch another character
+  while one logs in; saved logins are entered one at a time.
+- **Bring flowers with your other characters.** For either Paulin flower quest,
+  pick one flower a day yourself or choose saved helpers to pick and trade flowers
+  to the quester. Helpers DAQuester logs in are logged out after their trade;
+  helpers already online stay online.
+- **Travel in fast mode.** Fast mode defaults on for each character and can be
+  switched off in the planner. Your own connected characters do not slow each
+  other's walking; other nearby players still do.
 - **Keep your progress.** Quest checkpoints, queue order, rewards, and run history
   stay with the character. Each queue finishes after its last verified quest attempt.
 
@@ -54,7 +62,7 @@ collision data. Raw game maps and artwork are not bundled.
 
 ## Available quests
 
-The library has 71 entries. These six have automatic recipes:
+The library has 71 entries. These eight have automatic recipes:
 
 | Quest | What to expect |
 | --- | --- |
@@ -64,11 +72,21 @@ The library has 71 entries. These six have automatic recipes:
 | Entered Muisir Village | Collects five Undine Mushrooms and verifies the legend and four Shrinking Potions. An existing Muisir legend shows Completed. |
 | Emerald Dawn | Find an insignia, hear Berg's story, then choose Knights, Necromancer, or sale. The choice can change until the hand-over. All three outcomes are live-verified. |
 | Shinewood Faerie | Level **11+** to pass Forest 7. Try for a pet and learn eligible missing Priest/Wizard spells. Handles the observed failed-bond wait and the return trip. Successful rewards still need live validation. |
+| Cured the Sick Child | Level **11+**. Give Paulin five Sevti Blossoms with **5,000 gold per flower**. Pick daily or use helpers; completion requires your own sick-child legend. |
+| Aided the Pact of Anaman | Give Paulin five Tulsi (Golden) Blossoms **without gold**. Uses the same daily/helper options; its brown legend mark is hidden from other players. |
+
+Each character can pick one flower a day across both flower quests. With enough
+eligible helpers, all five turn-ins can finish in one day. The two legend marks
+exclude each other: earning either prevents the other quest. Refused picks and
+recorded pick times stay visible, and you can enter flowers already given by hand
+before starting.
 
 The remaining entries are guides for manual play. See [quest details](docs/QUESTS.md)
-for requirements, repeat rules, and the evidence behind each recipe. The queue
-and automatic sign-in have synthetic test coverage; live verification
-of those flows is still pending. Current results are in [validation](docs/validation.md).
+for requirements, repeat rules, and the evidence behind each recipe. Both flower
+quests have recorded live completions, including helper picking, trading and
+logout. The complete queue and broader sign-in recovery flows retain synthetic
+coverage; those runs do not establish live success. Current results and limits
+are in [validation](docs/validation.md).
 
 ## Updating
 
