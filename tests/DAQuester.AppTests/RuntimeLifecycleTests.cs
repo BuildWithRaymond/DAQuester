@@ -363,7 +363,7 @@ public sealed class RuntimeLifecycleTests
   var old = new QuestRunner(session, new FileQuestJournal(Path.Combine(AppSettings.DataPath, "journal")), runtime.Recipes["spare-a-stick"], runtime.Calibration); runners.Add("Elara", old);
   var choice = new TaskCompletionSource<QuestChoiceResult?>(TaskCreationOptions.RunContinuationsAsynchronously); runtime.ChooseQuestAsync = (_, _, _, _) => choice.Task;
   var configure = typeof(DesktopRuntime).GetMethod("ConfigureQuestAsync", privateInstance)!;
-  var configured = (Task<bool>)configure.Invoke(runtime, ["Elara", runtime.Recipes["mundane-birth"], false])!;
+  var configured = (Task<bool>)configure.Invoke(runtime, ["Elara", runtime.Recipes["mundane-birth"], false, false])!;
   var checkpoint = (SemaphoreSlim)typeof(QuestRunner).GetField("owner", privateInstance)!.GetValue(old)!; await checkpoint.WaitAsync();
   var prepare = typeof(DesktopRuntime).GetMethod("PrepareRunnerAsync", privateInstance)!;
   var preparing = (Task<QuestRunner>)prepare.Invoke(runtime, ["Elara", runtime.Recipes["perfect-hairstyle"], null, null, false])!;
