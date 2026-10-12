@@ -22,7 +22,8 @@ public class EmeraldDawnTests {
  static QuestJob Pending(SimulatedSession s,string outcome="emerald-knights",string kind="emerald-deliver",string step="confirm")=>Job(outcome,step) with{Pending=new(kind,s.Snapshot.Generation,s.Snapshot.Revision,s.Snapshot.Gold!.Value,0,s.Snapshot.Experience!.Value,DateTimeOffset.UtcNow){EntityId=991,InventoryBaselineKnown=true,InventoryCounts=new(){[Item]=1},Legends=[Recovery]}};
  static void Reward(SimulatedSession s,string outcome,bool consumed=true,bool mark=true,bool gold=true) {
   var legends=ImmutableArray.Create(Recovery);if(outcome!="rogue-order"&&mark)legends=legends.Add(Final(outcome)+" - Deoch 223, Fall");
-  s.Set(s.Snapshot with{Inventory=consumed?[]:s.Snapshot.Inventory,Legends=legends,LegendsRevision=s.Snapshot.Revision+1,Gold=outcome=="rogue-order"&&gold?1000200:s.Snapshot.Gold});
+  s.Set(s.Snapshot with{Inventory=consumed?[]:s.Snapshot.Inventory,Legends=legends,LegendsRevision=s.Snapshot.Revision+1,Gold=outcome=="rogue-order"&&gold?1000200:s.Snapshot.Gold,
+   Map=outcome=="rogue-order"?425:s.Snapshot.Map,Notice=outcome=="rogue-order"&&gold?new(s.Snapshot.Generation,s.Snapshot.Revision+1,3,EmeraldDawnEvidence.RogueSaleNotice,DateTimeOffset.UtcNow):s.Snapshot.Notice});
  }
  static void Reply(SimulatedSession s,uint entity,string npc,string text="Synthetic guide-derived page",bool next=false,params DialogChoice[] choices)=>s.Set(s.Snapshot with{Dialog=new(s.Snapshot.Generation,s.Snapshot.Revision+1,entity,1,npc,text,true,731,7,0,ImmutableArray.Create(choices),HasNext:next)});
  sealed class BeforeWaitSession(SimulatedSession inner,Action<Func<CharacterSnapshot,bool>> beforeWait):IGameSession {
@@ -82,9 +83,45 @@ public class EmeraldDawnTests {
  [Fact] public async Task Recovery_without_insignia_does_not_gather_another_or_claim_completion() {
   var s=Session();s.Set(s.Snapshot with{Legends=ImmutableArray.Create(Recovery)});var j=Journal();await j.SaveAsync(Job());var r=new QuestRunner(s,j,Recipe(),new());await r.RunAsync();Assert.Contains("reconcil",r.Job.Reason,StringComparison.OrdinalIgnoreCase);Assert.Null(r.Job.CompletedAt);Assert.Empty(s.Commands);
  }
- [Fact] public async Task Recovery_with_insignia_skips_intro_and_gather() {
+ [Fact] public async Task Recovery_mark_without_receipt_skips_intro_and_gather_but_hears_Berg_again() {
   var s=Session(1);s.Set(s.Snapshot with{Legends=ImmutableArray.Create(Recovery)});var j=Journal();await j.SaveAsync(Job());s.OnCommand=c=>{if(c.Kind=="visit")s.Manual();};var r=new QuestRunner(s,j,Recipe(),new());await r.RunAsync();
-  Assert.Single(s.Commands,c=>c.Kind=="visit"&&c.Text=="Dislaidir");Assert.DoesNotContain(s.Commands,c=>c.Kind=="collect-ground"||c.Kind=="visit"&&c.Text is "Mioas" or "Berg");Assert.Null(r.Job.CompletedAt);
+  Assert.Single(s.Commands,c=>c.Kind=="visit"&&c.Text=="Berg");Assert.DoesNotContain(s.Commands,c=>c.Kind=="collect-ground"||c.Kind=="visit"&&c.Text is "Mioas" or "Dislaidir");Assert.Null(r.Job.CompletedAt);
+ }
+ static EmeraldRecoveryReceipt Receipt()=>JsonSerializer.Deserialize<EmeraldRecoveryReceipt>("{\"ObservedAt\":\"2026-10-11T00:00:00Z\",\"Legend\":\"Recovered the Emerald Knight Insignia\",\"Rewards\":{}}",json)!;
+ [Fact] public async Task Recovery_receipt_with_insignia_goes_straight_to_delivery() {
+  var s=Session(1);s.Set(s.Snapshot with{Legends=ImmutableArray.Create(Recovery)});var j=Journal();await j.SaveAsync(Job() with{EmeraldRecovery=Receipt()});s.OnCommand=c=>{if(c.Kind=="visit")s.Manual();};var r=new QuestRunner(s,j,Recipe(),new());await r.RunAsync();
+  Assert.Single(s.Commands,c=>c.Kind=="visit"&&c.Text=="Dislaidir");Assert.DoesNotContain(s.Commands,c=>c.Kind=="visit"&&c.Text is "Mioas" or "Berg");
+ }
+ [Fact] public async Task Pre_existing_recovery_mark_is_accepted_once_Berg_retells_the_story_to_its_last_page() {
+  // Live 2026-10-11: Skan ignored a character whose mark came from an unfinished manual Berg visit; Berg re-offers the story and the recipients then respond.
+  var s=Session(1);s.Set(s.Snapshot with{Legends=ImmutableArray.Create(Recovery)});var j=Journal();await j.SaveAsync(Job(step:"recover"));int pages=0;
+  s.OnCommand=c=>{
+   if(c.Kind=="navigate")s.Set(s.Snapshot with{Map=c.Map,Dialog=null});
+   if(c.Kind=="visit")s.Set(s.Snapshot with{Map=c.Map,Entities=ImmutableDictionary<uint,Entity>.Empty.Add(892,new(892,"Berg",new(5,5),true))});
+   if(c.Kind=="say")Reply(s,892,"Berg","Did you find the Emerald Knight Insignia?",choices:[new("Yes, I found it",941,1),new("No, not yet",941,2)]);
+   if(c.Kind=="choose")Reply(s,892,"Berg","Astounding! You Aislings truly are a rare breed.",next:true);
+   if(c.Kind=="next"){if(++pages<3)Reply(s,892,"Berg","Synthetic story page",next:true);else s.Set(s.Snapshot with{Dialog=null});}
+   if(c.Kind=="close")s.Set(s.Snapshot with{Dialog=null});
+  };
+  var c=new QuestContext(s,j,new(),Job(step:"recover"));await new EmeraldDawnActions().ExecuteAsync(c,Recipe().Steps.Single(p=>p.Id=="recover"),default);
+  Assert.NotNull(c.Job.EmeraldRecovery);Assert.Null(c.Job.Pending);Assert.Equal(Recovery,c.Job.EmeraldRecovery!.Legend);Assert.Single(s.Commands,x=>x.Kind=="choose");Assert.Equal(1,s.Snapshot.Count(Item));
+ }
+ [Fact] public async Task Delivery_without_a_recovery_receipt_is_blocked_in_player_terms() {
+  var s=Session(1);s.Set(s.Snapshot with{Legends=ImmutableArray.Create(Recovery)});var j=Journal();await j.SaveAsync(Job(step:"deliver"));var r=new QuestRunner(s,j,Recipe(),new());await r.RunAsync();
+  Assert.Contains("Berg",r.Job.Reason);Assert.Empty(s.Commands);Assert.Null(r.Job.CompletedAt);
+ }
+ [Fact] public async Task Sale_finished_by_hand_after_the_greeting_completes_on_resume_without_commands() {
+  // Live 2026-10-11 (Swallow): runner greeted Skan, got no offer, paused; the player then sold by hand.
+  var s=Session(1);var j=Journal();await j.SaveAsync(Pending(s,"rogue-order",kind:"emerald-delivery-dialog",step:"deliver"));Reward(s,"rogue-order");
+  var r=new QuestRunner(s,j,Recipe(),new());await r.RunAsync();
+  Assert.Equal("Completed",r.Job.Status);Assert.Null(r.Job.Pending);Assert.Equal(1000000,r.Job.Rewards["gold"]);Assert.DoesNotContain(s.Commands,c=>c.Kind is "say" or "choose" or "visit");
+ }
+ [Fact] public void Choices_lock_only_once_the_insignia_is_handed_over() {
+  Assert.False(EmeraldDawnEvidence.ChoicesLocked(Job()));
+  Assert.False(EmeraldDawnEvidence.ChoicesLocked(Job(step:"deliver") with{EmeraldMioasSeen=true,EmeraldBergBriefed=true,EmeraldRecovery=Receipt()}));
+  var s=Session(1);Assert.True(EmeraldDawnEvidence.ChoicesLocked(Pending(s)));Assert.True(EmeraldDawnEvidence.ChoicesLocked(Pending(s,kind:"emerald-delivery-dialog",step:"deliver")));
+  Assert.False(EmeraldDawnEvidence.ChoicesLocked(Pending(s,kind:"emerald-recover",step:"recover")));
+  Assert.True(EmeraldDawnEvidence.ChoicesLocked(Job() with{CompletedAt=DateTimeOffset.UtcNow}));
  }
  [Fact] public async Task Dry_search_keeps_collecting_until_inventory_proves_one() {
   var s=Session();var j=Journal();await j.SaveAsync(Job(step:"gather"));int attempts=0;s.OnCommand=c=>{if(c.Kind=="collect-ground"&&++attempts==7)s.Set(s.Snapshot with{Inventory=ImmutableDictionary<byte,Item>.Empty.Add(9,new(9,Item,1))});if(c.Kind=="visit")s.Manual();};
@@ -147,7 +184,17 @@ public class EmeraldDawnTests {
   var c=new QuestContext(late,Journal(),new(),Job(step:"gather"));await new EmeraldDawnActions().ExecuteAsync(c,Recipe().Steps.Single(p=>p.Id=="gather"),default);
   Assert.True(delivered);Assert.Equal(new[]{"collect-ground","next"},s.Commands.Select(p=>p.Kind));Assert.Null(s.Snapshot.Dialog);Assert.Null(c.Job.Pending);
  }
- [Theory][InlineData("emerald-knights")][InlineData("necromancer-order")][InlineData("rogue-order")]
+ [Fact] public async Task Sale_after_reconnect_has_no_server_message_and_stays_pending() {
+  // The sale message belongs to the old connection; a new one cannot prove it, so the player decides.
+  var s=Session(1);var j=Journal();await j.SaveAsync(Pending(s,"rogue-order"));s.Set(s.Snapshot with{Generation=2,Dialog=null});Reward(s,"rogue-order");
+  var r=new QuestRunner(s,j,Recipe(),new());await r.RunAsync();Assert.Null(r.Job.CompletedAt);Assert.NotNull(r.Job.Pending);Assert.DoesNotContain(s.Commands,c=>c.Kind is "say" or "choose" or "visit");
+ }
+ [Fact] public async Task Gold_difference_without_the_sale_message_never_proves_the_sale() {
+  var s=Session(1);var j=Journal();await j.SaveAsync(Pending(s,"rogue-order",kind:"emerald-delivery-dialog",step:"deliver"));
+  s.Set(s.Snapshot with{Inventory=[],Gold=1000200,Map=425});
+  var r=new QuestRunner(s,j,Recipe(),new());await r.RunAsync();Assert.Null(r.Job.CompletedAt);Assert.NotNull(r.Job.Pending);
+ }
+ [Theory][InlineData("emerald-knights")][InlineData("necromancer-order")]
  public async Task Pending_delivery_reconciles_fresh_rewards_after_reconnect_without_resending(string outcome) {
   var s=Session(1);var j=Journal();await j.SaveAsync(Pending(s,outcome));s.Set(s.Snapshot with{Generation=2,Dialog=null});Reward(s,outcome);
   var r=new QuestRunner(s,j,Recipe(),new());await r.RunAsync();Assert.Equal("Completed",r.Job.Status);Assert.Null(r.Job.Pending);Assert.DoesNotContain(s.Commands,c=>c.Kind is "say" or "choose" or "visit");
@@ -190,7 +237,7 @@ public class EmeraldDawnTests {
   using var catalog=JsonDocument.Parse(File.ReadAllText(Path.Combine(root,"catalog.json")));var row=catalog.RootElement.GetProperty("entries").EnumerateArray().Single(e=>e.GetProperty("id").GetString()=="emeralddawn");Assert.Equal("implemented",row.GetProperty("status").GetString());Assert.False(row.GetProperty("capabilitiesInferred").GetBoolean());
  }
  [Fact] public async Task Guide_alternate_recovery_mark_skips_completed_stages() {
-  var s=Session(1);s.Set(s.Snapshot with{Legends=ImmutableArray.Create("Found Emerald Knight Insignia - Deoch 223, Fall")});var j=Journal();await j.SaveAsync(Job());s.OnCommand=c=>{if(c.Kind=="visit")s.Manual();};var r=new QuestRunner(s,j,Recipe(),new());await r.RunAsync();
+  var s=Session(1);s.Set(s.Snapshot with{Legends=ImmutableArray.Create("Found Emerald Knight Insignia - Deoch 223, Fall")});var j=Journal();await j.SaveAsync(Job() with{EmeraldRecovery=Receipt()});s.OnCommand=c=>{if(c.Kind=="visit")s.Manual();};var r=new QuestRunner(s,j,Recipe(),new());await r.RunAsync();
   Assert.Single(s.Commands,c=>c.Kind=="visit"&&c.Text=="Dislaidir");Assert.DoesNotContain(s.Commands,c=>c.Kind=="visit"&&c.Text is "Mioas" or "Berg");
  }
  [Fact] public async Task Unknown_legend_cannot_complete_from_stale_final_mark() {

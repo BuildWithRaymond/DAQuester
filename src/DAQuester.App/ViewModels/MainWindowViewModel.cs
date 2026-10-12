@@ -148,6 +148,7 @@ public sealed class MainWindowViewModel : ObservableObject
  public AsyncCommand DownloadUpdateCommand { get; }
  public AsyncCommand InstallUpdateCommand { get; }
  public AsyncCommand BrowseClientCommand { get; }
+ public AsyncCommand ChangeChoicesCommand { get; }
  public MainWindowViewModel(DesktopRuntime runtime)
  {
   Runtime = runtime; clientPath = runtime.Settings.ClientPath; automaticUpdateChecks = runtime.Settings.AutomaticUpdateChecks;
@@ -165,6 +166,7 @@ public sealed class MainWindowViewModel : ObservableObject
   ResumeQuestCommand = Command(_ => runtime.StartQuestAsync(CharacterName, JourneyQuestId, true), _ => CanStartQuest(true));
   PauseQuestCommand = Command(_ => runtime.PauseQuestAsync(CharacterName, "Paused by player"), _ => CanPauseQuest);
   StopQuestCommand = Command(_ => runtime.PauseQuestAsync(CharacterName, "Stopped; progress saved"), _ => CanPauseQuest);
+  ChangeChoicesCommand = Command(_ => runtime.ChangeQuestChoicesAsync(CharacterName, JourneyQuestId), _ => CanChangeChoices);
   SaveAccountsCommand = Command(_ => { SaveAccounts(); return Task.CompletedTask; });
   SaveSettingsCommand = Command(_ => { SaveSettings(); return Task.CompletedTask; });
   CheckUpdatesCommand = Command(_ => runtime.Updates.CheckAsync(), _ => CanCheckUpdates);
@@ -180,6 +182,8 @@ public sealed class MainWindowViewModel : ObservableObject
  }
  public async Task RunAsync(Func<Task> action) { try { await action(); } catch (Exception e) { ReportError(e); } finally { Refresh(); } }
  public void ReportError(Exception error) { ErrorMessage = DesktopRuntime.PlayerReason(error.Message); Runtime.Log(error.Message); Refresh(); }
+ public bool ChangeChoicesVisible => DesktopRuntime.HasChoices(JourneyQuestId);
+ bool CanChangeChoices => ChangeChoicesVisible && CharacterName.Length > 0 && Runtime.Snapshot(CharacterName).Connected && !Runtime.QueueReserves(CharacterName) && !Runtime.IsRunning(CharacterName) && !Runtime.RunnerBusy(CharacterName) && !Runtime.ControlActions.Contains(CharacterName, StringComparer.OrdinalIgnoreCase) && !Runtime.ChoicesLocked(CharacterName, JourneyQuestId);
  bool CanPauseQuest => Runtime.RunningQuestId(CharacterName) is not null || Runtime.IsRunning(CharacterName) || Runtime.RunnerBusy(CharacterName) || Runtime.ControlActions.Contains(CharacterName, StringComparer.OrdinalIgnoreCase) || QueueLocked;
  bool CanStartQuest(bool resume)
  {
@@ -207,7 +211,7 @@ public sealed class MainWindowViewModel : ObservableObject
   "mundane-birth" => ("Choose your season, age and hometown. Riona records a lasting birth legend.", "MILETH · RIONA"),
   "perfect-hairstyle" => ("Visit Eeva for a ponytail. Weekly attempts continue until your own Suomi legend is awarded.", "SUOMI · EEVA"),
   "entered-muisir-village" => ("Bring Kiril five Undine Mushrooms. Verify your Muisir legend and four Shrinking Potions.", "UNDINE · KIRIL"),
-  "emerald-dawn" => ("Recover an Emerald Knight Insignia, then choose Knights, Necromancers, or sale. Optional visit to Gans.", "SUOMI · SHINEWOOD"),
+  "emerald-dawn" => ("Recover an Emerald Knight Insignia, hear Berg's story, then give it to the Knights, the Necromancers, or sell it to Skan.", "SUOMI · SHINEWOOD"),
   "shinewood-faerie" => ("Try for a Pet Faerie and learn eligible missing spells. Prepare a safe return before entering the forest.", "SHINEWOOD · FAERIE"),
   _ => ("This quest is a guide for manual play. Open its source for the full journey.", "QUEST GUIDE")
  };
@@ -234,12 +238,12 @@ public sealed class MainWindowViewModel : ObservableObject
  {
   var rows = new List<HistoryItemVM>(); foreach (string character in Runtime.Characters)
   {
-   var queue = Runtime.Queue(character); rows.AddRange(queue.History.Select(h => new HistoryItemVM(character, Runtime.QuestName(h.Quest), h.Outcome switch { "Completed" => "Journey completed", "AttemptCompleted" => "Attempt recorded", "PermanentlyCompleted" => "Goal completed", _ => h.Outcome }, h.At, DesktopRuntime.PlayerReason(h.Summary))));
+   var queue = Runtime.Queue(character); rows.AddRange(queue.History.Select(h => new HistoryItemVM(character, Runtime.QuestName(h.Quest), h.Outcome switch { "Completed" => "Completed", "AttemptCompleted" => "Attempt recorded", "PermanentlyCompleted" => "Completed", _ => h.Outcome }, h.At, DesktopRuntime.PlayerReason(h.Summary))));
    foreach (var recipe in Runtime.Recipes.Values)
    {
     var job = Runtime.Job(character, recipe.Id);
-    foreach (var attempt in job.HairstyleAttempts) if (!queue.History.Any(h => h.Quest == recipe.Id && h.At == attempt.CompletedAt)) rows.Add(new(character, recipe.Name, attempt.LegendReward ? "Goal completed" : "Attempt recorded", attempt.CompletedAt, string.Join(" · ", attempt.Rewards.Select(r => $"{r.Value:N0} {r.Key}"))));
-    if (job.CompletedAt is { } at && !queue.History.Any(h => h.Quest == recipe.Id && h.At == at)) rows.Add(new(character, recipe.Name, QuestRunPolicy.Finished(recipe, job) ? "Goal completed" : "Attempt recorded", at, DesktopRuntime.PlayerReason(job.CompletionText ?? "Verified outcome saved")));
+    foreach (var attempt in job.HairstyleAttempts) if (!queue.History.Any(h => h.Quest == recipe.Id && h.At == attempt.CompletedAt)) rows.Add(new(character, recipe.Name, attempt.LegendReward ? "Completed" : "Attempt recorded", attempt.CompletedAt, string.Join(" · ", attempt.Rewards.Select(r => $"{r.Value:N0} {r.Key}"))));
+    if (job.CompletedAt is { } at && !queue.History.Any(h => h.Quest == recipe.Id && h.At == at)) rows.Add(new(character, recipe.Name, QuestRunPolicy.Finished(recipe, job) ? "Completed" : "Attempt recorded", at, DesktopRuntime.PlayerReason(job.CompletionText ?? "Verified outcome saved")));
    }
   }
   Sync(History, rows.DistinctBy(r => (r.Character, r.Quest, r.At)).OrderByDescending(r => r.At).ToArray());

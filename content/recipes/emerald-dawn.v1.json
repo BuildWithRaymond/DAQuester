@@ -45,11 +45,6 @@
     {
       "Id": "recover",
       "Action": "emerald-recover",
-      "Next": "druid"
-    },
-    {
-      "Id": "druid",
-      "Action": "emerald-druid",
       "Next": "deliver"
     },
     {

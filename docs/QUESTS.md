@@ -41,9 +41,13 @@ Priest/Wizard learning and a full automated live visit still need validation.
 Other quest conversations and all test transports remain synthetic.
 
 **Emerald Dawn** is available in the selector and library. Requires level 11+.
-Choose **Aid the Emerald Knights**, **Aid the Necromancer Order**, or **Sell to
-Skan** before starting. **Visit Gans first** is optional and retains the insignia;
-Gans gives no reward. Choices persist and cannot change after quest speech begins.
+Choose **Emerald Knights**, **Necromancer Order**, or **Rogue Order** before
+starting; the dialog lists each path's legend marks and gold. The choice can be
+changed with **Change choices** until the insignia is handed over. Gans (the
+Druid line) is not offered: he neither takes the insignia nor rewards anything.
+Verified live 2026-10-11: Emerald Knights gave the "Aided the Emerald Knights"
+mark and no gold; Necromancer Order gave 20,000 gold plus "Aided the
+Necromancer Order"; Rogue Order paid 1,000,000 gold and no mark.
 
 The runner visits Mioas in Suomi Tavern (Adventures), speaks with Berg (Emerald
 Knights), collects one Emerald Knight Insignia in Shinewood Entrance, then returns

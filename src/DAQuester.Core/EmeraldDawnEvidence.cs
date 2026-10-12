@@ -16,8 +16,10 @@ public static class EmeraldDawnEvidence {
  // Recognition is guide-derived; IDs and navigation buttons are observed at runtime.
  public static bool IsDiscoveryPopup(CharacterSnapshot s)=>s.Connected&&s.Map==542&&s.Dialog is {IsPursuit:true,Type:0,Prompt:null} d&&
   d.Generation==s.Generation&&d.Revision>0&&d.Revision<=s.Revision&&d.EntityType is 1 or 2 or 4&&d.Choices.Length==0&&d.Text.Contains(Insignia,StringComparison.OrdinalIgnoreCase);
+ // Skan's sale is proven by the server's own words, not a gold difference (live 2026-10-11).
+ public const string RogueSaleNotice="You received 1,000,000 gold coins.";
  public static bool IsNotice(ServerNotice notice,int? map)=>map is 413 or 414 or 542 or 2052 or 660 or 425 or 701&&notice.Type is 1 or 2 or 3 or 4 or 6&&
-  (notice.Text.Contains("Emerald Knight",StringComparison.OrdinalIgnoreCase)||notice.Text.Contains("insignia",StringComparison.OrdinalIgnoreCase));
+  (notice.Text.Contains("Emerald Knight",StringComparison.OrdinalIgnoreCase)||notice.Text.Contains("insignia",StringComparison.OrdinalIgnoreCase)||map==425&&notice.Text==RogueSaleNotice);
  public static string? Mark(CharacterSnapshot s,string legend)=>s.LegendsKnown?s.Legends.FirstOrDefault(l=>Matches(l,legend)):null;
  public static bool Matches(string value,string legend)=>value.Equals(legend,StringComparison.OrdinalIgnoreCase)||value.StartsWith(legend+" -",StringComparison.OrdinalIgnoreCase);
  public static string? FinalMark(CharacterSnapshot s)=>Mark(s,Knights)??Mark(s,Necromancers);
@@ -29,12 +31,19 @@ public static class EmeraldDawnEvidence {
  public static int Count(Transaction t)=>t.InventoryCounts.FirstOrDefault(p=>p.Key.Equals(Insignia,StringComparison.OrdinalIgnoreCase)).Value;
  public static bool Fresh(CharacterSnapshot s,Transaction t)=>s.Connected&&s.InventoryKnown&&s.LegendsKnown&&s.LegendsRevision>0&&
   (s.Generation!=t.Generation||s.LegendsRevision>t.Revision);
- public static bool ProvesRecovery(CharacterSnapshot s,Transaction t)=>t.Kind is "emerald-recovery-dialog" or "emerald-recover"&&t.InventoryBaselineKnown&&Fresh(s,t)&&
-  Count(t)>=1&&s.Count(Insignia)==Count(t)&&HasRecovery(s)&&!t.Legends.Any(RecoveryMatches);
+ // The outcome only matters at delivery; everything before it is the same for all three.
+ public static bool ChoicesLocked(QuestJob job)=>job.CompletedAt is not null||job.Pending?.Kind is "emerald-delivery-dialog" or "emerald-deliver";
+ public static bool ProvesRecovery(CharacterSnapshot s,Transaction t)=>t.Kind is "emerald-recovery-dialog" or "emerald-recover"&&t.InventoryBaselineKnown&&Count(t)>=1&&
+  (Fresh(s,t)&&s.Count(Insignia)==Count(t)&&HasRecovery(s)&&!t.Legends.Any(RecoveryMatches)
+  // Berg re-tells the whole story on request; a pre-existing mark counts once his last page has been seen (live 2026-10-11).
+  ||t.TerminalSeen&&t.Legends.Any(RecoveryMatches)&&s.Connected&&s.InventoryKnown&&s.LegendsKnown&&s.Count(Insignia)==Count(t)&&HasRecovery(s));
  public static bool ProvesDelivery(CharacterSnapshot s,Transaction t,EmeraldDawnOptions options) {
-  if(t.Kind is not ("emerald-delivery-dialog" or "emerald-deliver")||!t.InventoryBaselineKnown||!Fresh(s,t)||Count(t)<1||s.Count(Insignia)!=Count(t)-1||!HasRecovery(s))return false;
-  if(OutcomeLegend(options.Outcome) is {} legend)return Mark(s,legend) is not null&&!t.Legends.Any(l=>Matches(l,legend));
-  return options.Outcome=="rogue-order"&&t.Kind=="emerald-deliver"&&s.Gold is {} gold&&(ulong)gold==(ulong)t.Gold+1000000&&FinalMark(s) is null;
+  if(t.Kind is not ("emerald-delivery-dialog" or "emerald-deliver")||!t.InventoryBaselineKnown||Count(t)<1)return false;
+  // The sale message arrives with the hand-over; it must be seen on the same connection after the hand-over began.
+  if(options.Outcome=="rogue-order")return s.Connected&&s.InventoryKnown&&s.Generation==t.Generation&&s.Count(Insignia)==Count(t)-1&&
+   s.Notice is {} n&&n.Text==RogueSaleNotice&&n.Generation==t.Generation&&n.Revision>t.Revision&&s.Map==425;
+  if(!Fresh(s,t)||s.Count(Insignia)!=Count(t)-1||!HasRecovery(s))return false;
+  return OutcomeLegend(options.Outcome) is {} legend&&Mark(s,legend) is not null&&!t.Legends.Any(l=>Matches(l,legend));
  }
  public static Eligibility Eligibility(CharacterSnapshot s) {
   if(!s.Connected||s.Name is null||s.Id is null||s.Level is null||s.Hp is null)return new(EligibilityKind.Unknown,"Waiting for connected identity, level and health.");
