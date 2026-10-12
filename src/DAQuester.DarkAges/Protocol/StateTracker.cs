@@ -43,7 +43,7 @@ public class StateTracker(long generation)
     public event Action<byte, string>? ServerMessage;
     public static bool IsActiveMessage(byte messageType) => messageType == 3;
     public void Identity(string name, uint id) => Publish(Snapshot with { Name = name, Id = id, Connected = true, Appearance = Snapshot.Id == id && Snapshot.Name == name ? Snapshot.Appearance : null, Motion = Snapshot.Id == id && Snapshot.Name == name ? Snapshot.Motion : null });
-    public void Disconnect() => Publish(Snapshot with { Connected = false, Appearance = null, Motion = null, Dialog = null, InventoryKnown = false, SpellsKnown = false, Class = null, DisplayClass = null, IsMaster = null, IsPure = null, Mana = null, LegendsKnown = false, Notice = null, Exchange = null, GroundItems = ImmutableDictionary<uint, GroundItem>.Empty });
+    public void Disconnect() => Publish(Snapshot with { Connected = false, Effects = ImmutableDictionary<ushort, byte>.Empty, Appearance = null, Motion = null, Dialog = null, InventoryKnown = false, SpellsKnown = false, Class = null, DisplayClass = null, IsMaster = null, IsPure = null, Mana = null, LegendsKnown = false, Notice = null, Exchange = null, GroundItems = ImmutableDictionary<uint, GroundItem>.Empty });
     void Publish(CharacterSnapshot s)
     {
         Snapshot = s with
@@ -72,10 +72,18 @@ public class StateTracker(long generation)
 
     public void Observe(byte opcode, byte[] payload)
     {
-        if (opcode is not (0x04 or 0x05 or 0x07 or 0x08 or 0x0A or 0x0B or 0x0C or 0x0E or 0x0F or 0x10 or 0x11 or 0x15 or 0x17 or 0x18 or 0x1A or 0x2C or 0x2D or 0x2E or 0x2F or 0x30 or 0x33 or 0x37 or 0x38 or 0x39 or 0x42 or 0x58))
+        if (opcode is not (0x04 or 0x05 or 0x07 or 0x08 or 0x0A or 0x0B or 0x0C or 0x0E or 0x0F or 0x10 or 0x11 or 0x13 or 0x15 or 0x17 or 0x18 or 0x1A or 0x29 or 0x2C or 0x2D or 0x2E or 0x2F or 0x30 or 0x33 or 0x37 or 0x38 or 0x39 or 0x3A or 0x3F or 0x42 or 0x58))
             return;
         // Failed decodes stop automation upstream; raw gameplay still passes through.
-        var m = ServerMessageFactory.Default.Create(new ServerPacket(opcode, payload));
+        IServerMessage? m;
+        try
+        {
+            m = ServerMessageFactory.Default.Create(new ServerPacket(opcode, payload));
+        }
+        catch (Exception) when (opcode is 0x13 or 0x29 or 0x3A or 0x3F)
+        {
+            return; // Combat-only state; an odd one never stops a quest.
+        }
         var s = Snapshot;
         long rev = s.Revision + 1;
         switch (m)
@@ -94,6 +102,8 @@ public class StateTracker(long generation)
                     Level = p.Level ?? s.Level,
                     Gold = p.Gold ?? s.Gold,
                     Experience = p.TotalExperience ?? s.Experience,
+                    AbilityLevel = p.AbilityLevel ?? s.AbilityLevel,
+                    ToNextLevel = p.ToNextLevel ?? s.ToNextLevel,
                     Hp = p.Health ?? s.Hp,
                     Mana = p.Mana ?? s.Mana,
                     Weight = p.Weight ?? s.Weight,
@@ -107,7 +117,10 @@ public class StateTracker(long generation)
                     Notice = MundaneBirthEvidence.Matches(notice) || MuisirEvidence.IsKirilNotice(notice, s.Map) || EmeraldDawnEvidence.IsNotice(notice, s.Map) || SickChildEvidence.IsNotice(notice, s.Map) || AltarWorshipEvidence.IsNotice(notice, s.Map) ? notice : null
                 };
                 if (IsActiveMessage((byte)p.MessageType))
+                {
+                    s = CombatReply(s, p.Message, rev);
                     ServerMessage?.Invoke((byte)p.MessageType, p.Message);
+                }
                 break;
             case ServerAddInventoryMessage p:
                 s = s with
@@ -196,6 +209,7 @@ public class StateTracker(long generation)
                     MapName = p.Name,
                     Position = null,
                     Dialog = p.MapId == s.Map ? s.Dialog : null,
+                    SkillsBlockedOnMap = p.MapId == s.Map && s.SkillsBlockedOnMap,
                     Entities = ImmutableDictionary<uint, Entity>.Empty,
                     GroundItems = ImmutableDictionary<uint, GroundItem>.Empty
                 };
@@ -213,9 +227,18 @@ public class StateTracker(long generation)
                     }
 
                     var creature = e as ServerCreatureEntity;
+                    var seen = s.Entities.GetValueOrDefault(e.Id);
                     s = s with
                     {
-                        Entities = s.Entities.SetItem(e.Id, new(e.Id, creature?.Name ?? "", new(e.X, e.Y), creature is not null && creature.CreatureType != CreatureType.Passable))
+                        Entities = s.Entities.SetItem(e.Id, new(e.Id, creature?.Name ?? "", new(e.X, e.Y), creature is not null && creature.CreatureType != CreatureType.Passable)
+                        {
+                            Sprite = e.Sprite,
+                            Kind = (byte)(creature?.CreatureType ?? CreatureType.Solid),
+                            Direction = (byte)(creature?.Direction ?? 0),
+                            LastStep = seen?.LastStep ?? default,
+                            FirstSeen = seen?.FirstSeen ?? DateTimeOffset.UtcNow,
+                            HealthPercent = seen?.HealthPercent ?? 100
+                        })
                     };
                 }
 
@@ -239,6 +262,52 @@ public class StateTracker(long generation)
                 s = s with
                 {
                     Motion = new((byte)p.Direction, 0, DateTimeOffset.UtcNow, 0, false)
+                };
+                break;
+            case ServerChangeDirectionMessage p when (byte)p.Direction <= 3 && s.Entities.TryGetValue(p.EntityId, out var turned):
+                s = s with
+                {
+                    Entities = s.Entities.SetItem(p.EntityId, turned with
+                    {
+                        Direction = (byte)p.Direction
+                    })
+                };
+                break;
+            case ServerDamageEffectMessage p when s.Entities.TryGetValue(p.EntityId, out var struck):
+                s = s with
+                {
+                    Entities = s.Entities.SetItem(p.EntityId, struck with
+                    {
+                        HealthPercent = p.Percent
+                    })
+                };
+                break;
+            case ServerEffectLayerMessage p:
+                // 263/278: a killing blow; 268: our own target reflected an attack with asgall (Talos AnimationHandler).
+                if (p.TargetAnimation is 263 or 278 && s.Entities.TryGetValue(p.TargetId, out var felled))
+                    s = s with
+                    {
+                        Entities = s.Entities.SetItem(p.TargetId, felled with
+                        {
+                            HealthPercent = 0
+                        })
+                    };
+                if (p.TargetAnimation == 268 && p.TargetId == s.Id && p.SourceId == s.Id)
+                    s = s with
+                    {
+                        AsgallReflectRevision = rev
+                    };
+                break;
+            case ServerSpelledMessage p:
+                s = s with
+                {
+                    Effects = p.Duration == StatusEffectDuration.None ? s.Effects.Remove(p.Icon) : s.Effects.SetItem(p.Icon, (byte)p.Duration)
+                };
+                break;
+            case ServerActionDelayMessage p when p.AbilityType == AbilityType.Skill && s.Skills.TryGetValue(p.Slot, out var cooled):
+                s = s with
+                {
+                    SkillCooldowns = s.SkillCooldowns.SetItem(SkillDatabase.BaseName(cooled), new(DateTimeOffset.UtcNow, p.Seconds))
                 };
                 break;
             case ServerMotionMessage p when p.EntityId == s.Id:
@@ -265,7 +334,9 @@ public class StateTracker(long generation)
                     {
                         Entities = s.Entities.SetItem(p.EntityId, entity with
                         {
-                            Position = GridStep(new(p.OriginX, p.OriginY), (byte)p.Direction)
+                            Position = GridStep(new(p.OriginX, p.OriginY), (byte)p.Direction),
+                            Direction = (byte)p.Direction <= 3 ? (byte)p.Direction : entity.Direction,
+                            LastStep = DateTimeOffset.UtcNow
                         })
                     };
                 break;
@@ -309,6 +380,15 @@ public class StateTracker(long generation)
         Publish(s);
         Observed?.Invoke(opcode, payload);
     }
+
+    // Exact replies the basher reacts to (Talos ActiveMessageHandler).
+    static CharacterSnapshot CombatReply(CharacterSnapshot s, string text, long rev) => text switch
+    {
+        "You can't use skills here." => s with { SkillsBlockedOnMap = true },
+        "You can't attack." or "You cannot attack." => s with { CantAttackRevision = rev },
+        "You can't move freely if you use it." or "You can't use the weapon when holding it." => s with { SkillRefusedRevision = rev },
+        _ => s
+    };
 
     public static Tile GridStep(Tile p, byte direction) => direction switch
     {

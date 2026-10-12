@@ -30,12 +30,22 @@ public partial class MainWindow : Window
         this.viewModel = viewModel;
         DataContext = viewModel;
         SizeChanged += (_, _) => AdaptLayout();
+        viewModel.CharacterAdded += ShowNewCharacter;
         Opened += (_, _) =>
         {
             AdaptLayout();
             ApplyDarkChrome(this);
         };
     }
+
+    // The new card is laid out after this pass; scroll to it and put the cursor in its name box.
+    void ShowNewCharacter(CharacterItemVM item) => Dispatcher.UIThread.Post(() =>
+    {
+        if (this.FindControl<ItemsControl>("characterList")?.ContainerFromItem(item) is not Control card)
+            return;
+        card.BringIntoView();
+        card.GetVisualDescendants().OfType<TextBox>().FirstOrDefault(t => t.Name == "characterName")?.Focus();
+    }, DispatcherPriority.Loaded);
 
     void AdaptLayout()
     {

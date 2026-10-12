@@ -22,6 +22,9 @@ public sealed partial class MainWindowViewModel : ObservableObject
     CharacterItemVM? selectedCharacter;
     QuestItemVM? selectedQuest;
     public ObservableCollection<CharacterItemVM> Characters { get; } = [];
+    // The header switcher lists characters by name; the Characters page keeps their order, so a new card stays last.
+    public ObservableCollection<CharacterItemVM> SwitcherCharacters { get; } = [];
+    bool sortingSwitcher;
     public ObservableCollection<QuestItemVM> Quests { get; } = [];
     public ObservableCollection<QueueItemVM> QueueItems { get; } = [];
     public ObservableCollection<HistoryItemVM> History { get; } = [];
@@ -31,9 +34,27 @@ public sealed partial class MainWindowViewModel : ObservableObject
         get => selectedCharacter;
         set
         {
+            // Re-sorting moves the selected row, and the switcher briefly reports no selection.
+            if (sortingSwitcher && value is null)
+                return;
             if (Set(ref selectedCharacter, value))
                 Refresh();
         }
+    }
+
+    void SortSwitcher()
+    {
+        sortingSwitcher = true;
+        try
+        {
+            Sync(SwitcherCharacters, Characters.OrderBy(c => c.DisplayName, StringComparer.OrdinalIgnoreCase).ToArray());
+        }
+        finally
+        {
+            sortingSwitcher = false;
+        }
+
+        Raise(nameof(SelectedCharacter));
     }
 
     public QuestItemVM? SelectedQuest
@@ -158,6 +179,8 @@ public sealed partial class MainWindowViewModel : ObservableObject
     }
 
     public event Action? RequestClose;
+    // Raised after Add character so the view can bring the new card into view.
+    public event Action<CharacterItemVM>? CharacterAdded;
     public Func<Task<string?>>? PickClientAsync
     {
         get;
@@ -261,9 +284,11 @@ public sealed partial class MainWindowViewModel : ObservableObject
         {
             var item = new CharacterItemVM(this, "");
             Characters.Add(item);
+            SortSwitcher();
             SelectedCharacter = item;
             AccountEdited();
             Raise(nameof(CharactersEmpty));
+            CharacterAdded?.Invoke(item);
         });
         DiscardAccountsCommand = new(_ =>
         {
@@ -414,6 +439,7 @@ public sealed partial class MainWindowViewModel : ObservableObject
         try
         {
             LoadCharacters();
+            SortSwitcher();
             if (selectedCharacter is null)
                 selectedCharacter = Characters.FirstOrDefault();
             var queue = QueueState;
