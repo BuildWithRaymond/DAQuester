@@ -38,6 +38,7 @@ public sealed partial class ProxyConnection(TcpClient client, TcpClient remote, 
     public event Action<ProxyConnection>? Authenticated;
     public event Action<ClientPacket>? DialogAction;
     public event Action<ClientPacket>? ExchangeAction;
+    public event Action<ClientPacket>? DropAction;
     public bool Connected => !lifetime.IsCancellationRequested && client.Connected && remote.Connected;
 
     public async Task RunAsync(CancellationToken cancellation)
@@ -172,6 +173,8 @@ public sealed partial class ProxyConnection(TcpClient client, TcpClient remote, 
                             DialogAction?.Invoke(plain);
                         if ((byte)plain.Command == 0x4A)
                             ExchangeAction?.Invoke(plain);
+                        if ((byte)plain.Command == 0x08)
+                            DropAction?.Invoke(plain);
                         var encrypted = clientCrypto.Encrypt(plain, sequence);
                         if (ClientPacketEncryptor.IsEncrypted((byte)plain.Command))
                             sequence++;
@@ -326,6 +329,8 @@ public sealed partial class ProxyConnection(TcpClient client, TcpClient remote, 
                 DialogAction?.Invoke(packet);
             if ((byte)packet.Command == 0x4A)
                 ExchangeAction?.Invoke(packet);
+            if ((byte)packet.Command == 0x08)
+                DropAction?.Invoke(packet);
             bool movement = (byte)packet.Command == 0x06 && packet.Data.Length >= 1;
             if (movement)
                 await toClient.WaitAsync(token);

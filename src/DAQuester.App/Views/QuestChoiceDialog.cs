@@ -40,7 +40,7 @@ public sealed class QuestChoiceDialog : Window
             "error"
         }
     };
-    public QuestChoiceDialog(string character, QuestDefinition quest, QuestJob job, string? routeError, SickChildChoiceInfo? sickChild = null)
+    public QuestChoiceDialog(string character, QuestDefinition quest, QuestJob job, string? routeError, SickChildChoiceInfo? sickChild = null, string? characterClass = null)
     {
         Title = quest.Name + " · " + character;
         Width = 600;
@@ -106,6 +106,9 @@ public sealed class QuestChoiceDialog : Window
                 break;
             case "shinewood-faerie":
                 BuildFaerie(routeError);
+                break;
+            case AltarWorshipEvidence.Id:
+                BuildAltar(character, characterClass);
                 break;
             case SickChildEvidence.Id or SickChildEvidence.AnamanId:
                 BuildSickChild(character, job, sickChild ?? new(0, true, null, []), SickChildEvidence.For(quest.Id)!);
@@ -334,6 +337,23 @@ public sealed class QuestChoiceDialog : Window
         };
     }
 
+    void BuildAltar(string character, string? characterClass)
+    {
+        Height = 400;
+        MinHeight = 340;
+        body.Children.Add(new TextBlock { Text = character + " won't get the legend mark", Classes = { "section", "gold" }, TextWrapping = TextWrapping.Wrap });
+        var warning = Copy((characterClass is null ? "" : character + " is a " + characterClass + ". ") + "Only Priests earn \"" + AltarWorshipEvidence.Legend + "\".");
+        warning.Name = "altarNoMarkWarning";
+        body.Children.Add(warning);
+        body.Children.Add(Copy("After 10 offerings, 3 hours apart, " + character + " gets " + AltarWorshipEvidence.Rewards(characterClass) + ". Each offering costs 750 gold for a Leather Shield, 7,500 in total."));
+        confirm.Name = "altarContinue";
+        confirm.Content = "Continue for experience";
+        confirm.IsEnabled = true;
+        confirm.IsDefault = true;
+        cancel.Name = "altarCancel";
+        confirm.Click += (_, _) => Close(new QuestChoiceResult(AltarNoMarkAccepted: true));
+    }
+
     void BuildSickChild(string character, QuestJob job, SickChildChoiceInfo info, PaulinFlower flower)
     {
         Height = 640;
@@ -435,7 +455,7 @@ public sealed class QuestChoiceDialog : Window
         };
     }
 
-    public static Task<QuestChoiceResult?> ShowChoiceAsync(Window owner, string character, QuestDefinition quest, QuestJob job, string? routeError, SickChildChoiceInfo? sickChild = null) => new QuestChoiceDialog(character, quest, job, routeError, sickChild).ShowDialog<QuestChoiceResult?>(owner);
+    public static Task<QuestChoiceResult?> ShowChoiceAsync(Window owner, string character, QuestDefinition quest, QuestJob job, string? routeError, SickChildChoiceInfo? sickChild = null, string? characterClass = null) => new QuestChoiceDialog(character, quest, job, routeError, sickChild, characterClass).ShowDialog<QuestChoiceResult?>(owner);
     public static async Task ShowErrorAsync(Window owner, string message, string title = "DAQuester")
     {
         var close = new Button

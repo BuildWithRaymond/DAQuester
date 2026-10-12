@@ -7,10 +7,19 @@ namespace DAQuester.Core;
 // Planning and appearance memory are deliberately separate from live quest evidence.
 public sealed record CharacterMemory
 {
-    public CharacterAppearance? Appearance { get; init; }
-    public DateTimeOffset? AppearanceObservedAt { get; init; }
-    public string Character { get;
-        init; } = "";
+    public CharacterAppearance? Appearance
+    {
+        get; init;
+    }
+    public DateTimeOffset? AppearanceObservedAt
+    {
+        get; init;
+    }
+    public string Character
+    {
+        get;
+        init;
+    } = "";
     public int? Level
     {
         get;
@@ -21,8 +30,16 @@ public sealed record CharacterMemory
         get;
         init;
     }
-    public string[] Legends { get;
-        init; } = [];
+    // Base class from the last profile seen, so planning can warn while the character is offline.
+    public string? Class
+    {
+        get; init;
+    }
+    public string[] Legends
+    {
+        get;
+        init;
+    } = [];
     public DateTimeOffset? LegendsObservedAt
     {
         get;
@@ -122,6 +139,11 @@ public sealed class FileCharacterMemory(string directory, string serverProfile)
                 {
                     Level = snapshot.Level,
                     LevelObservedAt = DateTimeOffset.UtcNow
+                };
+            if (snapshot.Class is { } characterClass && characterClass != saved.Class)
+                next = next with
+                {
+                    Class = characterClass
                 };
             if (fresh)
                 next = next with

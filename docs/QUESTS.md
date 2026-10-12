@@ -206,6 +206,26 @@ white flower that has been picked". DAQuester keeps one pick record per
 character for both quests. The swamp can also blind for about 17 seconds ("All
 goes black" … "You can see again.").
 
+**Altar Worship** drops an item worth more than 500 gold on the Mileth Altar (map
+500) every 3 hours; Vorlof reports the mark after 10 such offerings. DAQuester
+buys a Leather Shield from Torrance (Mileth Armor Shop, map 133, entity at (3,5)):
+"Buy" opens his shop list, and the shield is bought by naming it, 750 gold each,
+one per request. A Leather Shield already in the bag is offered first. The shield
+is dropped from (33,53) onto the altar at (31,52); (31,53) also works. Every
+offering is answered with "25 experience!" and "You feel a touch of light around
+you" (type 3) while the shield leaves the bag; that pair is the proof. Verified
+live 2026-10-12 on Ferda. The server accepted a second shield five seconds after
+the first with the same reply, so it doesn't enforce the spacing; DAQuester waits
+3 hours after each confirmed offering anyway, as Vorlof's testing did. The reply
+to the 10th offering has not been seen: Priests complete when "Mileth Altar
+Worshipper" is in their own legend, other classes when a new Red Jade Ring
+arrives. If neither shows up the run stops with "10 offerings made, no reward
+seen" and never drops an 11th. Only Priests can earn the mark; other classes may
+run it for the experience after confirming once. Only the first offering has run
+live through DAQuester (Ferda, 2026-10-12); a full 10-offering run has not been
+live-tested, so the 3-hour waits, the 10th offering and the reward check are
+proven by tests only.
+
 ## Current operational limits
 
 Three characters completed Spare a Stick in game. Nuclear received Stick,

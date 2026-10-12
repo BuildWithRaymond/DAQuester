@@ -1,6 +1,7 @@
 using System.Collections.Immutable;
 
 namespace DAQuester.Core;
+
 public record Tile(int X, int Y);
 public record Item(byte Slot, string Name, uint Quantity);
 public enum EligibilityKind
@@ -13,29 +14,98 @@ public enum EligibilityKind
 public record Eligibility(EligibilityKind Kind, string Reason);
 public record CharacterSnapshot
 {
-    public CharacterAppearance? Appearance { get; init; }
-    public CharacterMotion? Motion { get; init; }
-    public long Generation { get; init; }
-    public long Revision { get; init; }
-    public string? Name { get; init; }
-    public uint? Id { get; init; }
-    public bool Connected { get; init; }
-    public int? Level { get; init; }
-    public uint? Gold { get; init; }
-    public uint? Experience { get; init; }
-    public uint? Hp { get; init; }
-    public int? Weight { get; init; }
-    public int? MaxWeight { get; init; }
-    public uint? Mana { get; init; }
-    public string? Class { get; init; }
-    public string? DisplayClass { get; init; }
-    public bool? IsMaster { get; init; }
-    public bool? IsPure { get; init; }
-    public bool SpellsKnown { get; init; }
-    public string? MapName { get; init; }
-    public int? Map { get; init; }
-    public Tile? Position { get; init; }
-    public bool InventoryKnown { get; init; }
+    public CharacterAppearance? Appearance
+    {
+        get; init;
+    }
+    public CharacterMotion? Motion
+    {
+        get; init;
+    }
+    public long Generation
+    {
+        get; init;
+    }
+    public long Revision
+    {
+        get; init;
+    }
+    public string? Name
+    {
+        get; init;
+    }
+    public uint? Id
+    {
+        get; init;
+    }
+    public bool Connected
+    {
+        get; init;
+    }
+    public int? Level
+    {
+        get; init;
+    }
+    public uint? Gold
+    {
+        get; init;
+    }
+    public uint? Experience
+    {
+        get; init;
+    }
+    public uint? Hp
+    {
+        get; init;
+    }
+    public int? Weight
+    {
+        get; init;
+    }
+    public int? MaxWeight
+    {
+        get; init;
+    }
+    public uint? Mana
+    {
+        get; init;
+    }
+    public string? Class
+    {
+        get; init;
+    }
+    public string? DisplayClass
+    {
+        get; init;
+    }
+    public bool? IsMaster
+    {
+        get; init;
+    }
+    public bool? IsPure
+    {
+        get; init;
+    }
+    public bool SpellsKnown
+    {
+        get; init;
+    }
+    public string? MapName
+    {
+        get; init;
+    }
+    public int? Map
+    {
+        get; init;
+    }
+    public Tile? Position
+    {
+        get; init;
+    }
+    public bool InventoryKnown
+    {
+        get; init;
+    }
     public ImmutableDictionary<byte, Item> Inventory { get; init; } = ImmutableDictionary<byte, Item>.Empty;
 
     public int Count(string name) => checked((int)Inventory.Values.Where(i => i.Name.Equals(name, StringComparison.OrdinalIgnoreCase)).Sum(i => (long)i.Quantity));
@@ -45,11 +115,26 @@ public record CharacterSnapshot
     public ImmutableDictionary<byte, string> Skills { get; init; } = ImmutableDictionary<byte, string>.Empty;
     public ImmutableDictionary<byte, string> Spells { get; init; } = ImmutableDictionary<byte, string>.Empty;
     public ImmutableArray<string> Legends { get; init; } = [];
-    public bool LegendsKnown { get; init; }
-    public long LegendsRevision { get; init; }
-    public Dialog? Dialog { get; init; }
-    public ServerNotice? Notice { get; init; }
-    public Exchange? Exchange { get; init; }
+    public bool LegendsKnown
+    {
+        get; init;
+    }
+    public long LegendsRevision
+    {
+        get; init;
+    }
+    public Dialog? Dialog
+    {
+        get; init;
+    }
+    public ServerNotice? Notice
+    {
+        get; init;
+    }
+    public Exchange? Exchange
+    {
+        get; init;
+    }
 }
 
 // Party 0 is this character, 1 the trade partner (live 2026-10-11).
@@ -57,25 +142,52 @@ public record ExchangeItem(byte Party, string Name);
 public record Exchange(long Generation, long Revision, uint PartnerId, string PartnerName)
 {
     public ImmutableArray<ExchangeItem> Items { get; init; } = [];
-    public uint OwnGold { get; init; }
-    public uint PartnerGold { get; init; }
-    public bool OwnAccepted { get; init; }
-    public bool PartnerAccepted { get; init; }
-    public bool Cancelled { get; init; }
-    public string? Message { get; init; }
+    public uint OwnGold
+    {
+        get; init;
+    }
+    public uint PartnerGold
+    {
+        get; init;
+    }
+    public bool OwnAccepted
+    {
+        get; init;
+    }
+    public bool PartnerAccepted
+    {
+        get; init;
+    }
+    public bool Cancelled
+    {
+        get; init;
+    }
+    public string? Message
+    {
+        get; init;
+    }
 }
 
 public record ServerNotice(long Generation, long Revision, byte Type, string Text, DateTimeOffset ObservedAt);
 public record Entity(uint Id, string Name, Tile Position, bool Blocks)
 {
-    public bool IsPlayer { get; init; }
+    public bool IsPlayer
+    {
+        get; init;
+    }
 }
 
 public record GroundItem(uint Id, ushort Sprite, Tile Position);
 public record DialogChoice(string Text, ushort Pursuit, byte Option);
+public record ShopItem(string Name, uint Price);
 public record Dialog(long Generation, long Revision, uint EntityId, byte EntityType, string Name, string Text, bool IsPursuit, ushort Pursuit, ushort Step, byte Type, ImmutableArray<DialogChoice> Choices, string? Prompt = null, bool HasNext = false)
 {
-    public DateTimeOffset? ObservedAt { get; init; }
+    public DateTimeOffset? ObservedAt
+    {
+        get; init;
+    }
+    // A merchant's item list (menu type 4); buying names the item instead of choosing an option.
+    public ImmutableArray<ShopItem> Items { get; init; } = [];
 }
 
 public static class StickEligibility

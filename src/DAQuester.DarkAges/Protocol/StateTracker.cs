@@ -6,17 +6,36 @@ using Arbiter.Net.Types;
 using System.Collections.Immutable;
 
 namespace DAQuester.DarkAges.Protocol;
+
 public class StateTracker(long generation)
 {
-    public CharacterSnapshot Snapshot { get; private set; } = new()
+    public CharacterSnapshot Snapshot
+    {
+        get; private set;
+    } = new()
     {
         Generation = generation
     };
-    public ushort Width { get; private set; }
-    public ushort Height { get; private set; }
-    public ServerFieldMapMessage? WorldMap { get; private set; }
-    public long LastMovementRevision { get; private set; }
-    public long LastPositionRevision { get; private set; }
+    public ushort Width
+    {
+        get; private set;
+    }
+    public ushort Height
+    {
+        get; private set;
+    }
+    public ServerFieldMapMessage? WorldMap
+    {
+        get; private set;
+    }
+    public long LastMovementRevision
+    {
+        get; private set;
+    }
+    public long LastPositionRevision
+    {
+        get; private set;
+    }
 
     public event Action<CharacterSnapshot>? Changed;
     public event Action<byte, byte[]>? Observed;
@@ -85,7 +104,7 @@ public class StateTracker(long generation)
                 var notice = new ServerNotice(generation, rev, (byte)p.MessageType, p.Message, DateTimeOffset.UtcNow);
                 s = s with
                 {
-                    Notice = MundaneBirthEvidence.Matches(notice) || MuisirEvidence.IsKirilNotice(notice, s.Map) || EmeraldDawnEvidence.IsNotice(notice, s.Map) || SickChildEvidence.IsNotice(notice, s.Map) ? notice : null
+                    Notice = MundaneBirthEvidence.Matches(notice) || MuisirEvidence.IsKirilNotice(notice, s.Map) || EmeraldDawnEvidence.IsNotice(notice, s.Map) || SickChildEvidence.IsNotice(notice, s.Map) || AltarWorshipEvidence.IsNotice(notice, s.Map) ? notice : null
                 };
                 if (IsActiveMessage((byte)p.MessageType))
                     ServerMessage?.Invoke((byte)p.MessageType, p.Message);
@@ -204,7 +223,10 @@ public class StateTracker(long generation)
             case ServerDrawHumanObjectsMessage p:
                 s = s with
                 {
-                    Entities = p.EntityId == s.Id ? s.Entities.Remove(p.EntityId) : s.Entities.SetItem(p.EntityId, new(p.EntityId, p.Name ?? "", new(p.X, p.Y), true) { IsPlayer = true })
+                    Entities = p.EntityId == s.Id ? s.Entities.Remove(p.EntityId) : s.Entities.SetItem(p.EntityId, new(p.EntityId, p.Name ?? "", new(p.X, p.Y), true)
+                    {
+                        IsPlayer = true
+                    })
                 };
                 if (p.EntityId == s.Id)
                     s = s with
@@ -241,7 +263,10 @@ public class StateTracker(long generation)
                 if (s.Entities.TryGetValue(p.EntityId, out var entity))
                     s = s with
                     {
-                        Entities = s.Entities.SetItem(p.EntityId, entity with { Position = GridStep(new(p.OriginX, p.OriginY), (byte)p.Direction) })
+                        Entities = s.Entities.SetItem(p.EntityId, entity with
+                        {
+                            Position = GridStep(new(p.OriginX, p.OriginY), (byte)p.Direction)
+                        })
                     };
                 break;
             case ServerUserReadyMessage:
@@ -256,7 +281,8 @@ public class StateTracker(long generation)
                 {
                     Dialog = new(generation, rev, p.EntityId ?? 0, (byte)p.EntityType, p.Name ?? "", p.Content ?? "", false, p.PursuitId ?? 0, 0, (byte)p.MenuType, p.MenuChoices.Select((x, i) => new DialogChoice(x.Text, x.PursuitId, (byte)(i + 1))).ToImmutableArray(), p.Prompt)
                     {
-                        ObservedAt = DateTimeOffset.UtcNow
+                        ObservedAt = DateTimeOffset.UtcNow,
+                        Items = p.ItemChoices.Select(x => new ShopItem(x.Name, x.Price)).ToImmutableArray()
                     }
                 };
                 break;
@@ -273,7 +299,10 @@ public class StateTracker(long generation)
                 WorldMap = p;
                 break;
             case ServerExchangeMessage p:
-                s = s with { Exchange = Trade(s.Exchange, p, rev) };
+                s = s with
+                {
+                    Exchange = Trade(s.Exchange, p, rev)
+                };
                 break;
         }
 

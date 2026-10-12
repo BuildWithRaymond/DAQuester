@@ -30,7 +30,9 @@ public sealed partial class DesktopRuntime
         if (QuestRunPolicy.NextAttempt(quest, job) is { } due && due > DateTimeOffset.UtcNow)
             return new("Cooldown", $"Next attempt {due.ToLocalTime():MMM d, h:mm tt}", false);
         if (!current.Connected)
-            return new("Not checked", "Connect this character to check requirements", true);
+            return quest.Id == AltarWorshipEvidence.Id && CharacterClass(name) is { } offlineClass && !AltarWorshipEvidence.IsPriest(offlineClass)
+                ? new("Not checked", offlineClass + ": no legend mark, Priests only · " + AltarWorshipEvidence.Progress(job), true, true)
+                : new("Not checked", quest.Id == AltarWorshipEvidence.Id && AltarWorshipEvidence.Made(job) > 0 ? AltarWorshipEvidence.Progress(job) : "Connect this character to check requirements", true);
         var snapshot = current;
         if (quest.Id == "mundane-birth" && job.BirthOptions is null)
             return new("Choices", "Choose season, age, and town before starting", true);
@@ -38,6 +40,16 @@ public sealed partial class DesktopRuntime
             return new("Choices", "Choose who receives the insignia before starting", true);
         if (SickChildEvidence.For(quest.Id) is not null && job.SickChildOptions is null)
             return new("Choices", "Choose how to get the flowers before starting", true);
+        if (quest.Id == AltarWorshipEvidence.Id)
+        {
+            var altar = AltarWorshipEvidence.Eligibility(snapshot, job);
+            string? characterClass = CharacterClass(name);
+            bool noMark = characterClass is not null && !AltarWorshipEvidence.IsPriest(characterClass);
+            string reason = (noMark ? characterClass + ": no legend mark, Priests only · " : "") + PlayerReason(altar.Reason);
+            if (altar.Kind != EligibilityKind.Eligible)
+                return new(altar.Kind == EligibilityKind.Unknown ? "Not checked" : "Blocked", reason, altar.Kind == EligibilityKind.Unknown, noMark);
+            return new(AltarWorshipEvidence.NextOffering(job) > DateTimeOffset.UtcNow ? "Next offering" : job.Step is not ("preflight" or "complete") ? "Resume ready" : "Ready", reason, true, noMark);
+        }
         Eligibility eligibility = quest.Id switch
         {
             "mundane-birth" => MundaneBirthEvidence.Eligibility(snapshot, job.BirthOptions),
@@ -54,6 +66,7 @@ public sealed partial class DesktopRuntime
         return eligibility.Kind == EligibilityKind.Eligible ? new(job.Step is not ("preflight" or "complete") ? "Resume ready" : "Ready", eligibility.Reason, true) : new(eligibility.Kind == EligibilityKind.Unknown ? "Not checked" : "Blocked", PlayerReason(eligibility.Reason), eligibility.Kind == EligibilityKind.Unknown);
     }
 
+    public string? CharacterClass(string name) => name.Length == 0 ? null : Snapshot(name).Class ?? Memory(name).Class;
     public bool RepeatEnabled(string name, string id) => recipes.TryGetValue(id, out var quest) && quest.Repeatable && repeatChoices.GetValueOrDefault((name.ToUpperInvariant(), id), journal.Load(name, id).Repeat);
     public async Task SetRepeatAsync(string name, string id, bool repeat)
     {
@@ -179,8 +192,20 @@ public sealed partial class DesktopRuntime
         bool emerald = selected.Id == "emerald-dawn" && EmeraldDawnEvidence.FinalMark(session.Snapshot) is null && !EmeraldChoicesLocked(saved) && (change || !resume || saved.EmeraldOptions is null);
         bool walk = selected.Id == ShinewoodFaerieEvidence.Id && saved.Pending?.Kind.StartsWith("faerie-return", StringComparison.Ordinal) != true && ShinewoodFaerieEvidence.Escape(session.Snapshot) is null && (ShinewoodFaerieEvidence.Goals(session.Snapshot, saved).Length > 0 || ShinewoodFaerieEvidence.InForest(session.Snapshot.Map));
         bool sick = SickChildEvidence.For(selected.Id) is { } flower && SickChildEvidence.Mark(session.Snapshot, flower.Legend) is null && !SickChildEvidence.ChoicesLocked(saved) && (change || !resume || saved.SickChildOptions is null);
+        bool altarCheck = selected.Id == AltarWorshipEvidence.Id && !saved.AltarNoMarkAccepted && saved.CompletedAt is null;
+        // The class comes from the profile; read it before deciding whether to warn.
+        if (altarCheck && session.Snapshot.Class is null && !IsRunning(name))
+            try
+            {
+                await session.ExecuteAsync(new("inspect-self"), CancellationToken.None);
+            }
+            catch (TimeoutException)
+            {
+                // The run checks the class again before its first offering.
+            }
+        bool altar = altarCheck && AltarWorshipEvidence.NoMark(name, session.Snapshot.Class) is not null;
         QuestChoiceResult? choice = null;
-        if (birth || emerald || walk || sick)
+        if (birth || emerald || walk || sick || altar)
         {
             string? error = null;
             if (walk)
@@ -204,7 +229,7 @@ public sealed partial class DesktopRuntime
                 throw new QuestBlockedException("Character connection changed. Choose again after fresh state.");
             if (controlActions.ContainsKey(name))
                 throw new QuestBlockedException("Another action owns this character.");
-            if (birth && choice.BirthOptions is null || emerald && choice.EmeraldOptions is null || walk && !choice.AllowUnsafeWalking || sick && choice.SickChildOptions is null)
+            if (birth && choice.BirthOptions is null || emerald && choice.EmeraldOptions is null || walk && !choice.AllowUnsafeWalking || sick && choice.SickChildOptions is null || altar && !choice.AltarNoMarkAccepted)
                 return false;
         }
 
@@ -279,6 +304,12 @@ public sealed partial class DesktopRuntime
                     NextRun = null
                 };
             }
+
+            if (choice?.AltarNoMarkAccepted == true)
+                job = job with
+                {
+                    AltarNoMarkAccepted = true
+                };
 
             if (choice?.AllowUnsafeWalking == true)
             {

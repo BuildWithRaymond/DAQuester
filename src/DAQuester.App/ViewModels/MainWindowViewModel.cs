@@ -403,6 +403,7 @@ public sealed partial class MainWindowViewModel : ObservableObject
         "shinewood-faerie" => ("Try for a Pet Faerie and learn eligible missing spells. Prepare a safe return before entering the forest.", "SHINEWOOD · FAERIE"),
         "cured-sick-child" => ("Pick White Blossoms at Mehadi and give Paulin five, one a day or with help from your other characters. Locks out Aided the Pact of Anaman.", "LOURES · PAULIN"),
         "aided-pact-of-anaman" => ("Pick Golden Blossoms at Mehadi and give Paulin five for the physician, one a day or with help from your other characters. The legend mark is brown and other players can't see it. Locks out Cured the Sick Child.", "LOURES · PAULIN"),
+        "altar-worship" => ("Buy a Leather Shield from Torrance in the Mileth Armor Shop and drop it on the Mileth Altar, one offering every 3 hours. The quest finishes after the 10th. Each offering costs 750 gold; a Leather Shield already in the bag is used first.", "MILETH · ALTAR"),
         _ => ("This quest is a guide for manual play. Open its source for the full journey.", "QUEST GUIDE")
     };
     public void Refresh()

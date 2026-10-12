@@ -1,0 +1,33 @@
+{
+  "Id": "altar-worship",
+  "Version": 1,
+  "Name": "Altar Worship",
+  "Source": "https://vorlof.com/quests/altarworship.html",
+  "Capabilities": [
+    "navigate",
+    "dialog",
+    "inventory",
+    "legend",
+    "status-message"
+  ],
+  "CooldownHours": 0,
+  "Repeatable": false,
+  "Requirements": [],
+  "OutcomeConditions": [
+    "Each offering: one Leather Shield dropped on the Mileth Altar leaves the bag and the server answers \"You feel a touch of light around you\"",
+    "Offerings are made 3 hours apart; the quest stops after the 10th",
+    "Completion: Priests show \"Mileth Altar Worshipper\" in their own legend; other classes receive a new Red Jade Ring"
+  ],
+  "Steps": [
+    {
+      "Id": "preflight",
+      "Action": "altar-preflight",
+      "Next": "run"
+    },
+    {
+      "Id": "run",
+      "Action": "altar-run",
+      "Next": "complete"
+    }
+  ]
+}

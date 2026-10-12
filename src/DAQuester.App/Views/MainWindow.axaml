@@ -296,7 +296,7 @@
                             <StackPanel Grid.Column="2" Spacing="4" VerticalAlignment="Center">
                               <TextBlock Text="{Binding Name}" Classes="questName" FontSize="14" FontWeight="SemiBold" TextWrapping="Wrap"/>
                               <TextBlock Text="{Binding Rewards}" Classes="caption" TextTrimming="CharacterEllipsis"/>
-                              <TextBlock Text="{Binding Reason}" Classes="caption" FontSize="12" TextTrimming="CharacterEllipsis"/>
+                              <TextBlock Text="{Binding Reason}" Classes="caption" Classes.gold="{Binding IsWarning}" FontSize="12" TextTrimming="CharacterEllipsis"/>
                             </StackPanel>
                             <StackPanel Grid.Column="3" Spacing="7" VerticalAlignment="Center" HorizontalAlignment="Right">
                               <TextBlock Text="{Binding Status}" FontSize="12" TextWrapping="Wrap" TextAlignment="Right" Classes.ready="{Binding IsReady}" Classes.muted="{Binding IsMuted}"/>
@@ -321,10 +321,17 @@
                       <TextBlock Text="{Binding Region}" Classes="eyebrow"/>
                       <TextBlock Text="{Binding Name}" Classes="section"/>
                       <TextBlock Text="{Binding Description}" Classes="muted" TextWrapping="Wrap"/>
+                      <Border Name="questNotice" Classes="callout" Classes.alert="{Binding NoticeAlert}" IsVisible="{Binding HasNotice}">
+                        <StackPanel Spacing="3">
+                          <TextBlock Text="{Binding NoticeTitle}" Classes="calloutTitle" FontWeight="SemiBold" TextWrapping="Wrap"/>
+                          <TextBlock Text="{Binding NoticeText}" TextWrapping="Wrap"/>
+                        </StackPanel>
+                      </Border>
                       <TextBlock Text="{Binding Level,StringFormat='Level: {0}'}" Classes="caption"/>
                       <TextBlock Text="{Binding Requirements}" Classes="caption" TextWrapping="Wrap"/>
                       <TextBlock Text="{Binding Rewards,StringFormat='Rewards: {0}'}" Classes="caption" TextWrapping="Wrap"/>
                       <TextBlock Text="{Binding Reason}" Classes="gold" TextWrapping="Wrap"/>
+                      <TextBlock Text="{Binding Offerings}" Classes="caption" TextWrapping="Wrap" IsVisible="{Binding HasOfferings}"/>
                       <Button Content="Open quest guide" Command="{Binding OpenGuideCommand}" HorizontalAlignment="Left"/>
                     </StackPanel>
                   </ScrollViewer>

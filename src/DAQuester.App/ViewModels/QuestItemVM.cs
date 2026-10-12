@@ -47,6 +47,15 @@ public sealed class QuestItemVM : ObservableObject
     public bool IsReady => availability.Ready;
     public bool IsCompleted => Status == "Completed";
     public bool IsMuted => Status is "Unavailable" or "Blocked" or "Cooldown";
+    public bool IsWarning => availability.Warning;
+    string? noticeTitle, noticeText, offerings;
+    bool noticeAlert;
+    public bool HasNotice => noticeTitle is not null;
+    public string NoticeTitle => noticeTitle ?? "";
+    public string NoticeText => noticeText ?? "";
+    public bool NoticeAlert => noticeAlert;
+    public bool HasOfferings => offerings is { Length: > 0 };
+    public string Offerings => offerings ?? "";
     public bool CanQueue => owner.CharacterName.Length > 0 && !owner.QueueLocked && (availability.CanQueue || queued) && recipeId.Length > 0;
 
     public bool IsQueued
@@ -83,6 +92,20 @@ public sealed class QuestItemVM : ObservableObject
     {
         availability = owner.Runtime.Availability(character, recipeId.Length == 0 ? Id : recipeId);
         queued = queue.Quests.Contains(recipeId);
+        if (recipeId == AltarWorshipEvidence.Id)
+            RefreshAltar(character);
         RaiseAll();
+    }
+
+    void RefreshAltar(string character)
+    {
+        string? characterClass = owner.Runtime.CharacterClass(character);
+        noticeAlert = characterClass is not null && !AltarWorshipEvidence.IsPriest(characterClass);
+        noticeTitle = noticeAlert ? character + " is a " + characterClass + " and won't get the legend mark" : "Legend mark for Priests only";
+        noticeText = noticeAlert
+            ? "Only Priests earn \"" + AltarWorshipEvidence.Legend + "\". " + character + " will get a Red Jade Ring and 50,000 experience after the 10th offering."
+            : "Priests earn \"" + AltarWorshipEvidence.Legend + "\" and a Jade or Amethyst Ring with 100,000 experience. Other classes get a Red Jade Ring and 50,000 experience.";
+        var made = character.Length == 0 ? [] : owner.Runtime.Job(character, recipeId).AltarOfferings;
+        offerings = string.Join("\n", made.Select((o, i) => (i + 1) + ". " + o.At.ToLocalTime().ToString("MMM d, h:mm tt") + " · " + (o.Paid > 0 ? "bought for " + o.Paid.ToString("N0") : "shield from the bag") + (o.Experience.Length > 0 ? " · " + o.Experience : "")));
     }
 }
