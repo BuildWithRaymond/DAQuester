@@ -48,8 +48,7 @@ public sealed partial class DesktopRuntime
    if (id == "mundane-birth" && (TextArgument("season") is not null || TextArgument("town") is not null || r.Arguments is { } args && args.TryGetProperty("age", out _)))
     options = new(TextArgument("season") ?? "", Number("age", 0), TextArgument("town") ?? "");
    EmeraldDawnOptions? emeraldOptions = null;
-   if (id == "emerald-dawn" && (TextArgument("outcome") is not null || r.Arguments is { } emeraldArgs && emeraldArgs.TryGetProperty("visitDruid", out _)))
-    emeraldOptions = new(TextArgument("outcome") ?? "", Flag("visitDruid"));
+   if (id == "emerald-dawn" && TextArgument("outcome") is { } outcome) emeraldOptions = new(outcome);
    var runner = await PrepareRunnerAsync(name, selected, options, emeraldOptions, Flag("allowUnsafeWalking"));
    _ = runner.RunAsync(selected.Repeatable && Flag("repeat"), startNewAttempt: true); return new { started = name, quest = id, birthChoices = runner.Job.BirthOptions, emeraldChoices = runner.Job.EmeraldOptions };
   }

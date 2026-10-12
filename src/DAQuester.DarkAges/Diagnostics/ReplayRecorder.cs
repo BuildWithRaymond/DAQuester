@@ -12,7 +12,8 @@ public class ReplayRecorder {
  public bool Enabled {get;set;}=true;
  public void Record(byte opcode,byte[] payload,CharacterSnapshot snapshot) {
   if(!Enabled||opcode is not (0x04 or 0x07 or 0x08 or 0x0A or 0x0B or 0x0C or 0x0E or 0x0F or 0x10 or 0x15 or 0x17 or 0x18 or 0x2F or 0x30 or 0x33 or 0x58))return;
-  if(opcode==0x0A&&(snapshot.Notice?.Revision!=snapshot.Revision||!(MundaneBirthEvidence.Matches(snapshot.Notice)||snapshot.Notice is {} n&&(MuisirEvidence.IsKirilNotice(n,snapshot.Map)||EmeraldDawnEvidence.IsNotice(n,snapshot.Map)))))return;
+  // Server messages carry quest information beyond any guess from character state; keep them all.
+  if(opcode==0x0A&&(payload.Length==0||DAQuester.DarkAges.Protocol.StateTracker.IsPlayerText(payload[0])))return;
   lock(gate) {
    if(events.Count>=10000)events.RemoveAt(0);
    events.Add(new(DateTimeOffset.UtcNow,snapshot.Name??"Connecting",snapshot.Generation,snapshot.Revision,opcode,Convert.ToBase64String(payload),snapshot));

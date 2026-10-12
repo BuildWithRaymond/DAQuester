@@ -1,5 +1,30 @@
 # Changelog
 
+## Unreleased
+
+- Emerald Dawn's choice dialog shows each recipient's rewards: both legend marks,
+  gold and the experience range. Rogue Order shows plainly that it gives no second
+  mark. The Gans visit is gone; he takes nothing and gives nothing.
+- A saved Emerald Dawn or Mundane Birth choice can be changed from Quest controls
+  with **Change choices**, until the insignia is handed over or the birth is
+  submitted. Previously the choice was locked as soon as the first conversation
+  happened.
+- The recipients only respond after Berg's full story has been heard. The runner
+  now hears it again when a character has the mark but no saved story receipt,
+  instead of walking to a recipient who ignores them.
+- A tolerant walk no longer fails at the world map when the exact target tile is
+  a prop; it reaches the map and picks a free tile beside it.
+- Run history labels every finished quest "Completed", whether it ran in a queue
+  or on its own; "Attempt recorded" stays for tries that can be repeated for the
+  legend mark.
+- Open quest guide looks like a button before you hover over it.
+- Selling the insignia to Skan is confirmed by the server's "You received 1,000,000
+  gold coins." message, not by a change in your gold, so gold picked up on the way
+  can't fake it.
+- Server messages such as "You received 20,000 gold coins." are kept in replays and
+  written to the diagnostics log. They say exactly what happened, which character
+  state alone can only suggest. Player chat stays out.
+
 ## 1.1.1 — 2026-10-11
 
 - Remove the Developer tools panel. Nothing it showed is lost: every diagnostic line

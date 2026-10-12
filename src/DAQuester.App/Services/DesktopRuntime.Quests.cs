@@ -71,16 +71,32 @@ public sealed partial class DesktopRuntime
   await WaitForRunnerPreparationsAsync(name);
   CancelControl(name); if (runners.TryGetValue(name, out var runner)) await runner.PauseAsync(reason); if (Preview) previewRunning.Remove(name); Notify();
  }
- static bool EmeraldChoicesLocked(QuestJob job) => job.Pending is not null || job.CompletedAt is not null || job.EmeraldMioasSeen || job.EmeraldBergBriefed || job.EmeraldDruidSeen || job.EmeraldRecovery is not null;
- async Task<bool> ConfigureQuestAsync(string name, QuestDefinition selected, bool resume)
+ static bool EmeraldChoicesLocked(QuestJob job) => EmeraldDawnEvidence.ChoicesLocked(job);
+ public static bool HasChoices(string questId) => questId is "emerald-dawn" or "mundane-birth";
+ public bool ChoicesLocked(string name, string questId)
+ {
+  var job = Job(name, questId);
+  return questId switch { "emerald-dawn" => EmeraldChoicesLocked(job) || EmeraldDawnEvidence.FinalMark(Snapshot(name)) is not null, "mundane-birth" => job.Pending is not null || job.CompletedAt is not null, _ => true };
+ }
+ /// <summary>Re-opens the choice dialog for a saved quest and stores the new answer; the quest must not be running.</summary>
+ public async Task ChangeQuestChoicesAsync(string name, string questId)
+ {
+  RequireOpen();
+  if (Preview) throw new InvalidOperationException("Preview does not change game quests.");
+  if (!HasChoices(questId)) throw new QuestBlockedException("This quest has no choices to change.");
+  if (QueueReserves(name)) throw new QuestBlockedException("Stop the queue before changing choices.");
+  if (ChoicesLocked(name, questId)) throw new QuestBlockedException("These choices can no longer change for this character.");
+  await ConfigureQuestAsync(name, recipes[questId], resume: false, change: true);
+ }
+ async Task<bool> ConfigureQuestAsync(string name, QuestDefinition selected, bool resume, bool change = false)
  {
   if (RunnerBusy(name)) throw new QuestBlockedException("A quest is already preparing for this character.");
   if (!sessions.TryGetValue(name, out var session) || !session.Snapshot.Connected) throw new QuestBlockedException("Launch Dark Ages and log in as " + name + " first.");
   if (controlActions.ContainsKey(name)) throw new QuestBlockedException("A local control action owns this character. Stop it first.");
   long generation = session.Snapshot.Generation;
   var saved = runners.TryGetValue(name, out var existing) && existing.Job.Quest == selected.Id ? existing.Job : journal.Load(name, selected.Id);
-  bool birth = selected.Id == "mundane-birth" && saved.Pending is null && saved.CompletedAt is null && (!resume || saved.BirthOptions is null);
-  bool emerald = selected.Id == "emerald-dawn" && EmeraldDawnEvidence.FinalMark(session.Snapshot) is null && !EmeraldChoicesLocked(saved) && (!resume || saved.EmeraldOptions is null);
+  bool birth = selected.Id == "mundane-birth" && saved.Pending is null && saved.CompletedAt is null && (change || !resume || saved.BirthOptions is null);
+  bool emerald = selected.Id == "emerald-dawn" && EmeraldDawnEvidence.FinalMark(session.Snapshot) is null && !EmeraldChoicesLocked(saved) && (change || !resume || saved.EmeraldOptions is null);
   bool walk = selected.Id == ShinewoodFaerieEvidence.Id && saved.Pending?.Kind.StartsWith("faerie-return", StringComparison.Ordinal) != true && ShinewoodFaerieEvidence.Escape(session.Snapshot) is null && (ShinewoodFaerieEvidence.Goals(session.Snapshot, saved).Length > 0 || ShinewoodFaerieEvidence.InForest(session.Snapshot.Map));
   QuestChoiceResult? choice = null;
   if (birth || emerald || walk)
@@ -114,7 +130,7 @@ public sealed partial class DesktopRuntime
    if (controlActions.ContainsKey(name)) throw new QuestBlockedException("Another action owns this character.");
    if (repeatChanged) job = job with { Repeat = selected.Repeatable && repeatChoice };
    if (choice?.BirthOptions is { } options) { options.Validate(); if (job.Pending is not null || job.CompletedAt is not null) throw new QuestBlockedException("Saved birth submission cannot change choices."); job = job with { BirthOptions = options, Repeat = false, NextRun = null }; }
-   if (choice?.EmeraldOptions is { } emeraldOptions) { emeraldOptions.Validate(); if (EmeraldChoicesLocked(job) && job.EmeraldOptions != emeraldOptions) throw new QuestBlockedException("Saved Emerald Dawn choices cannot change after the journey begins."); job = job with { EmeraldOptions = emeraldOptions, Repeat = false, NextRun = null }; }
+   if (choice?.EmeraldOptions is { } emeraldOptions) { emeraldOptions.Validate(); if (EmeraldChoicesLocked(job) && job.EmeraldOptions != emeraldOptions) throw new QuestBlockedException("The insignia has already been handed over, so the recipient cannot change."); job = job with { EmeraldOptions = emeraldOptions, Repeat = false, NextRun = null }; }
    if (choice?.AllowUnsafeWalking == true) { session.ValidateFaerieReturn(); job = job with { FaerieWalkAcknowledgedGeneration = session.Snapshot.Generation, FaerieWalkAcknowledgedAt = DateTimeOffset.UtcNow }; }
    await journal.SaveAsync(job);
    if (owner is not null && owner.Job.Quest == selected.Id && runners.GetValueOrDefault(name) == owner) runners.Remove(name);
@@ -148,7 +164,7 @@ public sealed partial class DesktopRuntime
    }
    if (selected.Id == "emerald-dawn")
    {
-    emeraldOptions?.Validate(); if (emeraldOptions is not null && EmeraldChoicesLocked(saved) && saved.EmeraldOptions != emeraldOptions) throw new QuestBlockedException("Saved Emerald Dawn choices cannot change after the journey begins. Resume to reconcile the saved outcome.");
+    emeraldOptions?.Validate(); if (emeraldOptions is not null && EmeraldChoicesLocked(saved) && saved.EmeraldOptions != emeraldOptions) throw new QuestBlockedException("The insignia has already been handed over, so the recipient cannot change. Resume to reconcile the saved outcome.");
     emeraldOptions ??= saved.EmeraldOptions; if (emeraldOptions is null && EmeraldDawnEvidence.FinalMark(session.Snapshot) is null) throw new QuestBlockedException("Emerald Dawn choice required: Emerald Knights, Necromancer Order, or sell to Skan."); emeraldOptions?.Validate();
    }
    if (old is not null && (old.Job.Quest != selected.Id || options is not null && old.Job.BirthOptions != options || emeraldOptions is not null && old.Job.EmeraldOptions != emeraldOptions || selected.Id == ShinewoodFaerieEvidence.Id && allowUnsafeWalking))

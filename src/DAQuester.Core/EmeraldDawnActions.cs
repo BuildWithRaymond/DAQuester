@@ -29,11 +29,13 @@ public sealed class EmeraldDawnActions:IQuestAction {
    case "emerald-mioas":if(!recovered&&!c.Job.EmeraldMioasSeen)await Speak(c,mioas,"emerald-mioas",ct);return;
    case "emerald-briefing":if(!recovered&&!c.Job.EmeraldBergBriefed)await Speak(c,berg,"emerald-briefing",ct);return;
    case "emerald-gather":if(!recovered)await Gather(c,step,ct);return;
-   case "emerald-recover":if(!recovered){if(c.Session.Snapshot.Count(EmeraldDawnEvidence.Insignia)<1)throw new QuestBlockedException("Carry one Emerald Knight Insignia before returning to Berg.");await Speak(c,recovery,"emerald-recovery-dialog",ct);}return;
+   // The mark alone proves nothing to the recipients; Berg's full story must have been heard (live 2026-10-11).
+   case "emerald-recover":if(c.Job.EmeraldRecovery is null){if(c.Session.Snapshot.Count(EmeraldDawnEvidence.Insignia)<1)throw new QuestBlockedException("Carry one Emerald Knight Insignia before returning to Berg.");await Speak(c,recovery,"emerald-recovery-dialog",ct);}return;
    case "emerald-druid":if(options.VisitDruid&&!c.Job.EmeraldDruidSeen)await Speak(c,druid,"emerald-druid",ct);return;
    case "emerald-deliver":
     if(!recovered)throw new QuestBlockedException("Verify Berg's recovery legend before giving away the insignia.");
     if(options.Outcome=="rogue-order"&&(c.Session.Snapshot.Gold is null||c.Session.Snapshot.Gold>uint.MaxValue-1000000))throw new QuestBlockedException("Known carried gold and room for 1,000,000 gold required before sale.");
+    if(c.Job.EmeraldRecovery is null)throw new QuestBlockedException("Hear Berg's full story about the insignia before giving it away.");
     await Speak(c,Delivery(options),"emerald-delivery-dialog",ct);return;
    case "emerald-confirm":throw new QuestBlockedException("Emerald Dawn disposition needs reconciliation; no saved submission proves the outcome.");
    default:throw new QuestBlockedException("Unsupported Emerald Dawn action: "+step.Action);

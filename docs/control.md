@@ -21,15 +21,18 @@ permits return without a pet receipt and never creates an automatic retry date.
 Saved terminal refusals can reconcile after a manual close/return.
 
 Emerald Dawn uses `quest: "emerald-dawn"` and requires `outcome` on its first
-start: `emerald-knights`, `necromancer-order`, or `rogue-order`. Optional
-`visitDruid: true` visits Gans before the selected disposition. Defaults off.
+start: `emerald-knights`, `necromancer-order`, or `rogue-order`. Gans (the
+Druid line) is not offered: he keeps nothing and gives nothing (live 2026-10-11).
 
 ```json
-{"method":"start","character":"YourCharacter","arguments":{"quest":"emerald-dawn","outcome":"emerald-knights","visitDruid":false}}
+{"method":"start","character":"YourCharacter","arguments":{"quest":"emerald-dawn","outcome":"emerald-knights"}}
 ```
 
-Use the player's chosen recipient. No outcome is selected by default. Saved
-choices resume unchanged and lock after quest speech begins. Repeat is ignored.
+Use the player's chosen recipient. No outcome is selected by default. A saved
+choice can be changed (another `start` with a different `outcome`, or Change
+choices in the window) until the insignia is handed over. Repeat is ignored.
+Recipients only respond after Berg's full story has been heard; the runner
+records that as the recovery receipt and re-hears Berg when it is missing.
 The start response includes `emeraldChoices`; state exposes `job.EmeraldOptions`,
 the recovery receipt, and final evidence. A
 recovery mark with no carried insignia pauses for reconciliation, since a prior

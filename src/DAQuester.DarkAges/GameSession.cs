@@ -207,7 +207,10 @@ public sealed partial class GameSession:IGameSession {
    var world=connection.Tracker.WorldMap;
    if(world is not null) {
     var observed=Snapshot;
-    var node=maps.WorldDestination(destination,world.Locations,observed.Map!.Value,worldEntrance??observed.Position!,target,ct);
+    Arbiter.Net.Server.Types.ServerWorldMapNode node;
+    try{node=maps.WorldDestination(destination,world.Locations,observed.Map!.Value,worldEntrance??observed.Position!,target,ct);}
+    // With a tolerance the exact tile may be a prop; reach the map and substitute on arrival.
+    catch(QuestBlockedException)when(tolerance>0&&target is not null){node=maps.WorldDestination(destination,world.Locations,observed.Map!.Value,worldEntrance??observed.Position!,null,ct);}
     var old=Snapshot;await Send(new ClientFieldMapMessage{MapId=node.MapId,X=node.MapX,Y=node.MapY,Checksum=node.Checksum},ct);
     await WaitAsync(x=>x.Map==node.MapId&&x.Position is not null&&connection.Tracker.WorldMap is null,old.Revision,TimeSpan.FromSeconds(5),ct);worldEntrance=null;continue;
    }
