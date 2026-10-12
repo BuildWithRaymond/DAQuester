@@ -5,8 +5,10 @@ namespace DAQuester.Core;
 // without exposing partial JSON or replacing the previous checkpoint on failure.
 internal static class AtomicJsonFile
 {
-    private static readonly JsonSerializerOptions Json = new() { WriteIndented = true };
-
+    private static readonly JsonSerializerOptions Json = new()
+    {
+        WriteIndented = true
+    };
     internal static async Task WriteAsync<T>(string path, T value, string failureMessage, CancellationToken cancellation)
     {
         Directory.CreateDirectory(Path.GetDirectoryName(path)!);

@@ -24,10 +24,9 @@ details, remembered character facts, and a queue you can pause and return to.
   Save a password for automatic sign-in, or leave it blank and sign in yourself.
   Saved passwords are encrypted by Windows.
 - **Keep your progress.** Quest checkpoints, queue order, rewards, and run history
-  stay with the character. Save a home location and choose to return there after
-  the queue finishes.
+  stay with the character. Each queue finishes after its last verified quest attempt.
 
-![Characters page with separate Launch and Set home actions](docs/screenshots/characters.png)
+![Characters page with saved accounts and Launch actions](docs/screenshots/characters.png)
 
 ## Get started
 
@@ -64,11 +63,11 @@ The library has 71 entries. These six have automatic recipes:
 | Perfect Hairstyle | Follows Eeva's Ponytail conversation. Weekly attempts can continue until your own Suomi legend is recorded. |
 | Entered Muisir Village | Collects five Undine Mushrooms and verifies the legend and four Shrinking Potions. An existing Muisir legend shows Completed. |
 | Emerald Dawn | Find an insignia, hear Berg's story, then choose Knights, Necromancer, or sale. The choice can change until the hand-over. All three outcomes are live-verified. |
-| Shinewood Faerie | Level **11+** to pass Forest 7. Try for a pet and learn eligible missing Priest/Wizard spells. Handles the observed failed-bond wait and the trip home. Successful rewards still need live validation. |
+| Shinewood Faerie | Level **11+** to pass Forest 7. Try for a pet and learn eligible missing Priest/Wizard spells. Handles the observed failed-bond wait and the return trip. Successful rewards still need live validation. |
 
 The remaining entries are guides for manual play. See [quest details](docs/QUESTS.md)
-for requirements, repeat rules, and the evidence behind each recipe. The new queue,
-automatic sign-in, and home return have synthetic test coverage; live verification
+for requirements, repeat rules, and the evidence behind each recipe. The queue
+and automatic sign-in have synthetic test coverage; live verification
 of those flows is still pending. Current results are in [validation](docs/validation.md).
 
 ## Updating

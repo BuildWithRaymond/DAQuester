@@ -1,5 +1,18 @@
 # Source provenance
 
+Character DAT indexing and portrait/layer conventions were researched against
+DAOrganizer commit `36e067aeca5c4aaef4a557e84c6ce4897be56e2b`.
+The unchanged MIT Arbiter EPF/MPF decoders in `Vendor/Arbiter.Imaging/Formats`
+come from that repository's vendored library. SPF decoding follows DALib commit
+`499739a784e42bc153af8f465de7dd3813d3aaef`; its complete MIT notice ships under
+`licenses/DALib/`. The numeric retail animation/frame conventions were checked
+against the public [Brigid client](https://github.com/hybrasyl/Brigid); no Brigid
+source is imported. Packed body selectors, pants suppression and overcoat rules
+also follow the documented [retail packet handler](https://ewrogers.github.io/darkages-741-re/network/server/051-0x33-draw-human-objects.html),
+at reverse-engineering commit `a490eff1d1d0062a3494fc9128747cfd6f31f845`.
+See [character preview](character-preview.md) for the
+observed-data boundary and frame timing limits. No game artwork is distributed.
+
 Saved-character launch adapts the MIT-licensed
 [DAOrganizer](https://github.com/BuildWithRaymond/DAOrganizer) login form reader,
 owned-window input, and verified field-entry workflow. Its numeric one-use

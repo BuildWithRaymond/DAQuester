@@ -1,10 +1,12 @@
-<Application xmlns="https://github.com/avaloniaui"
-             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-             x:Class="DAQuester.App.App" RequestedThemeVariant="Dark">
+<Application xmlns="https://github.com/avaloniaui" xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml" x:Class="DAQuester.App.App" RequestedThemeVariant="Dark">
   <Application.Resources>
     <SolidColorBrush x:Key="Ink">#0D131E</SolidColorBrush>
     <SolidColorBrush x:Key="Rail">#101925</SolidColorBrush>
     <SolidColorBrush x:Key="Surface">#151E2B</SolidColorBrush>
+    <LinearGradientBrush x:Key="JourneyBackdrop" StartPoint="0%,100%" EndPoint="100%,0%">
+      <GradientStop Color="#111C2B" Offset="0"/>
+      <GradientStop Color="#182F48" Offset="1"/>
+    </LinearGradientBrush>
     <SolidColorBrush x:Key="Raised">#1C2838</SolidColorBrush>
     <SolidColorBrush x:Key="Line">#2D3B4D</SolidColorBrush>
     <SolidColorBrush x:Key="Text">#EDF0F3</SolidColorBrush>
@@ -77,10 +79,10 @@
     <Color x:Key="SystemAccentColorDark1">#C29E5D</Color>
   </Application.Resources>
   <Application.Styles>
-    <FluentTheme />
+    <FluentTheme/>
     <Style Selector=":is(Window)">
-      <Setter Property="Icon" Value="avares://DAQuester/Assets/daquester.ico" />
+      <Setter Property="Icon" Value="avares://DAQuester/Assets/daquester.ico"/>
     </Style>
-    <StyleInclude Source="avares://DAQuester/Views/JournalStyles.axaml" />
+    <StyleInclude Source="avares://DAQuester/Views/JournalStyles.axaml"/>
   </Application.Styles>
 </Application>

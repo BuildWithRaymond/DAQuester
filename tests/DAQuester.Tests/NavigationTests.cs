@@ -4,6 +4,7 @@ using DAQuester.Core;
 using DAQuester.DarkAges.Navigation;
 
 namespace DAQuester.Tests;
+
 public class NavigationTests(ITestOutputHelper output)
 {
     [Fact]

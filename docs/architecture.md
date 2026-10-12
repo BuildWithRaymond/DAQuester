@@ -30,16 +30,17 @@ holds the captured session's interruption subscription across the entire run,
 including gaps between runners. Queue preparation and pending saves reserve edits. Global Stop
 initiates every cancellation before awaiting writes, so one failed save cannot
 leave another owner active. Idle coordinator writes wait for pending edits before
-reading state, preserving a newly saved order or home. Paused queues with an active
-entry or return checkpoint reserve their character until Stop.
+reading state, preserving a newly saved order. Paused queues with an active
+quest checkpoint reserve their character until Stop.
 
 Queue runs use `QuestRunner.RunAsync(singleAttempt:true)`. This preserves
 standalone repeat behavior while yielding after one real Hairstyle receipt or
 other verified attempt. Cooldowns and saved repeat intent survive. Activation
 records its timestamp and whether it resumes prior work; an older receipt cannot
 consume a fresh entry. Confirmed terminal receipts can normalize after a crash
-without replaying a submission. Return-home success requires the observed map
-and exact tile; interrupted or unconfirmed travel keeps its checkpoint.
+without replaying a submission. Queues finish after the last verified attempt.
+Older saved travel settings are discarded on load; quest checkpoints and history
+remain available.
 
 Each saved launch owns a one-shot loopback endpoint, process, window, and ticket.
 DAOrganizer's supported-client form reader verifies focus and field contents

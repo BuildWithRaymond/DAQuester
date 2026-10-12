@@ -3,6 +3,7 @@ using DAQuester.Core;
 using System.Collections.Immutable;
 
 namespace DAQuester.Tests;
+
 public class FoundationTests
 {
     public static CharacterSnapshot Ready(int? level = 1, uint gold = 999) => new()
@@ -35,7 +36,10 @@ public class FoundationTests
     [Fact]
     public void Unknown_inventory_waits()
     {
-        Assert.Equal(EligibilityKind.Unknown, StickEligibility.Check(Ready()with { InventoryKnown = false }, null, DateTimeOffset.UtcNow).Kind);
+        Assert.Equal(EligibilityKind.Unknown, StickEligibility.Check(Ready() with
+        {
+            InventoryKnown = false
+        }, null, DateTimeOffset.UtcNow).Kind);
     }
 
     [Fact]
@@ -49,7 +53,7 @@ public class FoundationTests
     [Fact]
     public void Stack_updates_are_absolute_and_case_insensitive()
     {
-        var s = Ready()with
+        var s = Ready() with
         {
             Inventory = ImmutableDictionary<byte, Item>.Empty.Add(1, new(1, "Branch", 4)).Add(2, new(2, "branch", 2))
         };

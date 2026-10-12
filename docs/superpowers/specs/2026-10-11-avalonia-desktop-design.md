@@ -41,9 +41,9 @@ that Resume reconciles the last action before advancing.
 Queue editing supports drag insertion feedback, move controls, Ctrl+Up/Down,
 Home/End and Delete. Cross-character or locked drag operations are rejected.
 Pause preserves ownership and checkpoints; Stop saves progress and permits edits.
-Saved queue order, home settings and history remain per character.
+Saved queue order and history remain per character.
 
-Every character has Launch, Select and Set home actions. Passwords are masked and
+Every character has Launch and Select actions. Passwords are masked and
 saved with the existing Windows vault; blank edits preserve credentials. All
 account names validate before writes. Rename swaps preserve original credentials.
 Observed level and own legends are shown separately from unknown information.

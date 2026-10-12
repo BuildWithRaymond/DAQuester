@@ -10,32 +10,68 @@ namespace DAQuester.App;
 
 public partial class App : Application
 {
- public override void Initialize() => AvaloniaXamlLoader.Load(this);
- public override void OnFrameworkInitializationCompleted()
- {
-  if (ApplicationLifetime is IClassicDesktopStyleApplicationLifetime desktop)
-  {
-   var runtime = new DesktopRuntime(Program.IsValidation) { Dispatch = action => Dispatcher.UIThread.Post(action) };
-   var vm = new MainWindowViewModel(runtime);
-   var window = new MainWindow(vm); desktop.MainWindow = window;
-   runtime.ChooseQuestAsync = (character, quest, job, error) => QuestChoiceDialog.ShowChoiceAsync(window, character, quest, job, error);
-   vm.PickClientAsync = () => ClientPickerDialog.ShowAsync(window, vm.ClientPath);
-   vm.RequestClose += window.Close;
-   bool closing = false, closed = false;
-   window.Closing += async (_, eventArgs) =>
-   {
-    if (closed) return; eventArgs.Cancel = true; if (closing) return; closing = true;
-    try { await runtime.ShutdownAsync(vm.InstallRequested); closed = true; window.Close(); }
-    catch (Exception error) { vm.ReportError(error); closing = false; }
-   };
-   var timer = new DispatcherTimer { Interval = TimeSpan.FromSeconds(2) };
-   timer.Tick += (_, _) => vm.Refresh(); window.Closed += (_, _) => timer.Stop();
-   window.Opened += async (_, _) =>
-   {
-    if (Program.IsValidation) { Dispatcher.UIThread.Post(async () => await Validation.ScreenshotCapture.RunAsync(window, vm)); return; }
-    timer.Start(); try { await runtime.StartAsync(); } catch (Exception error) { vm.ReportError(error); }
-   };
-  }
-  base.OnFrameworkInitializationCompleted();
- }
+    public override void Initialize() => AvaloniaXamlLoader.Load(this);
+    public override void OnFrameworkInitializationCompleted()
+    {
+        if (ApplicationLifetime is IClassicDesktopStyleApplicationLifetime desktop)
+        {
+            var runtime = new DesktopRuntime(Program.IsValidation)
+            {
+                Dispatch = action => Dispatcher.UIThread.Post(action)
+            };
+            var vm = new MainWindowViewModel(runtime);
+            var window = new MainWindow(vm);
+            desktop.MainWindow = window;
+            runtime.ChooseQuestAsync = (character, quest, job, error) => QuestChoiceDialog.ShowChoiceAsync(window, character, quest, job, error);
+            vm.PickClientAsync = () => ClientPickerDialog.ShowAsync(window, vm.ClientPath);
+            vm.RequestClose += window.Close;
+            bool closing = false, closed = false;
+            window.Closing += async (_, eventArgs) =>
+            {
+                if (closed)
+                    return;
+                eventArgs.Cancel = true;
+                if (closing)
+                    return;
+                closing = true;
+                try
+                {
+                    await runtime.ShutdownAsync(vm.InstallRequested);
+                    closed = true;
+                    window.Close();
+                }
+                catch (Exception error)
+                {
+                    vm.ReportError(error);
+                    closing = false;
+                }
+            };
+            var timer = new DispatcherTimer
+            {
+                Interval = TimeSpan.FromSeconds(2)
+            };
+            timer.Tick += (_, _) => vm.Refresh();
+            window.Closed += (_, _) => timer.Stop();
+            window.Opened += async (_, _) =>
+            {
+                if (Program.IsValidation)
+                {
+                    Dispatcher.UIThread.Post(async () => await Validation.ScreenshotCapture.RunAsync(window, vm));
+                    return;
+                }
+
+                timer.Start();
+                try
+                {
+                    await runtime.StartAsync();
+                }
+                catch (Exception error)
+                {
+                    vm.ReportError(error);
+                }
+            };
+        }
+
+        base.OnFrameworkInitializationCompleted();
+    }
 }

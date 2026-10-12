@@ -3,6 +3,7 @@ using System.Text;
 using System.Text.Json;
 
 namespace DAQuester.Core;
+
 public class FileQuestJournal(string directory) : IQuestJournal
 {
     readonly SemaphoreSlim gate = new(1, 1);

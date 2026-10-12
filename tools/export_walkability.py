@@ -3,6 +3,7 @@
 The output contains dimensions, boolean geometry and source digests. It contains
 no floor/sprite identifiers, artwork, archive entries or private source paths.
 """
+
 import argparse
 import base64
 import hashlib
@@ -44,8 +45,10 @@ def blocked_tiles(raw, width, height, sotp, map_id):
         raise ValueError("Invalid dimensions or truncated map " + str(map_id))
     for index in range(width * height):
         left, right = struct.unpack_from("<HH", raw, index * 6 + 2)
-        blocked = any(sprite and (sprite > len(sotp) or sotp[sprite - 1] & 15 == 15)
-                      for sprite in (left, right))
+        blocked = any(
+            sprite and (sprite > len(sotp) or sotp[sprite - 1] & 15 == 15)
+            for sprite in (left, right)
+        )
         # Match the existing runtime's one explicit static walkable exception.
         if map_id == 97 and index % width == 46 and index // width == 21:
             blocked = False
@@ -70,15 +73,23 @@ def export(client_directory, routes_path, profile, output):
     sotp = collision_table(client_directory)
     directories = [client_directory]
     if client_directory.anchor and os.environ.get("LOCALAPPDATA"):
-        directories.append(Path(os.environ["LOCALAPPDATA"]) / "VirtualStore" /
-                           str(client_directory)[len(client_directory.anchor):])
+        directories.append(
+            Path(os.environ["LOCALAPPDATA"])
+            / "VirtualStore"
+            / str(client_directory)[len(client_directory.anchor) :]
+        )
     maps, missing = [], []
     total_tiles = 0
     for record in sorted(records, key=lambda item: item["id"]):
         map_id = record["id"]
-        source = next((directory / "maps" / ("lod" + str(map_id) + ".map")
-                       for directory in directories
-                       if (directory / "maps" / ("lod" + str(map_id) + ".map")).is_file()), None)
+        source = next(
+            (
+                directory / "maps" / ("lod" + str(map_id) + ".map")
+                for directory in directories
+                if (directory / "maps" / ("lod" + str(map_id) + ".map")).is_file()
+            ),
+            None,
+        )
         if source is None:
             missing.append(map_id)
             continue
@@ -87,20 +98,42 @@ def export(client_directory, routes_path, profile, output):
         flags = list(blocked_tiles(raw, width, height, sotp, map_id))
         bits = pack_tiles(flags)
         # Audit every exported bit against the source collision interpretation.
-        if any(bool(bits[index // 8] & (1 << (index % 8))) != blocked
-               for index, blocked in enumerate(blocked_tiles(raw, width, height, sotp, map_id))):
-            raise ValueError("Exported collision differs from source for map " + str(map_id))
+        if any(
+            bool(bits[index // 8] & (1 << (index % 8))) != blocked
+            for index, blocked in enumerate(
+                blocked_tiles(raw, width, height, sotp, map_id)
+            )
+        ):
+            raise ValueError(
+                "Exported collision differs from source for map " + str(map_id)
+            )
         total_tiles += len(flags)
-        maps.append(dict(id=map_id, width=width, height=height,
-                         blockedBits=base64.b64encode(bits).decode("ascii"),
-                         sourceSha256=hashlib.sha256(raw).hexdigest()))
-    pack = dict(schemaVersion=1, serverProfile=profile,
-                sotpSha256=hashlib.sha256(sotp).hexdigest(), maps=maps, missingMapIds=missing)
+        maps.append(
+            dict(
+                id=map_id,
+                width=width,
+                height=height,
+                blockedBits=base64.b64encode(bits).decode("ascii"),
+                sourceSha256=hashlib.sha256(raw).hexdigest(),
+            )
+        )
+    pack = dict(
+        schemaVersion=1,
+        serverProfile=profile,
+        sotpSha256=hashlib.sha256(sotp).hexdigest(),
+        maps=maps,
+        missingMapIds=missing,
+    )
     output.parent.mkdir(parents=True, exist_ok=True)
     output.write_text(json.dumps(pack, indent=2) + "\n", encoding="utf-8")
-    return dict(recordedMaps=len(records), packagedMaps=len(maps), missingMapIds=missing,
-                auditedTiles=total_tiles, packedBytes=output.stat().st_size,
-                sha256=hashlib.sha256(output.read_bytes()).hexdigest())
+    return dict(
+        recordedMaps=len(records),
+        packagedMaps=len(maps),
+        missingMapIds=missing,
+        auditedTiles=total_tiles,
+        packedBytes=output.stat().st_size,
+        sha256=hashlib.sha256(output.read_bytes()).hexdigest(),
+    )
 
 
 def main():
@@ -112,7 +145,12 @@ def main():
     parser.add_argument("--output", type=Path)
     args = parser.parse_args()
     output = args.output or root / "content/maps" / (args.profile + ".walkability.json")
-    print(json.dumps(export(args.client_directory, args.routes, args.profile, output), separators=(",", ":")))
+    print(
+        json.dumps(
+            export(args.client_directory, args.routes, args.profile, output),
+            separators=(",", ":"),
+        )
+    )
 
 
 if __name__ == "__main__":

@@ -2,7 +2,8 @@
 
 DAQuester uses Avalonia with a shared, fully dark journal theme. The interface
 combines deep navy backgrounds, slate surfaces, warm gold actions and teal green
-quest states. The palette follows the supplied planner screenshot. The character initial seal and small compass give it a quiet Dark
+quest states. The palette follows the supplied planner screenshot. Circular game
+head portraits and the small compass give it a quiet Dark
 Ages identity without ornamental controls.
 
 [App.axaml](../src/DAQuester.App/App.axaml) defines the palette.
@@ -27,9 +28,9 @@ adding a screen; avoid local color variations that make related pages disagree.
 | Error | #E5979A | Errors and destructive actions |
 
 Segoe UI carries the interface. Quest names use 14 px semibold; ordinary text
-uses 13–14 px; captions and explanations use 12 px. Georgia is reserved for
-27 px page headings and character initials. Eyebrows, queue position numbers and
-footer information can use 11 px. These are device independent dimensions, not
+uses 13–14 px; captions and explanations use 12 px. Georgia carries 27 px page
+headings and 22 px current quest titles. Eyebrows, queue
+details, position numbers and footer information can use 10–11 px. These are device independent dimensions, not
 WinForms point sizes. Line icons share a consistent stroke and scale with the
 display; avoid emoji and font glyphs for control icons.
 
@@ -39,18 +40,34 @@ controls have 6 px corners. Buttons have a minimum height of 38 px; text inputs
 use 40 px. Compact icon actions remain at least 30 px. Long labels and quest
 explanations wrap or use deliberate ellipsis with a full explanation available.
 Search uses the TextBox watermark, so entered text never overlaps a placeholder.
+All buttons keep a visible outline while idle, including navigation, filters,
+quiet actions and icon controls. Hover changes the fill; focus and selection can
+accent the outline. Button content is vertically centered, including Launch.
 
-The default window is 1420 × 900, with a minimum of 900 × 560. Below 1160 px, the
-180 px navigation rail becomes a 64 px icon rail and the planner’s 330 px queue
-column becomes 304 px. Navigation keeps accessible names and tooltips. Library
-rows grow with their content, filters wrap, and every page has a scrolling
-content region. The queue list has its own scroll region; its maximum height
-reduces from 264 to 180 or 100 px in shorter windows. The journey column also
-scrolls so controls remain reachable without shrinking their text.
+Navigation buttons fill the same rail width, regardless of label length. The
+Launch button and character switcher both use the 48 px `workspaceHeader` style.
+Quest icons sit in 36 px square boxes with centered 20 px glyphs. Interface
+icons come from Lucide; `LucideIcons.cs` holds the pinned geometry and
+`QuestGlyph.cs` maps quests to icon names. The renderer centers each glyph's
+actual bounds and uses a consistent stroke at different display scales.
+
+The default window is 1420 ? 900, with a minimum of 900 ? 560. Below 1160 px, the
+180 px navigation rail becomes a 64 px icon rail. Navigation keeps accessible
+names and tooltips. Journey and library cards span the planner's full width.
+The journey card holds progress, individual quest controls and the character
+sprite on the left, with the queue on the right, separated by a thin rule.
+The queue area narrows from 346 to 320 px in compact windows, including its
+separator and padding. Its list scrolls independently and reduces from 264 to
+180 or 100 px in shorter windows. The planner scrolls as a whole when needed;
+journey content also has a bounded scroll region. Library rows grow with their
+content and filters wrap. NPC conversation has no separate player-window panel.
 
 Quest planner, Characters, Run history and Settings share the same shell and
 retain their working state when navigating. The planner separates the searchable
-library, the selected character’s queue and current journey. Characters uses
+library, the selected character’s queue and current journey. Queue rows keep
+their move and remove actions on one line, with a smaller checkpoint caption
+under the quest name. Drag handles, keyboard moves and active states remain
+available. Characters uses
 editable cards with masked password fields, a Launch action for every saved
 character, and explicit Save accounts and Discard edits actions. Run history
 places each result explanation on a second line rather than forcing it into a
@@ -96,3 +113,32 @@ dialogs, compact windows, keyboard controls and Windows display scaling.
 `tools/Capture-Screenshots.ps1` optionally captures the four documentation pages
 using isolated sample data. Automated pixel and layout test matrices have been
 removed; app behavior regressions remain in `DAQuester.AppTests`.
+
+Individual quest actions form a left-aligned group, with explicit individual-quest
+labels. These buttons, Fast mode and the character preview stay at the bottom of
+the journey details as the window grows. A compact journey card grows modestly
+with taller windows, leaving the remaining space to the quest library. Its dark
+blue backdrop uses the shared `JourneyBackdrop` brush. The queue scrolls inside
+the journey's right section; Add quests to queue focuses the library search.
+Queue rows use compact padding and 26-pixel outlined reorder/remove buttons.
+A checkpoint count and numbered gold step trail show the active recipe's progress;
+the moving light shows activity without changing the completed count. The original
+character sprite occupies the lower-right corner of the journey details, beside
+the queue. Before a character loads, a default outfit made from the selected game
+folder's original DAT layers fills the box.
+The same frame forms a faint 5.5× pixel accent behind it. Head portraits in the
+chooser and Characters page use circular crops of original DAT head layers.
+Run history shows the same portrait beside its character name. Saved observed
+outfits keep portraits and the journey sprite visible after logout and restart.
+The journey details retain 16 px of right padding before the queue gutter.
+The journey card stays compact (270–300 px in regular windows); the quest library
+receives the remaining height. Smaller widths use a 300 px journey card, with five
+36 px icon buttons for individual start, resume, pause, stop and add to queue.
+The start icon combines the Lucide scroll and play shapes; the queue uses a list
+icon. Tooltips and accessible names retain each action's meaning. Full-width
+windows retain text labels. Disabled action content dims while outlines remain
+visible. Resume requires saved progress; pause and stop require an active operation.
+Add to queue inserts this journey once and never removes an existing queue entry.
+The queue retains its own scroll area and stop control for paused checkpoints.
+Its renderer and
+observed-action limits are documented in [character preview](character-preview.md).

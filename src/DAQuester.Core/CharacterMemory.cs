@@ -4,14 +4,30 @@ using System.Text;
 using System.Text.Json;
 
 namespace DAQuester.Core;
-// Planning memory is deliberately separate from live quest evidence.
+// Planning and appearance memory are deliberately separate from live quest evidence.
 public sealed record CharacterMemory
 {
-    public string Character { get; init; } = "";
-    public int? Level { get; init; }
-    public DateTimeOffset? LevelObservedAt { get; init; }
-    public string[] Legends { get; init; } = [];
-    public DateTimeOffset? LegendsObservedAt { get; init; }
+    public CharacterAppearance? Appearance { get; init; }
+    public DateTimeOffset? AppearanceObservedAt { get; init; }
+    public string Character { get;
+        init; } = "";
+    public int? Level
+    {
+        get;
+        init;
+    }
+    public DateTimeOffset? LevelObservedAt
+    {
+        get;
+        init;
+    }
+    public string[] Legends { get;
+        init; } = [];
+    public DateTimeOffset? LegendsObservedAt
+    {
+        get;
+        init;
+    }
 
     public string? CompletedLegend(string quest, CharacterSnapshot? current = null)
     {
@@ -34,7 +50,7 @@ public sealed record CharacterMemory
             return new(EligibilityKind.Blocked, "Requires level 1–11.");
         if (quest == ShinewoodFaerieEvidence.Id && level is { } known && known < ShinewoodFaerieEvidence.MinimumLevel)
             return new(EligibilityKind.Blocked, "Requires level 11+ to pass Shinewood Forest 7 and reach the Faerie.");
-        if (CompletedLegend(quest, current)is { } legend)
+        if (CompletedLegend(quest, current) is { } legend)
             return new(EligibilityKind.Blocked, "Already completed: " + legend + ".");
         return null;
     }
@@ -87,7 +103,13 @@ public sealed class FileCharacterMemory(string directory, string serverProfile)
                 return saved;
             bool fresh = CharacterMemory.FreshLegends(snapshot) && (!previous || snapshot.Generation != last.Generation || snapshot.LegendsRevision > last.LegendsRevision);
             var next = saved;
-            if (snapshot.Level is> 0 && snapshot.Level != saved.Level)
+            if (snapshot.Appearance is { } appearance && appearance != saved.Appearance)
+                next = next with
+                {
+                    Appearance = appearance,
+                    AppearanceObservedAt = DateTimeOffset.UtcNow
+                };
+            if (snapshot.Level is > 0 && snapshot.Level != saved.Level)
                 next = next with
                 {
                     Level = snapshot.Level,

@@ -21,10 +21,37 @@ desktop window and runtime. `MainWindowViewModel` presents state and commands;
 The runtime delegates rules to Core and game communication to DarkAges.
 
 Core's `QuestRunner` follows recipe steps through quest-specific action classes.
-`Journal`, `QuestQueue` and `CharacterMemory` own their distinct persistence rules
+`Journal`, `FileQuestQueueStore` and `CharacterMemory` own their distinct persistence rules
 and share `AtomicJsonFile` for durable writes. DarkAges separates navigation,
 protocol parsing and transport. The partial `GameSession` files group movement,
 collection and special travel without separate frameworks.
+
+Use this map when changing a specific part of the app:
+
+| Change | Start here |
+| --- | --- |
+| Page layout, navigation, header controls | `Views/MainWindow.axaml` and its code-behind |
+| Colors, button sizes, interaction states | `App.axaml` and `Views/JournalStyles.axaml` |
+| Interface icons and quest-to-icon choices | `Controls/LucideIcons.cs`, `LineIcon.cs`, `QuestGlyph.cs` |
+| Library filtering and command wiring | `ViewModels/MainWindowViewModel.cs` |
+| Journey text, queue readiness, repeat controls | `ViewModels/MainWindowViewModel.Journey.cs` |
+| Step counts and activity animation | `ViewModels/QuestProgress.cs` and `Controls/QuestTrail.cs` |
+| Original character sprites and observed actions | DarkAges' `Rendering` folder, `Protocol/CharacterAppearancePackets.cs`, and [preview notes](docs/character-preview.md) |
+| Circular character portraits and enlarged sprite accent | App's `Controls/CharacterSpritePreview*.cs`, `CharacterSpriteAccent.cs` and `SpriteImageBounds.cs` |
+| Account edits and settings | `MainWindowViewModel.Accounts.cs`, `.Settings.cs`, `CharacterItemVM.cs` |
+| A library row, queue entry, or history entry | `QuestItemVM.cs`, `QueueItemVM.cs`, `HistoryItemVM.cs` |
+| Queue checkpoint format and recovery | Core's `QuestQueue.cs` and `FileQuestQueueStore.cs` |
+| Queue execution and verified outcome rules | Core's `QuestQueueCoordinator.cs` and `QueueAttemptOutcome.cs` |
+| Quest choices, steps, and requirements | `content/recipes`, Core's quest action classes, and matching tests |
+| Packet parsing, transport, map travel | DarkAges' `Protocol`, `Transport`, and `Navigation` folders |
+
+View and view-model paths above are relative to `src/DAQuester.App`.
+Keep related files together and name them after the type or responsibility they
+contain. Write normal sentences in comments and player text. Explain why a rule
+exists, especially evidence and recovery rules; avoid comments that repeat the
+next line of code. Prefer clear local names, one statement per line, and short
+methods over dense expressions. `.editorconfig` records the shared C# and XAML
+layout. Upstream code under `Vendor` keeps its original layout and attribution.
 
 Add tests beside the behavior they protect. Prefer deterministic fixtures and
 existing regression coverage; avoid real-time waits when only repeated progress

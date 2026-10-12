@@ -3,6 +3,7 @@ using DAQuester.DarkAges.Diagnostics;
 using Xunit;
 
 namespace DAQuester.Tests;
+
 public class BranchDroughtTests
 {
     static readonly Tile[] patrol = [new(40, 40), new(54, 43), new(64, 44)];
@@ -26,7 +27,13 @@ public class BranchDroughtTests
     static async Task CheckQuest()
     {
         var session = new DroughtSession();
-        var context = new QuestContext(session, Journal(), calibration, new() { Character = "Nuclear", Accepted = true, AcceptedGeneration = 1, Step = "gather" });
+        var context = new QuestContext(session, Journal(), calibration, new()
+        {
+            Character = "Nuclear",
+            Accepted = true,
+            AcceptedGeneration = 1,
+            Step = "gather"
+        });
         await new StickActions().ExecuteAsync(context, new("gather", "gather", null), default);
         Assert.Equal(6, session.Snapshot.Count("Branch"));
         AssertPatrol(session);
@@ -36,7 +43,13 @@ public class BranchDroughtTests
     {
         var session = new DroughtSession();
         var journal = Journal();
-        await journal.SaveAsync(new() { Character = "Nuclear", Accepted = true, AcceptedGeneration = 1, Step = "gather" });
+        await journal.SaveAsync(new()
+        {
+            Character = "Nuclear",
+            Accepted = true,
+            AcceptedGeneration = 1,
+            Step = "gather"
+        });
         session.Inner.OnCommand = c =>
         {
             if (c.Kind == "visit")
@@ -64,7 +77,10 @@ public class BranchDroughtTests
         int moves;
         public DroughtSession()
         {
-            Inner.Set(Inner.Snapshot with { Experience = 0 });
+            Inner.Set(Inner.Snapshot with
+            {
+                Experience = 0
+            });
         }
 
         public CharacterSnapshot Snapshot => Inner.Snapshot;

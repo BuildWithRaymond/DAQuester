@@ -9,6 +9,7 @@ using Arbiter.Net.Server.Types;
 using Arbiter.Net.Serialization;
 
 namespace DAQuester.Tests;
+
 public class PacketTests
 {
     [Fact]

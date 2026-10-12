@@ -81,7 +81,7 @@ DAQuester exposes its game services through a current-user Windows named pipe,
 its launcher. The bridge never attaches to Excalibur or exposes login packets.
 
 `state` also includes saved character `queues`, with order, current checkpoint,
-home target, and verified history. `launch` with a character uses that character's
+and verified history. `launch` with a character uses that character's
 saved credentials through the owned login-ticket flow; omitted characters launch
 for manual sign-in. Existing owned windows are focused. `stop` cancels pending
 login automation and all matching queue/quest owners without closing clients.

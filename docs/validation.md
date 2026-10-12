@@ -1,5 +1,43 @@
 # Validation status
 
+## Release 1.2.0 candidate — October 11, 2026
+
+The planner, original character previews and maintainability changes are integrated
+with current `origin/main`, `bdd0bb0`, including PRs #8 and #9 and the server-message
+logging change. All 17 overlapping files were reconciled; no conflict markers or
+unmerged paths remain. Incoming Emerald story receipts, outcome evidence, editable
+choices, replay messages, tolerant travel and corrected reflection arguments are
+retained alongside the new layout and portrait bindings.
+
+A fresh, symbol-free Release solution build completed with zero warnings/errors.
+All **134 focused merge/sprite/migration tests**, **745 Core/protocol tests** and
+**69 app behavior tests** passed. The final complete Core suite took 3 minutes
+30 seconds, with no timing failures. The app suite includes an integration check
+that keeps incoming choice controls available before submission and disables
+them during a run or after submission.
+
+`Build-Release.ps1` and a separate `Verify-Release.ps1` run passed for 1.2.0.
+Installer, portable ZIP, full update package, feeds, checksums and licenses agree;
+functional walkability covers 1,417 of 1,432 maps (15 unavailable). Packages exclude
+user Data, raw game files, symbols and private checkout paths. The three packaged
+application/Core/DarkAges DLLs match the tested assemblies byte for byte.
+The pinned public 1.0.7 updater verified the local 1.2.0 package with unchanged
+identity and updater bytes; no installation was performed.
+
+Native manual reviews covered idle/running/paused compact action controls,
+saved face-zero portraits, history portraits, the shorter journey/taller library,
+and both ends of the incoming Emerald reward dialog. Four optional documentation
+screenshots were regenerated from the packaged app with isolated synthetic data
+and no configured game folder, so no game artwork enters documentation or packages.
+This is manual review, not an automated render matrix or pixel-test gate.
+No build or test operated real characters or restarted Excalibur.
+
+Sprite preview matches observed appearance, direction and actions using installed
+original assets. It does not synchronize the native client's exact animation
+frame; saved appearance remains presentation-only. Historical live-evidence
+limits below are retained; incoming Emerald live results are documented in
+[quests](QUESTS.md).
+
 ## Release 1.1.1 candidate — October 11, 2026
 
 Integrated the latest `origin/main` merge, `5d29a39`, with the maintainability,
@@ -232,7 +270,7 @@ installation. These read-only checks never download or apply an application
 update, open user Data, or operate a game character.
 
 Full live validation remains pending for Emerald Dawn, successful Faerie rewards,
-the queue, automatic saved login, own-legend refresh, and home return. The existing
+the queue, automatic saved login, own-legend refresh, and queue completion. The existing
 quest policies, observed-evidence boundaries, and reconciliation rules remain
 covered by synthetic regressions.
 
@@ -282,15 +320,15 @@ the successful full-suite run used that context.
 real catalog search, persisted membership, button/keyboard/drag ordering, retained
 keyboard focus, cross-character drag rejection, character isolation, offline
 start gating, durable history, next entry, recent activity, and per-character
-Launch/Home actions. Runtime ownership regressions cover manual input and
+Launch actions. Runtime ownership regressions cover manual input and
 disconnect between entries, Stop despite a failed checkpoint write, and Stop
-overlapping a pending order/home save. The native finish checks include expanding
+overlapping a pending queue-order save. The native finish checks include expanding
 scroll content, wrapped history receipts at 1024px, dark surfaces, action labels,
 and 100/125/150/200% scaled controls. Actual planner, queued, Characters, history,
 activity, dialog, and minimum-size renders were inspected under `artifacts/`.
 
 Saved login has synthetic form and encrypted loopback transport coverage; real
-login and live queue/home navigation remain untested in this UI change. No real
+login and live queue navigation remain untested in this UI change. No real
 character was operated and no Excalibur process or working copy was changed.
 Packaging configuration is unchanged. User instructions, architecture, source
 provenance, and DAOrganizer's upstream MIT notice match the implementation.
@@ -359,7 +397,7 @@ stale/wrong replies, manual interruption and reconnect without duplicate reward
 or teleport submissions. Controlled reply ordering rejects the previous menu as
 a new selection reply, without short timer assumptions. Actual pet/spellbook
 rewards can also complete when the server closes the dialog. Travel dispatch
-preserves newly opened popups before Faerie visits and the final walk home.
+preserves newly opened popups before Faerie visits and the final return walk.
 
 The Release build has zero warnings/errors. `tools/Test-UI.ps1` passes with six
 selectable quests, the Faerie library entry, dark danger warning, default/focused

@@ -1,6 +1,25 @@
 # Changelog
 
-## Unreleased
+## 1.2.0 — 2026-10-11
+
+- Combine the current journey and compact character queue in a full-width card,
+  giving the quest library more height and removing the separate NPC panel.
+- Group individual quest controls at the bottom, use centered icons in compact
+  windows, and add the current quest to its character's queue without duplicates.
+  Single-quest and queue starts have distinct icons; idle controls look disabled.
+- Show recipe step counts and an activity animation that never advances saved
+  progress. Retain explicit individual-quest start labels and saved-progress Resume.
+- Render original DAT sprites using observed outfit, direction and actions, with
+  a faint 5.5× nearest-neighbor accent. Save each character's observed outfit by
+  server profile for logout/restart; remembered artwork never becomes quest evidence.
+- Add circular portraits to the character chooser, Characters page and Run history.
+  Face-zero portraits include original body head skin, rather than showing only hair.
+- Remove saved home-location settings and controls, retaining legacy-data migration.
+- Use Lucide icons, equal navigation widths, aligned Launch/chooser heights and
+  permanently outlined controls throughout the shared dark theme.
+- Split view models and queue persistence/execution into files by responsibility,
+  expand dense project-owned code, and document contributor entry points. Keep
+  upstream sprite decoder attribution and distribute its and Lucide's notices.
 
 - Emerald Dawn's choice dialog shows each recipient's rewards: both legend marks,
   gold and the experience range. Rogue Order shows plainly that it gives no second

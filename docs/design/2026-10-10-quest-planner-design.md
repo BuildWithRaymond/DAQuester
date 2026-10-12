@@ -44,7 +44,7 @@ change. DAOrganizer's login flow can be adapted without its UI framework.
   selection checkbox, icon, name, reward/requirement summary, and state or queue
   number. Clicking the name opens real quest details and saved stages.
 - Queue: numbered cards, drag handle, remove button, move-up/down buttons,
-  readiness explanation, Start/Pause/Resume, Stop, and return-home setting.
+  readiness explanation, Start/Pause/Resume, Stop.
 - Current journey: active quest, actual saved stage, blocker or cooldown,
   checkpoint-based progress, next entry, and expandable recent player-facing
   activity. Detailed individual controls and conversations expand separately.
@@ -81,7 +81,7 @@ Faerie. Existing quest-specific repeat policies stay authoritative.
 
 Introduce a small Core queue model and a file-backed queue store under user Data.
 Queue records contain character identity, ordered unique recipe IDs, active
-entry, state, timestamps, saved run options, and any return-home target. They
+entry, state, timestamps, saved run options. They
 contain no passwords and do not replace individual quest journals.
 Activation records its timestamp and whether it resumed unfinished work. A
 receipt predating a fresh activation cannot consume the new entry; proven terminal
@@ -99,7 +99,7 @@ player can remove or inspect it. Surface failed writes without losing the
 last successfully saved order.
 
 Queue membership, order, and run options are locked while Running, Paused with
-an active run, or Returning home. Stop releases that lock after cancellation has
+an active run. Stop releases that lock after cancellation has
 settled and checkpoints have been saved. Stop does not clear remaining entries.
 
 ## Queue execution and ownership
@@ -109,7 +109,7 @@ session generation when starting. It runs entries sequentially through the
 existing runner preparation and action handlers, without reading the current
 UI selection from its background execution path.
 
-Only one quest, calibration, local control action, or return-home action can own
+Only one quest, calibration, local control action can own
 a character. UI and control bridge commands use the same ownership checks. Start
 cannot silently replace another owner. Stop all cancels every owned queue and
 existing action, awaits quiescence, and preserves progress.
@@ -143,20 +143,6 @@ selection only changes the displayed character and controls; it does not retarge
 an existing run. The header identifies running characters, and Stop all remains
 global on every page.
 
-## Return home
-
-Implement the reference's return-home control with an explicit saved home per
-character. Characters provides Set home here from a connected character's
-observed map and tile, plus a readable location label. The option is disabled
-until a home exists and defaults off for existing profiles without a home.
-
-After the last verified queue attempt, the coordinator can navigate to the saved
-home through the existing collision-aware travel service. It holds character
-ownership, validates the destination and route, and requires observed map/tile
-arrival before reporting Home reached. A route failure or interruption saves a
-separate return-home state and leaves quest outcomes intact. Resume return checks
-actual location. Stop never starts a return trip. Faerie's mandatory safe exit
-remains part of its recipe regardless of this optional final trip.
 
 ## Characters and saved login
 
@@ -223,7 +209,7 @@ deletes quest history; active characters cannot be removed mid-operation.
 2. Owned-client launch and login form/ticket services with synthetic tests.
 3. Native planner shell, catalog rows, queue cards/dragging, character selector,
    Characters launch actions, history, and settings composition.
-4. Wire queue execution, home navigation, interruption, control ownership, and
+4. Wire queue execution, interruption, control ownership, and
    updates to existing services. Extend isolated UI interaction checks.
 5. Focused tests, full suite, Release build, `tools/Test-UI.ps1`, rendered visual
    inspection, and documentation. Packaging scripts also run if packaging changes.
@@ -247,8 +233,7 @@ native login. Avoid unrelated cleanup of the existing uncommitted quest work.
 - Every saved row has Launch; synthetic login forms and loopback transports prove
   single submission, correct identity, preserved metadata, expired-ticket blocking,
   cancellation, wrong connection, and secret exclusion.
-- Return-home success requires observed arrival; failure leaves completed quests
-  and resumable return state intact.
+
 - History and current journey show actual journals and evidence, with honest
   empty, offline, unknown, cooldown, and unsupported-recipe states.
 - Isolated UI smoke mode never accesses private credentials/journals, starts the

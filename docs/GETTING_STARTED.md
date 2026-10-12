@@ -34,12 +34,10 @@ unsupported builds. Raw game files are not included.
    **Stop** cancels automation, keeps checkpoints, and unlocks queue edits.
    Manual movement/NPC interaction pauses automation while gameplay continues.
    The journey card shows the next queue entry. Open **Run history** for saved
-   receipts, or **Quest controls** for individual actions and fast mode.
+   receipts. The full-width journey card keeps individual quest controls and fast
+   mode on the left, with the queue on its right. The full-width quest library sits below.
 
 **Run history** combines verified queue outcomes with existing quest journals.
-To return after a queue, connect the character, move to the desired location,
-then use **Set home here** in Characters. Enable **Return home when finished**
-in that character's queue. Failed travel leaves a resumable return checkpoint.
 Saved-login form automation is tested synthetically; live login is not part of
 build or UI validation.
 

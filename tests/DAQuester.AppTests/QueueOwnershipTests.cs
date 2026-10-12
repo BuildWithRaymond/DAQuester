@@ -5,6 +5,7 @@ using DAQuester.Core;
 using Xunit;
 
 namespace DAQuester.AppTests;
+
 public sealed class QueueOwnershipTests
 {
     [Fact]
@@ -31,11 +32,15 @@ public sealed class QueueOwnershipTests
     {
         var session = new SyntheticSession("QueueBoundary");
         int attempts = 0;
-        var queue = new QuestQueueCoordinator(Store(), new() { Character = "QueueBoundary", Quests = ["first", "second"] }, () => session.Snapshot, (id, _, _) =>
+        var queue = new QuestQueueCoordinator(Store(), new()
+        {
+            Character = "QueueBoundary",
+            Quests = ["first", "second"]
+        }, () => session.Snapshot, (id, _, _) =>
         {
             attempts++;
             return Task.FromResult(new QuestJob { Character = "QueueBoundary", Quest = id, Step = "complete", Status = "Completed", CompletedAt = DateTimeOffset.UtcNow });
-        }, (_, _) => throw new InvalidOperationException("Synthetic queue cannot travel"));
+        });
         queue.Changed += state =>
         {
             if (state.Quests.Length == 1 && state.ActiveQuest is null)
@@ -58,12 +63,16 @@ public sealed class QueueOwnershipTests
         string directory = Path.Combine(AppSettings.DataPath, "queue-checks", Guid.NewGuid().ToString("N"));
         var startedA = new TaskCompletionSource(TaskCreationOptions.RunContinuationsAsynchronously);
         var startedB = new TaskCompletionSource(TaskCreationOptions.RunContinuationsAsynchronously);
-        QuestQueueCoordinator Create(string name, FileQuestQueueStore store, TaskCompletionSource started) => new(store, new() { Character = name, Quests = ["fixture"] }, () => new() { Name = name, Connected = true, Generation = 1 }, async (_, _, ct) =>
+        QuestQueueCoordinator Create(string name, FileQuestQueueStore store, TaskCompletionSource started) => new(store, new()
+        {
+            Character = name,
+            Quests = ["fixture"]
+        }, () => new() { Name = name, Connected = true, Generation = 1 }, async (_, _, ct) =>
         {
             started.SetResult();
             await Task.Delay(Timeout.Infinite, ct);
             return new();
-        }, (_, _) => throw new InvalidOperationException("Synthetic queue cannot travel"));
+        });
         var a = Create(first, new(directory), startedA);
         var b = Create(second, Store(), startedB);
         owners.Add(first, a);
@@ -117,7 +126,7 @@ public sealed class QueueOwnershipTests
             Character = name,
             Quests = ["mundane-birth", "shinewood-faerie"]
         };
-        owners.Add(name, new(store, old, () => new() { Name = name, Connected = true, Generation = 1 }, (_, _, _) => throw new NotSupportedException(), (_, _) => throw new NotSupportedException()));
+        owners.Add(name, new(store, old, () => new() { Name = name, Connected = true, Generation = 1 }, (_, _, _) => throw new NotSupportedException()));
         saving.Add(name);
         Task? stop = null;
         try
@@ -128,8 +137,7 @@ public sealed class QueueOwnershipTests
                 throw new InvalidOperationException("Stop must wait for the pending queue edit before saving.");
             var next = old with
             {
-                Quests = ["shinewood-faerie", "mundane-birth"],
-                Home = new(1, new(2, 3), "Synthetic home")
+                Quests = ["shinewood-faerie", "mundane-birth"]
             };
             await store.SaveAsync(next);
             cache[name] = next;
@@ -137,8 +145,8 @@ public sealed class QueueOwnershipTests
             saving.Remove(name);
             await stop;
             var saved = store.Load(name);
-            if (!saved.Quests.SequenceEqual(next.Quests) || saved.Home != next.Home)
-                throw new InvalidOperationException("Stop must preserve the newly saved queue order and home.");
+            if (!saved.Quests.SequenceEqual(next.Quests))
+                throw new InvalidOperationException("Stop must preserve the newly saved queue order.");
         }
         finally
         {
@@ -152,7 +160,10 @@ public sealed class QueueOwnershipTests
 
     sealed class SyntheticSession(string name) : IGameSession
     {
-        public CharacterSnapshot Snapshot { get; private set; } = new()
+        public CharacterSnapshot Snapshot
+        {
+            get; private set;
+        } = new()
         {
             Name = name,
             Generation = 1,

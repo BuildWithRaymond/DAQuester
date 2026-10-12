@@ -2,6 +2,7 @@ using DAQuester.Core;
 using Xunit;
 
 namespace DAQuester.Tests;
+
 public class JournalLockTests
 {
     static string Folder() => Path.Combine(Path.GetTempPath(), "DAQuester-journal-lock-" + Guid.NewGuid());
@@ -18,7 +19,10 @@ public class JournalLockTests
         };
         await journal.SaveAsync(job);
         using var reader = new FileStream(Directory.GetFiles(folder, "*.json").Single(), FileMode.Open, FileAccess.Read, FileShare.Read);
-        var save = journal.SaveAsync(job with { Reason = "new" });
+        var save = journal.SaveAsync(job with
+        {
+            Reason = "new"
+        });
         await Task.Delay(150);
         Assert.False(save.IsCompleted, "Checkpoint failed immediately under reader lock: " + save.Exception?.GetBaseException().Message);
         reader.Dispose();

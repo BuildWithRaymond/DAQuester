@@ -31,6 +31,14 @@ Release packaging also retains exact NuGet metadata and the .NET runtime
 notices under `licenses/`. No game artwork or fonts are bundled; the interface
 uses vector paths and Windows system typefaces.
 
+## Lucide icons
+
+Interface icons use [Lucide](https://github.com/lucide-icons/lucide), pinned to
+`70562c1ee1c4fdcf736fe97bc893fb8511927934`. The geometry in `Controls/LucideIcons.cs` comes from
+upstream SVGs. Lucide's ISC license and the MIT notice for Feather-derived icons
+are retained in [Lucide/LICENSE.txt](src/DAQuester.App/Licenses/Lucide/LICENSE.txt)
+and included in application packages. No icon font or network access is needed.
+
 ## Arbiter
 
 Protocol serialization, security, opcodes, types, and message layouts in
@@ -45,7 +53,8 @@ Namespace/target adaptations and observed packet variants are described in
 
 ## DAOrganizer
 
-The saved-character form reader, verified input workflow, and ticket substitution
+The saved-character form reader, verified input workflow, ticket substitution,
+and character archive/palette rendering conventions
 adapt [BuildWithRaymond/DAOrganizer](https://github.com/BuildWithRaymond/DAOrganizer).
 DAQuester retains the following upstream notice for those adaptations:
 
@@ -72,6 +81,14 @@ LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
 OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 SOFTWARE.
 ```
+
+## DALib
+
+Character sprite decoding also adapts the MIT-licensed [DALib](https://github.com/Sichii/DALib)
+SPF format, and the Arbiter MPF decoder retains its DALib adaptation.
+The complete notice is retained in [DALib/LICENSE.txt](src/DAQuester.App/Licenses/DALib/LICENSE.txt)
+and shipped with the application. Original game artwork is read from the installed
+client; no game artwork is bundled.
 
 ## Velopack
 
@@ -115,7 +132,7 @@ entries. They retain the existing collision rules and explicit map-97 entrance
 exception. Their derivation and coverage are documented in
 [provenance](docs/provenance.md).
 
-The compass and other UI drawings are original code-native artwork. Screenshots
+The compass branding is original artwork; interface icons come from Lucide. Screenshots
 are actual isolated application renders with sample characters. Segoe UI,
 Georgia and Consolas are requested from Windows; no font files are bundled.
 This is an independent community project, unaffiliated with the game publisher.
