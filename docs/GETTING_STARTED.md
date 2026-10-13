@@ -25,28 +25,61 @@ unsupported builds. Raw game files are not included.
 3. Use the header's character switcher, search the library, and select automatic
    quests. Drag the queue into order, or use its arrows; Ctrl+Up/Down also moves
    a focused entry and Delete removes it. Select any quest and expand
-   **Quest details** for its requirements, rewards and **Open quest guide** action.
+   **Quest details** for its requirements, rewards, **Change choices** and **Open quest guide**.
+   Use a checkbox or **Add to queue** in Quest details, even for a single quest.
 4. **Run queue**, marked with a play icon, performs one verified attempt per entry.
    Birth and Emerald Dawn choices are confirmed before movement. A weekly Hairstyle attempt can
    finish without its Suomi legend; its cooldown and repeat intent remain saved.
    A pending or blocked attempt pauses the queue before the next entry.
-5. **Pause run** retains progress and order. **Resume run** checks saved results.
+5. **Pause queue** retains progress and order. **Resume queue** checks saved results.
    **Stop** cancels automation, keeps checkpoints, and unlocks queue edits.
-   Manual movement/NPC interaction pauses automation while gameplay continues.
-   The journey card shows the next queue entry. Open **Run history** for saved
-   receipts. The full-width journey card keeps individual quest controls and fast
-   mode on the left, with the queue on its right. Use the fold arrow to turn the
-   whole card into a compact bar and give the library more space. The run button
-   and progress remain visible; expand the bar to see individual quest controls.
+   Moving, turning and clicking NPCs do not automatically pause automation.
+   Use **Pause queue** or **Stop** when you want the run to pause or end.
+   The journey card follows the active quest, including a paused queue's saved
+   checkpoint. Browsing the library or planning a queue does not change it.
+   Until a run starts, or after it stops or finishes, it says **No journey running**.
+   The compact card shows progress on the left, with the queue and its run controls on the right. Fast mode is in Settings.
+   Use the fold arrow for a compact bar; queue controls stay available there too.
 
 **Run history** combines verified queue outcomes with existing quest journals.
 Saved-login form automation is tested synthetically; live login is not part of
 build or UI validation.
 
 Left navigation opens pages in the same window. Library filters, account edits
-and quest progress stay in place when switching pages. For Spare a Stick,
-**Run again** starts another attempt after cooldown; **Repeat** schedules further
-attempts every eight hours until Callough confirms permanent completion.
+and quest progress stay in place when switching pages. All planner runs use the
+queue, including one quest. To run another eligible attempt, add the quest to the
+queue again. Use the optional Scheduler for unattended repeat attempts.
+
+**Scheduler**, in the left sidebar, is a separate, completely optional mode and is
+off by default. Its page schedules any supported automatic quest at a chosen
+local date/time or as soon as it is eligible. Select recurring mode explicitly
+for Spare a Stick or Perfect Hairstyle. Quest cooldowns and requirements still
+apply; guide-only quests cannot run automatically. Save any required quest
+choices before arming the schedule.
+
+**WARNING: A scheduled login can boot your existing character session.** This
+also applies to saved helpers selected for flower quests. Scheduler uses saved
+logins, performs verified eligible work, then closes only the game windows it
+opened. It logs out between timed altar offerings and daily flower progress.
+An existing game window known to DAQuester is left alone and the schedule needs
+attention. Manual input does not pause scheduled work; Scheduler still closes
+the windows it opened when work ends. Use **Pause all** or **Stop all quests**
+to stop scheduled automation.
+
+Saving a schedule does **not** enable Scheduler. Read and acknowledge the page's
+warning, then explicitly choose **Enable scheduler**. DAQuester must remain open
+(minimized is fine). Switching pages keeps schedules running. Enabled schedules
+resume after restarting DAQuester; overdue work runs once rather than replaying
+all missed intervals. **Pause all** or the main **Stop all quests** keeps scheduling
+off until explicitly enabled again.
+
+If the server reports **already logged in**, that character's scheduled logins
+are blocked until explicit review. There is **no automatic retry**, including
+after restarting or editing a schedule. Failed or unconfirmed logins also require
+review. The page lists blocked logins, including helper characters: acknowledge
+the warning before **Review login block**, then re-enable the
+affected schedule. Interrupted submissions retain their checkpoints and are
+reconciled before another action; they are never blindly submitted again.
 
 DAQuester remembers each character's observed level and own legend marks,
 separately for each server profile. An idle connected character's legend is read
@@ -70,7 +103,7 @@ If a saved Spare a Stick reward was interrupted, DAQuester checks matching recor
 evidence before continuing. A verified reward retains its original completion time
 and cooldown. Missing evidence keeps the submission paused; it is not sent again.
 
-Optional **Fast mode · slows near players** saves separately for each character
+Optional **Fast mode** in **Settings → Movement** saves separately for the selected character
 and defaults on. Uncheck it for normal walking. With fast mode enabled, another
 player within 20 tiles automatically restores normal speed. It speeds up again when
 that player leaves. Your own connected characters do not cause this slowdown.
@@ -149,3 +182,17 @@ condition. Gathering depends on actual drops and may continue during dry patrols
 Unexpected dialogs and uncertain transactions pause rather than repeat blindly.
 Some banking, cooldown, detour and patrol cases still need live evidence; current
 details are in [validation](validation.md) and [provenance](provenance.md).
+
+The **Scheduler** icon has a status dot: red means off, yellow means schedules
+are paused or need attention, and green means active without errors. Hover for
+the full state. A paused or blocked schedule keeps the dot yellow even when
+other schedules are armed. Saved rows show the portrait, character, quest and
+local run time together; their action menu provides edit, pause, review and remove.
+The current journey follows the selected character's scheduled run from
+login through logout, even if its manual queue was previously stopped.
+
+The quest library starts with **Available** quests eligible for queue planning.
+**Completed** shows finished goals that cannot repeat, **Guides** shows manual
+guides only, and **All quests** shows everything. **Has legend marks** restricts
+any category to quests offering legend rewards; uncheck to include both kinds.
+On Characters, legend marks wrap into compact chips and scroll within the card.

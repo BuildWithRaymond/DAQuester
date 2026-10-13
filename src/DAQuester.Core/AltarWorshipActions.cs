@@ -56,6 +56,8 @@ public sealed class AltarWorshipActions : IQuestAction
 
     static async Task Wait(QuestContext c, DateTimeOffset next, CancellationToken ct)
     {
+        if (c.YieldScheduledWaits)
+            throw new QuestScheduledWaitException(next);
         await c.SaveAsync(c.Job with
         {
             Status = "Scheduled",

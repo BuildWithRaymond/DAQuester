@@ -23,6 +23,26 @@ public class NewCharacterPathTests
     static string[] Names(IEnumerable<StarterGear> gear) => gear.Select(g => g.Name).ToArray();
 
     [Fact]
+    public void Owned_starter_defense_fills_empty_slots_and_replaces_documented_weaker_armor()
+    {
+        var s = Peasant(7, bag: ["Shirt", "Boots", "Small Emerald Ring", "Small Spinel Ring", "Emerald Ring"])
+            with { Class = "Peasant", Equipment = ImmutableDictionary<byte, string>.Empty.Add(2, "Ragged Shirt") };
+        var changes = ToEquip(s);
+        Assert.Equal(["Shirt", "Small Emerald Ring", "Small Spinel Ring", "Boots"], Names(changes));
+        Assert.Equal(new byte[] { 2, 7, 8, 13 }, changes.Select(g => g.Slot));
+        Assert.DoesNotContain(changes, g => g.Name == "Emerald Ring");
+    }
+
+    [Fact]
+    public void Unknown_equipment_and_stronger_tutorial_rings_are_preserved()
+    {
+        var s = Peasant(7, bag: ["Shirt", "Boots", "Talos Ring", "Emerald Ring"])
+            with { Class = "Peasant", Equipment = ImmutableDictionary<byte, string>.Empty.Add(2, "Unknown armor").Add(7, "Small Emerald Ring").Add(8, "Small Spinel Ring").Add(13, "Unknown boots") };
+        Assert.Empty(ToEquip(s));
+        Assert.Equal(["Emerald Ring"], Names(ToEquip(s with { Level = 12 })));
+    }
+
+    [Fact]
     public void Gear_is_bought_at_its_level_the_belt_waits_for_the_necklace_and_the_dirk_is_skipped_once_a_saber_is_owned()
     {
         Assert.Empty(Due(Peasant(1)));
@@ -81,12 +101,12 @@ public class NewCharacterPathTests
     }
 
     [Fact]
-    public void Awakening_runs_only_in_the_tutorial_or_before_the_wake_up_rewards()
+    public void Awakening_enters_for_starters_or_resumes_before_the_wake_up_rewards()
     {
         Assert.Equal(EligibilityKind.Eligible, AwakeningEvidence.Eligibility(Peasant(1) with { Map = AwakeningEvidence.TutorialMap }).Kind);
         Assert.Equal(EligibilityKind.Eligible, AwakeningEvidence.Eligibility(Peasant(3) with { Map = AwakeningEvidence.RoomMap }).Kind);
         Assert.Equal(EligibilityKind.Blocked, AwakeningEvidence.Eligibility(Peasant(4, bag: ["Dirk"]) with { Map = AwakeningEvidence.RoomMap }).Kind);
-        Assert.Equal("Awakening only runs on a brand-new character still in the tutorial.", AwakeningEvidence.Eligibility(Peasant(4)).Reason);
+        Assert.Equal("Awakening starts with a level 1–3 character, or resumes in the tutorial before the wake-up rewards.", AwakeningEvidence.Eligibility(Peasant(4)).Reason);
     }
 
     [Fact]

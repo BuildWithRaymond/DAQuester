@@ -283,7 +283,7 @@ public class EmeraldDawnTests
         s.OnCommand = c =>
         {
             if (c.Kind == "visit")
-                s.Manual();
+                s.Interrupt();
         };
         var r = new QuestRunner(s, j, Recipe(), new());
         await r.RunAsync();
@@ -309,7 +309,7 @@ public class EmeraldDawnTests
         s.OnCommand = c =>
         {
             if (c.Kind == "visit")
-                s.Manual();
+                s.Interrupt();
         };
         var r = new QuestRunner(s, j, Recipe(), new());
         await r.RunAsync();
@@ -441,7 +441,7 @@ public class EmeraldDawnTests
                     Inventory = ImmutableDictionary<byte, Item>.Empty.Add(9, new(9, Item, 1))
                 });
             if (c.Kind == "visit")
-                s.Manual();
+                s.Interrupt();
         };
         var r = new QuestRunner(s, j, Recipe(), new());
         using var limit = new CancellationTokenSource(TimeSpan.FromSeconds(3));
@@ -910,7 +910,7 @@ public class EmeraldDawnTests
         s.OnCommand = c =>
         {
             if (c.Kind == "visit")
-                s.Manual();
+                s.Interrupt();
         };
         var r = new QuestRunner(s, j, Recipe(), new());
         await r.RunAsync();
@@ -994,7 +994,7 @@ public class EmeraldDawnTests
         s.OnCommand = c =>
         {
             if (c.Kind == "visit")
-                s.Manual();
+                s.Interrupt();
         };
         var r = new QuestRunner(s, j, Recipe(), new());
         await r.RunAsync();
@@ -1043,7 +1043,7 @@ public class EmeraldDawnTests
         s.OnCommand = c =>
         {
             if (c.Kind == "visit")
-                s.Manual();
+                s.Interrupt();
         };
         var r = new QuestRunner(s, j, Recipe(), new());
         await r.RunAsync();
@@ -1071,7 +1071,7 @@ public class EmeraldDawnTests
             {
                 Assert.Equal("emerald-deliver", j.Load("Nuclear", Id).Pending?.Kind);
                 Reward(s, "emerald-knights");
-                s.Manual();
+                s.Interrupt();
             }
         };
         var r = new QuestRunner(s, j, Recipe(), new());
@@ -1103,13 +1103,13 @@ public class EmeraldDawnTests
             if (c.Kind == "navigate")
             {
                 Assert.DoesNotContain(c.Target!, walls);
-                s.Manual();
+                s.Interrupt();
             }
         };
         var r = new QuestRunner(s, j, Recipe(), new());
         await r.RunAsync();
         Assert.Single(s.Commands, c => c.Kind == "navigate");
-        Assert.Equal("Manual input", r.Job.Reason);
+        Assert.Equal("Automation interrupted", r.Job.Reason);
     }
 
     [Fact]
@@ -1207,7 +1207,7 @@ public class EmeraldDawnTests
             if (c.Kind == "visit")
             {
                 if (c.Text == "Dislaidir")
-                    s.Manual();
+                    s.Interrupt();
                 else
                     s.Set(s.Snapshot with
                     {

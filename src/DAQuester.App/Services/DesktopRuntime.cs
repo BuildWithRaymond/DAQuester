@@ -109,7 +109,7 @@ public sealed partial class DesktopRuntime
 
     public string[] ControlActions => controlActions.Keys.ToArray();
     public TreeRegion[] CandidateRegions => TreePatrol.Load(Path.Combine(AppSettings.Content, "calibration", "mileth-tree-candidates.json"));
-    public bool QuestActionsRunning => pendingLaunches.Count > 0 || runnerPreparations.Count > 0 || queuePreparations.Count > 0 || queueSaving.Count > 0 || queueCoordinators.Values.Any(q => q.IsRunning) || runners.Values.Any(r => r.IsRunning) || controlActions.Count > 0 || calibrationTasks.Values.Any(t => !t.IsCompleted) || permanentTasks.Values.Any(t => !t.IsCompleted);
+    public bool QuestActionsRunning => scheduler.IsRunning || pendingLaunches.Count > 0 || runnerPreparations.Count > 0 || queuePreparations.Count > 0 || queueSaving.Count > 0 || queueCoordinators.Values.Any(q => q.IsRunning) || runners.Values.Any(r => r.IsRunning) || controlActions.Count > 0 || calibrationTasks.Values.Any(t => !t.IsCompleted) || permanentTasks.Values.Any(t => !t.IsCompleted);
     public bool ConnectedGame => sessions.Values.Any(s => s.Snapshot.Connected);
     public bool LaunchedClientRunning => launchedClients.Any(p =>
     {
@@ -128,6 +128,14 @@ public sealed partial class DesktopRuntime
         Preview = preview;
         Settings = AppSettings.Load();
         journal = new(Path.Combine(AppSettings.DataPath, "journal"));
+        var schedulerStore = new FileQuestSchedulerStore(Path.Combine(AppSettings.DataPath, "scheduler.json"));
+        try { scheduler = new(schedulerStore, ExecuteScheduledQuestAsync); }
+        catch (Exception error) when (error is IOException or UnauthorizedAccessException or JsonException)
+        {
+            scheduler = new(schedulerStore, ExecuteScheduledQuestAsync, new());
+            Log("Saved scheduler could not be read; scheduling is disabled: " + error.Message);
+        }
+        scheduler.Changed += Notify;
         characterMemory = new(Path.Combine(AppSettings.DataPath, "characters"), Settings.ServerProfile);
         recipes = Directory.GetFiles(Path.Combine(AppSettings.Content, "recipes"), "*.json").Select(path => JsonSerializer.Deserialize<QuestDefinition>(File.ReadAllText(path), AppSettings.Json)!).ToDictionary(q => q.Id, StringComparer.OrdinalIgnoreCase);
         using (var routes = JsonDocument.Parse(File.ReadAllText(Path.Combine(AppSettings.Content, "routes.json"))))
@@ -447,7 +455,7 @@ public sealed partial class DesktopRuntime
             var initial = session.Snapshot;
             if (!initial.InventoryKnown && !initial.LegendsKnown)
                 await session.WaitAsync(s => s.InventoryKnown || s.LegendsKnown, initial.Revision, TimeSpan.FromSeconds(20), characterMemoryLifetime.Token);
-            if (closing || shuttingDown || sessions.GetValueOrDefault(name) != session || !session.Snapshot.Connected || session.Snapshot.LegendsKnown || controlActions.ContainsKey(name) || QueueReserves(name) || RunnerBusy(name) || IsRunning(name) || calibrationTasks.TryGetValue(name, out var capture) && !capture.IsCompleted)
+            if (closing || shuttingDown || SchedulerReserves(name) || sessions.GetValueOrDefault(name) != session || !session.Snapshot.Connected || session.Snapshot.LegendsKnown || controlActions.ContainsKey(name) || QueueReserves(name) || RunnerBusy(name) || IsRunning(name) || calibrationTasks.TryGetValue(name, out var capture) && !capture.IsCompleted)
                 return;
             await session.ExecuteAsync(new("inspect-self"), characterMemoryLifetime.Token);
         }
@@ -499,8 +507,19 @@ public sealed partial class DesktopRuntime
     }
 
     public string FastModeDescription(string name) => sessions.GetValueOrDefault(name)?.FastModeDescription ?? "ready when connected";
-    public async Task StopOwnersAsync(string? name = null)
+    public Task StopOwnersAsync(string? name = null) => StopOwnersCoreAsync(name, false);
+
+    async Task StopOwnersCoreAsync(string? name, bool preserveSchedulerEnabled)
     {
+        bool stopScheduler = name is null || SchedulerReserves(name);
+        Task schedulerSave = Task.CompletedTask;
+        if (stopScheduler)
+        {
+            if (preserveSchedulerEnabled)
+                scheduler.Suspend();
+            else
+                schedulerSave = scheduler.SetEnabledAsync(false, false);
+        }
         CancelLaunches(name);
         CancelControl(name);
         bool Match(string character) => name is null || character.Equals(name, StringComparison.OrdinalIgnoreCase);
@@ -511,7 +530,7 @@ public sealed partial class DesktopRuntime
         // Start all cancellations before awaiting any potentially failing checkpoint.
         var queues = Characters.Concat(queueCache.Keys).Concat(queueCoordinators.Keys).Distinct(StringComparer.OrdinalIgnoreCase).Where(Match).Select(character => PauseQueueAsync(character, true)).ToArray();
         var quests = runners.Where(p => Match(p.Key)).Select(p => p.Value.PauseAsync("Stopped; progress saved")).ToArray();
-        await Task.WhenAll(queues.Concat(quests).Append(AwaitLaunchesAsync(name)).Append(WaitForQueueSavesAsync(name)).Append(WaitForRunnerPreparationsAsync(name)).Append(WaitForControlActionsAsync(name)).Concat(calibrationTasks.Where(p => Match(p.Key)).Select(p => p.Value)).Concat(permanentTasks.Where(p => Match(p.Key)).Select(p => p.Value)));
+        await Task.WhenAll(queues.Concat(quests).Append(schedulerSave).Append(stopScheduler ? scheduler.WaitForIdleAsync() : Task.CompletedTask).Append(AwaitLaunchesAsync(name)).Append(WaitForQueueSavesAsync(name)).Append(WaitForRunnerPreparationsAsync(name)).Append(WaitForControlActionsAsync(name)).Concat(calibrationTasks.Where(p => Match(p.Key)).Select(p => p.Value)).Concat(permanentTasks.Where(p => Match(p.Key)).Select(p => p.Value)));
         if (Preview)
             previewRunning.RemoveWhere(Match);
         Notify();
@@ -532,7 +551,7 @@ public sealed partial class DesktopRuntime
         shuttingDown = true;
         try
         {
-            await StopOwnersAsync();
+            await StopOwnersCoreAsync(null, true);
             bool prepared = Updates.PrepareExit(QuestActionsRunning, ConnectedGame, LaunchedClientRunning);
             if (installRequested && !prepared)
                 throw new InvalidOperationException(Updates.Status + " Finish quests and close game clients, then try again.");

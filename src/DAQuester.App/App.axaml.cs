@@ -30,6 +30,7 @@ public partial class App : Application
                 return result;
             };
             vm.PickClientAsync = () => ClientPickerDialog.ShowAsync(window, vm.ClientPath);
+            vm.ConfirmPaulinQuestAsync = (character, quest, replacing) => PaulinQueueDialog.ShowAsync(window, character, quest, replacing, vm.JourneyGameDirectory);
             vm.RequestClose += window.Close;
             bool closing = false, closed = false;
             window.Closing += async (_, eventArgs) =>
@@ -56,7 +57,11 @@ public partial class App : Application
             {
                 Interval = TimeSpan.FromSeconds(2)
             };
-            timer.Tick += (_, _) => vm.Refresh();
+            timer.Tick += async (_, _) =>
+            {
+                vm.Refresh();
+                await runtime.TickSchedulerAsync();
+            };
             window.Closed += (_, _) => timer.Stop();
             window.Opened += async (_, _) =>
             {

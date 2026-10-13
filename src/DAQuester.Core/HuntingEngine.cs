@@ -87,6 +87,7 @@ public sealed class HuntingEngine(IGameSession session, ICombatMap map, HuntingG
         Note("Gear at " + s.WorstDurability + "%; repairing at " + retreat.Place);
         if (s.Map != retreat.Map)
             await MeleeFight.WalkToRetreat(session, retreat, ct);
+        options.Activity?.Invoke(new("Repairing", Detail: retreat.Place));
         try
         {
             await session.ExecuteAsync(new("repair"), ct);
@@ -196,6 +197,8 @@ public sealed class HuntingEngine(IGameSession session, ICombatMap map, HuntingG
             // A running fight is finished before anything else happens.
             if (ground.FloorOf(s.Map) >= 0 && Touching(s))
                 await FightAsync(x => !Touching(x), ct);
+            if (stats is not null)
+                await stats.SpendAsync(ct);
             Note(Who + " reached level " + level + "; leveling stopped.");
             return true;
         }
@@ -427,6 +430,8 @@ public sealed class HuntingEngine(IGameSession session, ICombatMap map, HuntingG
     // Walking has the same 30% rule as fighting: below it, the walk is abandoned for the walk-out.
     async Task WalkAsync(int destination, Tile tile, CancellationToken ct)
     {
+        int floor = ground.FloorOf(destination);
+        options.Activity?.Invoke(new("Traveling", Detail: destination == retreat.Map ? retreat.Place : floor >= 0 ? "Crypt " + (floor + 1) + "-1" : "the hunting ground"));
         using var guard = CancellationTokenSource.CreateLinkedTokenSource(ct);
         bool low = false;
         void Check(CharacterSnapshot x)
@@ -467,6 +472,7 @@ public sealed class HuntingEngine(IGameSession session, ICombatMap map, HuntingG
         if (session.Snapshot.Position is { } here && BashingBase.BesideWarp(map, here) && BashingBase.SafeTileNear(map, here) is { } clear)
             await session.ExecuteAsync(new("navigate", retreat.Map, clear), ct);
         Note("Resting in " + retreat.Place + " until health is full (" + session.Snapshot.Hp + "/" + session.Snapshot.MaxHp + ")");
+        options.Activity?.Invoke(new("Resting", Detail: retreat.Place));
         while (true)
         {
             var r = session.Snapshot;

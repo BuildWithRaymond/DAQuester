@@ -1,0 +1,804 @@
+{
+  "schemaVersion": 1,
+  "entries": [
+    {
+      "id": "shinewoodfaerie",
+      "label": "Shinewood Faerie",
+      "creature": true,
+      "sprite": 4,
+      "dye": 0,
+      "variant": "",
+      "bottomCrop": false,
+      "aliases": [
+        "shinewood-faerie"
+      ],
+      "source": "https://www.vorlof.com/general/shinewoodforest11.html"
+    },
+    {
+      "id": "mundanebirth",
+      "label": "Riona",
+      "creature": true,
+      "sprite": 22,
+      "dye": 0,
+      "variant": "",
+      "bottomCrop": false,
+      "aliases": [
+        "mundane-birth"
+      ],
+      "source": "https://www.vorlof.com/quests/mundanebirth.html"
+    },
+    {
+      "id": "altarworship",
+      "label": "Red Jade Ring",
+      "creature": false,
+      "sprite": 208,
+      "dye": 0,
+      "variant": "",
+      "bottomCrop": false,
+      "aliases": [
+        "altar-worship"
+      ],
+      "source": "https://www.vorlof.com/quests/altarworship.html"
+    },
+    {
+      "id": "spareastick",
+      "label": "Branch for Callough",
+      "creature": false,
+      "sprite": 318,
+      "dye": 0,
+      "variant": "",
+      "bottomCrop": false,
+      "aliases": [
+        "spare-a-stick"
+      ],
+      "source": "https://www.vorlof.com/quests/spareastick.html"
+    },
+    {
+      "id": "perfecthairstyle",
+      "label": "Eeva, hairstylist",
+      "creature": true,
+      "sprite": 522,
+      "dye": 0,
+      "variant": "",
+      "bottomCrop": false,
+      "aliases": [
+        "perfect-hairstyle"
+      ],
+      "source": "https://www.vorlof.com/npc.php?id=950_Eeva_3,3"
+    },
+    {
+      "id": "ciad",
+      "label": "Ciad Necklace",
+      "creature": false,
+      "sprite": 937,
+      "dye": 0,
+      "variant": "",
+      "bottomCrop": false,
+      "aliases": [],
+      "source": "https://www.vorlof.com/quests/ciad.html"
+    },
+    {
+      "id": "terroralley",
+      "label": "Alley nightmare creature",
+      "creature": true,
+      "sprite": 105,
+      "dye": 0,
+      "variant": "",
+      "bottomCrop": false,
+      "aliases": ["terroralleygarden"],
+      "source": "https://www.vorlof.com/quests/terroralley.html"
+    },
+    {
+      "id": "terrorgarden",
+      "label": "Garden nightmare creature",
+      "creature": true,
+      "sprite": 87,
+      "dye": 0,
+      "variant": "",
+      "bottomCrop": false,
+      "aliases": [],
+      "source": "https://www.vorlof.com/quests/terrorgarden.html"
+    },
+    {
+      "id": "fromtheheart",
+      "label": "Conix Fragment",
+      "creature": false,
+      "sprite": 316,
+      "dye": 0,
+      "variant": "",
+      "bottomCrop": false,
+      "aliases": [],
+      "source": "https://www.vorlof.com/quests/fromtheheart.html"
+    },
+    {
+      "id": "terrorcrypt",
+      "label": "Crypt nightmare creature",
+      "creature": true,
+      "sprite": 55,
+      "dye": 0,
+      "variant": "",
+      "bottomCrop": false,
+      "aliases": [],
+      "source": "https://www.vorlof.com/quests/terrorcrypt.html"
+    },
+    {
+      "id": "adoration",
+      "label": "Pravat / Adranuch Cross",
+      "creature": false,
+      "sprite": 83,
+      "dye": 0,
+      "variant": "",
+      "bottomCrop": false,
+      "aliases": [],
+      "source": "https://www.vorlof.com/quests/adoration.html"
+    },
+    {
+      "id": "porte",
+      "label": "Turuc Pendant",
+      "creature": false,
+      "sprite": 663,
+      "dye": 0,
+      "variant": "",
+      "bottomCrop": false,
+      "aliases": [],
+      "source": "https://www.vorlof.com/quests/porte.html"
+    },
+    {
+      "id": "tagorcitizens",
+      "label": "Tagor Citizen",
+      "creature": true,
+      "sprite": 63,
+      "dye": 0,
+      "variant": "",
+      "bottomCrop": false,
+      "aliases": [],
+      "source": "https://www.vorlof.com/quests/tagorcitizens.html"
+    },
+    {
+      "id": "petpenguin",
+      "label": "Pet Penguin",
+      "creature": false,
+      "sprite": 1441,
+      "dye": 0,
+      "variant": "",
+      "bottomCrop": false,
+      "aliases": [],
+      "source": "https://www.vorlof.com/quests/petpenguin.html"
+    },
+    {
+      "id": "curedsickchild",
+      "label": "White / Sevti Blossom",
+      "creature": false,
+      "sprite": 23,
+      "dye": 0,
+      "variant": "",
+      "bottomCrop": false,
+      "aliases": [
+        "cured-sick-child"
+      ],
+      "source": "https://www.vorlof.com/quests/curedsickchild.html"
+    },
+    {
+      "id": "aidedthepactofanaman",
+      "label": "Golden / Tulsi Blossom",
+      "creature": false,
+      "sprite": 22,
+      "dye": 0,
+      "variant": "",
+      "bottomCrop": false,
+      "aliases": [
+        "aided-pact-of-anaman"
+      ],
+      "source": "https://www.vorlof.com/quests/aidedthepactofanaman.html"
+    },
+    {
+      "id": "fisksecret",
+      "label": "Water Lily",
+      "creature": false,
+      "sprite": 1489,
+      "dye": 0,
+      "variant": "",
+      "bottomCrop": false,
+      "aliases": [],
+      "source": "https://www.vorlof.com/quests/fisksecret.html"
+    },
+    {
+      "id": "religiousgeas",
+      "label": "Temple attendant",
+      "creature": true,
+      "sprite": 61,
+      "dye": 0,
+      "variant": "",
+      "bottomCrop": false,
+      "aliases": [],
+      "source": "https://www.vorlof.com/quests/religiousgeas.html"
+    },
+    {
+      "id": "emeralddawn",
+      "label": "Emerald Knight Insignia",
+      "creature": false,
+      "sprite": 70,
+      "dye": 0,
+      "variant": "",
+      "bottomCrop": false,
+      "aliases": [
+        "emerald-dawn"
+      ],
+      "source": "https://www.vorlof.com/quests/emeralddawn.html"
+    },
+    {
+      "id": "tiota",
+      "label": "Tiota Necklace",
+      "creature": false,
+      "sprite": 938,
+      "dye": 0,
+      "variant": "",
+      "bottomCrop": false,
+      "aliases": [],
+      "source": "https://www.vorlof.com/quests/tiota.html"
+    },
+    {
+      "id": "karlopos",
+      "label": "Karlopos Octopus",
+      "creature": true,
+      "sprite": 254,
+      "dye": 0,
+      "variant": "",
+      "bottomCrop": false,
+      "aliases": [],
+      "source": "https://www.vorlof.com/quests/karlopos.html"
+    },
+    {
+      "id": "orenfountain",
+      "label": "Oren Key",
+      "creature": false,
+      "sprite": 920,
+      "dye": 0,
+      "variant": "",
+      "bottomCrop": false,
+      "aliases": [],
+      "source": "https://www.vorlof.com/quests/orenfountain.html"
+    },
+    {
+      "id": "capofdanaan",
+      "label": "Cap of Danaan",
+      "creature": false,
+      "sprite": 1059,
+      "dye": 0,
+      "variant": "",
+      "bottomCrop": false,
+      "aliases": [],
+      "source": "https://www.vorlof.com/quests/capofdanaan.html"
+    },
+    {
+      "id": "bandofdanaan",
+      "label": "Band of Danaan",
+      "creature": false,
+      "sprite": 1064,
+      "dye": 0,
+      "variant": "",
+      "bottomCrop": false,
+      "aliases": [],
+      "source": "https://www.vorlof.com/quests/capofdanaan.html"
+    },
+    {
+      "id": "treas",
+      "label": "Treas Necklace",
+      "creature": false,
+      "sprite": 943,
+      "dye": 0,
+      "variant": "",
+      "bottomCrop": false,
+      "aliases": [],
+      "source": "https://www.vorlof.com/quests/treas.html"
+    },
+    {
+      "id": "wolfofwestwoodlands",
+      "label": "West Woodland Wolf",
+      "creature": true,
+      "sprite": 2,
+      "dye": 0,
+      "variant": "",
+      "bottomCrop": false,
+      "aliases": [],
+      "source": "https://www.vorlof.com/quests/wolfofwestwoodlands.html"
+    },
+    {
+      "id": "pirateslayer",
+      "label": "Oren Pirate",
+      "creature": true,
+      "sprite": 330,
+      "dye": 0,
+      "variant": "",
+      "bottomCrop": false,
+      "aliases": [],
+      "source": "https://www.vorlof.com/quests/pirateslayer.html"
+    },
+    {
+      "id": "reincarnationofchadul",
+      "label": "Dark Shield",
+      "creature": false,
+      "sprite": 192,
+      "dye": 0,
+      "variant": "",
+      "bottomCrop": false,
+      "aliases": [],
+      "source": "https://www.vorlof.com/quests/reincarnationofchadul.html"
+    },
+    {
+      "id": "reincarnationofdanaan",
+      "label": "Light Shield",
+      "creature": false,
+      "sprite": 193,
+      "dye": 0,
+      "variant": "",
+      "bottomCrop": false,
+      "aliases": [],
+      "source": "https://www.vorlof.com/quests/reincarnationofdanaan.html"
+    },
+    {
+      "id": "aislingoftalgonite",
+      "label": "Finished Talos",
+      "creature": false,
+      "sprite": 320,
+      "dye": 0,
+      "variant": "",
+      "bottomCrop": false,
+      "aliases": [],
+      "source": "https://www.vorlof.com/quests/aislingoftalgonite.html"
+    },
+    {
+      "id": "aislingofmythril",
+      "label": "Mythril Shield",
+      "creature": false,
+      "sprite": 93,
+      "dye": 0,
+      "variant": "",
+      "bottomCrop": false,
+      "aliases": [],
+      "source": "https://www.vorlof.com/quests/aislingofmythril.html"
+    },
+    {
+      "id": "aislingofhybrasyl",
+      "label": "Finished Hy-brasyl",
+      "creature": false,
+      "sprite": 322,
+      "dye": 0,
+      "variant": "",
+      "bottomCrop": false,
+      "aliases": [],
+      "source": "https://www.vorlof.com/quests/aislingofhybrasyl.html"
+    },
+    {
+      "id": "peasantday",
+      "label": "Hy-brasyl Crios Belt",
+      "creature": false,
+      "sprite": 899,
+      "dye": 0,
+      "variant": "",
+      "bottomCrop": false,
+      "aliases": [],
+      "source": "https://www.vorlof.com/quests/peasantday.html"
+    },
+    {
+      "id": "muisirvillageentrance",
+      "label": "Undine Mushroom",
+      "creature": false,
+      "sprite": 569,
+      "dye": 0,
+      "variant": "",
+      "bottomCrop": false,
+      "aliases": [
+        "entered-muisir-village"
+      ],
+      "source": "https://www.vorlof.com/quests/muisirvillageentrance.html"
+    },
+    {
+      "id": "muisirtraininggrounds",
+      "label": "Rogue Mushroom",
+      "creature": true,
+      "sprite": 580,
+      "dye": 0,
+      "variant": "",
+      "bottomCrop": false,
+      "aliases": [],
+      "source": "https://www.vorlof.com/quests/muisirtraininggrounds.html"
+    },
+    {
+      "id": "muisirvillain",
+      "label": "Muisir Beast",
+      "creature": true,
+      "sprite": 933,
+      "dye": 0,
+      "variant": "",
+      "bottomCrop": false,
+      "aliases": [],
+      "source": "https://www.vorlof.com/quests/muisirvillain.html"
+    },
+    {
+      "id": "blackstarcrypt",
+      "label": "Shade of Ealagad",
+      "creature": true,
+      "sprite": 397,
+      "dye": 0,
+      "variant": "",
+      "bottomCrop": false,
+      "aliases": [],
+      "source": "https://www.vorlof.com/quests/blackstarcrypt.html"
+    },
+    {
+      "id": "blackstarwatchman",
+      "label": "Blackstar Helm",
+      "creature": false,
+      "sprite": 12184,
+      "dye": 0,
+      "variant": "",
+      "bottomCrop": false,
+      "aliases": [],
+      "source": "https://www.vorlof.com/quests/blackstarwatchman.html"
+    },
+    {
+      "id": "carnun",
+      "label": "Carnun Helm",
+      "creature": false,
+      "sprite": 301,
+      "dye": 0,
+      "variant": "",
+      "bottomCrop": false,
+      "aliases": [],
+      "source": "https://www.vorlof.com/quests/carnun.html"
+    },
+    {
+      "id": "cthonicdisciple",
+      "label": "Cthonic robes",
+      "creature": false,
+      "sprite": 304,
+      "dye": 0,
+      "variant": "",
+      "bottomCrop": false,
+      "aliases": [],
+      "source": "https://www.vorlof.com/quests/cthonicdisciple.html"
+    },
+    {
+      "id": "morrigu",
+      "label": "Morrigu Pellison",
+      "creature": false,
+      "sprite": 307,
+      "dye": 0,
+      "variant": "",
+      "bottomCrop": false,
+      "aliases": [],
+      "source": "https://www.vorlof.com/quests/morrigu.html"
+    },
+    {
+      "id": "patternwalker",
+      "label": "Aosdic Pattern Walker",
+      "creature": false,
+      "sprite": 306,
+      "dye": 0,
+      "variant": "",
+      "bottomCrop": false,
+      "aliases": [],
+      "source": "https://www.vorlof.com/quests/patternwalker.html"
+    },
+    {
+      "id": "marauder",
+      "label": "Marauder Helm",
+      "creature": false,
+      "sprite": 303,
+      "dye": 0,
+      "variant": "",
+      "bottomCrop": false,
+      "aliases": [],
+      "source": "https://www.vorlof.com/quests/marauder.html"
+    },
+    {
+      "id": "goblinwar",
+      "label": "Goblin battlefield enemy",
+      "creature": true,
+      "sprite": 15,
+      "dye": 0,
+      "variant": "",
+      "bottomCrop": false,
+      "aliases": [],
+      "source": "https://www.vorlof.com/quests/goblinwar.html"
+    },
+    {
+      "id": "dailykillquest",
+      "label": "Daily Quest Token",
+      "creature": false,
+      "sprite": 13057,
+      "dye": 0,
+      "variant": "",
+      "bottomCrop": false,
+      "aliases": [],
+      "source": "https://www.vorlof.com/quests/dailykillquest.html"
+    },
+    {
+      "id": "tauren",
+      "label": "Tauren Creant",
+      "creature": true,
+      "sprite": 376,
+      "dye": 0,
+      "variant": "",
+      "bottomCrop": false,
+      "aliases": [],
+      "source": "https://www.vorlof.com/quests/tauren.html"
+    },
+    {
+      "id": "ladyphoenix",
+      "label": "Lady Phoenix Creant",
+      "creature": true,
+      "sprite": 377,
+      "dye": 0,
+      "variant": "",
+      "bottomCrop": false,
+      "aliases": [],
+      "source": "https://www.vorlof.com/quests/ladyphoenix.html"
+    },
+    {
+      "id": "medusa",
+      "label": "Medusa Creant",
+      "creature": true,
+      "sprite": 380,
+      "dye": 0,
+      "variant": "",
+      "bottomCrop": false,
+      "aliases": [],
+      "source": "https://www.vorlof.com/quests/medusa.html"
+    },
+    {
+      "id": "shamensyth",
+      "label": "Shamensyth Creant",
+      "creature": true,
+      "sprite": 379,
+      "dye": 0,
+      "variant": "",
+      "bottomCrop": false,
+      "aliases": [],
+      "source": "https://www.vorlof.com/quests/shamensyth.html"
+    },
+    {
+      "id": "eclipse",
+      "label": "Eclipse",
+      "creature": false,
+      "sprite": 520,
+      "dye": 0,
+      "variant": "",
+      "bottomCrop": false,
+      "aliases": [],
+      "source": "https://www.vorlof.com/quests/eclipse.html"
+    },
+    {
+      "id": "darkring",
+      "label": "Dark Ring",
+      "creature": false,
+      "sprite": 1572,
+      "dye": 0,
+      "variant": "",
+      "bottomCrop": false,
+      "aliases": [],
+      "source": "https://www.vorlof.com/quests/darkring.html"
+    },
+    {
+      "id": "cluaisjewel",
+      "label": "Cluais Jewel",
+      "creature": false,
+      "sprite": 1668,
+      "dye": 0,
+      "variant": "",
+      "bottomCrop": false,
+      "aliases": [],
+      "source": "https://www.vorlof.com/quests/cluaisjewel.html"
+    },
+    {
+      "id": "obsidian",
+      "label": "Obsidian",
+      "creature": false,
+      "sprite": 1420,
+      "dye": 0,
+      "variant": "",
+      "bottomCrop": false,
+      "aliases": [],
+      "source": "https://www.vorlof.com/quests/obsidian.html"
+    },
+    {
+      "id": "arcanegauntlet",
+      "label": "Arcane Gauntlet",
+      "creature": false,
+      "sprite": 1566,
+      "dye": 0,
+      "variant": "",
+      "bottomCrop": false,
+      "aliases": [],
+      "source": "https://www.vorlof.com/quests/arcanegauntlet.html"
+    },
+    {
+      "id": "arsaidhaon",
+      "label": "Arsaidh Aon dragon",
+      "creature": true,
+      "sprite": 83,
+      "dye": 0,
+      "variant": "a",
+      "bottomCrop": false,
+      "aliases": [],
+      "source": "https://www.vorlof.com/quests/arsaidhaon.html"
+    },
+    {
+      "id": "archaeologistofbealnacarriage",
+      "label": "Jeweled Dark Belt",
+      "creature": false,
+      "sprite": 1898,
+      "dye": 0,
+      "variant": "",
+      "bottomCrop": false,
+      "aliases": [],
+      "source": "https://www.vorlof.com/quests/archaeologistofbealnacarriage.html"
+    },
+    {
+      "id": "mephit",
+      "label": "Kanna Flame Necklace",
+      "creature": false,
+      "sprite": 1867,
+      "dye": 0,
+      "variant": "",
+      "bottomCrop": false,
+      "aliases": [],
+      "source": "https://www.vorlof.com/quests/mephit.html"
+    },
+    {
+      "id": "morwin",
+      "label": "Kanna Wind Necklace",
+      "creature": false,
+      "sprite": 1872,
+      "dye": 0,
+      "variant": "",
+      "bottomCrop": false,
+      "aliases": [],
+      "source": "https://www.vorlof.com/quests/morwin.html"
+    },
+    {
+      "id": "arenacircut",
+      "label": "Champion Band",
+      "creature": false,
+      "sprite": 742,
+      "dye": 0,
+      "variant": "",
+      "bottomCrop": false,
+      "aliases": [],
+      "source": "https://www.vorlof.com/quests/arenacircut.html"
+    },
+    {
+      "id": "lorais",
+      "label": "Lorai",
+      "creature": true,
+      "sprite": 422,
+      "dye": 0,
+      "variant": "",
+      "bottomCrop": true,
+      "aliases": [],
+      "source": "https://www.vorlof.com/quests/lorais.html"
+    },
+    {
+      "id": "dioram",
+      "label": "Dioram Potion",
+      "creature": false,
+      "sprite": 2163,
+      "dye": 0,
+      "variant": "",
+      "bottomCrop": false,
+      "aliases": [],
+      "source": "https://www.vorlof.com/quests/dioram.html"
+    },
+    {
+      "id": "andortrials",
+      "label": "Magic Lantern",
+      "creature": false,
+      "sprite": 2319,
+      "dye": 0,
+      "variant": "",
+      "bottomCrop": false,
+      "aliases": [],
+      "source": "https://www.vorlof.com/quests/andortrials.html"
+    },
+    {
+      "id": "fireserpent",
+      "label": "Fire Serpent Skin",
+      "creature": false,
+      "sprite": 1385,
+      "dye": 0,
+      "variant": "",
+      "bottomCrop": false,
+      "aliases": [],
+      "source": "https://www.vorlof.com/quests/fireserpent.html"
+    },
+    {
+      "id": "amanjungle",
+      "label": "Map to Elemus",
+      "creature": false,
+      "sprite": 3299,
+      "dye": 0,
+      "variant": "",
+      "bottomCrop": false,
+      "aliases": [],
+      "source": "https://www.vorlof.com/quests/amanjungle.html"
+    },
+    {
+      "id": "yowienterritory",
+      "label": "Yowien Blue Vine",
+      "creature": false,
+      "sprite": 3369,
+      "dye": 58,
+      "variant": "",
+      "bottomCrop": false,
+      "aliases": [],
+      "source": "https://www.vorlof.com/quests/yowienterritory.html"
+    },
+    {
+      "id": "strongwinds",
+      "label": "Yowien Tree Sap",
+      "creature": false,
+      "sprite": 4527,
+      "dye": 0,
+      "variant": "",
+      "bottomCrop": false,
+      "aliases": [],
+      "source": "https://www.vorlof.com/quests/strongwinds.html"
+    },
+    {
+      "id": "defeatedlaw",
+      "label": "Law",
+      "creature": true,
+      "sprite": 404,
+      "dye": 0,
+      "variant": "",
+      "bottomCrop": false,
+      "aliases": [],
+      "source": "https://www.vorlof.com/quests/defeatedlaw.html"
+    },
+    {
+      "id": "plamit",
+      "label": "Silver Baem Egg",
+      "creature": false,
+      "sprite": 2218,
+      "dye": 0,
+      "variant": "",
+      "bottomCrop": false,
+      "aliases": [],
+      "source": "https://www.vorlof.com/quests/plamit.html"
+    },
+    {
+      "id": "baemmissivedecoding",
+      "label": "Wind Baem Missive",
+      "creature": false,
+      "sprite": 3249,
+      "dye": 0,
+      "variant": "",
+      "bottomCrop": false,
+      "aliases": [],
+      "source": "https://www.vorlof.com/quests/baemmissivedecoding.html"
+    },
+    {
+      "id": "danaanconsecration",
+      "label": "Ragged Holy Danaan",
+      "creature": false,
+      "sprite": 7986,
+      "dye": 0,
+      "variant": "",
+      "bottomCrop": false,
+      "aliases": [],
+      "source": "https://www.vorlof.com/quests/danaanconsecration.html"
+    },
+    {
+      "id": "tavalymystery",
+      "label": "Fragmented Plan",
+      "creature": false,
+      "sprite": 217,
+      "dye": 0,
+      "variant": "",
+      "bottomCrop": false,
+      "aliases": [],
+      "source": "https://www.vorlof.com/quests/tavalymystery.html"
+    }
+  ]
+}

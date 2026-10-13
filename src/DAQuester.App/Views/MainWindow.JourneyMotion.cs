@@ -47,16 +47,15 @@ public partial class MainWindow
     {
         double amount = journeyMotion.Position(now);
         bool active = journeyMotion.Active(now);
-        double expandedHeight = Bounds.Width < 1160 ? 300 : Math.Clamp((Bounds.Height - 150) * .25, 270, 300);
-        this.FindControl<Border>("journeyCard")!.Height = expandedHeight + (80 - expandedHeight) * amount;
-        this.FindControl<Grid>("plannerLayout")!.MinHeight = 620 - 260 * amount;
+        double expandedHeight = ClientSize.Height < 650 ? 220 : 280;
+        this.FindControl<Border>("journeyCard")!.Height = expandedHeight + (64 - expandedHeight) * amount;
         var expanded = this.FindControl<Grid>("journeyLayout")!;
-        expanded.Height = expandedHeight;
+        expanded.Height = expandedHeight - 20;
         expanded.IsVisible = amount < 1;
         expanded.IsHitTestVisible = !active && !viewModel.JourneyCollapsed;
         KeyboardNavigation.SetTabNavigation(expanded, active ? KeyboardNavigationMode.None : KeyboardNavigationMode.Continue);
         expanded.Opacity = 1 - SmoothStep(.02, .42, amount);
-        expandedShift.Y = -28 * amount;
+        expandedShift.Y = 28 * amount;
         var mini = this.FindControl<Grid>("journeyMiniBar")!;
         mini.IsVisible = amount > 0;
         mini.IsHitTestVisible = !active && viewModel.JourneyCollapsed;
@@ -65,8 +64,8 @@ public partial class MainWindow
         compactShift.Y = 18 * (1 - amount);
         double arrival = SmoothStep(.5, 1, amount);
         compactScale.ScaleX = compactScale.ScaleY = .94 + .06 * (arrival + .45 * Math.Sin(Math.PI * arrival));
-        toggleTurn.Angle = 180 * amount;
-        this.FindControl<Button>("journeyToggle")!.Margin = new Thickness(10, 12 + 12 * amount, 12, 12);
+        toggleTurn.Angle = -180 * amount;
+        this.FindControl<Button>("journeyToggle")!.Margin = new Thickness(10, 12 + 4 * amount, 12, 12);
         var fold = this.FindControl<JourneyFoldAccent>("journeyFold")!;
         fold.Amount = amount;
         fold.Intensity = journeyMotion.Activity(now);

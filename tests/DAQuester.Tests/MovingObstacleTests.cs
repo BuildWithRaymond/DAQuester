@@ -129,6 +129,35 @@ public class MovingObstacleTests
         Assert.Equal(new Tile(4, 1), fixture.Session.Snapshot.Position);
     }
 
+    [Theory]
+    [InlineData(false)]
+    [InlineData(true)]
+    public async Task Player_rejection_with_authoritative_position_replans_without_an_unanswered_refresh(bool fast)
+    {
+        await using var f = await Fixture.Create(fast ? 160 : 1);
+        if (fast)
+        {
+            f.Session.FastMode = false;
+            await f.Walk(new(1, 2), (_, _) => Task.FromResult(false));
+            await f.Walk(new(1, 1), (_, _) => Task.FromResult(false));
+        }
+        f.Session.FastMode = fast;
+        var occupied = new Tile(2, 1);
+        await f.Walk(new(4, 1), async (moves, next) =>
+        {
+            if (moves == 1)
+            {
+                await f.Send(0x33, Human(99, occupied).Data);
+                await f.Position(new(1, 1));
+                return true;
+            }
+            Assert.NotEqual(occupied, next);
+            return false;
+        }, refresh: () => Task.CompletedTask);
+        Assert.Equal(new Tile(4, 1), f.Session.Snapshot.Position);
+        Assert.DoesNotContain((byte)0x38, f.Commands);
+    }
+
     [Fact]
     public async Task Player_arriving_during_movement_cadence_is_routed_around()
     {
@@ -171,7 +200,10 @@ public class MovingObstacleTests
             Assert.NotEqual(blocked, next);
             return false;
         });
-        Assert.Contains((byte)0x38, fixture.Commands);
+        if (rejectionAck)
+            Assert.DoesNotContain((byte)0x38, fixture.Commands);
+        else
+            Assert.Contains((byte)0x38, fixture.Commands);
         Assert.DoesNotContain((byte)0x09, fixture.Commands);
         Assert.Equal(new Tile(4, 1), fixture.Session.Snapshot.Position);
     }
@@ -222,7 +254,6 @@ public class MovingObstacleTests
                 Assert.False(refreshing, "A new step was sent before refresh position arrived.");
                 if (n == 1)
                 {
-                    await f.Send(11, [4, 0, 1, 0, 1, 0, 0, 0, 0, 0]);
                     return true;
                 }
 
@@ -293,10 +324,10 @@ public class MovingObstacleTests
     public async Task Stop_cancels_refresh_wait_without_sending_another_step()
     {
         await using var f = await Fixture.Create();
-        using var stop = new CancellationTokenSource(350);
+        using var stop = new CancellationTokenSource(3500);
         await Assert.ThrowsAnyAsync<OperationCanceledException>(() => f.Walk(new(4, 1), async (_, _) =>
         {
-            await f.Send(11, [4, 0, 1, 0, 1, 0, 0, 0, 0, 0]);
+            await Task.CompletedTask;
             return true;
         }, refresh: () => Task.CompletedTask, cancellation: stop.Token));
         Assert.Single(f.Commands, c => c == 6);
@@ -332,6 +363,10 @@ public class MovingObstacleTests
         public required GameSession Session;
         readonly ServerPacketEncryptor encrypt = new();
         readonly ClientPacketEncryptor decrypt = new();
+        // A projected walk can finish while the fake server has read only part of
+        // its frame. Keep those bytes for the next Walk instead of losing alignment.
+        readonly FrameBuffer serverFrames = new();
+        readonly byte[] serverBytes = new byte[8192];
         byte ordinal = 20;
         readonly SemaphoreSlim serverWrites = new(1, 1);
         public List<byte> Commands { get; } = [];
@@ -428,11 +463,15 @@ public class MovingObstacleTests
             {
                 while (true)
                 {
-                    byte[] header = new byte[3];
-                    await Server.GetStream().ReadExactlyAsync(header, limit.Token);
-                    byte[] data = new byte[(header[1] << 8) | header[2]];
-                    await Server.GetStream().ReadExactlyAsync(data, limit.Token);
-                    var packet = (ClientPacket)decrypt.Decrypt(new ClientPacket(data[0], data[1..]));
+                    byte[]? frame;
+                    while ((frame = serverFrames.Read()) is null)
+                    {
+                        int read = await Server.GetStream().ReadAsync(serverBytes, limit.Token);
+                        if (read == 0)
+                            throw new EndOfStreamException("Synthetic game connection closed before its next request.");
+                        serverFrames.Append(serverBytes[..read]);
+                    }
+                    var packet = (ClientPacket)decrypt.Decrypt(new ClientPacket(frame[3], frame[4..]));
                     byte opcode = (byte)packet.Command;
                     Commands.Add(opcode);
                     if (opcode == 7 && pickup is not null)

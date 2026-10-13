@@ -32,9 +32,9 @@ Use this map when changing a specific part of the app:
 | --- | --- |
 | Page layout, navigation, header controls | `Views/MainWindow.axaml` and its code-behind |
 | Colors, button sizes, interaction states | `App.axaml` and `Views/JournalStyles.axaml` |
-| Interface icons and quest-to-icon choices | `Controls/LucideIcons.cs`, `LineIcon.cs`, `QuestGlyph.cs` |
+| Interface icons and quest artwork | `Controls/LucideIcons.cs`, `LineIcon.cs`, `QuestGlyph.cs`, `QuestArtworkCatalog.cs`, and `content/quest-artwork.json` |
 | Library filtering and command wiring | `ViewModels/MainWindowViewModel.cs` |
-| Journey text, queue readiness, repeat controls | `ViewModels/MainWindowViewModel.Journey.cs` |
+| Current journey, queue readiness, selected quest actions | `ViewModels/MainWindowViewModel.Journey.cs` |
 | Step counts and activity animation | `ViewModels/QuestProgress.cs` and `Controls/QuestTrail.cs` |
 | Original character sprites and observed actions | DarkAges' `Rendering` folder, `Protocol/CharacterAppearancePackets.cs`, and [preview notes](docs/character-preview.md) |
 | Circular character portraits and enlarged sprite accent | App's `Controls/CharacterSpritePreview*.cs`, `CharacterSpriteAccent.cs` and `SpriteImageBounds.cs` |
@@ -42,6 +42,7 @@ Use this map when changing a specific part of the app:
 | A library row, queue entry, or history entry | `QuestItemVM.cs`, `QueueItemVM.cs`, `HistoryItemVM.cs` |
 | Queue checkpoint format and recovery | Core's `QuestQueue.cs` and `FileQuestQueueStore.cs` |
 | Queue execution and verified outcome rules | Core's `QuestQueueCoordinator.cs` and `QueueAttemptOutcome.cs` |
+| Optional login/run/logout scheduling | Core's `QuestScheduler.cs`, App's `DesktopRuntime.Scheduler.cs`, `.SchedulerHelpers.cs` and `Views/SchedulerPage.cs` |
 | Quest choices, steps, and requirements | `content/recipes`, Core's quest action classes, and matching tests |
 | Packet parsing, transport, map travel | DarkAges' `Protocol`, `Transport`, and `Navigation` folders |
 
@@ -62,7 +63,7 @@ their upstream/provenance role; do not treat them as unused application files.
 
 - Separate observed packet data from synthetic fixtures and inferred metadata.
   Document sources in [provenance](docs/provenance.md).
-- Preserve generation isolation, durable checkpoints, manual interruption,
+- Preserve generation isolation, durable checkpoints, explicit Pause/Stop controls,
   explicit birth choices, and reconciliation after ambiguous submissions.
 - Never claim quest completion from elapsed time or rewards that do not prove
   the actual goal. Add meaningful regression tests for protocol/behavior changes.

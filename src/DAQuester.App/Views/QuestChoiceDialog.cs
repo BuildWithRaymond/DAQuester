@@ -378,7 +378,7 @@ public sealed class QuestChoiceDialog : Window
             "1. Buys the starter gear as " + character + " reaches each level: Dirk from Callough in Mileth (if " + character + " has none), Wooden Shield from Torrance in Mileth, then Wind Belt and Sea Necklace from Carlos in Rucesion at level 6. Anything " + character + " already has is skipped.",
             "2. Hunts in Mileth Crypt 1-1 and 2-1. On 2-1 it leaves centipedes alone, because they're too strong for a starter weapon.",
             "3. Walks out to rest in the Crypt Vestibule when health drops below 30%, and repairs gear at 25%.",
-            "4. Spends stat points on every level-up.",
+            "4. Spends available stat points before shopping, on every level-up and at the final level. Equips compatible armor, boots and rings already owned, filling empty slots or improving documented weaker gear.",
             "5. Finishes at level 7 by buying a Loures Saber from Gunnar in Piet and equipping it."
         ];
         foreach (string step in steps)

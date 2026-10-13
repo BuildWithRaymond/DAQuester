@@ -18,6 +18,7 @@ public interface ICombatMap
 // Talos's per-character bashing settings, with its defaults.
 public sealed record BashOptions
 {
+    public Action<HuntingActivity>? Activity { get; init; }
     public int MonsterWalkIntervalMs { get; init; } = 500;
     public int PingCompensationMs { get; init; } = 50;
     public int SkillIntervalMs { get; init; } = 100;
@@ -256,7 +257,10 @@ public abstract class BashingBase(IGameSession session, ICombatMap map, BashOpti
     public async Task<bool> DoBashingAsync(CancellationToken ct)
     {
         if (!CanPerformActions)
+        {
+            Options.Activity?.Invoke(new("Waiting"));
             return true;
+        }
         Update();
         if (await LeaveWarpSide(ct))
             return true;
@@ -265,6 +269,7 @@ public abstract class BashingBase(IGameSession session, ICombatMap map, BashOpti
         if (potentialTargets.Count == 0)
         {
             Target = null;
+            Options.Activity?.Invoke(new("Searching"));
             return false;
         }
 
@@ -279,11 +284,14 @@ public abstract class BashingBase(IGameSession session, ICombatMap map, BashOpti
 
         if (Target is null)
             return false;
+        if (Distance(Here, Target.Position) > 1)
+            Options.Activity?.Invoke(new("Approaching", Target));
         if (!await HandleMovement(Target, ct))
             return false;
         await EnsureWeaponEquipped(ct);
         if (await RefreshIfNeeded(ct))
             return true;
+        Options.Activity?.Invoke(new(Distance(Here, Target.Position) <= 1 ? "Attacking" : "Approaching", Target));
         await UseSkills(Target, ct);
         return true;
     }

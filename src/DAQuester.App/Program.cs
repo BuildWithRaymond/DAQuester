@@ -30,7 +30,7 @@ internal static class Program
             var seed = AppSettings.Load();
             if (seed.Characters.Length != 0)
                 throw new InvalidOperationException("New profiles must not invent a default character.");
-            seed.ClientPath = "";
+            seed.ClientPath = Environment.GetEnvironmentVariable("DAQUESTER_SCREENSHOT_CLIENT") ?? "";
             seed.AutomaticUpdateChecks = false;
             seed.Characters = [];
             seed.Save();

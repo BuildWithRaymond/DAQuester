@@ -17,8 +17,8 @@ details, remembered character facts, and a queue you can pause and return to.
 - **Build a queue for each character.** Search the quest library, check the
   quests you want, then drag them into order. Move buttons and keyboard shortcuts
   work too. Each queue entry runs one attempt; cooldowns still apply.
-- **Make room for the library.** Fold the journey and queue into a small bar.
-  Your progress and **Run queue** button stay visible, and expanding restores
+- **Make room for the library.** Fold the journey below the queue controls into a small bar.
+  Your progress and separate queue stay visible, and expanding restores
   the full card. The fold animation respects Windows reduced-motion settings.
 - **See what your character can run.** Ready quests have a green tint. Finished
   legend goals show Completed. Other rows explain choices, cooldowns, missing

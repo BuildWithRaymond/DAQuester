@@ -321,7 +321,7 @@ public class PerfectHairstyleTests
     }
 
     [Fact]
-    public async Task Manual_input_during_acceptance_cancels_before_final_submission_then_resumes()
+    public async Task Session_interruption_during_acceptance_cancels_before_final_submission_then_resumes()
     {
         var s = Session();
         var normal = s.OnCommand;
@@ -329,7 +329,7 @@ public class PerfectHairstyleTests
         {
             normal!(c);
             if (c.Text == "I'd love to help. what do you need?")
-                s.Manual();
+                s.Interrupt();
         };
         var r = new QuestRunner(s, Journal(), Recipe(), new());
         await r.RunAsync();

@@ -8,6 +8,7 @@ public sealed class CharacterItemVM : ObservableObject
     readonly MainWindowViewModel owner;
     internal DesktopRuntime Runtime => owner.Runtime;
     string name, password = "";
+    string[] legendMarks = [];
     public string OriginalName
     {
         get; private set;
@@ -60,15 +61,20 @@ public sealed class CharacterItemVM : ObservableObject
         }
     }
 
-    public string LegendText
+    bool HasCurrentLegends => PortraitCharacter.Connected && PortraitCharacter.Id is not null && PortraitCharacter.LegendsKnown;
+    public IReadOnlyList<string> LegendMarks => legendMarks;
+    public bool HasLegendMarks => legendMarks.Length > 0;
+    public string LegendSummary => HasCurrentLegends ? $"{legendMarks.Length} · observed"
+        : owner.Runtime.Memory(OriginalName).LegendsObservedAt is not null ? $"{legendMarks.Length} · last observed" : "Not observed";
+    public string LegendEmptyText => HasCurrentLegends || owner.Runtime.Memory(OriginalName).LegendsObservedAt is not null
+        ? "No legend marks observed" : "Connect this character to observe legend marks.";
+    public string LegendText => HasLegendMarks ? string.Join("\n", legendMarks) : LegendEmptyText;
+
+    void RefreshLegends()
     {
-        get
-        {
-            var snapshot = owner.Runtime.Snapshot(OriginalName);
-            var memory = owner.Runtime.Memory(OriginalName);
-            var legends = snapshot.Connected && snapshot.Id is not null && snapshot.LegendsKnown ? snapshot.Legends.ToArray() : memory.Legends;
-            return legends.Length > 0 ? string.Join("\n", legends) : memory.LegendsObservedAt is not null || snapshot.LegendsKnown ? "No quest legends observed" : "Legends not observed";
-        }
+        var marks = HasCurrentLegends ? PortraitCharacter.Legends.ToArray() : owner.Runtime.Memory(OriginalName).Legends;
+        if (!legendMarks.SequenceEqual(marks))
+            legendMarks = marks.ToArray();
     }
 
     public string LoginText => Password.Length > 0 ? "New password · unsaved" : Name != OriginalName ? "Unsaved character edits" : OriginalName.Length > 0 && CredentialVault.Exists(OriginalName) ? "Password saved securely" : "Manual sign-in";
@@ -99,18 +105,21 @@ public sealed class CharacterItemVM : ObservableObject
             owner.Page = "Planner";
         }, _ => OriginalName.Length > 0);
         RemoveCommand = new(_ => owner.RemoveCharacter(this));
+        RefreshLegends();
     }
 
     public void Accept(string saved)
     {
         OriginalName = name = saved;
         password = "";
+        RefreshLegends();
         RaiseAll();
         NotifyCommands();
     }
 
     public void Refresh()
     {
+        RefreshLegends();
         RaiseAll();
         NotifyCommands();
     }

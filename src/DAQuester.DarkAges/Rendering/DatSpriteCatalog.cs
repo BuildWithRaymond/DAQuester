@@ -10,17 +10,25 @@ public sealed class DatSpriteCatalog
     public IEnumerable<string> Names => entries.Keys;
 
     public DatSpriteCatalog(string directory, bool effectsOnly = false)
+        : this(directory, name => effectsOnly
+            ? name.Equals("roh", StringComparison.OrdinalIgnoreCase)
+            : name.StartsWith("khan", StringComparison.OrdinalIgnoreCase)
+                || name.Equals("legend", StringComparison.OrdinalIgnoreCase)
+                || name.Equals("hades", StringComparison.OrdinalIgnoreCase))
+    {
+    }
+
+    public DatSpriteCatalog(string directory, IReadOnlyCollection<string> archives)
+        : this(directory, name => archives.Contains(name, StringComparer.OrdinalIgnoreCase))
+    {
+    }
+
+    DatSpriteCatalog(string directory, Func<string, bool> include)
     {
         foreach (string path in Directory.EnumerateFiles(directory, "*.dat").OrderBy(Path.GetFileName, StringComparer.OrdinalIgnoreCase))
         {
             string name = Path.GetFileNameWithoutExtension(path);
-            if (effectsOnly)
-            {
-                if (name.Equals("roh", StringComparison.OrdinalIgnoreCase))
-                    AddArchive(path);
-                continue;
-            }
-            if (!name.StartsWith("khan", StringComparison.OrdinalIgnoreCase) && !name.Equals("legend", StringComparison.OrdinalIgnoreCase) && !name.Equals("hades", StringComparison.OrdinalIgnoreCase))
+            if (!include(name))
                 continue;
             AddArchive(path);
         }

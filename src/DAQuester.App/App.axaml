@@ -83,6 +83,21 @@
     <Style Selector=":is(Window)">
       <Setter Property="Icon" Value="avares://DAQuester/Assets/daquester.ico"/>
     </Style>
+    <Style Selector="Border.schedulerWarning">
+      <Setter Property="Background" Value="{DynamicResource ErrorSurface}"/>
+      <Setter Property="BorderBrush" Value="{DynamicResource ErrorLine}"/>
+      <Setter Property="BorderThickness" Value="1"/>
+      <Setter Property="CornerRadius" Value="7"/>
+    </Style>
+    <Style Selector="Border.schedulerConsent">
+      <Setter Property="Background" Value="{DynamicResource Ink}"/>
+      <Setter Property="BorderBrush" Value="{DynamicResource ErrorLine}"/>
+      <Setter Property="BorderThickness" Value="1,0,0,0"/>
+    </Style>
+    <Style Selector="Border.schedulerRow">
+      <Setter Property="BorderBrush" Value="{DynamicResource Line}"/>
+      <Setter Property="BorderThickness" Value="0,0,0,1"/>
+    </Style>
     <StyleInclude Source="avares://DAQuester/Views/JournalStyles.axaml"/>
   </Application.Styles>
 </Application>

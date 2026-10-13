@@ -43,8 +43,12 @@ ordinary runs and queues retain their behavior.
 
 ## Popup and explicit acknowledgement
 
-The popup contains a prominent warning at the top, an Enable scheduler switch,
-a schedule editor and the saved schedules. Each saved row shows character,
+The popup contains a prominent, concise boot warning at the top, an Enable
+scheduler action, a schedule editor and the saved schedules. The editor and
+saved schedules sit side by side in wider windows and stack in smaller windows.
+The full warnings are expandable; booting, helper scope, no automatic retry,
+default-off status and restart behavior remain visible without expanding them.
+Date and time controls appear only for a chosen time. Each saved row shows character,
 quest, mode, next local run time, status and actions to edit, pause or remove it.
 Needs-attention rows show the reason and an explicit review/re-enable action.
 No diagnostic IDs, calibration or protocol controls appear in this window.
@@ -91,8 +95,9 @@ Launch once, confirm the expected character and connection generation, execute
 one verified attempt or eligible progress segment, durably record its result
 and next deadline, then close only the exact client created for that run. Wait
 for disconnect and replay export to settle. Never close Excalibur or unrelated
-clients. If manual intervention takes over the scheduled client, stop automation,
-retain the checkpoint, leave that client open and require explicit review.
+clients. At the user's later request, ordinary manual input no longer pauses
+automation. Scheduled clients still close when work ends, even if the player
+interacts with them; explicit Pause/Stop and structural interruption checks remain.
 
 If a known cooldown is in the future, wait while logged out. Recheck cooldowns
 after login; if newer evidence advances the deadline, save it and close the
@@ -117,8 +122,8 @@ outside scheduler mode; scheduler-triggered helpers must honor these blocks.
 Unexpected dialogs, disconnects, missing evidence or ambiguous submissions
 pause the job for attention. Save checkpoints and reconcile actual evidence
 before any later execution. Never automatically resubmit an uncertain action.
-Release scheduler-created clients on failure after saving unless a player has
-taken over their window; failure cleanup must not clear the attention state.
+Release scheduler-created clients on failure after saving; failure cleanup must
+not clear the attention state. Manual input does not change cleanup ownership.
 
 ## Persistence and restart
 
@@ -135,7 +140,7 @@ schedules execute at most one due run after restart or system wake; they never
 replay every missed interval. Unconfirmed login failures remain blocked.
 Permanent quest completion retires its schedule. Normal shutdown first prevents
 new dispatch, then cancels and awaits active work, saves progress and releases
-only scheduler-owned clients without manual takeover. Update exit-safety checks
+only scheduler-owned clients. Update exit-safety checks
 include pending launches and scheduled runs.
 
 ## Validation
@@ -144,7 +149,7 @@ Use deterministic clocks, synthetic sessions, login response packets and fake
 client ownership. Cover due-time ordering, no early execution, saved-choice
 gating, default-off/acknowledgement behavior, restart and wake, duplicate
 dispatch, cooldown recomputation, permanent completion, character/generation
-isolation, persistent login blocks, helper login blocks, manual takeover,
+isolation, persistent login blocks, helper login blocks, uninterrupted manual input,
 ambiguous submissions, checkpoint write failure, client cleanup and shutdown.
 
 Run focused tests and both complete xUnit projects. Manually review the popup,

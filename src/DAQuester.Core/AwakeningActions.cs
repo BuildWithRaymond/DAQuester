@@ -10,6 +10,8 @@ public static class AwakeningEvidence
     public const int TutorialMap = 3029, RoomMap = 3000;
     public const string Raghnall = "Raghnall", Bartley = "Bartley", Stick = "Stick", Dirk = "Dirk", Nis = "nis";
     public const string Interface = "Tutorial: Interface", GeneralInfo = "Tutorial: General Info";
+    public const int EntryMap = 133;
+    public const string EntryNpc = "Torrance", EntryTopic = "(( Tutorial ))", EntryAnswer = "I am up to the challenge. Take me there.";
     public static readonly Tile ExitApproach = new(48, 29), Exit = new(49, 29);
     // The recorded walk from the landing tile (2,3); the wake-up popup arrived on the step to (3,5).
     public static readonly Tile[] WakePath = [new(3, 3), new(3, 4), new(3, 5)];
@@ -32,7 +34,11 @@ public static class AwakeningEvidence
             return new(EligibilityKind.Eligible, "In the tutorial");
         if (s.Map == RoomMap && !Owned(s, Dirk))
             return new(EligibilityKind.Eligible, "Waking up in Mileth Inn Room 0");
-        return new(EligibilityKind.Blocked, "Awakening only runs on a brand-new character still in the tutorial.");
+        if (s.Level is null)
+            return new(EligibilityKind.Unknown, "Waiting for an observed level before tutorial entry.");
+        if (s.Map != RoomMap && s.Level is >= 1 and <= 3)
+            return new(EligibilityKind.Eligible, "Walk to Torrance in Mileth Armor Shop to enter the tutorial");
+        return new(EligibilityKind.Blocked, "Awakening starts with a level 1–3 character, or resumes in the tutorial before the wake-up rewards.");
     }
 }
 
@@ -64,6 +70,7 @@ public sealed class AwakeningActions : IQuestAction
     static async Task Run(QuestContext c, string name, CancellationToken ct)
     {
         var s = c.Session;
+        await Enter(c, ct);
         if (s.Snapshot.Map == AwakeningEvidence.TutorialMap)
         {
             // The welcome popup shows on arrival; read it before walking.
@@ -97,10 +104,94 @@ public sealed class AwakeningActions : IQuestAction
         });
     }
 
+    static async Task Enter(QuestContext c, CancellationToken ct)
+    {
+        var s = c.Session;
+        if (c.Job.Pending is { } pending)
+        {
+            if (pending.Kind != "awakening-entry")
+                throw new QuestBlockedException("A saved action needs reconciliation before tutorial entry.");
+            if (s.Snapshot.Map is AwakeningEvidence.TutorialMap or AwakeningEvidence.RoomMap && s.Snapshot.Position is not null)
+                await c.SaveAsync(c.Job with { Pending = null, CompletionDialog = null });
+            else
+                throw new QuestBlockedException("Tutorial entry is unconfirmed. Resume after the tutorial map loads; do not submit another entry request.");
+        }
+        if (s.Snapshot.Map is AwakeningEvidence.TutorialMap or AwakeningEvidence.RoomMap)
+            return;
+        var eligibility = AwakeningEvidence.Eligibility(s.Snapshot);
+        if (eligibility.Kind != EligibilityKind.Eligible)
+            throw new QuestBlockedException(eligibility.Reason);
+        await Say(c, "Walking to Torrance to enter the tutorial");
+        await s.ExecuteAsync(new("visit", AwakeningEvidence.EntryMap, Text: AwakeningEvidence.EntryNpc), ct);
+        await s.ExecuteAsync(new("open", Text: AwakeningEvidence.EntryNpc), ct);
+        var menu = s.Snapshot.Dialog;
+        if (menu is null || menu.IsPursuit || menu.Name != AwakeningEvidence.EntryNpc || !menu.Choices.Any(x => x.Text == AwakeningEvidence.EntryTopic))
+            throw new QuestBlockedException("Torrance does not offer the tutorial to this character.");
+        await s.ExecuteAsync(new("choose", Text: AwakeningEvidence.EntryTopic, Dialog: menu), ct);
+        await Reply(c, menu, ct);
+        for (int page = 0; page < MaxPages; page++)
+        {
+            if (s.Snapshot.Dialog is not { IsPursuit: true, EntityType: 1 } d || d.Name != AwakeningEvidence.EntryNpc)
+                throw new QuestBlockedException("Torrance's tutorial introduction changed. Review his dialog before continuing.");
+            if (d.Choices.Length > 0)
+            {
+                if (!d.Text.Contains("Are you up for the challenge?", StringComparison.OrdinalIgnoreCase)
+                    || !d.Choices.Any(x => x.Text == AwakeningEvidence.EntryAnswer))
+                    throw new QuestBlockedException("Unexpected tutorial-entry question: " + d.Text);
+                long generation = s.Snapshot.Generation;
+                await c.BeginAsync("awakening-entry", d.EntityId, "Entering the tutorial", d);
+                await s.ExecuteAsync(new("choose", Text: AwakeningEvidence.EntryAnswer, Dialog: d), ct);
+                try
+                {
+                    await s.WaitAsync(x => x.Generation == generation && string.Equals(x.Name, c.Job.Character, StringComparison.OrdinalIgnoreCase) && x.Connected
+                        && x.Map == AwakeningEvidence.TutorialMap && x.Position is not null,
+                        d.Revision, reply, ct);
+                }
+                catch (TimeoutException)
+                {
+                    throw new QuestBlockedException("Tutorial entry was requested but arrival is unconfirmed. Resume after the tutorial map loads.");
+                }
+                await c.SaveAsync(c.Job with { Pending = null, CompletionDialog = null });
+                return;
+            }
+            if (!d.HasNext)
+                throw new QuestBlockedException("Torrance did not allow tutorial entry: " + d.Text);
+            await s.ExecuteAsync(new("next", Dialog: d), ct);
+            await Reply(c, d, ct);
+        }
+        throw new QuestBlockedException("Torrance's tutorial introduction did not reach its entry question.");
+    }
+
+    static async Task DiscoverNpc(QuestContext c, string name, CancellationToken ct)
+    {
+        var s = c.Session;
+        long generation = s.Snapshot.Generation;
+        for (int popupCount = 0; popupCount < MaxPages; popupCount++)
+        {
+            if (s.Snapshot.Generation != generation || !string.Equals(s.Snapshot.Name, c.Job.Character, StringComparison.OrdinalIgnoreCase))
+                throw new QuestBlockedException("Character connection changed while finding the tutorial NPC.");
+            await ReadThrough(c, d => d.EntityType != 1, ct);
+            try
+            {
+                await s.ExecuteAsync(new("discover-npc", AwakeningEvidence.TutorialMap, Text: name), ct);
+                if (s.Snapshot.Generation != generation || !string.Equals(s.Snapshot.Name, c.Job.Character, StringComparison.OrdinalIgnoreCase))
+                    throw new QuestBlockedException("Character connection changed while finding the tutorial NPC.");
+                return;
+            }
+            catch (QuestPopupException popup) when (popup.Map == AwakeningEvidence.TutorialMap
+                && popup.Dialog.Generation == generation && s.Snapshot.Dialog == popup.Dialog && popup.Dialog.EntityType != 1)
+            {
+                // Discovery retains its target while the existing reader handles the reactor.
+            }
+        }
+        throw new QuestBlockedException("Too many tutorial popups while finding " + name + ".");
+    }
+
     static async Task Raghnall(QuestContext c, CancellationToken ct)
     {
         var s = c.Session;
         await Say(c, "Talking to Raghnall about combat");
+        await DiscoverNpc(c, AwakeningEvidence.Raghnall, ct);
         await s.ExecuteAsync(new("visit", AwakeningEvidence.TutorialMap, Text: AwakeningEvidence.Raghnall), ct);
         await s.ExecuteAsync(new("open", Text: AwakeningEvidence.Raghnall), ct);
         await ReadThrough(c, d => d.Name.Equals(AwakeningEvidence.Raghnall, StringComparison.OrdinalIgnoreCase), ct);
@@ -117,6 +208,7 @@ public sealed class AwakeningActions : IQuestAction
         {
             if (s.Snapshot.Dialog is { } other)
                 await s.ExecuteAsync(new("close", Dialog: other), ct);
+            await DiscoverNpc(c, AwakeningEvidence.Bartley, ct);
             await s.ExecuteAsync(new("visit", AwakeningEvidence.TutorialMap, Text: AwakeningEvidence.Bartley), ct);
             await s.ExecuteAsync(new("open", Text: AwakeningEvidence.Bartley), ct);
             menu = s.Snapshot.Dialog;

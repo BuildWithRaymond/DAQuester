@@ -384,8 +384,13 @@ public class MeleeBashingTests
         Assert.Equal(new GameCommand("pathfind", Target: wander.Waypoints[0]), Assert.Single(q.Commands));
 
         var fight = new Scripted();
-        using var stop = new CancellationTokenSource(TimeSpan.FromMilliseconds(300));
-        await Assert.ThrowsAnyAsync<OperationCanceledException>(() => MeleeFight.RunAsync(fight, new OpenMap(), new(), null, TimeSpan.FromMinutes(2), stop.Token, roam: true));
+        using var stop = new CancellationTokenSource();
+        fight.Changed += _ =>
+        {
+            if (fight.Commands.Any(c => c.Kind == "pathfind"))
+                stop.Cancel();
+        };
+        await Assert.ThrowsAnyAsync<OperationCanceledException>(() => MeleeFight.RunAsync(fight, new OpenMap(), new(), null, TimeSpan.FromMinutes(2), stop.Token, roam: true).WaitAsync(TimeSpan.FromSeconds(5)));
         Assert.Contains(fight.Commands, c => c.Kind == "pathfind");
     }
 
@@ -620,6 +625,30 @@ public class MeleeBashingTests
         Assert.True(spender.Stopped);
         Assert.Single(wrong.Commands, c => c.Kind == "raise-stat");
         Assert.Contains(notes, n => n.StartsWith("Stat spending stopped: raising Wis"));
+    }
+
+    [Fact]
+    public async Task Final_level_points_are_spent_before_the_hunting_goal_returns()
+    {
+        var q = new Scripted();
+        q.Set(s => s with { Map = 1, Position = new(5, 5), Level = 7, Stats = new(3, 3, 8, 8, 3, 2) });
+        await new HuntingEngine(q, new OpenMap(), HuntingGrounds.MilethCrypt, new(), new(), _ => { }, mileth, new(), targetLevel: 7, stats: new StatSpender(q, StatPaths.Strict)).RunAsync(default);
+        Assert.Equal(0, q.Snapshot.Stats!.Unspent);
+        Assert.Equal(10, q.Snapshot.Stats.Con);
+    }
+
+    [Fact]
+    public async Task Combat_activity_names_the_real_target_and_returns_to_searching_when_it_is_gone()
+    {
+        var q = new Scripted();
+        q.Monster(55, new(6, 5), 53, name: "Spider");
+        var activity = new List<HuntingActivity>();
+        var basher = new DynamicMeleeBashing(q, new OpenMap(), new() { Activity = activity.Add });
+        await Ticks(basher, 3);
+        Assert.Contains(activity, a => a.Kind == "Attacking" && a.Target?.Id == 55 && a.Target.Name == "Spider");
+        q.Set(s => s with { Entities = ImmutableDictionary<uint, Entity>.Empty });
+        await Ticks(basher, 1);
+        Assert.Equal("Searching", activity[^1].Kind);
     }
 
     [Fact]

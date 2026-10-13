@@ -109,7 +109,7 @@ three initial pending steps and a latency-adaptive capacity capped at four.
 Only matching replies increment confirmed visible steps. Pending movement drains
 before slowing, reaching a goal, replanning or entering a doorway/transfer.
 Corrections and timeouts require fresh F5 position before new sends; Stop or
-manual input invalidates the queue and resume settles it before any action.
+manual movement invalidates pending projection and navigation reanchors from fresh server position without pausing the quest.
 Unchecked fast mode retains the configured interval and one acknowledged step
 at a time. The checkbox explains the currently applicable pace. Server rate
 limits and latency beyond the bounded window can still limit achieved speed.
@@ -127,7 +127,7 @@ Each action reconciles current state, saves pending consequential transactions, 
 
 The recorder exports only whitelisted server state packets, snapshots and parsed NPC selections, excluding login packets, encryption negotiation and session secrets. Exact acceptance/completion text and observed patrol coordinates are server-profile calibration. Automatic calibration correlates selections, replies and inventory/experience changes before enabling the recipe. Optional refusal/cooldown samples accumulate later; unmatched responses always pause.
 
-MCP and the local CLI share a current-user named pipe into `DesktopRuntime`. Avalonia views bind to presentation view models; the runtime owns launch, sessions, queues and durable operations independently of the window. Each character has one control or quest owner, including preparation while checkpoints save. Actions use the same GameSession send path. Manual input, Stop and disconnect cancel that owner. MCP does not own a separate game connection or bypass observed state. Calibration runs in the background and exposes its durable job through state queries.
+MCP and the local CLI share a current-user named pipe into `DesktopRuntime`. Avalonia views bind to presentation view models; the runtime owns launch, sessions, queues and durable operations independently of the window. Each character has one control or quest owner, including preparation while checkpoints save. Actions use the same GameSession send path. Stop and disconnect cancel that owner; ordinary manual input does not. MCP does not own a separate game connection or bypass observed state. Calibration runs in the background and exposes its durable job through state queries.
 
 Spare a Stick banks carried gold down to 999, confirms acceptance, collects missing branches, turns in, and records completion, experience and actual item deltas against the pending transaction's inventory baseline. Inventory goals are checked before each movement send, including after cadence waits, so a long patrol segment stops when six branches are observed. Reward recording uses the terminal reply's snapshot after split XP/item packets. Optional repeats wait eight hours from verified completion; server refusal still blocks execution.
 

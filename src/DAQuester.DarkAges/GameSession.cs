@@ -131,6 +131,9 @@ public sealed partial class GameSession : IGameSession
                 case "visit":
                     await Visit(command.Map ?? throw new QuestBlockedException("NPC map missing."), command.Text ?? throw new QuestBlockedException("NPC name missing."), cancellation, command.Target);
                     break;
+                case "discover-npc":
+                    await DiscoverTutorialNpc(command, cancellation);
+                    break;
                 case "check-faerie-return":
                     ValidateFaerieReturn();
                     break;
@@ -729,7 +732,14 @@ public sealed partial class GameSession : IGameSession
                         throw new QuestBlockedException("Fast movement corrected or unanswered three times. Inspect route.");
                     }
 
-                    var fastRefresh = await RefreshView(ct);
+                    CharacterSnapshot fastRefresh;
+                    if (connection.Movement is { Pending: 0, CanReanchor: true })
+                    {
+                        connection.AcceptServerPosition();
+                        fastRefresh = Snapshot;
+                    }
+                    else
+                        fastRefresh = await RefreshView(ct);
                     if (connection.Tracker.WorldMap is not null || fastRefresh.Map != expectedMap)
                         return;
                     if (fastRefresh.Position != fast.Origin)
@@ -863,6 +873,18 @@ public sealed partial class GameSession : IGameSession
                 throw new QuestBlockedException(ack is null ? "Movement unacknowledged after three resynchronized attempts." : "Position corrected three times without walking progress. Inspect route.");
             }
 
+            if (ack is not null && connection.Movement is { Pending: 0, CanReanchor: true })
+            {
+                connection.AcceptServerPosition();
+                if (Snapshot.Position != before.Position)
+                {
+                    retries = 0;
+                    avoided.Clear();
+                    if (replanWhen is not null)
+                        return; // A displacement can make a different doorway the shortest route.
+                }
+                continue; // Replan from the real rejection position, without an unnecessary F5.
+            }
             var refreshed = await RefreshView(ct);
             if (connection.Tracker.WorldMap is not null || refreshed.Map != before.Map)
                 return;

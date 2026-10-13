@@ -46,23 +46,28 @@ accent the outline. Button content is vertically centered, including Launch.
 
 Navigation buttons fill the same rail width, regardless of label length. The
 Launch button and character switcher both use the 48 px `workspaceHeader` style.
-Quest icons sit in 36 px square boxes with centered 20 px glyphs. Interface
-icons come from Lucide; `LucideIcons.cs` holds the pinned geometry and
-`QuestGlyph.cs` maps quests to icon names. The renderer centers each glyph's
-actual bounds and uses a consistent stroke at different display scales.
+Quest icons use equal 36 px circles with original item, NPC, or monster sprites.
+Items show their whole silhouettes; creatures use face or upper-body crops.
+Native palette transparency preserves white fur and highlights. The approved
+choices and source links live in `content/quest-artwork.json`; `QuestGlyph.cs`
+loads installed artwork through a shared worker cache and clips it to the circle
+with nearest-neighbor sampling. Missing artwork shows a neutral circular glyph.
+Other interface icons use the pinned Lucide geometry in `LucideIcons.cs`,
+centered on its actual bounds with a consistent stroke at different scales.
 
 The default window is 1420 ? 900, with a minimum of 900 ? 560. Below 1160 px, the
 180 px navigation rail becomes a 64 px icon rail. Navigation keeps accessible
-names and tooltips. Journey and library cards span the planner's full width.
-The journey card holds progress, individual quest controls and the character
-sprite on the left, with the queue on the right, separated by a thin rule.
-The queue area narrows from 346 to 320 px in compact windows, including its
-separator and padding. Its list scrolls independently and reduces from 264 to
-180 or 100 px in shorter windows. The planner scrolls as a whole when needed;
-journey content also has a bounded scroll region. Library rows grow with their
-content and filters wrap. NPC conversation has no separate player-window panel.
+names and tooltips. The library uses roughly three quarters of the planner width;
+the right sidebar uses one quarter with a 280 px minimum. Both span the available
+workspace height. The sidebar holds the queue, readiness explanation, Run/Pause
+and Stop controls, then the collapsible current journey. The journey starts
+expanded so the player sprite remains visible. Its bounded details scroll beside
+the sprite; the queue list scrolls independently above its fixed controls. The
+library keeps its full height, with bounded scrolling for open details in short
+windows. Library rows grow with their content and filters wrap. Compact filters
+use narrower padding. NPC conversation has no separate player-window panel.
 
-Quest planner, Characters, Run history and Settings share the same shell and
+Quest planner, Characters, Scheduler, Run history and Settings share the same shell and
 retain their working state when navigating. The planner separates the searchable
 library, the selected character’s queue and current journey. Queue rows keep
 their move and remove actions on one line, with a smaller checkpoint caption
@@ -115,57 +120,57 @@ dialogs, compact windows, keyboard controls and Windows display scaling.
 using isolated sample data. Automated pixel and layout test matrices have been
 removed; app behavior regressions remain in `DAQuester.AppTests`.
 
-Individual quest actions form a left-aligned group, with explicit individual-quest
-labels. These buttons, Fast mode and the character preview stay at the bottom of
-the journey details as the window grows. A compact journey card grows modestly
-with taller windows, leaving the remaining space to the quest library. Its dark
-blue backdrop uses the shared `JourneyBackdrop` brush. The queue scrolls inside
-the journey's right section; Add quests to queue focuses the library search.
+The journey card follows a started queue, its paused checkpoint, or an active
+scheduled quest. It never uses the library selection as its current journey.
+Without a run it shows an idle message and hides step and reward details.
+The character preview stays at the bottom of the journey details. Fast mode lives
+in Settings, applies to the selected character and saves immediately.
+Quest details holds Add to queue, Change choices and Open quest guide; those
+planning actions follow the selected library row. All planner runs use the queue,
+even when there is one quest. The dark blue backdrop uses `JourneyBackdrop`.
+The queue scrolls in its own right-hand sidebar; library checkboxes and quest
+details add quests.
 Queue rows use compact padding and 26-pixel outlined reorder/remove buttons.
 A checkpoint count and numbered gold step trail show the active recipe's progress;
 the moving light shows activity without changing the completed count. The original
 character sprite occupies the lower-right corner of the journey details, beside
-the queue. Before a character loads, a default outfit made from the selected game
+the journey text. Before a character loads, a default outfit made from the selected game
 folder's original DAT layers fills the box.
 The same frame forms a faint 5.5× pixel accent behind it. Head portraits in the
 chooser and Characters page use circular crops of original DAT head layers.
 Run history shows the same portrait beside its character name. Saved observed
 outfits keep portraits and the journey sprite visible after logout and restart.
-The journey details retain 16 px of right padding before the queue gutter.
-The journey card stays compact (270–300 px in regular windows); the quest library
-receives the remaining height. Smaller widths use a 300 px journey card, with five
-36 px icon buttons for individual start, resume, pause, stop and add to queue.
-The start icon combines the Lucide scroll and play shapes. The queue's primary
-action uses a 20 px Play icon, switching to Pause during a run. Tooltips and
-accessible names retain each action's meaning. Full-width
-windows retain text labels. Disabled action content dims while outlines remain
-visible. Resume requires saved progress; pause and stop require an active operation.
-Add to queue inserts this journey once and never removes an existing queue entry.
+The journey title reserves space for the fold toggle. Its expanded panel below
+the queue controls is 280 px high, or 180 px in windows shorter than 650 px.
+It opens expanded by default to show the character sprite. The queue's primary action uses a 20 px Play icon,
+switching to Pause during a run. Tooltips and accessible names retain each action's
+meaning. Add to queue inserts the selected library quest once and never removes
+an existing entry. Disabled action content remains readable.
 The queue retains its own scroll area and stop control for paused checkpoints.
+The character sprite retains its normal 112 by 112 display area and rendering
+scale. It stays anchored at the lower right while adjacent text scrolls.
 Its renderer and
 observed-action limits are documented in [character preview](character-preview.md).
 
 Run queue is the planner's dominant gold action, with a 42 px button height and
 a full-width position in the queue section. Its label changes to Resume queue or
-Pause queue with the actual queue state. Individual Start remains an outlined
-secondary action. Disabled queue actions expose the actual blocker in a tooltip
+Pause queue with the actual queue state. Disabled queue actions expose the actual blocker in a tooltip
 and accessible help text; the queue also displays a readable status explanation.
 
-The chevron in the journey card collapses both journey details and queue editor
-into an 80 px bar. The bar retains the quest title, queue count and readiness,
-stage progress, execution controls, and expand toggle. An individual run receives
-its own Pause quest and Stop controls. Collapse remains set through page and
-character changes for the current window. It changes neither quest selection nor
-queue state. Keyboard focus moves from hidden journey content to the toggle;
-Space activates the same toggle. The planner uses a 360 px minimum content height
-when collapsed and retains scrolling for expanded content in short windows.
+The chevron folds only journey details into a 64 px sidebar bar. The bar keeps
+the current quest or idle title, run state, stage progress and expand toggle.
+Run/Pause and Stop stay visible directly above it. Expansion preference persists
+across navigation, character changes and app launches without changing selection
+or queue state. Keyboard focus moves from hidden journey content to the toggle;
+Space activates it. The collapsed arrow points up; the expanded arrow points down.
 
-Collapse and expand use one reversible 520 ms scroll-fold animation. Card height
-and library space change together; outgoing content fades and slips upward while
-the compact bar scales/slides into place. A brief gold edge glint and rotating
-chevron mark the fold. Motion runs only during a transition, disables transitional
-content hit testing, and preserves focus on the toggle. Repeated toggles reverse
-from the current position instead of stacking animations. Windows client-area
+Collapse and expand use one reversible 520 ms scroll-fold animation. The journey
+height changes within the sidebar while the library retains its size and scroll
+position. Outgoing details fade and slip downward while the compact bar
+scales/slides into place. A brief gold edge glint and rotating chevron mark the
+fold. Motion runs only during a transition, disables transitional content hit
+testing, and preserves focus on the toggle. Repeated toggles reverse from the
+current position instead of stacking animations. Windows client-area
 animation preferences are read through
 [SystemParametersInfo](https://learn.microsoft.com/en-us/windows/win32/api/winuser/nf-winuser-systemparametersinfoa);
 when disabled, the layout switches immediately without the glint.
@@ -181,10 +186,13 @@ adding or removing is not permitted. Disabled-checkbox tooltips explain the
 reason, including temporary queue ownership. Queued completed or blocked quests
 retain their removal checkbox when the queue is editable.
 
-Can queue filters quests whose existing availability allows planning, including
-unchecked requirements before login; Ready keeps the verified execution filter.
-Known restrictions still prevent adding. Temporary queue ownership disables
-membership edits without emptying Can queue. The footer explains checkbox versus
+Available is the default filter and includes quests eligible for queue planning,
+including unchecked requirements before login. Completed shows terminal goals;
+Guides contains only entries without an automatic recipe. All quests is last.
+The independent Has legend marks toggle uses catalog reward evidence and works
+with every category and search. Category counts follow that toggle. Known
+restrictions still prevent adding. Temporary queue ownership disables
+membership edits without emptying Available. The footer explains checkbox versus
 row selection, or asks the player to stop the run before editing. Calibration
 details remain in diagnostics and the control bridge; the player sees that the
 automatic run is unavailable and can use the quest guide for manual play.
@@ -194,3 +202,23 @@ character's visible avatars. An unselected character receives a transient sprite
 notice. Fallback notices serialize for simultaneous completions. The overlay
 never captures input or changes selection. Reduced motion uses the written
 outcome without animation. Old history and duplicate result updates stay quiet.
+
+Scheduled journeys show their own login, preparation, running and logout phase;
+they do not inherit a saved queue's reason or next quest. A dot on the Scheduler
+icon stays visible in both navigation widths: red for off, yellow for paused
+schedules or attention blocks, green for active scheduling without errors. Any
+paused or blocked schedule takes precedence over healthy ones. Tooltip and
+accessible help explain the state. Opening quest details or
+selecting another quest resets its scroll position to the top; routine progress
+refreshes preserve the reader's position.
+
+Scheduler uses its own sidebar page rather than a separate window. The warning,
+form and saved schedules scroll together; Enable scheduler and Pause all stay
+fixed below. The form and saved list stack when the page is narrower than 800 px.
+Saved schedules use compact portrait, character/quest and local-time rows, with
+secondary actions in a menu. Failure reasons remain visible below their row.
+Character cards show legend marks as wrapping chips in a bounded scroll area;
+counts distinguish current observation from remembered data and unknown states.
+Full mark text remains in each chip's tooltip.
+Navigation retains the form draft and never enables or pauses schedules. The gold
+quest medallion is shared by the brand image, all window icons and executable.

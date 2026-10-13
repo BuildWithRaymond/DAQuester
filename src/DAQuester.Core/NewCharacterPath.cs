@@ -1,7 +1,9 @@
 namespace DAQuester.Core;
 
+public sealed record HuntingActivity(string Kind, Entity? Target = null, string? Detail = null);
+
 // What the hunting engine needs from the app: progress per ground and character, own-character checks and a log.
-public sealed record HuntingServices(Func<HuntingGround, string, HuntingProgress> Load, Action<HuntingGround, string, HuntingProgress> Save, Func<string, bool>? IsFriend = null, Action<string, string>? Log = null);
+public sealed record HuntingServices(Func<HuntingGround, string, HuntingProgress> Load, Action<HuntingGround, string, HuntingProgress> Save, Func<string, bool>? IsFriend = null, Action<string, string>? Log = null, Action<string, HuntingActivity>? Activity = null);
 
 // One starter purchase: the level it needs, the equipment slot it's worn in, and who sells it.
 public sealed record StarterGear(string Name, int Level, byte Slot, string Town, int Map, string Npc, uint Price);
@@ -55,7 +57,8 @@ public static class NewCharacterPath
 
     // Owned gear the character can wear but doesn't, best weapon only.
     public static IReadOnlyList<StarterGear> ToEquip(CharacterSnapshot s) =>
-        Gear.Where(g => s.Count(g.Name) > 0 && !Worn(s, g) && (s.Level ?? 0) >= g.Level && !(g == Dirk && (Worn(s, LouresSaber) || s.Count(LouresSaber.Name) > 0 && (s.Level ?? 0) >= LouresSaber.Level))).ToArray();
+        Gear.Where(g => s.Count(g.Name) > 0 && !Worn(s, g) && (s.Level ?? 0) >= g.Level && !(g == Dirk && (Worn(s, LouresSaber) || s.Count(LouresSaber.Name) > 0 && (s.Level ?? 0) >= LouresSaber.Level)))
+            .Concat(OwnedStarterEquipment.ToEquip(s)).ToArray();
 
     // The next level where First Steps buys something, else its end level.
     public static int NextStop(int level) => new[] { Dirk.Level, WoodenShield.Level, SeaNecklace.Level, LouresSaber.Level, FirstStepsLevel }.Where(l => l > level).DefaultIfEmpty(FirstStepsLevel).Min();

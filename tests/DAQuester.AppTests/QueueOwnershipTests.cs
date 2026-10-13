@@ -53,7 +53,7 @@ public sealed class QueueOwnershipTests
         };
         await runtime.RunQueueCoordinatorAsync(queue, session);
         if (attempts != 1 || !queue.State.Quests.SequenceEqual(new[] { "second" }) || queue.State.State != "Paused")
-            throw new InvalidOperationException((disconnected ? "Disconnect" : "Manual input") + " between entries must pause the whole queue.");
+            throw new InvalidOperationException((disconnected ? "Disconnect" : "Session interruption") + " between entries must pause the whole queue.");
     }
 
     static async Task FailedSaveStop(DesktopRuntime runtime)
@@ -173,7 +173,7 @@ public sealed class QueueOwnershipTests
 
         public event Action<CharacterSnapshot>? Changed;
         public event Action<string>? Interrupted;
-        public void Interrupt() => Interrupted?.Invoke("Manual movement paused automation.");
+        public void Interrupt() => Interrupted?.Invoke("Automation interrupted");
         public void Disconnect()
         {
             Snapshot = Snapshot with

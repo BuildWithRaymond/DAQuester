@@ -106,7 +106,7 @@ public class MuisirTests
         s.OnCommand = c =>
         {
             if (c.Kind == "collect-ground")
-                s.Manual();
+                s.Interrupt();
         };
         var r = new QuestRunner(s, Journal(), Recipe(), new());
         using var limit = new CancellationTokenSource(TimeSpan.FromSeconds(3));
@@ -130,7 +130,7 @@ public class MuisirTests
                     Inventory = s.Snapshot.Inventory.SetItem(6, new(6, Mushroom, 5))
                 });
             if (c.Kind == "visit")
-                s.Manual();
+                s.Interrupt();
         };
         var r = new QuestRunner(s, Journal(), Recipe(), new());
         using var limit = new CancellationTokenSource(TimeSpan.FromSeconds(3));
@@ -153,7 +153,7 @@ public class MuisirTests
                     Inventory = s.Snapshot.Inventory.SetItem(6, new(6, Mushroom, 5))
                 });
             if (c.Kind == "visit")
-                s.Manual();
+                s.Interrupt();
         };
         var r = new QuestRunner(s, Journal(), Recipe(), new());
         using var limit = new CancellationTokenSource(TimeSpan.FromSeconds(3));
@@ -179,7 +179,7 @@ public class MuisirTests
                     Inventory = s.Snapshot.Inventory.SetItem(6, new(6, Mushroom, 5))
                 });
             if (c.Kind == "visit")
-                s.Manual();
+                s.Interrupt();
         };
         var r = new QuestRunner(s, Journal(), recipe, new());
         await r.RunAsync();

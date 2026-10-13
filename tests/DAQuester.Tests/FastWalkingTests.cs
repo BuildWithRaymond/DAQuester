@@ -35,23 +35,25 @@ public class FastWalkingTests
 
     static async Task<double> Interval(MovingObstacleTests.Fixture f, Action? first = null)
     {
-        DateTimeOffset sent = default;
-        double elapsed = 0;
-        await f.Walk(new(3, 1), (n, _) =>
+        var times = new List<long>();
+        void Sent(byte opcode, byte[] _, bool bot)
         {
-            // Receipt callbacks can be delayed independently of the client's cadence.
-            // Read the transport's send timestamp before the synthetic reply consumes it.
-            var sentAt = f.Connection.Movement.Oldest ?? throw new InvalidOperationException("Expected an unacknowledged movement packet.");
-            if (n == 1)
-            {
-                sent = sentAt;
+            if (opcode != 6 || !bot)
+                return;
+            times.Add(Stopwatch.GetTimestamp());
+            if (times.Count == 1)
                 first?.Invoke();
-            }
-            else
-                elapsed = (sentAt - sent).TotalMilliseconds;
-            return Task.FromResult(false);
-        }, new("navigate", f.Session.Snapshot.Map, new(3, 1)));
-        return elapsed;
+        }
+        f.Connection.ClientObserved += Sent;
+        try
+        {
+            await f.Walk(new(3, 1), (_, _) => Task.FromResult(false), new("navigate", f.Session.Snapshot.Map, new(3, 1)));
+            return Stopwatch.GetElapsedTime(times[0], times[1]).TotalMilliseconds;
+        }
+        finally
+        {
+            f.Connection.ClientObserved -= Sent;
+        }
     }
 
     [Fact]
@@ -104,98 +106,81 @@ public class FastWalkingTests
     }
 
     [Fact]
-    public async Task Player_appearing_during_fast_wait_extends_current_interval()
+    public async Task Player_appearing_with_pending_fast_step_extends_current_interval()
     {
         await using var f = await MovingObstacleTests.Fixture.Create();
         f.Session.FastMode = true;
-        Task arrival = Task.CompletedTask;
-        try
-        {
-            Assert.True(await Interval(f, () => arrival = Task.Run(async () =>
-            {
-                await Task.Delay(70);
-                f.Connection.Tracker.Observe(0x33, Human(99, new(1, 4)));
-            })) >= 410);
-        }
-        finally
-        {
-            await arrival;
-        }
+        Assert.True(await Interval(f, () => f.Connection.Tracker.Observe(0x33, Human(99, new(1, 4)))) >= 410);
     }
 
     [Fact]
-    public async Task Player_removed_during_normal_wait_restores_fast_interval()
+    public async Task Player_removed_with_pending_step_restores_fast_interval()
     {
         await using var f = await MovingObstacleTests.Fixture.Create(600);
         f.Session.FastMode = true;
-        Task departure = Task.CompletedTask;
         f.Connection.Tracker.Observe(0x33, Human(99, new(1, 4)));
-        try
-        {
-            Assert.InRange(await Interval(f, () => departure = Task.Run(async () =>
-            {
-                await Task.Delay(70);
-                f.Connection.Tracker.Observe(0x0E, [0, 0, 0, 99]);
-            })), 140, 350);
-        }
-        finally
-        {
-            await departure;
-        }
+        Assert.InRange(await Interval(f, () => f.Connection.Tracker.Observe(0x0E, [0, 0, 0, 99])), 140, 350);
     }
 
     [Fact]
-    public async Task Disabling_fast_mode_during_wait_restores_configured_cadence()
+    public async Task Disabling_fast_mode_with_pending_step_restores_configured_cadence()
     {
         await using var f = await MovingObstacleTests.Fixture.Create(600);
         f.Session.FastMode = true;
-        Task change = Task.CompletedTask;
+        bool changed = false;
+        void Toggle(byte opcode, byte[] _, bool bot)
+        {
+            if (opcode != 6 || !bot || changed)
+                return;
+            // Trigger from the committed first step, before server-thread timing can
+            // allow a second projected step to beat a delayed timer callback.
+            Assert.Equal(1, f.Connection.Movement.Pending);
+            changed = true;
+            f.Session.FastMode = false;
+        }
+        f.Connection.ClientObserved += Toggle;
         try
         {
-            Assert.True(await Interval(f, () => change = Task.Run(async () =>
-            {
-                await Task.Delay(70);
-                f.Session.FastMode = false;
-            })) >= 580);
+            Assert.True(await Interval(f) >= 580);
+            Assert.True(changed);
         }
         finally
         {
-            await change;
+            f.Connection.ClientObserved -= Toggle;
         }
     }
 
     [Fact]
-    public async Task Enabling_fast_mode_during_wait_takes_effect_without_new_session()
+    public async Task Enabling_fast_mode_with_pending_step_takes_effect_without_new_session()
     {
         await using var f = await MovingObstacleTests.Fixture.Create(600);
-        Task change = Task.CompletedTask;
-        try
-        {
-            Assert.InRange(await Interval(f, () => change = Task.Run(async () =>
-            {
-                await Task.Delay(70);
-                f.Session.FastMode = true;
-            })), 140, 350);
-        }
-        finally
-        {
-            await change;
-        }
+        Assert.InRange(await Interval(f, () => f.Session.FastMode = true), 140, 350);
     }
 
     [Fact]
-    public async Task Cancellation_during_fast_wait_sends_no_second_step()
+    public async Task Cancellation_after_first_committed_fast_step_sends_no_second_step()
     {
         await using var f = await MovingObstacleTests.Fixture.Create();
         f.Session.FastMode = true;
         using var stop = new CancellationTokenSource();
-        await Assert.ThrowsAnyAsync<OperationCanceledException>(() => f.Walk(new(3, 1), (n, _) =>
+        int committed = 0;
+        void Cancel(byte opcode, byte[] _, bool bot)
         {
-            if (n == 1)
-                stop.CancelAfter(70);
-            return Task.FromResult(false);
-        }, cancellation: stop.Token));
-        Assert.Single(f.Commands, c => c == 6);
+            if (opcode != 6 || !bot)
+                return;
+            committed++;
+            stop.Cancel();
+        }
+        f.Connection.ClientObserved += Cancel;
+        try
+        {
+            await Assert.ThrowsAnyAsync<OperationCanceledException>(() => f.Walk(new(3, 1), (_, _) => Task.FromResult(false), cancellation: stop.Token));
+            Assert.Equal(1, committed);
+        }
+        finally
+        {
+            f.Connection.ClientObserved -= Cancel;
+        }
     }
 
     [Theory]
@@ -216,24 +201,12 @@ public class FastWalkingTests
     }
 
     [Fact]
-    public async Task Player_moving_into_radius_during_fast_wait_slows_next_step()
+    public async Task Player_moving_into_projected_radius_with_pending_step_slows_next_step()
     {
         await using var f = await MovingObstacleTests.Fixture.Create(600, record: new MapRecord(500, "Synthetic", 40, 40, []));
         f.Session.FastMode = true;
-        Task approach = Task.CompletedTask;
         f.Connection.Tracker.Observe(0x33, Human(99, new(2, 22)));
-        try
-        {
-            Assert.True(await Interval(f, () => approach = Task.Run(async () =>
-            {
-                await Task.Delay(70);
-                f.Connection.Tracker.Observe(0x0C, [0, 0, 0, 99, 0, 2, 0, 22, 0, 0]);
-            })) >= 410);
-        }
-        finally
-        {
-            await approach;
-        }
+        Assert.True(await Interval(f, () => f.Connection.Tracker.Observe(0x0C, [0, 0, 0, 99, 0, 2, 0, 22, 0, 0])) >= 410);
     }
 
     [Theory]
@@ -265,28 +238,28 @@ public class FastWalkingTests
     }
 
     [Fact]
-    public async Task Inventory_goal_arriving_during_fast_wait_stops_before_second_step()
+    public async Task Inventory_goal_arriving_with_pending_fast_step_stops_before_second_step()
     {
         await using var f = await MovingObstacleTests.Fixture.Create();
         f.Session.FastMode = true;
-        Task inventory = Task.CompletedTask;
+        bool received = false;
+        void Inventory(byte opcode, byte[] _, bool bot)
+        {
+            if (opcode != 6 || !bot || received)
+                return;
+            received = true;
+            f.Connection.Tracker.Observe(15, Payload(new ServerAddInventoryMessage { Slot = 1, Name = "Branch", Quantity = 6 }));
+        }
+        f.Connection.ClientObserved += Inventory;
         try
         {
-            await f.Walk(new(3, 1), (n, _) =>
-            {
-                if (n == 1)
-                    inventory = Task.Run(async () =>
-                    {
-                        await Task.Delay(70);
-                        f.Connection.Tracker.Observe(15, Payload(new ServerAddInventoryMessage { Slot = 1, Name = "Branch", Quantity = 6 }));
-                    });
-                return Task.FromResult(false);
-            }, new("navigate", 500, new(3, 1), StopWhen: new("Branch", 6)));
+            await f.Walk(new(3, 1), (_, _) => Task.FromResult(false), new("navigate", 500, new(3, 1), StopWhen: new("Branch", 6)));
+            Assert.True(received);
             Assert.Single(f.Commands, c => c == 6);
         }
         finally
         {
-            await inventory;
+            f.Connection.ClientObserved -= Inventory;
         }
     }
 
@@ -311,19 +284,27 @@ public class FastWalkingTests
     }
 
     [Fact]
-    public async Task Fast_mode_keeps_160ms_cadence_with_500ms_replies_without_inventing_position()
+    public async Task Fast_mode_pipelines_cadenced_steps_before_slow_replies_without_inventing_position()
     {
         await using var f = await MovingObstacleTests.Fixture.Create(record: new MapRecord(500, "Synthetic", 10, 5, []));
         f.Session.FastMode = true;
         var times = new List<long>();
         var replies = new List<Task>();
+        int maximumPending = 0;
+        void Sent(byte opcode, byte[] _, bool bot)
+        {
+            if (opcode != 6 || !bot)
+                return;
+            times.Add(Stopwatch.GetTimestamp());
+            maximumPending = Math.Max(maximumPending, f.Connection.Movement.Pending);
+            if (times.Count == 2)
+                Assert.Equal(new Tile(1, 1), f.Session.Snapshot.Position);
+        }
+        f.Connection.ClientObserved += Sent;
         try
         {
             await f.Walk(new(5, 1), (n, next) =>
             {
-                times.Add(Stopwatch.GetTimestamp());
-                if (n == 2)
-                    Assert.Equal(new Tile(1, 1), f.Session.Snapshot.Position);
                 var origin = next with
                 {
                     X = next.X - 1
@@ -339,11 +320,15 @@ public class FastWalkingTests
         finally
         {
             await Task.WhenAll(replies);
+            f.Connection.ClientObserved -= Sent;
         }
 
         Assert.Equal(new Tile(5, 1), f.Session.Snapshot.Position);
-        Assert.InRange(Stopwatch.GetElapsedTime(times[0], times[1]).TotalMilliseconds, 140, 300);
-        Assert.InRange(Stopwatch.GetElapsedTime(times[1], times[2]).TotalMilliseconds, 140, 300);
+        // Enforce the fast cadence floor and prove overlap with outstanding replies;
+        // OS scheduling may extend an interval, so receipt-time upper bounds are invalid.
+        Assert.True(Stopwatch.GetElapsedTime(times[0], times[1]).TotalMilliseconds >= 140);
+        Assert.True(Stopwatch.GetElapsedTime(times[1], times[2]).TotalMilliseconds >= 140);
+        Assert.True(maximumPending >= 2);
     }
 
     [Fact]
@@ -675,7 +660,7 @@ public class FastWalkingTests
                 });
                 return Task.CompletedTask;
             });
-            Assert.Single(f.Commands, c => c == 0x38);
+            Assert.DoesNotContain((byte)0x38, f.Commands);
             Assert.Equal(new Tile(4, 1), f.Session.Snapshot.Position);
             Assert.Equal((byte)12, (await ReadClientFrame(f, TimeSpan.FromSeconds(1)))[0]);
             Assert.Equal((byte)11, (await ReadClientFrame(f, TimeSpan.FromSeconds(1)))[0]);
@@ -817,7 +802,7 @@ public class FastWalkingTests
             return true;
         }));
         Assert.Equal(3, f.Commands.Count(c => c == 6));
-        Assert.Equal(2, f.Commands.Count(c => c == 0x38));
+        Assert.DoesNotContain((byte)0x38, f.Commands);
         Assert.Equal(new Tile(1, 1), f.Session.Snapshot.Position);
     }
 
@@ -838,46 +823,33 @@ public class FastWalkingTests
     }
 
     [Fact]
-    public async Task Manual_movement_cancels_a_pending_fast_walk_without_duplicate_animation()
+    public async Task Manual_movement_reanchors_pending_fast_walk_and_navigation_continues()
     {
         await using var f = await MovingObstacleTests.Fixture.Create(record: new MapRecord(500, "Synthetic", 10, 5, []));
         f.Session.FastMode = true;
-        using var stop = new CancellationTokenSource(TimeSpan.FromSeconds(3));
-        var interrupted = new TaskCompletionSource(TaskCreationOptions.RunContinuationsAsynchronously);
-        f.Session.Interrupted += _ =>
+        var interrupted = new System.Collections.Concurrent.ConcurrentQueue<string>();
+        f.Session.Interrupted += interrupted.Enqueue;
+        var recovery = new TaskCompletionSource(TaskCreationOptions.RunContinuationsAsynchronously);
+        f.Connection.MovementChanged += () =>
         {
-            stop.Cancel();
-            interrupted.TrySetResult();
+            if (f.Connection.Movement.Recovery)
+                recovery.TrySetResult();
         };
-        var walking = f.Session.ExecuteAsync(new("navigate", 500, new(8, 1)), stop.Token);
-        try
+        var crypto = new Arbiter.Net.Client.ClientPacketEncryptor();
+        await f.Walk(new(8, 1), async (move, _) =>
         {
-            await ReadFrame(f.Server.GetStream(), TimeSpan.FromSeconds(1));
-            Assert.Equal((byte)12, (await ReadClientFrame(f, TimeSpan.FromSeconds(1)))[0]);
-            var crypto = new Arbiter.Net.Client.ClientPacketEncryptor();
-            await f.Client.GetStream().WriteAsync(crypto.Encrypt(new Arbiter.Net.Client.ClientPacket(6, [2, 0]), 0).ToArray());
-            await interrupted.Task.WaitAsync(TimeSpan.FromSeconds(1));
-            var manual = await ReadFrame(f.Server.GetStream(), TimeSpan.FromSeconds(1));
-            var decoded = (Arbiter.Net.Client.ClientPacket)crypto.Decrypt(new Arbiter.Net.Client.ClientPacket(manual[0], manual[1..]));
-            Assert.Equal(new byte[] { 2, 1 }, decoded.Data);
-            await Assert.ThrowsAnyAsync<OperationCanceledException>(() => walking);
-            Assert.True(f.Connection.Movement.Recovery);
-            Assert.Equal(new Tile(1, 1), f.Session.Snapshot.Position);
-            await Task.Delay(220);
-            Assert.False(f.Server.GetStream().DataAvailable);
-            Assert.False(f.Client.GetStream().DataAvailable);
-        }
-        finally
-        {
-            stop.Cancel();
-            try
+            if (move == 1)
             {
-                await walking;
+                await f.Client.GetStream().WriteAsync(crypto.Encrypt(new Arbiter.Net.Client.ClientPacket(6, [2, 0]), 0).ToArray());
+                await recovery.Task.WaitAsync(TimeSpan.FromSeconds(3));
             }
-            catch (OperationCanceledException)
-            {
-            }
-        }
+            return false;
+        }, projectedServer: true);
+        Assert.Empty(interrupted);
+        Assert.Equal(new Tile(8, 1), f.Session.Snapshot.Position);
+        Assert.Contains((byte)0x38, f.Commands);
+        Assert.False(f.Connection.Movement.Recovery);
+        Assert.Equal(0, f.Connection.Movement.Pending);
     }
 
     [Theory]
@@ -969,7 +941,7 @@ public class FastWalkingTests
             await Task.Delay(10);
         Assert.True(f.Connection.Movement.Recovery);
         await f.Walk(new(4, 1), (_, _) => Task.FromResult(false), new("pathfind", Target: new(4, 1)));
-        Assert.Contains((byte)0x38, f.Commands);
+        Assert.DoesNotContain((byte)0x38, f.Commands);
         Assert.False(f.Connection.Movement.Recovery);
         await Task.Delay(170);
         await f.Session.ExecuteAsync(new("pathfind", Target: new(4, 1)), default);

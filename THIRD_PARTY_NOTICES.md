@@ -132,7 +132,8 @@ entries. They retain the existing collision rules and explicit map-97 entrance
 exception. Their derivation and coverage are documented in
 [provenance](docs/provenance.md).
 
-The compass branding is original artwork; interface icons come from Lucide. Screenshots
+The application quest medallion is original artwork created for DAQuester with AI
+assistance; interface icons come from Lucide. Screenshots
 are actual isolated application renders with sample characters. Segoe UI,
 Georgia and Consolas are requested from Windows; no font files are bundled.
 This is an independent community project, unaffiliated with the game publisher.

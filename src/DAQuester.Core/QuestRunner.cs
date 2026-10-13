@@ -71,7 +71,7 @@ public class QuestRunner(IGameSession session, IQuestJournal journal, QuestDefin
     };
     public Dictionary<string, Func<QuestContext, bool?>> Conditions { get; } = [];
 
-    public async Task RunAsync(bool repeat = false, CancellationToken cancellation = default, bool startNewAttempt = false, bool singleAttempt = false)
+    public async Task RunAsync(bool repeat = false, CancellationToken cancellation = default, bool startNewAttempt = false, bool singleAttempt = false, bool yieldScheduledWaits = false)
     {
         if (!await owner.WaitAsync(0, cancellation))
             return;
@@ -80,7 +80,7 @@ public class QuestRunner(IGameSession session, IQuestJournal journal, QuestDefin
         using var token = CancellationTokenSource.CreateLinkedTokenSource(cancellation);
         active = token;
         pauseReason = "Paused by player";
-        // Two client packets can interrupt in the same instant; the second may arrive after the run has ended.
+        // Connection/protocol interruptions can overlap or arrive after the run has ended.
         void Interrupt(string reason)
         {
             pauseReason = reason;
@@ -114,7 +114,7 @@ public class QuestRunner(IGameSession session, IQuestJournal journal, QuestDefin
         {
             Job = value;
             Changed?.Invoke(value);
-        }, helpers, hunting);
+        }, helpers, hunting) { YieldScheduledWaits = yieldScheduledWaits };
         var priorHairAttempt = c.Job.LastAttemptAt;
         Task Save(QuestJob value) => c.SaveAsync(value);
         try
@@ -237,6 +237,8 @@ public class QuestRunner(IGameSession session, IQuestJournal journal, QuestDefin
                 });
             if (nextAttempt is { } next && next > DateTimeOffset.UtcNow)
             {
+                if (yieldScheduledWaits)
+                    throw new QuestScheduledWaitException(next);
                 if (singleAttempt)
                     throw new QuestBlockedException((hairstyle ? "Seven-day cooldown" : SickChildEvidence.For(recipe.Id) is not null ? "Next flower" : "Eight-hour cooldown") + " until " + next.ToLocalTime().ToString("g") + ". Queue paused before the next attempt.");
                 if (anotherAttempt && !repeat)
@@ -369,6 +371,12 @@ public class QuestRunner(IGameSession session, IQuestJournal journal, QuestDefin
             }
             while (!token.IsCancellationRequested);
         }
+        catch (QuestScheduledWaitException e)
+        {
+            if (c.Job.Pending is not null)
+                throw new QuestBlockedException("Saved submission requires reconciliation before logging out for a scheduled wait.");
+            await Save(c.Job with { Status = "Scheduled", NextRun = e.Next, Reason = "Waiting while logged out until " + e.Next.ToLocalTime().ToString("g") });
+        }
         catch (QuestPermanentlyCompletedException e)
         {
             await Save(PermanentQuestCompletion.Record(c.Job, e.Dialog, session.Snapshot));
@@ -401,7 +409,7 @@ public class QuestRunner(IGameSession session, IQuestJournal journal, QuestDefin
                         await Save(reconciled);
                         // A terminal reward can arrive at the timeout boundary. Settle its
                         // popup before yielding ownership to the next queued quest, while
-                        // manual interruption remains passive and never sends a close.
+                        // a cancelled run remains passive and never sends a close.
                         if (!token.IsCancellationRequested && c.Job.Status == "Completed" && c.Job.Pending is null)
                             try
                             {

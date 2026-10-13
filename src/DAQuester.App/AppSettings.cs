@@ -28,6 +28,7 @@ public class AppSettings
     public string[] SpendStatsCharacters { get; set; } = [];
     // Fast mode is on unless switched off for that character.
     public string[] FastModeOffCharacters { get; set; } = [];
+    public bool JourneyCollapsed { get; set; }
 
     public bool FastModeEnabled(string character) => !FastModeOffCharacters.Any(name => name.Equals(character, StringComparison.OrdinalIgnoreCase));
     public static readonly JsonSerializerOptions Json = new()

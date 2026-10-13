@@ -30,7 +30,7 @@ public sealed partial class MainWindowViewModel
             value.Characters = n;
             value.Save();
             settings.Characters = n;
-        }, n => !Runtime.QueueReserves(n) && !Runtime.IsRunning(n) && !Runtime.RunnerBusy(n) && !Runtime.LaunchPending(n) && !Runtime.ControlActions.Contains(n, StringComparer.OrdinalIgnoreCase));
+        }, n => !Runtime.SchedulerReserves(n) && !Runtime.QueueReserves(n) && !Runtime.IsRunning(n) && !Runtime.RunnerBusy(n) && !Runtime.LaunchPending(n) && !Runtime.ControlActions.Contains(n, StringComparer.OrdinalIgnoreCase));
         foreach (string previous in previousNames.Where(n => !names.Contains(n, StringComparer.OrdinalIgnoreCase)))
             removedAccounts.Add(previous);
         foreach (string saved in names)

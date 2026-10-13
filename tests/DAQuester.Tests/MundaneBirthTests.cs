@@ -308,7 +308,7 @@ public class MundaneBirthTests
     }
 
     [Fact]
-    public async Task Manual_input_pauses_then_safe_dialog_restart_uses_saved_choices()
+    public async Task Session_interruption_pauses_then_safe_dialog_restart_uses_saved_choices()
     {
         var s = Session();
         var normal = s.OnCommand;
@@ -316,7 +316,7 @@ public class MundaneBirthTests
         {
             normal!(c);
             if (c.Text == "Fall")
-                s.Manual();
+                s.Interrupt();
         };
         var j = Journal();
         await j.SaveAsync(Job(season: "Fall", age: 40, town: "Piet"));

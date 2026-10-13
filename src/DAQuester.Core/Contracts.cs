@@ -17,6 +17,7 @@ public interface IGameSession
     }
 
     event Action<CharacterSnapshot>? Changed;
+    // Connection or protocol failure; ordinary player input does not raise this event.
     event Action<string>? Interrupted;
     Task ExecuteAsync(GameCommand command, CancellationToken cancellation);
     Task<CharacterSnapshot> WaitAsync(Func<CharacterSnapshot, bool> predicate, long after, TimeSpan timeout, CancellationToken cancellation);
@@ -409,6 +410,7 @@ public sealed class QuestPopupException(Dialog dialog, int? map) : QuestBlockedE
 
 public class QuestContext(IGameSession session, IQuestJournal journal, Calibration calibration, QuestJob job, Action<QuestJob>? saved = null, IQuestHelpers? helpers = null, HuntingServices? hunting = null)
 {
+    public bool YieldScheduledWaits { get; init; }
     public IGameSession Session { get; } = session;
     public HuntingServices? Hunting { get; } = hunting;
     public Calibration Calibration { get; } = calibration;

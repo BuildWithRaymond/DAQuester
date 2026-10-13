@@ -135,7 +135,8 @@ For example:
 
 Calibration starts in the background. Poll `state` to see its step, blocker and
 recorded branch count. `stop` cancels one character; omit character for global stop.
-Manual movement or dialog interaction cancels the control owner immediately.
+Manual movement, turns and dialog interaction do not cancel the control owner.
+Use Stop to cancel it; disconnects and changed sessions still stop unsafe work.
 Gameplay continues. Jobs, pending transactions and observed evidence persist.
 
 The `close` command dismisses a pursuit using its current entity, pursuit and step,

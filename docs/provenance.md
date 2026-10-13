@@ -38,6 +38,20 @@ tests; automated login has not been tested on a real character in this change.
 The complete upstream copyright and MIT permission notice is retained in
 [third-party notices](../THIRD_PARTY_NOTICES.md).
 
+A Scheduler follow-up reported that the client entered the game briefly and then
+closed. The player's diagnostics showed login submission followed by the new
+parser's “Login response could not be confirmed” error. The parser required the
+entire payload to equal the result byte plus String8 message length, whereas the
+bundled Arbiter `ServerLoginCheckMessage` consumes those complete fields without
+requiring the payload to end there. The parser now follows that bounded-read
+contract; truncated fields remain failures, and server denials still block
+scheduled logins until explicit review. Tests use synthetic responses with a
+trailing zero, including success through a fragmented redirect and identity
+handoff, incorrect passwords and already-logged-in messages. These fixtures are
+not captured login packets; replays do not store opcode 0x02. Diagnostics record
+only response size, result code and declared message length to help distinguish
+any other response variants without logging credentials, keys or raw login data.
+
 At the player's request, launch now follows DAOrganizer's `ClientLauncher`
 agreement bypass: `0x4B897C` changes `75 6C` to `EB 6C`, and `0x4B8ACF`
 changes `75 6D` to `EB 6D`. Offline inspection of the supported stock 7.41
@@ -367,3 +381,39 @@ the palette mapping selects `eff000.pal`. The loader uses the existing EPF parse
 Native completion previews use isolated synthetic receipts and characters, with
 no game actions. The general sequence format is corroborated by
 [Brigid's effect documentation](https://github.com/hybrasyl/Brigid).
+
+## Quest planner artwork
+
+The user approved 71 per-quest artwork choices researched from the
+[Vorlof quest guides](https://www.vorlof.com/quests.html), including
+[Shinewood Faerie](https://www.vorlof.com/general/shinewoodforest11.html).
+`content/quest-artwork.json` retains each choice's guide link. Perfect Hairstyle
+uses the sprite listed on [Eeva's NPC page](https://www.vorlof.com/npc.php?id=950_Eeva_3,3).
+Band of Danaan follows its merged Cap of Danaan guide.
+
+Guide filenames are presentation references, never inferred packet evidence.
+The corresponding installed inventory frames were checked against guide image
+dimensions. They use one-based IDs in 266-frame EPF banks, `itempal.tbl` palette
+ranges, and `color0.tbl` for the blue Yowien Vine variant. Creature art uses MPF
+frames and palettes in `hades.dat`; the Arsaidh Aon portrait uses `mns083a.mpf`.
+Both archives are read-only. Native palette index zero keeps backgrounds
+transparent while preserving opaque white fur and highlights. No guide images,
+raw game artwork, or private client paths are bundled or committed.
+
+### Awakening entry and NPC discovery (2026-10-13)
+
+A sanitized live replay supplied observed Torrance entry in Mileth Armor Shop: the `(( Tutorial ))` menu, his introduction and `I am up to the challenge. Take me there.` answer, followed by arrival on Tutorial:1. Entity IDs remain discovered at runtime. Entry is checkpointed before submission and reconciled from arrival rather than resent on timeout. Levels 1–3 are the supported starter range, not a claim about the server maximum entry level.
+
+The bounded tutorial collision sweep is authored navigation, not a recorded route or evidence of absent NPCs. It avoids exits and stops when Raghnall or Bartley is observed. Synthetic tests cover entry, ambiguous arrival, resumption, welcome popups and NPC discovery without operating live characters.
+
+### Legend reward icons and custom journey artwork
+
+Reward shape metadata follows the existing Vorlof catalog `legendEvidence` filenames: Aisling, class, Heart and Victory/shield. The selected installed client provides the eight `legends.epf` frames and `legend.pal`, opened read-only from setoa and legend archives. Preview icons use the original brown palette; they do not assert the color or ownership of a future server reward. No game artwork is bundled. The three custom starter journeys use the DAQuester app medallion instead.
+
+Library progression is authored presentation guidance. It does not change server requirements, quest policies or saved queue order.
+
+### Starter recovery, owned gear and live activity (2026-10-13)
+
+Spin's diagnostics recorded an unanswered movement refresh and a five-second timeout while reopening Carlos between consecutive purchases. The running build's replay export exhausted memory; no complete packet trace is claimed for those incidents. Synthetic tests reproduce unnecessary refresh after a position rejection and repeated shop opening. Recovery accepts a confirmed sole-step rejection or drained movement correction; uncertain projected requests retain a refresh barrier. Consecutive purchases reuse the observed Carlos list, with independent bag/gold proof and durable pending purchases.
+
+The owned-equipment table uses documented practical peasant items from [Vorlof armors](https://vorlof.com/armors.php), [boots](https://vorlof.com/daitems/boots.htm) and [rings](https://vorlof.com/daitems/rings.htm). It is deliberately bounded: unknown items are not ranked, known requirements are respected, and an upgrade cannot discard a documented benefit. Nothing is purchased from this table. Emerald Ring requires level 12, so a level-7 character retains the tutorial ring. Combat activity comes from the actual selected entity; names for unnamed creatures on starter crypt floors use the existing ground's documented sprite mapping. Names are presentation metadata, never kill or reward evidence.

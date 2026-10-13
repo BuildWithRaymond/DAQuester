@@ -9,11 +9,16 @@ public sealed class QuestItemVM : ObservableObject
     readonly string recipeId;
     QuestAvailability availability = new("Not checked", "Choose a character", false);
     bool queued;
+    internal DesktopRuntime Runtime => owner.Runtime;
+    public string GameDirectory => Path.GetDirectoryName(owner.Runtime.Settings.ClientPath) ?? "";
     public string Id
     {
         get;
     }
     public string RecipeId => recipeId;
+    public bool IsGuideOnly => recipeId.Length == 0;
+    public bool HasLegendReward { get; }
+    public string LegendEvidence { get; }
     public string Name
     {
         get;
@@ -98,7 +103,7 @@ public sealed class QuestItemVM : ObservableObject
         get;
     }
 
-    public QuestItemVM(MainWindowViewModel owner, string id, string recipeId, string name, string rewards, string requirements, string level, string source, string description, string region)
+    public QuestItemVM(MainWindowViewModel owner, string id, string recipeId, string name, string rewards, string requirements, string level, string source, string description, string region, bool hasLegendReward = false, string legendEvidence = "")
     {
         this.owner = owner;
         Id = id;
@@ -110,6 +115,8 @@ public sealed class QuestItemVM : ObservableObject
         Source = source;
         Description = description;
         Region = region;
+        HasLegendReward = hasLegendReward;
+        LegendEvidence = legendEvidence;
         OpenGuideCommand = new(_ => owner.OpenGuide(Source), _ => Uri.TryCreate(Source, UriKind.Absolute, out var u) && u.Scheme is "https" or "http");
     }
 

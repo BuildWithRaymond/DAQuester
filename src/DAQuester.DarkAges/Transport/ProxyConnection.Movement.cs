@@ -5,7 +5,7 @@ using DAQuester.DarkAges.Protocol;
 
 namespace DAQuester.DarkAges.Transport;
 
-public readonly record struct MovementWindow(int Pending, bool Recovery, Tile? Projected, Tile? FirstTarget, DateTimeOffset? Oldest, int Capacity);
+public readonly record struct MovementWindow(int Pending, bool Recovery, Tile? Projected, Tile? FirstTarget, DateTimeOffset? Oldest, int Capacity, bool CanReanchor = false);
 internal sealed class MovementReplanException : Exception;
 public sealed partial class ProxyConnection
 {
@@ -13,6 +13,7 @@ public sealed partial class ProxyConnection
     readonly Queue<PendingStep> pendingSteps = new();
     sealed record PendingStep(MovementIntent Intent, bool Presented, DateTimeOffset Sent);
     bool movementRecovery, refreshRequested;
+    bool authoritativeMovementSettled;
     Tile? failedMovementTarget;
     double? acknowledgmentMilliseconds;
     public event Action? MovementChanged;
@@ -27,7 +28,7 @@ public sealed partial class ProxyConnection
                 // Excalibur's acknowledged fast walker starts at three and adapts to RTT,
                 // capped at four. Projection is transport bookkeeping, never quest evidence.
                 int capacity = acknowledgmentMilliseconds is { } rtt ? Math.Clamp((int)Math.Ceiling(rtt / 160), 1, 4) : 3;
-                return new(pendingSteps.Count, movementRecovery, last is null ? Tracker.Snapshot.Position : StateTracker.GridStep(last.Intent.Origin, last.Intent.Direction), failedMovementTarget ?? (first is null ? null : StateTracker.GridStep(first.Intent.Origin, first.Intent.Direction)), first?.Sent, capacity);
+                return new(pendingSteps.Count, movementRecovery, last is null ? Tracker.Snapshot.Position : StateTracker.GridStep(last.Intent.Origin, last.Intent.Direction), failedMovementTarget ?? (first is null ? null : StateTracker.GridStep(first.Intent.Origin, first.Intent.Direction)), first?.Sent, capacity, authoritativeMovementSettled);
             }
         }
     }
@@ -64,6 +65,7 @@ public sealed partial class ProxyConnection
         movementRecovery = false;
         refreshRequested = false;
         failedMovementTarget = null;
+        authoritativeMovementSettled = false;
     }
 
     void RegisterMovement(byte direction, long expectedGeneration, Tile? origin, bool presented, int capacity)
@@ -78,6 +80,7 @@ public sealed partial class ProxyConnection
         if (movementRecovery || pendingSteps.Count >= Math.Clamp(capacity, 1, 4) || origin is not null && origin != projected)
             throw new QuestBlockedException("Movement must settle before another step.");
         pendingSteps.Enqueue(new(new(expectedGeneration, map, id, origin ?? projected, direction), presented, DateTimeOffset.UtcNow));
+        authoritativeMovementSettled = false;
     }
 
     // Called under both toClient and movementGate, together with Tracker.Observe.
@@ -96,6 +99,9 @@ public sealed partial class ProxyConnection
                 ResetMovement();
             else if (pendingSteps.TryPeek(out var first))
             {
+                // A sole rejected request has a complete server position. Several projected
+                // requests may still be in flight; retain their refresh barrier.
+                authoritativeMovementSettled = pendingSteps.Count == 1;
                 movementRecovery = pendingSteps.Any(p => p.Presented);
                 failedMovementTarget = movementRecovery ? StateTracker.GridStep(first.Intent.Origin, first.Intent.Direction) : null;
                 pendingSteps.Clear();
@@ -120,6 +126,7 @@ public sealed partial class ProxyConnection
         }
 
         movementRecovery = true;
+        authoritativeMovementSettled = pendingSteps.Count == 0 && payload[0] <= 4;
         failedMovementTarget ??= StateTracker.GridStep(intent.Origin, intent.Direction);
         return step.Presented || pendingSteps.Any(p => p.Presented) ? PlayerPresentation.Position(StateTracker.GridStep(origin, payload[0])) : PlayerPresentation.AcknowledgedMove(intent, s, opcode, payload);
     }

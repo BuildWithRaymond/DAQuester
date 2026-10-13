@@ -8,6 +8,27 @@ namespace DAQuester.App.ViewModels;
 
 public sealed partial class MainWindowViewModel
 {
+    public string FastModeCharacterLabel => CharacterName.Length > 0 ? "Movement for " + CharacterName : "Movement";
+    public bool CanSetFastMode => CharacterName.Length > 0;
+    public bool FastMode
+    {
+        get => Runtime.Settings.FastModeEnabled(CharacterName);
+        set
+        {
+            if (!refreshing && CharacterName.Length > 0 && value != FastMode)
+                try
+                {
+                    Runtime.SetFastMode(CharacterName, value);
+                }
+                catch (Exception e)
+                {
+                    ReportError(e);
+                }
+        }
+    }
+
+    public string FastModeLabel => "Fast mode · " + (FastMode ? Runtime.FastModeDescription(CharacterName) : "normal walking");
+
     public string ClientPath
     {
         get => clientPath;

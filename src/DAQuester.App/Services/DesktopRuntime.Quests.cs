@@ -89,6 +89,7 @@ public sealed partial class DesktopRuntime
     public bool RepeatEnabled(string name, string id) => recipes.TryGetValue(id, out var quest) && quest.Repeatable && repeatChoices.GetValueOrDefault((name.ToUpperInvariant(), id), journal.Load(name, id).Repeat);
     public async Task SetRepeatAsync(string name, string id, bool repeat)
     {
+        RequireNoScheduler(name);
         RequireOpen();
         if (RunnerBusy(name))
             throw new QuestBlockedException("A quest is already preparing for this character.");
@@ -130,6 +131,7 @@ public sealed partial class DesktopRuntime
 
     public async Task StartQuestAsync(string name, string id, bool resume = false)
     {
+        RequireNoScheduler(name);
         RequireOpen();
         if (Preview)
             throw new InvalidOperationException("Preview does not run game quests.");
@@ -149,6 +151,11 @@ public sealed partial class DesktopRuntime
 
     public async Task PauseQuestAsync(string name, string reason)
     {
+        if (SchedulerReserves(name))
+        {
+            await SetSchedulerEnabledAsync(false, false);
+            return;
+        }
         if (QueueReserves(name))
         {
             await PauseQueueAsync(name, reason.StartsWith("Stopped", StringComparison.Ordinal));
@@ -199,6 +206,7 @@ public sealed partial class DesktopRuntime
 
     async Task<bool> ConfigureQuestAsync(string name, QuestDefinition selected, bool resume, bool change = false)
     {
+        RequireNoScheduler(name);
         if (RunnerBusy(name))
             throw new QuestBlockedException("A quest is already preparing for this character.");
         if (!sessions.TryGetValue(name, out var session) || !session.Snapshot.Connected)
@@ -375,8 +383,12 @@ public sealed partial class DesktopRuntime
         }
     }
 
-    async Task<QuestRunner> PrepareRunnerAsync(string name, QuestDefinition selected, MundaneBirthOptions? options = null, EmeraldDawnOptions? emeraldOptions = null, bool allowUnsafeWalking = false)
+    Task<QuestRunner> PrepareRunnerAsync(string name, QuestDefinition selected, MundaneBirthOptions? options = null, EmeraldDawnOptions? emeraldOptions = null, bool allowUnsafeWalking = false) => PrepareRunnerCoreAsync(name, selected, options, emeraldOptions, allowUnsafeWalking);
+
+    async Task<QuestRunner> PrepareRunnerCoreAsync(string name, QuestDefinition selected, MundaneBirthOptions? options = null, EmeraldDawnOptions? emeraldOptions = null, bool allowUnsafeWalking = false, bool scheduled = false)
     {
+        if (!scheduled)
+            RequireNoScheduler(name);
         RequireOpen();
         if (RunnerBusy(name))
             throw new QuestBlockedException("A quest is already preparing for this character.");
@@ -486,7 +498,10 @@ public sealed partial class DesktopRuntime
                 throw new QuestBlockedException("Character connection changed. Resume after fresh state.");
             if (runners.ContainsKey(name))
                 throw new QuestBlockedException("Another quest now owns this character.");
-            var hunting = new HuntingServices(LoadHuntingProgress, SaveHuntingProgress, session.IsOwnCharacter, (character, line) => Log(character + ": " + line));
+            huntingActivities.TryRemove(name, out _);
+            var hunting = new HuntingServices(LoadHuntingProgress, SaveHuntingProgress, session.IsOwnCharacter,
+                (character, line) => Log(character + ": " + line),
+                (character, activity) => RecordHuntingActivity(character, selected.Id, generation, activity));
             var runner = new QuestRunner(session, journal, selected, Calibration, SickChildEvidence.For(selected.Id) is not null ? new QuestHelperHub(this, name) : null, hunting);
             runners[name] = runner;
             ObserveRunner(name, runner);

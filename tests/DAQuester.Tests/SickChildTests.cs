@@ -25,7 +25,7 @@ public class SickChildTests
             };
             Changed?.Invoke(Snapshot);
         }
-        public void Manual() => Interrupted?.Invoke("Manual input");
+        public void Interrupt() => Interrupted?.Invoke("Automation interrupted");
         public Task ExecuteAsync(GameCommand c, CancellationToken t)
         {
             t.ThrowIfCancellationRequested();
@@ -51,11 +51,14 @@ public class SickChildTests
     {
         public bool LoggedOut, Disposed;
         public int FailLogins, Acquired;
+        public Func<string, Exception?>? LoginError;
         public CancellationTokenSource TakeOver { get; } = new();
         public List<string> Reports { get; } = [];
         public Task<IQuestHelper> AcquireAsync(string name, CancellationToken ct)
         {
             Acquired++;
+            if (LoginError?.Invoke(name) is { } error)
+                throw error;
             if (FailLogins-- > 0)
                 throw new HelperLoginException(name + ": Login not confirmed");
             return Task.FromResult<IQuestHelper>(this);
@@ -205,6 +208,21 @@ public class SickChildTests
         Assert.False(Assert.Single(c.Job.SickChildPicks).Refused);
         Assert.Contains(q.Commands, x => x.Kind == "choose" && x.Text == GiveWithCoins);
         Assert.DoesNotContain(q.Commands, x => x.Text is "Give Sevti Blossom" or "Perhaps for 1000 coins you can say");
+    }
+
+    [Fact]
+    public async Task Scheduled_daily_wait_yields_with_pick_checkpoint_without_resubmitting()
+    {
+        var q = new Scripted("valadriel", 1686902);
+        q.Script = (command, snapshot) => command.Kind == "inspect-self" ? Legends(snapshot) : null;
+        var picked = DateTimeOffset.UtcNow.AddHours(-1);
+        var job = new QuestJob { Character = "valadriel", Quest = Id, Step = "run", SickChildOptions = new(SickChildOptions.Daily, [], 0), SickChildPicks = [new("valadriel", picked, false)] };
+        var c = new QuestContext(q, new FileQuestJournal(dir), new(), job) { YieldScheduledWaits = true };
+        var wait = await Assert.ThrowsAsync<QuestScheduledWaitException>(() => new SickChildActions().ExecuteAsync(c, new("run", "sick-run", "complete"), default));
+        Assert.Equal(picked + PickInterval, wait.Next);
+        Assert.Null(c.Job.Pending);
+        Assert.Null(c.Job.CompletedAt);
+        Assert.DoesNotContain(q.Commands, command => command.Kind is "step" or "give" or "choose" or "navigate");
     }
     [Fact]
     public async Task Refused_pick_is_recorded_and_never_turned_in()
@@ -680,6 +698,21 @@ public class SickChildTests
         Assert.Equal(2, hub.Acquired);
         Assert.Equal("complete", c.Job.Step);
         Assert.Contains(hub.Reports, r => r.Contains("Login failed"));
+    }
+
+    [Fact]
+    public async Task Scheduler_drains_all_helper_leases_when_multiple_logins_are_denied()
+    {
+        var (q, h, hub) = Pair();
+        h.Set(Add(h.Snapshot, 1, Blossom));
+        hub.LoginError = name => name.StartsWith("Denied", StringComparison.Ordinal) ? new ScheduledLoginException(name, "Account already logged in") : null;
+        var job = new QuestJob { Character = "valadriel", Quest = Id, SickChildOptions = new(SickChildOptions.WithHelpers, ["DeniedOne", "DeniedTwo", "jackharkness"], 2), SickChildPicks = [new("valadriel", DateTimeOffset.UtcNow, false)] };
+        var context = new QuestContext(q, new FileQuestJournal(dir), new(), job, null, hub) { YieldScheduledWaits = true };
+        await Assert.ThrowsAsync<ScheduledLoginException>(() => new SickChildActions().ExecuteAsync(context, new("run", "sick-run", "complete"), default));
+        Assert.Equal(3, hub.Acquired);
+        Assert.True(hub.Disposed);
+        Assert.True(hub.LoggedOut);
+        Assert.Empty(context.Job.SickChildTurnIns);
     }
     [Fact]
     public async Task Taken_over_helper_is_never_logged_out()

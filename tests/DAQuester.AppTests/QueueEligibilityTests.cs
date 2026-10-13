@@ -49,11 +49,12 @@ public class QueueEligibilityTests
                 runtime.SetPreviewSnapshot(observed);
             await runtime.EditQueueAsync("Elara", queue => queue with { Quests = ["perfect-hairstyle"] });
             var vm = new MainWindowViewModel(runtime);
+            vm.Filter = "All";
             vm.SelectedQuest = vm.Quests.Single(q => q.RecipeId == quest);
             Assert.Equal("Blocked", vm.SelectedQuest.Status);
             Assert.Contains(reason, vm.SelectedQuest.Reason, StringComparison.OrdinalIgnoreCase);
             Assert.False(vm.SelectedQuest.CanQueue);
-            Assert.False(vm.AddJourneyToQueueCommand.CanExecute(null));
+            Assert.False(vm.AddSelectedQuestToQueueCommand.CanExecute(null));
             await vm.ToggleQuestAsync(vm.SelectedQuest);
             var error = await Assert.ThrowsAsync<QuestBlockedException>(() => runtime.EditQueueAsync("Elara", queue => queue with { Quests = queue.Quests.Append(quest).ToArray() }));
             Assert.Contains(reason, error.Message, StringComparison.OrdinalIgnoreCase);
@@ -164,6 +165,7 @@ public class QueueEligibilityTests
         {
             runtime.SetPreviewQueue(new() { Character = "Elara", Quests = [quest] });
             var vm = new MainWindowViewModel(runtime);
+            vm.Filter = "All";
             var row = vm.Quests.Single(q => q.RecipeId == quest);
             Assert.Equal("Blocked", row.Status);
             Assert.True(row.CanQueue);

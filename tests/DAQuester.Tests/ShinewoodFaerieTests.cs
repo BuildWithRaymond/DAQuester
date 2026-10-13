@@ -599,7 +599,7 @@ public class ShinewoodFaerieTests
         {
             if (c.Kind == "choose" && c.Text == "Adopt a Pet Faerie")
             {
-                s.Manual();
+                s.Interrupt();
                 return;
             }
 

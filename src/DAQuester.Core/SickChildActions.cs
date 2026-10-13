@@ -112,6 +112,8 @@ public sealed class SickChildActions(PaulinFlower? flower = null) : IQuestAction
         }
         async Task Wait(DateTimeOffset next, CancellationToken ct)
         {
+            if (c.YieldScheduledWaits)
+                throw new QuestScheduledWaitException(next);
             // Wait out the day in Paulin's room, not at the flower or in the swamp.
             await Travel(c.Session, PaulinMap, QuesterTile, 1, ct);
             await Update(j => j with { Status = "Scheduled", NextRun = next, Reason = "Next flower after " + next.ToLocalTime().ToString("g") });
@@ -167,7 +169,7 @@ public sealed class SickChildActions(PaulinFlower? flower = null) : IQuestAction
                             hub.Report(helper.Name, "Flower given to Paulin");
                             given = true;
                         }
-                        finally { await Release(hub, helper, given); }
+                        finally { await Release(hub, helper, given || c.YieldScheduledWaits); }
                         Fill();
                         continue;
                     }
@@ -225,12 +227,19 @@ public sealed class SickChildActions(PaulinFlower? flower = null) : IQuestAction
             finally
             {
                 round.Cancel();
-                // Fetch reports its own failures and never throws; unused helpers stay online where they are.
+                // Scheduled login failures can throw. Drain every acquisition and
+                // lease before surfacing a failure so another helper is not left behind.
+                Exception? cleanupFailure = null;
                 foreach (var pending in fetches)
-                if (await pending is { Helper: { } left })
-                    await Release(hub, left, false);
+                    try
+                    {
+                        if (await pending is { Helper: { } left })
+                            await Release(hub, left, c.YieldScheduledWaits);
+                    }
+                    catch (Exception error) { cleanupFailure ??= error; }
                 while (ready.Count > 0)
-                    await Release(hub, ready.Dequeue(), false);
+                    try { await Release(hub, ready.Dequeue(), c.YieldScheduledWaits); }
+                    catch (Exception error) { cleanupFailure ??= error; }
                 // Already reported by the failure that ended the round.
                 if (ownPick is not null)
                     try
@@ -244,6 +253,8 @@ public sealed class SickChildActions(PaulinFlower? flower = null) : IQuestAction
                         await toPaulin;
                     }
                     catch (Exception) { }
+                if (cleanupFailure is not null)
+                    System.Runtime.ExceptionServices.ExceptionDispatchInfo.Capture(cleanupFailure).Throw();
             }
         }
         async Task<Fetched> Fetch(IQuestHelpers hub, string name, CancellationToken ct)
@@ -277,6 +288,10 @@ public sealed class SickChildActions(PaulinFlower? flower = null) : IQuestAction
                     catch (Exception e) when (attempt < 3 && Transient(e) && !linked.IsCancellationRequested) { hub.Report(name, "Retrying in 15 seconds after: " + e.Message); await Task.Delay(RetryRest, linked.Token); }
                 }
                 return new(name, helper, false);
+            }
+            catch (ScheduledLoginException) when (c.YieldScheduledWaits)
+            {
+                throw;
             }
             catch (HelperLoginException e)
             {

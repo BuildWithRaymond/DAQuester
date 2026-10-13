@@ -22,7 +22,10 @@ public sealed partial class GameSession
                 continue;
             if (window.Recovery)
             {
-                await RefreshView(ct);
+                if (window.CanReanchor)
+                    connection.AcceptServerPosition();
+                else
+                    await RefreshView(ct);
                 return;
             }
 

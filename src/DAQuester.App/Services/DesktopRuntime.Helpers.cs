@@ -9,7 +9,7 @@ public sealed partial class DesktopRuntime
 {
     readonly Dictionary<string, string> helperStatus = new(StringComparer.OrdinalIgnoreCase);
     public string? HelperStatus(string name) => helperStatus.GetValueOrDefault(name);
-    string? HelperBusy(string name) => QueueReserves(name) || IsRunning(name) || RunnerBusy(name) || controlActions.ContainsKey(name) || LaunchPending(name)
+    string? HelperBusy(string name) => SchedulerReserves(name) || QueueReserves(name) || IsRunning(name) || RunnerBusy(name) || controlActions.ContainsKey(name) || LaunchPending(name)
      ? "Busy with " + (RunningQuestId(name) is { } quest ? QuestName(quest) : "another action") : null;
 
     public SickChildChoiceInfo SickChildChoice(string quester, string questId)
@@ -71,6 +71,8 @@ public sealed partial class DesktopRuntime
             throw new QuestBlockedException("The quester can't also be a helper.");
         if (!Settings.Characters.Contains(name, StringComparer.OrdinalIgnoreCase))
             throw new QuestBlockedException(name + " isn't a saved character.");
+        if (string.Equals(schedulerCharacter, quester, StringComparison.OrdinalIgnoreCase))
+            return await AcquireScheduledHelperAsync(name, cancellation);
         if (HelperBusy(name) is { } busy)
             throw new QuestBlockedException(name + ": " + busy + ".");
         bool launched = false;

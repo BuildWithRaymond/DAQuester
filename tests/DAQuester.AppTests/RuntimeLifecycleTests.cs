@@ -262,9 +262,8 @@ public sealed class RuntimeLifecycleTests
             Assert.True(availability.CanQueue);
             var vm = new MainWindowViewModel(runtime);
             vm.SelectedQuest = vm.Quests.Single(q => q.RecipeId == ordinary.Quest);
-            Assert.Equal("Run individual quest again", vm.StartQuestLabel);
-            Assert.True(vm.StartQuestCommand.CanExecute(null));
-            Assert.False(vm.ResumeQuestCommand.CanExecute(null));
+            Assert.False(vm.HasCurrentJourney);
+            Assert.True(vm.AddSelectedQuestToQueueCommand.CanExecute(null));
             await journal.SaveAsync(ordinary with
             {
                 Step = "gather",
@@ -272,7 +271,8 @@ public sealed class RuntimeLifecycleTests
             });
             vm.Refresh();
             Assert.Equal("Resume ready", runtime.Availability("Elara", ordinary.Quest).Status);
-            Assert.True(vm.ResumeQuestCommand.CanExecute(null));
+            Assert.False(vm.HasCurrentJourney);
+            Assert.True(vm.AddSelectedQuestToQueueCommand.CanExecute(null));
         }
         finally
         {
@@ -292,15 +292,16 @@ public sealed class RuntimeLifecycleTests
                 Assert.Equal("Spare a Stick", vm.JourneyTitle);
                 Assert.Equal(50, vm.JourneyProgress);
                 Assert.Equal("100 Gold", vm.JourneyRewards);
-                Assert.True(vm.RepeatVisible);
+                Assert.True(vm.HasCurrentJourney);
                 Assert.Equal("mundane-birth", vm.SelectedQuest.RecipeId);
-                Assert.True(vm.PauseQuestCommand.CanExecute(null));
+                Assert.False(vm.StartQueueCommand.CanExecute(null));
                 Assert.Equal("spare-a-stick", runtime.RunningQuestId("Elara"));
                 Assert.Null(runtime.RunningQuestId("Wren"));
                 typeof(QuestRunner).GetField("active", BindingFlags.Instance | BindingFlags.NonPublic)!.SetValue(runner, null);
                 vm.Refresh();
                 Assert.Null(runtime.RunningQuestId("Elara"));
-                Assert.Equal("Mundane Birth", vm.JourneyTitle);
+                Assert.Equal("No journey running", vm.JourneyTitle);
+                Assert.False(vm.HasCurrentJourney);
             }
             finally
             {
@@ -378,9 +379,8 @@ public sealed class RuntimeLifecycleTests
             vm.SelectedQuest = vm.Quests.Single(q => q.RecipeId == "mundane-birth");
             Assert.Equal("Spare a Stick", vm.JourneyTitle);
             Assert.Equal("Checking quest requirements", vm.JourneyState);
-            Assert.True(vm.PauseQuestCommand.CanExecute(null));
-            Assert.True(vm.StopQuestCommand.CanExecute(null));
-            Assert.False(vm.RepeatEnabled);
+            Assert.True(vm.HasCurrentJourney);
+            Assert.False(vm.StartQueueCommand.CanExecute(null));
             pending.SetResult();
             Assert.Null(runtime.RunningQuestId("Elara"));
         }

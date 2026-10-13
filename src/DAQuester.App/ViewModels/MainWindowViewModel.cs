@@ -17,7 +17,10 @@ public sealed partial class MainWindowViewModel : ObservableObject
     readonly List<AsyncCommand> commands = [];
     readonly HashSet<string> removedAccounts = new(StringComparer.OrdinalIgnoreCase);
     bool refreshing;
-    string page = "Planner", search = "", filter = "All", errorMessage = "", noticeMessage = "", clientPath, accountStatus = "";
+    bool questConfirmationPending;
+    public Func<string, string, string?, Task<bool>>? ConfirmPaulinQuestAsync { get; set; }
+    string page = "Planner", search = "", filter = "Available", errorMessage = "", noticeMessage = "", clientPath, accountStatus = "";
+    bool legendMarksOnly;
     bool automaticUpdateChecks;
     CharacterItemVM? selectedCharacter;
     QuestItemVM? selectedQuest;
@@ -99,6 +102,7 @@ public sealed partial class MainWindowViewModel : ObservableObject
     public bool IsPlanner => Page == "Planner";
     public bool IsCharacters => Page == "Characters";
     public bool IsHistory => Page == "History";
+    public bool IsScheduler => Page == "Scheduler";
     public bool IsSettings => Page == "Settings";
     public string PageTitle => Page switch
     {
@@ -109,6 +113,7 @@ public sealed partial class MainWindowViewModel : ObservableObject
     {
         "Characters" => "Every character. Their own journey.",
         "History" => "Verified outcomes and saved attempts.",
+        "Scheduler" => "Log in, run a quest, log out. Completely optional.",
         "Settings" => "A companion that works your way.",
         _ => "Your quests. Your order. Your next adventure."
     };
@@ -134,16 +139,20 @@ public sealed partial class MainWindowViewModel : ObservableObject
     }
 
     public bool IsAllFilter => Filter == "All";
-    public bool IsQueueableFilter => Filter == "Can queue";
-    public bool IsReadyFilter => Filter == "Ready";
+    public bool IsAvailableFilter => Filter == "Available";
     public bool IsCompletedFilter => Filter == "Completed";
-    public bool IsUnavailableFilter => Filter == "Unavailable";
-    public int AllCount => library.Count;
-    public int QueueableCount => library.Count(q => q.QueueEligible);
-    public int ReadyCount => library.Count(q => q.IsReady);
-    public int CompletedCount => library.Count(q => q.IsCompleted);
-    public int UnavailableCount => library.Count(q => q.IsMuted);
-    public string LibrarySummary => $"{Quests.Count} of {AllCount} quests · {Runtime.Recipes.Count} automatic journeys";
+    public bool IsGuidesFilter => Filter == "Guides";
+    public bool LegendMarksOnly
+    {
+        get => legendMarksOnly;
+        set { if (Set(ref legendMarksOnly, value)) Refresh(); }
+    }
+    IEnumerable<QuestItemVM> LegendFilteredLibrary => library.Where(q => !LegendMarksOnly || q.HasLegendReward);
+    public int AllCount => LegendFilteredLibrary.Count();
+    public int AvailableCount => LegendFilteredLibrary.Count(q => q.QueueEligible);
+    public int CompletedCount => LegendFilteredLibrary.Count(q => q.IsCompleted);
+    public int GuidesCount => LegendFilteredLibrary.Count(q => q.IsGuideOnly);
+    public string LibrarySummary => $"{Quests.Count} of {AllCount} quests{(LegendMarksOnly ? " with legend marks" : "")} · {Runtime.Recipes.Count} automatic journeys";
     public string LibrarySelectionHint => QueueLocked ? "Stop this run before editing the queue. Select any row to read its details."
         : CharacterName.Length == 0 ? "Add a character to plan a queue. Select any row to read its details."
         : "Check a box to add or remove a quest. Select a row to read its details.";
@@ -240,22 +249,6 @@ public sealed partial class MainWindowViewModel : ObservableObject
     {
         get;
     }
-    public AsyncCommand StartQuestCommand
-    {
-        get;
-    }
-    public AsyncCommand ResumeQuestCommand
-    {
-        get;
-    }
-    public AsyncCommand PauseQuestCommand
-    {
-        get;
-    }
-    public AsyncCommand StopQuestCommand
-    {
-        get;
-    }
     public AsyncCommand SaveAccountsCommand
     {
         get;
@@ -286,8 +279,9 @@ public sealed partial class MainWindowViewModel : ObservableObject
         Runtime = runtime;
         clientPath = runtime.Settings.ClientPath;
         automaticUpdateChecks = runtime.Settings.AutomaticUpdateChecks;
+        journeyCollapsed = runtime.Settings.JourneyCollapsed;
         NavigateCommand = new(p => Page = p as string ?? "Planner");
-        FilterCommand = new(p => Filter = p as string ?? "All");
+        FilterCommand = new(p => Filter = p as string ?? "Available");
         ToggleJourneyCommand = new(_ => JourneyCollapsed = !JourneyCollapsed);
         DismissErrorCommand = new(_ => ErrorMessage = "");
         DismissNoticeCommand = new(_ => NoticeMessage = "");
@@ -315,12 +309,8 @@ public sealed partial class MainWindowViewModel : ObservableObject
         StopQueueCommand = Command(_ => runtime.PauseQueueAsync(CharacterName, true), _ => QueueLocked);
         ClearQueueCommand = Command(_ => runtime.EditQueueAsync(CharacterName, s => s with { Quests = [], ActiveQuest = null }), _ => !QueueLocked && !QueueEmpty);
         StopAllCommand = Command(_ => runtime.StopOwnersAsync());
-        StartQuestCommand = Command(_ => runtime.StartQuestAsync(CharacterName, JourneyQuestId), _ => CanStartQuest(false));
-        ResumeQuestCommand = Command(_ => runtime.StartQuestAsync(CharacterName, JourneyQuestId, true), _ => CanStartQuest(true));
-        PauseQuestCommand = Command(_ => runtime.PauseQuestAsync(CharacterName, "Paused by player"), _ => CanPauseQuest);
-        StopQuestCommand = Command(_ => runtime.PauseQuestAsync(CharacterName, "Stopped; progress saved"), _ => CanPauseQuest);
-        AddJourneyToQueueCommand = Command(_ => AddJourneyToQueueAsync(), _ => CanAddJourneyToQueue);
-        ChangeChoicesCommand = Command(_ => runtime.ChangeQuestChoicesAsync(CharacterName, JourneyQuestId), _ => CanChangeChoices);
+        AddSelectedQuestToQueueCommand = Command(_ => AddSelectedQuestToQueueAsync(), _ => CanAddSelectedQuestToQueue);
+        ChangeChoicesCommand = Command(_ => runtime.ChangeQuestChoicesAsync(CharacterName, SelectedQuestId), _ => CanChangeChoices);
         SaveAccountsCommand = Command(_ =>
         {
             SaveAccounts();
@@ -387,22 +377,6 @@ public sealed partial class MainWindowViewModel : ObservableObject
         Refresh();
     }
 
-    bool CanPauseQuest => Runtime.RunningQuestId(CharacterName) is not null || Runtime.IsRunning(CharacterName) || Runtime.RunnerBusy(CharacterName) || Runtime.ControlActions.Contains(CharacterName, StringComparer.OrdinalIgnoreCase) || Runtime.QueueRunning(CharacterName);
-
-    bool CanStartQuest(bool resume)
-    {
-        var q = JourneyQuest;
-        if (q is null || CharacterName.Length == 0 || !Runtime.Snapshot(CharacterName).Connected || Runtime.QueueReserves(CharacterName) || Runtime.IsRunning(CharacterName) || Runtime.RunnerBusy(CharacterName) || Runtime.ControlActions.Contains(CharacterName, StringComparer.OrdinalIgnoreCase))
-            return false;
-        var j = JourneyJob;
-        if (QuestRunPolicy.Finished(q, j) && j.Pending is null)
-            return false;
-        if (resume)
-            return (j.Pending is not null || j.Step != "preflight" || j.Accepted || j.NextRun is not null) && (!QuestRunPolicy.AttemptCompleted(j) || Repeat || j.Pending is not null);
-        var a = Runtime.Availability(CharacterName, q.Id);
-        return j.Pending is null && (a.Ready || Repeat && QuestRunPolicy.NextAttempt(q, j) > DateTimeOffset.UtcNow);
-    }
-
     void LoadCharacters()
     {
         foreach (string name in Runtime.Characters)
@@ -419,13 +393,14 @@ public sealed partial class MainWindowViewModel : ObservableObject
             string name = Get("name");
             var recipe = Runtime.Recipes.Values.FirstOrDefault(r => r.Name.Equals(name, StringComparison.OrdinalIgnoreCase));
             var (description, region) = Details(recipe?.Id);
-            library.Add(new(this, Get("id"), recipe?.Id ?? "", name, Get("rewards"), Get("requiredItems"), Get("level"), Get("source"), description, region));
+            bool givesLegend = q.TryGetProperty("givesLegend", out var legend) && legend.ValueKind == JsonValueKind.True;
+            library.Add(new(this, Get("id"), recipe?.Id ?? "", name, Get("rewards"), Get("requiredItems"), Get("level"), Get("source"), description, region, givesLegend, Get("legendEvidence")));
         }
 
         library.Sort((a, b) =>
         {
-            int automatic = (b.RecipeId.Length > 0).CompareTo(a.RecipeId.Length > 0);
-            return automatic != 0 ? automatic : string.Compare(a.Name, b.Name, StringComparison.CurrentCulture);
+            int progression = QuestProgression.Order(a.Id, a.Level).CompareTo(QuestProgression.Order(b.Id, b.Level));
+            return progression != 0 ? progression : string.Compare(a.Name, b.Name, StringComparison.CurrentCulture);
         });
     }
 
@@ -440,7 +415,7 @@ public sealed partial class MainWindowViewModel : ObservableObject
         "cured-sick-child" => ("Pick White Blossoms at Mehadi and give Paulin five, one a day or with help from your other characters. Locks out Aided the Pact of Anaman.", "LOURES · PAULIN"),
         "aided-pact-of-anaman" => ("Pick Golden Blossoms at Mehadi and give Paulin five for the physician, one a day or with help from your other characters. The legend mark is brown and other players can't see it. Locks out Cured the Sick Child.", "LOURES · PAULIN"),
         "altar-worship" => ("Buy a Leather Shield from Torrance in the Mileth Armor Shop and drop it on the Mileth Altar, one offering every 3 hours. The quest finishes after the 10th. Each offering costs 750 gold; a Leather Shield already in the bag is used first.", "MILETH · ALTAR"),
-        AwakeningEvidence.Id => ("Plays the tutorial on a brand-new character: Raghnall's combat talk for a Stick, Bartley's Interface and General Info lessons for the 'nis' spell and Look skill, then the exit and the wake-up in Mileth Inn. Ends at level 4 with a Dirk, two rings, a Tutorial Book and 2,000 gold.", "TUTORIAL · MILETH INN"),
+        AwakeningEvidence.Id => ("Enters through Torrance for level 1–3 starters, or resumes the tutorial: Raghnall's combat talk for a Stick, Bartley's Interface and General Info lessons for the 'nis' spell and Look skill, then the exit and the wake-up in Mileth Inn. Ends at level 4 with a Dirk, two rings, a Tutorial Book and 2,000 gold.", "TUTORIAL · MILETH INN"),
         NewCharacterPath.FirstStepsId => ("Buys the starter gear as the character reaches each level, levels to 7 in Mileth Crypt 1-1 and 2-1, and ends by buying and equipping a Loures Saber in Piet. Needs 50,000 gold to start. Up to level 11, stat points go into CON and WIS only, so this never rules out any class or stat plan.", "MILETH · CRYPT"),
         NewCharacterPath.ClimbId => ("Fights in Mileth Crypt 1-1 and 2-1 until level 11. Needs the Peasant's First Steps gear. Up to level 11, stat points go into CON and WIS only, so this never rules out any class or stat plan.", "MILETH · CRYPT"),
         _ => ("This quest is a guide for manual play. Open its source for the full journey.", "QUEST GUIDE")
@@ -461,12 +436,11 @@ public sealed partial class MainWindowViewModel : ObservableObject
                 character.Refresh();
             foreach (var quest in library)
                 quest.Refresh(CharacterName, queue);
-            var visible = library.Where(q => (Search.Length == 0 || string.Join(' ', q.Name, q.Rewards, q.Requirements, q.Level, q.Reason).Contains(Search, StringComparison.OrdinalIgnoreCase)) && (Filter switch
+            var visible = LegendFilteredLibrary.Where(q => (Search.Length == 0 || string.Join(' ', q.Name, q.Rewards, q.Requirements, q.Level, q.Reason).Contains(Search, StringComparison.OrdinalIgnoreCase)) && (Filter switch
             {
-                "Can queue" => q.QueueEligible,
-                "Ready" => q.IsReady,
+                "Available" => q.QueueEligible,
                 "Completed" => q.IsCompleted,
-                "Unavailable" => q.IsMuted,
+                "Guides" => q.IsGuideOnly,
                 _ => true
             })).ToArray();
             Sync(Quests, visible);
@@ -538,13 +512,38 @@ public sealed partial class MainWindowViewModel : ObservableObject
     {
         string character = CharacterName, id = quest.RecipeId;
         bool removing = quest.IsQueued;
-        if (!quest.CanQueue)
+        if (!quest.CanQueue || questConfirmationPending)
         {
             quest.Raise(nameof(QuestItemVM.IsQueued));
             return;
         }
 
-        await RunAsync(() => Runtime.EditQueueAsync(character, s => s with { Quests = removing ? s.Quests.Where(q => q != id).ToArray() : s.Quests.Append(id).ToArray(), ActiveQuest = removing && s.ActiveQuest == id ? null : s.ActiveQuest }));
+        await RunAsync(async () =>
+        {
+            if (!removing && SickChildEvidence.For(id) is not null)
+            {
+                var before = Runtime.Queue(character).Quests.ToArray();
+                string other = id == SickChildEvidence.Id ? SickChildEvidence.AnamanId : SickChildEvidence.Id;
+                string? replacing = before.Contains(other) ? other : null;
+                questConfirmationPending = true;
+                try
+                {
+                    if (ConfirmPaulinQuestAsync is null || !await ConfirmPaulinQuestAsync(character, id, replacing))
+                        return;
+                    if (character != CharacterName || Runtime.QueueReserves(character))
+                        return;
+                    await Runtime.EditQueueAsync(character, s =>
+                    {
+                        if (!s.Quests.SequenceEqual(before))
+                            throw new QuestBlockedException("The queue changed while choosing. Review it and choose again.");
+                        return s with { Quests = replacing is null ? s.Quests.Append(id).ToArray() : s.Quests.Select(q => q == other ? id : q).ToArray() };
+                    });
+                }
+                finally { questConfirmationPending = false; }
+                return;
+            }
+            await Runtime.EditQueueAsync(character, s => s with { Quests = removing ? s.Quests.Where(q => q != id).ToArray() : s.Quests.Append(id).ToArray(), ActiveQuest = removing && s.ActiveQuest == id ? null : s.ActiveQuest });
+        });
     }
 
     public async Task MoveQueueAsync(string character, string id, int target)

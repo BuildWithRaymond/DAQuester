@@ -39,6 +39,7 @@ public class OwnedLoginTransportTests
         using var timeout = new CancellationTokenSource(TimeSpan.FromSeconds(15));
         using var releaseSetup = new ManualResetEventSlim();
         var authenticated = new TaskCompletionSource<ProxyConnection>(TaskCreationOptions.RunContinuationsAsynchronously);
+        var loginChecked = new TaskCompletionSource<DAQuester.DarkAges.Protocol.LoginResponse>(TaskCreationOptions.RunContinuationsAsynchronously);
         var configured = new System.Collections.Concurrent.ConcurrentQueue<ProxyConnection>();
         var setups = 0;
         void Configure(ProxyConnection connection)
@@ -47,6 +48,7 @@ public class OwnedLoginTransportTests
                 throw new TimeoutException("Synthetic handler gate timed out.");
             configured.Enqueue(connection);
             connection.Authenticated += c => authenticated.TrySetResult(c);
+            connection.LoginResponded += response => loginChecked.TrySetResult(response);
         }
 
         await using var host = new ProxyHost();
@@ -60,6 +62,7 @@ public class OwnedLoginTransportTests
         var greeting = new ServerPacket(0x7E, [65, 66, 10]).ToArray();
         var version = new ServerPacket(0x00, new byte[] { 0, 0, 0, 0, 0, 3, 9 }.Concat(key).ToArray()).ToArray();
         var notice = crypto.Encrypt(new ServerPacket(0x60, [0, 0, 0, 0, 1]), 0).ToArray();
+        var loginResponse = crypto.Encrypt(new ServerPacket(0x02, [0, 0, 0]), 1).ToArray();
         int gamePort = ((IPEndPoint)game.LocalEndpoint).Port;
         byte[] transferMetadata = new byte[]
         {
@@ -77,7 +80,7 @@ public class OwnedLoginTransportTests
             (byte)transferMetadata.Length
         }.Concat(transferMetadata).ToArray();
         var redirect = new ServerPacket(0x03, redirectPayload).ToArray();
-        var burst = greeting.Concat(version).Concat(notice).Concat(redirect).ToArray();
+        var burst = greeting.Concat(version).Concat(notice).Concat(loginResponse).Concat(redirect).ToArray();
         try
         {
             if (fragmented)
@@ -97,6 +100,8 @@ public class OwnedLoginTransportTests
         Assert.Equal(greeting[3..], await Frame(client.GetStream(), timeout.Token));
         Assert.Equal(version[3..], await Frame(client.GetStream(), timeout.Token));
         Assert.Equal(notice[3..], await Frame(client.GetStream(), timeout.Token));
+        Assert.Equal(loginResponse[3..], await Frame(client.GetStream(), timeout.Token));
+        Assert.False((await loginChecked.Task.WaitAsync(timeout.Token)).Denied);
         var forwarded = await Frame(client.GetStream(), timeout.Token);
         Assert.Equal((byte)3, forwarded[0]);
         Assert.Equal(new byte[] { 1, 0, 0, 127 }, forwarded[1..5]);
@@ -144,5 +149,50 @@ public class OwnedLoginTransportTests
         await clientTwo.GetStream().WriteAsync(crypto.Encrypt(new ClientPacket(3, Payload("Second", two.Ticket)), 0).ToArray(), timeout.Token);
         frame = await Frame(serverTwo.GetStream(), timeout.Token);
         Assert.Equal(Payload("Second", "second-secret"), crypto.Decrypt(new ClientPacket(frame[0], frame[1..])).Data);
+    }
+
+    [Theory]
+    [InlineData(false)]
+    [InlineData(true)]
+    public async Task Login_denial_is_forwarded_to_client_and_only_its_owned_launch_observer(bool trailingData)
+    {
+        using var remote = new TcpListener(IPAddress.Loopback, 0);
+        remote.Start();
+        await using var host = new ProxyHost();
+        using var timeout = new CancellationTokenSource(TimeSpan.FromSeconds(10));
+        var denied = new TaskCompletionSource<DAQuester.DarkAges.Protocol.LoginResponse>(TaskCreationOptions.RunContinuationsAsynchronously);
+        var diagnostic = new TaskCompletionSource<string>(TaskCreationOptions.RunContinuationsAsynchronously);
+        int otherResponses = 0;
+        int first = await host.StartOwnedAsync((IPEndPoint)remote.LocalEndpoint, null, c =>
+        {
+            c.LoginResponded += response => denied.TrySetResult(response);
+            c.Diagnostic += line =>
+            {
+                if (line.StartsWith("Server login response:"))
+                    diagnostic.TrySetResult(line);
+            };
+        });
+        int second = await host.StartOwnedAsync((IPEndPoint)remote.LocalEndpoint, null, c => c.LoginResponded += _ => Interlocked.Increment(ref otherResponses));
+        using var client = new TcpClient();
+        using var otherClient = new TcpClient();
+        await client.ConnectAsync(IPAddress.Loopback, first, timeout.Token);
+        using var server = await remote.AcceptTcpClientAsync(timeout.Token);
+        await otherClient.ConnectAsync(IPAddress.Loopback, second, timeout.Token);
+        using var otherServer = await remote.AcceptTcpClientAsync(timeout.Token);
+        const string text = "Account is already logged in.";
+        var crypto = new ServerPacketEncryptor();
+        var payload = new byte[] { 99, (byte)text.Length }.Concat(Encoding.ASCII.GetBytes(text)).ToArray();
+        if (trailingData)
+            payload = payload.Concat(new byte[] { 0 }).ToArray();
+        await server.GetStream().WriteAsync(crypto.Encrypt(new ServerPacket(2, payload), 0).ToArray(), timeout.Token);
+        var response = await denied.Task.WaitAsync(timeout.Token);
+        Assert.True(response.Denied);
+        Assert.Equal(text, response.Message);
+        string shape = await diagnostic.Task.WaitAsync(timeout.Token);
+        Assert.Contains($"{payload.Length} payload bytes", shape);
+        Assert.DoesNotContain(text, shape);
+        byte[] frame = await Frame(client.GetStream(), timeout.Token);
+        Assert.Equal(payload, crypto.Decrypt(new ServerPacket(frame[0], frame[1..])).Data);
+        Assert.Equal(0, otherResponses);
     }
 }

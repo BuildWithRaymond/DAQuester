@@ -137,6 +137,9 @@ public sealed partial class DesktopRuntime
             };
         }
 
+        if (r.Method is not ("map" or "state" or "settings" or "calibration" or "log" or "analyze" or "export"))
+            RequireNoScheduler(name);
+
         if (r.Method == "map")
         {
             int map = Number("map", 500);
@@ -277,7 +280,7 @@ public sealed partial class DesktopRuntime
         }
     }
 
-    // A melee fight owned by the control bridge; stop, the app's stop button or manual input ends it.
+    // A melee fight owned by the control bridge; stop, the app's stop button or a connection interruption ends it.
     void StartFight(string name, BashOptions options, TimeSpan idle, bool roam, LootTarget? item = null, Retreat? retreat = null)
     {
         RequireOpen();
@@ -510,7 +513,7 @@ public sealed partial class DesktopRuntime
         }
 
         calibrationTasks[name] = Run();
-        Log(name + ": automatic calibration started; manual input or Stop pauses it.");
+        Log(name + ": automatic calibration started; Stop pauses it.");
         return new
         {
             started = name,

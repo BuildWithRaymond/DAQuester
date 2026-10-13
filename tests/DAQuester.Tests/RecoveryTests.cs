@@ -147,7 +147,7 @@ public class RecoveryTests
     }
 
     [Fact]
-    public async Task Manual_input_cancels_patrol_and_checkpoints()
+    public async Task Session_interruption_cancels_patrol_and_checkpoints()
     {
         var s = new SimulatedSession();
         var j = new FileQuestJournal(dir);
@@ -159,7 +159,7 @@ public class RecoveryTests
         });
         var def = new QuestDefinition("spare-a-stick", 1, "", "", ["navigate"], [new("gather", "gather", null)]);
         var r = new QuestRunner(s, j, def, Cal());
-        s.OnCommand = _ => s.Manual();
+        s.OnCommand = _ => s.Interrupt();
         await r.RunAsync();
         Assert.Equal("Paused", r.Job.Status);
         Assert.Equal("gather", r.Job.Step);

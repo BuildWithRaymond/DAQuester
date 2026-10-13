@@ -46,11 +46,16 @@ public sealed class NewCharacterActions : IQuestAction
     static async Task FirstSteps(QuestContext c, string name, CancellationToken ct)
     {
         var s = c.Session;
+        await ReconcilePurchase(c);
+        var stats = new StatSpender(s, StatPaths.Strict, line => c.Hunting?.Log?.Invoke(name, line));
         while (true)
         {
             ct.ThrowIfCancellationRequested();
-            foreach (var gear in Due(s.Snapshot))
-                await BuyAsync(c, gear, ct);
+            if (s.Snapshot.Stats is { Unspent: > 0 })
+                Activity(c, "Stats");
+            await stats.SpendAsync(ct);
+            foreach (var shop in Due(s.Snapshot).GroupBy(g => (g.Map, g.Npc)))
+                await BuyAsync(c, shop.ToArray(), ct);
             await EquipOwned(c, ct);
             int level = s.Snapshot.Level ?? 0;
             if (level >= FirstStepsLevel && Due(s.Snapshot).Count == 0)
@@ -61,7 +66,7 @@ public sealed class NewCharacterActions : IQuestAction
                 return;
             }
 
-            await Level(c, name, NextStop(level), FirstStepsAvoid, ct);
+            await Level(c, name, NextStop(level), FirstStepsAvoid, ct, stats);
         }
     }
 
@@ -76,7 +81,7 @@ public sealed class NewCharacterActions : IQuestAction
         await Complete(c, name + " reached level " + s.Snapshot.Level);
     }
 
-    static async Task Level(QuestContext c, string name, int target, IReadOnlyDictionary<int, ushort[]> avoid, CancellationToken ct)
+    static async Task Level(QuestContext c, string name, int target, IReadOnlyDictionary<int, ushort[]> avoid, CancellationToken ct, StatSpender? stats = null)
     {
         var s = c.Session;
         var hunting = c.Hunting ?? throw new QuestBlockedException("The hunting engine isn't available in this session.");
@@ -89,9 +94,10 @@ public sealed class NewCharacterActions : IQuestAction
         var options = new BashOptions
         {
             IsFriend = hunting.IsFriend,
-            Note = line => hunting.Log?.Invoke(name, line)
+            Note = line => hunting.Log?.Invoke(name, line),
+            Activity = activity => hunting.Activity?.Invoke(name, activity)
         };
-        var leveling = new HuntingEngine(s, map, ground, options, hunting.Load(ground, name), p => hunting.Save(ground, name, p), Vestibule, new(), target, stats: new StatSpender(s, StatPaths.Strict, options.Note))
+        var leveling = new HuntingEngine(s, map, ground, options, hunting.Load(ground, name), p => hunting.Save(ground, name, p), Vestibule, new(), target, stats: stats ?? new StatSpender(s, StatPaths.Strict, options.Note))
         {
             DeepestFloor = DeepestFloor,
             AlwaysAvoid = avoid
@@ -118,6 +124,17 @@ public sealed class NewCharacterActions : IQuestAction
             var item = s.Snapshot.Inventory.Values.Where(i => i.Name.Equals(gear.Name, StringComparison.OrdinalIgnoreCase)).OrderBy(i => i.Slot).FirstOrDefault();
             if (item is null)
                 continue;
+            Activity(c, "Equipping", gear.Name);
+            // Ring use fills an empty hand; explicitly free the chosen hand so an
+            // upgrade of the right ring cannot accidentally replace the left one.
+            if (gear.Slot is 7 or 8 && s.Snapshot.Equipment.ContainsKey(gear.Slot))
+            {
+                if (s.Snapshot.Inventory.Count >= 59)
+                    throw new QuestBlockedException("Free an inventory slot before upgrading the " + gear.Name + ".");
+                long removed = s.Snapshot.Revision;
+                await s.ExecuteAsync(new("unequip", Slot: gear.Slot), ct);
+                await s.WaitAsync(x => !x.Equipment.ContainsKey(gear.Slot), removed, reply, ct);
+            }
             long before = s.Snapshot.Revision;
             await s.ExecuteAsync(new("equip", Slot: item.Slot), ct);
             try
@@ -132,9 +149,25 @@ public sealed class NewCharacterActions : IQuestAction
     }
 
     // Same shop flow as Torrance's Leather Shield: open the NPC, choose Buy, buy from the list by name.
-    static async Task BuyAsync(QuestContext c, StarterGear gear, CancellationToken ct)
+    static void Activity(QuestContext c, string kind, string? detail = null) => c.Hunting?.Activity?.Invoke(c.Job.Character, new(kind, Detail: detail));
+
+    static async Task ReconcilePurchase(QuestContext c)
+    {
+        if (c.Job.Pending is not { } pending)
+            return;
+        var gear = Gear.FirstOrDefault(g => pending.Kind == "starter-buy:" + g.Name);
+        if (gear is null || !c.Session.Snapshot.InventoryKnown || !Owned(c.Session.Snapshot, gear))
+            throw new QuestBlockedException("The saved starter purchase is awaiting confirmation. Check gold and the bag before resuming; it will not be submitted again.");
+        // Fresh ownership satisfies this shopping goal, including after a manual
+        // reconciliation. It does not invent a receipt or attribute the purchase.
+        await c.SaveAsync(c.Job with { Pending = null, Reason = gear.Name + " is owned; continuing starter journey" });
+    }
+
+    static async Task BuyAsync(QuestContext c, StarterGear[] purchases, CancellationToken ct)
     {
         var s = c.Session;
+        var gear = purchases[0];
+        Activity(c, "Buying", gear.Name + " from " + gear.Npc + " in " + gear.Town);
         if (s.Snapshot.Gold is not { } carried || carried < gear.Price)
             throw new ResourceUnavailableException(s.Snapshot.Name + " needs " + gear.Price.ToString("N0") + " gold for a " + gear.Name + ". Send gold from another character, then resume.");
         if (s.Snapshot.Inventory.Count >= 59)
@@ -162,27 +195,43 @@ public sealed class NewCharacterActions : IQuestAction
             throw new QuestBlockedException(gear.Npc + " didn't show the shop list.");
         }
 
-        var offer = shop.Items.FirstOrDefault(i => i.Name.Equals(gear.Name, StringComparison.OrdinalIgnoreCase)) ?? throw new QuestBlockedException(gear.Npc + " doesn't sell a " + gear.Name + ".");
-        uint gold = s.Snapshot.Gold ?? 0;
-        if (gold < offer.Price)
-            throw new ResourceUnavailableException(s.Snapshot.Name + " needs " + offer.Price.ToString("N0") + " gold for a " + gear.Name + ". Send gold from another character, then resume.");
-        int had = s.Snapshot.Count(gear.Name);
-        long bought = s.Snapshot.Revision;
-        await s.ExecuteAsync(new("buy", Text: gear.Name, Dialog: shop), ct);
-        try
+        foreach (var purchase in purchases)
         {
-            await s.WaitAsync(x => x.Count(gear.Name) > had && x.Gold == gold - offer.Price, bought, proof, ct);
-        }
-        catch (TimeoutException)
-        {
-            throw new QuestBlockedException("The " + gear.Name + " purchase wasn't confirmed. Check gold and the bag, then resume.");
+            ct.ThrowIfCancellationRequested();
+            if (Owned(s.Snapshot, purchase))
+                continue;
+            var current = s.Snapshot.Dialog;
+            if (current is { IsPursuit: false, Type: 0 } && current.EntityId == menu.EntityId && current.Choices.Any(x => x.Text == Buy))
+            {
+                long changed = s.Snapshot.Revision;
+                await s.ExecuteAsync(new("choose", Text: Buy, Dialog: current), ct);
+                current = (await s.WaitAsync(x => x.Dialog is { IsPursuit: false, Type: 4 } d && d.EntityId == menu.EntityId && d.Revision > changed, changed, reply, ct)).Dialog;
+            }
+            if (current is not { IsPursuit: false, Type: 4 } || current.EntityId != menu.EntityId || current.Generation != shop.Generation || !current.Name.Equals(gear.Npc, StringComparison.OrdinalIgnoreCase))
+                throw new QuestBlockedException(gear.Npc + "'s shop changed. No further purchase submitted; resume after checking the menu.");
+            var offer = current.Items.FirstOrDefault(i => i.Name.Equals(purchase.Name, StringComparison.OrdinalIgnoreCase)) ?? throw new QuestBlockedException(gear.Npc + " doesn't sell a " + purchase.Name + ".");
+            uint gold = s.Snapshot.Gold ?? 0;
+            if (gold < offer.Price)
+                throw new ResourceUnavailableException(s.Snapshot.Name + " needs " + offer.Price.ToString("N0") + " gold for a " + purchase.Name + ". Send gold from another character, then resume.");
+            if (s.Snapshot.Inventory.Count >= 59)
+                throw new QuestBlockedException("Free an inventory slot for the " + purchase.Name + ".");
+            int had = s.Snapshot.Count(purchase.Name);
+            Activity(c, "Buying", purchase.Name + " from " + purchase.Npc + " in " + purchase.Town);
+            long bought = s.Snapshot.Revision, generation = s.Snapshot.Generation;
+            await c.BeginAsync("starter-buy:" + purchase.Name, current.EntityId, "Buying a " + purchase.Name + " from " + purchase.Npc);
+            await s.ExecuteAsync(new("buy", Text: purchase.Name, Dialog: current), ct);
+            try
+            {
+                await s.WaitAsync(x => x.Generation == generation && string.Equals(x.Name, c.Job.Character, StringComparison.OrdinalIgnoreCase) && x.Count(purchase.Name) > had && x.Gold == gold - offer.Price, bought, proof, ct);
+            }
+            catch (TimeoutException)
+            {
+                throw new QuestBlockedException("The " + purchase.Name + " purchase wasn't confirmed. Check gold and the bag, then resume. It will not be bought again automatically.");
+            }
+            await c.SaveAsync(c.Job with { Pending = null, Reason = "Bought a " + purchase.Name + " for " + offer.Price.ToString("N0") + " gold" });
         }
 
         if (s.Snapshot.Dialog is { } list)
             await s.ExecuteAsync(new("close", Dialog: list), ct);
-        await c.SaveAsync(c.Job with
-        {
-            Reason = "Bought a " + gear.Name + " for " + offer.Price.ToString("N0") + " gold"
-        });
     }
 }

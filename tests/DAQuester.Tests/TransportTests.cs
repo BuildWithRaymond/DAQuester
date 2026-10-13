@@ -151,6 +151,43 @@ public class TransportTests
         Assert.Equal(1, connection.VisibleMoves);
     }
 
+    [Theory]
+    [InlineData(0x06)]
+    [InlineData(0x11)]
+    [InlineData(0x39)]
+    [InlineData(0x3A)]
+    [InlineData(0x43)]
+    public async Task Manual_client_actions_are_forwarded_without_interrupting_automation(byte opcode)
+    {
+        using var remote = new TcpListener(IPAddress.Loopback, 0);
+        remote.Start();
+        await using var host = new ProxyHost();
+        var connected = new TaskCompletionSource<ProxyConnection>(TaskCreationOptions.RunContinuationsAsynchronously);
+        host.Connected += c => connected.TrySetResult(c);
+        int port = await host.StartOwnedAsync((IPEndPoint)remote.LocalEndpoint, null);
+        using var timeout = new CancellationTokenSource(TimeSpan.FromSeconds(5));
+        using var client = new TcpClient();
+        await client.ConnectAsync(IPAddress.Loopback, port, timeout.Token);
+        using var server = await remote.AcceptTcpClientAsync(timeout.Token);
+        var connection = await connected.Task.WaitAsync(timeout.Token);
+        var interruptions = new System.Collections.Concurrent.ConcurrentQueue<string>();
+        connection.Interrupted += interruptions.Enqueue;
+        byte[] data = opcode switch
+        {
+            0x06 => [2, 0],
+            0x11 => [1],
+            0x43 => [1, 0, 0, 0, 5],
+            _ => [0, 0, 0, 42, 0, 1, 0]
+        };
+        var crypto = new Arbiter.Net.Client.ClientPacketEncryptor();
+        await client.GetStream().WriteAsync(crypto.Encrypt(new Arbiter.Net.Client.ClientPacket(opcode, data), 0).ToArray(), timeout.Token);
+        var forwarded = await ReadFrame(server.GetStream(), timeout.Token);
+        Assert.Equal(opcode, forwarded[3]);
+        Assert.Equal(data, crypto.Decrypt(new Arbiter.Net.Client.ClientPacket(forwarded[3], forwarded[4..])).Data);
+        Assert.Empty(interruptions);
+        Assert.True(connection.Connected);
+    }
+
     [Fact]
     public async Task Failing_interrupt_handler_is_reported_and_keeps_the_connection()
     {
@@ -182,25 +219,22 @@ public class TransportTests
             throw new ObjectDisposedException("stale token");
         };
         using var timeout = new CancellationTokenSource(TimeSpan.FromSeconds(3));
-        var crypto = new Arbiter.Net.Client.ClientPacketEncryptor();
-        await client.GetStream().WriteAsync(crypto.Encrypt(new Arbiter.Net.Client.ClientPacket(0x11, [1]), 0).ToArray(), timeout.Token);
-        Assert.Equal((byte)0x11, (await ReadFrame(server.GetStream(), timeout.Token))[3]);
-        await client.GetStream().WriteAsync(crypto.Encrypt(new Arbiter.Net.Client.ClientPacket(0x43, [1, 0, 0, 0, 5]), 1).ToArray(), timeout.Token);
-        Assert.Equal((byte)0x43, (await ReadFrame(server.GetStream(), timeout.Token))[3]);
+        int destination = ((IPEndPoint)remote.LocalEndpoint).Port;
+        var redirect = new Arbiter.Net.Server.ServerPacket(3, new byte[] { 1, 0, 0, 127, (byte)(destination >> 8), (byte)destination }).ToArray();
+        await server.GetStream().WriteAsync(redirect, timeout.Token);
+        Assert.Equal((byte)3, (await ReadFrame(client.GetStream(), timeout.Token))[3]);
         Assert.True(connection.Connected);
         lock (interrupted)
-            Assert.Equal(["Manual dialog or turn paused automation.", "Manual dialog or turn paused automation."], interrupted);
+            Assert.Equal(["Server redirect. Resume on replacement connection."], interrupted);
         lock (diagnostics)
         {
-            Assert.Contains(diagnostics, m => m.Contains("0x11 (turn)"));
-            Assert.Contains(diagnostics, m => m.Contains("0x43 (click)"));
             Assert.Contains(diagnostics, m => m.StartsWith("Interrupt handler failed: ") && m.Contains("ObjectDisposedException") && m.Contains("stale token"));
             Assert.DoesNotContain(diagnostics, m => m.StartsWith("Transport failed"));
         }
     }
 
     [Fact]
-    public async Task Focus_clicks_on_the_ground_or_yourself_never_interrupt()
+    public async Task Focus_and_NPC_clicks_never_interrupt_automation()
     {
         using var remote = new TcpListener(IPAddress.Loopback, 0);
         remote.Start();
@@ -245,9 +279,9 @@ public class TransportTests
             Assert.Empty(interrupted);
         await Click([1, 0, 0, 0x1A, 0x94]);
         lock (interrupted)
-            Assert.Single(interrupted);
+            Assert.Empty(interrupted);
         lock (diagnostics)
-            Assert.Contains(diagnostics, m => m.StartsWith("Ferda: client opcode 0x43 (click) on #6804"));
+            Assert.DoesNotContain(diagnostics, m => m.Contains("interrupted automation"));
     }
 
     [Fact]

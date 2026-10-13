@@ -30,6 +30,7 @@ public partial class MainWindow : Window
     {
         this.viewModel = viewModel;
         DataContext = viewModel;
+        this.FindControl<ContentControl>("schedulerPage")!.Content = new SchedulerPage(viewModel.Runtime, viewModel.CharacterName);
         InitializeJourneyMotion();
         var effects = this.FindControl<CompletionEffectsLayer>("completionEffects")!;
         effects.Connect(viewModel.Runtime);
@@ -38,6 +39,15 @@ public partial class MainWindow : Window
         viewModel.CharacterAdded += ShowNewCharacter;
         viewModel.JourneyCollapsing += PreserveJourneyFocus;
         viewModel.PropertyChanged += JourneyPresentationChanged;
+        this.FindControl<Expander>("questDetails")!.PropertyChanged += (_, args) =>
+        {
+            if (args.Property == Expander.IsExpandedProperty)
+            {
+                this.FindControl<Grid>("libraryContent")!.MinHeight = args.NewValue is true ? 620 : 360;
+                if (args.NewValue is true)
+                    ResetQuestDetailsScroll();
+            }
+        };
         Closed += (_, _) =>
         {
             viewModel.JourneyCollapsing -= PreserveJourneyFocus;
@@ -70,7 +80,12 @@ public partial class MainWindow : Window
     {
         if (args.PropertyName == nameof(MainWindowViewModel.JourneyCollapsed))
             AnimateJourney();
+        if (args.PropertyName == nameof(MainWindowViewModel.SelectedQuest) && this.FindControl<Expander>("questDetails")!.IsExpanded)
+            ResetQuestDetailsScroll();
     }
+
+    void ResetQuestDetailsScroll() => Dispatcher.UIThread.Post(() =>
+        this.FindControl<ScrollViewer>("questDetailsScroll")!.Offset = default, DispatcherPriority.Loaded);
 
     void AdaptLayout()
     {
@@ -92,9 +107,7 @@ public partial class MainWindow : Window
         {
             "brandName",
             "brandSubtitle",
-            "railSaveNote",
-            "railVersion",
-            "stopAllText"
+            "railVersion"
         }
 
         )
@@ -105,6 +118,7 @@ public partial class MainWindow : Window
         {
             "navPlanner",
             "navCharacters",
+            "navScheduler",
             "navHistory",
             "navSettings"
         }
@@ -116,19 +130,11 @@ public partial class MainWindow : Window
             button.HorizontalContentAlignment = compact ? HorizontalAlignment.Center : HorizontalAlignment.Left;
         }
 
-        this.FindControl<Button>("stopAll")!.Padding = new Thickness(compact ? 8 : 14, 8);
         this.FindControl<TextBlock>("pageSubtitle")!.MaxWidth = compact ? 340 : 650;
-        this.FindControl<Grid>("journeyLayout")!.ColumnDefinitions[2].Width = new GridLength(compact ? 320 : 346);
+        double workspaceWidth = ClientSize.Width - (compact ? 64 : 180) - 48;
+        this.FindControl<Border>("queueCard")!.Width = Math.Max(280, (workspaceWidth - 12) / 4);
         ApplyJourneyMotion();
-        // The journey and queue share the available height; smaller windows can scroll.
         this.FindControl<TextBlock>("footerSaveNote")!.IsVisible = Bounds.Width >= 1060;
-    }
-
-    public void AddQuestsToQueue(object? sender, RoutedEventArgs e)
-    {
-        var search = this.FindControl<TextBox>("plannerSearch")!;
-        search.BringIntoView();
-        search.Focus();
     }
 
     public async void QueueKeyDown(object? sender, KeyEventArgs e)

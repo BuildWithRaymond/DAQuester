@@ -59,6 +59,8 @@ public sealed partial class DesktopRuntime
 
     public string? LaunchBlocker(string name)
     {
+        if (SchedulerReserves(name))
+            return "Scheduler owns this character. Pause its scheduled run first.";
         if (Preview)
             return null;
         if (closing || shuttingDown)
@@ -93,6 +95,7 @@ public sealed partial class DesktopRuntime
     readonly Dictionary<string, Task<int>> launchTasks = new(StringComparer.OrdinalIgnoreCase);
     public Task<int> LaunchAsync(string name, bool manualOnly = false)
     {
+        RequireNoScheduler(name);
         if (launchTasks.TryGetValue(name, out var active) && !active.IsCompleted)
             return active;
         var task = LaunchOwnedCharacterAsync(name, manualOnly);
@@ -100,7 +103,7 @@ public sealed partial class DesktopRuntime
         return task;
     }
 
-    async Task<int> LaunchOwnedCharacterAsync(string name, bool manualOnly)
+    async Task<int> LaunchOwnedCharacterAsync(string name, bool manualOnly, bool scheduled = false)
     {
         RequireOpen();
         if (Preview)
@@ -134,6 +137,8 @@ public sealed partial class DesktopRuntime
         var authenticated = new TaskCompletionSource<string>(TaskCreationOptions.RunContinuationsAsynchronously);
         try
         {
+            if (scheduled)
+                await scheduler.BeginLoginAsync(name);
             bool saved = !manualOnly && name.Length > 0 && CredentialVault.Exists(name);
             if (saved)
             {
@@ -141,7 +146,15 @@ public sealed partial class DesktopRuntime
                 ticketCancellation = cancellation.Token.Register(ticket.Cancel);
             }
 
-            int port = await host.StartOwnedAsync(new(IPAddress.Parse(Settings.RemoteAddress), Settings.RemotePorts[0]), ticket, c => c.Authenticated += connection => authenticated.TrySetResult(connection.Tracker.Snapshot.Name ?? ""), cancellation.Token);
+            int port = await host.StartOwnedAsync(new(IPAddress.Parse(Settings.RemoteAddress), Settings.RemotePorts[0]), ticket, c =>
+            {
+                c.Authenticated += connection => authenticated.TrySetResult(connection.Tracker.Snapshot.Name ?? "");
+                c.LoginResponded += response =>
+                {
+                    if (response.Denied)
+                        authenticated.TrySetException(new ScheduledLoginException(name, response.Message.Length > 0 ? response.Message : "Login was rejected. Review the game account before trying again."));
+                };
+            }, cancellation.Token);
             Progress("Launching Dark Ages…");
             int pid = await Task.Run(() =>
             {
@@ -189,6 +202,8 @@ public sealed partial class DesktopRuntime
             string actual = await authenticated.Task.WaitAsync(TimeSpan.FromSeconds(30), cancellation.Token);
             if (!actual.Equals(name, StringComparison.OrdinalIgnoreCase))
                 throw new InvalidOperationException("The client connected as another character. Check its login before running quests.");
+            if (scheduled)
+                await scheduler.ConfirmLoginAsync(name);
             Progress("Connected · ready for quests");
             return pid;
         }
@@ -201,6 +216,13 @@ public sealed partial class DesktopRuntime
         {
             Progress("Login not confirmed · check the game window");
             throw new InvalidOperationException(launchStates[name]);
+        }
+        catch (ScheduledLoginException error)
+        {
+            if (scheduled)
+                await scheduler.BlockLoginAsync(name, error.Message);
+            Progress("Login rejected · " + error.Message);
+            throw;
         }
         catch
         {

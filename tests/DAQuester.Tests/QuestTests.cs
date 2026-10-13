@@ -33,7 +33,7 @@ public class SimulatedSession : IGameSession
         Changed?.Invoke(Snapshot);
     }
 
-    public void Manual() => Interrupted?.Invoke("Manual input");
+    public void Interrupt() => Interrupted?.Invoke("Automation interrupted");
     public Task ExecuteAsync(GameCommand c, CancellationToken t)
     {
         t.ThrowIfCancellationRequested();

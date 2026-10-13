@@ -54,6 +54,8 @@ public sealed partial class DesktopRuntime
             var next = change(saved);
             if (!next.Character.Equals(name, StringComparison.OrdinalIgnoreCase))
                 throw new QuestBlockedException("Queue identity must remain with this character.");
+            if (HasBothPaulinQuests(next))
+                throw new QuestBlockedException("Choose either Cured the Sick Child or Aided the Pact of Anaman. Completing one permanently locks out the other.");
             if (next.ActiveQuest != next.Quests.FirstOrDefault())
                 next = next with
                 {
@@ -89,8 +91,11 @@ public sealed partial class DesktopRuntime
     }
 
     public Task MoveQueueAsync(string name, string id, int target) => EditQueueAsync(name, state => state.Reorder(id, target));
+    static bool HasBothPaulinQuests(QuestQueueState queue) => queue.Quests.Contains(SickChildEvidence.Id) && queue.Quests.Contains(SickChildEvidence.AnamanId);
     public string QueueStartReason(string name, QuestQueueState queue)
     {
+        if (SchedulerReserves(name))
+            return "Scheduler owns this character. Pause its scheduled run first.";
         if (name.Length == 0)
             return "Add a character to plan your first journey";
         if (!Snapshot(name).Connected)
@@ -101,6 +106,8 @@ public sealed partial class DesktopRuntime
             return "Pause the current quest before starting a queue";
         if (queue.Quests.Length == 0)
             return "Select a quest to get started";
+        if (HasBothPaulinQuests(queue))
+            return "Choose either Cured the Sick Child or Aided the Pact of Anaman before running this queue.";
         foreach (string id in queue.Quests)
         {
             if (!recipes.ContainsKey(id))

@@ -71,101 +71,50 @@ public class PresentationTests
     }
 
     [Fact]
-    public async Task IndividualControlsFollowActualRunAndSavedProgress()
+    public async Task Saved_progress_does_not_start_a_journey_or_offer_individual_controls()
     {
         var runtime = Runtime();
         try
         {
-            runtime.SetPreviewSnapshot(new()
-            {
-                Name = "Elara",
-                Id = 1,
-                Connected = true,
-                Generation = 1,
-                Revision = 1
-            });
+            var journal = new FileQuestJournal(Path.Combine(AppSettings.DataPath, "journal"));
+            await journal.SaveAsync(new() { Character = "Elara", Quest = "perfect-hairstyle", Step = "eeva",
+                Reason = "Paused by player", Pending = new("offer", 1, 1, 0, 0, 0, DateTimeOffset.UtcNow) });
             var vm = new MainWindowViewModel(runtime);
             vm.SelectedQuest = vm.Quests.Single(q => q.RecipeId == "perfect-hairstyle");
-            var journal = new FileQuestJournal(Path.Combine(AppSettings.DataPath, "journal"));
-            await journal.SaveAsync(new()
-            {
-                Character = "Elara",
-                Quest = "perfect-hairstyle",
-                Reason = "Preflight interrupted"
-            });
-            vm.Refresh();
-            Assert.False(vm.ResumeQuestCommand.CanExecute(null));
-            Assert.False(vm.PauseQuestCommand.CanExecute(null));
-            Assert.False(vm.StopQuestCommand.CanExecute(null));
-
-            await journal.SaveAsync(new()
-            {
-                Character = "Elara",
-                Quest = "perfect-hairstyle",
-                Pending = new("offer", 1, 1, 0, 0, 0, DateTimeOffset.UtcNow)
-            });
-            vm.Refresh();
-            Assert.True(vm.ResumeQuestCommand.CanExecute(null));
-            await journal.SaveAsync(new()
-            {
-                Character = "Elara",
-                Quest = "perfect-hairstyle",
-                Accepted = true,
-                AcceptedGeneration = 1
-            });
-            vm.Refresh();
-            Assert.True(vm.ResumeQuestCommand.CanExecute(null));
-
-            await journal.SaveAsync(new()
-            {
-                Character = "Elara",
-                Quest = "perfect-hairstyle",
-                Step = "eeva",
-                Reason = "Paused by player"
-            });
-            vm.Refresh();
-            Assert.True(vm.ResumeQuestCommand.CanExecute(null));
-            Assert.False(vm.PauseQuestCommand.CanExecute(null));
-            Assert.False(vm.StopQuestCommand.CanExecute(null));
-
-            runtime.SetPreviewRunning("Elara", true);
-            Assert.False(vm.ResumeQuestCommand.CanExecute(null));
-            Assert.True(vm.PauseQuestCommand.CanExecute(null));
-            Assert.True(vm.StopQuestCommand.CanExecute(null));
-            runtime.SetPreviewRunning("Elara", false);
-            runtime.SetPreviewQueue(new()
-            {
-                Character = "Elara",
-                State = "Paused",
-                Quests = ["perfect-hairstyle"],
-                ActiveQuest = "perfect-hairstyle"
-            });
-            Assert.False(vm.PauseQuestCommand.CanExecute(null));
-            Assert.False(vm.StopQuestCommand.CanExecute(null));
+            Assert.False(vm.HasCurrentJourney);
+            Assert.Equal("Idle", vm.JourneyState);
+            Assert.True(vm.AddSelectedQuestToQueueCommand.CanExecute(null));
+            foreach (var name in new[] { "StartQuestCommand", "ResumeQuestCommand", "PauseQuestCommand", "StopQuestCommand", "Repeat" })
+                Assert.Null(typeof(MainWindowViewModel).GetProperty(name));
+            runtime.SetPreviewQueue(new() { Character = "Elara", State = "Paused",
+                Quests = ["perfect-hairstyle"], ActiveQuest = "perfect-hairstyle" });
+            Assert.True(vm.HasCurrentJourney);
+            Assert.Equal("Awaiting confirmation", vm.JourneyState);
             Assert.True(vm.StopQueueCommand.CanExecute(null));
         }
         finally { await runtime.ShutdownAsync(); }
     }
 
     [Fact]
-    public async Task JourneyAddToQueueAddsOnceAndKeepsOtherCharactersSeparate()
+    public async Task SelectedQuestAddToQueueAddsOnceAndKeepsOtherCharactersSeparate()
     {
         var runtime = Runtime();
         try
         {
             var vm = new MainWindowViewModel(runtime);
             vm.SelectedQuest = vm.Quests.Single(q => q.RecipeId == "perfect-hairstyle");
-            Assert.True(vm.AddJourneyToQueueCommand.CanExecute(null));
-            await vm.AddJourneyToQueueCommand.ExecuteAsync();
+            Assert.True(vm.AddSelectedQuestToQueueCommand.CanExecute(null));
+            await vm.AddSelectedQuestToQueueCommand.ExecuteAsync();
             Assert.Equal(["perfect-hairstyle"], runtime.Queue("Elara").Quests);
-            Assert.False(vm.AddJourneyToQueueCommand.CanExecute(null));
-            await vm.AddJourneyToQueueCommand.ExecuteAsync();
+            Assert.False(vm.AddSelectedQuestToQueueCommand.CanExecute(null));
+            await vm.AddSelectedQuestToQueueCommand.ExecuteAsync();
             Assert.Single(runtime.Queue("Elara").Quests);
             Assert.Empty(runtime.Queue("Wren").Quests);
             vm.SelectedCharacter = vm.Characters.Single(c => c.Name == "Wren");
-            Assert.True(vm.AddJourneyToQueueCommand.CanExecute(null));
+            Assert.True(vm.AddSelectedQuestToQueueCommand.CanExecute(null));
+            vm.Filter = "All";
             vm.SelectedQuest = vm.Quests.First(q => q.RecipeId.Length == 0);
-            Assert.False(vm.AddJourneyToQueueCommand.CanExecute(null));
+            Assert.False(vm.AddSelectedQuestToQueueCommand.CanExecute(null));
             vm.SelectedQuest = vm.Quests.Single(q => q.RecipeId == "perfect-hairstyle");
             runtime.SetPreviewQueue(new()
             {
@@ -174,7 +123,7 @@ public class PresentationTests
                 Quests = ["emerald-dawn"],
                 ActiveQuest = "emerald-dawn"
             });
-            Assert.False(vm.AddJourneyToQueueCommand.CanExecute(null));
+            Assert.False(vm.AddSelectedQuestToQueueCommand.CanExecute(null));
         }
         finally { await runtime.ShutdownAsync(); }
     }
@@ -362,7 +311,7 @@ public class PresentationTests
             LegendsRevision = 2,
             Legends = [MuisirEvidence.Legend]
         });
-        var vm = new MainWindowViewModel(runtime);
+        var vm = new MainWindowViewModel(runtime) { Filter = "All" };
         Assert.Equal("Blocked", vm.Quests.Single(q => q.RecipeId == "spare-a-stick").Status);
         Assert.Equal("Completed", vm.Quests.Single(q => q.RecipeId == "entered-muisir-village").Status);
         Assert.Contains("last observed", vm.SelectedCharacter!.LevelText);

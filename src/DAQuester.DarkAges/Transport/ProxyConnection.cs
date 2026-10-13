@@ -37,6 +37,7 @@ public sealed partial class ProxyConnection(TcpClient client, TcpClient remote, 
     public event Action<string>? Diagnostic;
     public void Report(string line) => Diagnostic?.Invoke(line);
     public event Action<ProxyConnection>? Authenticated;
+    public event Action<LoginResponse>? LoginResponded;
     public event Action<ClientPacket>? DialogAction;
     public event Action<ClientPacket>? ExchangeAction;
     public event Action<ClientPacket>? DropAction;
@@ -171,15 +172,12 @@ public sealed partial class ProxyConnection(TcpClient client, TcpClient remote, 
 
                         if ((byte)plain.Command == 0x06)
                         {
-                            InterruptForClientPacket(0x06, "Manual movement paused automation.");
+                            // Reanchor pending movement from server replies without pausing the run.
+                            CancelMovement();
                             if (plain.Data.Length >= 2)
                                 plain.Data[1] = walkCounter++;
                         }
 
-                        if ((byte)plain.Command is 0x39 or 0x3A or 0x11)
-                            InterruptForClientPacket((byte)plain.Command, "Manual dialog or turn paused automation.");
-                        if ((byte)plain.Command == 0x43 && ClickedEntity(plain.Data) is { } clicked)
-                            InterruptForClientPacket(0x43, "Manual dialog or turn paused automation.", clicked);
                         if ((byte)plain.Command is 0x39 or 0x3A)
                             DialogAction?.Invoke(plain);
                         if ((byte)plain.Command == 0x4A)
@@ -209,6 +207,18 @@ public sealed partial class ProxyConnection(TcpClient client, TcpClient remote, 
                 {
                     var wire = new ServerPacket(frame[3], frame[4..]);
                     var plain = (ServerPacket)serverCrypto.Decrypt(wire);
+                    if ((byte)plain.Command == 0x02)
+                    {
+                        try
+                        {
+                            // Shape only: keep credentials, keys and raw login packets out of diagnostics.
+                            string result = plain.Data.Length > 0 ? plain.Data[0].ToString() : "missing";
+                            string messageLength = plain.Data.Length > 1 ? plain.Data[1].ToString() : "missing";
+                            Diagnostic?.Invoke($"Server login response: {plain.Data.Length} payload bytes, result {result}, message length {messageLength}.");
+                            LoginResponded?.Invoke(LoginResponse.Parse(plain.Data));
+                        }
+                        catch (Exception error) { Diagnostic?.Invoke("Login response observer failed: " + Flatten(error)); }
+                    }
                     if (serverOpcodes.Add((byte)plain.Command))
                         Diagnostic?.Invoke("Server opcode " + ((byte)plain.Command).ToString("X2") + " observed");
                     if ((byte)plain.Command == 0x00 && plain.Data.Length >= 7 && plain.Data[0] == 0)

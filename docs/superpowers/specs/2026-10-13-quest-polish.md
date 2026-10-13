@@ -11,3 +11,5 @@ Move Stop all quests beside the header Launch button. Move the existing consent 
 Verify functional ordering, launch presentation, sprite decoding and Awakening resumption synthetically. Run both xUnit projects and manually inspect full and minimum-size interfaces using isolated preview data.
 
 The user subsequently specified full native pixels for the foreground character. Reserve a 112 by 112 lower-right cell for the original 112 by 100 character canvas, retaining nearest-neighbor rendering and layout rounding. This prevents the 96 by 96 cell from shrinking the character while keeping text outside its cell.
+
+Minimum-size review found the foreground character below the scroll viewport. Keep it fixed at the lower right, reserve its column in the lower text/progress area, and use a 220-pixel compact card. Queue titles trim with full-name tooltips. Journey messages retain three visible lines and a full-text tooltip so they cannot collide with the small character.

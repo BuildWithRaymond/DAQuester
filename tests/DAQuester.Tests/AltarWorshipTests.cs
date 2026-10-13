@@ -129,6 +129,24 @@ public class AltarWorshipTests
     }
 
     [Fact]
+    public async Task Scheduler_yields_after_verified_offering_without_claiming_quest_completion()
+    {
+        var session = new Scripted("Elara", "Priest");
+        var journal = new FileQuestJournal(dir);
+        var recipe = new QuestDefinition(Id, 1, "Altar Worship", "synthetic", [], [new("preflight", "altar-preflight", "run"), new("run", "altar-run", null)], 0) { Repeatable = false };
+        var runner = new QuestRunner(session, journal, recipe, new());
+        await runner.RunAsync(singleAttempt: true, yieldScheduledWaits: true);
+        Assert.Equal("Scheduled", runner.Job.Status);
+        Assert.Equal("run", runner.Job.Step);
+        Assert.Null(runner.Job.CompletedAt);
+        Assert.Null(runner.Job.Pending);
+        var offering = Assert.Single(runner.Job.AltarOfferings);
+        Assert.Equal(offering.At + Interval, runner.Job.NextRun);
+        Assert.Equal(1, session.Drops);
+        Assert.Null(QueueAttemptOutcome.Evaluate(runner.Job));
+    }
+
+    [Fact]
     public async Task A_shield_already_in_the_bag_is_offered_without_buying()
     {
         var q = new Scripted("Elara", "Priest");

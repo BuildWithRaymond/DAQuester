@@ -216,7 +216,7 @@ public class StickCompletionTests
         public Task ExecuteAsync(QuestContext context, QuestStep step, CancellationToken ct)
         {
             session.Set(Reward(session.Snapshot, observed));
-            session.Manual();
+            session.Interrupt();
             session.Set(session.Snapshot with
             {
                 Dialog = null
@@ -267,7 +267,7 @@ public class StickCompletionTests
     {
         public Task ExecuteAsync(QuestContext context, QuestStep step, CancellationToken ct)
         {
-            session.Manual();
+            session.Interrupt();
             ct.ThrowIfCancellationRequested();
             return Task.CompletedTask;
         }

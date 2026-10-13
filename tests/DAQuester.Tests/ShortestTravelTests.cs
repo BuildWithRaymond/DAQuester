@@ -61,7 +61,7 @@ public class ShortestTravelTests
             await f.Position(new(1, 1));
             return true;
         }, new("navigate", 501, new(1, 1)));
-        Assert.Single(f.Commands, c => c == 0x38);
+        Assert.DoesNotContain((byte)0x38, f.Commands);
         Assert.Equal(2, f.Commands.Count(c => c == 6));
     }
 

@@ -147,35 +147,6 @@
     <Setter Property="MinHeight" Value="26"/>
     <Setter Property="Padding" Value="4"/>
   </Style>
-  <Style Selector="Button.journeyAction">
-    <Setter Property="FontSize" Value="12"/>
-    <Setter Property="MinHeight" Value="36"/>
-    <Setter Property="Padding" Value="12,8"/>
-  </Style>
-  <Style Selector="Button.journeyAction controls|LineIcon">
-    <Setter Property="Foreground" Value="{DynamicResource Text}"/>
-  </Style>
-  <Style Selector="Button.primary.journeyAction controls|LineIcon">
-    <Setter Property="Foreground" Value="{DynamicResource Ink}"/>
-  </Style>
-  <Style Selector="Button.journeyAction:disabled StackPanel">
-    <Setter Property="Opacity" Value="0.4"/>
-  </Style>
-  <Style Selector="Button.journeyAction:disabled TextBlock">
-    <Setter Property="Foreground" Value="{DynamicResource DisabledText}"/>
-  </Style>
-  <Style Selector="Button.journeyAction:disabled controls|LineIcon">
-    <Setter Property="Foreground" Value="{DynamicResource DisabledText}"/>
-  </Style>
-  <Style Selector="Window.compact Button.journeyAction">
-    <Setter Property="Width" Value="36"/>
-    <Setter Property="Height" Value="36"/>
-    <Setter Property="MinWidth" Value="36"/>
-    <Setter Property="Padding" Value="7"/>
-  </Style>
-  <Style Selector="Window.compact TextBlock.journeyActionLabel">
-    <Setter Property="IsVisible" Value="False"/>
-  </Style>
   <Style Selector="Button.queuePrimary TextBlock">
     <Setter Property="Foreground" Value="{DynamicResource Ink}"/>
   </Style>
@@ -238,6 +209,9 @@
     <Setter Property="Background" Value="{DynamicResource Raised}"/>
     <Setter Property="BorderBrush" Value="{DynamicResource GoldLine}"/>
     <Setter Property="Foreground" Value="{DynamicResource Gold}"/>
+  </Style>
+  <Style Selector="Window.compact Button.filter">
+    <Setter Property="Padding" Value="8,6"/>
   </Style>
   <Style Selector="TextBox">
     <Setter Property="MinHeight" Value="40"/>
@@ -374,6 +348,7 @@
   </Style>
   <Style Selector="controls|QuestGlyph">
     <Setter Property="Foreground" Value="{DynamicResource Muted}"/>
+    <Setter Property="Background" Value="{DynamicResource Raised}"/>
   </Style>
   <Style Selector="Border.questRow.ready controls|QuestGlyph">
     <Setter Property="Foreground" Value="{DynamicResource Ready}"/>
@@ -410,5 +385,25 @@
     <Setter Property="Background" Value="{DynamicResource Raised}"/>
     <Setter Property="Foreground" Value="{DynamicResource Text}"/>
     <Setter Property="BorderBrush" Value="{DynamicResource Line}"/>
+  </Style>
+  <Style Selector="Border.schedulerDot">
+    <Setter Property="BorderBrush" Value="{DynamicResource Rail}"/>
+    <Setter Property="BorderThickness" Value="1"/>
+  </Style>
+  <Style Selector="Border.schedulerDot.off">
+    <Setter Property="Background" Value="{DynamicResource Error}"/>
+  </Style>
+  <Style Selector="Border.schedulerDot.ready">
+    <Setter Property="Background" Value="{DynamicResource Ready}"/>
+  </Style>
+  <Style Selector="Border.schedulerDot.warning">
+    <Setter Property="Background" Value="{DynamicResource Gold}"/>
+  </Style>
+  <Style Selector="Border.legendMark">
+    <Setter Property="Background" Value="{DynamicResource Raised}"/>
+    <Setter Property="BorderBrush" Value="{DynamicResource Line}"/>
+    <Setter Property="BorderThickness" Value="1"/>
+    <Setter Property="CornerRadius" Value="4"/>
+    <Setter Property="Padding" Value="9,5"/>
   </Style>
 </Styles>
