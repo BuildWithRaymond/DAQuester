@@ -9,3 +9,5 @@ Use the app medallion for the three authored journeys. Draw authentic tiny legen
 Move Stop all quests beside the header Launch button. Move the existing consent checkbox beside Enable scheduler, retaining all acknowledgement gates. Show current scheduled login reservations as Launch in progress; orphaned pending logins and confirmed failures retain review warnings. Keep journey text over the large faded character accent, reserving a separate lower-right cell for the small character.
 
 Verify functional ordering, launch presentation, sprite decoding and Awakening resumption synthetically. Run both xUnit projects and manually inspect full and minimum-size interfaces using isolated preview data.
+
+The user subsequently specified full native pixels for the foreground character. Reserve a 112 by 112 lower-right cell for the original 112 by 100 character canvas, retaining nearest-neighbor rendering and layout rounding. This prevents the 96 by 96 cell from shrinking the character while keeping text outside its cell.
