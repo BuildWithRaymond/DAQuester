@@ -38,7 +38,12 @@ public sealed partial class MainWindowViewModel : ObservableObject
             if (sortingSwitcher && value is null)
                 return;
             if (Set(ref selectedCharacter, value))
+            {
+                // A card not yet saved has no name to reopen on.
+                if (value is { OriginalName.Length: > 0 })
+                    Runtime.RememberCharacter(value.OriginalName);
                 Refresh();
+            }
         }
     }
 
@@ -336,7 +341,7 @@ public sealed partial class MainWindowViewModel : ObservableObject
         });
         LoadCharacters();
         LoadLibrary();
-        SelectedCharacter = Characters.FirstOrDefault();
+        SelectedCharacter = Characters.FirstOrDefault(c => c.OriginalName.Equals(runtime.Settings.LastCharacter, StringComparison.OrdinalIgnoreCase)) ?? Characters.FirstOrDefault();
         SelectedQuest = library.FirstOrDefault();
         Runtime.Changed += Refresh;
         Refresh();
