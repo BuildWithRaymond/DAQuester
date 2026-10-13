@@ -932,4 +932,69 @@ public class FastWalkingTests
         await stream.ReadExactlyAsync(data, limit.Token);
         return data;
     }
+
+    [Fact]
+    public async Task Fight_steps_alone_are_sent_ahead_without_waiting_for_the_server()
+    {
+        await using var f = await MovingObstacleTests.Fixture.Create(600);
+        f.Session.FastMode = true;
+        await f.Walk(new(4, 1), (_, _) => Task.FromResult(true), new("pathfind", Target: new(4, 1)));
+        Assert.Equal(1, f.Connection.Movement.Pending);
+        await Task.Delay(170);
+        await f.Session.ExecuteAsync(new("pathfind", Target: new(4, 1)), default);
+        Assert.Equal(2, f.Connection.Movement.Pending);
+        Assert.Equal(new Tile(3, 1), f.Connection.Movement.Projected);
+    }
+
+    [Fact]
+    public async Task Fight_steps_near_a_player_wait_for_the_server()
+    {
+        await using var f = await MovingObstacleTests.Fixture.Create(600);
+        f.Session.FastMode = true;
+        f.Connection.Tracker.Observe(0x33, Human(99, new(1, 4)));
+        await f.Walk(new(4, 1), (_, _) => Task.FromResult(false), new("pathfind", Target: new(4, 1)));
+        Assert.Equal(0, f.Connection.Movement.Pending);
+        Assert.Equal(new Tile(2, 1), f.Session.Snapshot.Position);
+    }
+
+    [Fact]
+    public async Task A_corrected_fight_step_replans_from_the_server_position()
+    {
+        await using var f = await MovingObstacleTests.Fixture.Create(600);
+        f.Session.FastMode = true;
+        await f.Walk(new(4, 1), (_, _) => Task.FromResult(true), new("pathfind", Target: new(4, 1)));
+        await f.Position(new(1, 2));
+        var deadline = DateTimeOffset.UtcNow.AddSeconds(2);
+        while (!f.Connection.Movement.Recovery && DateTimeOffset.UtcNow < deadline)
+            await Task.Delay(10);
+        Assert.True(f.Connection.Movement.Recovery);
+        await f.Walk(new(4, 1), (_, _) => Task.FromResult(false), new("pathfind", Target: new(4, 1)));
+        Assert.Contains((byte)0x38, f.Commands);
+        Assert.False(f.Connection.Movement.Recovery);
+        await Task.Delay(170);
+        await f.Session.ExecuteAsync(new("pathfind", Target: new(4, 1)), default);
+        Assert.Equal(1, f.Connection.Movement.Pending);
+        Assert.Contains(f.Connection.Movement.Projected, new Tile[] { new(2, 2), new(1, 1) });
+    }
+
+    [Fact]
+    public async Task Refused_stairs_stop_the_walk_without_a_refresh_on_the_stairs()
+    {
+        var record = new MapRecord(500, "Crypt", 5, 5, [new(new(3, 1), 501, new(1, 1))]);
+        await using var f = await MovingObstacleTests.Fixture.Create(record: record, additional: [new(501, "Below", 5, 5, [])]);
+        var text = "You almost understand the secrets of this entrance.";
+        var e = await Assert.ThrowsAsync<EntranceRefusedException>(() => f.Walk(new(1, 1), async (_, next) =>
+        {
+            if (next != new Tile(3, 1))
+                return false;
+            await f.Send(10, [3, 0, (byte)text.Length, .. System.Text.Encoding.ASCII.GetBytes(text)]);
+            await f.Send(11, [4, 0, 2, 0, 1, 0, 0, 0, 0, 0]);
+            return true;
+        }, new("navigate", 501, new(1, 1))));
+        Assert.Equal(text, e.Message);
+        Assert.Equal(new Tile(3, 1), e.Stairs);
+        Assert.DoesNotContain((byte)0x38, f.Commands);
+        Assert.False(f.Connection.Movement.Recovery);
+        Assert.Equal(new Tile(2, 1), f.Session.Snapshot.Position);
+    }
 }

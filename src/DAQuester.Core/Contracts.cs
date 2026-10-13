@@ -383,6 +383,14 @@ public interface IQuestAction
 
 public class QuestBlockedException(string reason) : Exception(reason);
 public sealed class ResourceUnavailableException(string reason) : QuestBlockedException(reason);
+// The server turned the character back at a staircase it is not yet allowed through.
+public sealed class EntranceRefusedException(string serverText, Tile stairs) : QuestBlockedException(serverText)
+{
+    public Tile Stairs { get; } = stairs;
+}
+
+// Health ran low and the character walked out to safety.
+public sealed class RetreatedException(string reason) : QuestBlockedException(reason);
 public sealed class QuestPopupException(Dialog dialog, int? map) : QuestBlockedException("Collection paused for a popup; it has been preserved for review.")
 {
     public Dialog Dialog { get; } = dialog;

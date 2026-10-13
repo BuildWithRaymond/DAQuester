@@ -27,6 +27,16 @@ public class NavigationTests(ITestOutputHelper output)
     }
 
     [Fact]
+    public void Rucesion_is_reachable_from_the_crypt_by_crossing_the_port_threshold()
+    {
+        var content = Path.GetFullPath(Path.Combine(AppContext.BaseDirectory, "../../../../../content/routes.json"));
+        var r = new MapRepository("", content);
+        var plan = r.Plan(425, new(5, 8), 421);
+        Assert.Contains(plan.Steps, s => s.SourceMap == 3081 && s.Map == 3081 && s.From.Y == 2 && s.To.Y == 5);
+        Assert.Equal(421, plan.Steps[^1].Map);
+    }
+
+    [Fact]
     public void Portal_route_preserves_town_entrance()
     {
         var content = Path.GetFullPath(Path.Combine(AppContext.BaseDirectory, "../../../../../content/routes.json"));

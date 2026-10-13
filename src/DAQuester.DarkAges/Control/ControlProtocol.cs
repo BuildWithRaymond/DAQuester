@@ -185,7 +185,8 @@ public class McpProtocol(Func<ControlRequest, Task<object?>> call)
                     "say",
                     "collect-ground",
                     "pickup",
-                    "inspect-self"
+                    "inspect-self",
+                    "repair"
                 }
             };
             properties["map"] = new
