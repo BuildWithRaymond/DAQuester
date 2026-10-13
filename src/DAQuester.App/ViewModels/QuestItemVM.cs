@@ -43,7 +43,32 @@ public sealed class QuestItemVM : ObservableObject
         get;
     }
     public string Status => availability.Status;
-    public string Reason => availability.Reason;
+    public string Reason => MainWindowViewModel.PlayerQuestReason(availability.Reason);
+    public string StatusLabel => Status switch { "Unavailable" => "Guide only", "Choices" => "Choices needed", _ => Status };
+    public string StatusIcon => Status switch
+    {
+        "Ready" or "Completed" => "Check",
+        "Resume ready" => "Play",
+        "Choices" => "GitBranch",
+        "Blocked" => "X",
+        "Cooldown" or "Next offering" => "RotateCcw",
+        "Unavailable" => "BookOpen",
+        _ => "CircleHelp"
+    };
+    public bool RowReady => IsReady && Status != "Choices";
+    public bool StatusReady => RowReady || IsCompleted;
+    public bool StatusWarning => Status is "Blocked" or "Cooldown" or "Choices" || IsWarning;
+    public bool QueueEligible => recipeId.Length > 0 && availability.CanQueue;
+    public bool ShowQueueCheckbox => !IsCompleted || IsQueued;
+    public bool ShowCompletionCheck => IsCompleted && !IsQueued;
+    public string SelectionExplanation => Status == "Not checked" && QueueEligible ? "Can add to queue. " + Reason : Reason;
+    public string QueueActionName => (IsQueued ? "Remove from queue: " : "Queue: ") + Name;
+    public string QueueTooltip => recipeId.Length == 0 ? Reason
+        : owner.CharacterName.Length == 0 ? "Add or select a character to plan a queue."
+        : owner.QueueLocked ? "Stop this run before editing the queue. " + Reason
+        : IsQueued ? "Remove from queue. " + Reason
+        : QueueEligible ? "Add to queue. " + Reason
+        : SelectionExplanation;
     public bool IsReady => availability.Ready;
     public bool IsCompleted => Status == "Completed";
     public bool IsMuted => Status is "Unavailable" or "Blocked" or "Cooldown";

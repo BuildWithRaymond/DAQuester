@@ -142,6 +142,8 @@ public class StickActions : IQuestAction
                 var t = c.Job.Pending;
                 if (t is null || t.Kind != "turn-in")
                     throw new QuestBlockedException("No recorded turn-in transaction.");
+                if (t.Generation != session.Snapshot.Generation)
+                    throw new QuestBlockedException("Callough's saved turn-in is still unconfirmed. No matching reply and rewards were recovered from the saved replay. Check the previous outcome before retrying; the turn-in will not be resent.");
                 bool Terminal(CharacterSnapshot x) => StickCompletionEvidence.Reply(x, t, cal);
                 if (!t.TerminalSeen || t.TerminalRevision is null)
                 {

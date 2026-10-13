@@ -93,156 +93,186 @@
       </StackPanel>
       <Grid Grid.Row="2" Name="plannerPage" IsVisible="{Binding IsPlanner}">
         <ScrollViewer HorizontalScrollBarVisibility="Disabled" VerticalScrollBarVisibility="Auto">
-          <Grid RowDefinitions="Auto,*" RowSpacing="12" MinHeight="620" Height="{Binding Bounds.Height,ElementName=plannerPage}">
+          <Grid Name="plannerLayout" RowDefinitions="Auto,*" RowSpacing="12" MinHeight="620" Height="{Binding Bounds.Height,ElementName=plannerPage}">
             <Border Name="journeyCard" Classes="card" Height="270" ClipToBounds="True">
-              <Grid Name="journeyLayout" ColumnDefinitions="*,18,346">
-                <Border Padding="16,14,16,14" CornerRadius="8,0,0,8" Background="{DynamicResource JourneyBackdrop}" ClipToBounds="True">
-                  <Grid>
-                    <controls:CharacterSpriteAccent Source="{Binding ElementName=journeySprite}" Opacity="0.12" IsHitTestVisible="False"/>
-                    <ScrollViewer Name="journeyOverview" HorizontalScrollBarVisibility="Disabled" VerticalContentAlignment="Stretch">
-                      <Grid RowDefinitions="Auto,*,Auto" ColumnDefinitions="*,112" RowSpacing="8" ColumnSpacing="12" Height="{Binding Viewport.Height,ElementName=journeyOverview}">
-                        <StackPanel Grid.ColumnSpan="2" Spacing="7">
-                          <Grid ColumnDefinitions="28,*,Auto" ColumnSpacing="12">
-                            <controls:QuestGlyph QuestId="{Binding JourneyIcon}" Width="28" Height="28" Foreground="{DynamicResource Gold}" VerticalAlignment="Top" Margin="0,5,0,0"/>
-                            <StackPanel Grid.Column="1" Spacing="2">
-                              <TextBlock Text="CURRENT JOURNEY" FontSize="10" LetterSpacing="1.2" Classes="muted"/>
-                              <TextBlock Text="{Binding JourneyTitle}" FontFamily="Georgia" FontSize="22" LineHeight="27" TextWrapping="Wrap"/>
-                            </StackPanel>
-                            <TextBlock Grid.Column="2" Text="{Binding JourneyState}" Classes="gold" FontSize="11" MaxWidth="160" TextWrapping="Wrap" VerticalAlignment="Top" Margin="0,4,0,0"/>
-                          </Grid>
-                          <TextBlock Text="{Binding JourneyMessage}" Classes="muted" FontSize="12" TextWrapping="Wrap"/>
-                        </StackPanel>
-                        <StackPanel Grid.Row="1" Grid.ColumnSpan="2" Spacing="5" VerticalAlignment="Center">
-                          <controls:QuestTrail Name="journeyProgress" Steps="{Binding JourneySteps}" IsRunning="{Binding JourneyAnimating}" Height="28" AutomationProperties.Name="{Binding JourneySteps.Label}"/>
-                          <TextBlock Text="{Binding JourneySteps.Label}" FontSize="12"/>
-                          <WrapPanel Orientation="Horizontal" Margin="0,0,124,0">
-                            <TextBlock Text="{Binding JourneyNext}" Classes="caption" FontSize="11" TextWrapping="Wrap" Margin="0,0,12,0"/>
-                            <TextBlock Text="{Binding JourneyRewards}" Classes="caption ready" FontSize="11" TextWrapping="Wrap"/>
-                          </WrapPanel>
-                        </StackPanel>
-                        <StackPanel Grid.Row="2" Name="journeyControls" Spacing="6" VerticalAlignment="Bottom">
-                          <WrapPanel Orientation="Horizontal">
-                            <CheckBox Content="{Binding FastModeLabel}" IsChecked="{Binding FastMode,Mode=TwoWay}" Margin="0,0,14,0"/>
-                            <CheckBox Content="{Binding RepeatLabel}" IsChecked="{Binding Repeat,Mode=TwoWay}" IsVisible="{Binding RepeatVisible}" IsEnabled="{Binding RepeatEnabled}"/>
-                            <Button Name="changeChoices" Classes="quiet" Content="Change choices" Command="{Binding ChangeChoicesCommand}" IsVisible="{Binding ChangeChoicesVisible}" MinHeight="28" FontSize="12" Padding="8,4"/>
-                          </WrapPanel>
-                          <WrapPanel Orientation="Horizontal" HorizontalAlignment="Left">
-                            <Button Name="startQuest" Classes="primary journeyAction" Command="{Binding StartQuestCommand}" Margin="0,0,6,4" ToolTip.Tip="{Binding StartQuestLabel}" ToolTip.ShowOnDisabled="True" AutomationProperties.Name="{Binding StartQuestLabel}">
-                              <StackPanel Orientation="Horizontal" Spacing="7">
-                                <Grid Width="20" Height="20">
-                                  <controls:LineIcon Icon="ScrollText" Width="16" Height="16" HorizontalAlignment="Left" VerticalAlignment="Top"/>
-                                  <controls:LineIcon Icon="Play" Width="10" Height="10" HorizontalAlignment="Right" VerticalAlignment="Bottom"/>
-                                </Grid>
-                                <TextBlock Classes="journeyActionLabel" Text="{Binding StartQuestLabel}"/>
+              <Grid>
+                <Grid Name="journeyLayout" VerticalAlignment="Top" ColumnDefinitions="*,18,346">
+                  <Border Padding="16,14,16,14" CornerRadius="8,0,0,8" Background="{DynamicResource JourneyBackdrop}" ClipToBounds="True">
+                    <Grid>
+                      <controls:CharacterSpriteAccent Source="{Binding ElementName=journeySprite}" Opacity="0.12" IsHitTestVisible="False"/>
+                      <ScrollViewer Name="journeyOverview" HorizontalScrollBarVisibility="Disabled" VerticalContentAlignment="Stretch">
+                        <Grid RowDefinitions="Auto,*,Auto" ColumnDefinitions="*,112" RowSpacing="8" ColumnSpacing="12" Height="{Binding Viewport.Height,ElementName=journeyOverview}">
+                          <StackPanel Grid.ColumnSpan="2" Spacing="7">
+                            <Grid ColumnDefinitions="28,*,Auto" ColumnSpacing="12">
+                              <controls:QuestGlyph QuestId="{Binding JourneyIcon}" Width="28" Height="28" Foreground="{DynamicResource Gold}" VerticalAlignment="Top" Margin="0,5,0,0"/>
+                              <StackPanel Grid.Column="1" Spacing="2">
+                                <TextBlock Text="CURRENT JOURNEY" FontSize="10" LetterSpacing="1.2" Classes="muted"/>
+                                <TextBlock Text="{Binding JourneyTitle}" FontFamily="Georgia" FontSize="22" LineHeight="27" TextWrapping="Wrap"/>
                               </StackPanel>
-                            </Button>
-                            <Button Name="resumeQuest" Classes="journeyAction" Command="{Binding ResumeQuestCommand}" Margin="0,0,6,4" ToolTip.Tip="Resume saved individual quest" ToolTip.ShowOnDisabled="True" AutomationProperties.Name="Resume individual quest">
-                              <StackPanel Orientation="Horizontal" Spacing="7">
-                                <controls:LineIcon Icon="Play" Width="20" Height="20"/>
-                                <TextBlock Classes="journeyActionLabel" Text="Resume"/>
-                              </StackPanel>
-                            </Button>
-                            <Button Name="pauseQuest" Classes="journeyAction" Command="{Binding PauseQuestCommand}" Margin="0,0,6,4" ToolTip.Tip="Pause individual quest" ToolTip.ShowOnDisabled="True" AutomationProperties.Name="Pause individual quest">
-                              <StackPanel Orientation="Horizontal" Spacing="7">
-                                <controls:LineIcon Icon="Pause" Width="20" Height="20"/>
-                                <TextBlock Classes="journeyActionLabel" Text="Pause"/>
-                              </StackPanel>
-                            </Button>
-                            <Button Name="stopQuest" Classes="journeyAction" Command="{Binding StopQuestCommand}" Margin="0,0,6,4" ToolTip.Tip="Stop individual quest · progress saved" ToolTip.ShowOnDisabled="True" AutomationProperties.Name="Stop individual quest">
-                              <StackPanel Orientation="Horizontal" Spacing="7">
-                                <controls:LineIcon Icon="Square" Width="20" Height="20"/>
-                                <TextBlock Classes="journeyActionLabel" Text="Stop"/>
-                              </StackPanel>
-                            </Button>
-                            <Button Name="addJourneyToQueue" Classes="journeyAction" Command="{Binding AddJourneyToQueueCommand}" Margin="0,0,0,4" ToolTip.Tip="{Binding AddJourneyToQueueLabel}" ToolTip.ShowOnDisabled="True" AutomationProperties.Name="Add this quest to queue">
-                              <StackPanel Orientation="Horizontal" Spacing="7">
-                                <Grid Width="20" Height="20">
-                                  <controls:LineIcon Icon="ListOrdered" Width="16" Height="16" HorizontalAlignment="Left" VerticalAlignment="Top"/>
-                                  <controls:LineIcon Icon="Plus" Width="10" Height="10" HorizontalAlignment="Right" VerticalAlignment="Bottom"/>
-                                </Grid>
-                                <TextBlock Classes="journeyActionLabel" Text="{Binding AddJourneyToQueueLabel}"/>
-                              </StackPanel>
-                            </Button>
-                          </WrapPanel>
-                        </StackPanel>
-                        <controls:CharacterSpritePreview Name="journeySprite" Grid.Row="1" Grid.Column="1" Grid.RowSpan="2" Snapshot="{Binding JourneyCharacter}" RememberedAppearance="{Binding JourneyRememberedAppearance}" GameDirectory="{Binding JourneyGameDirectory}" VerticalAlignment="Bottom" AutomationProperties.Name="Character preview"/>
-                      </Grid>
-                    </ScrollViewer>
-                  </Grid>
-                </Border>
-                <Border Grid.Column="2" BorderBrush="{DynamicResource Line}" BorderThickness="1,0,0,0" Padding="16,0,0,0" Margin="0,10,14,10">
-                  <Grid RowDefinitions="Auto,*,Auto,Auto" RowSpacing="4">
-                    <Grid ColumnDefinitions="*,Auto">
-                      <StackPanel Spacing="3" ToolTip.Tip="{Binding QueueHint}">
-                        <Grid ColumnDefinitions="18,*" ColumnSpacing="8">
-                          <controls:LineIcon Icon="ListOrdered" Width="18" Height="18" Foreground="{DynamicResource Gold}"/>
-                          <TextBlock Grid.Column="1" Text="{Binding QueueHeading}" Classes="section" TextWrapping="Wrap" VerticalAlignment="Center"/>
-                        </Grid>
-                        <TextBlock Text="{Binding QueueSummary}" Classes="caption" FontSize="10" Margin="26,0,0,0"/>
-                      </StackPanel>
-                      <Button Name="queueClear" Grid.Column="1" Classes="quiet" Content="Clear" Command="{Binding ClearQueueCommand}" MinHeight="28" Padding="8,3"/>
-                    </Grid>
-                    <Grid Grid.Row="1">
-                      <ScrollViewer Name="queueScroll" HorizontalScrollBarVisibility="Disabled" VerticalScrollBarVisibility="Auto">
-                        <ItemsControl Name="queueList" ItemsSource="{Binding QueueItems}">
-                          <ItemsControl.ItemTemplate>
-                            <DataTemplate>
-                              <Grid Margin="0,0,0,3">
-                                <Border Name="queueRow" Classes="queueRow" Classes.active="{Binding IsActive}" Focusable="True" KeyDown="QueueKeyDown" AutomationProperties.Name="{Binding Name,StringFormat='Queue item {0}'}">
-                                  <Grid ColumnDefinitions="12,16,*,Auto" ColumnSpacing="6">
-                                    <Border Name="queueGrip" Background="Transparent" Cursor="SizeAll" PointerPressed="QueuePointerPressed" PointerMoved="QueuePointerMoved" PointerReleased="QueuePointerReleased" PointerCaptureLost="QueuePointerCaptureLost" ToolTip.Tip="Drag to reorder. Ctrl+Up or Ctrl+Down also moves this quest.">
-                                      <controls:GripGlyph Width="10" Height="18" Foreground="{DynamicResource Muted}" VerticalAlignment="Center"/>
-                                    </Border>
-                                    <TextBlock Grid.Column="1" Text="{Binding Number}" FontSize="11" Classes="muted" VerticalAlignment="Center" HorizontalAlignment="Center"/>
-                                    <StackPanel Grid.Column="2" Spacing="1" VerticalAlignment="Center">
-                                      <TextBlock Text="{Binding Name}" FontWeight="SemiBold" FontSize="12" TextWrapping="Wrap"/>
-                                      <TextBlock Text="{Binding Detail}" Classes="caption" FontSize="10" TextWrapping="Wrap"/>
-                                    </StackPanel>
-                                    <StackPanel Grid.Column="3" Orientation="Horizontal" Spacing="2" VerticalAlignment="Center">
-                                      <Button Classes="icon queueAction" Command="{Binding MoveUpCommand}" IsEnabled="{Binding CanEdit}" ToolTip.Tip="Move up" AutomationProperties.Name="{Binding Name,StringFormat='Move up {0}'}">
-                                        <controls:LineIcon Width="12" Height="12" Icon="ArrowUp"/>
-                                      </Button>
-                                      <Button Classes="icon queueAction" Command="{Binding MoveDownCommand}" IsEnabled="{Binding CanEdit}" ToolTip.Tip="Move down" AutomationProperties.Name="{Binding Name,StringFormat='Move down {0}'}">
-                                        <controls:LineIcon Width="12" Height="12" Icon="ArrowDown"/>
-                                      </Button>
-                                      <Button Classes="icon queueAction" Command="{Binding RemoveCommand}" IsEnabled="{Binding CanEdit}" ToolTip.Tip="Remove from queue" AutomationProperties.Name="{Binding Name,StringFormat='Remove {0}'}">
-                                        <controls:LineIcon Width="11" Height="11" Icon="X"/>
-                                      </Button>
-                                    </StackPanel>
+                              <TextBlock Grid.Column="2" Text="{Binding JourneyState}" Classes="gold" FontSize="11" MaxWidth="160" TextWrapping="Wrap" VerticalAlignment="Top" Margin="0,4,0,0"/>
+                            </Grid>
+                            <TextBlock Text="{Binding JourneyMessage}" Classes="muted" FontSize="12" TextWrapping="Wrap"/>
+                          </StackPanel>
+                          <StackPanel Grid.Row="1" Grid.ColumnSpan="2" Spacing="5" VerticalAlignment="Center">
+                            <controls:QuestTrail Name="journeyProgress" Steps="{Binding JourneySteps}" IsRunning="{Binding JourneyAnimating}" Height="28" AutomationProperties.Name="{Binding JourneySteps.Label}"/>
+                            <TextBlock Text="{Binding JourneySteps.Label}" FontSize="12"/>
+                            <WrapPanel Orientation="Horizontal" Margin="0,0,124,0">
+                              <TextBlock Text="{Binding JourneyNext}" Classes="caption" FontSize="11" TextWrapping="Wrap" Margin="0,0,12,0"/>
+                              <TextBlock Text="{Binding JourneyRewards}" Classes="caption ready" FontSize="11" TextWrapping="Wrap"/>
+                            </WrapPanel>
+                          </StackPanel>
+                          <StackPanel Grid.Row="2" Name="journeyControls" Spacing="6" VerticalAlignment="Bottom">
+                            <WrapPanel Orientation="Horizontal">
+                              <CheckBox Content="{Binding FastModeLabel}" IsChecked="{Binding FastMode,Mode=TwoWay}" Margin="0,0,14,0"/>
+                              <CheckBox Content="{Binding RepeatLabel}" IsChecked="{Binding Repeat,Mode=TwoWay}" IsVisible="{Binding RepeatVisible}" IsEnabled="{Binding RepeatEnabled}"/>
+                              <Button Name="changeChoices" Classes="quiet" Content="Change choices" Command="{Binding ChangeChoicesCommand}" IsVisible="{Binding ChangeChoicesVisible}" MinHeight="28" FontSize="12" Padding="8,4"/>
+                            </WrapPanel>
+                            <WrapPanel Orientation="Horizontal" HorizontalAlignment="Left">
+                              <Button Name="startQuest" Classes="journeyAction" Command="{Binding StartQuestCommand}" Margin="0,0,6,4" ToolTip.Tip="{Binding StartQuestLabel}" ToolTip.ShowOnDisabled="True" AutomationProperties.Name="{Binding StartQuestLabel}">
+                                <StackPanel Orientation="Horizontal" Spacing="7">
+                                  <Grid Width="20" Height="20">
+                                    <controls:LineIcon Icon="ScrollText" Width="16" Height="16" HorizontalAlignment="Left" VerticalAlignment="Top"/>
+                                    <controls:LineIcon Icon="Play" Width="10" Height="10" HorizontalAlignment="Right" VerticalAlignment="Bottom"/>
                                   </Grid>
-                                </Border>
-                                <Border Name="insertionBefore" Background="{DynamicResource Gold}" Height="3" VerticalAlignment="Top" IsVisible="False" IsHitTestVisible="False"/>
-                                <Border Name="insertionAfter" Background="{DynamicResource Gold}" Height="3" VerticalAlignment="Bottom" IsVisible="False" IsHitTestVisible="False"/>
-                              </Grid>
-                            </DataTemplate>
-                          </ItemsControl.ItemTemplate>
-                        </ItemsControl>
+                                  <TextBlock Classes="journeyActionLabel" Text="{Binding StartQuestLabel}"/>
+                                </StackPanel>
+                              </Button>
+                              <Button Name="resumeQuest" Classes="journeyAction" Command="{Binding ResumeQuestCommand}" Margin="0,0,6,4" ToolTip.Tip="Resume saved individual quest" ToolTip.ShowOnDisabled="True" AutomationProperties.Name="Resume individual quest">
+                                <StackPanel Orientation="Horizontal" Spacing="7">
+                                  <controls:LineIcon Icon="Play" Width="20" Height="20"/>
+                                  <TextBlock Classes="journeyActionLabel" Text="Resume"/>
+                                </StackPanel>
+                              </Button>
+                              <Button Name="pauseQuest" Classes="journeyAction" Command="{Binding PauseQuestCommand}" Margin="0,0,6,4" ToolTip.Tip="Pause individual quest" ToolTip.ShowOnDisabled="True" AutomationProperties.Name="Pause individual quest">
+                                <StackPanel Orientation="Horizontal" Spacing="7">
+                                  <controls:LineIcon Icon="Pause" Width="20" Height="20"/>
+                                  <TextBlock Classes="journeyActionLabel" Text="Pause"/>
+                                </StackPanel>
+                              </Button>
+                              <Button Name="stopQuest" Classes="journeyAction" Command="{Binding StopQuestCommand}" Margin="0,0,6,4" ToolTip.Tip="Stop individual quest · progress saved" ToolTip.ShowOnDisabled="True" AutomationProperties.Name="Stop individual quest">
+                                <StackPanel Orientation="Horizontal" Spacing="7">
+                                  <controls:LineIcon Icon="Square" Width="20" Height="20"/>
+                                  <TextBlock Classes="journeyActionLabel" Text="Stop"/>
+                                </StackPanel>
+                              </Button>
+                              <Button Name="addJourneyToQueue" Classes="journeyAction" Command="{Binding AddJourneyToQueueCommand}" Margin="0,0,0,4" ToolTip.Tip="{Binding AddJourneyToQueueLabel}" ToolTip.ShowOnDisabled="True" AutomationProperties.Name="Add this quest to queue">
+                                <StackPanel Orientation="Horizontal" Spacing="7">
+                                  <Grid Width="20" Height="20">
+                                    <controls:LineIcon Icon="ListOrdered" Width="16" Height="16" HorizontalAlignment="Left" VerticalAlignment="Top"/>
+                                    <controls:LineIcon Icon="Plus" Width="10" Height="10" HorizontalAlignment="Right" VerticalAlignment="Bottom"/>
+                                  </Grid>
+                                  <TextBlock Classes="journeyActionLabel" Text="{Binding AddJourneyToQueueLabel}"/>
+                                </StackPanel>
+                              </Button>
+                            </WrapPanel>
+                          </StackPanel>
+                          <controls:CharacterSpritePreview Name="journeySprite" Grid.Row="1" Grid.Column="1" Grid.RowSpan="2" Snapshot="{Binding JourneyCharacter}" RememberedAppearance="{Binding JourneyRememberedAppearance}" GameDirectory="{Binding JourneyGameDirectory}" VerticalAlignment="Bottom" AutomationProperties.Name="Character preview"/>
+                        </Grid>
                       </ScrollViewer>
-                      <StackPanel IsVisible="{Binding QueueEmpty}" Margin="12,16" Spacing="7">
-                        <TextBlock Text="Plan your next journey" FontSize="14" FontWeight="SemiBold"/>
-                        <TextBlock Text="Select quests in the library to add them to this character’s queue." Classes="caption" TextWrapping="Wrap"/>
-                      </StackPanel>
                     </Grid>
-                    <TextBlock Grid.Row="2" Text="{Binding QueueReadiness}" Classes="caption" FontSize="11" TextWrapping="Wrap"/>
-                    <StackPanel Grid.Row="3" Spacing="4">
-                      <Grid ColumnDefinitions="*,Auto" ColumnSpacing="8">
-                        <Button Name="queueStart" Classes="primary queuePrimary" Command="{Binding StartQueueCommand}" MinHeight="28" FontSize="12" Padding="10,4">
-                          <StackPanel Orientation="Horizontal" Spacing="6">
-                            <controls:LineIcon Icon="ListOrdered" Width="14" Height="14"/>
-                            <TextBlock Text="{Binding QueuePrimaryLabel}" FontSize="12"/>
+                  </Border>
+                  <Border Grid.Column="2" BorderBrush="{DynamicResource Line}" BorderThickness="1,0,0,0" Padding="16,0,0,0" Margin="0,10,14,10">
+                    <Grid RowDefinitions="Auto,*,Auto,Auto" RowSpacing="4">
+                      <Grid ColumnDefinitions="*,Auto" Margin="0,0,36,0">
+                        <StackPanel Spacing="3" ToolTip.Tip="{Binding QueueHint}">
+                          <Grid ColumnDefinitions="18,*" ColumnSpacing="8">
+                            <controls:LineIcon Icon="ListOrdered" Width="18" Height="18" Foreground="{DynamicResource Gold}"/>
+                            <TextBlock Grid.Column="1" Text="{Binding QueueHeading}" Classes="section" TextWrapping="Wrap" VerticalAlignment="Center"/>
+                          </Grid>
+                          <TextBlock Text="{Binding QueueSummary}" Classes="caption" FontSize="10" Margin="26,0,0,0"/>
+                        </StackPanel>
+                        <Button Name="queueClear" Grid.Column="1" Classes="quiet" Content="Clear" Command="{Binding ClearQueueCommand}" MinHeight="28" Padding="8,3"/>
+                      </Grid>
+                      <Grid Grid.Row="1">
+                        <ScrollViewer Name="queueScroll" HorizontalScrollBarVisibility="Disabled" VerticalScrollBarVisibility="Auto">
+                          <ItemsControl Name="queueList" ItemsSource="{Binding QueueItems}">
+                            <ItemsControl.ItemTemplate>
+                              <DataTemplate>
+                                <Grid Margin="0,0,0,3">
+                                  <Border Name="queueRow" Classes="queueRow" Classes.active="{Binding IsActive}" Focusable="True" KeyDown="QueueKeyDown" AutomationProperties.Name="{Binding Name,StringFormat='Queue item {0}'}">
+                                    <Grid ColumnDefinitions="12,16,*,Auto" ColumnSpacing="6">
+                                      <Border Name="queueGrip" Background="Transparent" Cursor="SizeAll" PointerPressed="QueuePointerPressed" PointerMoved="QueuePointerMoved" PointerReleased="QueuePointerReleased" PointerCaptureLost="QueuePointerCaptureLost" ToolTip.Tip="Drag to reorder. Ctrl+Up or Ctrl+Down also moves this quest.">
+                                        <controls:GripGlyph Width="10" Height="18" Foreground="{DynamicResource Muted}" VerticalAlignment="Center"/>
+                                      </Border>
+                                      <TextBlock Grid.Column="1" Text="{Binding Number}" FontSize="11" Classes="muted" VerticalAlignment="Center" HorizontalAlignment="Center"/>
+                                      <StackPanel Grid.Column="2" Spacing="1" VerticalAlignment="Center">
+                                        <TextBlock Text="{Binding Name}" FontWeight="SemiBold" FontSize="12" TextWrapping="Wrap"/>
+                                        <TextBlock Text="{Binding Detail}" Classes="caption" FontSize="10" TextWrapping="Wrap"/>
+                                      </StackPanel>
+                                      <StackPanel Grid.Column="3" Orientation="Horizontal" Spacing="2" VerticalAlignment="Center">
+                                        <Button Classes="icon queueAction" Command="{Binding MoveUpCommand}" IsEnabled="{Binding CanEdit}" ToolTip.Tip="Move up" AutomationProperties.Name="{Binding Name,StringFormat='Move up {0}'}">
+                                          <controls:LineIcon Width="12" Height="12" Icon="ArrowUp"/>
+                                        </Button>
+                                        <Button Classes="icon queueAction" Command="{Binding MoveDownCommand}" IsEnabled="{Binding CanEdit}" ToolTip.Tip="Move down" AutomationProperties.Name="{Binding Name,StringFormat='Move down {0}'}">
+                                          <controls:LineIcon Width="12" Height="12" Icon="ArrowDown"/>
+                                        </Button>
+                                        <Button Classes="icon queueAction" Command="{Binding RemoveCommand}" IsEnabled="{Binding CanEdit}" ToolTip.Tip="Remove from queue" AutomationProperties.Name="{Binding Name,StringFormat='Remove {0}'}">
+                                          <controls:LineIcon Width="11" Height="11" Icon="X"/>
+                                        </Button>
+                                      </StackPanel>
+                                    </Grid>
+                                  </Border>
+                                  <Border Name="insertionBefore" Background="{DynamicResource Gold}" Height="3" VerticalAlignment="Top" IsVisible="False" IsHitTestVisible="False"/>
+                                  <Border Name="insertionAfter" Background="{DynamicResource Gold}" Height="3" VerticalAlignment="Bottom" IsVisible="False" IsHitTestVisible="False"/>
+                                </Grid>
+                              </DataTemplate>
+                            </ItemsControl.ItemTemplate>
+                          </ItemsControl>
+                        </ScrollViewer>
+                        <StackPanel IsVisible="{Binding QueueEmpty}" Margin="12,16" Spacing="7">
+                          <TextBlock Text="Plan your next journey" FontSize="14" FontWeight="SemiBold"/>
+                          <TextBlock Text="Select quests in the library to add them to this character’s queue." Classes="caption" TextWrapping="Wrap"/>
+                        </StackPanel>
+                      </Grid>
+                      <TextBlock Grid.Row="2" Text="{Binding QueueReadiness}" Classes="caption" FontSize="11" TextWrapping="Wrap"/>
+                      <StackPanel Grid.Row="3" Spacing="4">
+                        <Grid ColumnDefinitions="*,Auto" ColumnSpacing="8">
+                          <Button Name="queueStart" Classes="primary queuePrimary" Command="{Binding StartQueueCommand}" HorizontalAlignment="Stretch" HorizontalContentAlignment="Center" ToolTip.Tip="{Binding QueuePrimaryTooltip}" ToolTip.ShowOnDisabled="True" AutomationProperties.Name="{Binding QueuePrimaryLabel}" AutomationProperties.HelpText="{Binding QueuePrimaryTooltip}">
+                            <StackPanel Orientation="Horizontal" Spacing="6">
+                              <controls:LineIcon Icon="{Binding QueuePrimaryIcon}" Width="20" Height="20"/>
+                              <TextBlock Text="{Binding QueuePrimaryLabel}"/>
+                            </StackPanel>
+                          </Button>
+                          <Button Name="queueStop" Grid.Column="1" Content="Stop" Command="{Binding StopQueueCommand}" MinHeight="42" ToolTip.Tip="Stop the queue; progress stays saved" ToolTip.ShowOnDisabled="True"/>
+                        </Grid>
+                        <Button Name="addQuestsToQueue" Classes="quiet" HorizontalAlignment="Stretch" MinHeight="28" Padding="10,4" Click="AddQuestsToQueue" AutomationProperties.Name="Add quests to queue">
+                          <StackPanel Orientation="Horizontal" Spacing="7">
+                            <controls:LineIcon Icon="Plus" Width="12" Height="12" Foreground="{DynamicResource Muted}"/>
+                            <TextBlock Text="Add quests to queue" FontSize="12"/>
                           </StackPanel>
                         </Button>
-                        <Button Name="queueStop" Grid.Column="1" Content="Stop" Command="{Binding StopQueueCommand}" MinHeight="28" FontSize="12" Padding="10,4"/>
-                      </Grid>
-                      <Button Name="addQuestsToQueue" Classes="quiet" HorizontalAlignment="Stretch" MinHeight="28" Padding="10,4" Click="AddQuestsToQueue" AutomationProperties.Name="Add quests to queue">
-                        <StackPanel Orientation="Horizontal" Spacing="7">
-                          <controls:LineIcon Icon="Plus" Width="12" Height="12" Foreground="{DynamicResource Muted}"/>
-                          <TextBlock Text="Add quests to queue" FontSize="12"/>
-                        </StackPanel>
-                      </Button>
-                    </StackPanel>
-                  </Grid>
-                </Border>
+                      </StackPanel>
+                    </Grid>
+                  </Border>
+                </Grid>
+                <Grid Name="journeyMiniBar" IsVisible="False" VerticalAlignment="Top" Height="56" ColumnDefinitions="28,*,Auto" RowDefinitions="Auto,Auto,*" ColumnSpacing="12" RowSpacing="3" Margin="16,12,56,10">
+                  <controls:QuestGlyph QuestId="{Binding JourneyIcon}" Grid.RowSpan="2" Width="24" Height="24" Foreground="{DynamicResource Gold}" VerticalAlignment="Center"/>
+                  <TextBlock Name="compactJourneyTitle" Grid.Column="1" Text="{Binding JourneyTitle}" FontFamily="Georgia" FontSize="17" TextTrimming="CharacterEllipsis" ToolTip.Tip="{Binding JourneyTitle}"/>
+                  <TextBlock Name="compactJourneySummary" Grid.Column="1" Grid.Row="1" Text="{Binding CompactJourneySummary}" Classes="caption" FontSize="11" TextTrimming="CharacterEllipsis" ToolTip.Tip="{Binding CompactJourneySummary}"/>
+                  <StackPanel Grid.Column="2" Grid.RowSpan="3" Orientation="Horizontal" Spacing="8" VerticalAlignment="Center" IsVisible="{Binding CompactQueueControls}">
+                    <Button Name="compactQueueStart" Classes="primary queuePrimary" Command="{Binding StartQueueCommand}" ToolTip.Tip="{Binding QueuePrimaryTooltip}" ToolTip.ShowOnDisabled="True" AutomationProperties.Name="{Binding QueuePrimaryLabel}" AutomationProperties.HelpText="{Binding QueuePrimaryTooltip}">
+                      <StackPanel Orientation="Horizontal" Spacing="8">
+                        <controls:LineIcon Icon="{Binding QueuePrimaryIcon}" Width="20" Height="20"/>
+                        <TextBlock Text="{Binding QueuePrimaryLabel}"/>
+                      </StackPanel>
+                    </Button>
+                    <Button Name="compactQueueStop" Content="Stop" Command="{Binding StopQueueCommand}" MinHeight="42" ToolTip.Tip="Stop the queue; progress stays saved" ToolTip.ShowOnDisabled="True" AutomationProperties.Name="Stop queue"/>
+                  </StackPanel>
+                  <StackPanel Grid.Column="2" Grid.RowSpan="3" Orientation="Horizontal" Spacing="8" VerticalAlignment="Center" IsVisible="{Binding CompactIndividualControls}">
+                    <Button Name="compactIndividualPause" Command="{Binding PauseQuestCommand}" MinHeight="42" ToolTip.Tip="Pause individual quest" AutomationProperties.Name="Pause individual quest">
+                      <StackPanel Orientation="Horizontal" Spacing="7">
+                        <controls:LineIcon Icon="Pause" Width="18" Height="18" Foreground="{DynamicResource Text}"/>
+                        <TextBlock Text="Pause quest"/>
+                      </StackPanel>
+                    </Button>
+                    <Button Name="compactIndividualStop" Content="Stop" Command="{Binding StopQuestCommand}" MinHeight="42" ToolTip.Tip="Stop individual quest; progress stays saved" AutomationProperties.Name="Stop individual quest"/>
+                  </StackPanel>
+                  <ProgressBar Grid.Row="2" Grid.ColumnSpan="2" Value="{Binding JourneyProgress}" IsVisible="{Binding JourneyHasSteps}" Minimum="0" Maximum="100" Height="3" VerticalAlignment="Bottom" Foreground="{DynamicResource Gold}" Background="{DynamicResource Line}" AutomationProperties.Name="{Binding JourneySteps.Label}" ToolTip.Tip="{Binding JourneySteps.Label}"/>
+                </Grid>
+                <controls:JourneyFoldAccent Name="journeyFold" IsHitTestVisible="False"/>
+                <Button Name="journeyToggle" Classes="icon journeyToggle" Command="{Binding ToggleJourneyCommand}" HorizontalAlignment="Right" VerticalAlignment="Top" Margin="10,12,12,12" ToolTip.Tip="{Binding JourneyToggleLabel}" AutomationProperties.Name="{Binding JourneyToggleLabel}">
+                  <controls:LineIcon Name="journeyChevron" Icon="ChevronUp" Width="16" Height="16" Foreground="{DynamicResource Muted}"/>
+                </Button>
               </Grid>
             </Border>
             <Border Classes="card" Grid.Row="1">
@@ -258,6 +288,12 @@
                       <StackPanel Orientation="Horizontal" Spacing="7">
                         <TextBlock Text="All quests"/>
                         <TextBlock Text="{Binding AllCount}" Opacity="0.7"/>
+                      </StackPanel>
+                    </Button>
+                    <Button Name="filterQueueable" Classes="filter" Classes.active="{Binding IsQueueableFilter}" Command="{Binding FilterCommand}" CommandParameter="Can queue" Margin="0,0,4,0" ToolTip.Tip="Quests you can add to the queue, even before logging in. Connect this character and check requirements before running.">
+                      <StackPanel Orientation="Horizontal" Spacing="7">
+                        <TextBlock Text="Can queue"/>
+                        <TextBlock Text="{Binding QueueableCount}" Opacity="0.7"/>
                       </StackPanel>
                     </Button>
                     <Button Name="filterReady" Classes="filter" Classes.active="{Binding IsReadyFilter}" Command="{Binding FilterCommand}" CommandParameter="Ready" Margin="0,0,4,0">
@@ -281,14 +317,14 @@
                   </WrapPanel>
                 </StackPanel>
                 <Grid Grid.Row="1">
-                  <ListBox Name="questLibrary" Classes="library" ItemsSource="{Binding Quests}" SelectedItem="{Binding SelectedQuest,Mode=TwoWay}" AutomationProperties.Name="Quest library">
+                  <ListBox Name="questLibrary" Classes="library" ItemsSource="{Binding Quests}" SelectedItem="{Binding SelectedQuest,Mode=TwoWay}" ScrollViewer.HorizontalScrollBarVisibility="Disabled" AutomationProperties.Name="Quest library">
                     <ListBox.ItemTemplate>
                       <DataTemplate>
-                        <Border Classes="questRow" Classes.ready="{Binding IsReady}" Classes.muted="{Binding IsMuted}" Classes.completed="{Binding IsCompleted}" ToolTip.Tip="{Binding Reason}">
-                          <Grid ColumnDefinitions="22,36,*,96" ColumnSpacing="10">
+                          <Border Classes="questRow" Width="{Binding $parent[ListBox].Bounds.Width}" HorizontalAlignment="Left" Classes.ready="{Binding RowReady}" Classes.muted="{Binding IsMuted}" Classes.completed="{Binding IsCompleted}" ToolTip.Tip="{Binding QueueTooltip}">
+                          <Grid ColumnDefinitions="22,36,*,148" ColumnSpacing="10">
                             <Grid VerticalAlignment="Center">
-                              <CheckBox IsChecked="{Binding IsQueued,Mode=TwoWay}" IsEnabled="{Binding CanQueue}" IsVisible="{Binding IsCompleted,Converter={StaticResource Not}}" MinHeight="28" Padding="0" AutomationProperties.Name="{Binding Name,StringFormat='Queue {0}'}"/>
-                              <controls:LineIcon IsVisible="{Binding IsCompleted}" Width="17" Height="17" Foreground="{DynamicResource Ready}" Icon="Check"/>
+                              <CheckBox IsChecked="{Binding IsQueued,Mode=TwoWay}" IsEnabled="{Binding CanQueue}" IsVisible="{Binding ShowQueueCheckbox}" MinHeight="28" Padding="0" ToolTip.Tip="{Binding QueueTooltip}" ToolTip.ShowOnDisabled="True" AutomationProperties.Name="{Binding QueueActionName}" AutomationProperties.HelpText="{Binding QueueTooltip}"/>
+                              <controls:LineIcon IsVisible="{Binding ShowCompletionCheck}" Width="17" Height="17" Foreground="{DynamicResource Ready}" Icon="Check"/>
                             </Grid>
                             <Border Grid.Column="1" Background="{DynamicResource Raised}" BorderBrush="{DynamicResource Line}" BorderThickness="1" CornerRadius="6" Width="36" Height="36" VerticalAlignment="Center">
                               <controls:QuestGlyph QuestId="{Binding Id}" Width="20" Height="20" VerticalAlignment="Center" HorizontalAlignment="Center"/>
@@ -296,10 +332,15 @@
                             <StackPanel Grid.Column="2" Spacing="4" VerticalAlignment="Center">
                               <TextBlock Text="{Binding Name}" Classes="questName" FontSize="14" FontWeight="SemiBold" TextWrapping="Wrap"/>
                               <TextBlock Text="{Binding Rewards}" Classes="caption" TextTrimming="CharacterEllipsis"/>
-                              <TextBlock Text="{Binding Reason}" Classes="caption" Classes.gold="{Binding IsWarning}" FontSize="12" TextTrimming="CharacterEllipsis"/>
+                              <TextBlock Text="{Binding SelectionExplanation}" Classes="caption" Classes.gold="{Binding StatusWarning}" FontSize="12" TextWrapping="Wrap" MaxLines="2" TextTrimming="CharacterEllipsis"/>
                             </StackPanel>
                             <StackPanel Grid.Column="3" Spacing="7" VerticalAlignment="Center" HorizontalAlignment="Right">
-                              <TextBlock Text="{Binding Status}" FontSize="12" TextWrapping="Wrap" TextAlignment="Right" Classes.ready="{Binding IsReady}" Classes.muted="{Binding IsMuted}"/>
+                              <Border Classes="statusBadge" Classes.ready="{Binding StatusReady}" Classes.warning="{Binding StatusWarning}" ToolTip.Tip="{Binding SelectionExplanation}">
+                                <StackPanel Orientation="Horizontal" Spacing="6">
+                                  <controls:LineIcon Icon="{Binding StatusIcon}" Width="13" Height="13" VerticalAlignment="Center"/>
+                                  <TextBlock Text="{Binding StatusLabel}" FontSize="11" FontWeight="SemiBold"/>
+                                </StackPanel>
+                              </Border>
                               <TextBlock Text="Queued" Foreground="{DynamicResource Gold}" FontSize="11" IsVisible="{Binding IsQueued}" HorizontalAlignment="Right"/>
                             </StackPanel>
                           </Grid>
@@ -313,7 +354,10 @@
                   </StackPanel>
                 </Grid>
                 <Border Grid.Row="2" BorderBrush="{DynamicResource Line}" BorderThickness="0,1,0,0" Padding="16,10">
-                  <TextBlock Text="{Binding LibrarySummary}" Classes="caption" TextWrapping="Wrap"/>
+                  <StackPanel Spacing="3">
+                    <TextBlock Text="{Binding LibrarySelectionHint}" Classes="caption" TextWrapping="Wrap"/>
+                    <TextBlock Text="{Binding LibrarySummary}" Classes="caption" FontSize="10" TextWrapping="Wrap"/>
+                  </StackPanel>
                 </Border>
                 <Expander Grid.Row="3" Name="questDetails" Header="Quest details" IsVisible="{Binding SelectedQuest,Converter={StaticResource Present}}" MaxHeight="300" IsExpanded="False" Margin="0" HorizontalAlignment="Stretch">
                   <ScrollViewer MaxHeight="235">
@@ -476,5 +520,6 @@
         <TextBlock Name="footerSaveNote" Grid.Column="1" Text="Progress saved for each character" Classes="caption" FontSize="11"/>
       </Grid>
     </Grid>
+    <controls:CompletionEffectsLayer Name="completionEffects" Grid.ColumnSpan="2" ClipToBounds="True" IsHitTestVisible="False"/>
   </Grid>
 </Window>

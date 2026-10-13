@@ -33,17 +33,23 @@ public sealed partial class CharacterSpritePreview
         return new((Bounds.Width - size.Width) / 2, Bounds.Height - size.Height - 4, size.Width, size.Height);
     }
 
+    internal Point CompletionAnchor
+    {
+        get
+        {
+            if (IsPortrait || bitmap is null || contentBounds.Height <= 0)
+                return new(Bounds.Width / 2, Bounds.Height - 4);
+            var destination = SpriteDestination();
+            return new(destination.Center.X, destination.Y + contentBounds.Bottom * destination.Height / bitmap.Size.Height);
+        }
+    }
+
     internal void DrawAccent(DrawingContext context, Size area)
     {
         if (bitmap is null || contentBounds.Width <= 0 || contentBounds.Height <= 0)
             return;
-        const double enlargement = 5.5;
-        var foreground = SpriteDestination();
-        double scale = foreground.Width / bitmap.Size.Width;
-        double center = area.Width - Bounds.Width + foreground.Left + (contentBounds.Left + contentBounds.Width / 2) * scale;
-        double baseline = area.Height - Bounds.Height + foreground.Top + contentBounds.Bottom * scale;
-        var size = contentBounds.Size * enlargement;
-        context.DrawImage(bitmap, contentBounds, new Rect(center - size.Width / 2, baseline - size.Height, size.Width, size.Height));
+        var destination = accentLayout.Destination(contentBounds, bitmap.Size, SpriteDestination(), Bounds.Size, area);
+        context.DrawImage(bitmap, contentBounds, destination);
     }
 
     void DrawPortrait(DrawingContext context)

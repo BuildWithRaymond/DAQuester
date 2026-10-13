@@ -8,6 +8,33 @@ namespace DAQuester.App.ViewModels;
 
 public sealed partial class MainWindowViewModel
 {
+    bool journeyCollapsed;
+    public RelayCommand ToggleJourneyCommand { get; private set; } = null!;
+    public event Action? JourneyCollapsing;
+    public bool JourneyCollapsed
+    {
+        get => journeyCollapsed;
+        set
+        {
+            if (value && !journeyCollapsed)
+                JourneyCollapsing?.Invoke();
+            if (Set(ref journeyCollapsed, value))
+            {
+                Raise(nameof(JourneyExpanded));
+                Raise(nameof(JourneyToggleLabel));
+                Raise(nameof(JourneyToggleIcon));
+            }
+        }
+    }
+    public bool JourneyExpanded => !JourneyCollapsed;
+    public string JourneyToggleLabel => JourneyCollapsed ? "Expand journey and queue" : "Collapse journey and queue";
+    public string JourneyToggleIcon => JourneyCollapsed ? "ChevronDown" : "ChevronUp";
+    public bool CompactIndividualControls => !Runtime.QueueReserves(CharacterName) && CanPauseQuest;
+    public bool CompactQueueControls => !CompactIndividualControls;
+    public bool JourneyHasSteps => JourneySteps.Total > 0;
+    public string CompactJourneySummary => CompactIndividualControls
+        ? "Individual quest · " + JourneyState + " · " + JourneySteps.Label
+        : QueueSummary + " · " + QueueReadiness + (JourneyHasSteps ? " · " + JourneySteps.Label : "");
     public AsyncCommand AddJourneyToQueueCommand { get; private set; } = null!;
     public AsyncCommand ChangeChoicesCommand { get; private set; } = null!;
     public bool ChangeChoicesVisible => DesktopRuntime.HasChoices(JourneyQuestId);
@@ -22,11 +49,21 @@ public sealed partial class MainWindowViewModel
     Task AddJourneyToQueueAsync() => CanAddJourneyToQueue && JourneyLibraryItem is { } quest
         ? ToggleQuestAsync(quest) : Task.CompletedTask;
 
+    internal static string PlayerQuestReason(string reason) => reason.Contains("calibration", StringComparison.OrdinalIgnoreCase)
+        ? "Automatic run is unavailable for this quest. Open the quest guide for manual play."
+        : DesktopRuntime.PlayerReason(reason);
+
     public string QueueHeading => CharacterName.Length == 0 ? "Your queue" : CharacterName + "’s queue";
     public string QueueSummary => QueueItems.Count == 1 ? "1 quest in queue" : $"{QueueItems.Count} quests in queue";
     public string QueueHint => QueueLocked ? "Stop this run to edit its order." : "Drag to reorder · Ctrl + ↑ / ↓";
-    public string QueueReadiness => Runtime.QueueRunning(CharacterName) ? "Running for " + CharacterName : QueueState.State == "Paused" ? DesktopRuntime.PlayerReason(QueueState.Reason) : Runtime.QueueStartReason(CharacterName, QueueState) is { Length: > 0 } reason ? reason : QueueState.Reason == "Queue completed" ? "Journey complete · progress saved" : "All selected quests are ready";
-    public string QueuePrimaryLabel => Runtime.QueueRunning(CharacterName) ? "Pause run" : QueueState.State == "Paused" ? "Resume run" : $"Start queue · {QueueItems.Count}";
+    public string QueueReadiness => Runtime.QueueRunning(CharacterName) ? "Running for " + CharacterName : QueueState.State == "Paused" ? PlayerQuestReason(QueueState.Reason) : Runtime.QueueStartReason(CharacterName, QueueState) is { Length: > 0 } reason ? PlayerQuestReason(reason) : QueueState.Reason == "Queue completed" ? "Journey complete · progress saved" : "All selected quests are ready";
+    public string QueuePrimaryLabel => Runtime.QueueRunning(CharacterName) ? "Pause queue" : QueueState.State == "Paused" ? "Resume queue" : $"Run queue · {QueueItems.Count}";
+    public string QueuePrimaryIcon => Runtime.QueueRunning(CharacterName) ? "Pause" : "Play";
+    public string QueuePrimaryTooltip => Runtime.QueueRunning(CharacterName) ? "Pause the queue and keep progress."
+        : Runtime.QueueBusy(CharacterName) ? "Wait for this character's queue to finish saving or preparing."
+        : Runtime.QueueStartReason(CharacterName, QueueState) is { Length: > 0 } reason ? PlayerQuestReason(reason)
+        : QueueState.State == "Paused" ? "Resume the queue; saved actions are checked before continuing."
+        : "Run the selected quests in order for " + CharacterName + ".";
     public bool QueueLocked => Runtime.QueueReserves(CharacterName);
     public bool QueueEmpty => QueueItems.Count == 0;
 
@@ -95,7 +132,7 @@ public sealed partial class MainWindowViewModel
             if (Runtime.RunningQuestId(CharacterName) is not null || Runtime.IsRunning(CharacterName) || Runtime.QueueRunning(CharacterName))
                 return job.Status switch
                 {
-                    "Calibrating" => "Calibration in progress",
+                    "Calibrating" => "Checking quest requirements",
                     "Scheduled" => JourneyQuestId == AltarWorshipEvidence.Id ? "Waiting for next offering" : "Next attempt scheduled",
                     _ => "Quest in progress"
                 };
@@ -123,7 +160,7 @@ public sealed partial class MainWindowViewModel
             if (JourneyQuest is { } quest && Runtime.Memory(CharacterName).CompletedLegend(quest.Id, Runtime.Snapshot(CharacterName)) is { } legend)
                 return "Legend already recorded: " + legend;
             if (job.Reason is { Length: > 0 } reason && reason != "Ready")
-                return DesktopRuntime.PlayerReason(reason);
+                return PlayerQuestReason(reason);
             return SelectedQuest?.Reason ?? "Select quests from the library to plan your next run.";
         }
     }

@@ -26,8 +26,8 @@ unsupported builds. Raw game files are not included.
    quests. Drag the queue into order, or use its arrows; Ctrl+Up/Down also moves
    a focused entry and Delete removes it. Select any quest and expand
    **Quest details** for its requirements, rewards and **Open quest guide** action.
-4. **Start queue** performs one verified attempt per entry. Birth and Emerald
-   Dawn choices are confirmed before movement. A weekly Hairstyle attempt can
+4. **Run queue**, marked with a play icon, performs one verified attempt per entry.
+   Birth and Emerald Dawn choices are confirmed before movement. A weekly Hairstyle attempt can
    finish without its Suomi legend; its cooldown and repeat intent remain saved.
    A pending or blocked attempt pauses the queue before the next entry.
 5. **Pause run** retains progress and order. **Resume run** checks saved results.
@@ -35,7 +35,9 @@ unsupported builds. Raw game files are not included.
    Manual movement/NPC interaction pauses automation while gameplay continues.
    The journey card shows the next queue entry. Open **Run history** for saved
    receipts. The full-width journey card keeps individual quest controls and fast
-   mode on the left, with the queue on its right. The full-width quest library sits below.
+   mode on the left, with the queue on its right. Use the fold arrow to turn the
+   whole card into a compact bar and give the library more space. The run button
+   and progress remain visible; expand the bar to see individual quest controls.
 
 **Run history** combines verified queue outcomes with existing quest journals.
 Saved-login form automation is tested synthetically; live login is not part of
@@ -54,13 +56,26 @@ only at known levels 1–11; a known level 99 is blocked. Recognized finished le
 goals show **Completed**, including Muisir, Birth and Emerald final outcomes.
 The Hairstyle goal ends when its Suomi legend is recorded; a Stick legend alone
 does not end repeat attempts. Unknown requirements still need a live check.
-Green-tinted rows are Ready/Choices; blocked and unavailable rows are muted.
+Green rows are ready. Status labels and icons distinguish choices, cooldowns,
+completed goals and guide-only entries. Hover over a row or its checkbox to see
+why it can or cannot join the queue. You can arrange eligible quests while
+disconnected; running them still requires a connection and fresh checks.
+
+A newly verified outcome plays a blue spiral over its character. If that character
+isn't visible, a brief notice shows who finished. Windows reduced-motion settings
+replace animation with a written notice. Original artwork requires the supported
+game installation and is not included in DAQuester.
+
+If a saved Spare a Stick reward was interrupted, DAQuester checks matching recorded
+evidence before continuing. A verified reward retains its original completion time
+and cooldown. Missing evidence keeps the submission paused; it is not sent again.
 
 Optional **Fast mode · slows near players** saves separately for each character
-and defaults off. Check it for Excalibur's fast pace when alone; another player
-within 20 tiles automatically restores normal speed. It speeds up again when
-that player leaves. The checkbox shows **fast pace** or **normal pace near
-players**, so the slowdown is visible. Fast travel animates immediately and
+and defaults on. Uncheck it for normal walking. With fast mode enabled, another
+player within 20 tiles automatically restores normal speed. It speeds up again when
+that player leaves. Your own connected characters do not cause this slowdown.
+The checkbox shows **fast pace** or **normal pace near players**, so the slowdown
+is visible. Fast travel animates immediately and
 queues a few steps while waiting for replies; it settles them before entering
 doors or finishing travel. You can change it during a quest without restarting.
 

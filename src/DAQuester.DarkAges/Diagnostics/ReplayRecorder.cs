@@ -146,6 +146,13 @@ public class ReplayRecorder
         }
     }
 
+    public CharacterSnapshot[] Snapshots(string character, long generation, long after)
+    {
+        lock (gate)
+            return events.Where(e => e.Character.Equals(character, StringComparison.OrdinalIgnoreCase) && e.Generation == generation && e.Revision > after)
+                .OrderBy(e => e.Revision).Select(e => e.Snapshot).ToArray();
+    }
+
     public int Count
     {
         get

@@ -143,6 +143,27 @@ then waits for the server's close response. It never advances to an invented ste
 Merchant menus are dismissed in the client through the same ordered output path;
 this changes presentation only and does not publish fabricated server evidence.
 
+## Melee combat
+
+The `fight` method starts the melee fighter for a connected character. It chooses
+a nearby monster, approaches and faces it, attacks with suitable skills, and equips
+a melee weapon from the bag when needed. It does not target your other connected
+characters. Combat quests are still being built, so this is a control command
+rather than a selectable library quest.
+
+```json
+{"method":"fight","character":"YourCharacter","arguments":{"roam":true,"idleSeconds":120}}
+```
+
+`roam` defaults to true. With roaming enabled, the fighter searches the map and
+stops after `idleSeconds` without finding a monster (120 seconds by default).
+With `roam: false`, it stays within reach and defaults to a 30-second idle limit.
+An optional `sprites` array prioritizes monster sprite IDs; `priorityOnly: true`
+restricts targets to those IDs. A quest, queue or other control action must release
+the character before fighting can start. `stop`, the app's Stop action, and manual
+input end the fight. These requests operate a character; synthetic build and
+release checks never send them to a real session.
+
 ## Automatic evidence
 
 The red circles are detected by `tools/derive_tree_regions.py`. Their initial

@@ -25,6 +25,25 @@ public class StickCompletionTests
             ObservedAt = observed
         }
     };
+    [Fact]
+    public void Observed_repeat_reward_reply_reconciles_without_changing_saved_calibration()
+    {
+        var session = new SimulatedSession();
+        var reward = Reward(session.Snapshot, DateTimeOffset.UtcNow) with { Revision = 2 };
+        reward = reward with { Dialog = reward.Dialog! with { Text = "Ah thank ya, you've done well.", Step = 73 } };
+        var history = new EvidenceHistory();
+        history.Record(reward);
+        var job = new QuestJob { Character = "Nuclear", Step = "confirm", Pending = Submission() };
+
+        var reconciled = StickCompletionEvidence.Observe(job, Cal, history);
+
+        Assert.Null(reconciled.Pending);
+        Assert.Equal("Completed", reconciled.Status);
+        Assert.Equal(3500, reconciled.Rewards["experience"]);
+        Assert.Equal(6, reconciled.Rewards["branchesConsumed"]);
+        Assert.Equal(["Done"], Cal.Completed);
+    }
+
     [Theory]
     [InlineData(false)]
     [InlineData(true)]

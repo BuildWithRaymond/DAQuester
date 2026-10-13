@@ -377,7 +377,7 @@ public sealed class RuntimeLifecycleTests
             var vm = new MainWindowViewModel(runtime);
             vm.SelectedQuest = vm.Quests.Single(q => q.RecipeId == "mundane-birth");
             Assert.Equal("Spare a Stick", vm.JourneyTitle);
-            Assert.Equal("Calibration in progress", vm.JourneyState);
+            Assert.Equal("Checking quest requirements", vm.JourneyState);
             Assert.True(vm.PauseQuestCommand.CanExecute(null));
             Assert.True(vm.StopQuestCommand.CanExecute(null));
             Assert.False(vm.RepeatEnabled);
@@ -487,6 +487,7 @@ public sealed class RuntimeLifecycleTests
 
     [Theory]
     [InlineData("entered-muisir-village", 30, "Completed")]
+    [InlineData("emerald-dawn", 6, "Blocked")]
     [InlineData("spare-a-stick", 12, "Blocked")]
     public async Task PendingSubmissionCanReconcileEvenWhenAnotherNewAttemptIsBlocked(string quest, int level, string newAttemptStatus)
     {

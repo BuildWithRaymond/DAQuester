@@ -31,6 +31,9 @@ internal static class LucideIcons
         ["Pause"] = Combine("M15 3 H18 Q19 3 19 4 V20 Q19 21 18 21 H15 Q14 21 14 20 V4 Q14 3 15 3 Z", "M6 3 H9 Q10 3 10 4 V20 Q10 21 9 21 H6 Q5 21 5 20 V4 Q5 3 6 3 Z"),
         ["ListOrdered"] = Combine("M11 5h10", "M11 12h10", "M11 19h10", "M4 4h1v5", "M4 9h2", "M6.5 20H3.4c0-1 2.6-1.925 2.6-3.5a1.5 1.5 0 0 0-2.6-1.02"),
         ["Plus"] = Combine("M5 12h14", "M12 5v14"),
+        ["ChevronUp"] = Combine("m18 15-6-6-6 6"),
+        ["ChevronDown"] = Combine("m6 9 6 6 6-6"),
+        ["CircleHelp"] = Combine("M2,12 A10,10 0 1 0 22,12 A10,10 0 1 0 2,12 Z", "M9.09 9a3 3 0 0 1 5.83 1c0 2-3 3-3 3", "M12 17h.01"),
     };
     // SVG elements each start at their own origin. Separate geometries preserve
     // relative move commands instead of continuing from the previous element.

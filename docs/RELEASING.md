@@ -15,6 +15,9 @@ documented in [CI](CI.md).
 Output in `artifacts/release` includes the self-contained `DAQuester-win-Setup.exe`
 installer, `DAQuester-win-Portable.zip`, the full Velopack nupkg, update feed and
 asset metadata, and `SHA256SUMS.txt`.
+Each distribution includes a player setup `README.md` from `docs/package-readme.md`
+and `RELEASE_NOTES.md` from the current version's notes. Keep these files readable
+without source-checkout links; online guide links should use the public repository.
 
 The packaging script requires clean output directories, refuses a Data folder
 in the payload, and checks required assets, checksums and update metadata.

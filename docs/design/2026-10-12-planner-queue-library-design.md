@@ -1,6 +1,6 @@
 # Queue emphasis, compact journey, and quest selection clarity
 
-Status: approved by the user on 2026-10-12; implementation in progress.
+Status: implemented and verified on 2026-10-12, including the requested animated fold and GIF.
 
 ## Intended result
 
@@ -102,6 +102,22 @@ queue checkbox when membership cannot be changed.
   details. While ownership prevents edits, replace it with the stop-to-edit reason.
 - Keep runtime availability untouched. Presentation maps existing statuses and
   CanQueue/Ready flags; it must not infer readiness from missing observations.
+
+## Animated fold (requested during implementation)
+
+The user requested a distinctive collapse/expand animation and a GIF of the
+result. Use a coordinated scroll-fold: the card compresses over about 520 ms,
+expanded content fades and slips upward, the compact controls arrive with a
+small scale/slide, the chevron turns, and a restrained gold seam catches the
+fold. The library follows the actual changing layout height. Keep the existing
+palette and content; no extra player-facing settings or decorative idle effects.
+
+A plain fade would not communicate reclaimed space; a 3D flip would make text
+harder to follow. The fold preserves the connection between the two layouts.
+Rapid toggles reverse from the current position. Disable hidden/transitional
+content hit testing, preserve toggle focus, stop the clock after settling, and
+respect Windows client-area animation preferences. Capture the real native UI
+with isolated synthetic data for a looping GIF; no real characters or Excalibur.
 
 ## Implementation boundaries
 

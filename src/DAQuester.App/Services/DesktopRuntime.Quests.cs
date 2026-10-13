@@ -34,12 +34,10 @@ public sealed partial class DesktopRuntime
                 ? new("Not checked", offlineClass + ": no legend mark, Priests only · " + AltarWorshipEvidence.Progress(job), true, true)
                 : new("Not checked", quest.Id == AltarWorshipEvidence.Id && AltarWorshipEvidence.Made(job) > 0 ? AltarWorshipEvidence.Progress(job) : "Connect this character to check requirements", true);
         var snapshot = current;
+        if (snapshot.Hp == 0)
+            return new("Blocked", "Requires a living character.", false);
         if (quest.Id == "mundane-birth" && job.BirthOptions is null)
             return new("Choices", "Choose season, age, and town before starting", true);
-        if (quest.Id == "emerald-dawn" && job.EmeraldOptions is null)
-            return new("Choices", "Choose who receives the insignia before starting", true);
-        if (SickChildEvidence.For(quest.Id) is not null && job.SickChildOptions is null)
-            return new("Choices", "Choose how to get the flowers before starting", true);
         if (quest.Id == AltarWorshipEvidence.Id)
         {
             var altar = AltarWorshipEvidence.Eligibility(snapshot, job);
@@ -63,7 +61,13 @@ public sealed partial class DesktopRuntime
         };
         if (quest.Id == "spare-a-stick" && !Calibration.Ready)
             return new("Blocked", "Quest calibration is not validated yet; run calibration through the control bridge", false);
-        return eligibility.Kind == EligibilityKind.Eligible ? new(job.Step is not ("preflight" or "complete") ? "Resume ready" : "Ready", eligibility.Reason, true) : new(eligibility.Kind == EligibilityKind.Unknown ? "Not checked" : "Blocked", PlayerReason(eligibility.Reason), eligibility.Kind == EligibilityKind.Unknown);
+        if (eligibility.Kind != EligibilityKind.Eligible)
+            return new(eligibility.Kind == EligibilityKind.Unknown ? "Not checked" : "Blocked", PlayerReason(eligibility.Reason), eligibility.Kind == EligibilityKind.Unknown);
+        if (quest.Id == "emerald-dawn" && job.EmeraldOptions is null)
+            return new("Choices", "Choose who receives the insignia before starting", true);
+        if (SickChildEvidence.For(quest.Id) is not null && job.SickChildOptions is null)
+            return new("Choices", "Choose how to get the flowers before starting", true);
+        return new(job.Step is not ("preflight" or "complete") ? "Resume ready" : "Ready", eligibility.Reason, true);
     }
 
     public string? CharacterClass(string name) => name.Length == 0 ? null : Snapshot(name).Class ?? Memory(name).Class;
@@ -416,6 +420,11 @@ public sealed partial class DesktopRuntime
             {
                 if (runners.GetValueOrDefault(name) != old)
                     throw new QuestBlockedException("Another quest now owns this character.");
+                await RestoreStickCompletionAsync(old, preparation.Token);
+                RequireOpen();
+                preparation.Token.ThrowIfCancellationRequested();
+                if (sessions.GetValueOrDefault(name) != session || !session.Snapshot.Connected || session.Snapshot.Generation != generation || runners.GetValueOrDefault(name) != old)
+                    throw new QuestBlockedException("Character connection changed. Resume after fresh state.");
                 return old;
             }
 
@@ -441,11 +450,12 @@ public sealed partial class DesktopRuntime
                 throw new QuestBlockedException("Another quest now owns this character.");
             var runner = new QuestRunner(session, journal, selected, Calibration, SickChildEvidence.For(selected.Id) is not null ? new QuestHelperHub(this, name) : null);
             runners[name] = runner;
-            runner.Changed += job => Ui(() =>
-            {
-                Notify();
-                Log(name + ": " + QuestName(job.Quest) + " · " + job.Step + " · " + job.Status + " " + job.Reason);
-            });
+            ObserveRunner(name, runner);
+            await RestoreStickCompletionAsync(runner, preparation.Token);
+            RequireOpen();
+            preparation.Token.ThrowIfCancellationRequested();
+            if (sessions.GetValueOrDefault(name) != session || !session.Snapshot.Connected || session.Snapshot.Generation != generation || runners.GetValueOrDefault(name) != runner)
+                throw new QuestBlockedException("Character connection changed. Resume after fresh state.");
             Notify();
             return runner;
         }

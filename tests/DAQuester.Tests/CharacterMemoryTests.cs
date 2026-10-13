@@ -318,6 +318,48 @@ public class CharacterMemoryTests : IDisposable
         Assert.Null(memory.SelectionRestriction(quest));
     }
 
+    [Theory]
+    [InlineData(null, false)]
+    [InlineData(6, true)]
+    [InlineData(10, true)]
+    [InlineData(11, false)]
+    public void Emerald_selection_uses_known_minimum_level(int? level, bool blocked)
+    {
+        var memory = new CharacterMemory { Character = "Clock", Level = level };
+        Assert.Equal(blocked, memory.SelectionRestriction("emerald-dawn") is not null);
+    }
+
+    [Fact]
+    public async Task Remembered_unregistered_legend_blocks_Muisir_until_fresh_own_legend_replaces_it()
+    {
+        await Store().ObserveAsync("Clock", Own() with { Level = 6, Legends = ["((Unregistered))"] });
+        var memory = Store().Load("Clock");
+        var restriction = memory.SelectionRestriction("entered-muisir-village");
+        Assert.NotNull(restriction);
+        Assert.Contains("registered character", restriction.Reason);
+        Assert.Null(memory.SelectionRestriction("entered-muisir-village", Own(2) with { Level = 6, Legends = [] }));
+        Assert.NotNull(memory.SelectionRestriction("entered-muisir-village", Own(2) with { Legends = [], LegendsKnown = false }));
+        Assert.NotNull(memory.SelectionRestriction("entered-muisir-village", Own(2) with { Name = "Other", Legends = [] }));
+        await Store().ObserveAsync("Clock", Own(2) with { Level = 6, Legends = [] });
+        Assert.Null(Store().Load("Clock").SelectionRestriction("entered-muisir-village"));
+    }
+
+    [Fact]
+    public void Unknown_legends_cannot_invent_a_registration_restriction()
+    {
+        var memory = new CharacterMemory { Character = "Clock", Legends = ["((Unregistered))"] };
+        Assert.Null(memory.SelectionRestriction("entered-muisir-village"));
+        Assert.Null(memory.SelectionRestriction("entered-muisir-village", Own() with { Legends = ["((Unregistered))"], LegendsRevision = 0 }));
+    }
+
+    [Fact]
+    public void Fresh_own_level_overrides_remembered_Emerald_restriction()
+    {
+        var memory = new CharacterMemory { Character = "Clock", Level = 6 };
+        Assert.Null(memory.SelectionRestriction("emerald-dawn", Own() with { Legends = [] }));
+        Assert.NotNull(memory.SelectionRestriction("emerald-dawn", Own() with { Name = "Other", Legends = [] }));
+    }
+
     public void Dispose()
     {
         if (Directory.Exists(directory))

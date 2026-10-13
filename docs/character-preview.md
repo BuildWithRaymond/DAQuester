@@ -35,6 +35,10 @@ A decorative copy behind the journey sprite uses the same published bitmap,
 enlarged 5.5 times with nearest-neighbor sampling at 12% opacity. It cannot drift
 to another animation frame and stays clipped to the journey side of the card.
 The foreground keeps its original frame offsets.
+The accent stays centered on the foreground's canvas with a foot reference fixed
+from its first visible frame. Animated limbs and weapons can change the cropped
+outline without recentering the whole character. Changing characters or outfits
+clears that reference before the next frame appears.
 
 The character chooser, Characters page and Run history use circular portraits
 composed from original front-facing head and face layers. Face zero uses the
@@ -57,6 +61,7 @@ To change the implementation:
 - `App/Controls/CharacterSpritePreview.cs`: background rendering and bitmap lifetime.
 - `App/Controls/CharacterSpritePreview.Drawing.cs`: sprites, circular portraits and accent placement.
 - `App/Controls/CharacterSpriteAccent.cs`: decorative copy of the published live frame.
+- `App/Controls/SpriteAccentLayout.cs`: stable canvas anchor for the enlarged accent.
 - `App/Controls/SpriteImageBounds.cs`: transparent padding bounds for portraits and accents.
 - `App/Controls/CharacterPreviewAppearance.cs`: default DAT outfit and live appearance selection.
 - `App/Controls/QuestTrail.cs` and `App/ViewModels/QuestProgress.cs`: quest activity
@@ -69,3 +74,17 @@ advances saved progress. Paused, disconnected and completed quests stay still.
 Tests use fabricated packet payloads and tiny generated image archives; they do
 not require installed game artwork or operate real characters. Manually review
 the sprite, progress trail and grouped buttons in normal and compact windows.
+
+Verified completion celebrations are separate from observed character motions.
+Effect 50 uses the original blue spiral over matching visible avatars, anchored
+to the full sprite's visible feet. The effect loads the
+installed `roh.dat` frame sequences, anchor tables and palettes read-only; no
+effect artwork is bundled. An unselected character receives a brief sprite
+notice so its celebration remains visible without changing character selection.
+
+The saved runner/permanent outcome event follows the existing receipt rules and
+deduplicates by character, quest and outcome time. Restored history never replays.
+Weekly Hairstyle reward receipts celebrate as attempts without claiming a Suomi
+legend. The overlay changes neither game snapshots nor replayed observations,
+checkpoint state, four quest policies or queue ownership. It does not block
+input, serializes simultaneous fallback notices, and respects reduced motion.

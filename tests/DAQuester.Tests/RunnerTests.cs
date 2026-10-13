@@ -550,6 +550,40 @@ public class RunnerTests
     }
 
     static QuestDefinition Recipe(params QuestStep[] steps) => new("spare-a-stick", 1, "Spare a Stick", "", ["inventory"], steps);
+    [Theory]
+    [InlineData("confirm")]
+    [InlineData("turn-in")]
+    public async Task Pending_turn_in_reconciles_before_connection_scoped_reactivation(string step)
+    {
+        var session = new SimulatedSession();
+        session.Set(session.Snapshot with { Generation = 2 });
+        var journal = Journal();
+        await journal.SaveAsync(new()
+        {
+            Character = "Nuclear",
+            Accepted = true,
+            AcceptedGeneration = 1,
+            Step = step,
+            Pending = new("turn-in", 1, 0, 0, 6, 1000, DateTimeOffset.UtcNow)
+        });
+        var recipe = Recipe(new("accept", "accept", "gather", new() { { "activationScope", "connection" } }), new("turn-in", "turn-in", "confirm"), new("confirm", "confirm", null));
+        var runner = new QuestRunner(session, journal, recipe, new());
+        var calls = new List<string>();
+        runner.Actions["accept"] = new CallbackAction(_ => calls.Add("accept"));
+        runner.Actions["confirm"] = new CallbackAction(_ =>
+        {
+            calls.Add("confirm");
+            throw new QuestBlockedException("Saved Callough reward evidence missing; turn-in will not be resent.");
+        });
+
+        await runner.RunAsync(singleAttempt: true);
+
+        Assert.Equal(["confirm"], calls);
+        Assert.Contains("reward evidence missing", runner.Job.Reason);
+        Assert.NotNull(runner.Job.Pending);
+        Assert.Empty(session.Commands);
+    }
+
     static FileQuestJournal Journal() => new(Path.Combine(Path.GetTempPath(), "DAQuester-tests", Guid.NewGuid().ToString()));
     static QuestJob CompletedAttempt() => new()
     {

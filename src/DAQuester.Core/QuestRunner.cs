@@ -261,7 +261,11 @@ public class QuestRunner(IGameSession session, IQuestJournal journal, QuestDefin
                     NextRun = null
                 });
             var activation = recipe.Steps.FirstOrDefault(s => s.Action == "accept" && s.Arguments?.GetValueOrDefault("activationScope") == "connection");
-            if (activation is not null && c.Job.Accepted && c.Job.AcceptedGeneration != session.Snapshot.Generation)
+            // A submitted turn-in owns its checkpoint; reactivation would bypass its outcome.
+            bool reconcilingTurnIn = recipe.Id == "spare-a-stick" && c.Job.Pending?.Kind == "turn-in" && c.Job.Step is "turn-in" or "confirm";
+            if (reconcilingTurnIn && c.Job.Step == "turn-in")
+                await Save(c.Job with { Step = "confirm" });
+            if (activation is not null && c.Job.Accepted && c.Job.AcceptedGeneration != session.Snapshot.Generation && !reconcilingTurnIn)
             {
                 if (c.Job.Pending is not null)
                     throw new QuestBlockedException("Pending transaction requires reconciliation before reconnect activation.");

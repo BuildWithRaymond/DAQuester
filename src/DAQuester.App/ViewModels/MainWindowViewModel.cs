@@ -129,14 +129,19 @@ public sealed partial class MainWindowViewModel : ObservableObject
     }
 
     public bool IsAllFilter => Filter == "All";
+    public bool IsQueueableFilter => Filter == "Can queue";
     public bool IsReadyFilter => Filter == "Ready";
     public bool IsCompletedFilter => Filter == "Completed";
     public bool IsUnavailableFilter => Filter == "Unavailable";
     public int AllCount => library.Count;
+    public int QueueableCount => library.Count(q => q.QueueEligible);
     public int ReadyCount => library.Count(q => q.IsReady);
     public int CompletedCount => library.Count(q => q.IsCompleted);
     public int UnavailableCount => library.Count(q => q.IsMuted);
     public string LibrarySummary => $"{Quests.Count} of {AllCount} quests · {Runtime.Recipes.Count} automatic journeys";
+    public string LibrarySelectionHint => QueueLocked ? "Stop this run before editing the queue. Select any row to read its details."
+        : CharacterName.Length == 0 ? "Add a character to plan a queue. Select any row to read its details."
+        : "Check a box to add or remove a quest. Select a row to read its details.";
     public bool EmptyLibrary => Quests.Count == 0;
     public bool CharactersEmpty => Characters.Count == 0;
     public bool HistoryEmpty => History.Count == 0;
@@ -278,6 +283,7 @@ public sealed partial class MainWindowViewModel : ObservableObject
         automaticUpdateChecks = runtime.Settings.AutomaticUpdateChecks;
         NavigateCommand = new(p => Page = p as string ?? "Planner");
         FilterCommand = new(p => Filter = p as string ?? "All");
+        ToggleJourneyCommand = new(_ => JourneyCollapsed = !JourneyCollapsed);
         DismissErrorCommand = new(_ => ErrorMessage = "");
         DismissNoticeCommand = new(_ => NoticeMessage = "");
         AddCharacterCommand = new(_ =>
@@ -449,6 +455,7 @@ public sealed partial class MainWindowViewModel : ObservableObject
                 quest.Refresh(CharacterName, queue);
             var visible = library.Where(q => (Search.Length == 0 || string.Join(' ', q.Name, q.Rewards, q.Requirements, q.Level, q.Reason).Contains(Search, StringComparison.OrdinalIgnoreCase)) && (Filter switch
             {
+                "Can queue" => q.QueueEligible,
                 "Ready" => q.IsReady,
                 "Completed" => q.IsCompleted,
                 "Unavailable" => q.IsMuted,

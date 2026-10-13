@@ -374,6 +374,7 @@ public sealed partial class DesktopRuntime
     {
         try
         {
+            var completed = new QuestCompletionTracker(journal.Load(name, "spare-a-stick"));
             var job = await PermanentQuestCompletion.ObserveAsync(journal, snapshot, async () =>
             {
                 CancelControl(name);
@@ -388,6 +389,8 @@ public sealed partial class DesktopRuntime
                 runners.Remove(name);
             calibrationRuns.Remove(name);
             Notify();
+            if (completed.Observe(job) is { } outcome)
+                PublishCompletion(outcome);
             Log(name + ": permanently finished; repeats disabled. Callough: " + job.PermanentCompletion!.Dialog.Text);
         }
         catch (Exception e)

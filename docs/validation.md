@@ -1,5 +1,44 @@
 # Validation status
 
+## Release 1.4.0 candidate — October 12, 2026
+
+This release includes today's merged Altar Worship and melee combat work from
+PRs #11 and #12, plus the queue play button, folding journey card, library
+selection explanations, saved Stick reward recovery, sprite anchoring and
+verified completion effects. The flower quests and helper behavior from 1.3.0
+remain included.
+
+The symbol-free Release solution build and clean isolated packaging build
+completed with zero warnings or errors. All **832 Core/protocol tests** and
+**119 app behavior tests** passed, with no failures or skips. The packaged app,
+Core and DarkAges assemblies match the tested assemblies byte for byte.
+
+`Build-Release.ps1` and release verification passed. All nine recipes are required
+in the portable and update archives, including Altar Worship. Both distributions
+include the setup README and current release notes, matching their source files.
+Checksums, feed metadata, runtime and third-party notices agree. Walkability covers
+1,417 of 1,432 recorded maps; 15 remain unavailable. Packages exclude user Data,
+raw game assets, symbols and private checkout paths.
+
+The pinned public 1.0.7 updater discovered and verified the local 1.4.0 package
+with unchanged application identity and updater bytes. No installation occurred.
+
+Manual native review covered the fold transition, quest selection states,
+matching-character completion effects and an unselected character's notice in a
+compact, collapsed planner. Completion GIFs use synthetic saved outcomes and the
+real effect renderer. Four documentation screenshots were refreshed with isolated
+sample data and no configured game folder. These reviews are not a pixel-test gate.
+Builds and checks operated no real characters and made no Excalibur changes.
+
+Live limits remain explicit. Altar Worship's first automated offering was verified
+on Ferda; its complete ten-offering run and final rewards still need live validation.
+The earlier melee run on Cerda verified a Druid's weapon swap, pursuit, skills,
+cooldowns, kills and roaming; it does not establish live behavior for every class.
+The captured repeat Stick reply has replay coverage, while missing reward evidence
+still leaves a saved submission paused. A full live queue run and broader sign-in
+recovery remain unverified. See [quest details](QUESTS.md) and
+[source provenance](provenance.md) for the specific evidence and remaining limits.
+
 ## Release 1.3.0 candidate — October 12, 2026
 
 The release includes merged flower quests from PR #10 (`e63aaeb`): Cured the Sick
