@@ -38,7 +38,12 @@ public sealed partial class MainWindowViewModel : ObservableObject
             if (sortingSwitcher && value is null)
                 return;
             if (Set(ref selectedCharacter, value))
+            {
+                // A card not yet saved has no name to reopen on.
+                if (value is { OriginalName.Length: > 0 })
+                    Runtime.RememberCharacter(value.OriginalName);
                 Refresh();
+            }
         }
     }
 
@@ -342,7 +347,7 @@ public sealed partial class MainWindowViewModel : ObservableObject
         });
         LoadCharacters();
         LoadLibrary();
-        SelectedCharacter = Characters.FirstOrDefault();
+        SelectedCharacter = Characters.FirstOrDefault(c => c.OriginalName.Equals(runtime.Settings.LastCharacter, StringComparison.OrdinalIgnoreCase)) ?? Characters.FirstOrDefault();
         SelectedQuest = library.FirstOrDefault();
         Runtime.Changed += Refresh;
         Refresh();
@@ -435,6 +440,9 @@ public sealed partial class MainWindowViewModel : ObservableObject
         "cured-sick-child" => ("Pick White Blossoms at Mehadi and give Paulin five, one a day or with help from your other characters. Locks out Aided the Pact of Anaman.", "LOURES · PAULIN"),
         "aided-pact-of-anaman" => ("Pick Golden Blossoms at Mehadi and give Paulin five for the physician, one a day or with help from your other characters. The legend mark is brown and other players can't see it. Locks out Cured the Sick Child.", "LOURES · PAULIN"),
         "altar-worship" => ("Buy a Leather Shield from Torrance in the Mileth Armor Shop and drop it on the Mileth Altar, one offering every 3 hours. The quest finishes after the 10th. Each offering costs 750 gold; a Leather Shield already in the bag is used first.", "MILETH · ALTAR"),
+        AwakeningEvidence.Id => ("Plays the tutorial on a brand-new character: Raghnall's combat talk for a Stick, Bartley's Interface and General Info lessons for the 'nis' spell and Look skill, then the exit and the wake-up in Mileth Inn. Ends at level 4 with a Dirk, two rings, a Tutorial Book and 2,000 gold.", "TUTORIAL · MILETH INN"),
+        NewCharacterPath.FirstStepsId => ("Buys the starter gear as the character reaches each level, levels to 7 in Mileth Crypt 1-1 and 2-1, and ends by buying and equipping a Loures Saber in Piet. Needs 50,000 gold to start. Up to level 11, stat points go into CON and WIS only, so this never rules out any class or stat plan.", "MILETH · CRYPT"),
+        NewCharacterPath.ClimbId => ("Fights in Mileth Crypt 1-1 and 2-1 until level 11. Needs the Peasant's First Steps gear. Up to level 11, stat points go into CON and WIS only, so this never rules out any class or stat plan.", "MILETH · CRYPT"),
         _ => ("This quest is a guide for manual play. Open its source for the full journey.", "QUEST GUIDE")
     };
     public void Refresh()

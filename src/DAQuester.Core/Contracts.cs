@@ -368,6 +368,16 @@ public record QuestJob
     {
         get; init;
     }
+    // The player read what Peasant's First Steps does before it first ran.
+    public bool FirstStepsBriefed
+    {
+        get; init;
+    }
+    // The player confirmed Crypt Climb ends the Terror of the Alley / Garden window.
+    public bool TerrorWindowAccepted
+    {
+        get; init;
+    }
 }
 
 public interface IQuestJournal
@@ -383,15 +393,24 @@ public interface IQuestAction
 
 public class QuestBlockedException(string reason) : Exception(reason);
 public sealed class ResourceUnavailableException(string reason) : QuestBlockedException(reason);
+// The server turned the character back at a staircase it is not yet allowed through.
+public sealed class EntranceRefusedException(string serverText, Tile stairs) : QuestBlockedException(serverText)
+{
+    public Tile Stairs { get; } = stairs;
+}
+
+// Health ran low and the character walked out to safety.
+public sealed class RetreatedException(string reason) : QuestBlockedException(reason);
 public sealed class QuestPopupException(Dialog dialog, int? map) : QuestBlockedException("Collection paused for a popup; it has been preserved for review.")
 {
     public Dialog Dialog { get; } = dialog;
     public int? Map { get; } = map;
 }
 
-public class QuestContext(IGameSession session, IQuestJournal journal, Calibration calibration, QuestJob job, Action<QuestJob>? saved = null, IQuestHelpers? helpers = null)
+public class QuestContext(IGameSession session, IQuestJournal journal, Calibration calibration, QuestJob job, Action<QuestJob>? saved = null, IQuestHelpers? helpers = null, HuntingServices? hunting = null)
 {
     public IGameSession Session { get; } = session;
+    public HuntingServices? Hunting { get; } = hunting;
     public Calibration Calibration { get; } = calibration;
     public IQuestHelpers? Helpers { get; } = helpers;
     public QuestJob Job { get; private set; } = job;

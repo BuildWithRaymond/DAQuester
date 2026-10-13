@@ -14,7 +14,7 @@ public sealed record QuestAvailability(string Status, string Reason, bool CanQue
     public bool Ready => Status is "Ready" or "Choices" or "Resume ready" or "Next offering";
 }
 
-public sealed record QuestChoiceResult(MundaneBirthOptions? BirthOptions = null, EmeraldDawnOptions? EmeraldOptions = null, bool AllowUnsafeWalking = false, SickChildOptions? SickChildOptions = null, bool OpenCharacters = false, bool AltarNoMarkAccepted = false);
+public sealed record QuestChoiceResult(MundaneBirthOptions? BirthOptions = null, EmeraldDawnOptions? EmeraldOptions = null, bool AllowUnsafeWalking = false, SickChildOptions? SickChildOptions = null, bool OpenCharacters = false, bool AltarNoMarkAccepted = false, bool FirstStepsBriefed = false, bool TerrorWindowAccepted = false);
 /// <summary>Owns game connections and durable operations independently of the desktop presentation.</summary>
 public sealed partial class DesktopRuntime
 {
@@ -145,6 +145,7 @@ public sealed partial class DesktopRuntime
         host.Connected += connection =>
         {
             connection.Tracker.Observed += (opcode, payload) => recorder.Record(opcode, payload, connection.Tracker.Snapshot);
+            connection.ClientObserved += (opcode, payload, bot) => recorder.RecordClient(opcode, payload, bot, connection.Tracker.Snapshot);
             connection.Tracker.ServerMessage += (_, text) => Log((connection.Tracker.Snapshot.Name ?? "Connecting") + ": server: " + text);
             connection.DialogAction += packet => recorder.RecordDialogPacket(packet, connection.Tracker.Snapshot);
             connection.ExchangeAction += packet => recorder.RecordExchangePacket(packet, connection.Tracker.Snapshot);
@@ -477,6 +478,23 @@ public sealed partial class DesktopRuntime
             Settings.FastModeOffCharacters = previous;
             Notify();
             throw;
+        }
+    }
+
+    public void RememberCharacter(string name)
+    {
+        if (name.Length == 0 || name.Equals(Settings.LastCharacter, StringComparison.OrdinalIgnoreCase))
+            return;
+        Settings.LastCharacter = name;
+        try
+        {
+            var persisted = AppSettings.Load();
+            persisted.LastCharacter = name;
+            persisted.Save();
+        }
+        catch (Exception e) when (e is IOException or UnauthorizedAccessException or JsonException)
+        {
+            Log("Last selected character not saved: " + e.Message);
         }
     }
 

@@ -1,0 +1,35 @@
+{
+  "Id": "peasants-first-steps",
+  "Version": 1,
+  "Name": "Peasant's First Steps",
+  "Source": "https://vorlof.com/general/exphunting.html",
+  "Capabilities": [
+    "navigate",
+    "dialog",
+    "inventory",
+    "equipment",
+    "skill",
+    "legend"
+  ],
+  "CooldownHours": 0,
+  "Repeatable": false,
+  "Requirements": [],
+  "OutcomeConditions": [
+    "Needs 50,000 gold to start: the starter gear costs about 21,600 and the rest covers repairs",
+    "Buys and equips a Dirk (level 2, if none), Wooden Shield (level 3), Wind Belt and Sea Necklace (level 6, one trip to Rucesion) and a Loures Saber (level 7)",
+    "Levels in Mileth Crypt 1-1 and 2-1, leaving centipedes on 2-1 alone; stat points go to CON and WIS only",
+    "Completion: level 7 with the Loures Saber equipped"
+  ],
+  "Steps": [
+    {
+      "Id": "preflight",
+      "Action": "first-steps-preflight",
+      "Next": "run"
+    },
+    {
+      "Id": "run",
+      "Action": "first-steps-run",
+      "Next": "complete"
+    }
+  ]
+}

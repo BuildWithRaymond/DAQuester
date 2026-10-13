@@ -6,7 +6,8 @@ using Arbiter.Net.Serialization;
 
 namespace DAQuester.DarkAges.Diagnostics;
 
-public record ReplayEvent(DateTimeOffset Time, string Character, long Generation, long Revision, byte Opcode, string Payload, CharacterSnapshot Snapshot);
+// Direction "S" is server to client; "C" is client to server, from the game client ("client") or sent by DAQuester ("bot").
+public record ReplayEvent(DateTimeOffset Time, string Character, long Generation, long Revision, byte Opcode, string Payload, CharacterSnapshot Snapshot, string Direction = "S", string? Source = null);
 public class ReplayRecorder
 {
     readonly object gate = new();
@@ -18,20 +19,38 @@ public class ReplayRecorder
         set;
     } = true;
 
+    const int Capacity = 30000;
+
     public void Record(byte opcode, byte[] payload, CharacterSnapshot snapshot)
     {
-        if (!Enabled || opcode is not (0x04 or 0x07 or 0x08 or 0x0A or 0x0B or 0x0C or 0x0E or 0x0F or 0x10 or 0x15 or 0x17 or 0x18 or 0x2F or 0x30 or 0x33 or 0x42 or 0x58))
+        // Public chat stays out of replays.
+        if (!Enabled || opcode == 0x0D)
             return;
         // Active messages carry quest information beyond any guess from character state; other 0x0A types are chat or popups.
         if (opcode == 0x0A && (payload.Length == 0 || !DAQuester.DarkAges.Protocol.StateTracker.IsActiveMessage(payload[0])))
             return;
+        Add(new(DateTimeOffset.UtcNow, snapshot.Name ?? "Connecting", snapshot.Generation, snapshot.Revision, opcode, Convert.ToBase64String(payload), snapshot));
+    }
+
+    // Credentials never reach here (the proxy drops them); what was said in chat or a whisper is left out.
+    public void RecordClient(byte opcode, byte[] payload, bool bot, CharacterSnapshot snapshot)
+    {
+        if (!Enabled)
+            return;
+        Add(new(DateTimeOffset.UtcNow, snapshot.Name ?? "Connecting", snapshot.Generation, snapshot.Revision, opcode, opcode is 0x0E or 0x19 ? "" : Convert.ToBase64String(payload), snapshot, "C", bot ? "bot" : "client"));
+    }
+
+    void Add(ReplayEvent e)
+    {
         lock (gate)
         {
-            if (events.Count >= 10000)
+            if (events.Count >= Capacity)
                 events.RemoveAt(0);
-            events.Add(new(DateTimeOffset.UtcNow, snapshot.Name ?? "Connecting", snapshot.Generation, snapshot.Revision, opcode, Convert.ToBase64String(payload), snapshot));
+            events.Add(e);
         }
     }
+
+    IEnumerable<ReplayEvent> ServerEvents(IEnumerable<ReplayEvent> all) => all.Where(e => e.Direction == "S");
 
     public void Export(string path)
     {
@@ -45,12 +64,12 @@ public class ReplayRecorder
 
         File.WriteAllText(path, JsonSerializer.Serialize(new
         {
-            SchemaVersion = 2,
+            SchemaVersion = 3,
             ServerProfile = "datester-7.41",
             Sanitized = true,
             Events = copy,
             Actions = selected,
-            Analysis = QuestEvidenceAnalyzer.Analyze(copy, selected)
+            Analysis = QuestEvidenceAnalyzer.Analyze(ServerEvents(copy), selected)
         }, new JsonSerializerOptions { WriteIndented = true }));
     }
 
@@ -69,14 +88,14 @@ public class ReplayRecorder
     public EvidenceReport Analyze()
     {
         lock (gate)
-            return QuestEvidenceAnalyzer.Analyze(events.ToArray(), actions.ToArray());
+            return QuestEvidenceAnalyzer.Analyze(ServerEvents(events).ToArray(), actions.ToArray());
     }
 
     public Tile[] ObservedPatrol(string character, long generation, long after, IEnumerable<Tile> dropPositions)
     {
         var drops = dropPositions.ToArray();
         lock (gate)
-            return events.Where(e => e.Character.Equals(character, StringComparison.OrdinalIgnoreCase) && e.Generation == generation && e.Revision > after && e.Snapshot.Map == 500 && e.Snapshot.Position is { } p && drops.Any(t => Math.Abs(t.X - p.X) + Math.Abs(t.Y - p.Y) <= 14)).Select(e => e.Snapshot.Position!).Distinct().ToArray();
+            return ServerEvents(events).Where(e => e.Character.Equals(character, StringComparison.OrdinalIgnoreCase) && e.Generation == generation && e.Revision > after && e.Snapshot.Map == 500 && e.Snapshot.Position is { } p && drops.Any(t => Math.Abs(t.X - p.X) + Math.Abs(t.Y - p.Y) <= 14)).Select(e => e.Snapshot.Position!).Distinct().ToArray();
     }
 
     public void RecordDialogPacket(ClientPacket packet, CharacterSnapshot s)
