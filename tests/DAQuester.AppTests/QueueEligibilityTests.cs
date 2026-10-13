@@ -279,4 +279,36 @@ public class QueueEligibilityTests
         finally { await runtime.ShutdownAsync(); }
     }
 
+    [Fact]
+    public async Task Forecast_adapter_reads_current_choices_helpers_and_supplies_without_changing_saved_data()
+    {
+        var runtime = await Runtime();
+        try
+        {
+            var now = new DateTimeOffset(2026, 10, 13, 15, 0, 0, TimeSpan.Zero);
+            var observed = Observed() with { Level = 11, Hp = 100, Gold = 25_000, InventoryKnown = true, Legends = [] };
+            runtime.SetPreviewSnapshot(observed);
+            runtime.SetPreviewSnapshot(observed with
+            {
+                Name = "Wren", Inventory = ImmutableDictionary<byte, Item>.Empty.Add(1, new(1, SickChildEvidence.Blossom, 1))
+            });
+            runtime.SetPreviewQueue(new() { Character = "Elara", Quests = [SickChildEvidence.Id, AltarWorshipEvidence.Id] });
+            var journal = new FileQuestJournal(Path.Combine(AppSettings.DataPath, "journal"));
+            await journal.SaveAsync(new()
+            {
+                Character = "Elara", Quest = SickChildEvidence.Id, SickChildOptions = new(SickChildOptions.WithHelpers, ["Wren"], 0)
+            });
+            var before = runtime.Queue("Elara");
+            var forecast = runtime.ForecastQueue("Elara", () => now);
+            Assert.Equal(now, forecast.CalculatedAt);
+            Assert.Equal(32_500, forecast.KnownGoldBudget);
+            Assert.Equal("Wren", Assert.Single(forecast.Entries[0].Supplies).Character);
+            Assert.Equal(7_500, forecast.KnownGoldShortfall);
+            Assert.Equal(before, runtime.Queue("Elara"));
+            Assert.Equal(observed, runtime.Snapshot("Elara"));
+            Assert.Empty(journal.Load("Elara", SickChildEvidence.Id).SickChildTurnIns);
+            Assert.Null(journal.Load("Elara", SickChildEvidence.Id).CompletedAt);
+        }
+        finally { await runtime.ShutdownAsync(); }
+    }
 }

@@ -50,7 +50,7 @@ public static class AltarWorshipEvidence
         {
             if (s.Gold < ShieldPrice)
                 return new(EligibilityKind.Blocked, "Carry at least 750 gold for a Leather Shield from Torrance.");
-            if (s.Inventory.Count >= 59)
+            if (s.Inventory.Count >= CharacterSnapshot.InventoryCapacity)
                 return new(EligibilityKind.Blocked, "Free an inventory slot for a Leather Shield.");
         }
         return new(EligibilityKind.Eligible, Progress(job));

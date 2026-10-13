@@ -154,7 +154,7 @@ public static class SickChildEvidence
             return new(EligibilityKind.Unknown, "Waiting for inventory and gold.");
         if (s.Gold < f.Cost)
             return new(EligibilityKind.Blocked, "Carry at least 5,000 gold; Paulin takes 5,000 for each flower.");
-        if (s.Count(f.Item) == 0 && s.Inventory.Count >= 59)
+        if (s.Count(f.Item) == 0 && s.Inventory.Count >= CharacterSnapshot.InventoryCapacity)
             return new(EligibilityKind.Blocked, "Free an inventory slot for a " + f.Item + ".");
         return new(EligibilityKind.Eligible, "Level 11+; give Paulin " + Remaining(job) + " more " + f.Name + " Blossom" + (Remaining(job) == 1 ? "" : "s"));
     }
