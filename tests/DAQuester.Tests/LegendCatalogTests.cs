@@ -29,6 +29,8 @@ public class LegendCatalogTests
                 Assert.False(e.GetProperty("givesLegend").GetBoolean());
                 Assert.Equal("requested-pet-and-spells", e.GetProperty("catalogException").GetString());
             }
+            else if (e.TryGetProperty("catalogException", out var exception) && exception.GetString() == "new-character-path")
+                Assert.False(e.GetProperty("givesLegend").GetBoolean());
             else
             {
                 Assert.True(e.GetProperty("givesLegend").GetBoolean());

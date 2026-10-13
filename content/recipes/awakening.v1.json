@@ -1,0 +1,33 @@
+{
+  "Id": "awakening",
+  "Version": 1,
+  "Name": "Awakening",
+  "Source": "https://vorlof.com/quests/tutorial.html",
+  "Capabilities": [
+    "navigate",
+    "dialog",
+    "inventory",
+    "spell"
+  ],
+  "CooldownHours": 0,
+  "Repeatable": false,
+  "Requirements": [],
+  "OutcomeConditions": [
+    "Raghnall's combat talk gives a Stick",
+    "Bartley's Interface tutorial gives the 'nis' spell and the Look skill; his General Info tutorial is answered Yes",
+    "The exit at (49,29) gives 1,000 coins and 5,000 experience",
+    "Completion: the wake-up in Mileth Inn Room 0 gives a Dirk, Small Emerald Ring, Small Spinel Ring, Tutorial Book, 1,000 coins and 5,000 experience"
+  ],
+  "Steps": [
+    {
+      "Id": "preflight",
+      "Action": "awakening-preflight",
+      "Next": "run"
+    },
+    {
+      "Id": "run",
+      "Action": "awakening-run",
+      "Next": "complete"
+    }
+  ]
+}

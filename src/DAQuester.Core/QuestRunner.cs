@@ -1,6 +1,6 @@
 namespace DAQuester.Core;
 
-public class QuestRunner(IGameSession session, IQuestJournal journal, QuestDefinition recipe, Calibration calibration, IQuestHelpers? helpers = null)
+public class QuestRunner(IGameSession session, IQuestJournal journal, QuestDefinition recipe, Calibration calibration, IQuestHelpers? helpers = null, HuntingServices? hunting = null)
 {
     public QuestJob Job { get; private set; } = journal.Load(session.Snapshot.Name ?? "Unknown", recipe.Id);
 
@@ -64,6 +64,9 @@ public class QuestRunner(IGameSession session, IQuestJournal journal, QuestDefin
         SickChildEvidence.Id => new[] { "sick-preflight", "sick-run" }.ToDictionary(x => x, x => (IQuestAction)new SickChildActions(SickChildEvidence.Sevti)),
         SickChildEvidence.AnamanId => new[] { "sick-preflight", "sick-run" }.ToDictionary(x => x, x => (IQuestAction)new SickChildActions(SickChildEvidence.Tulsi)),
         AltarWorshipEvidence.Id => new[] { "altar-preflight", "altar-run" }.ToDictionary(x => x, x => (IQuestAction)new AltarWorshipActions()),
+        AwakeningEvidence.Id => new[] { "awakening-preflight", "awakening-run" }.ToDictionary(x => x, x => (IQuestAction)new AwakeningActions()),
+        NewCharacterPath.FirstStepsId => new[] { "first-steps-preflight", "first-steps-run" }.ToDictionary(x => x, x => (IQuestAction)new NewCharacterActions()),
+        NewCharacterPath.ClimbId => new[] { "climb-preflight", "climb-run" }.ToDictionary(x => x, x => (IQuestAction)new NewCharacterActions()),
         _ => []
     };
     public Dictionary<string, Func<QuestContext, bool?>> Conditions { get; } = [];
@@ -111,7 +114,7 @@ public class QuestRunner(IGameSession session, IQuestJournal journal, QuestDefin
         {
             Job = value;
             Changed?.Invoke(value);
-        }, helpers);
+        }, helpers, hunting);
         var priorHairAttempt = c.Job.LastAttemptAt;
         Task Save(QuestJob value) => c.SaveAsync(value);
         try
