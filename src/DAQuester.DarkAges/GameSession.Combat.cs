@@ -2,6 +2,7 @@ using Arbiter.Net.Client;
 using Arbiter.Net.Client.Messages;
 using Arbiter.Net.Types;
 using DAQuester.Core;
+using DAQuester.DarkAges.Transport;
 
 namespace DAQuester.DarkAges;
 
@@ -18,9 +19,21 @@ public sealed partial class GameSession : ICombatMap
     // (a monster) can't be entered, so next to it is as far as the step goes.
     async Task StepToward(Tile target, CancellationToken ct)
     {
+        bool fast = FastFightStep(Snapshot);
+        if (!fast)
+            await SettleMovement(ct);
         var s = Snapshot;
-        if (s.Map is not { } map || s.Position is not { } origin)
+        var window = connection.Movement;
+        if (s.Map is not { } map || s.Position is not { } position)
             throw new QuestBlockedException("Waiting for server map and position.");
+        // An unanswered step goes through the refresh path on the next call.
+        if (fast && window.Oldest is { } sent && sent.AddSeconds(2) <= DateTimeOffset.UtcNow)
+        {
+            connection.CancelMovement();
+            return;
+        }
+
+        var origin = fast ? window.Projected ?? position : position;
         IReadOnlyList<Tile> path;
         try
         {
@@ -32,8 +45,42 @@ public sealed partial class GameSession : ICombatMap
         }
 
         bool occupied = s.Entities.Values.Any(e => e.Blocks && e.Id != s.Id && e.Position == target);
-        if (path.Count > 1 || path.Count == 1 && !occupied)
+        if (!(path.Count > 1 || path.Count == 1 && !occupied))
+            return;
+        if (!fast)
+        {
             await WalkTo(path[0], ct, map);
+            return;
+        }
+
+        // Sent at the 160 ms pace without waiting for the server's reply; a full window or an early tick sends on the next call.
+        if (window.Pending >= window.Capacity || lastMove.AddMilliseconds(160) > DateTimeOffset.UtcNow)
+            return;
+        var next = path[0];
+        byte direction = (byte)(next.Y < origin.Y ? 0 : next.X > origin.X ? 1 : next.Y > origin.Y ? 2 : 3);
+        bool Allowed()
+        {
+            var o = Snapshot;
+            var p = connection.Movement;
+            return FastMode && !p.Recovery && p.Pending < p.Capacity && p.Projected == origin && o.Generation == s.Generation && o.Map == map && !IsTravelNotice(o) && MovementCadence(o, origin) == 160 && !o.Entities.Values.Any(e => e.Blocks && e.Id != o.Id && e.Position == next);
+        }
+
+        try
+        {
+            await connection.SendAsync(Packet(new ClientMoveMessage { Direction = (WorldDirection)direction }), s.Generation, ct, origin, presentMovement: true, movementCapacity: window.Capacity, movementAllowed: Allowed);
+        }
+        catch (MovementReplanException)
+        {
+            return;
+        }
+
+        lastMove = DateTimeOffset.UtcNow;
+    }
+
+    bool FastFightStep(CharacterSnapshot s)
+    {
+        var window = connection.Movement;
+        return FastMode && !window.Recovery && !IsTravelNotice(s) && MovementCadence(s, window.Projected) == 160;
     }
 
     HashSet<Tile> Obstacles(CharacterSnapshot s, int map, Tile goal)

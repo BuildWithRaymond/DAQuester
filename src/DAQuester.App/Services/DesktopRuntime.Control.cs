@@ -202,7 +202,7 @@ public sealed partial class DesktopRuntime
         if (QueueReserves(name))
             throw new QuestBlockedException("A queue owns this character. Stop it before a control action.");
         var command = JsonSerializer.Deserialize<GameCommand>(r.Arguments?.GetRawText() ?? "{}", AppSettings.Json) ?? throw new InvalidDataException("Game command missing.");
-        if (command.Kind is not ("navigate" or "visit" or "step" or "open" or "choose" or "next" or "close" or "input" or "say" or "collect-ground" or "pickup" or "inspect-self"))
+        if (command.Kind is not ("navigate" or "visit" or "step" or "open" or "choose" or "next" or "close" or "input" or "say" or "collect-ground" or "pickup" or "inspect-self" or "repair"))
             throw new QuestBlockedException("Command is unavailable through control bridge.");
         if (controlActions.ContainsKey(name))
             throw new QuestBlockedException("A control action already owns this character. Stop it first.");

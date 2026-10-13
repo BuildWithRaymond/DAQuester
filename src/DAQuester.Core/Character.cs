@@ -3,7 +3,17 @@ using System.Collections.Immutable;
 namespace DAQuester.Core;
 
 public record Tile(int X, int Y);
-public record Item(byte Slot, string Name, uint Quantity);
+public record Item(byte Slot, string Name, uint Quantity)
+{
+    public bool Stackable
+    {
+        get; init;
+    }
+    public ushort Sprite
+    {
+        get; init;
+    }
+}
 public enum EligibilityKind
 {
     Eligible,
@@ -64,6 +74,10 @@ public record CharacterSnapshot
         get; init;
     }
     public uint? Hp
+    {
+        get; init;
+    }
+    public uint? MaxHp
     {
         get; init;
     }
@@ -164,6 +178,34 @@ public record CharacterSnapshot
     {
         get; init;
     }
+    // Gold carried when the server refused a pickup at the gold cap; cleared once gold drops below it.
+    public uint? GoldCapAt
+    {
+        get; init;
+    }
+    public long BagFullRevision
+    {
+        get; init;
+    }
+    public long EntranceRefusedRevision
+    {
+        get; init;
+    }
+    public string? EntranceRefusedText
+    {
+        get; init;
+    }
+    // Item name -> durability percent, from "The durability of X is now N%"; cleared by a repair.
+    public ImmutableDictionary<string, int> Durability
+    {
+        get; init;
+    } = ImmutableDictionary<string, int>.Empty.WithComparers(StringComparer.OrdinalIgnoreCase);
+    public int? WorstDurability => Durability.IsEmpty ? null : Durability.Values.Min();
+    // Base stats and unspent points from the server's full stat block.
+    public CharacterStats? Stats
+    {
+        get; init;
+    }
 }
 
 // Party 0 is this character, 1 the trade partner (live 2026-10-11).
@@ -229,6 +271,7 @@ public record Entity(uint Id, string Name, Tile Position, bool Blocks)
 }
 
 // A skill's last server cooldown (0x3F); it stays recorded after it runs out, as the skill's known length.
+public record CharacterStats(byte Str, byte Int, byte Wis, byte Con, byte Dex, byte Unspent);
 public record SkillCooldown(DateTimeOffset Started, double Seconds)
 {
     public bool Over(DateTimeOffset now) => now >= Started.AddSeconds(Seconds);

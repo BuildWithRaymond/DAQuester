@@ -73,7 +73,12 @@ public class StateTracker(long generation)
     public void Observe(byte opcode, byte[] payload)
     {
         if (opcode is not (0x04 or 0x05 or 0x07 or 0x08 or 0x0A or 0x0B or 0x0C or 0x0E or 0x0F or 0x10 or 0x11 or 0x13 or 0x15 or 0x17 or 0x18 or 0x1A or 0x29 or 0x2C or 0x2D or 0x2E or 0x2F or 0x30 or 0x33 or 0x37 or 0x38 or 0x39 or 0x3A or 0x3F or 0x42 or 0x58))
+        {
+            // Not read into state, but still recorded.
+            Observed?.Invoke(opcode, payload);
             return;
+        }
+
         // Failed decodes stop automation upstream; raw gameplay still passes through.
         IServerMessage? m;
         try
@@ -82,6 +87,7 @@ public class StateTracker(long generation)
         }
         catch (Exception) when (opcode is 0x13 or 0x29 or 0x3A or 0x3F)
         {
+            Observed?.Invoke(opcode, payload);
             return; // Combat-only state; an odd one never stops a quest.
         }
         var s = Snapshot;
@@ -105,10 +111,17 @@ public class StateTracker(long generation)
                     AbilityLevel = p.AbilityLevel ?? s.AbilityLevel,
                     ToNextLevel = p.ToNextLevel ?? s.ToNextLevel,
                     Hp = p.Health ?? s.Hp,
+                    MaxHp = p.MaxHealth ?? s.MaxHp,
                     Mana = p.Mana ?? s.Mana,
                     Weight = p.Weight ?? s.Weight,
-                    MaxWeight = p.MaxWeight ?? s.MaxWeight
+                    MaxWeight = p.MaxWeight ?? s.MaxWeight,
+                    Stats = p.Strength is { } str ? new(str, p.Intelligence ?? 0, p.Wisdom ?? 0, p.Constitution ?? 0, p.Dexterity ?? 0, p.StatPoints ?? 0) : s.Stats
                 };
+                if (s.GoldCapAt is { } cap && s.Gold < cap)
+                    s = s with
+                    {
+                        GoldCapAt = null
+                    };
                 break;
             case ServerSystemMessage p:
                 var notice = new ServerNotice(generation, rev, (byte)p.MessageType, p.Message, DateTimeOffset.UtcNow);
@@ -125,7 +138,11 @@ public class StateTracker(long generation)
             case ServerAddInventoryMessage p:
                 s = s with
                 {
-                    Inventory = s.Inventory.SetItem(p.Slot, new(p.Slot, p.Name, p.Quantity))
+                    Inventory = s.Inventory.SetItem(p.Slot, new(p.Slot, p.Name, p.Quantity)
+                    {
+                        Stackable = p.IsStackable,
+                        Sprite = p.Sprite
+                    })
                 };
                 break;
             case ServerRemoveInventoryMessage p:
@@ -348,6 +365,11 @@ public class StateTracker(long generation)
                 };
                 break;
             case ServerScreenMenuMessage p:
+                if (p.Content?.Contains("items have been repaired", StringComparison.OrdinalIgnoreCase) == true)
+                    s = s with
+                    {
+                        Durability = s.Durability.Clear()
+                    };
                 s = s with
                 {
                     Dialog = new(generation, rev, p.EntityId ?? 0, (byte)p.EntityType, p.Name ?? "", p.Content ?? "", false, p.PursuitId ?? 0, 0, (byte)p.MenuType, p.MenuChoices.Select((x, i) => new DialogChoice(x.Text, x.PursuitId, (byte)(i + 1))).ToImmutableArray(), p.Prompt)
@@ -387,8 +409,16 @@ public class StateTracker(long generation)
         "You can't use skills here." => s with { SkillsBlockedOnMap = true },
         "You can't attack." or "You cannot attack." => s with { CantAttackRevision = rev },
         "You can't move freely if you use it." or "You can't use the weapon when holding it." => s with { SkillRefusedRevision = rev },
+        "You can't have more." => s with { BagFullRevision = rev },
+        // Crypt stairs below the character's level: "You almost understand the secrets of this entrance."
+        _ when text.Contains("secrets of this entrance", StringComparison.Ordinal) => s with { EntranceRefusedRevision = rev, EntranceRefusedText = text },
+        _ when bagFull.IsMatch(text) => s with { BagFullRevision = rev },
+        _ when durability.Match(text) is { Success: true } d && int.TryParse(d.Groups[2].Value, out int percent) => s with { Durability = s.Durability.SetItem(d.Groups[1].Value, percent) },
+        // Sent when the pickup would cross the cap; a pile too big to take is not the cap itself.
+        _ when goldCap.Match(text) is { Success: true } m && uint.TryParse(m.Groups[1].Value, out uint limit) && (s.Gold ?? 0) + 100_000u >= limit => s with { GoldCapAt = s.Gold },
         _ => s
     };
+    static readonly System.Text.RegularExpressions.Regex goldCap = new(@"^You can't carry more that (\d+) gold\.$"), bagFull = new("([a-zA-Z0-9 ]+), You can't have more than [0-9]+"), durability = new(@"^The durability of (.+) is now (\d+)%$");
 
     public static Tile GridStep(Tile p, byte direction) => direction switch
     {

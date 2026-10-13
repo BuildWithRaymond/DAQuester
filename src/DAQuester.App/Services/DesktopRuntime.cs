@@ -145,6 +145,7 @@ public sealed partial class DesktopRuntime
         host.Connected += connection =>
         {
             connection.Tracker.Observed += (opcode, payload) => recorder.Record(opcode, payload, connection.Tracker.Snapshot);
+            connection.ClientObserved += (opcode, payload, bot) => recorder.RecordClient(opcode, payload, bot, connection.Tracker.Snapshot);
             connection.Tracker.ServerMessage += (_, text) => Log((connection.Tracker.Snapshot.Name ?? "Connecting") + ": server: " + text);
             connection.DialogAction += packet => recorder.RecordDialogPacket(packet, connection.Tracker.Snapshot);
             connection.ExchangeAction += packet => recorder.RecordExchangePacket(packet, connection.Tracker.Snapshot);
