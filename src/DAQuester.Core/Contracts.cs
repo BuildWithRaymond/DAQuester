@@ -368,6 +368,16 @@ public record QuestJob
     {
         get; init;
     }
+    // The player read what Peasant's First Steps does before it first ran.
+    public bool FirstStepsBriefed
+    {
+        get; init;
+    }
+    // The player confirmed Crypt Climb ends the Terror of the Alley / Garden window.
+    public bool TerrorWindowAccepted
+    {
+        get; init;
+    }
 }
 
 public interface IQuestJournal
@@ -397,9 +407,10 @@ public sealed class QuestPopupException(Dialog dialog, int? map) : QuestBlockedE
     public int? Map { get; } = map;
 }
 
-public class QuestContext(IGameSession session, IQuestJournal journal, Calibration calibration, QuestJob job, Action<QuestJob>? saved = null, IQuestHelpers? helpers = null)
+public class QuestContext(IGameSession session, IQuestJournal journal, Calibration calibration, QuestJob job, Action<QuestJob>? saved = null, IQuestHelpers? helpers = null, HuntingServices? hunting = null)
 {
     public IGameSession Session { get; } = session;
+    public HuntingServices? Hunting { get; } = hunting;
     public Calibration Calibration { get; } = calibration;
     public IQuestHelpers? Helpers { get; } = helpers;
     public QuestJob Job { get; private set; } = job;

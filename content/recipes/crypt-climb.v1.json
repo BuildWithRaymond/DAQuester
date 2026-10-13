@@ -1,0 +1,35 @@
+{
+  "Id": "crypt-climb",
+  "Version": 1,
+  "Name": "Crypt Climb",
+  "Source": "https://vorlof.com/general/exphunting.html",
+  "Capabilities": [
+    "navigate",
+    "dialog",
+    "inventory",
+    "equipment",
+    "skill",
+    "legend"
+  ],
+  "CooldownHours": 0,
+  "Repeatable": false,
+  "Requirements": [],
+  "OutcomeConditions": [
+    "Needs the Peasant's First Steps gear: Wooden Shield, Wind Belt, Sea Necklace and Loures Saber",
+    "Fights everything in Mileth Crypt 1-1 and 2-1 and never goes deeper; stat points go to CON and WIS only",
+    "Below level 10 without a Terror of the Alley / Garden mark, the player confirms that level 11 ends that quest",
+    "Completion: level 11"
+  ],
+  "Steps": [
+    {
+      "Id": "preflight",
+      "Action": "climb-preflight",
+      "Next": "run"
+    },
+    {
+      "Id": "run",
+      "Action": "climb-run",
+      "Next": "complete"
+    }
+  ]
+}

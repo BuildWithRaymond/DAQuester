@@ -14,7 +14,7 @@ public sealed record QuestAvailability(string Status, string Reason, bool CanQue
     public bool Ready => Status is "Ready" or "Choices" or "Resume ready" or "Next offering";
 }
 
-public sealed record QuestChoiceResult(MundaneBirthOptions? BirthOptions = null, EmeraldDawnOptions? EmeraldOptions = null, bool AllowUnsafeWalking = false, SickChildOptions? SickChildOptions = null, bool OpenCharacters = false, bool AltarNoMarkAccepted = false);
+public sealed record QuestChoiceResult(MundaneBirthOptions? BirthOptions = null, EmeraldDawnOptions? EmeraldOptions = null, bool AllowUnsafeWalking = false, SickChildOptions? SickChildOptions = null, bool OpenCharacters = false, bool AltarNoMarkAccepted = false, bool FirstStepsBriefed = false, bool TerrorWindowAccepted = false);
 /// <summary>Owns game connections and durable operations independently of the desktop presentation.</summary>
 public sealed partial class DesktopRuntime
 {
