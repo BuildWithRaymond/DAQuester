@@ -153,6 +153,25 @@ public class QuestQueueTests
     }
 
     [Fact]
+    public async Task Pending_submission_preserves_actual_failure_and_reconciliation_guidance()
+    {
+        var job = Completed("a") with
+        {
+            Status = "Paused",
+            Reason = "Callough reward reply missing; turn-in will not be resent.",
+            Pending = new("turn-in", 7, 1, 0, 6, 1000, At)
+        };
+        var queue = Coordinator(Store(), Queue("a", "b"), (_, _, _) => Task.FromResult(job));
+
+        await queue.RunAsync();
+
+        Assert.Contains(job.Reason, queue.State.Reason);
+        Assert.Contains("reconcil", queue.State.Reason, StringComparison.OrdinalIgnoreCase);
+        Assert.Equal(["a", "b"], queue.State.Quests);
+        Assert.Empty(queue.State.History);
+    }
+
+    [Fact]
     public async Task Settled_job_with_wrong_identity_never_advances()
     {
         var c = Coordinator(Store(), Queue("a"), (id, _, _) => Task.FromResult(Completed(id) with { Character = "Other" }));

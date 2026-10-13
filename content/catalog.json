@@ -157,12 +157,12 @@
       "legendEvidence": "Vorlof catalog reward cell: images/quests/legendaisling.png"
     },
     {
-      "id": "terroralley",
-      "name": "Terror of the Alley",
+      "id": "terroralleygarden",
+      "name": "Terror of the Alley / Garden",
       "source": "https://vorlof.com/quests/terroralley.html",
       "level": "4 - 9",
-      "requiredItems": "1 or 2 Additional Players",
-      "rewards": "\"Slew Terror of the Alley (#)\" 25,000 Experience",
+      "requiredItems": "1 or 2 additional characters, every one level 4 to 9; 1,000 gold",
+      "rewards": "\"Slew Terror of the Alley (#)\" or \"Slew Terror of the Garden (#)\" (the beggar picks; one shared count) 30,000 Experience",
       "dependencies": null,
       "cooldownHours": null,
       "capabilities": [
@@ -180,35 +180,10 @@
       "cooldownNotes": [
         "You may repeat this quest every 12 hours"
       ],
-      "dependencyNotes": [],
-      "givesLegend": true,
-      "legendEvidence": "Vorlof catalog reward cell: images/quests/legendshield.png"
-    },
-    {
-      "id": "terrorgarden",
-      "name": "Terror of the Garden",
-      "source": "https://vorlof.com/quests/terrorgarden.html",
-      "level": "4 - 9",
-      "requiredItems": "1 or 2 Additional Players",
-      "rewards": "\"Slew Terror of the Garden (#)\" 25,000 Experience",
-      "dependencies": null,
-      "cooldownHours": null,
-      "capabilities": [
-        "dialog",
-        "navigate",
-        "combat-credit",
-        "party",
-        "timed",
-        "walk-trigger",
-        "inventory"
+      "dependencyNotes": [
+        "The beggar in Mileth Tavern decides whether it is the Alley or the Garden; the player can't choose",
+        "Alley, Garden and Crypt Terror marks overwrite each other"
       ],
-      "status": "guide-only",
-      "metadataReviewRequired": true,
-      "capabilitiesInferred": true,
-      "cooldownNotes": [
-        "You may repeat this quest every 12 hours"
-      ],
-      "dependencyNotes": [],
       "givesLegend": true,
       "legendEvidence": "Vorlof catalog reward cell: images/quests/legendshield.png"
     },
@@ -1887,8 +1862,79 @@
       "dependencyNotes": [],
       "givesLegend": true,
       "legendEvidence": "Vorlof catalog reward cell: images/quests/legendaisling.png, images/quests/legendaisling.png"
+    },
+    {
+      "id": "peasantsfirststeps",
+      "name": "Peasant's First Steps",
+      "source": "https://vorlof.com/general/exphunting.html",
+      "level": "1 - 7",
+      "requiredItems": "50,000 gold",
+      "rewards": "Dirk, Wooden Shield, Wind Belt, Sea Necklace and Loures Saber equipped; level 7",
+      "dependencies": null,
+      "cooldownHours": null,
+      "capabilities": [
+        "navigate",
+        "dialog",
+        "inventory",
+        "equipment",
+        "combat"
+      ],
+      "status": "implemented",
+      "metadataReviewRequired": false,
+      "capabilitiesInferred": false,
+      "cooldownNotes": [],
+      "dependencyNotes": [],
+      "givesLegend": false,
+      "catalogException": "new-character-path"
+    },
+    {
+      "id": "cryptclimb",
+      "name": "Crypt Climb",
+      "source": "https://vorlof.com/general/exphunting.html",
+      "level": "7 - 11",
+      "requiredItems": "Peasant's First Steps gear",
+      "rewards": "Level 11",
+      "dependencies": null,
+      "cooldownHours": null,
+      "capabilities": [
+        "navigate",
+        "dialog",
+        "inventory",
+        "equipment",
+        "combat"
+      ],
+      "status": "implemented",
+      "metadataReviewRequired": false,
+      "capabilitiesInferred": false,
+      "cooldownNotes": [],
+      "dependencyNotes": [],
+      "givesLegend": false,
+      "catalogException": "new-character-path"
+    },
+    {
+      "id": "awakening",
+      "name": "Awakening",
+      "source": "https://vorlof.com/quests/tutorial.html",
+      "level": "1",
+      "requiredItems": "A brand-new character still in the tutorial",
+      "rewards": "Stick, Dirk, Small Emerald Ring, Small Spinel Ring, Tutorial Book, 'nis' spell, Look skill, 2,000 coins; level 4",
+      "dependencies": null,
+      "cooldownHours": null,
+      "capabilities": [
+        "navigate",
+        "dialog",
+        "inventory",
+        "spell"
+      ],
+      "status": "implemented",
+      "metadataReviewRequired": false,
+      "capabilitiesInferred": false,
+      "cooldownNotes": [],
+      "dependencyNotes": [],
+      "givesLegend": false,
+      "catalogException": "new-character-path"
     }
   ],
   "catalogScope": "quest-legend-rewards",
-  "legendQuestCount": 70
+  "legendQuestCount": 69
 }

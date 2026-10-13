@@ -371,13 +371,15 @@
   ],
   "Completed": [
     "Ah, it's a good thing you've done for a hard-working smith.",
-    "Thank ya so much. Here's a few coins for your effort."
+    "Thank ya so much. Here's a few coins for your effort.",
+    "Ah thank ya, you've done well."
   ],
   "Refused": [],
   "Cooldown": [],
   "EvidenceFiles": [
     "content/evidence/datester-7.41/spare-a-stick.json",
-    "content/evidence/datester-7.41/awesome-completion.json"
+    "content/evidence/datester-7.41/awesome-completion.json",
+    "content/evidence/datester-7.41/stick-repeat-completion.json"
   ],
   "ValidatedCharacters": [
     "Nuclear",

@@ -153,6 +153,12 @@ the observed completion reply, including single runs and offline characters.
 Validated Callough replies are retained across manual pauses; later correlated
 branch/experience packets can complete confirmation without resuming automation
 or submitting again. Missing or stale evidence keeps the transaction pending.
+When a saved turn-in needs confirmation, preparing the quest also checks its
+recorded replays for the matching Callough reply and branch/experience outcome.
+This can recover a verified reward after reconnecting without handing in again.
+It retains the original completion time and eight-hour cooldown. A replay from
+another character or connection cannot confirm the submission; unresolved
+outcomes remain paused with the actual reason shown beside the queue guidance.
 
 **Cured the Sick Child** is available in the selector and library. Requires level
 11+ and 5,000 gold per flower. Paulin (Loures Cyril Corridor, map 3070) needs five
@@ -237,11 +243,15 @@ cooldown refusal and live player detours await live validation. Perfect Hairstyl
 manually assisted Nuclear run and fully automated Clock attempt are captured.
 Both received Emerald Ring/15,000 XP; their weekly legend goals remain unfinished.
 Mundane Birth completed live on Nuclear and Clock. Ambiguous submissions pause without resending.
-Login and reconnect login are manual. Account manager edits character names and
+Saved passwords allow automatic sign-in through DAQuester's Launch actions;
+manual sign-in remains available. The account manager edits character names and
 stores optional passwords encrypted for the current Windows account.
 
 The catalog contains **70 quests with legend rewards**, filtered from 129 guides.
 Chance and conditional marks remain; 59 entries without quest legend rewards are
-removed. Spare a Stick, Mundane Birth, Perfect Hairstyle and Entered Muisir Village have executable recipes.
-Remaining entries are research metadata, with inferred
+removed. Shinewood Faerie is also included despite having no legend reward, for
+71 library entries in total. Nine quests have executable recipes: Spare a Stick,
+Mundane Birth, Perfect Hairstyle, Entered Muisir Village, Emerald Dawn,
+Shinewood Faerie, Cured the Sick Child, Aided the Pact of Anaman and Altar Worship.
+The other entries are guides for manual play, with inferred
 capability/dependency/cooldown notes marked for review.

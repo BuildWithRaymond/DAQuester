@@ -1,0 +1,2599 @@
+{
+  "SchemaVersion": 2,
+  "ServerProfile": "datester-7.41",
+  "Sanitized": true,
+  "Events": [
+    {
+      "Time": "2026-10-12T20:55:00.0089646+00:00",
+      "Character": "ReplayCharacter",
+      "Generation": 1,
+      "Revision": 657,
+      "Opcode": 48,
+      "Payload": "AgEAACHsAUAeAAFAHgAAsQARAQEACENhbGxvdWdoAJxJZiB5b3UnbGwgZ2F0aGVyIHNvbWUgYnJhbmNoZXMgZnJvbSBkb3duIHNvdXRoIG9mIHRoZSBpbm4sIG9yIGV2ZW4gYmV0dGVyLCBmcm9tIHRoZSBFYXN0IFdvb2RsYW5kcywgSSdsbCBoYXZlIHlvdSBhIGZpbmUgc3RpY2stLWFuZCBhIFdvb2RlbiBTaGllbGQgdG8gYm9vdC4FGEknbSBub3QgeW91ciBhcHByZW50aWNlIRNJJ20gbm90IGludGVyZXN0ZWQuGldoZXJlIGNhbiBJIGZpbmQgYnJhbmNoZXM/FEknbGwgZ2F0aGVyIHRoZW0gbm93G0kgaGF2ZSB0aG9zZSBicmFuY2hlcywgaGVyZQ==",
+      "Snapshot": {
+        "Name": "ReplayCharacter",
+        "Id": 42,
+        "Connected": true,
+        "Generation": 1,
+        "Revision": 657,
+        "Level": 5,
+        "Hp": 949,
+        "Gold": 101,
+        "Experience": 31601,
+        "InventoryKnown": true,
+        "Inventory": {
+          "1": {
+            "Slot": 1,
+            "Name": "Stick",
+            "Quantity": 1
+          },
+          "2": {
+            "Slot": 2,
+            "Name": "Wooden Shield",
+            "Quantity": 1
+          },
+          "3": {
+            "Slot": 3,
+            "Name": "Dirk",
+            "Quantity": 1
+          },
+          "4": {
+            "Slot": 4,
+            "Name": "Emerald Ring",
+            "Quantity": 1
+          },
+          "5": {
+            "Slot": 5,
+            "Name": "Branch",
+            "Quantity": 1
+          },
+          "6": {
+            "Slot": 6,
+            "Name": "Branch",
+            "Quantity": 1
+          },
+          "7": {
+            "Slot": 7,
+            "Name": "Branch",
+            "Quantity": 1
+          },
+          "8": {
+            "Slot": 8,
+            "Name": "Branch",
+            "Quantity": 1
+          },
+          "9": {
+            "Slot": 9,
+            "Name": "Branch",
+            "Quantity": 1
+          },
+          "10": {
+            "Slot": 10,
+            "Name": "Branch",
+            "Quantity": 1
+          },
+          "25": {
+            "Slot": 25,
+            "Name": "Tutorial Book",
+            "Quantity": 2
+          }
+        },
+        "Dialog": {
+          "Generation": 1,
+          "Revision": 657,
+          "EntityId": 8684,
+          "EntityType": 1,
+          "Name": "Callough",
+          "Text": "If you'll gather some branches from down south of the inn, or even better, from the East Woodlands, I'll have you a fine stick--and a Wooden Shield to boot.",
+          "IsPursuit": true,
+          "Pursuit": 177,
+          "Step": 17,
+          "Type": 2,
+          "Choices": [
+            {
+              "Text": "I'm not your apprentice!",
+              "Pursuit": 177,
+              "Option": 1
+            },
+            {
+              "Text": "I'm not interested.",
+              "Pursuit": 177,
+              "Option": 2
+            },
+            {
+              "Text": "Where can I find branches?",
+              "Pursuit": 177,
+              "Option": 3
+            },
+            {
+              "Text": "I'll gather them now",
+              "Pursuit": 177,
+              "Option": 4
+            },
+            {
+              "Text": "I have those branches, here",
+              "Pursuit": 177,
+              "Option": 5
+            }
+          ],
+          "Prompt": null,
+          "HasNext": true,
+          "ObservedAt": "2026-10-12T20:55:00.0089466+00:00"
+        }
+      }
+    },
+    {
+      "Time": "2026-10-12T20:55:00.36246+00:00",
+      "Character": "ReplayCharacter",
+      "Generation": 1,
+      "Revision": 658,
+      "Opcode": 16,
+      "Payload": "BQkAFw==",
+      "Snapshot": {
+        "Name": "ReplayCharacter",
+        "Id": 42,
+        "Connected": true,
+        "Generation": 1,
+        "Revision": 658,
+        "Level": 5,
+        "Hp": 949,
+        "Gold": 101,
+        "Experience": 31601,
+        "InventoryKnown": true,
+        "Inventory": {
+          "1": {
+            "Slot": 1,
+            "Name": "Stick",
+            "Quantity": 1
+          },
+          "2": {
+            "Slot": 2,
+            "Name": "Wooden Shield",
+            "Quantity": 1
+          },
+          "3": {
+            "Slot": 3,
+            "Name": "Dirk",
+            "Quantity": 1
+          },
+          "4": {
+            "Slot": 4,
+            "Name": "Emerald Ring",
+            "Quantity": 1
+          },
+          "6": {
+            "Slot": 6,
+            "Name": "Branch",
+            "Quantity": 1
+          },
+          "7": {
+            "Slot": 7,
+            "Name": "Branch",
+            "Quantity": 1
+          },
+          "8": {
+            "Slot": 8,
+            "Name": "Branch",
+            "Quantity": 1
+          },
+          "9": {
+            "Slot": 9,
+            "Name": "Branch",
+            "Quantity": 1
+          },
+          "10": {
+            "Slot": 10,
+            "Name": "Branch",
+            "Quantity": 1
+          },
+          "25": {
+            "Slot": 25,
+            "Name": "Tutorial Book",
+            "Quantity": 2
+          }
+        },
+        "Dialog": {
+          "Generation": 1,
+          "Revision": 657,
+          "EntityId": 8684,
+          "EntityType": 1,
+          "Name": "Callough",
+          "Text": "If you'll gather some branches from down south of the inn, or even better, from the East Woodlands, I'll have you a fine stick--and a Wooden Shield to boot.",
+          "IsPursuit": true,
+          "Pursuit": 177,
+          "Step": 17,
+          "Type": 2,
+          "Choices": [
+            {
+              "Text": "I'm not your apprentice!",
+              "Pursuit": 177,
+              "Option": 1
+            },
+            {
+              "Text": "I'm not interested.",
+              "Pursuit": 177,
+              "Option": 2
+            },
+            {
+              "Text": "Where can I find branches?",
+              "Pursuit": 177,
+              "Option": 3
+            },
+            {
+              "Text": "I'll gather them now",
+              "Pursuit": 177,
+              "Option": 4
+            },
+            {
+              "Text": "I have those branches, here",
+              "Pursuit": 177,
+              "Option": 5
+            }
+          ],
+          "Prompt": null,
+          "HasNext": true,
+          "ObservedAt": "2026-10-12T20:55:00.0089466+00:00"
+        }
+      }
+    },
+    {
+      "Time": "2026-10-12T20:55:00.3625459+00:00",
+      "Character": "ReplayCharacter",
+      "Generation": 1,
+      "Revision": 659,
+      "Opcode": 8,
+      "Payload": "JAEAAAUAAAADtQAAATgDAwMDAx8IADQAF2JMQT8AAAAAAAAAAAABYgICAA==",
+      "Snapshot": {
+        "Name": "ReplayCharacter",
+        "Id": 42,
+        "Connected": true,
+        "Generation": 1,
+        "Revision": 659,
+        "Level": 5,
+        "Hp": 949,
+        "Gold": 101,
+        "Experience": 31601,
+        "InventoryKnown": true,
+        "Inventory": {
+          "1": {
+            "Slot": 1,
+            "Name": "Stick",
+            "Quantity": 1
+          },
+          "2": {
+            "Slot": 2,
+            "Name": "Wooden Shield",
+            "Quantity": 1
+          },
+          "3": {
+            "Slot": 3,
+            "Name": "Dirk",
+            "Quantity": 1
+          },
+          "4": {
+            "Slot": 4,
+            "Name": "Emerald Ring",
+            "Quantity": 1
+          },
+          "6": {
+            "Slot": 6,
+            "Name": "Branch",
+            "Quantity": 1
+          },
+          "7": {
+            "Slot": 7,
+            "Name": "Branch",
+            "Quantity": 1
+          },
+          "8": {
+            "Slot": 8,
+            "Name": "Branch",
+            "Quantity": 1
+          },
+          "9": {
+            "Slot": 9,
+            "Name": "Branch",
+            "Quantity": 1
+          },
+          "10": {
+            "Slot": 10,
+            "Name": "Branch",
+            "Quantity": 1
+          },
+          "25": {
+            "Slot": 25,
+            "Name": "Tutorial Book",
+            "Quantity": 2
+          }
+        },
+        "Dialog": {
+          "Generation": 1,
+          "Revision": 657,
+          "EntityId": 8684,
+          "EntityType": 1,
+          "Name": "Callough",
+          "Text": "If you'll gather some branches from down south of the inn, or even better, from the East Woodlands, I'll have you a fine stick--and a Wooden Shield to boot.",
+          "IsPursuit": true,
+          "Pursuit": 177,
+          "Step": 17,
+          "Type": 2,
+          "Choices": [
+            {
+              "Text": "I'm not your apprentice!",
+              "Pursuit": 177,
+              "Option": 1
+            },
+            {
+              "Text": "I'm not interested.",
+              "Pursuit": 177,
+              "Option": 2
+            },
+            {
+              "Text": "Where can I find branches?",
+              "Pursuit": 177,
+              "Option": 3
+            },
+            {
+              "Text": "I'll gather them now",
+              "Pursuit": 177,
+              "Option": 4
+            },
+            {
+              "Text": "I have those branches, here",
+              "Pursuit": 177,
+              "Option": 5
+            }
+          ],
+          "Prompt": null,
+          "HasNext": true,
+          "ObservedAt": "2026-10-12T20:55:00.0089466+00:00"
+        }
+      }
+    },
+    {
+      "Time": "2026-10-12T20:55:00.3629471+00:00",
+      "Character": "ReplayCharacter",
+      "Generation": 1,
+      "Revision": 660,
+      "Opcode": 16,
+      "Payload": "BgkAFg==",
+      "Snapshot": {
+        "Name": "ReplayCharacter",
+        "Id": 42,
+        "Connected": true,
+        "Generation": 1,
+        "Revision": 660,
+        "Level": 5,
+        "Hp": 949,
+        "Gold": 101,
+        "Experience": 31601,
+        "InventoryKnown": true,
+        "Inventory": {
+          "1": {
+            "Slot": 1,
+            "Name": "Stick",
+            "Quantity": 1
+          },
+          "2": {
+            "Slot": 2,
+            "Name": "Wooden Shield",
+            "Quantity": 1
+          },
+          "3": {
+            "Slot": 3,
+            "Name": "Dirk",
+            "Quantity": 1
+          },
+          "4": {
+            "Slot": 4,
+            "Name": "Emerald Ring",
+            "Quantity": 1
+          },
+          "7": {
+            "Slot": 7,
+            "Name": "Branch",
+            "Quantity": 1
+          },
+          "8": {
+            "Slot": 8,
+            "Name": "Branch",
+            "Quantity": 1
+          },
+          "9": {
+            "Slot": 9,
+            "Name": "Branch",
+            "Quantity": 1
+          },
+          "10": {
+            "Slot": 10,
+            "Name": "Branch",
+            "Quantity": 1
+          },
+          "25": {
+            "Slot": 25,
+            "Name": "Tutorial Book",
+            "Quantity": 2
+          }
+        },
+        "Dialog": {
+          "Generation": 1,
+          "Revision": 657,
+          "EntityId": 8684,
+          "EntityType": 1,
+          "Name": "Callough",
+          "Text": "If you'll gather some branches from down south of the inn, or even better, from the East Woodlands, I'll have you a fine stick--and a Wooden Shield to boot.",
+          "IsPursuit": true,
+          "Pursuit": 177,
+          "Step": 17,
+          "Type": 2,
+          "Choices": [
+            {
+              "Text": "I'm not your apprentice!",
+              "Pursuit": 177,
+              "Option": 1
+            },
+            {
+              "Text": "I'm not interested.",
+              "Pursuit": 177,
+              "Option": 2
+            },
+            {
+              "Text": "Where can I find branches?",
+              "Pursuit": 177,
+              "Option": 3
+            },
+            {
+              "Text": "I'll gather them now",
+              "Pursuit": 177,
+              "Option": 4
+            },
+            {
+              "Text": "I have those branches, here",
+              "Pursuit": 177,
+              "Option": 5
+            }
+          ],
+          "Prompt": null,
+          "HasNext": true,
+          "ObservedAt": "2026-10-12T20:55:00.0089466+00:00"
+        }
+      }
+    },
+    {
+      "Time": "2026-10-12T20:55:00.3629964+00:00",
+      "Character": "ReplayCharacter",
+      "Generation": 1,
+      "Revision": 661,
+      "Opcode": 8,
+      "Payload": "JAEAAAUAAAADtQAAATgDAwMDAx8IADQAFmJMQT8AAAAAAAAAAAABYgIC",
+      "Snapshot": {
+        "Name": "ReplayCharacter",
+        "Id": 42,
+        "Connected": true,
+        "Generation": 1,
+        "Revision": 661,
+        "Level": 5,
+        "Hp": 949,
+        "Gold": 101,
+        "Experience": 31601,
+        "InventoryKnown": true,
+        "Inventory": {
+          "1": {
+            "Slot": 1,
+            "Name": "Stick",
+            "Quantity": 1
+          },
+          "2": {
+            "Slot": 2,
+            "Name": "Wooden Shield",
+            "Quantity": 1
+          },
+          "3": {
+            "Slot": 3,
+            "Name": "Dirk",
+            "Quantity": 1
+          },
+          "4": {
+            "Slot": 4,
+            "Name": "Emerald Ring",
+            "Quantity": 1
+          },
+          "7": {
+            "Slot": 7,
+            "Name": "Branch",
+            "Quantity": 1
+          },
+          "8": {
+            "Slot": 8,
+            "Name": "Branch",
+            "Quantity": 1
+          },
+          "9": {
+            "Slot": 9,
+            "Name": "Branch",
+            "Quantity": 1
+          },
+          "10": {
+            "Slot": 10,
+            "Name": "Branch",
+            "Quantity": 1
+          },
+          "25": {
+            "Slot": 25,
+            "Name": "Tutorial Book",
+            "Quantity": 2
+          }
+        },
+        "Dialog": {
+          "Generation": 1,
+          "Revision": 657,
+          "EntityId": 8684,
+          "EntityType": 1,
+          "Name": "Callough",
+          "Text": "If you'll gather some branches from down south of the inn, or even better, from the East Woodlands, I'll have you a fine stick--and a Wooden Shield to boot.",
+          "IsPursuit": true,
+          "Pursuit": 177,
+          "Step": 17,
+          "Type": 2,
+          "Choices": [
+            {
+              "Text": "I'm not your apprentice!",
+              "Pursuit": 177,
+              "Option": 1
+            },
+            {
+              "Text": "I'm not interested.",
+              "Pursuit": 177,
+              "Option": 2
+            },
+            {
+              "Text": "Where can I find branches?",
+              "Pursuit": 177,
+              "Option": 3
+            },
+            {
+              "Text": "I'll gather them now",
+              "Pursuit": 177,
+              "Option": 4
+            },
+            {
+              "Text": "I have those branches, here",
+              "Pursuit": 177,
+              "Option": 5
+            }
+          ],
+          "Prompt": null,
+          "HasNext": true,
+          "ObservedAt": "2026-10-12T20:55:00.0089466+00:00"
+        }
+      }
+    },
+    {
+      "Time": "2026-10-12T20:55:00.363817+00:00",
+      "Character": "ReplayCharacter",
+      "Generation": 1,
+      "Revision": 662,
+      "Opcode": 16,
+      "Payload": "BwkAFQ==",
+      "Snapshot": {
+        "Name": "ReplayCharacter",
+        "Id": 42,
+        "Connected": true,
+        "Generation": 1,
+        "Revision": 662,
+        "Level": 5,
+        "Hp": 949,
+        "Gold": 101,
+        "Experience": 31601,
+        "InventoryKnown": true,
+        "Inventory": {
+          "1": {
+            "Slot": 1,
+            "Name": "Stick",
+            "Quantity": 1
+          },
+          "2": {
+            "Slot": 2,
+            "Name": "Wooden Shield",
+            "Quantity": 1
+          },
+          "3": {
+            "Slot": 3,
+            "Name": "Dirk",
+            "Quantity": 1
+          },
+          "4": {
+            "Slot": 4,
+            "Name": "Emerald Ring",
+            "Quantity": 1
+          },
+          "8": {
+            "Slot": 8,
+            "Name": "Branch",
+            "Quantity": 1
+          },
+          "9": {
+            "Slot": 9,
+            "Name": "Branch",
+            "Quantity": 1
+          },
+          "10": {
+            "Slot": 10,
+            "Name": "Branch",
+            "Quantity": 1
+          },
+          "25": {
+            "Slot": 25,
+            "Name": "Tutorial Book",
+            "Quantity": 2
+          }
+        },
+        "Dialog": {
+          "Generation": 1,
+          "Revision": 657,
+          "EntityId": 8684,
+          "EntityType": 1,
+          "Name": "Callough",
+          "Text": "If you'll gather some branches from down south of the inn, or even better, from the East Woodlands, I'll have you a fine stick--and a Wooden Shield to boot.",
+          "IsPursuit": true,
+          "Pursuit": 177,
+          "Step": 17,
+          "Type": 2,
+          "Choices": [
+            {
+              "Text": "I'm not your apprentice!",
+              "Pursuit": 177,
+              "Option": 1
+            },
+            {
+              "Text": "I'm not interested.",
+              "Pursuit": 177,
+              "Option": 2
+            },
+            {
+              "Text": "Where can I find branches?",
+              "Pursuit": 177,
+              "Option": 3
+            },
+            {
+              "Text": "I'll gather them now",
+              "Pursuit": 177,
+              "Option": 4
+            },
+            {
+              "Text": "I have those branches, here",
+              "Pursuit": 177,
+              "Option": 5
+            }
+          ],
+          "Prompt": null,
+          "HasNext": true,
+          "ObservedAt": "2026-10-12T20:55:00.0089466+00:00"
+        }
+      }
+    },
+    {
+      "Time": "2026-10-12T20:55:00.3638886+00:00",
+      "Character": "ReplayCharacter",
+      "Generation": 1,
+      "Revision": 663,
+      "Opcode": 8,
+      "Payload": "JAEAAAUAAAADtQAAATgDAwMDAx8IADQAFWJMQT8AAAAAAAAAAAABYgIC",
+      "Snapshot": {
+        "Name": "ReplayCharacter",
+        "Id": 42,
+        "Connected": true,
+        "Generation": 1,
+        "Revision": 663,
+        "Level": 5,
+        "Hp": 949,
+        "Gold": 101,
+        "Experience": 31601,
+        "InventoryKnown": true,
+        "Inventory": {
+          "1": {
+            "Slot": 1,
+            "Name": "Stick",
+            "Quantity": 1
+          },
+          "2": {
+            "Slot": 2,
+            "Name": "Wooden Shield",
+            "Quantity": 1
+          },
+          "3": {
+            "Slot": 3,
+            "Name": "Dirk",
+            "Quantity": 1
+          },
+          "4": {
+            "Slot": 4,
+            "Name": "Emerald Ring",
+            "Quantity": 1
+          },
+          "8": {
+            "Slot": 8,
+            "Name": "Branch",
+            "Quantity": 1
+          },
+          "9": {
+            "Slot": 9,
+            "Name": "Branch",
+            "Quantity": 1
+          },
+          "10": {
+            "Slot": 10,
+            "Name": "Branch",
+            "Quantity": 1
+          },
+          "25": {
+            "Slot": 25,
+            "Name": "Tutorial Book",
+            "Quantity": 2
+          }
+        },
+        "Dialog": {
+          "Generation": 1,
+          "Revision": 657,
+          "EntityId": 8684,
+          "EntityType": 1,
+          "Name": "Callough",
+          "Text": "If you'll gather some branches from down south of the inn, or even better, from the East Woodlands, I'll have you a fine stick--and a Wooden Shield to boot.",
+          "IsPursuit": true,
+          "Pursuit": 177,
+          "Step": 17,
+          "Type": 2,
+          "Choices": [
+            {
+              "Text": "I'm not your apprentice!",
+              "Pursuit": 177,
+              "Option": 1
+            },
+            {
+              "Text": "I'm not interested.",
+              "Pursuit": 177,
+              "Option": 2
+            },
+            {
+              "Text": "Where can I find branches?",
+              "Pursuit": 177,
+              "Option": 3
+            },
+            {
+              "Text": "I'll gather them now",
+              "Pursuit": 177,
+              "Option": 4
+            },
+            {
+              "Text": "I have those branches, here",
+              "Pursuit": 177,
+              "Option": 5
+            }
+          ],
+          "Prompt": null,
+          "HasNext": true,
+          "ObservedAt": "2026-10-12T20:55:00.0089466+00:00"
+        }
+      }
+    },
+    {
+      "Time": "2026-10-12T20:55:00.3639265+00:00",
+      "Character": "ReplayCharacter",
+      "Generation": 1,
+      "Revision": 664,
+      "Opcode": 16,
+      "Payload": "CAkAFA==",
+      "Snapshot": {
+        "Name": "ReplayCharacter",
+        "Id": 42,
+        "Connected": true,
+        "Generation": 1,
+        "Revision": 664,
+        "Level": 5,
+        "Hp": 949,
+        "Gold": 101,
+        "Experience": 31601,
+        "InventoryKnown": true,
+        "Inventory": {
+          "1": {
+            "Slot": 1,
+            "Name": "Stick",
+            "Quantity": 1
+          },
+          "2": {
+            "Slot": 2,
+            "Name": "Wooden Shield",
+            "Quantity": 1
+          },
+          "3": {
+            "Slot": 3,
+            "Name": "Dirk",
+            "Quantity": 1
+          },
+          "4": {
+            "Slot": 4,
+            "Name": "Emerald Ring",
+            "Quantity": 1
+          },
+          "9": {
+            "Slot": 9,
+            "Name": "Branch",
+            "Quantity": 1
+          },
+          "10": {
+            "Slot": 10,
+            "Name": "Branch",
+            "Quantity": 1
+          },
+          "25": {
+            "Slot": 25,
+            "Name": "Tutorial Book",
+            "Quantity": 2
+          }
+        },
+        "Dialog": {
+          "Generation": 1,
+          "Revision": 657,
+          "EntityId": 8684,
+          "EntityType": 1,
+          "Name": "Callough",
+          "Text": "If you'll gather some branches from down south of the inn, or even better, from the East Woodlands, I'll have you a fine stick--and a Wooden Shield to boot.",
+          "IsPursuit": true,
+          "Pursuit": 177,
+          "Step": 17,
+          "Type": 2,
+          "Choices": [
+            {
+              "Text": "I'm not your apprentice!",
+              "Pursuit": 177,
+              "Option": 1
+            },
+            {
+              "Text": "I'm not interested.",
+              "Pursuit": 177,
+              "Option": 2
+            },
+            {
+              "Text": "Where can I find branches?",
+              "Pursuit": 177,
+              "Option": 3
+            },
+            {
+              "Text": "I'll gather them now",
+              "Pursuit": 177,
+              "Option": 4
+            },
+            {
+              "Text": "I have those branches, here",
+              "Pursuit": 177,
+              "Option": 5
+            }
+          ],
+          "Prompt": null,
+          "HasNext": true,
+          "ObservedAt": "2026-10-12T20:55:00.0089466+00:00"
+        }
+      }
+    },
+    {
+      "Time": "2026-10-12T20:55:00.3639572+00:00",
+      "Character": "ReplayCharacter",
+      "Generation": 1,
+      "Revision": 665,
+      "Opcode": 8,
+      "Payload": "JAEAAAUAAAADtQAAATgDAwMDAx8IADQAFGJMQT8AAAAAAAAAAAABYgIC",
+      "Snapshot": {
+        "Name": "ReplayCharacter",
+        "Id": 42,
+        "Connected": true,
+        "Generation": 1,
+        "Revision": 665,
+        "Level": 5,
+        "Hp": 949,
+        "Gold": 101,
+        "Experience": 31601,
+        "InventoryKnown": true,
+        "Inventory": {
+          "1": {
+            "Slot": 1,
+            "Name": "Stick",
+            "Quantity": 1
+          },
+          "2": {
+            "Slot": 2,
+            "Name": "Wooden Shield",
+            "Quantity": 1
+          },
+          "3": {
+            "Slot": 3,
+            "Name": "Dirk",
+            "Quantity": 1
+          },
+          "4": {
+            "Slot": 4,
+            "Name": "Emerald Ring",
+            "Quantity": 1
+          },
+          "9": {
+            "Slot": 9,
+            "Name": "Branch",
+            "Quantity": 1
+          },
+          "10": {
+            "Slot": 10,
+            "Name": "Branch",
+            "Quantity": 1
+          },
+          "25": {
+            "Slot": 25,
+            "Name": "Tutorial Book",
+            "Quantity": 2
+          }
+        },
+        "Dialog": {
+          "Generation": 1,
+          "Revision": 657,
+          "EntityId": 8684,
+          "EntityType": 1,
+          "Name": "Callough",
+          "Text": "If you'll gather some branches from down south of the inn, or even better, from the East Woodlands, I'll have you a fine stick--and a Wooden Shield to boot.",
+          "IsPursuit": true,
+          "Pursuit": 177,
+          "Step": 17,
+          "Type": 2,
+          "Choices": [
+            {
+              "Text": "I'm not your apprentice!",
+              "Pursuit": 177,
+              "Option": 1
+            },
+            {
+              "Text": "I'm not interested.",
+              "Pursuit": 177,
+              "Option": 2
+            },
+            {
+              "Text": "Where can I find branches?",
+              "Pursuit": 177,
+              "Option": 3
+            },
+            {
+              "Text": "I'll gather them now",
+              "Pursuit": 177,
+              "Option": 4
+            },
+            {
+              "Text": "I have those branches, here",
+              "Pursuit": 177,
+              "Option": 5
+            }
+          ],
+          "Prompt": null,
+          "HasNext": true,
+          "ObservedAt": "2026-10-12T20:55:00.0089466+00:00"
+        }
+      }
+    },
+    {
+      "Time": "2026-10-12T20:55:00.3639915+00:00",
+      "Character": "ReplayCharacter",
+      "Generation": 1,
+      "Revision": 666,
+      "Opcode": 16,
+      "Payload": "CQkAEw==",
+      "Snapshot": {
+        "Name": "ReplayCharacter",
+        "Id": 42,
+        "Connected": true,
+        "Generation": 1,
+        "Revision": 666,
+        "Level": 5,
+        "Hp": 949,
+        "Gold": 101,
+        "Experience": 31601,
+        "InventoryKnown": true,
+        "Inventory": {
+          "1": {
+            "Slot": 1,
+            "Name": "Stick",
+            "Quantity": 1
+          },
+          "2": {
+            "Slot": 2,
+            "Name": "Wooden Shield",
+            "Quantity": 1
+          },
+          "3": {
+            "Slot": 3,
+            "Name": "Dirk",
+            "Quantity": 1
+          },
+          "4": {
+            "Slot": 4,
+            "Name": "Emerald Ring",
+            "Quantity": 1
+          },
+          "10": {
+            "Slot": 10,
+            "Name": "Branch",
+            "Quantity": 1
+          },
+          "25": {
+            "Slot": 25,
+            "Name": "Tutorial Book",
+            "Quantity": 2
+          }
+        },
+        "Dialog": {
+          "Generation": 1,
+          "Revision": 657,
+          "EntityId": 8684,
+          "EntityType": 1,
+          "Name": "Callough",
+          "Text": "If you'll gather some branches from down south of the inn, or even better, from the East Woodlands, I'll have you a fine stick--and a Wooden Shield to boot.",
+          "IsPursuit": true,
+          "Pursuit": 177,
+          "Step": 17,
+          "Type": 2,
+          "Choices": [
+            {
+              "Text": "I'm not your apprentice!",
+              "Pursuit": 177,
+              "Option": 1
+            },
+            {
+              "Text": "I'm not interested.",
+              "Pursuit": 177,
+              "Option": 2
+            },
+            {
+              "Text": "Where can I find branches?",
+              "Pursuit": 177,
+              "Option": 3
+            },
+            {
+              "Text": "I'll gather them now",
+              "Pursuit": 177,
+              "Option": 4
+            },
+            {
+              "Text": "I have those branches, here",
+              "Pursuit": 177,
+              "Option": 5
+            }
+          ],
+          "Prompt": null,
+          "HasNext": true,
+          "ObservedAt": "2026-10-12T20:55:00.0089466+00:00"
+        }
+      }
+    },
+    {
+      "Time": "2026-10-12T20:55:00.3640205+00:00",
+      "Character": "ReplayCharacter",
+      "Generation": 1,
+      "Revision": 667,
+      "Opcode": 8,
+      "Payload": "JAEAAAUAAAADtQAAATgDAwMDAx8IADQAE2JMQT8AAAAAAAAAAAABYgIC",
+      "Snapshot": {
+        "Name": "ReplayCharacter",
+        "Id": 42,
+        "Connected": true,
+        "Generation": 1,
+        "Revision": 667,
+        "Level": 5,
+        "Hp": 949,
+        "Gold": 101,
+        "Experience": 31601,
+        "InventoryKnown": true,
+        "Inventory": {
+          "1": {
+            "Slot": 1,
+            "Name": "Stick",
+            "Quantity": 1
+          },
+          "2": {
+            "Slot": 2,
+            "Name": "Wooden Shield",
+            "Quantity": 1
+          },
+          "3": {
+            "Slot": 3,
+            "Name": "Dirk",
+            "Quantity": 1
+          },
+          "4": {
+            "Slot": 4,
+            "Name": "Emerald Ring",
+            "Quantity": 1
+          },
+          "10": {
+            "Slot": 10,
+            "Name": "Branch",
+            "Quantity": 1
+          },
+          "25": {
+            "Slot": 25,
+            "Name": "Tutorial Book",
+            "Quantity": 2
+          }
+        },
+        "Dialog": {
+          "Generation": 1,
+          "Revision": 657,
+          "EntityId": 8684,
+          "EntityType": 1,
+          "Name": "Callough",
+          "Text": "If you'll gather some branches from down south of the inn, or even better, from the East Woodlands, I'll have you a fine stick--and a Wooden Shield to boot.",
+          "IsPursuit": true,
+          "Pursuit": 177,
+          "Step": 17,
+          "Type": 2,
+          "Choices": [
+            {
+              "Text": "I'm not your apprentice!",
+              "Pursuit": 177,
+              "Option": 1
+            },
+            {
+              "Text": "I'm not interested.",
+              "Pursuit": 177,
+              "Option": 2
+            },
+            {
+              "Text": "Where can I find branches?",
+              "Pursuit": 177,
+              "Option": 3
+            },
+            {
+              "Text": "I'll gather them now",
+              "Pursuit": 177,
+              "Option": 4
+            },
+            {
+              "Text": "I have those branches, here",
+              "Pursuit": 177,
+              "Option": 5
+            }
+          ],
+          "Prompt": null,
+          "HasNext": true,
+          "ObservedAt": "2026-10-12T20:55:00.0089466+00:00"
+        }
+      }
+    },
+    {
+      "Time": "2026-10-12T20:55:00.3641192+00:00",
+      "Character": "ReplayCharacter",
+      "Generation": 1,
+      "Revision": 668,
+      "Opcode": 16,
+      "Payload": "CgkAEg==",
+      "Snapshot": {
+        "Name": "ReplayCharacter",
+        "Id": 42,
+        "Connected": true,
+        "Generation": 1,
+        "Revision": 668,
+        "Level": 5,
+        "Hp": 949,
+        "Gold": 101,
+        "Experience": 31601,
+        "InventoryKnown": true,
+        "Inventory": {
+          "1": {
+            "Slot": 1,
+            "Name": "Stick",
+            "Quantity": 1
+          },
+          "2": {
+            "Slot": 2,
+            "Name": "Wooden Shield",
+            "Quantity": 1
+          },
+          "3": {
+            "Slot": 3,
+            "Name": "Dirk",
+            "Quantity": 1
+          },
+          "4": {
+            "Slot": 4,
+            "Name": "Emerald Ring",
+            "Quantity": 1
+          },
+          "25": {
+            "Slot": 25,
+            "Name": "Tutorial Book",
+            "Quantity": 2
+          }
+        },
+        "Dialog": {
+          "Generation": 1,
+          "Revision": 657,
+          "EntityId": 8684,
+          "EntityType": 1,
+          "Name": "Callough",
+          "Text": "If you'll gather some branches from down south of the inn, or even better, from the East Woodlands, I'll have you a fine stick--and a Wooden Shield to boot.",
+          "IsPursuit": true,
+          "Pursuit": 177,
+          "Step": 17,
+          "Type": 2,
+          "Choices": [
+            {
+              "Text": "I'm not your apprentice!",
+              "Pursuit": 177,
+              "Option": 1
+            },
+            {
+              "Text": "I'm not interested.",
+              "Pursuit": 177,
+              "Option": 2
+            },
+            {
+              "Text": "Where can I find branches?",
+              "Pursuit": 177,
+              "Option": 3
+            },
+            {
+              "Text": "I'll gather them now",
+              "Pursuit": 177,
+              "Option": 4
+            },
+            {
+              "Text": "I have those branches, here",
+              "Pursuit": 177,
+              "Option": 5
+            }
+          ],
+          "Prompt": null,
+          "HasNext": true,
+          "ObservedAt": "2026-10-12T20:55:00.0089466+00:00"
+        }
+      }
+    },
+    {
+      "Time": "2026-10-12T20:55:00.364155+00:00",
+      "Character": "ReplayCharacter",
+      "Generation": 1,
+      "Revision": 669,
+      "Opcode": 8,
+      "Payload": "JAEAAAUAAAADtQAAATgDAwMDAx8IADQAEmJMQT8AAAAAAAAAAAABYgIC",
+      "Snapshot": {
+        "Name": "ReplayCharacter",
+        "Id": 42,
+        "Connected": true,
+        "Generation": 1,
+        "Revision": 669,
+        "Level": 5,
+        "Hp": 949,
+        "Gold": 101,
+        "Experience": 31601,
+        "InventoryKnown": true,
+        "Inventory": {
+          "1": {
+            "Slot": 1,
+            "Name": "Stick",
+            "Quantity": 1
+          },
+          "2": {
+            "Slot": 2,
+            "Name": "Wooden Shield",
+            "Quantity": 1
+          },
+          "3": {
+            "Slot": 3,
+            "Name": "Dirk",
+            "Quantity": 1
+          },
+          "4": {
+            "Slot": 4,
+            "Name": "Emerald Ring",
+            "Quantity": 1
+          },
+          "25": {
+            "Slot": 25,
+            "Name": "Tutorial Book",
+            "Quantity": 2
+          }
+        },
+        "Dialog": {
+          "Generation": 1,
+          "Revision": 657,
+          "EntityId": 8684,
+          "EntityType": 1,
+          "Name": "Callough",
+          "Text": "If you'll gather some branches from down south of the inn, or even better, from the East Woodlands, I'll have you a fine stick--and a Wooden Shield to boot.",
+          "IsPursuit": true,
+          "Pursuit": 177,
+          "Step": 17,
+          "Type": 2,
+          "Choices": [
+            {
+              "Text": "I'm not your apprentice!",
+              "Pursuit": 177,
+              "Option": 1
+            },
+            {
+              "Text": "I'm not interested.",
+              "Pursuit": 177,
+              "Option": 2
+            },
+            {
+              "Text": "Where can I find branches?",
+              "Pursuit": 177,
+              "Option": 3
+            },
+            {
+              "Text": "I'll gather them now",
+              "Pursuit": 177,
+              "Option": 4
+            },
+            {
+              "Text": "I have those branches, here",
+              "Pursuit": 177,
+              "Option": 5
+            }
+          ],
+          "Prompt": null,
+          "HasNext": true,
+          "ObservedAt": "2026-10-12T20:55:00.0089466+00:00"
+        }
+      }
+    },
+    {
+      "Time": "2026-10-12T20:55:00.3641877+00:00",
+      "Character": "ReplayCharacter",
+      "Generation": 1,
+      "Revision": 670,
+      "Opcode": 8,
+      "Payload": "DAAAg0EAAFIHAAAAAAAAAAAAAAAAAAAAZQAAAAAAAAAAAAFiAgIA",
+      "Snapshot": {
+        "Name": "ReplayCharacter",
+        "Id": 42,
+        "Connected": true,
+        "Generation": 1,
+        "Revision": 670,
+        "Level": 5,
+        "Hp": 949,
+        "Gold": 101,
+        "Experience": 33601,
+        "InventoryKnown": true,
+        "Inventory": {
+          "1": {
+            "Slot": 1,
+            "Name": "Stick",
+            "Quantity": 1
+          },
+          "2": {
+            "Slot": 2,
+            "Name": "Wooden Shield",
+            "Quantity": 1
+          },
+          "3": {
+            "Slot": 3,
+            "Name": "Dirk",
+            "Quantity": 1
+          },
+          "4": {
+            "Slot": 4,
+            "Name": "Emerald Ring",
+            "Quantity": 1
+          },
+          "25": {
+            "Slot": 25,
+            "Name": "Tutorial Book",
+            "Quantity": 2
+          }
+        },
+        "Dialog": {
+          "Generation": 1,
+          "Revision": 657,
+          "EntityId": 8684,
+          "EntityType": 1,
+          "Name": "Callough",
+          "Text": "If you'll gather some branches from down south of the inn, or even better, from the East Woodlands, I'll have you a fine stick--and a Wooden Shield to boot.",
+          "IsPursuit": true,
+          "Pursuit": 177,
+          "Step": 17,
+          "Type": 2,
+          "Choices": [
+            {
+              "Text": "I'm not your apprentice!",
+              "Pursuit": 177,
+              "Option": 1
+            },
+            {
+              "Text": "I'm not interested.",
+              "Pursuit": 177,
+              "Option": 2
+            },
+            {
+              "Text": "Where can I find branches?",
+              "Pursuit": 177,
+              "Option": 3
+            },
+            {
+              "Text": "I'll gather them now",
+              "Pursuit": 177,
+              "Option": 4
+            },
+            {
+              "Text": "I have those branches, here",
+              "Pursuit": 177,
+              "Option": 5
+            }
+          ],
+          "Prompt": null,
+          "HasNext": true,
+          "ObservedAt": "2026-10-12T20:55:00.0089466+00:00"
+        }
+      }
+    },
+    {
+      "Time": "2026-10-12T20:55:00.3642253+00:00",
+      "Character": "ReplayCharacter",
+      "Generation": 1,
+      "Revision": 671,
+      "Opcode": 10,
+      "Payload": "AwAQMjAwMCBleHBlcmllbmNlIQ==",
+      "Snapshot": {
+        "Name": "ReplayCharacter",
+        "Id": 42,
+        "Connected": true,
+        "Generation": 1,
+        "Revision": 671,
+        "Level": 5,
+        "Hp": 949,
+        "Gold": 101,
+        "Experience": 33601,
+        "InventoryKnown": true,
+        "Inventory": {
+          "1": {
+            "Slot": 1,
+            "Name": "Stick",
+            "Quantity": 1
+          },
+          "2": {
+            "Slot": 2,
+            "Name": "Wooden Shield",
+            "Quantity": 1
+          },
+          "3": {
+            "Slot": 3,
+            "Name": "Dirk",
+            "Quantity": 1
+          },
+          "4": {
+            "Slot": 4,
+            "Name": "Emerald Ring",
+            "Quantity": 1
+          },
+          "25": {
+            "Slot": 25,
+            "Name": "Tutorial Book",
+            "Quantity": 2
+          }
+        },
+        "Dialog": {
+          "Generation": 1,
+          "Revision": 657,
+          "EntityId": 8684,
+          "EntityType": 1,
+          "Name": "Callough",
+          "Text": "If you'll gather some branches from down south of the inn, or even better, from the East Woodlands, I'll have you a fine stick--and a Wooden Shield to boot.",
+          "IsPursuit": true,
+          "Pursuit": 177,
+          "Step": 17,
+          "Type": 2,
+          "Choices": [
+            {
+              "Text": "I'm not your apprentice!",
+              "Pursuit": 177,
+              "Option": 1
+            },
+            {
+              "Text": "I'm not interested.",
+              "Pursuit": 177,
+              "Option": 2
+            },
+            {
+              "Text": "Where can I find branches?",
+              "Pursuit": 177,
+              "Option": 3
+            },
+            {
+              "Text": "I'll gather them now",
+              "Pursuit": 177,
+              "Option": 4
+            },
+            {
+              "Text": "I have those branches, here",
+              "Pursuit": 177,
+              "Option": 5
+            }
+          ],
+          "Prompt": null,
+          "HasNext": true,
+          "ObservedAt": "2026-10-12T20:55:00.0089466+00:00"
+        }
+      }
+    },
+    {
+      "Time": "2026-10-12T20:55:00.3642553+00:00",
+      "Character": "ReplayCharacter",
+      "Generation": 1,
+      "Revision": 672,
+      "Opcode": 10,
+      "Payload": "AwAZWW91ciBsZXZlbCBoYXMgaW5jcmVhc2VkLg==",
+      "Snapshot": {
+        "Name": "ReplayCharacter",
+        "Id": 42,
+        "Connected": true,
+        "Generation": 1,
+        "Revision": 672,
+        "Level": 5,
+        "Hp": 949,
+        "Gold": 101,
+        "Experience": 33601,
+        "InventoryKnown": true,
+        "Inventory": {
+          "1": {
+            "Slot": 1,
+            "Name": "Stick",
+            "Quantity": 1
+          },
+          "2": {
+            "Slot": 2,
+            "Name": "Wooden Shield",
+            "Quantity": 1
+          },
+          "3": {
+            "Slot": 3,
+            "Name": "Dirk",
+            "Quantity": 1
+          },
+          "4": {
+            "Slot": 4,
+            "Name": "Emerald Ring",
+            "Quantity": 1
+          },
+          "25": {
+            "Slot": 25,
+            "Name": "Tutorial Book",
+            "Quantity": 2
+          }
+        },
+        "Dialog": {
+          "Generation": 1,
+          "Revision": 657,
+          "EntityId": 8684,
+          "EntityType": 1,
+          "Name": "Callough",
+          "Text": "If you'll gather some branches from down south of the inn, or even better, from the East Woodlands, I'll have you a fine stick--and a Wooden Shield to boot.",
+          "IsPursuit": true,
+          "Pursuit": 177,
+          "Step": 17,
+          "Type": 2,
+          "Choices": [
+            {
+              "Text": "I'm not your apprentice!",
+              "Pursuit": 177,
+              "Option": 1
+            },
+            {
+              "Text": "I'm not interested.",
+              "Pursuit": 177,
+              "Option": 2
+            },
+            {
+              "Text": "Where can I find branches?",
+              "Pursuit": 177,
+              "Option": 3
+            },
+            {
+              "Text": "I'll gather them now",
+              "Pursuit": 177,
+              "Option": 4
+            },
+            {
+              "Text": "I have those branches, here",
+              "Pursuit": 177,
+              "Option": 5
+            }
+          ],
+          "Prompt": null,
+          "HasNext": true,
+          "ObservedAt": "2026-10-12T20:55:00.0089466+00:00"
+        }
+      }
+    },
+    {
+      "Time": "2026-10-12T20:55:00.3643094+00:00",
+      "Character": "ReplayCharacter",
+      "Generation": 1,
+      "Revision": 673,
+      "Opcode": 8,
+      "Payload": "NAEAAAYAAAAD5gAAAW4DAwMDAx8KADQAEmIACMMAAAPmAAABbgAAAAAAAAAAAAFiAgI=",
+      "Snapshot": {
+        "Name": "ReplayCharacter",
+        "Id": 42,
+        "Connected": true,
+        "Generation": 1,
+        "Revision": 673,
+        "Level": 6,
+        "Hp": 998,
+        "Gold": 101,
+        "Experience": 33601,
+        "InventoryKnown": true,
+        "Inventory": {
+          "1": {
+            "Slot": 1,
+            "Name": "Stick",
+            "Quantity": 1
+          },
+          "2": {
+            "Slot": 2,
+            "Name": "Wooden Shield",
+            "Quantity": 1
+          },
+          "3": {
+            "Slot": 3,
+            "Name": "Dirk",
+            "Quantity": 1
+          },
+          "4": {
+            "Slot": 4,
+            "Name": "Emerald Ring",
+            "Quantity": 1
+          },
+          "25": {
+            "Slot": 25,
+            "Name": "Tutorial Book",
+            "Quantity": 2
+          }
+        },
+        "Dialog": {
+          "Generation": 1,
+          "Revision": 657,
+          "EntityId": 8684,
+          "EntityType": 1,
+          "Name": "Callough",
+          "Text": "If you'll gather some branches from down south of the inn, or even better, from the East Woodlands, I'll have you a fine stick--and a Wooden Shield to boot.",
+          "IsPursuit": true,
+          "Pursuit": 177,
+          "Step": 17,
+          "Type": 2,
+          "Choices": [
+            {
+              "Text": "I'm not your apprentice!",
+              "Pursuit": 177,
+              "Option": 1
+            },
+            {
+              "Text": "I'm not interested.",
+              "Pursuit": 177,
+              "Option": 2
+            },
+            {
+              "Text": "Where can I find branches?",
+              "Pursuit": 177,
+              "Option": 3
+            },
+            {
+              "Text": "I'll gather them now",
+              "Pursuit": 177,
+              "Option": 4
+            },
+            {
+              "Text": "I have those branches, here",
+              "Pursuit": 177,
+              "Option": 5
+            }
+          ],
+          "Prompt": null,
+          "HasNext": true,
+          "ObservedAt": "2026-10-12T20:55:00.0089466+00:00"
+        }
+      }
+    },
+    {
+      "Time": "2026-10-12T20:55:00.3643378+00:00",
+      "Character": "ReplayCharacter",
+      "Generation": 1,
+      "Revision": 674,
+      "Opcode": 8,
+      "Payload": "BAAAAAAAAAAAAAFiAgI=",
+      "Snapshot": {
+        "Name": "ReplayCharacter",
+        "Id": 42,
+        "Connected": true,
+        "Generation": 1,
+        "Revision": 674,
+        "Level": 6,
+        "Hp": 998,
+        "Gold": 101,
+        "Experience": 33601,
+        "InventoryKnown": true,
+        "Inventory": {
+          "1": {
+            "Slot": 1,
+            "Name": "Stick",
+            "Quantity": 1
+          },
+          "2": {
+            "Slot": 2,
+            "Name": "Wooden Shield",
+            "Quantity": 1
+          },
+          "3": {
+            "Slot": 3,
+            "Name": "Dirk",
+            "Quantity": 1
+          },
+          "4": {
+            "Slot": 4,
+            "Name": "Emerald Ring",
+            "Quantity": 1
+          },
+          "25": {
+            "Slot": 25,
+            "Name": "Tutorial Book",
+            "Quantity": 2
+          }
+        },
+        "Dialog": {
+          "Generation": 1,
+          "Revision": 657,
+          "EntityId": 8684,
+          "EntityType": 1,
+          "Name": "Callough",
+          "Text": "If you'll gather some branches from down south of the inn, or even better, from the East Woodlands, I'll have you a fine stick--and a Wooden Shield to boot.",
+          "IsPursuit": true,
+          "Pursuit": 177,
+          "Step": 17,
+          "Type": 2,
+          "Choices": [
+            {
+              "Text": "I'm not your apprentice!",
+              "Pursuit": 177,
+              "Option": 1
+            },
+            {
+              "Text": "I'm not interested.",
+              "Pursuit": 177,
+              "Option": 2
+            },
+            {
+              "Text": "Where can I find branches?",
+              "Pursuit": 177,
+              "Option": 3
+            },
+            {
+              "Text": "I'll gather them now",
+              "Pursuit": 177,
+              "Option": 4
+            },
+            {
+              "Text": "I have those branches, here",
+              "Pursuit": 177,
+              "Option": 5
+            }
+          ],
+          "Prompt": null,
+          "HasNext": true,
+          "ObservedAt": "2026-10-12T20:55:00.0089466+00:00"
+        }
+      }
+    },
+    {
+      "Time": "2026-10-12T20:55:00.3643748+00:00",
+      "Character": "ReplayCharacter",
+      "Generation": 1,
+      "Revision": 675,
+      "Opcode": 15,
+      "Payload": "BYBWAAVTdGljawAAAAEAAAAD6AAAA+gA",
+      "Snapshot": {
+        "Name": "ReplayCharacter",
+        "Id": 42,
+        "Connected": true,
+        "Generation": 1,
+        "Revision": 675,
+        "Level": 6,
+        "Hp": 998,
+        "Gold": 101,
+        "Experience": 33601,
+        "InventoryKnown": true,
+        "Inventory": {
+          "1": {
+            "Slot": 1,
+            "Name": "Stick",
+            "Quantity": 1
+          },
+          "2": {
+            "Slot": 2,
+            "Name": "Wooden Shield",
+            "Quantity": 1
+          },
+          "3": {
+            "Slot": 3,
+            "Name": "Dirk",
+            "Quantity": 1
+          },
+          "4": {
+            "Slot": 4,
+            "Name": "Emerald Ring",
+            "Quantity": 1
+          },
+          "5": {
+            "Slot": 5,
+            "Name": "Stick",
+            "Quantity": 1
+          },
+          "25": {
+            "Slot": 25,
+            "Name": "Tutorial Book",
+            "Quantity": 2
+          }
+        },
+        "Dialog": {
+          "Generation": 1,
+          "Revision": 657,
+          "EntityId": 8684,
+          "EntityType": 1,
+          "Name": "Callough",
+          "Text": "If you'll gather some branches from down south of the inn, or even better, from the East Woodlands, I'll have you a fine stick--and a Wooden Shield to boot.",
+          "IsPursuit": true,
+          "Pursuit": 177,
+          "Step": 17,
+          "Type": 2,
+          "Choices": [
+            {
+              "Text": "I'm not your apprentice!",
+              "Pursuit": 177,
+              "Option": 1
+            },
+            {
+              "Text": "I'm not interested.",
+              "Pursuit": 177,
+              "Option": 2
+            },
+            {
+              "Text": "Where can I find branches?",
+              "Pursuit": 177,
+              "Option": 3
+            },
+            {
+              "Text": "I'll gather them now",
+              "Pursuit": 177,
+              "Option": 4
+            },
+            {
+              "Text": "I have those branches, here",
+              "Pursuit": 177,
+              "Option": 5
+            }
+          ],
+          "Prompt": null,
+          "HasNext": true,
+          "ObservedAt": "2026-10-12T20:55:00.0089466+00:00"
+        }
+      }
+    },
+    {
+      "Time": "2026-10-12T20:55:00.3644049+00:00",
+      "Character": "ReplayCharacter",
+      "Generation": 1,
+      "Revision": 676,
+      "Opcode": 8,
+      "Payload": "JAEAAAYAAAAD5gAAAW4DAwMDAx8KADQAFWL3UFoAAAAAAAAAAAABYgIC",
+      "Snapshot": {
+        "Name": "ReplayCharacter",
+        "Id": 42,
+        "Connected": true,
+        "Generation": 1,
+        "Revision": 676,
+        "Level": 6,
+        "Hp": 998,
+        "Gold": 101,
+        "Experience": 33601,
+        "InventoryKnown": true,
+        "Inventory": {
+          "1": {
+            "Slot": 1,
+            "Name": "Stick",
+            "Quantity": 1
+          },
+          "2": {
+            "Slot": 2,
+            "Name": "Wooden Shield",
+            "Quantity": 1
+          },
+          "3": {
+            "Slot": 3,
+            "Name": "Dirk",
+            "Quantity": 1
+          },
+          "4": {
+            "Slot": 4,
+            "Name": "Emerald Ring",
+            "Quantity": 1
+          },
+          "5": {
+            "Slot": 5,
+            "Name": "Stick",
+            "Quantity": 1
+          },
+          "25": {
+            "Slot": 25,
+            "Name": "Tutorial Book",
+            "Quantity": 2
+          }
+        },
+        "Dialog": {
+          "Generation": 1,
+          "Revision": 657,
+          "EntityId": 8684,
+          "EntityType": 1,
+          "Name": "Callough",
+          "Text": "If you'll gather some branches from down south of the inn, or even better, from the East Woodlands, I'll have you a fine stick--and a Wooden Shield to boot.",
+          "IsPursuit": true,
+          "Pursuit": 177,
+          "Step": 17,
+          "Type": 2,
+          "Choices": [
+            {
+              "Text": "I'm not your apprentice!",
+              "Pursuit": 177,
+              "Option": 1
+            },
+            {
+              "Text": "I'm not interested.",
+              "Pursuit": 177,
+              "Option": 2
+            },
+            {
+              "Text": "Where can I find branches?",
+              "Pursuit": 177,
+              "Option": 3
+            },
+            {
+              "Text": "I'll gather them now",
+              "Pursuit": 177,
+              "Option": 4
+            },
+            {
+              "Text": "I have those branches, here",
+              "Pursuit": 177,
+              "Option": 5
+            }
+          ],
+          "Prompt": null,
+          "HasNext": true,
+          "ObservedAt": "2026-10-12T20:55:00.0089466+00:00"
+        }
+      }
+    },
+    {
+      "Time": "2026-10-12T20:55:00.3644377+00:00",
+      "Character": "ReplayCharacter",
+      "Generation": 1,
+      "Revision": 677,
+      "Opcode": 15,
+      "Payload": "BoBcAA1Xb29kZW4gU2hpZWxkAAAAAQAAAAu4AAALuAA=",
+      "Snapshot": {
+        "Name": "ReplayCharacter",
+        "Id": 42,
+        "Connected": true,
+        "Generation": 1,
+        "Revision": 677,
+        "Level": 6,
+        "Hp": 998,
+        "Gold": 101,
+        "Experience": 33601,
+        "InventoryKnown": true,
+        "Inventory": {
+          "1": {
+            "Slot": 1,
+            "Name": "Stick",
+            "Quantity": 1
+          },
+          "2": {
+            "Slot": 2,
+            "Name": "Wooden Shield",
+            "Quantity": 1
+          },
+          "3": {
+            "Slot": 3,
+            "Name": "Dirk",
+            "Quantity": 1
+          },
+          "4": {
+            "Slot": 4,
+            "Name": "Emerald Ring",
+            "Quantity": 1
+          },
+          "5": {
+            "Slot": 5,
+            "Name": "Stick",
+            "Quantity": 1
+          },
+          "6": {
+            "Slot": 6,
+            "Name": "Wooden Shield",
+            "Quantity": 1
+          },
+          "25": {
+            "Slot": 25,
+            "Name": "Tutorial Book",
+            "Quantity": 2
+          }
+        },
+        "Dialog": {
+          "Generation": 1,
+          "Revision": 657,
+          "EntityId": 8684,
+          "EntityType": 1,
+          "Name": "Callough",
+          "Text": "If you'll gather some branches from down south of the inn, or even better, from the East Woodlands, I'll have you a fine stick--and a Wooden Shield to boot.",
+          "IsPursuit": true,
+          "Pursuit": 177,
+          "Step": 17,
+          "Type": 2,
+          "Choices": [
+            {
+              "Text": "I'm not your apprentice!",
+              "Pursuit": 177,
+              "Option": 1
+            },
+            {
+              "Text": "I'm not interested.",
+              "Pursuit": 177,
+              "Option": 2
+            },
+            {
+              "Text": "Where can I find branches?",
+              "Pursuit": 177,
+              "Option": 3
+            },
+            {
+              "Text": "I'll gather them now",
+              "Pursuit": 177,
+              "Option": 4
+            },
+            {
+              "Text": "I have those branches, here",
+              "Pursuit": 177,
+              "Option": 5
+            }
+          ],
+          "Prompt": null,
+          "HasNext": true,
+          "ObservedAt": "2026-10-12T20:55:00.0089466+00:00"
+        }
+      }
+    },
+    {
+      "Time": "2026-10-12T20:55:00.3644718+00:00",
+      "Character": "ReplayCharacter",
+      "Generation": 1,
+      "Revision": 678,
+      "Opcode": 8,
+      "Payload": "JAEAAAYAAAAD5gAAAW4DAwMDAx8KADQAGWL3UFoAAAAAAAAAAAABYgIC",
+      "Snapshot": {
+        "Name": "ReplayCharacter",
+        "Id": 42,
+        "Connected": true,
+        "Generation": 1,
+        "Revision": 678,
+        "Level": 6,
+        "Hp": 998,
+        "Gold": 101,
+        "Experience": 33601,
+        "InventoryKnown": true,
+        "Inventory": {
+          "1": {
+            "Slot": 1,
+            "Name": "Stick",
+            "Quantity": 1
+          },
+          "2": {
+            "Slot": 2,
+            "Name": "Wooden Shield",
+            "Quantity": 1
+          },
+          "3": {
+            "Slot": 3,
+            "Name": "Dirk",
+            "Quantity": 1
+          },
+          "4": {
+            "Slot": 4,
+            "Name": "Emerald Ring",
+            "Quantity": 1
+          },
+          "5": {
+            "Slot": 5,
+            "Name": "Stick",
+            "Quantity": 1
+          },
+          "6": {
+            "Slot": 6,
+            "Name": "Wooden Shield",
+            "Quantity": 1
+          },
+          "25": {
+            "Slot": 25,
+            "Name": "Tutorial Book",
+            "Quantity": 2
+          }
+        },
+        "Dialog": {
+          "Generation": 1,
+          "Revision": 657,
+          "EntityId": 8684,
+          "EntityType": 1,
+          "Name": "Callough",
+          "Text": "If you'll gather some branches from down south of the inn, or even better, from the East Woodlands, I'll have you a fine stick--and a Wooden Shield to boot.",
+          "IsPursuit": true,
+          "Pursuit": 177,
+          "Step": 17,
+          "Type": 2,
+          "Choices": [
+            {
+              "Text": "I'm not your apprentice!",
+              "Pursuit": 177,
+              "Option": 1
+            },
+            {
+              "Text": "I'm not interested.",
+              "Pursuit": 177,
+              "Option": 2
+            },
+            {
+              "Text": "Where can I find branches?",
+              "Pursuit": 177,
+              "Option": 3
+            },
+            {
+              "Text": "I'll gather them now",
+              "Pursuit": 177,
+              "Option": 4
+            },
+            {
+              "Text": "I have those branches, here",
+              "Pursuit": 177,
+              "Option": 5
+            }
+          ],
+          "Prompt": null,
+          "HasNext": true,
+          "ObservedAt": "2026-10-12T20:55:00.0089466+00:00"
+        }
+      }
+    },
+    {
+      "Time": "2026-10-12T20:55:00.3645094+00:00",
+      "Character": "ReplayCharacter",
+      "Generation": 1,
+      "Revision": 679,
+      "Opcode": 8,
+      "Payload": "DAAAiR0AAEwrAAAAAAAAAAAAAAAAAAAAZQAAAAAAAAAAAAFiAgI=",
+      "Snapshot": {
+        "Name": "ReplayCharacter",
+        "Id": 42,
+        "Connected": true,
+        "Generation": 1,
+        "Revision": 679,
+        "Level": 6,
+        "Hp": 998,
+        "Gold": 101,
+        "Experience": 35101,
+        "InventoryKnown": true,
+        "Inventory": {
+          "1": {
+            "Slot": 1,
+            "Name": "Stick",
+            "Quantity": 1
+          },
+          "2": {
+            "Slot": 2,
+            "Name": "Wooden Shield",
+            "Quantity": 1
+          },
+          "3": {
+            "Slot": 3,
+            "Name": "Dirk",
+            "Quantity": 1
+          },
+          "4": {
+            "Slot": 4,
+            "Name": "Emerald Ring",
+            "Quantity": 1
+          },
+          "5": {
+            "Slot": 5,
+            "Name": "Stick",
+            "Quantity": 1
+          },
+          "6": {
+            "Slot": 6,
+            "Name": "Wooden Shield",
+            "Quantity": 1
+          },
+          "25": {
+            "Slot": 25,
+            "Name": "Tutorial Book",
+            "Quantity": 2
+          }
+        },
+        "Dialog": {
+          "Generation": 1,
+          "Revision": 657,
+          "EntityId": 8684,
+          "EntityType": 1,
+          "Name": "Callough",
+          "Text": "If you'll gather some branches from down south of the inn, or even better, from the East Woodlands, I'll have you a fine stick--and a Wooden Shield to boot.",
+          "IsPursuit": true,
+          "Pursuit": 177,
+          "Step": 17,
+          "Type": 2,
+          "Choices": [
+            {
+              "Text": "I'm not your apprentice!",
+              "Pursuit": 177,
+              "Option": 1
+            },
+            {
+              "Text": "I'm not interested.",
+              "Pursuit": 177,
+              "Option": 2
+            },
+            {
+              "Text": "Where can I find branches?",
+              "Pursuit": 177,
+              "Option": 3
+            },
+            {
+              "Text": "I'll gather them now",
+              "Pursuit": 177,
+              "Option": 4
+            },
+            {
+              "Text": "I have those branches, here",
+              "Pursuit": 177,
+              "Option": 5
+            }
+          ],
+          "Prompt": null,
+          "HasNext": true,
+          "ObservedAt": "2026-10-12T20:55:00.0089466+00:00"
+        }
+      }
+    },
+    {
+      "Time": "2026-10-12T20:55:00.3645414+00:00",
+      "Character": "ReplayCharacter",
+      "Generation": 1,
+      "Revision": 680,
+      "Opcode": 10,
+      "Payload": "AwAQMTUwMCBleHBlcmllbmNlIQ==",
+      "Snapshot": {
+        "Name": "ReplayCharacter",
+        "Id": 42,
+        "Connected": true,
+        "Generation": 1,
+        "Revision": 680,
+        "Level": 6,
+        "Hp": 998,
+        "Gold": 101,
+        "Experience": 35101,
+        "InventoryKnown": true,
+        "Inventory": {
+          "1": {
+            "Slot": 1,
+            "Name": "Stick",
+            "Quantity": 1
+          },
+          "2": {
+            "Slot": 2,
+            "Name": "Wooden Shield",
+            "Quantity": 1
+          },
+          "3": {
+            "Slot": 3,
+            "Name": "Dirk",
+            "Quantity": 1
+          },
+          "4": {
+            "Slot": 4,
+            "Name": "Emerald Ring",
+            "Quantity": 1
+          },
+          "5": {
+            "Slot": 5,
+            "Name": "Stick",
+            "Quantity": 1
+          },
+          "6": {
+            "Slot": 6,
+            "Name": "Wooden Shield",
+            "Quantity": 1
+          },
+          "25": {
+            "Slot": 25,
+            "Name": "Tutorial Book",
+            "Quantity": 2
+          }
+        },
+        "Dialog": {
+          "Generation": 1,
+          "Revision": 657,
+          "EntityId": 8684,
+          "EntityType": 1,
+          "Name": "Callough",
+          "Text": "If you'll gather some branches from down south of the inn, or even better, from the East Woodlands, I'll have you a fine stick--and a Wooden Shield to boot.",
+          "IsPursuit": true,
+          "Pursuit": 177,
+          "Step": 17,
+          "Type": 2,
+          "Choices": [
+            {
+              "Text": "I'm not your apprentice!",
+              "Pursuit": 177,
+              "Option": 1
+            },
+            {
+              "Text": "I'm not interested.",
+              "Pursuit": 177,
+              "Option": 2
+            },
+            {
+              "Text": "Where can I find branches?",
+              "Pursuit": 177,
+              "Option": 3
+            },
+            {
+              "Text": "I'll gather them now",
+              "Pursuit": 177,
+              "Option": 4
+            },
+            {
+              "Text": "I have those branches, here",
+              "Pursuit": 177,
+              "Option": 5
+            }
+          ],
+          "Prompt": null,
+          "HasNext": true,
+          "ObservedAt": "2026-10-12T20:55:00.0089466+00:00"
+        }
+      }
+    },
+    {
+      "Time": "2026-10-12T20:55:00.3645717+00:00",
+      "Character": "ReplayCharacter",
+      "Generation": 1,
+      "Revision": 681,
+      "Opcode": 8,
+      "Payload": "BAAAAAAAAAAAAAFiAgI=",
+      "Snapshot": {
+        "Name": "ReplayCharacter",
+        "Id": 42,
+        "Connected": true,
+        "Generation": 1,
+        "Revision": 681,
+        "Level": 6,
+        "Hp": 998,
+        "Gold": 101,
+        "Experience": 35101,
+        "InventoryKnown": true,
+        "Inventory": {
+          "1": {
+            "Slot": 1,
+            "Name": "Stick",
+            "Quantity": 1
+          },
+          "2": {
+            "Slot": 2,
+            "Name": "Wooden Shield",
+            "Quantity": 1
+          },
+          "3": {
+            "Slot": 3,
+            "Name": "Dirk",
+            "Quantity": 1
+          },
+          "4": {
+            "Slot": 4,
+            "Name": "Emerald Ring",
+            "Quantity": 1
+          },
+          "5": {
+            "Slot": 5,
+            "Name": "Stick",
+            "Quantity": 1
+          },
+          "6": {
+            "Slot": 6,
+            "Name": "Wooden Shield",
+            "Quantity": 1
+          },
+          "25": {
+            "Slot": 25,
+            "Name": "Tutorial Book",
+            "Quantity": 2
+          }
+        },
+        "Dialog": {
+          "Generation": 1,
+          "Revision": 657,
+          "EntityId": 8684,
+          "EntityType": 1,
+          "Name": "Callough",
+          "Text": "If you'll gather some branches from down south of the inn, or even better, from the East Woodlands, I'll have you a fine stick--and a Wooden Shield to boot.",
+          "IsPursuit": true,
+          "Pursuit": 177,
+          "Step": 17,
+          "Type": 2,
+          "Choices": [
+            {
+              "Text": "I'm not your apprentice!",
+              "Pursuit": 177,
+              "Option": 1
+            },
+            {
+              "Text": "I'm not interested.",
+              "Pursuit": 177,
+              "Option": 2
+            },
+            {
+              "Text": "Where can I find branches?",
+              "Pursuit": 177,
+              "Option": 3
+            },
+            {
+              "Text": "I'll gather them now",
+              "Pursuit": 177,
+              "Option": 4
+            },
+            {
+              "Text": "I have those branches, here",
+              "Pursuit": 177,
+              "Option": 5
+            }
+          ],
+          "Prompt": null,
+          "HasNext": true,
+          "ObservedAt": "2026-10-12T20:55:00.0089466+00:00"
+        }
+      }
+    },
+    {
+      "Time": "2026-10-12T20:55:00.3646444+00:00",
+      "Character": "ReplayCharacter",
+      "Generation": 1,
+      "Revision": 682,
+      "Opcode": 48,
+      "Payload": "AAEAACHsAUAeAAFAHgAAsQBJAAAACENhbGxvdWdoAB5BaCB0aGFuayB5YSwgeW91J3ZlIGRvbmUgd2VsbC4=",
+      "Snapshot": {
+        "Name": "ReplayCharacter",
+        "Id": 42,
+        "Connected": true,
+        "Generation": 1,
+        "Revision": 682,
+        "Level": 6,
+        "Hp": 998,
+        "Gold": 101,
+        "Experience": 35101,
+        "InventoryKnown": true,
+        "Inventory": {
+          "1": {
+            "Slot": 1,
+            "Name": "Stick",
+            "Quantity": 1
+          },
+          "2": {
+            "Slot": 2,
+            "Name": "Wooden Shield",
+            "Quantity": 1
+          },
+          "3": {
+            "Slot": 3,
+            "Name": "Dirk",
+            "Quantity": 1
+          },
+          "4": {
+            "Slot": 4,
+            "Name": "Emerald Ring",
+            "Quantity": 1
+          },
+          "5": {
+            "Slot": 5,
+            "Name": "Stick",
+            "Quantity": 1
+          },
+          "6": {
+            "Slot": 6,
+            "Name": "Wooden Shield",
+            "Quantity": 1
+          },
+          "25": {
+            "Slot": 25,
+            "Name": "Tutorial Book",
+            "Quantity": 2
+          }
+        },
+        "Dialog": {
+          "Generation": 1,
+          "Revision": 682,
+          "EntityId": 8684,
+          "EntityType": 1,
+          "Name": "Callough",
+          "Text": "Ah thank ya, you've done well.",
+          "IsPursuit": true,
+          "Pursuit": 177,
+          "Step": 73,
+          "Type": 0,
+          "Choices": [],
+          "Prompt": null,
+          "HasNext": false,
+          "ObservedAt": "2026-10-12T20:55:00.3646417+00:00"
+        }
+      }
+    }
+  ],
+  "Actions": [
+    {
+      "Time": "2026-10-12T20:55:00.0492648+00:00",
+      "Character": "ReplayCharacter",
+      "Generation": 1,
+      "Revision": 657,
+      "Kind": "choose",
+      "Selection": "I have those branches, here",
+      "Dialog": {
+        "Generation": 1,
+        "Revision": 657,
+        "EntityId": 8684,
+        "EntityType": 1,
+        "Name": "Callough",
+        "Text": "If you'll gather some branches from down south of the inn, or even better, from the East Woodlands, I'll have you a fine stick--and a Wooden Shield to boot.",
+        "IsPursuit": true,
+        "Pursuit": 177,
+        "Step": 17,
+        "Type": 2,
+        "Choices": [
+          {
+            "Text": "I'm not your apprentice!",
+            "Pursuit": 177,
+            "Option": 1
+          },
+          {
+            "Text": "I'm not interested.",
+            "Pursuit": 177,
+            "Option": 2
+          },
+          {
+            "Text": "Where can I find branches?",
+            "Pursuit": 177,
+            "Option": 3
+          },
+          {
+            "Text": "I'll gather them now",
+            "Pursuit": 177,
+            "Option": 4
+          },
+          {
+            "Text": "I have those branches, here",
+            "Pursuit": 177,
+            "Option": 5
+          }
+        ],
+        "Prompt": null,
+        "HasNext": true,
+        "ObservedAt": "2026-10-12T20:55:00.0089466+00:00"
+      },
+      "Branches": 6,
+      "Experience": 31601
+    }
+  ]
+}

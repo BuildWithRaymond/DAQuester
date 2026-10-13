@@ -14,7 +14,7 @@ public sealed record QuestAvailability(string Status, string Reason, bool CanQue
     public bool Ready => Status is "Ready" or "Choices" or "Resume ready" or "Next offering";
 }
 
-public sealed record QuestChoiceResult(MundaneBirthOptions? BirthOptions = null, EmeraldDawnOptions? EmeraldOptions = null, bool AllowUnsafeWalking = false, SickChildOptions? SickChildOptions = null, bool OpenCharacters = false, bool AltarNoMarkAccepted = false);
+public sealed record QuestChoiceResult(MundaneBirthOptions? BirthOptions = null, EmeraldDawnOptions? EmeraldOptions = null, bool AllowUnsafeWalking = false, SickChildOptions? SickChildOptions = null, bool OpenCharacters = false, bool AltarNoMarkAccepted = false, bool FirstStepsBriefed = false, bool TerrorWindowAccepted = false);
 /// <summary>Owns game connections and durable operations independently of the desktop presentation.</summary>
 public sealed partial class DesktopRuntime
 {
@@ -145,6 +145,7 @@ public sealed partial class DesktopRuntime
         host.Connected += connection =>
         {
             connection.Tracker.Observed += (opcode, payload) => recorder.Record(opcode, payload, connection.Tracker.Snapshot);
+            connection.ClientObserved += (opcode, payload, bot) => recorder.RecordClient(opcode, payload, bot, connection.Tracker.Snapshot);
             connection.Tracker.ServerMessage += (_, text) => Log((connection.Tracker.Snapshot.Name ?? "Connecting") + ": server: " + text);
             connection.DialogAction += packet => recorder.RecordDialogPacket(packet, connection.Tracker.Snapshot);
             connection.ExchangeAction += packet => recorder.RecordExchangePacket(packet, connection.Tracker.Snapshot);
@@ -374,6 +375,7 @@ public sealed partial class DesktopRuntime
     {
         try
         {
+            var completed = new QuestCompletionTracker(journal.Load(name, "spare-a-stick"));
             var job = await PermanentQuestCompletion.ObserveAsync(journal, snapshot, async () =>
             {
                 CancelControl(name);
@@ -388,6 +390,8 @@ public sealed partial class DesktopRuntime
                 runners.Remove(name);
             calibrationRuns.Remove(name);
             Notify();
+            if (completed.Observe(job) is { } outcome)
+                PublishCompletion(outcome);
             Log(name + ": permanently finished; repeats disabled. Callough: " + job.PermanentCompletion!.Dialog.Text);
         }
         catch (Exception e)

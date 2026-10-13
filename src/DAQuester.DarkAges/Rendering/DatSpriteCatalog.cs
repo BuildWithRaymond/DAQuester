@@ -9,11 +9,17 @@ public sealed class DatSpriteCatalog
     readonly Dictionary<string, Entry> entries = new(StringComparer.OrdinalIgnoreCase);
     public IEnumerable<string> Names => entries.Keys;
 
-    public DatSpriteCatalog(string directory)
+    public DatSpriteCatalog(string directory, bool effectsOnly = false)
     {
         foreach (string path in Directory.EnumerateFiles(directory, "*.dat").OrderBy(Path.GetFileName, StringComparer.OrdinalIgnoreCase))
         {
             string name = Path.GetFileNameWithoutExtension(path);
+            if (effectsOnly)
+            {
+                if (name.Equals("roh", StringComparison.OrdinalIgnoreCase))
+                    AddArchive(path);
+                continue;
+            }
             if (!name.StartsWith("khan", StringComparison.OrdinalIgnoreCase) && !name.Equals("legend", StringComparison.OrdinalIgnoreCase) && !name.Equals("hades", StringComparison.OrdinalIgnoreCase))
                 continue;
             AddArchive(path);

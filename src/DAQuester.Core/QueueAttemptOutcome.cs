@@ -42,5 +42,11 @@ public static class QueueAttemptOutcome
         return new(job.Quest, "Completed", completed, job.CompletionText ?? "Completion verified");
     }
 
-    public static string BlockReason(QuestJob job) => job.Pending is not null ? "Saved submission requires reconciliation before the queue can continue." : !string.IsNullOrWhiteSpace(job.Reason) ? job.Reason : "Quest attempt has no verified outcome. Resume to reconcile its checkpoint.";
+    public static string BlockReason(QuestJob job)
+    {
+        if (job.Pending is null)
+            return !string.IsNullOrWhiteSpace(job.Reason) ? job.Reason : "Quest attempt has no verified outcome. Resume to reconcile its checkpoint.";
+        const string guidance = "Saved submission requires reconciliation before the queue can continue.";
+        return job.Status == "Paused" && !string.IsNullOrWhiteSpace(job.Reason) ? job.Reason + " " + guidance : guidance;
+    }
 }

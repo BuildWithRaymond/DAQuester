@@ -35,6 +35,7 @@ public sealed partial class ProxyConnection(TcpClient client, TcpClient remote, 
 
     public event Action<string>? Interrupted;
     public event Action<string>? Diagnostic;
+    public void Report(string line) => Diagnostic?.Invoke(line);
     public event Action<ProxyConnection>? Authenticated;
     public event Action<ClientPacket>? DialogAction;
     public event Action<ClientPacket>? ExchangeAction;
@@ -95,6 +96,16 @@ public sealed partial class ProxyConnection(TcpClient client, TcpClient remote, 
         0x43 => "click",
         _ => "client packet"
     };
+    // Client packets for the replay: (opcode, payload, sent by DAQuester rather than the game client).
+    public event Action<byte, byte[], bool>? ClientObserved;
+    // Login, character creation and password change carry credentials and are never reported.
+    internal static bool CarriesCredentials(byte opcode) => opcode is 0x02 or 0x03 or 0x26;
+    void ReportClient(byte opcode, byte[] payload, bool bot)
+    {
+        if (!CarriesCredentials(opcode))
+            ClientObserved?.Invoke(opcode, payload.ToArray(), bot);
+    }
+
     void InterruptForClientPacket(byte opcode, string reason, uint? target = null)
     {
         CancelMovement();
@@ -175,6 +186,7 @@ public sealed partial class ProxyConnection(TcpClient client, TcpClient remote, 
                             ExchangeAction?.Invoke(plain);
                         if ((byte)plain.Command == 0x08)
                             DropAction?.Invoke(plain);
+                        ReportClient((byte)plain.Command, plain.Data, false);
                         var encrypted = clientCrypto.Encrypt(plain, sequence);
                         if (ClientPacketEncryptor.IsEncrypted((byte)plain.Command))
                             sequence++;
@@ -352,6 +364,7 @@ public sealed partial class ProxyConnection(TcpClient client, TcpClient remote, 
                         refreshRequested = true;
                 }
 
+                ReportClient((byte)packet.Command, packet.Data, true);
                 var encrypted = clientCrypto.Encrypt(packet, sequence);
                 if (ClientPacketEncryptor.IsEncrypted((byte)packet.Command))
                     sequence++;

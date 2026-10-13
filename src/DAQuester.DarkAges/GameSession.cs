@@ -16,6 +16,7 @@ public sealed partial class GameSession : IGameSession
     readonly SemaphoreSlim actions = new(1, 1);
     readonly int cadence;
     DateTimeOffset lastMove;
+    readonly BounceGuard bounce = new(3);
     long dismissedMerchantRevision = -1;
     bool townWeaponRemovalRequired;
     Dialog? preparedDepositPrompt;
@@ -117,7 +118,9 @@ public sealed partial class GameSession : IGameSession
         try
         {
             cancellation.ThrowIfCancellationRequested();
-            await SettleMovement(cancellation);
+            // A fight step out of sight of other players joins the fast walker's pipeline instead of draining it.
+            if (command.Kind != "pathfind" || !FastFightStep(Snapshot))
+                await SettleMovement(cancellation);
             switch (command.Kind)
             {
                 case "inspect-self":
@@ -207,6 +210,11 @@ public sealed partial class GameSession : IGameSession
                         throw new QuestBlockedException("Give requires slot, target and quantity.");
                     await connection.SendAsync(Protocol.ItemPackets.Give(command.Slot.Value, command.EntityId.Value, command.Amount.Value), Snapshot.Generation, cancellation);
                     break;
+                case "loot":
+                    // Slot 0 lets the server choose the bag slot.
+                    var lootTile = command.Target ?? throw new QuestBlockedException("Loot tile missing.");
+                    await Send(new ClientGetMessage { Slot = 0, X = (ushort)lootTile.X, Y = (ushort)lootTile.Y }, cancellation);
+                    break;
                 case "assail":
                     await Assail(cancellation);
                     break;
@@ -221,6 +229,15 @@ public sealed partial class GameSession : IGameSession
                     break;
                 case "buy":
                     await Buy(command.Dialog ?? Snapshot.Dialog, command.Text ?? throw new QuestBlockedException("Item to buy missing."), cancellation);
+                    break;
+                case "repair":
+                    await Repair(command.EntityId, cancellation);
+                    break;
+                case "raise-stat":
+                    // One stat point; Amount is the wire flag (STR 1, DEX 2, INT 4, WIS 8, CON 16).
+                    if (command.Amount is not (1 or 2 or 4 or 8 or 16))
+                        throw new QuestBlockedException("Unknown stat to raise.");
+                    await Send(new ClientAddStatMessage { Stat = (CharacterStatFlags)command.Amount.Value }, cancellation);
                     break;
                 case "drop":
                     await Drop(command.Slot ?? throw new QuestBlockedException("Item slot to drop missing."), command.Target ?? throw new QuestBlockedException("Drop tile missing."), command.Amount ?? 1, cancellation);
@@ -298,6 +315,56 @@ public sealed partial class GameSession : IGameSession
         {
             throw new QuestBlockedException("The " + item.Name + " didn't arrive in the bag.");
         }
+    }
+
+    // Pursuit 92 is the "Yes" to an NPC's repair price question; any NPC in view accepts it, even one with no
+    // repair option. Proof is the merchant's "repaired" text or gold going down; "no money" is a failure.
+    const ushort RepairAllPursuit = 92;
+    const int RepairAttempts = 2;
+    static readonly TimeSpan repairSettle = TimeSpan.FromMilliseconds(1500);
+
+    async Task Repair(uint? entityId, CancellationToken ct)
+    {
+        var start = Snapshot;
+        if (start.Position is not { } here)
+            throw new QuestBlockedException("Waiting for server position.");
+        var npc = entityId is { } id ? start.Entities.GetValueOrDefault(id) : start.Entities.Values.Where(e => !e.IsPlayer && e.Kind == 2).OrderBy(e => Math.Abs(e.Position.X - here.X) + Math.Abs(e.Position.Y - here.Y)).FirstOrDefault();
+        if (npc is null)
+            throw new QuestBlockedException("No NPC in view to repair with.");
+        for (int attempt = 1; attempt <= RepairAttempts; attempt++)
+        {
+            var before = Snapshot;
+            await Send(new ClientMerchantMessage { EntityType = EntityTypeFlags.Creature, EntityId = npc.Id, PursuitId = RepairAllPursuit, Arguments = [] }, ct);
+            CharacterSnapshot after;
+            try
+            {
+                after = await WaitAsync(s => s.Gold < before.Gold || s.Dialog is { } d && d.Revision > (before.Dialog?.Revision ?? 0) && d.EntityId == npc.Id, before.Revision, repairSettle, ct);
+            }
+            catch (TimeoutException)
+            {
+                continue;
+            }
+
+            // Gold can drop just before the merchant's menu arrives; give the menu a moment so it gets closed too.
+            if (after.Dialog is null && after.Gold < before.Gold)
+                try
+                {
+                    after = await WaitAsync(s => s.Dialog is { } d && d.EntityId == npc.Id, after.Revision, repairSettle, ct);
+                }
+                catch (TimeoutException)
+                {
+                }
+
+            string text = after.Dialog?.Text ?? "";
+            await CloseDialog(after.Dialog, ct);
+            if (after.Gold < before.Gold || text.Contains("items have been repaired", StringComparison.OrdinalIgnoreCase))
+                return;
+            if (text.Contains("when you have money", StringComparison.OrdinalIgnoreCase) || text.Contains("enough gold", StringComparison.OrdinalIgnoreCase) || text.Contains("enough money", StringComparison.OrdinalIgnoreCase))
+                throw new ResourceUnavailableException(npc.Name + " won't repair: \"" + text + "\"");
+            throw new QuestBlockedException(npc.Name + " answered the repair with \"" + text + "\"");
+        }
+
+        throw new QuestBlockedException(npc.Name + " didn't answer the repair after " + RepairAttempts + " tries.");
     }
 
     async Task Drop(byte slot, Tile tile, uint quantity, CancellationToken ct)
@@ -715,6 +782,12 @@ public sealed partial class GameSession : IGameSession
             if (path.Count == 0)
                 return;
             var next = path[0];
+            if (bounce.Bounced(before.Map.Value, next))
+            {
+                connection.Report((before.Name ?? "Walker") + ": walk bounced between (" + before.Position.X + "," + before.Position.Y + ") and (" + next.X + "," + next.Y + ") toward (" + target.X + "," + target.Y + "); path " + path.Count + " steps: " + string.Join(" ", path.Take(4).Select(p => "(" + p.X + "," + p.Y + ")")) + "; " + blocked.Count + " tiles blocked; avoiding (" + next.X + "," + next.Y + ")");
+                avoided.Add(next);
+                continue;
+            }
             byte dir = (byte)(next.Y < before.Position.Y ? 0 : next.X > before.Position.X ? 1 : next.Y > before.Position.Y ? 2 : 3);
             await WaitForMovementCadence(ct);
             if (replanWhen?.Invoke() == true)
@@ -749,6 +822,12 @@ public sealed partial class GameSession : IGameSession
             {
             } // A delayed reply must drain through refresh before another step.
 
+            if (ack is not null && portalGoal && next == target && Snapshot.EntranceRefusedRevision > before.Revision && Snapshot.Map == before.Map)
+            {
+                connection.AcceptServerPosition();
+                throw new EntranceRefusedException(Snapshot.EntranceRefusedText ?? "Entrance refused.", target);
+            }
+
             if (ack is not null)
             {
                 if (await DismissTravelNotice(ct))
@@ -770,6 +849,7 @@ public sealed partial class GameSession : IGameSession
                 if (ack.Position == next)
                 {
                     retries = 0;
+                    bounce.Stepped(before.Map.Value, before.Position);
                     continue;
                 }
 
@@ -796,5 +876,29 @@ public sealed partial class GameSession : IGameSession
             else
                 avoided.Add(next);
         }
+    }
+}
+
+// Walking straight back onto the tile just left, again and again, is a bounce.
+internal sealed class BounceGuard(int limit)
+{
+    (int Map, Tile Tile)? lastLeft;
+    int count;
+
+    public void Stepped(int map, Tile from) => lastLeft = (map, from);
+
+    public bool Bounced(int map, Tile next)
+    {
+        if (lastLeft != (map, next))
+        {
+            count = 0;
+            return false;
+        }
+
+        if (++count < limit)
+            return false;
+        count = 0;
+        lastLeft = null;
+        return true;
     }
 }

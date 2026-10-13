@@ -7,7 +7,7 @@ details, remembered character facts, and a queue you can pause and return to.
 
 [Download for Windows](https://github.com/BuildWithRaymond/DAQuester/releases/latest)
 · [Setup guide](docs/GETTING_STARTED.md)
-· [What's new in 1.3.0](docs/releases/v1.3.0.md)
+· [What's new in 1.4.0](docs/releases/v1.4.0.md)
 · [Report a bug](https://github.com/BuildWithRaymond/DAQuester/issues/new/choose)
 
 ![Quest planner with three ordered quests, completed legends, and character selection](docs/screenshots/planner.png)
@@ -17,9 +17,15 @@ details, remembered character facts, and a queue you can pause and return to.
 - **Build a queue for each character.** Search the quest library, check the
   quests you want, then drag them into order. Move buttons and keyboard shortcuts
   work too. Each queue entry runs one attempt; cooldowns still apply.
+- **Make room for the library.** Fold the journey and queue into a small bar.
+  Your progress and **Run queue** button stay visible, and expanding restores
+  the full card. The fold animation respects Windows reduced-motion settings.
 - **See what your character can run.** Ready quests have a green tint. Finished
-  legend goals show Completed, and unavailable quests stay dimmed. DAQuester
-  remembers your character's observed level and own legends between sessions.
+  legend goals show Completed. Other rows explain choices, cooldowns, missing
+  requirements, or guide-only status. Disabled checkboxes and tooltips explain
+  why a quest cannot be queued. You can arrange a queue while disconnected;
+  running it still requires a connected character and checked requirements.
+  DAQuester remembers observed levels and own legends between sessions.
 - **Launch from your character list.** Each saved character has a Launch button.
   Save a password for automatic sign-in, or leave it blank and sign in yourself.
   Saved passwords are encrypted by Windows. You can launch another character
@@ -33,6 +39,9 @@ details, remembered character facts, and a queue you can pause and return to.
   other's walking; other nearby players still do.
 - **Keep your progress.** Quest checkpoints, queue order, rewards, and run history
   stay with the character. Each queue finishes after its last verified quest attempt.
+  Saved Spare a Stick turn-ins can recover from matching recorded evidence without
+  handing in again. Newly verified outcomes play a brief blue spiral over the
+  character; a small notice shows completions for characters you aren't viewing.
 
 ![Characters page with saved accounts and Launch actions](docs/screenshots/characters.png)
 
@@ -48,7 +57,7 @@ details, remembered character facts, and a queue you can pause and return to.
    With no saved characters, the top **Launch** button opens a blank client for
    manual sign-in.
 4. Choose your character in the planner, select quests, arrange the queue, and
-   click **Start queue**. Some quests ask you to choose an outcome first.
+   click **Run queue** with the play icon. Some quests ask you to choose an outcome first.
 
 DAQuester supports Windows and the exact **DATester 7.41** client documented in
 [client provenance](docs/provenance.md). Launch clients through DAQuester; it
@@ -62,7 +71,7 @@ collision data. Raw game maps and artwork are not bundled.
 
 ## Available quests
 
-The library has 71 entries. These eight have automatic recipes:
+The library has 71 entries. These nine have automatic recipes:
 
 | Quest | What to expect |
 | --- | --- |
@@ -74,6 +83,7 @@ The library has 71 entries. These eight have automatic recipes:
 | Shinewood Faerie | Level **11+** to pass Forest 7. Try for a pet and learn eligible missing Priest/Wizard spells. Handles the observed failed-bond wait and the return trip. Successful rewards still need live validation. |
 | Cured the Sick Child | Level **11+**. Give Paulin five Sevti Blossoms with **5,000 gold per flower**. Pick daily or use helpers; completion requires your own sick-child legend. |
 | Aided the Pact of Anaman | Give Paulin five Tulsi (Golden) Blossoms **without gold**. Uses the same daily/helper options; its brown legend mark is hidden from other players. |
+| Altar Worship | Offers a Leather Shield at the Mileth Altar every three hours, buying one for **750 gold** if needed. Stops after ten offerings. Only Priests can earn the legend; other classes must confirm they want the experience and ring instead. |
 
 Each character can pick one flower a day across both flower quests. With enough
 eligible helpers, all five turn-ins can finish in one day. The two legend marks
@@ -87,6 +97,11 @@ quests have recorded live completions, including helper picking, trading and
 logout. The complete queue and broader sign-in recovery flows retain synthetic
 coverage; those runs do not establish live success. Current results and limits
 are in [validation](docs/validation.md).
+
+Altar Worship's first automated offering is live-verified; the full ten-offering
+run and final rewards have synthetic coverage only. Melee combat support is also
+included for future combat quests. It currently runs through the
+[local control bridge](docs/control.md#melee-combat), rather than a library quest.
 
 ## Updating
 

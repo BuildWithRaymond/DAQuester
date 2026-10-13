@@ -35,12 +35,24 @@ public sealed record BashOptions
         get; init;
     }
     public IReadOnlyCollection<ushort> PrioritySprites { get; init; } = [];
+    // Monster types known to walk up and attack; packs of them are avoided rather than fought.
+    public Func<IReadOnlyCollection<ushort>>? AggressiveSprites
+    {
+        get; init;
+    }
+    // Monster types too hard to fight here: never targeted unless already beside her, and walked away from.
+    public Func<IReadOnlyCollection<ushort>>? AvoidSprites
+    {
+        get; init;
+    }
     // Players who never count as strangers, such as the user's own characters.
     public Func<string, bool>? IsFriend
     {
         get; init;
     }
     // One line per target switch and skill fired.
+    // Standing beside a warp this long gets the character pulled in (a kick when under-level for it).
+    public TimeSpan WarpLinger { get; init; } = TimeSpan.FromSeconds(5);
     public Action<string>? Note
     {
         get; init;
@@ -75,7 +87,6 @@ static class Facing
 public static class CombatTargets
 {
     public static readonly IReadOnlySet<ushort> Invisible = new HashSet<ushort> { 676, 690, 691, 699, 700, 701, 532, 530, 528, 526, 492, 387, 289, 290, 292, 293, 294, 295, 296, 297, 298, 299, 253, 252, 195 };
-    public static readonly IReadOnlySet<ushort> Undesirable = new HashSet<ushort> { 563, 564, 565, 566, 439, 456, 451, 53 };
     // On these maps only the listed monsters are fought.
     public static readonly IReadOnlyDictionary<int, ushort[]> WhitelistByMap = new Dictionary<int, ushort[]>
     {
@@ -149,7 +160,7 @@ public static class CombatTargets
     };
 
     static bool Valid(Entity e, int? map, Tile origin, int distance) =>
-        !e.IsPlayer && e.Kind < 2 && e.Sprite is > 0 and <= 1000 && (e.Sprite == 492 && map == 6999 || !Invisible.Contains(e.Sprite) && !Undesirable.Contains(e.Sprite)) && BashingBase.Distance(origin, e.Position) <= distance;
+        !e.IsPlayer && e.Kind < 2 && e.Sprite is > 0 and <= 1000 && (e.Sprite == 492 && map == 6999 || !Invisible.Contains(e.Sprite)) && BashingBase.Distance(origin, e.Position) <= distance;
 
     public static List<Entity> Nearby(CharacterSnapshot s, int distance = 12)
     {
@@ -197,7 +208,12 @@ public abstract class BashingBase(IGameSession session, ICombatMap map, BashOpti
         get; protected set;
     }
 
-    readonly Dictionary<uint, DateTimeOffset> asgalledUntil = [];
+    readonly Dictionary<uint, DateTimeOffset> asgalledUntil = [], shunnedUntil = [];
+    IReadOnlyCollection<ushort> currentAggressive = [];
+    DateTimeOffset? besideWarpSince;
+    bool leavingWarp;
+    static readonly TimeSpan shunAfterWarp = TimeSpan.FromSeconds(10);
+    const int SafeTileSearch = 8;
     readonly HashSet<uint> tagged = [];
     long cantAttackSeen, refusedSeen, asgallSeen;
     byte? requestedDirection;
@@ -242,6 +258,8 @@ public abstract class BashingBase(IGameSession session, ICombatMap map, BashOpti
         if (!CanPerformActions)
             return true;
         Update();
+        if (await LeaveWarpSide(ct))
+            return true;
         KillableTargets = FilterMonstersByCursedFased().ToList();
         var potentialTargets = GetOrderedPotentialTargets().ToList();
         if (potentialTargets.Count == 0)
@@ -399,10 +417,13 @@ public abstract class BashingBase(IGameSession session, ICombatMap map, BashOpti
     protected virtual IEnumerable<Entity> GetOrderedPotentialTargets(IEnumerable<Entity>? monsters = null)
     {
         var strangers = GetStrangers().ToList();
-        var ordered = (monsters ?? NearbyMonsters).OrderBy(GetPriorityDistance).ThenBy(mob => Distance(mob.Position, Here)).ThenBy(mob => mob.HealthPercent).ThenBy(mob => mob.FirstSeen).AsEnumerable();
+        var aggressive = currentAggressive = Options.AggressiveSprites?.Invoke() ?? [];
+        // An aggressive monster is coming anyway: fight it before starting on a passive one.
+        var ordered = (monsters ?? NearbyMonsters).OrderBy(mob => aggressive.Contains(mob.Sprite) ? 0 : 1).ThenBy(GetPriorityDistance).ThenBy(mob => Distance(mob.Position, Here)).ThenBy(mob => mob.HealthPercent).ThenBy(mob => mob.FirstSeen).AsEnumerable();
         if (Options.PriorityOnly)
             ordered = ordered.Where(mob => Options.PrioritySprites.Contains(mob.Sprite));
-        return ordered.Where(mob => IsValidTarget(mob, strangers));
+        var avoid = Options.AvoidSprites?.Invoke() ?? [];
+        return ordered.Where(mob => (!avoid.Contains(mob.Sprite) || Distance(mob.Position, Here) <= 1) && IsValidTarget(mob, strangers) && ReachableAwayFromWarps(mob));
     }
 
     // Holds the current target until it dies, leaves, gets out of reach, or the chase is stuck.
@@ -413,6 +434,9 @@ public abstract class BashingBase(IGameSession session, ICombatMap map, BashOpti
         if (!potentialTargets.Any(t => t.Id == Target.Id))
             return false;
         if (Distance(Here, Target.Position) > TargetLockMaxRange)
+            return false;
+        // Mid-fight with a passive monster when an aggressive one turns up: switch to it.
+        if (!currentAggressive.Contains(Target.Sprite) && potentialTargets.Any(t => currentAggressive.Contains(t.Sprite)))
             return false;
         if (pathStuck)
         {
@@ -547,6 +571,9 @@ public abstract class BashingBase(IGameSession session, ICombatMap map, BashOpti
     async Task<bool> RefreshIfNeeded(CancellationToken ct)
     {
         var now = DateTimeOffset.UtcNow;
+        // A refresh beside stairs the server refused is suspected of getting the character disconnected.
+        if (S.Position is { } at && BesideWarp(Map, at))
+            return false;
         if ((now - lastExp).TotalSeconds > 5.0 && (now - lastRefresh).TotalSeconds > 5.0)
         {
             lastRefresh = now;
@@ -561,6 +588,85 @@ public abstract class BashingBase(IGameSession session, ICombatMap map, BashOpti
         }
 
         return false;
+    }
+
+    // One or two aggressive monsters are fought; this many close together is a pack to avoid.
+    public const int PackSize = 3;
+
+    static int Chebyshev(Tile a, Tile b) => Math.Max(Math.Abs(a.X - b.X), Math.Abs(a.Y - b.Y));
+
+    public static List<Entity> AggressiveNear(IEnumerable<Entity> entities, IReadOnlyCollection<ushort> aggressive, Tile tile, int radius) =>
+        entities.Where(e => !e.IsPlayer && e.Kind == 0 && aggressive.Contains(e.Sprite) && Chebyshev(e.Position, tile) <= radius).ToList();
+
+    public static bool PackNear(IEnumerable<Entity> entities, IReadOnlyCollection<ushort> aggressive, Tile tile, int radius) => AggressiveNear(entities, aggressive, tile, radius).Count >= PackSize;
+
+    // On or touching a warp, diagonals included.
+    public static bool BesideWarp(ICombatMap map, Tile at)
+    {
+        for (int dx = -1; dx <= 1; dx++)
+            for (int dy = -1; dy <= 1; dy++)
+                if (map.IsWarp(new(at.X + dx, at.Y + dy)))
+                    return true;
+        return false;
+    }
+
+    // The nearest reachable tile that touches no warp.
+    public static Tile? SafeTileNear(ICombatMap map, Tile here)
+    {
+        for (int r = 1; r <= SafeTileSearch; r++)
+            for (int dx = -r; dx <= r; dx++)
+                foreach (int dy in new[] { r - Math.Abs(dx), Math.Abs(dx) - r }.Distinct())
+                {
+                    var tile = new Tile(here.X + dx, here.Y + dy);
+                    if (map.IsWalkable(tile) && !BesideWarp(map, tile) && map.PathLength(here, tile) > 0)
+                        return tile;
+                }
+
+        return null;
+    }
+
+    async Task<bool> LeaveWarpSide(CancellationToken ct)
+    {
+        if (S.Position is not { } here || !BesideWarp(Map, here))
+        {
+            besideWarpSince = null;
+            leavingWarp = false;
+            return false;
+        }
+
+        var now = DateTimeOffset.UtcNow;
+        if ((besideWarpSince ??= now) + Options.WarpLinger > now)
+            return false;
+        if (Target is { } target)
+        {
+            shunnedUntil[target.Id] = now + shunAfterWarp;
+            Target = null;
+        }
+
+        if (SafeTileNear(Map, here) is not { } safe)
+            return false;
+        if (!leavingWarp)
+            Options.Note?.Invoke("Moving off the warp side at (" + here.X + "," + here.Y + ") to (" + safe.X + "," + safe.Y + ")");
+        leavingWarp = true;
+        await TryPathfindToPoint(safe, ct);
+        return true;
+    }
+
+    // Leave a monster alone for a while, such as one whose path runs past a monster too hard to fight.
+    public void Shun(uint id, TimeSpan duration)
+    {
+        shunnedUntil[id] = DateTimeOffset.UtcNow + duration;
+        if (Target?.Id == id)
+            Target = null;
+    }
+
+    // A monster that can only be hit from beside a warp is left alone, as is one dropped for luring her there.
+    bool ReachableAwayFromWarps(Entity mob)
+    {
+        if (shunnedUntil.TryGetValue(mob.Id, out var until) && until > DateTimeOffset.UtcNow)
+            return false;
+        var p = mob.Position;
+        return new[] { p with { Y = p.Y - 1 }, p with { X = p.X + 1 }, p with { Y = p.Y + 1 }, p with { X = p.X - 1 } }.Any(t => !BesideWarp(Map, t) && (t == Here || Map.IsWalkable(t)));
     }
 
     protected bool CanUseSkill(RankedSkill skill) => CanUseSkill(skill.Name);

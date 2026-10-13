@@ -5,7 +5,7 @@ namespace DAQuester.DarkAges.Control;
 public record ControlRequest(string Method, string? Character = null, JsonElement? Arguments = null);
 public class McpProtocol(Func<ControlRequest, Task<object?>> call)
 {
-    static readonly string[] Methods = ["state", "map", "command", "export", "analyze", "calibrate", "start", "stop", "launch", "log", "calibration", "settings", "fight"];
+    static readonly string[] Methods = ["state", "map", "command", "export", "analyze", "calibrate", "start", "stop", "launch", "log", "calibration", "settings", "fight", "level"];
     public async Task<string?> HandleAsync(string line)
     {
         JsonElement id = default;
@@ -136,7 +136,8 @@ public class McpProtocol(Func<ControlRequest, Task<object?>> call)
         "log" => "Read the diagnostics lines kept in memory (all by default, or the last `count`). The same lines are appended to diagnostics.log.",
         "calibration" => "Read the Spare a Stick calibration, or replace it by passing `json`. Saving requires no active operations.",
         "settings" => "Read the connection profile and client settings, or replace the connection fields by passing `json`. Restart DAQuester to apply.",
-        "fight" => "Start the melee basher for a connected character: it fights monsters in reach and, with `roam` (default on), walks random waypoints to find more; it ends after `idleSeconds` without a monster (default 120, or 30 without roaming). `sprites` are preferred monsters; with `priorityOnly` only they are fought. Stop or manual input ends it.",
+        "fight" => "Start the melee basher for a connected character: it fights monsters in reach and, with `roam` (default on), walks random waypoints to find more; it ends after `idleSeconds` without a monster (default 120, or 30 without roaming). `sprites` are preferred monsters; with `priorityOnly` only they are fought. Below 30% health it breaks off, walks to `retreatMap` (`retreatX`,`retreatY`) when given, and stops. Stop or manual input ends it.",
+        "level" => "Level a connected melee character in the Mileth crypt from server signals: it fights, judges each floor by its 1v1 kills (too hard above `tooHardPercent` health or `tooSlowSeconds` per kill over `samples` kills; easy below `easyPercent` and `fastSeconds`), moves up a floor when too hard or surrounded, tries the stairs down after an easy level-up, walks out to Mileth below 30% health and rests to full. Between fights it picks up every drop from her kills to log item names, keeping gold and `keep` items and dropping the rest. Progress and a per-floor safety report (crypt\\{name}-floors.md) are kept per character. Stops at `targetLevel` when given, or on stop or manual input.",
         _ => "Cancel automation and control actions for one character or all characters."
     };
     static object Schema(string method)
@@ -185,7 +186,8 @@ public class McpProtocol(Func<ControlRequest, Task<object?>> call)
                     "say",
                     "collect-ground",
                     "pickup",
-                    "inspect-self"
+                    "inspect-self",
+                    "repair"
                 }
             };
             properties["map"] = new
@@ -247,6 +249,46 @@ public class McpProtocol(Func<ControlRequest, Task<object?>> call)
             };
         }
 
+        if (method == "level")
+        {
+            properties["targetLevel"] = new
+            {
+                type = "integer",
+                minimum = 1,
+                maximum = 99
+            };
+            foreach (var (key, fallback) in new[] { ("samples", 3), ("tooHardPercent", 25), ("tooSlowSeconds", 20), ("easyPercent", 10), ("fastSeconds", 10) })
+                properties[key] = new
+                {
+                    type = "integer",
+                    minimum = 1,
+                    @default = fallback
+                };
+            properties["keep"] = new
+            {
+                type = "array",
+                items = new
+                {
+                    type = "string"
+                },
+                description = "Item names to keep; every other drop picked up for the survey is dropped again."
+            };
+            properties["untilSafe"] = new
+            {
+                type = "array",
+                items = new
+                {
+                    type = "integer"
+                },
+                description = "Crypt maps; leveling stops once each has been judged safe (Dark Things: 1, 2, 5, 8, 13, 16)."
+            };
+            properties["spendStats"] = new
+            {
+                type = "boolean",
+                description = "Spend stat points along the best undecided path (CON 8, WIS 8, CON 22, WIS 40, then save). Remembered per character."
+            };
+        }
+
         if (method == "fight")
         {
             properties["sprites"] = new
@@ -268,6 +310,25 @@ public class McpProtocol(Func<ControlRequest, Task<object?>> call)
             {
                 type = "boolean",
                 @default = true
+            };
+            properties["retreatMap"] = new
+            {
+                type = "integer",
+                minimum = 1
+            };
+            properties["retreatX"] = new
+            {
+                type = "integer",
+                minimum = 0
+            };
+            properties["retreatY"] = new
+            {
+                type = "integer",
+                minimum = 0
+            };
+            properties["retreatPlace"] = new
+            {
+                type = "string"
             };
             properties["idleSeconds"] = new
             {
@@ -343,7 +404,7 @@ public class McpProtocol(Func<ControlRequest, Task<object?>> call)
                 "kind"
             }
 
-            : method is "calibrate" or "start" or "fight" ? new[]
+            : method is "calibrate" or "start" or "fight" or "level" ? new[]
             {
                 "character"
             }

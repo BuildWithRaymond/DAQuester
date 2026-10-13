@@ -46,6 +46,18 @@ public sealed partial class ProxyConnection
         MovementChanged?.Invoke();
     }
 
+    // A refused staircase step is answered with the real position; accept it instead of refreshing on the stairs.
+    public void AcceptServerPosition()
+    {
+        lock (movementGate)
+        {
+            if (pendingSteps.Count == 0)
+                ResetMovement();
+        }
+
+        MovementChanged?.Invoke();
+    }
+
     void ResetMovement()
     {
         pendingSteps.Clear();

@@ -1,4 +1,5 @@
 using System.Runtime.InteropServices;
+using System.ComponentModel;
 using Avalonia;
 using Avalonia.Controls;
 using Avalonia.Input;
@@ -29,8 +30,19 @@ public partial class MainWindow : Window
     {
         this.viewModel = viewModel;
         DataContext = viewModel;
+        InitializeJourneyMotion();
+        var effects = this.FindControl<CompletionEffectsLayer>("completionEffects")!;
+        effects.Connect(viewModel.Runtime);
+        Closed += (_, _) => effects.Disconnect();
         SizeChanged += (_, _) => AdaptLayout();
         viewModel.CharacterAdded += ShowNewCharacter;
+        viewModel.JourneyCollapsing += PreserveJourneyFocus;
+        viewModel.PropertyChanged += JourneyPresentationChanged;
+        Closed += (_, _) =>
+        {
+            viewModel.JourneyCollapsing -= PreserveJourneyFocus;
+            viewModel.PropertyChanged -= JourneyPresentationChanged;
+        };
         Opened += (_, _) =>
         {
             AdaptLayout();
@@ -46,6 +58,19 @@ public partial class MainWindow : Window
         card.BringIntoView();
         card.GetVisualDescendants().OfType<TextBox>().FirstOrDefault(t => t.Name == "characterName")?.Focus();
     }, DispatcherPriority.Loaded);
+
+    void PreserveJourneyFocus()
+    {
+        if (this.FindControl<Grid>("journeyLayout")?.IsKeyboardFocusWithin == true
+            || this.FindControl<Grid>("journeyMiniBar")?.IsKeyboardFocusWithin == true)
+            this.FindControl<Button>("journeyToggle")?.Focus();
+    }
+
+    void JourneyPresentationChanged(object? sender, PropertyChangedEventArgs args)
+    {
+        if (args.PropertyName == nameof(MainWindowViewModel.JourneyCollapsed))
+            AnimateJourney();
+    }
 
     void AdaptLayout()
     {
@@ -94,7 +119,7 @@ public partial class MainWindow : Window
         this.FindControl<Button>("stopAll")!.Padding = new Thickness(compact ? 8 : 14, 8);
         this.FindControl<TextBlock>("pageSubtitle")!.MaxWidth = compact ? 340 : 650;
         this.FindControl<Grid>("journeyLayout")!.ColumnDefinitions[2].Width = new GridLength(compact ? 320 : 346);
-        this.FindControl<Border>("journeyCard")!.Height = compact ? 300 : Math.Clamp((Bounds.Height - 150) * .25, 270, 300);
+        ApplyJourneyMotion();
         // The journey and queue share the available height; smaller windows can scroll.
         this.FindControl<TextBlock>("footerSaveNote")!.IsVisible = Bounds.Width >= 1060;
     }

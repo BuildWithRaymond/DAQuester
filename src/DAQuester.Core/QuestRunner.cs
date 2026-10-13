@@ -1,6 +1,6 @@
 namespace DAQuester.Core;
 
-public class QuestRunner(IGameSession session, IQuestJournal journal, QuestDefinition recipe, Calibration calibration, IQuestHelpers? helpers = null)
+public class QuestRunner(IGameSession session, IQuestJournal journal, QuestDefinition recipe, Calibration calibration, IQuestHelpers? helpers = null, HuntingServices? hunting = null)
 {
     public QuestJob Job { get; private set; } = journal.Load(session.Snapshot.Name ?? "Unknown", recipe.Id);
 
@@ -64,6 +64,9 @@ public class QuestRunner(IGameSession session, IQuestJournal journal, QuestDefin
         SickChildEvidence.Id => new[] { "sick-preflight", "sick-run" }.ToDictionary(x => x, x => (IQuestAction)new SickChildActions(SickChildEvidence.Sevti)),
         SickChildEvidence.AnamanId => new[] { "sick-preflight", "sick-run" }.ToDictionary(x => x, x => (IQuestAction)new SickChildActions(SickChildEvidence.Tulsi)),
         AltarWorshipEvidence.Id => new[] { "altar-preflight", "altar-run" }.ToDictionary(x => x, x => (IQuestAction)new AltarWorshipActions()),
+        AwakeningEvidence.Id => new[] { "awakening-preflight", "awakening-run" }.ToDictionary(x => x, x => (IQuestAction)new AwakeningActions()),
+        NewCharacterPath.FirstStepsId => new[] { "first-steps-preflight", "first-steps-run" }.ToDictionary(x => x, x => (IQuestAction)new NewCharacterActions()),
+        NewCharacterPath.ClimbId => new[] { "climb-preflight", "climb-run" }.ToDictionary(x => x, x => (IQuestAction)new NewCharacterActions()),
         _ => []
     };
     public Dictionary<string, Func<QuestContext, bool?>> Conditions { get; } = [];
@@ -111,7 +114,7 @@ public class QuestRunner(IGameSession session, IQuestJournal journal, QuestDefin
         {
             Job = value;
             Changed?.Invoke(value);
-        }, helpers);
+        }, helpers, hunting);
         var priorHairAttempt = c.Job.LastAttemptAt;
         Task Save(QuestJob value) => c.SaveAsync(value);
         try
@@ -261,7 +264,11 @@ public class QuestRunner(IGameSession session, IQuestJournal journal, QuestDefin
                     NextRun = null
                 });
             var activation = recipe.Steps.FirstOrDefault(s => s.Action == "accept" && s.Arguments?.GetValueOrDefault("activationScope") == "connection");
-            if (activation is not null && c.Job.Accepted && c.Job.AcceptedGeneration != session.Snapshot.Generation)
+            // A submitted turn-in owns its checkpoint; reactivation would bypass its outcome.
+            bool reconcilingTurnIn = recipe.Id == "spare-a-stick" && c.Job.Pending?.Kind == "turn-in" && c.Job.Step is "turn-in" or "confirm";
+            if (reconcilingTurnIn && c.Job.Step == "turn-in")
+                await Save(c.Job with { Step = "confirm" });
+            if (activation is not null && c.Job.Accepted && c.Job.AcceptedGeneration != session.Snapshot.Generation && !reconcilingTurnIn)
             {
                 if (c.Job.Pending is not null)
                     throw new QuestBlockedException("Pending transaction requires reconciliation before reconnect activation.");

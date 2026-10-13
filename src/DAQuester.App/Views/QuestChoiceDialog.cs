@@ -110,6 +110,12 @@ public sealed class QuestChoiceDialog : Window
             case AltarWorshipEvidence.Id:
                 BuildAltar(character, characterClass);
                 break;
+            case NewCharacterPath.FirstStepsId:
+                BuildFirstSteps(character);
+                break;
+            case NewCharacterPath.ClimbId:
+                BuildClimb(character);
+                break;
             case SickChildEvidence.Id or SickChildEvidence.AnamanId:
                 BuildSickChild(character, job, sickChild ?? new(0, true, null, []), SickChildEvidence.For(quest.Id)!);
                 break;
@@ -352,6 +358,80 @@ public sealed class QuestChoiceDialog : Window
         confirm.IsDefault = true;
         cancel.Name = "altarCancel";
         confirm.Click += (_, _) => Close(new QuestChoiceResult(AltarNoMarkAccepted: true));
+    }
+
+    Border Callout(string title, string text, string tone)
+    {
+        var panel = new StackPanel { Spacing = 6 };
+        panel.Children.Add(new TextBlock { Text = title, Classes = { "section", tone }, TextWrapping = TextWrapping.Wrap });
+        panel.Children.Add(Copy(text));
+        return new Border { Classes = { "card" }, Padding = new Thickness(14, 12), Child = panel };
+    }
+
+    void BuildFirstSteps(string character)
+    {
+        Height = 640;
+        MinHeight = 480;
+        body.Children.Add(Copy("What happens when " + character + " starts Peasant's First Steps:"));
+        string[] steps =
+        [
+            "1. Buys the starter gear as " + character + " reaches each level: Dirk from Callough in Mileth (if " + character + " has none), Wooden Shield from Torrance in Mileth, then Wind Belt and Sea Necklace from Carlos in Rucesion at level 6. Anything " + character + " already has is skipped.",
+            "2. Hunts in Mileth Crypt 1-1 and 2-1. On 2-1 it leaves centipedes alone, because they're too strong for a starter weapon.",
+            "3. Walks out to rest in the Crypt Vestibule when health drops below 30%, and repairs gear at 25%.",
+            "4. Spends stat points on every level-up.",
+            "5. Finishes at level 7 by buying a Loures Saber from Gunnar in Piet and equipping it."
+        ];
+        foreach (string step in steps)
+            body.Children.Add(Copy(step));
+        body.Children.Add(Callout("Up to level 11, stat points go into CON and WIS only", "CON raises health and WIS raises mana on every level-up. Every stat plan puts at least this many points into CON and WIS, so this never rules out any class or stat plan.", "gold"));
+        body.Children.Add(Copy("Needs 50,000 gold to start: the gear costs about 21,600 and the rest covers repairs."));
+        confirm.Name = "firstStepsStart";
+        confirm.Content = "Start Peasant's First Steps";
+        confirm.IsEnabled = true;
+        confirm.IsDefault = true;
+        cancel.Name = "firstStepsCancel";
+        confirm.Click += (_, _) => Close(new QuestChoiceResult(FirstStepsBriefed: true));
+    }
+
+    // Two steps: read and confirm, then type ALLEY, so the warning can't be clicked through.
+    void BuildClimb(string character)
+    {
+        Height = 460;
+        MinHeight = 400;
+        var step = new TextBlock { Text = "STEP 1 OF 2", Classes = { "eyebrow" } };
+        body.Children.Add(step);
+        var title = new TextBlock { Name = "climbWarning", Text = character + " will reach level 11 and can never do Terror of the Alley / Garden", Classes = { "section", "error" }, TextWrapping = TextWrapping.Wrap };
+        body.Children.Add(title);
+        body.Children.Add(Copy("Crypt Climb fights until level 11. Terror of the Alley / Garden can only be done up to level 9, and " + character + " hasn't done it."));
+        var typed = new TextBox { Name = "climbTyped", Watermark = "ALLEY", IsVisible = false };
+        var typedLabel = Copy("Type ALLEY to start Crypt Climb. Once " + character + " passes level 9, Terror of the Alley / Garden is gone for good.");
+        typedLabel.IsVisible = false;
+        body.Children.Add(typedLabel);
+        body.Children.Add(typed);
+        confirm.Name = "climbConfirm";
+        confirm.Content = "I understand";
+        confirm.Classes.Remove("primary");
+        confirm.IsEnabled = true;
+        cancel.Name = "climbCancel";
+        cancel.IsDefault = true;
+        bool understood = false;
+        typed.TextChanged += (_, _) => confirm.IsEnabled = string.Equals(typed.Text?.Trim(), "ALLEY", StringComparison.OrdinalIgnoreCase);
+        confirm.Click += (_, _) =>
+        {
+            if (!understood)
+            {
+                understood = true;
+                step.Text = "STEP 2 OF 2";
+                typedLabel.IsVisible = typed.IsVisible = true;
+                confirm.Content = "Start Crypt Climb";
+                confirm.IsEnabled = false;
+                typed.Focus();
+                return;
+            }
+
+            if (string.Equals(typed.Text?.Trim(), "ALLEY", StringComparison.OrdinalIgnoreCase))
+                Close(new QuestChoiceResult(TerrorWindowAccepted: true));
+        };
     }
 
     void BuildSickChild(string character, QuestJob job, SickChildChoiceInfo info, PaulinFlower flower)

@@ -2,6 +2,23 @@
 
 ## Unreleased
 
+## 1.4.0 — 2026-10-12
+
+- Make **Run queue** the main action with a play icon and a stronger ready state.
+- Fold the current journey and queue into a compact bar to give the quest library
+  more room. Keep the run action and progress visible, with an animated transition
+  that respects reduced motion.
+- Explain quest selection with status icons, colors, row text and tooltips.
+  Disabled checkboxes explain cooldowns, missing requirements, guide-only quests
+  and queue locks. Disconnected characters can still arrange eligible queues.
+- Recover saved Spare a Stick turn-ins from matching replay evidence without
+  submitting again. Recognize Callough's repeat reward reply, preserve the original
+  eight-hour cooldown, and show the actual blocker when confirmation is missing.
+- Show the original blue spiral over a character after a newly verified quest
+  outcome. Completions for other characters appear in a small sprite notice.
+  Restored history and duplicate updates do not replay the effect; reduced motion
+  uses a written notice. Game artwork is read from the installed client.
+- Keep enlarged character accents anchored to their visible feet on short cards.
 - New quest: **Altar Worship**. DAQuester buys a Leather Shield from Torrance in
   the Mileth Armor Shop for 750 gold, or uses one already in the bag, and drops it
   on the Mileth Altar. It makes one offering every 3 hours and stops after the
@@ -18,6 +35,8 @@
   through the control bridge while the first combat quests are built.
 - Add character scrolls to the new card and puts the cursor in its name box.
 - The character switcher at the top lists characters alphabetically.
+- Include a short setup README and release notes in installer, portable and update
+  packages. Keep saved Data separate from package replacement.
 
 ## 1.3.0 — 2026-10-12
 

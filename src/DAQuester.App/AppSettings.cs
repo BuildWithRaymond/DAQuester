@@ -24,6 +24,8 @@ public class AppSettings
         set; } = [];
     // The header switcher reopens on this character.
     public string? LastCharacter { get; set; }
+    // Characters whose stat points the hunting engine spends; remembered from the control bridge.
+    public string[] SpendStatsCharacters { get; set; } = [];
     // Fast mode is on unless switched off for that character.
     public string[] FastModeOffCharacters { get; set; } = [];
 

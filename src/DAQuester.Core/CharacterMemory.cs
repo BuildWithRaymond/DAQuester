@@ -69,12 +69,16 @@ public sealed record CharacterMemory
         int? level = own ? current!.Level ?? Level : Level;
         if (quest == "spare-a-stick" && level is < 1 or > 11)
             return new(EligibilityKind.Blocked, "Requires level 1–11.");
+        if (quest == "emerald-dawn" && level is < 11)
+            return new(EligibilityKind.Blocked, "Emerald Dawn requires level 11+.");
         if (quest == ShinewoodFaerieEvidence.Id && level is { } known && known < ShinewoodFaerieEvidence.MinimumLevel)
             return new(EligibilityKind.Blocked, "Requires level 11+ to pass Shinewood Forest 7 and reach the Faerie.");
         if (SickChildEvidence.For(quest) is not null && level is { } sick && sick < 11)
             return new(EligibilityKind.Blocked, "Requires level 11+.");
         if (CompletedLegend(quest, current) is { } legend)
             return new(EligibilityKind.Blocked, "Already completed: " + legend + ".");
+        if (quest == "entered-muisir-village" && KnownLegends(current).Any(l => l.Contains("((Unregistered))", StringComparison.OrdinalIgnoreCase)))
+            return new(EligibilityKind.Blocked, "Kiril requires a registered character; level 1+ remains sufficient.");
         if (SickChildEvidence.Lockout(quest, KnownLegends(current)) is { } locked)
             return new(EligibilityKind.Blocked, locked);
         return null;

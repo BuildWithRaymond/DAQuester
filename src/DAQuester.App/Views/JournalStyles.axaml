@@ -179,6 +179,12 @@
   <Style Selector="Button.queuePrimary TextBlock">
     <Setter Property="Foreground" Value="{DynamicResource Ink}"/>
   </Style>
+  <Style Selector="Button.queuePrimary">
+    <Setter Property="MinHeight" Value="42"/>
+    <Setter Property="Padding" Value="14,9"/>
+    <Setter Property="FontSize" Value="13"/>
+    <Setter Property="FontWeight" Value="SemiBold"/>
+  </Style>
   <Style Selector="Button.queuePrimary controls|LineIcon">
     <Setter Property="Foreground" Value="{DynamicResource Ink}"/>
   </Style>
@@ -300,6 +306,39 @@
     <Setter Property="BorderThickness" Value="0,0,0,1"/>
     <Setter Property="MinHeight" Value="76"/>
     <Setter Property="Padding" Value="14,9"/>
+  </Style>
+  <Style Selector="Border.statusBadge">
+    <Setter Property="Background" Value="{DynamicResource Raised}"/>
+    <Setter Property="BorderBrush" Value="{DynamicResource Line}"/>
+    <Setter Property="BorderThickness" Value="1"/>
+    <Setter Property="CornerRadius" Value="5"/>
+    <Setter Property="Padding" Value="8,5"/>
+  </Style>
+  <Style Selector="Border.statusBadge TextBlock">
+    <Setter Property="Foreground" Value="{DynamicResource Muted}"/>
+  </Style>
+  <Style Selector="Border.statusBadge controls|LineIcon">
+    <Setter Property="Foreground" Value="{DynamicResource Muted}"/>
+  </Style>
+  <Style Selector="Border.statusBadge.ready">
+    <Setter Property="Background" Value="{DynamicResource ReadySurface}"/>
+    <Setter Property="BorderBrush" Value="{DynamicResource NoticeLine}"/>
+  </Style>
+  <Style Selector="Border.statusBadge.ready TextBlock">
+    <Setter Property="Foreground" Value="{DynamicResource Ready}"/>
+  </Style>
+  <Style Selector="Border.statusBadge.ready controls|LineIcon">
+    <Setter Property="Foreground" Value="{DynamicResource Ready}"/>
+  </Style>
+  <Style Selector="Border.statusBadge.warning">
+    <Setter Property="Background" Value="{DynamicResource GoldSoft}"/>
+    <Setter Property="BorderBrush" Value="{DynamicResource GoldLine}"/>
+  </Style>
+  <Style Selector="Border.statusBadge.warning TextBlock">
+    <Setter Property="Foreground" Value="{DynamicResource Gold}"/>
+  </Style>
+  <Style Selector="Border.statusBadge.warning controls|LineIcon">
+    <Setter Property="Foreground" Value="{DynamicResource Gold}"/>
   </Style>
   <Style Selector="Border.questRow.ready">
     <Setter Property="Background" Value="{DynamicResource ReadySurface}"/>

@@ -1,5 +1,21 @@
 # Source provenance
 
+Read-only inspection of the player's 2026-10-12 Spare a Stick replay found an
+additional ordinary Callough terminal reply: "Ah thank ya, you've done well."
+The reply is pursuit 177, step 73, from the same NPC entity and connection as
+the saved turn-in. Six branches were consumed, a Stick and Wooden Shield were
+added, and experience increased by 3,500 before this reply. Active messages
+also recorded experience awards. The sanitized packet excerpt is
+`content/evidence/datester-7.41/stick-repeat-completion.json`; the character
+name, character ID, and connection generation are normalized, unrelated
+character appearance and legends are omitted. This reply proves an ordinary
+attempt when bound to its recorded submission and reward evidence, not permanent
+completion. Existing validated calibration profiles recognize this exact captured
+variant without overwriting the user's calibration. Saved replay recovery accepts
+only the same server profile, character, generation, and later revisions of the
+pending turn-in; it does not use new-session inventory to infer an old outcome
+or resend a submitted choice.
+
 Character DAT indexing and portrait/layer conventions were researched against
 DAOrganizer commit `36e067aeca5c4aaef4a557e84c6ce4897be56e2b`.
 The unchanged MIT Arbiter EPF/MPF decoders in `Vendor/Arbiter.Imaging/Formats`
@@ -341,3 +357,13 @@ no claimed drop evidence. World-map destination coordinates/checksum remain
 server-observed. `perfect-hairstyle-vows.json` supplies actual manual submission,
 two-ring terminal, inventory and XP deltas. Its original partial journal and the
 reviewable recovery receipt are archived separately; this run is manual-assisted.
+
+## Completion artwork
+
+Effect 50 is read from the installed `roh.dat` without modifying or bundling game
+artwork. Its `efct050.epf` canvas is 111 by 112 pixels; `effect.tbl` plays frames
+0 through 7 twice at 80 ms intervals. The anchor table supplies (55, 97), and
+the palette mapping selects `eff000.pal`. The loader uses the existing EPF parser.
+Native completion previews use isolated synthetic receipts and characters, with
+no game actions. The general sequence format is corroborated by
+[Brigid's effect documentation](https://github.com/hybrasyl/Brigid).

@@ -2,7 +2,20 @@ namespace DAQuester.Core;
 
 public static class StickCompletionEvidence
 {
-    public static bool Reply(CharacterSnapshot snapshot, Transaction transaction, Calibration calibration) => snapshot.Generation == transaction.Generation && snapshot.Dialog is { } dialog && dialog.Generation == transaction.Generation && dialog.Revision > transaction.Revision && dialog.Revision <= snapshot.Revision && dialog.Name.Equals("Callough", StringComparison.OrdinalIgnoreCase) && dialog.IsPursuit && dialog.EntityType == 1 && dialog.Type == 0 && (transaction.EntityId is null || dialog.EntityId == transaction.EntityId) && calibration.Matches(dialog.Text, calibration.Completed);
+    // Captured with six branches consumed, both items awarded, and 3,500 experience.
+    // Existing saved calibration profiles predate this exact repeat-reward variant.
+    public const string RepeatRewardReply = "Ah thank ya, you've done well.";
+    public static bool Reply(CharacterSnapshot snapshot, Transaction transaction, Calibration calibration)
+    {
+        if (snapshot.Generation != transaction.Generation || snapshot.Dialog is not { } dialog
+            || dialog.Generation != transaction.Generation || dialog.Revision <= transaction.Revision || dialog.Revision > snapshot.Revision
+            || !dialog.Name.Equals("Callough", StringComparison.OrdinalIgnoreCase) || !dialog.IsPursuit || dialog.EntityType != 1 || dialog.Type != 0
+            || transaction.EntityId is { } entity && dialog.EntityId != entity)
+            return false;
+        bool capturedRepeat = calibration.ServerProfile == "datester-7.41" && dialog.Text == RepeatRewardReply
+            && dialog.Pursuit == 177 && dialog.Step == 73 && dialog.Choices.Length == 0 && dialog.Prompt is null;
+        return calibration.Matches(dialog.Text, calibration.Completed) || capturedRepeat;
+    }
     public static bool Outcome(CharacterSnapshot snapshot, Transaction transaction, long terminalRevision, Calibration calibration) => snapshot.Generation == transaction.Generation && snapshot.Connected && snapshot.InventoryKnown && snapshot.Revision >= terminalRevision && transaction.Branches >= 6 && snapshot.Count(calibration.BranchName) <= transaction.Branches - 6 && snapshot.Experience > transaction.Experience;
     public static QuestJob Complete(QuestJob job, CharacterSnapshot outcome)
     {

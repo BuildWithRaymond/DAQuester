@@ -24,6 +24,7 @@ public sealed partial class CharacterSpritePreview : Control
     CharacterSpriteRenderer? renderer;
     WriteableBitmap? bitmap;
     Rect contentBounds;
+    readonly SpriteAccentLayout accentLayout = new();
     (CharacterAppearance Look, SpritePose Pose)? drawn;
     string loadedDirectory = "", failedDirectory = "";
     bool busy;
@@ -84,6 +85,7 @@ public sealed partial class CharacterSpritePreview : Control
         bitmap?.Dispose();
         bitmap = null;
         contentBounds = default;
+        accentLayout.Reset();
         drawn = null;
         InvalidateVisual();
         FrameChanged?.Invoke(this, EventArgs.Empty);

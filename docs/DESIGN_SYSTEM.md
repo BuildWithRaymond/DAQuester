@@ -75,8 +75,9 @@ narrow table column. Settings groups the client path and the separate update
 actions.
 
 Color supplements a written state; it never establishes eligibility or proves
-completion. Ready and Choices rows have a teal green tint. Unavailable, Blocked and
-Cooldown rows are muted while keeping their titles and reasons readable. Unknown
+completion. Ready rows have a teal green tint. Choices needed uses a gold badge
+and a neutral row. Unavailable, Blocked and Cooldown rows are subdued while
+keeping their titles and reasons readable. Unknown
 information stays neutral and says Not checked or Not observed. Offline remembered
 information says Last observed. A finished nonrepeatable goal says Completed;
 a completed repeatable attempt can still have a cooldown or another eligible run.
@@ -134,11 +135,62 @@ The journey details retain 16 px of right padding before the queue gutter.
 The journey card stays compact (270–300 px in regular windows); the quest library
 receives the remaining height. Smaller widths use a 300 px journey card, with five
 36 px icon buttons for individual start, resume, pause, stop and add to queue.
-The start icon combines the Lucide scroll and play shapes; the queue uses a list
-icon. Tooltips and accessible names retain each action's meaning. Full-width
+The start icon combines the Lucide scroll and play shapes. The queue's primary
+action uses a 20 px Play icon, switching to Pause during a run. Tooltips and
+accessible names retain each action's meaning. Full-width
 windows retain text labels. Disabled action content dims while outlines remain
 visible. Resume requires saved progress; pause and stop require an active operation.
 Add to queue inserts this journey once and never removes an existing queue entry.
 The queue retains its own scroll area and stop control for paused checkpoints.
 Its renderer and
 observed-action limits are documented in [character preview](character-preview.md).
+
+Run queue is the planner's dominant gold action, with a 42 px button height and
+a full-width position in the queue section. Its label changes to Resume queue or
+Pause queue with the actual queue state. Individual Start remains an outlined
+secondary action. Disabled queue actions expose the actual blocker in a tooltip
+and accessible help text; the queue also displays a readable status explanation.
+
+The chevron in the journey card collapses both journey details and queue editor
+into an 80 px bar. The bar retains the quest title, queue count and readiness,
+stage progress, execution controls, and expand toggle. An individual run receives
+its own Pause quest and Stop controls. Collapse remains set through page and
+character changes for the current window. It changes neither quest selection nor
+queue state. Keyboard focus moves from hidden journey content to the toggle;
+Space activates the same toggle. The planner uses a 360 px minimum content height
+when collapsed and retains scrolling for expanded content in short windows.
+
+Collapse and expand use one reversible 520 ms scroll-fold animation. Card height
+and library space change together; outgoing content fades and slips upward while
+the compact bar scales/slides into place. A brief gold edge glint and rotating
+chevron mark the fold. Motion runs only during a transition, disables transitional
+content hit testing, and preserves focus on the toggle. Repeated toggles reverse
+from the current position instead of stacking animations. Windows client-area
+animation preferences are read through
+[SystemParametersInfo](https://learn.microsoft.com/en-us/windows/win32/api/winuser/nf-winuser-systemparametersinfoa);
+when disabled, the layout switches immediately without the glint.
+
+Library status badges pair icons with written labels: Ready and Completed are
+teal, Choices needed/Blocked/Cooldown use gold, and Not checked/Guide only remain
+neutral. Important row explanations wrap to two lines; tooltips and quest details
+retain full text. Horizontal library scrolling is disabled so long reward text
+cannot push badges or membership controls outside the viewport. Rows follow the
+library width when the window resizes. Every row stays
+selectable for reading details. Only its membership checkbox is disabled when
+adding or removing is not permitted. Disabled-checkbox tooltips explain the
+reason, including temporary queue ownership. Queued completed or blocked quests
+retain their removal checkbox when the queue is editable.
+
+Can queue filters quests whose existing availability allows planning, including
+unchecked requirements before login; Ready keeps the verified execution filter.
+Known restrictions still prevent adding. Temporary queue ownership disables
+membership edits without emptying Can queue. The footer explains checkbox versus
+row selection, or asks the player to stop the run before editing. Calibration
+details remain in diagnostics and the control bridge; the player sees that the
+automatic run is unavailable and can use the quest guide for manual play.
+
+Newly verified quest outcomes play original effect 50 over the completing
+character's visible avatars. An unselected character receives a transient sprite
+notice. Fallback notices serialize for simultaneous completions. The overlay
+never captures input or changes selection. Reduced motion uses the written
+outcome without animation. Old history and duplicate result updates stay quiet.
