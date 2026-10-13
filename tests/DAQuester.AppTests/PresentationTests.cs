@@ -242,6 +242,26 @@ public class PresentationTests
     }
 
     [Fact]
+    public async Task HeaderSwitcherReopensOnTheCharacterUsedLast()
+    {
+        var runtime = Runtime();
+        runtime.Settings.Characters = ["Bren", "Aria", "Cato"];
+        runtime.Settings.Save();
+        var vm = new MainWindowViewModel(runtime);
+        Assert.Equal("Bren", vm.SelectedCharacter!.DisplayName);
+        vm.SelectedCharacter = vm.Characters.Single(c => c.DisplayName == "Aria");
+        Assert.Equal("Aria", AppSettings.Load().LastCharacter);
+        // A new, unsaved card is never remembered.
+        vm.AddCharacterCommand.Execute(null);
+        Assert.Equal("Aria", AppSettings.Load().LastCharacter);
+        runtime.Settings.LastCharacter = "aria";
+        Assert.Equal("Aria", new MainWindowViewModel(runtime).SelectedCharacter!.DisplayName);
+        runtime.Settings.LastCharacter = "Removed";
+        Assert.Equal("Bren", new MainWindowViewModel(runtime).SelectedCharacter!.DisplayName);
+        await runtime.ShutdownAsync();
+    }
+
+    [Fact]
     public async Task HeaderSwitcherListsCharactersByNameWhileTheCharactersPageKeepsItsOrder()
     {
         var runtime = Runtime();

@@ -481,6 +481,23 @@ public sealed partial class DesktopRuntime
         }
     }
 
+    public void RememberCharacter(string name)
+    {
+        if (name.Length == 0 || name.Equals(Settings.LastCharacter, StringComparison.OrdinalIgnoreCase))
+            return;
+        Settings.LastCharacter = name;
+        try
+        {
+            var persisted = AppSettings.Load();
+            persisted.LastCharacter = name;
+            persisted.Save();
+        }
+        catch (Exception e) when (e is IOException or UnauthorizedAccessException or JsonException)
+        {
+            Log("Last selected character not saved: " + e.Message);
+        }
+    }
+
     public string FastModeDescription(string name) => sessions.GetValueOrDefault(name)?.FastModeDescription ?? "ready when connected";
     public async Task StopOwnersAsync(string? name = null)
     {
