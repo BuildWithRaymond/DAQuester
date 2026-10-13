@@ -5,9 +5,11 @@ namespace DAQuester.App.Services;
 public sealed partial class DesktopRuntime
 {
     public string QuestName(string id) => recipes.TryGetValue(id, out var quest) ? quest.Name : id;
-    public QuestAvailability Availability(string name, string id)
+    public QuestAvailability Availability(string name, string id) => Availability(name, id, Snapshot(name));
+
+    QuestAvailability Availability(string name, string id, CharacterSnapshot current)
     {
-        if (name.Length > 0 && id == SickChildEvidence.AnamanCatalogId && Memory(name).SelectionRestriction(id, Snapshot(name)) is { } locked)
+        if (name.Length > 0 && id == SickChildEvidence.AnamanCatalogId && Memory(name).SelectionRestriction(id, current) is { } locked)
             return new("Blocked", locked.Reason, false);
         if (!recipes.TryGetValue(id, out var quest))
             return new("Unavailable", "Automatic journey unavailable. Open the guide for manual play.", false);
@@ -17,7 +19,6 @@ public sealed partial class DesktopRuntime
         if (runners.TryGetValue(name, out var owner) && owner.Job.Quest == quest.Id)
             job = owner.Job;
         var remembered = Memory(name);
-        var current = Snapshot(name);
         // A submitted action must reconcile its durable receipt even if a new attempt is now ineligible.
         if (job.Pending is not null)
             return new(current.Connected ? "Resume ready" : "Not checked", "Resume checks your last action before continuing", remembered.CompletedLegend(quest.Id, current) is null && remembered.SelectionRestriction(quest.Id, current) is null);

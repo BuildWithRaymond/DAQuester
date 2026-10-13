@@ -122,7 +122,7 @@ public sealed class QuestItemVM : ObservableObject
 
     public void Refresh(string character, QuestQueueState queue)
     {
-        availability = owner.Runtime.Availability(character, recipeId.Length == 0 ? Id : recipeId);
+        availability = owner.Runtime.PlanningAvailability(character, recipeId.Length == 0 ? Id : recipeId);
         queued = queue.Quests.Contains(recipeId);
         if (recipeId == AltarWorshipEvidence.Id)
             RefreshAltar(character);
