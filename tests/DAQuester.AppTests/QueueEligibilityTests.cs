@@ -196,6 +196,7 @@ public class QueueEligibilityTests
             Assert.Equal("Not checked", runtime.PlanningAvailability("Elara", "emerald-dawn").Status);
             Assert.False(runtime.Availability("Elara", "emerald-dawn").Ready);
             Assert.Equal("", runtime.QueueStartReason("Elara", runtime.Queue("Elara")));
+            Assert.Equal("First quest ready. Later requirements will be checked.", new MainWindowViewModel(runtime).QueueReadiness);
             Assert.Equal(observed, runtime.Snapshot("Elara"));
 
             await runtime.MoveQueueAsync("Elara", NewCharacterPath.ClimbId, 0);
