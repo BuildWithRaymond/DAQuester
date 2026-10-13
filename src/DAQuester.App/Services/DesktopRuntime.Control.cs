@@ -185,13 +185,45 @@ public sealed partial class DesktopRuntime
         {
             ushort[] sprites = r.Arguments is { } fa && fa.TryGetProperty("sprites", out var list) && list.ValueKind == JsonValueKind.Array ? list.EnumerateArray().Select(v => checked((ushort)v.GetInt32())).ToArray() : [];
             bool roam = r.Arguments is not { } ra || !ra.TryGetProperty("roam", out var rv) || rv.ValueKind != JsonValueKind.False;
-            StartFight(name, new BashOptions { PrioritySprites = sprites, PriorityOnly = Flag("priorityOnly") }, TimeSpan.FromSeconds(Number("idleSeconds", roam ? 120 : 30)), roam);
+            LootTarget? item = TextArgument("item") is { Length: > 0 } itemName ? new(itemName, checked((ushort)Number("itemSprite", 0)), Number("count", 1)) : null;
+            Retreat? retreat = Number("retreatMap", 0) is > 0 and var retreatMap ? new(retreatMap, new(Number("retreatX", 0), Number("retreatY", 0)), TextArgument("retreatPlace") is { Length: > 0 } place ? place : "map " + retreatMap) : null;
+            StartFight(name, new BashOptions { PrioritySprites = sprites, PriorityOnly = Flag("priorityOnly") }, TimeSpan.FromSeconds(Number("idleSeconds", roam ? 120 : 30)), roam, item, retreat);
             return new
             {
                 fighting = name,
                 sprites,
                 priorityOnly = Flag("priorityOnly"),
-                roam
+                roam,
+                item,
+                retreat
+            };
+        }
+
+        if (r.Method == "level")
+        {
+            var thresholds = new LevelingThresholds
+            {
+                Samples = Number("samples", 3),
+                TooHardPercent = Number("tooHardPercent", 25),
+                TooSlowSeconds = Number("tooSlowSeconds", 20),
+                EasyPercent = Number("easyPercent", 10),
+                FastSeconds = Number("fastSeconds", 10)
+            };
+            int? target = Number("targetLevel", 0) is > 0 and var level ? level : null;
+            string[] keep = r.Arguments is { } ka && ka.TryGetProperty("keep", out var kv) && kv.ValueKind == JsonValueKind.Array ? kv.EnumerateArray().Select(v => v.GetString() ?? "").Where(v => v.Length > 0).ToArray() : [];
+            int[] untilSafe = r.Arguments is { } ua && ua.TryGetProperty("untilSafe", out var uv) && uv.ValueKind == JsonValueKind.Array ? uv.EnumerateArray().Select(v => v.GetInt32()).ToArray() : [];
+            bool spend = r.Arguments is { } sa && sa.TryGetProperty("spendStats", out var sv) && sv.ValueKind is JsonValueKind.True or JsonValueKind.False ? sv.ValueKind == JsonValueKind.True : Settings.SpendStatsCharacters.Contains(name, StringComparer.OrdinalIgnoreCase);
+            RememberSpendStats(name, spend);
+            StartLeveling(name, thresholds, target, keep, untilSafe, spend);
+            return new
+            {
+                leveling = name,
+                thresholds,
+                targetLevel = target,
+                keep,
+                untilSafe,
+                spendStats = spend,
+                progress = LoadHuntingProgress(HuntingGrounds.MilethCrypt, name)
             };
         }
 
@@ -246,13 +278,17 @@ public sealed partial class DesktopRuntime
     }
 
     // A melee fight owned by the control bridge; stop, the app's stop button or manual input ends it.
-    void StartFight(string name, BashOptions options, TimeSpan idle, bool roam)
+    void StartFight(string name, BashOptions options, TimeSpan idle, bool roam, LootTarget? item = null, Retreat? retreat = null)
     {
         RequireOpen();
         if (!sessions.TryGetValue(name, out var session) || !session.Snapshot.Connected)
             throw new QuestBlockedException("Connect " + name + " first.");
         if (RunnerBusy(name) || QueueReserves(name) || IsRunning(name) || controlActions.ContainsKey(name))
             throw new QuestBlockedException("Another action owns this character. Stop it first.");
+        if (item is not null && (item.Sprite == 0 || item.Count < 1))
+            throw new QuestBlockedException("A loot item needs its sprite number and a count of at least 1.");
+        if (item is not null && ItemLooter.NotReady(session.Snapshot, item) is { } notReady)
+            throw new QuestBlockedException(notReady);
         var cancellation = new CancellationTokenSource();
         controlActions[name] = cancellation;
         void Interrupt(string reason)
@@ -274,8 +310,10 @@ public sealed partial class DesktopRuntime
                     IsFriend = session.IsOwnCharacter,
                     Note = line => Log(name + ": " + line)
                 };
-                var end = await Task.Run(() => MeleeFight.RunAsync(session, session, fight, null, idle, cancellation.Token, roam));
-                Log(name + ": fight ended · " + (end == FightEnd.NoTargets ? (roam ? "no monster found for " : "nothing in reach for ") + idle.TotalSeconds + " s" : "goal reached"));
+                var looter = item is null ? null : new ItemLooter(session, item, fight.Note);
+                Func<CharacterSnapshot, bool>? goal = looter is null ? null : looter.Done;
+                var end = await Task.Run(() => MeleeFight.RunAsync(session, session, fight, goal, idle, cancellation.Token, roam, looter, retreat));
+                Log(name + ": fight ended · " + (end == FightEnd.NoTargets ? (roam ? "no monster found for " : "nothing in reach for ") + idle.TotalSeconds + " s" : item is null ? "goal reached" : "has " + item.Count + " " + item.Item));
             }
             catch (OperationCanceledException)
             {
@@ -284,6 +322,98 @@ public sealed partial class DesktopRuntime
             catch (Exception e)
             {
                 Log(name + ": fight stopped · " + e.Message);
+            }
+            finally
+            {
+                session.Interrupted -= Interrupt;
+                controlActions.Remove(name);
+                cancellation.Dispose();
+                Notify();
+            }
+        }
+    }
+
+    static string HuntingProgressPath(HuntingGround ground, string name) => Path.Combine(AppSettings.DataPath, "hunting", ground.Id, name.Trim().ToLowerInvariant() + ".json");
+
+    static HuntingProgress LoadHuntingProgress(HuntingGround ground, string name)
+    {
+        string path = HuntingProgressPath(ground, name);
+        // Mileth Crypt progress saved before the hunting engine had its name lives in Data\crypt.
+        string legacy = Path.Combine(AppSettings.DataPath, "crypt", name.Trim().ToLowerInvariant() + ".json");
+        if (!File.Exists(path) && ground == HuntingGrounds.MilethCrypt && File.Exists(legacy))
+            path = legacy;
+        return File.Exists(path) ? JsonSerializer.Deserialize<HuntingProgress>(File.ReadAllText(path), AppSettings.Json) ?? new() : new();
+    }
+
+    void SaveHuntingProgress(HuntingGround ground, string name, HuntingProgress p)
+    {
+        try
+        {
+            string path = HuntingProgressPath(ground, name);
+            Directory.CreateDirectory(Path.GetDirectoryName(path)!);
+            File.WriteAllText(path, JsonSerializer.Serialize(p, AppSettings.Json));
+            File.WriteAllText(Path.ChangeExtension(path, null) + "-floors.md", ground.Report(name, p));
+        }
+        catch (Exception e) when (e is IOException or UnauthorizedAccessException)
+        {
+            Log(name + ": hunting progress not saved · " + e.Message);
+        }
+    }
+
+    // Hunting owned by the control bridge; stop, the app's stop button or manual input ends it.
+    void RememberSpendStats(string name, bool spend)
+    {
+        if (Settings.SpendStatsCharacters.Contains(name, StringComparer.OrdinalIgnoreCase) == spend)
+            return;
+        var persisted = AppSettings.Load();
+        persisted.SpendStatsCharacters = persisted.SpendStatsCharacters.Where(n => !n.Equals(name, StringComparison.OrdinalIgnoreCase)).Concat(spend ? [name] : []).ToArray();
+        persisted.Save();
+        Settings.SpendStatsCharacters = persisted.SpendStatsCharacters;
+    }
+
+    void StartLeveling(string name, LevelingThresholds thresholds, int? targetLevel, string[] keep, int[] untilSafe, bool spendStats)
+    {
+        RequireOpen();
+        if (!sessions.TryGetValue(name, out var session) || !session.Snapshot.Connected)
+            throw new QuestBlockedException("Connect " + name + " first.");
+        if (RunnerBusy(name) || QueueReserves(name) || IsRunning(name) || controlActions.ContainsKey(name))
+            throw new QuestBlockedException("Another action owns this character. Stop it first.");
+        var ground = HuntingGrounds.MilethCrypt;
+        var progress = LoadHuntingProgress(ground, name);
+        var cancellation = new CancellationTokenSource();
+        controlActions[name] = cancellation;
+        void Interrupt(string reason)
+        {
+            cancellation.Cancel();
+            Log(name + ": leveling paused: " + reason);
+        }
+
+        void Save(HuntingProgress p) => SaveHuntingProgress(ground, name, p);
+
+        session.Interrupted += Interrupt;
+        Log(name + ": hunting started");
+        Notify();
+        _ = Run();
+        async Task Run()
+        {
+            try
+            {
+                var options = new BashOptions
+                {
+                    IsFriend = session.IsOwnCharacter,
+                    Note = line => Log(name + ": " + line)
+                };
+                var leveling = new HuntingEngine(session, session, ground, options, progress, Save, new(425, new(5, 8), "the Crypt Vestibule"), thresholds, targetLevel, new DropSurvey(session, keep, options.Note), spendStats ? new StatSpender(session, StatPaths.Strict, options.Note) : null, untilSafe);
+                await Task.Run(() => leveling.RunAsync(cancellation.Token));
+                Log(name + ": hunting ended");
+            }
+            catch (OperationCanceledException)
+            {
+                Log(name + ": hunting stopped");
+            }
+            catch (Exception e)
+            {
+                Log(name + ": hunting stopped · " + e.Message);
             }
             finally
             {
