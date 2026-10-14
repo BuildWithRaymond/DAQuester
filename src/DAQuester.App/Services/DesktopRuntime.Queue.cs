@@ -20,17 +20,21 @@ public sealed partial class DesktopRuntime
         return queueCoordinators.TryGetValue(name, out var owner) ? owner.State : state;
     }
 
-    public JourneyPlan PlanQueue(string name, QuestQueueState? state = null) => JourneyPlanner.Plan(state ?? Queue(name), Snapshot(name), (id, facts) =>
+    public JourneyPlan PlanQueue(string name, QuestQueueState? state = null) => PlanQueue(name, state, journal.Load);
+
+    internal JourneyPlan PlanQueue(string name, QuestQueueState? state, Func<string, string, QuestJob> readSaved) => JourneyPlanner.Plan(state ?? Queue(name), Snapshot(name), (id, facts) =>
     {
-        var available = Availability(name, id, facts);
+        var available = Availability(name, id, facts, readSaved);
         var kind = available.Ready ? EligibilityKind.Eligible : available.CanQueue ? EligibilityKind.Unknown : EligibilityKind.Blocked;
-        return new(new(kind, available.Reason), available.Status == "Choices", Job(name, id).Pending is not null);
+        return new(new(kind, available.Reason), available.Status == "Choices", Job(name, id, readSaved).Pending is not null);
     });
 
     // Library selection can plan a dependency; Availability continues to describe real execution.
-    public QuestAvailability PlanningAvailability(string name, string id)
+    public QuestAvailability PlanningAvailability(string name, string id) => PlanningAvailability(name, id, journal.Load);
+
+    internal QuestAvailability PlanningAvailability(string name, string id, Func<string, string, QuestJob> readSaved, Func<QuestQueueState, JourneyPlan>? readPlan = null)
     {
-        var actual = Availability(name, id);
+        var actual = Availability(name, id, Snapshot(name), readSaved);
         if (name.Length == 0 || !recipes.ContainsKey(id) || actual.Ready || actual.Status is "Completed" or "Unavailable")
             return actual;
         var queue = Queue(name);
@@ -39,7 +43,7 @@ public sealed partial class DesktopRuntime
             {
                 Quests = [.. queue.Quests, id]
             };
-        var entry = PlanQueue(name, queue).Entries.First(e => e.Quest == id);
+        var entry = (readPlan?.Invoke(queue) ?? PlanQueue(name, queue, readSaved)).Entries.First(e => e.Quest == id);
         bool warning = actual.Warning || id == NewCharacterPath.ClimbId && NewCharacterPath.TerrorWarning(name, Snapshot(name)) is not null;
         return entry.State == JourneyPlanningState.Conditional
             ? new("Conditional", entry.Reason, true, warning)

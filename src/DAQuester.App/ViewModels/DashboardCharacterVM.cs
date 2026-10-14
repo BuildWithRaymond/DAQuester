@@ -114,7 +114,7 @@ public sealed class DashboardCharacterVM : ObservableObject
         questId = owner.Runtime.SchedulerQuestId(Name) ?? owner.Runtime.RunningQuestId(Name) ?? (queue.Locked ? queue.ActiveQuest : null) ?? "";
         quest = owner.Runtime.Recipes.GetValueOrDefault(questId);
         // One journal read per refresh, rather than one for every bound caption.
-        job = quest is null ? new() : owner.Runtime.Job(Name, questId);
+        job = quest is null ? new() : owner.Presentation.Job(Name, questId);
     }
     internal void Refresh()
     {

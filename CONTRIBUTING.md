@@ -35,6 +35,7 @@ Use this map when changing a specific part of the app:
 | Interface icons and quest artwork | `Controls/LucideIcons.cs`, `LineIcon.cs`, `QuestGlyph.cs`, `QuestArtworkCatalog.cs`, and `content/quest-artwork.json` |
 | Library filtering and command wiring | `ViewModels/MainWindowViewModel.cs` |
 | Current journey, queue readiness, selected quest actions | `ViewModels/MainWindowViewModel.Journey.cs` |
+| Display batching and saved caption reads | `Services/DesktopPresentation.cs`, `PresentationJournal.cs`, and `DesktopRuntime.cs` |
 | Step counts and activity animation | `ViewModels/QuestProgress.cs` and `Controls/QuestTrail.cs` |
 | Original character sprites and observed actions | DarkAges' `Rendering` folder, `Protocol/CharacterAppearancePackets.cs`, and [preview notes](docs/character-preview.md) |
 | Circular character portraits and enlarged sprite accent | App's `Controls/CharacterSpritePreview*.cs`, `CharacterSpriteAccent.cs` and `SpriteImageBounds.cs` |

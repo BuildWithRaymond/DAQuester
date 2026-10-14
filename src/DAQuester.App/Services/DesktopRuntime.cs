@@ -24,7 +24,7 @@ public sealed partial class DesktopRuntime
     readonly Dictionary<string, QuestRunner> runners = new(StringComparer.OrdinalIgnoreCase);
     readonly Dictionary<string, CancellationTokenSource> runnerPreparations = new(StringComparer.OrdinalIgnoreCase);
     readonly Dictionary<string, Task> permanentTasks = new(StringComparer.OrdinalIgnoreCase);
-    readonly FileQuestJournal journal;
+    readonly PresentationJournal journal;
     readonly FileCharacterMemory characterMemory;
     readonly HashSet<Task> characterMemoryWrites = [];
     readonly CancellationTokenSource characterMemoryLifetime = new();
@@ -39,6 +39,7 @@ public sealed partial class DesktopRuntime
     bool closing, started, shuttingDown;
     bool logFileFailed;
     Task? shutdownTask;
+    Task? presentationRefresh;
     string CalibrationPath => Path.Combine(AppSettings.DataPath, "calibration", Settings.ServerProfile + ".json");
     public AppSettings Settings
     {
@@ -72,6 +73,13 @@ public sealed partial class DesktopRuntime
         get;
         set;
     } = action => action();
+    // Display invalidations may wait for a render slot. Game receipts, logs and
+    // ownership work continue through Dispatch and are never batched here.
+    public Action<Action>? DispatchPresentation
+    {
+        get; set;
+    }
+    int presentationPending;
 
     public event Action? Changed;
     public event Action<string>? Diagnostic;
@@ -123,13 +131,16 @@ public sealed partial class DesktopRuntime
         }
     });
 
-    public DesktopRuntime(bool preview = false, IUpdateBackend? updateBackend = null)
+    public DesktopRuntime(bool preview = false, IUpdateBackend? updateBackend = null, IQuestJournal? journal = null)
     {
         Preview = preview;
         Settings = AppSettings.Load();
-        journal = new(Path.Combine(AppSettings.DataPath, "journal"));
+        this.journal = new(journal ?? new FileQuestJournal(Path.Combine(AppSettings.DataPath, "journal")));
         var schedulerStore = new FileQuestSchedulerStore(Path.Combine(AppSettings.DataPath, "scheduler.json"));
-        try { scheduler = new(schedulerStore, ExecuteScheduledQuestAsync); }
+        try
+        {
+            scheduler = new(schedulerStore, ExecuteScheduledQuestAsync);
+        }
         catch (Exception error) when (error is IOException or UnauthorizedAccessException or JsonException)
         {
             scheduler = new(schedulerStore, ExecuteScheduledQuestAsync, new());
@@ -176,8 +187,54 @@ public sealed partial class DesktopRuntime
             Dispatch(action);
     }
 
-    void Notify() => Ui(() => Changed?.Invoke());
-    public void Refresh() => Notify();
+    void Notify()
+    {
+        if (closing || Interlocked.CompareExchange(ref presentationPending, 1, 0) != 0)
+            return;
+        try
+        {
+            (DispatchPresentation ?? Dispatch)(() =>
+            {
+                // Clear before notifying: a change during rendering needs a later
+                // pass, while the queued callback always reads the latest state.
+                Interlocked.Exchange(ref presentationPending, 0);
+                if (!closing)
+                    Changed?.Invoke();
+            });
+        }
+        catch
+        {
+            Interlocked.Exchange(ref presentationPending, 0);
+            throw;
+        }
+    }
+    public void Refresh()
+    {
+        journal.InvalidateDisplay();
+        Notify();
+    }
+
+    internal void InvalidatePresentation() => journal.InvalidateDisplay();
+
+    internal Task RefreshPresentationAsync()
+    {
+        if (closing || shuttingDown)
+            return Task.CompletedTask;
+        return presentationRefresh is { IsCompleted: false } ? presentationRefresh : presentationRefresh = RefreshPresentationCoreAsync();
+    }
+
+    async Task RefreshPresentationCoreAsync()
+    {
+        try
+        {
+            await journal.RefreshDisplayAsync();
+            Notify();
+        }
+        catch (Exception error) when (error is IOException or UnauthorizedAccessException or JsonException)
+        {
+            Log("Saved display progress could not be refreshed: " + error.Message);
+        }
+    }
     public void Log(string message) => Ui(() =>
     {
         string line = DateTime.Now.ToString("HH:mm:ss") + "  " + message;
@@ -267,7 +324,10 @@ public sealed partial class DesktopRuntime
     }
 
     public string MapName(int? map) => map is { } id ? mapNames.GetValueOrDefault(id, "Unknown area") : "Location appears after sign-in";
-    public QuestJob Job(string name, string id) => calibrationRuns.TryGetValue(name, out var run) && run.Job.Quest == id ? run.Job : runners.TryGetValue(name, out var runner) && runner.Job.Quest == id ? runner.Job : journal.Load(name, id);
+    public QuestJob Job(string name, string id) => Job(name, id, journal.Load);
+    internal QuestJob Job(string name, string id, Func<string, string, QuestJob> readSaved) => calibrationRuns.TryGetValue(name, out var run) && run.Job.Quest == id ? run.Job : runners.TryGetValue(name, out var runner) && runner.Job.Quest == id ? runner.Job : readSaved(name, id);
+    internal DesktopPresentation CapturePresentation() => new(this, journal.ReadForDisplay);
+    internal DesktopPresentation CaptureFreshPresentation() => new(this, journal.Load);
     public CharacterMemory Memory(string name)
     {
         if (name.Length == 0)
@@ -559,6 +619,8 @@ public sealed partial class DesktopRuntime
             bool prepared = Updates.PrepareExit(QuestActionsRunning, ConnectedGame, LaunchedClientRunning);
             if (installRequested && !prepared)
                 throw new InvalidOperationException(Updates.Status + " Finish quests and close game clients, then try again.");
+            if (presentationRefresh is { } displayRead)
+                await displayRead;
             AutoExport("closing");
             closing = true;
             characterMemoryLifetime.Cancel();

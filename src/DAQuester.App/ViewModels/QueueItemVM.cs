@@ -58,7 +58,7 @@ public sealed class QueueItemVM : ObservableObject
     {
         Number = number;
         IsActive = queue.ActiveQuest == Id && queue.Locked;
-        var job = owner.Runtime.Job(Character, Id);
+        var job = owner.Presentation.Job(Character, Id);
         Detail = IsActive ? queue.State == "Paused" ? "Paused · checkpoint saved" : "In progress" : job.Pending is not null ? "Awaiting confirmation" : job.Step is not ("preflight" or "complete") ? "Resume saved progress" : "One verified attempt";
         RaiseAll();
         MoveUpCommand.Notify();

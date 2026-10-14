@@ -31,6 +31,15 @@ bitmap. Character changes, disconnect and window removal invalidate in-flight
 results before they can appear. Original frame offsets and nearest-neighbor
 display keep the sprite aligned and sharp.
 
+Display notifications are batched into one pending update at background UI priority,
+with a 50 ms delay. The sprite's 33 ms animation timer remains independent. Repeated
+movement packets reuse saved display receipts, while a successful or failed checkpoint
+write invalidates the affected caption data. Every explicit refresh reads saved state
+again; the normal two-second tick also scans external changes off the UI thread.
+Late scans cannot overwrite a newer save. Queue execution, reconciliation, active
+messages, replay recording and diagnostic lines keep their existing delivery paths.
+The display cache is never used as a game receipt or by an execution gate.
+
 A decorative copy behind the journey sprite uses the same published bitmap,
 enlarged 5.5 times with nearest-neighbor sampling at 12% opacity. It cannot drift
 to another animation frame and stays clipped to the journey side of the card.

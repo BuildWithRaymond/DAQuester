@@ -17,7 +17,12 @@ public partial class App : Application
         {
             var runtime = new DesktopRuntime(Program.IsValidation)
             {
-                Dispatch = action => Dispatcher.UIThread.Post(action)
+                Dispatch = action => Dispatcher.UIThread.Post(action),
+                // At most twenty display updates per second leave time for input and the
+                // independent sprite animation timer during busy quest queues.
+                DispatchPresentation = action => Dispatcher.UIThread.Post(
+                    () => DispatcherTimer.RunOnce(action, TimeSpan.FromMilliseconds(50), DispatcherPriority.Background),
+                    DispatcherPriority.Background)
             };
             var vm = new MainWindowViewModel(runtime);
             var window = new MainWindow(vm);
@@ -59,7 +64,9 @@ public partial class App : Application
             };
             timer.Tick += async (_, _) =>
             {
-                vm.Refresh();
+                // Scan external saves off-thread. Normal movement reuses display
+                // receipts; this scan never delays the scheduler or game actions.
+                _ = runtime.RefreshPresentationAsync();
                 await runtime.TickSchedulerAsync();
                 await runtime.TickDanaanContinuationsAsync();
             };

@@ -1,5 +1,41 @@
 # Validation status
 
+## Queue display performance — October 13, 2026
+
+Queue traffic previously posted a full-window refresh for every notification and
+loaded the same checkpoint up to 70 times in one pass. Display invalidations now
+share one pending callback at background UI priority, delayed 50 ms. Dependency
+plans are shared within a pass and overviews are built on demand. Saved display
+receipts survive movement-only updates; writes invalidate their affected entries.
+Explicit refreshes read saved state again, while external changes are scanned in
+the background on the existing two-second tick. Late scans cannot overwrite newer
+receipts. Execution reads, write ordering, game messages, diagnostics and replay
+recording keep their existing paths.
+
+An isolated probe compared the prior integrated assembly and this implementation
+on the same host: seven sample characters, six queued quests each, persisted sample
+journals, two warm-up passes and 20 measured passes. It also read the selected queue,
+current journey and dashboard sidebar properties. Mean movement-driven model refresh
+time fell from **484.97 ms to 2.16 ms**; allocation per update fell from **10,387,042
+bytes to 138,085 bytes** (98.67% less). A 50-notification burst posted **one** display
+callback instead of 50. Explicit full reloads fell from **469.18 ms to 101.08 ms**.
+These measurements describe synthetic model work, not live frame rate or end-to-end
+render latency. No real clients or game characters were used by the probe.
+
+The final Release solution build passed with zero warnings and errors. All **42
+focused app cases** passed, including nine new refresh/cache tests. Both complete
+xUnit projects passed with normal settings and no skips: **231 app tests** and
+**1,147 Core tests**. That Core count includes the concurrent Danaan chat's nine
+Ase cases; those quest changes are separate from the performance commit. Build
+input hashes stayed unchanged throughout the final validation.
+
+The native isolated preview produced **53 sample states** using read-only installed
+artwork. Manual review covered original sprites in the current journey, Fisk's
+paid wait, normal/minimum planner and character layouts, and the hidden forecasts.
+Framework disclosure/reorder/removal events passed; physical keyboard delivery and
+live before/after frame rate were not measured. The active player host and its
+quest queue were not restarted or operated for these checks.
+
 ## Forecast visibility and character spacing — October 13, 2026
 
 Whole journey forecast panels and the dashboard forecast summary are temporarily

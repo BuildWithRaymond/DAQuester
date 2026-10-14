@@ -103,7 +103,7 @@ public sealed partial class MainWindowViewModel
 
     QuestDefinition? JourneyQuest => Runtime.Recipes.GetValueOrDefault(JourneyQuestId);
 
-    QuestJob JourneyJob => JourneyQuest is { } quest && CharacterName.Length > 0 ? Runtime.Job(CharacterName, quest.Id) : new()
+    QuestJob JourneyJob => JourneyQuest is { } quest && CharacterName.Length > 0 ? Presentation.Job(CharacterName, quest.Id) : new()
     {
         Character = CharacterName
     };

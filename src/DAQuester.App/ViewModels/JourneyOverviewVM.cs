@@ -54,9 +54,14 @@ public sealed class JourneyOverviewVM
     public bool HasSupplies => SupplySummary.Length > 0;
 
     public JourneyOverviewVM(DesktopRuntime runtime, string character, DateTimeOffset now)
+        : this(runtime, character, now, runtime.CaptureFreshPresentation())
     {
-        Plan = runtime.PlanQueue(character);
-        Forecast = runtime.ForecastQueue(character, () => now);
+    }
+
+    internal JourneyOverviewVM(DesktopRuntime runtime, string character, DateTimeOffset now, DesktopPresentation presentation)
+    {
+        Plan = presentation.PlanQueue(character);
+        Forecast = presentation.ForecastQueue(character, now);
         Rows = Plan.Entries.Select((entry, index) => new JourneyPlanRowVM(index + 1, runtime.QuestName(entry.Quest), entry,
             Forecast.Entries.FirstOrDefault(f => f.Quest == entry.Quest), runtime.QuestName)).ToArray();
         bool covered = Forecast.Entries.Any(e => e.Covered);

@@ -4,12 +4,14 @@ namespace DAQuester.App.Services;
 
 public sealed partial class DesktopRuntime
 {
-    public JourneyForecast ForecastQueue(string name, Func<DateTimeOffset>? clock = null)
+    public JourneyForecast ForecastQueue(string name, Func<DateTimeOffset>? clock = null) => ForecastQueue(name, clock, journal.Load);
+
+    internal JourneyForecast ForecastQueue(string name, Func<DateTimeOffset>? clock, Func<string, string, QuestJob> readSaved)
     {
         // Forecasts inspect saved progress and current ownership. They never
         // reserve a live helper or write predicted resources into character state.
         var queue = Queue(name);
-        var helpers = queue.Quests.SelectMany(id => Job(name, id).SickChildOptions?.Helpers ?? [])
+        var helpers = queue.Quests.SelectMany(id => Job(name, id, readSaved).SickChildOptions?.Helpers ?? [])
             .Distinct(StringComparer.OrdinalIgnoreCase).Select(helper =>
             {
                 var state = Snapshot(helper);
@@ -21,6 +23,6 @@ public sealed partial class DesktopRuntime
                 return new ForecastHelper(helper, state, availability);
             }).ToArray();
         return new JourneyResourceForecast(clock ?? (() => DateTimeOffset.UtcNow))
-            .Calculate(queue, Snapshot(name), id => Job(name, id), helpers, FlowerPicks());
+            .Calculate(queue, Snapshot(name), id => Job(name, id, readSaved), helpers, FlowerPicks());
     }
 }

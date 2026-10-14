@@ -13,6 +13,10 @@ public sealed partial class MainWindowViewModel : ObservableObject
     {
         get;
     }
+    internal DesktopPresentation Presentation
+    {
+        get; private set;
+    }
 
     readonly List<QuestItemVM> library = [];
     readonly List<AsyncCommand> commands = [];
@@ -305,6 +309,7 @@ public sealed partial class MainWindowViewModel : ObservableObject
     public MainWindowViewModel(DesktopRuntime runtime, Func<DateTimeOffset>? forecastClock = null)
     {
         Runtime = runtime;
+        Presentation = runtime.CapturePresentation();
         this.forecastClock = forecastClock ?? (() => DateTimeOffset.UtcNow);
         InitializeDashboard();
         clientPath = runtime.Settings.ClientPath;
@@ -369,7 +374,7 @@ public sealed partial class MainWindowViewModel : ObservableObject
         LoadLibrary();
         SelectedCharacter = Characters.FirstOrDefault(c => c.OriginalName.Equals(runtime.Settings.LastCharacter, StringComparison.OrdinalIgnoreCase)) ?? Characters.FirstOrDefault();
         SelectedQuest = library.FirstOrDefault();
-        Runtime.Changed += Refresh;
+        Runtime.Changed += RefreshFromRuntime;
         Refresh();
     }
 
@@ -453,13 +458,19 @@ public sealed partial class MainWindowViewModel : ObservableObject
         NewCharacterPath.ClimbId => ("Fights in Mileth Crypt 1-1 and 2-1 until level 11. Needs the Peasant's First Steps gear. Up to level 11, stat points go into CON and WIS only, so this never rules out any class or stat plan.", "MILETH · CRYPT"),
         _ => ("This quest is a guide for manual play. Open its source for the full journey.", "QUEST GUIDE")
     };
-    public void Refresh()
+    void RefreshFromRuntime() => Refresh(false);
+    public void Refresh() => Refresh(true);
+
+    void Refresh(bool reloadSaved)
     {
         if (refreshing)
             return;
         refreshing = true;
         try
         {
+            if (reloadSaved)
+                Runtime.InvalidatePresentation();
+            Presentation = Runtime.CapturePresentation();
             LoadCharacters();
             SortSwitcher();
             if (selectedCharacter is null)
@@ -531,7 +542,7 @@ public sealed partial class MainWindowViewModel : ObservableObject
             }, h.At, DesktopRuntime.PlayerReason(h.Summary), Runtime)));
             foreach (var recipe in Runtime.Recipes.Values)
             {
-                var job = Runtime.Job(character, recipe.Id);
+                var job = Presentation.Job(character, recipe.Id);
                 foreach (var attempt in job.HairstyleAttempts)
                     if (!queue.History.Any(h => h.Quest == recipe.Id && h.At == attempt.CompletedAt))
                         rows.Add(new(character, recipe.Name, attempt.LegendReward ? "Completed" : "Attempt recorded", attempt.CompletedAt, string.Join(" · ", attempt.Rewards.Select(r => $"{r.Value:N0} {r.Key}")), Runtime));

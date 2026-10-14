@@ -128,7 +128,7 @@ public sealed class QuestItemVM : ObservableObject
 
     public void Refresh(string character, QuestQueueState queue)
     {
-        availability = owner.Runtime.PlanningAvailability(character, recipeId.Length == 0 ? Id : recipeId);
+        availability = owner.Presentation.PlanningAvailability(character, recipeId.Length == 0 ? Id : recipeId);
         queued = queue.Quests.Contains(recipeId);
         if (recipeId == AltarWorshipEvidence.Id)
             RefreshAltar(character);
@@ -143,7 +143,7 @@ public sealed class QuestItemVM : ObservableObject
         noticeText = noticeAlert
             ? "Only Priests earn \"" + AltarWorshipEvidence.Legend + "\". " + character + " will get a Red Jade Ring and 50,000 experience after the 10th offering."
             : "Priests earn \"" + AltarWorshipEvidence.Legend + "\" and a Jade or Amethyst Ring with 100,000 experience. Other classes get a Red Jade Ring and 50,000 experience.";
-        var made = character.Length == 0 ? [] : owner.Runtime.Job(character, recipeId).AltarOfferings;
+        var made = character.Length == 0 ? [] : owner.Presentation.Job(character, recipeId).AltarOfferings;
         offerings = string.Join("\n", made.Select((o, i) => (i + 1) + ". " + o.At.ToLocalTime().ToString("MMM d, h:mm tt") + " · " + (o.Paid > 0 ? "bought for " + o.Paid.ToString("N0") : "shield from the bag") + (o.Experience.Length > 0 ? " · " + o.Experience : "")));
     }
 }

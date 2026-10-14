@@ -7,7 +7,9 @@ public sealed partial class DesktopRuntime
     public string QuestName(string id) => recipes.TryGetValue(id, out var quest) ? quest.Name : id;
     public QuestAvailability Availability(string name, string id) => Availability(name, id, Snapshot(name));
 
-    QuestAvailability Availability(string name, string id, CharacterSnapshot current)
+    QuestAvailability Availability(string name, string id, CharacterSnapshot current) => Availability(name, id, current, journal.Load);
+
+    QuestAvailability Availability(string name, string id, CharacterSnapshot current, Func<string, string, QuestJob> readSaved)
     {
         if (name.Length > 0 && id == SickChildEvidence.AnamanCatalogId && Memory(name).SelectionRestriction(id, current) is { } locked)
             return new("Blocked", locked.Reason, false);
@@ -15,7 +17,7 @@ public sealed partial class DesktopRuntime
             return new("Unavailable", "Automatic journey unavailable. Open the guide for manual play.", false);
         if (name.Length == 0)
             return new("Not checked", "Add a character to check requirements", false);
-        var job = journal.Load(name, quest.Id);
+        var job = readSaved(name, quest.Id);
         if (runners.TryGetValue(name, out var owner) && owner.Job.Quest == quest.Id)
             job = owner.Job;
         var remembered = Memory(name);
