@@ -12,7 +12,7 @@ using DAQuester.Core;
 namespace DAQuester.App.Validation;
 // Optional documentation captures, not a UI test suite. The preview runtime
 // never opens listeners or launches clients, and all data stays in artifacts.
-internal static class ScreenshotCapture
+internal static partial class ScreenshotCapture
 {
     public static async Task RunAsync(Window window, MainWindowViewModel viewModel)
     {
@@ -274,6 +274,7 @@ internal static class ScreenshotCapture
                 renders.Add(huntingPath);
             }
 
+            var journeyReview = await CaptureJourneysAsync(window, viewModel, renders);
             File.WriteAllText("artifacts/screenshots.json", JsonSerializer.Serialize(new
             {
                 framework = "Avalonia",
@@ -282,6 +283,7 @@ internal static class ScreenshotCapture
                 synthetic = true,
                 failed = 0,
                 detailsScroll = new { scrolledDetails, reopenedDetails, selectedDetails },
+                journeyReview,
                 renders
             }, AppSettings.Json));
             File.WriteAllText("artifacts/screenshots.txt", "Documentation screenshots captured with isolated sample data. No game clients, listeners, or updates.");

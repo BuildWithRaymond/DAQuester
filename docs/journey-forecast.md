@@ -2,7 +2,9 @@
 
 Core's `JourneyResourceForecast` takes a supplied `Func<DateTimeOffset>` clock. `Calculate(queue, observed, loadJob, helpers, sharedPicks)` reads snapshots and the existing journal/evidence rules. The desktop adapter is `DesktopRuntime.ForecastQueue(character, clock = null)`. It supplies the same helper ownership restrictions and persisted shared flower-pick records as the existing flower flow. It does not inspect credentials, acquire helpers, send commands, save estimates or change choices.
 
-UI consumers can call `PlanQueue` and `ForecastQueue` on existing runtime change notifications, and refresh the forecast when the display clock advances. Bind the returned data to the separately developed dashboard/sidebar/character surfaces; these changes include no layout work. Planning and forecast data must never be passed into the runner as observed character state.
+The Windows app now calls these adapters through `JourneyOverviewVM` on runtime notifications and the existing two-second display refresh. `JourneyForecastView` is shared by the queue sidebar, the existing dashboard list detail and expanded character cards. Dashboard cards retain a compact budget/shortfall caption; saved character cards remain collapsed to their names, level and connection until expanded. This integrates the existing dashboard architecture; the earlier standalone service-output preview is not an app page or a layout template.
+
+The disclosure separates remaining consumption, the whole-journey starting-balance lower bound, the next action's starting floor, verified gold allocated once, and known shortfalls. Each quest identifies remaining items, verified reserved supplies and their owner, item shortfalls, recorded receipts and separately declared prior progress. Known waits and date bounds appear as secondary text; unsupported estimates and unknown allocations are labeled explicitly. Full condition and uncertainty explanations remain available in disclosures. Planning and forecast data never enter the runner as observed character state.
 
 | Field | UI interpretation |
 | --- | --- |
