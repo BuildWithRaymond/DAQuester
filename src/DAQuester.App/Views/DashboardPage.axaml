@@ -1,4 +1,4 @@
-<UserControl xmlns="https://github.com/avaloniaui" xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml" xmlns:controls="using:DAQuester.App.Controls" xmlns:views="using:DAQuester.App.Views" x:Class="DAQuester.App.Views.DashboardPage" x:CompileBindings="False">
+<UserControl xmlns="https://github.com/avaloniaui" xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml" xmlns:controls="using:DAQuester.App.Controls" x:Class="DAQuester.App.Views.DashboardPage" x:CompileBindings="False">
   <UserControl.Styles>
     <Style Selector="Border.dashboardCharacter">
       <Setter Property="Background" Value="{DynamicResource Surface}"/>
@@ -132,7 +132,6 @@
                   </Grid>
                   <StackPanel Grid.Row="3" Spacing="6">
                     <TextBlock Text="{Binding QueueSummary}" Classes="caption" FontSize="10" TextTrimming="CharacterEllipsis"/>
-                    <TextBlock Text="{Binding JourneyOverview.CompactSummary}" Classes="caption" FontSize="10" MaxLines="1" TextTrimming="CharacterEllipsis" ToolTip.Tip="{Binding JourneyOverview.CompactSummary}"/>
                     <Grid ColumnDefinitions="*,110" ColumnSpacing="8">
                       <Button Classes="quiet" Command="{Binding PlannerCommand}" ToolTip.Tip="{Binding Name,StringFormat='Open planner for {0}'}"><StackPanel Orientation="Horizontal" Spacing="6"><controls:LineIcon Icon="BookOpen" Width="16" Height="16"/><TextBlock Text="Open planner" FontSize="12"/></StackPanel></Button>
                       <Button Grid.Column="1" Command="{Binding PrimaryCommand}" ToolTip.Tip="{Binding PrimaryTooltip}" ToolTip.ShowOnDisabled="True" AutomationProperties.HelpText="{Binding PrimaryTooltip}"><StackPanel Orientation="Horizontal" Spacing="6"><controls:LineIcon Icon="{Binding PrimaryIcon}" Width="14" Height="14"/><TextBlock Text="{Binding PrimaryLabel}" FontSize="12"/></StackPanel></Button>
@@ -195,9 +194,6 @@
               <TextBlock Text="{Binding QueueHeading}" Classes="section" FontSize="13"/>
               <ScrollViewer Grid.Row="1" HorizontalScrollBarVisibility="Disabled">
                 <StackPanel Spacing="10">
-                  <Expander Header="Whole journey forecast" HorizontalContentAlignment="Stretch">
-                    <views:JourneyForecastView DataContext="{Binding JourneyOverview}" Margin="0,12"/>
-                  </Expander>
                   <ItemsControl ItemsSource="{Binding QueueEntries}"><ItemsControl.ItemTemplate><DataTemplate><Border BorderBrush="{DynamicResource Line}" BorderThickness="0,0,0,1" Padding="0,8"><Grid ColumnDefinitions="24,*" ColumnSpacing="8"><TextBlock Text="{Binding Position}" Foreground="{DynamicResource Gold}" FontSize="12"/><StackPanel Grid.Column="1" Spacing="3"><TextBlock Text="{Binding Title}" FontSize="12" TextTrimming="CharacterEllipsis" ToolTip.Tip="{Binding Title}"/><TextBlock Text="{Binding Summary}" Classes="caption" Classes.ready="{Binding IsReady}" Classes.gold="{Binding IsConditional}" Classes.error="{Binding IsBlocked}" FontSize="10" TextWrapping="Wrap" MaxLines="2" TextTrimming="CharacterEllipsis" ToolTip.Tip="{Binding Explanation}"/></StackPanel></Grid></Border></DataTemplate></ItemsControl.ItemTemplate></ItemsControl>
                 </StackPanel>
               </ScrollViewer>

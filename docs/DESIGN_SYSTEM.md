@@ -240,5 +240,10 @@ secondary actions in a menu. Failure reasons remain visible below their row.
 Character cards show legend marks as wrapping chips in a bounded scroll area;
 counts distinguish current observation from remembered data and unknown states.
 Full mark text remains in each chip's tooltip.
+Character disclosure controls occupy the header beside Launch and Select. Expanded
+account fields and legend marks occupy a separate full-width row, with one 14 px
+card inset and a 14 px gap around the dividing rule. Whole journey forecast panels
+and their dashboard summary are temporarily hidden across the player window;
+queue readiness and execution checks still use the existing planning model.
 Navigation retains the form draft and never enables or pauses schedules. The gold
 quest medallion is shared by the brand image, all window icons and executable.

@@ -381,6 +381,33 @@
     <Setter Property="Background" Value="Transparent"/>
     <Setter Property="BorderBrush" Value="{DynamicResource Line}"/>
   </Style>
+  <!-- The disclosure owns only the header; the editor below uses the entire card width. -->
+  <Style Selector="ToggleButton.characterDisclosure">
+    <Setter Property="HorizontalAlignment" Value="Stretch"/>
+    <Setter Property="HorizontalContentAlignment" Value="Stretch"/>
+    <Setter Property="Padding" Value="10,6"/>
+    <Setter Property="CornerRadius" Value="6"/>
+    <Setter Property="Background" Value="{DynamicResource Raised}"/>
+    <Setter Property="BorderBrush" Value="{DynamicResource Line}"/>
+    <Setter Property="Foreground" Value="{DynamicResource Text}"/>
+  </Style>
+  <Style Selector="ToggleButton.characterDisclosure:checked /template/ ContentPresenter#PART_ContentPresenter">
+    <Setter Property="Background" Value="{DynamicResource Raised}"/>
+    <Setter Property="BorderBrush" Value="{DynamicResource Line}"/>
+    <Setter Property="Foreground" Value="{DynamicResource Text}"/>
+  </Style>
+  <Style Selector="ToggleButton.characterDisclosure:pointerover /template/ ContentPresenter#PART_ContentPresenter">
+    <Setter Property="Background" Value="{DynamicResource ControlHover}"/>
+    <Setter Property="BorderBrush" Value="{DynamicResource Line}"/>
+    <Setter Property="Foreground" Value="{DynamicResource Text}"/>
+  </Style>
+  <Style Selector="ToggleButton.characterDisclosure:pressed /template/ ContentPresenter#PART_ContentPresenter">
+    <Setter Property="Background" Value="{DynamicResource ControlPressed}"/>
+    <Setter Property="Foreground" Value="{DynamicResource Text}"/>
+  </Style>
+  <Style Selector="ToggleButton.characterDisclosure:focus-visible /template/ ContentPresenter#PART_ContentPresenter">
+    <Setter Property="BorderBrush" Value="{DynamicResource Gold}"/>
+  </Style>
   <Style Selector="ToolTip">
     <Setter Property="Background" Value="{DynamicResource Raised}"/>
     <Setter Property="Foreground" Value="{DynamicResource Text}"/>

@@ -1,6 +1,7 @@
 using System.Collections.Immutable;
 using Avalonia;
 using Avalonia.Controls;
+using Avalonia.Controls.Primitives;
 using Avalonia.Input;
 using Avalonia.Media.Imaging;
 using Avalonia.Threading;
@@ -55,10 +56,6 @@ internal static partial class ScreenshotCapture
         window.Height = 930;
         await SettleAsync(window);
         await CaptureJourneyAsync(window, "journey-dependencies", renders);
-        var forecast = window.FindControl<Expander>("queueForecast")!;
-        forecast.IsExpanded = true;
-        await CaptureJourneyAsync(window, "journey-dependency-details", renders);
-        forecast.IsExpanded = false;
         var journal = new FileQuestJournal(Path.Combine(AppSettings.DataPath, "journal"));
         await journal.SaveAsync(new()
         {
@@ -104,14 +101,8 @@ internal static partial class ScreenshotCapture
             Quests = [SickChildEvidence.Id, AltarWorshipEvidence.Id]
         });
         vm.Refresh();
-        forecast.IsExpanded = true;
-        await CaptureJourneyAsync(window, "journey-whole-budget", renders);
-        var forecastScroll = forecast.GetVisualDescendants().OfType<ScrollViewer>().First();
-        var altarWait = forecast.GetVisualDescendants().OfType<TextBlock>().Single(t =>
-            t.DataContext is JourneyPlanRowVM { Id: AltarWorshipEvidence.Id } && t.Text == vm.JourneyOverview.Rows[1].Wait);
-        altarWait.BringIntoView();
-        await CaptureJourneyAsync(window, "journey-altar-wait", renders);
-        forecastScroll.Offset = default;
+        // Review queue controls without exposing the temporarily hidden whole-journey forecast.
+        await CaptureJourneyAsync(window, "journey-planned-queue", renders);
         window.Width = 900;
         window.Height = 560;
         await CaptureJourneyAsync(window, "journey-minimum", renders);
@@ -124,11 +115,6 @@ internal static partial class ScreenshotCapture
         await CaptureJourneyAsync(window, "dashboard-integrated-cards", renders);
         vm.DashboardListView = true;
         await CaptureJourneyAsync(window, "dashboard-integrated-list", renders);
-        var dashboard = window.FindControl<Views.DashboardPage>("dashboardPage")!;
-        var dashboardForecast = dashboard.GetVisualDescendants().OfType<Expander>().Single(e => Equals(e.Header, "Whole journey forecast"));
-        dashboardForecast.IsExpanded = true;
-        await CaptureJourneyAsync(window, "dashboard-integrated-forecast", renders);
-        dashboardForecast.IsExpanded = false;
 
         runtime.SetPreviewQueue(new()
         {
@@ -159,7 +145,6 @@ internal static partial class ScreenshotCapture
         });
         vm.Refresh();
         vm.Page = "Planner";
-        forecast.IsExpanded = true;
         await CaptureJourneyAsync(window, "journey-unknown-minimum", renders);
         bool disabled = !window.FindControl<Button>("queueStart")!.IsEffectivelyEnabled;
         window.Width = 1450;
@@ -191,12 +176,24 @@ internal static partial class ScreenshotCapture
             character.IsExpanded = false;
         await CaptureJourneyAsync(window, "characters-integrated-collapsed", renders);
         var elara = vm.Characters.Single(c => c.Name == "Elara");
-        elara.IsExpanded = true;
-        await SettleAsync(window);
-        var characterCard = window.GetVisualDescendants().OfType<Expander>()
-            .Single(e => e.Name == "characterDetails" && ReferenceEquals(e.DataContext, elara));
-        characterCard.GetVisualDescendants().OfType<Expander>().Single(e => Equals(e.Header, "Whole journey forecast")).IsExpanded = true;
+        var disclosure = window.GetVisualDescendants().OfType<ToggleButton>()
+            .Single(control => control.Name == "characterDetails" && ReferenceEquals(control.DataContext, elara));
+        bool disclosureFocused = disclosure.Focus();
+        // Exercise the standard keyboard toggle and its two-way binding in isolated sample data.
+        void ToggleDisclosure()
+        {
+            disclosure.RaiseEvent(new KeyEventArgs { RoutedEvent = InputElement.KeyDownEvent, Key = Key.Space });
+            disclosure.RaiseEvent(new KeyEventArgs { RoutedEvent = InputElement.KeyUpEvent, Key = Key.Space });
+        }
+        ToggleDisclosure();
+        bool disclosureOpened = elara.IsExpanded;
+        ToggleDisclosure();
+        bool disclosureClosed = !elara.IsExpanded;
+        ToggleDisclosure();
         await CaptureJourneyAsync(window, "characters-partial-supplies", renders);
+        window.Width = 900;
+        window.Height = 560;
+        await CaptureJourneyAsync(window, "characters-partial-supplies-minimum", renders);
         return new
         {
             keyboard = new
@@ -210,6 +207,14 @@ internal static partial class ScreenshotCapture
                 removed
             },
             unknownStartDisabled = disabled,
+            characterDisclosure = new
+            {
+                frameworkRoutedEvents = true,
+                physicalKeys = "unrun",
+                focused = disclosureFocused,
+                opened = disclosureOpened,
+                closed = disclosureClosed
+            },
             clientsStarted = 0,
             observedStateUsedAsForecastReceipt = false
         };

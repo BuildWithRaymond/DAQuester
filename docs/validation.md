@@ -1,5 +1,21 @@
 # Validation status
 
+## Forecast visibility and character spacing — October 13, 2026
+
+Whole journey forecast panels and the dashboard forecast summary are temporarily
+hidden. Planning, queue readiness and real dispatch gates remain available. Expanded
+character details now occupy a separate full-width row below the header actions,
+with a single card inset rather than an unused Launch/Select column beside the form.
+
+The Release solution build passed with zero warnings and errors. Focused disclosure,
+dashboard and planning tests passed **16/16**; both complete xUnit projects passed
+with normal settings: **1,138 Core tests** and **222 app tests**, with no skips.
+Manual native preview review covered expanded/collapsed character cards and the
+planner/dashboard at normal and minimum window sizes. The isolated capture produced
+53 sample states; framework Space events opened and closed character details through
+the two-way binding. Physical keyboard delivery was not exercised. No game clients
+or live characters were operated; the active player host was not restarted.
+
 ## Merged worktree validation — October 13, 2026
 
 The completed quest/dashboard checkpoint (`a00b975`) and planning/UI branch
