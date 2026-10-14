@@ -19,7 +19,7 @@ public sealed partial class MainWindowViewModel : ObservableObject
     bool refreshing;
     bool questConfirmationPending;
     public Func<string, string, string?, Task<bool>>? ConfirmPaulinQuestAsync { get; set; }
-    string page = "Planner", search = "", filter = "Available", errorMessage = "", noticeMessage = "", clientPath, accountStatus = "";
+    string page = "Dashboard", search = "", filter = "Available", errorMessage = "", noticeMessage = "", clientPath, accountStatus = "";
     bool legendMarksOnly;
     bool automaticUpdateChecks;
     CharacterItemVM? selectedCharacter;
@@ -111,6 +111,7 @@ public sealed partial class MainWindowViewModel : ObservableObject
     };
     public string PageSubtitle => Page switch
     {
+        "Dashboard" => "Every character. One clear view.",
         "Characters" => "Every character. Their own journey.",
         "History" => "Verified outcomes and saved attempts.",
         "Scheduler" => "Log in, run a quest, log out. Completely optional.",
@@ -274,9 +275,11 @@ public sealed partial class MainWindowViewModel : ObservableObject
         get;
     }
 
-    public MainWindowViewModel(DesktopRuntime runtime)
+    public MainWindowViewModel(DesktopRuntime runtime, Func<DateTimeOffset>? forecastClock = null)
     {
         Runtime = runtime;
+        this.forecastClock = forecastClock ?? (() => DateTimeOffset.UtcNow);
+        InitializeDashboard();
         clientPath = runtime.Settings.ClientPath;
         automaticUpdateChecks = runtime.Settings.AutomaticUpdateChecks;
         journeyCollapsed = runtime.Settings.JourneyCollapsed;
@@ -432,6 +435,7 @@ public sealed partial class MainWindowViewModel : ObservableObject
             if (selectedCharacter is null)
                 selectedCharacter = Characters.FirstOrDefault();
             var queue = QueueState;
+            RefreshJourneyOverviews();
             foreach (var character in Characters)
                 character.Refresh();
             foreach (var quest in library)
@@ -452,6 +456,7 @@ public sealed partial class MainWindowViewModel : ObservableObject
             }).ToArray();
             Sync(QueueItems, rows);
             RefreshHistory();
+            RefreshDashboard();
             RaiseAll();
             foreach (var command in commands)
                 command.Notify();

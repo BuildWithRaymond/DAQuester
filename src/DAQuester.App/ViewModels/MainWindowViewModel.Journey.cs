@@ -58,7 +58,22 @@ public sealed partial class MainWindowViewModel
     public string QueueHeading => CharacterName.Length == 0 ? "Your queue" : CharacterName + "’s queue";
     public string QueueSummary => QueueItems.Count == 1 ? "1 quest in queue" : $"{QueueItems.Count} quests in queue";
     public string QueueHint => QueueLocked ? "Stop this run to edit its order." : "Drag to reorder · Ctrl + ↑ / ↓";
-    public string QueueReadiness => Runtime.QueueRunning(CharacterName) ? "Running for " + CharacterName : QueueState.State == "Paused" ? PlayerQuestReason(QueueState.Reason) : Runtime.QueueStartReason(CharacterName, QueueState) is { Length: > 0 } reason ? PlayerQuestReason(reason) : QueueState.Reason == "Queue completed" ? "Journey complete · progress saved" : Runtime.PlanQueue(CharacterName).Entries.Skip(1).Any(entry => entry.State != JourneyPlanningState.ReadyNow) ? "First quest ready. Later requirements will be checked." : "All selected quests are ready";
+    public string QueueReadiness
+    {
+        get
+        {
+            if (Runtime.QueueRunning(CharacterName)) return "Running for " + CharacterName;
+            if (QueueState.State == "Paused") return PlayerQuestReason(QueueState.Reason);
+            if (Runtime.QueueStartReason(CharacterName, QueueState) is { Length: > 0 } reason) return PlayerQuestReason(reason);
+            if (QueueState.Reason == "Queue completed") return "Journey complete · progress saved";
+            var entries = JourneyOverview.Plan.Entries;
+            if (entries.FirstOrDefault() is { ChoicesRequired: true }) return "Save required choices before the first quest can run.";
+            if (entries.FirstOrDefault() is { State: not JourneyPlanningState.ReadyNow } first) return PlayerQuestReason(first.Reason);
+            return entries.Skip(1).Any(entry => entry.State != JourneyPlanningState.ReadyNow)
+                ? "First quest ready. Later requirements will be checked."
+                : "All selected quests are ready";
+        }
+    }
     public string QueuePrimaryLabel => Runtime.QueueRunning(CharacterName) ? "Pause queue" : QueueState.State == "Paused" ? "Resume queue" : $"Run queue · {QueueItems.Count}";
     public string QueuePrimaryIcon => Runtime.QueueRunning(CharacterName) ? "Pause" : "Play";
     public string QueuePrimaryTooltip => Runtime.QueueRunning(CharacterName) ? "Pause the queue and keep progress."
@@ -170,7 +185,7 @@ public sealed partial class MainWindowViewModel
         }
     }
 
-    static string HuntingMessage(HuntingActivity activity, CharacterSnapshot s)
+    internal static string HuntingMessage(HuntingActivity activity, CharacterSnapshot s)
     {
         string place = s.MapName is { Length: > 0 } name ? " · " + name : "";
         string creature = activity.Target is { Name.Length: > 0 } target ? target.Name

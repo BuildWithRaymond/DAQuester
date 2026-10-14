@@ -152,6 +152,7 @@ public sealed partial class CharacterSpritePreview : Control
             {
                 ViewModels.MainWindowViewModel window => window.Runtime,
                 ViewModels.CharacterItemVM character => character.Runtime,
+                ViewModels.DashboardCharacterVM dashboard => dashboard.Runtime,
                 ViewModels.HistoryItemVM history => history.Runtime,
                 _ => null
             };

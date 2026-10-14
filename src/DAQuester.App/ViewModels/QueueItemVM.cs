@@ -20,6 +20,12 @@ public sealed class QueueItemVM : ObservableObject
         get; private set;
     }
     public string Detail { get; private set; } = "One verified attempt";
+    public JourneyPlanRowVM? Plan => owner.OverviewFor(Character).Rows.FirstOrDefault(r => r.Id == Id);
+    public string PlanningSummary => Plan?.Summary ?? "Unknown · plan unavailable";
+    public string PlanningExplanation => Plan?.Explanation ?? "Fresh planning state unavailable.";
+    public bool IsReady => Plan?.IsReady == true;
+    public bool IsConditional => Plan?.IsConditional == true;
+    public bool IsBlocked => Plan?.IsBlocked == true;
     public bool CanEdit => !owner.Runtime.QueueReserves(Character);
     public bool IsActive
     {

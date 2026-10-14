@@ -1,0 +1,38 @@
+<UserControl xmlns="https://github.com/avaloniaui" xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml" x:Class="DAQuester.App.Views.JourneyForecastView" x:CompileBindings="False">
+  <StackPanel Spacing="12">
+    <TextBlock Text="Planning estimate · execution checks still apply" Classes="caption" FontSize="11" TextWrapping="Wrap"/>
+    <Grid RowDefinitions="Auto,Auto,Auto,Auto,Auto,Auto" RowSpacing="6">
+      <StackPanel Spacing="2"><TextBlock Text="Remaining consumption" Classes="caption" FontSize="10"/><TextBlock Text="{Binding Consumption}" TextWrapping="Wrap"/></StackPanel>
+      <StackPanel Grid.Row="1" Spacing="2"><TextBlock Text="Journey starting balance" Classes="caption" FontSize="10"/><TextBlock Text="{Binding StartingBalance}" TextWrapping="Wrap"/></StackPanel>
+      <TextBlock Grid.Row="2" Text="{Binding NextActionBalance}" Classes="caption" TextWrapping="Wrap"/>
+      <TextBlock Grid.Row="3" Text="{Binding VerifiedGold}" Classes="caption ready" TextWrapping="Wrap"/>
+      <TextBlock Grid.Row="4" Text="{Binding Shortfall}" Classes="caption" TextWrapping="Wrap"/>
+      <TextBlock Grid.Row="5" Text="{Binding Wait}" Classes="caption" FontSize="11" TextWrapping="Wrap"/>
+    </Grid>
+    <TextBlock Text="{Binding SupplySummary}" IsVisible="{Binding HasSupplies}" Classes="caption ready" TextWrapping="Wrap"/>
+    <ItemsControl ItemsSource="{Binding Rows}">
+      <ItemsControl.ItemTemplate>
+        <DataTemplate>
+          <Border BorderBrush="{DynamicResource Line}" BorderThickness="0,1,0,0" Padding="0,10,0,0" Margin="0,0,0,8">
+            <StackPanel Spacing="6">
+              <TextBlock Text="{Binding Title}" FontWeight="SemiBold" FontSize="13" TextWrapping="Wrap"/>
+              <TextBlock Text="{Binding Summary}" Classes="caption" Classes.ready="{Binding IsReady}" Classes.gold="{Binding IsConditional}" Classes.error="{Binding IsBlocked}" TextWrapping="Wrap"/>
+              <TextBlock Text="{Binding Explanation}" Classes="caption" FontSize="11" TextWrapping="Wrap"/>
+              <TextBlock Text="{Binding Items}" FontSize="11" TextWrapping="Wrap"/>
+              <TextBlock Text="{Binding Gold}" FontSize="11" TextWrapping="Wrap"/>
+              <TextBlock Text="{Binding NextBalance}" Classes="caption" FontSize="11" TextWrapping="Wrap"/>
+              <TextBlock Text="{Binding Supplies}" IsVisible="{Binding HasSupplies}" Classes="caption ready" FontSize="11" TextWrapping="Wrap"/>
+              <TextBlock Text="{Binding Progress}" Classes="caption" FontSize="10" TextWrapping="Wrap"/>
+              <TextBlock Text="{Binding Wait}" Classes="caption" FontSize="10" TextWrapping="Wrap"/>
+              <TextBlock Text="{Binding TimingDetails}" Classes="caption" FontSize="10" TextWrapping="Wrap"/>
+              <Expander Header="Limits and uncertainty" HorizontalContentAlignment="Stretch">
+                <TextBlock Text="{Binding Uncertainties}" Classes="caption" FontSize="11" TextWrapping="Wrap"/>
+              </Expander>
+            </StackPanel>
+          </Border>
+        </DataTemplate>
+      </ItemsControl.ItemTemplate>
+    </ItemsControl>
+    <TextBlock Text="Travel, combat and item weights are unavailable. Future rewards are not credited." Classes="caption" FontSize="10" TextWrapping="Wrap"/>
+  </StackPanel>
+</UserControl>

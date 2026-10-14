@@ -36,6 +36,11 @@ public partial class MainWindow : Window
         effects.Connect(viewModel.Runtime);
         Closed += (_, _) => effects.Disconnect();
         SizeChanged += (_, _) => AdaptLayout();
+        this.FindControl<Expander>("queueForecast")!.PropertyChanged += (_, args) =>
+        {
+            if (args.Property == Expander.IsExpandedProperty || args.Property == IsVisibleProperty)
+                AdaptForecast();
+        };
         viewModel.CharacterAdded += ShowNewCharacter;
         viewModel.JourneyCollapsing += PreserveJourneyFocus;
         viewModel.PropertyChanged += JourneyPresentationChanged;
@@ -116,6 +121,7 @@ public partial class MainWindow : Window
             label.IsVisible = !compact;
         foreach (string name in new[]
         {
+            "navDashboard",
             "navPlanner",
             "navCharacters",
             "navScheduler",
@@ -134,7 +140,19 @@ public partial class MainWindow : Window
         double workspaceWidth = ClientSize.Width - (compact ? 64 : 180) - 48;
         this.FindControl<Border>("queueCard")!.Width = Math.Max(280, (workspaceWidth - 12) / 4);
         ApplyJourneyMotion();
+        AdaptForecast();
         this.FindControl<TextBlock>("footerSaveNote")!.IsVisible = Bounds.Width >= 1060;
+    }
+
+    void AdaptForecast()
+    {
+        bool shortWindow = ClientSize.Height < 650;
+        var forecast = this.FindControl<Expander>("queueForecast")!;
+        forecast.MaxHeight = shortWindow ? 160 : 220;
+        this.FindControl<ScrollViewer>("queueForecastScroll")!.MaxHeight = shortWindow ? 100 : 170;
+        // A deliberate disclosure can use the current-journey space on small windows.
+        // Its header, queue rows and execution controls remain available.
+        this.FindControl<Border>("journeyCard")!.IsVisible = !(shortWindow && forecast.IsVisible && forecast.IsExpanded);
     }
 
     public async void QueueKeyDown(object? sender, KeyEventArgs e)
