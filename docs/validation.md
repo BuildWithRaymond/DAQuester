@@ -1,5 +1,41 @@
 # Validation status
 
+## Readable journey markers — October 14, 2026
+
+Long recipes previously shrank every step into a single narrow line beside the
+sprite. Trails now keep 12-pixel numbered markers, use the full card width, and
+wrap into rows with at least 24 pixels between centers. A final partial row keeps
+the same columns and reading order. The active marker pulses at a row boundary
+without drawing a diagonal through other stages. Number layouts and pens are
+reused between animation frames. Checkpoint counts and completion rules are unchanged.
+
+The planner's foreground sprite occupies a separate area below the trail, while
+its faint enlarged accent remains behind it. Dashboard cards grow with their
+content. Fixed-height compact journey panels scroll, keeping all captions and the
+character reachable without compressing or covering markers.
+
+Six focused layout regression cases cover long journeys, narrower widths, quest
+changes, marker spacing and stage order. The original three measurement cases
+failed before the fix because the trail reserved no row height. The focused
+layout/progress/motion run passed all 16 cases. Optional isolated native captures
+include Danaan at stage 2 of 32, a wrapped-row transition, completion, normal and
+minimum planner/cards/list views, and scrolling to the character and captions.
+No real game character or active player host was operated for validation.
+
+The full Release solution build passed with zero warnings and errors. All 1,168
+Core cases passed with test collections serialized. The first parallel run hit
+Fisk's 10-second synthetic replay cutoff and the fast-walking fixture's
+220-millisecond inventory timing expectation; both passed in isolation before
+the complete serial rerun. No production timing or test assertions were changed.
+Concurrent Danaan research and code edits remained outside this UI commit;
+these results describe the built snapshot, not a final integration of that work.
+The complete desktop project passed all 243 cases with normal runner settings.
+The final isolated native preview produced 63 sample states. Manual review
+confirmed the long trail, completed and wrapped-stage markers, normal and minimum
+dashboard/planner layouts, and the scrolled character/captions. Captures use
+read-only installed artwork; physical keyboard input and live game execution were
+not used for this change.
+
 ## Queue display performance — October 13, 2026
 
 Queue traffic previously posted a full-window refresh for every notification and

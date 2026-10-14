@@ -46,7 +46,8 @@
       <Setter Property="Padding" Value="16"/>
     </Style>
     <Style Selector="Border#dashboardJourney">
-      <Setter Property="Height" Value="220"/>
+      <Setter Property="MinHeight" Value="220"/>
+      <Setter Property="MaxHeight" Value="320"/>
       <Setter Property="Padding" Value="12"/>
     </Style>
     <Style Selector="TextBlock#dashboardJourneyTitle">
@@ -63,6 +64,7 @@
       <Setter Property="Padding" Value="10"/>
     </Style>
     <Style Selector=":is(UserControl).short Border#dashboardJourney">
+      <Setter Property="MinHeight" Value="132"/>
       <Setter Property="Height" Value="132"/>
       <Setter Property="Padding" Value="10"/>
     </Style>
@@ -109,7 +111,7 @@
           <ItemsControl.ItemsPanel><ItemsPanelTemplate><WrapPanel/></ItemsPanelTemplate></ItemsControl.ItemsPanel>
           <ItemsControl.ItemTemplate>
             <DataTemplate>
-              <Border Classes="dashboardCharacter" Classes.attention="{Binding IsAttention}" Height="332" Width="360" Margin="0,0,12,12" Padding="16" ClipToBounds="True">
+              <Border Classes="dashboardCharacter" Classes.attention="{Binding IsAttention}" MinHeight="332" Width="360" Margin="0,0,12,12" Padding="16" ClipToBounds="True">
                 <Grid RowDefinitions="Auto,Auto,*,Auto" RowSpacing="12">
                   <Grid ColumnDefinitions="48,*,Auto" ColumnSpacing="10">
                     <controls:CharacterSpritePreview IsPortrait="True" Snapshot="{Binding Snapshot}" RememberedAppearance="{Binding RememberedAppearance}" GameDirectory="{Binding GameDirectory}" Width="48" Height="48" AutomationProperties.Name="{Binding Name,StringFormat='Portrait of {0}'}"/>
@@ -117,18 +119,20 @@
                     <Border Grid.Column="2" Classes="dashboardStatus" Classes.running="{Binding IsRunning}" Classes.attention="{Binding IsAttention}" VerticalAlignment="Top"><TextBlock Text="{Binding Status}" FontSize="10"/></Border>
                   </Grid>
                   <Border Grid.Row="1" Classes="rule"/>
-                  <Grid Grid.Row="2" ColumnDefinitions="*,96" ColumnSpacing="8">
-                    <controls:CharacterSpriteAccent Grid.ColumnSpan="2" Source="{Binding ElementName=dashboardCardSprite}" Opacity="0.08" IsHitTestVisible="False"/>
+                  <Grid Grid.Row="2">
+                    <controls:CharacterSpriteAccent Source="{Binding ElementName=dashboardCardSprite}" Opacity="0.08" IsHitTestVisible="False"/>
                     <StackPanel Spacing="5">
                       <TextBlock Text="{Binding JourneyCaption}" Classes="eyebrow" FontSize="10"/>
                       <Grid ColumnDefinitions="28,*" ColumnSpacing="7"><controls:QuestGlyph QuestId="{Binding QuestId}" GameDirectory="{Binding GameDirectory}" Width="28" Height="28"/><TextBlock Grid.Column="1" Text="{Binding JourneyTitle}" FontFamily="Georgia" FontSize="17" TextWrapping="Wrap" MaxLines="2" TextTrimming="CharacterEllipsis" ToolTip.Tip="{Binding JourneyTitle}"/></Grid>
                       <TextBlock Text="{Binding Message}" Classes="caption" TextWrapping="Wrap" MaxLines="2" TextTrimming="CharacterEllipsis" ToolTip.Tip="{Binding Message}"/>
-                      <controls:QuestTrail Steps="{Binding Progress}" IsVisible="{Binding HasSteps}" IsRunning="{Binding Running}" Height="22"/>
-                      <TextBlock Text="{Binding ProgressLabel}" FontSize="10" Classes="caption"/>
-                      <TextBlock Text="{Binding Location}" FontSize="10" Classes="caption" TextTrimming="CharacterEllipsis" ToolTip.Tip="{Binding Location}"/>
+                      <controls:QuestTrail Steps="{Binding Progress}" IsVisible="{Binding HasSteps}" IsRunning="{Binding Running}" AutomationProperties.Name="{Binding ProgressLabel}"/>
+                      <StackPanel Margin="0,0,104,0" Spacing="5" MinHeight="64">
+                        <TextBlock Text="{Binding ProgressLabel}" FontSize="10" Classes="caption"/>
+                        <TextBlock Text="{Binding Location}" FontSize="10" Classes="caption" TextTrimming="CharacterEllipsis" ToolTip.Tip="{Binding Location}"/>
+                      </StackPanel>
                     </StackPanel>
-                    <controls:CharacterSpritePreview Name="dashboardCardSprite" Grid.Column="1" Snapshot="{Binding Snapshot}" RememberedAppearance="{Binding RememberedAppearance}" GameDirectory="{Binding GameDirectory}" Width="96" Height="112" VerticalAlignment="Bottom" IsHitTestVisible="False" AutomationProperties.Name="{Binding Name,StringFormat='Character preview of {0}'}"/>
-                    <controls:CharacterFeedbackLayer Grid.ColumnSpan="2" Width="180" Height="154" HorizontalAlignment="Right" VerticalAlignment="Bottom" AnchorFromRight="48" Snapshot="{Binding Snapshot}" IsHitTestVisible="False"/>
+                    <controls:CharacterSpritePreview Name="dashboardCardSprite" Snapshot="{Binding Snapshot}" RememberedAppearance="{Binding RememberedAppearance}" GameDirectory="{Binding GameDirectory}" Width="96" Height="112" HorizontalAlignment="Right" VerticalAlignment="Bottom" IsHitTestVisible="False" AutomationProperties.Name="{Binding Name,StringFormat='Character preview of {0}'}"/>
+                    <controls:CharacterFeedbackLayer Width="180" Height="154" HorizontalAlignment="Right" VerticalAlignment="Bottom" AnchorFromRight="48" Snapshot="{Binding Snapshot}" IsHitTestVisible="False"/>
                   </Grid>
                   <StackPanel Grid.Row="3" Spacing="6">
                     <TextBlock Text="{Binding QueueSummary}" Classes="caption" FontSize="10" TextTrimming="CharacterEllipsis"/>
@@ -170,24 +174,28 @@
             <Border Name="dashboardJourney" Grid.Row="1" Background="{DynamicResource JourneyBackdrop}" BorderBrush="{DynamicResource Line}" BorderThickness="1" CornerRadius="7" ClipToBounds="True">
               <Grid>
                 <controls:CharacterSpriteAccent Source="{Binding ElementName=dashboardJourneySprite}" Margin="0,0,0,32" Opacity="0.10" IsHitTestVisible="False"/>
-                <Grid RowDefinitions="Auto,*,Auto" RowSpacing="6">
-                  <Grid Name="dashboardJourneyHeading" ColumnDefinitions="24,*" ColumnSpacing="8">
-                    <controls:QuestGlyph QuestId="{Binding QuestId}" GameDirectory="{Binding GameDirectory}" Width="24" Height="24"/>
-                    <TextBlock Name="dashboardJourneyTitle" Grid.Column="1" Text="{Binding JourneyTitle}" FontFamily="Georgia" TextWrapping="Wrap" TextTrimming="CharacterEllipsis" ToolTip.Tip="{Binding JourneyTitle}"/>
-                  </Grid>
-                  <Grid Grid.Row="1" ColumnDefinitions="*,88" ColumnSpacing="8">
-                    <StackPanel Spacing="6" VerticalAlignment="Center">
-                      <TextBlock Name="dashboardJourneyMessage" Text="{Binding Message}" Classes="caption" FontSize="11" TextWrapping="Wrap" TextTrimming="CharacterEllipsis" ToolTip.Tip="{Binding Message}"/>
-                      <TextBlock Text="{Binding Location}" Classes="caption" FontSize="10" TextTrimming="CharacterEllipsis" ToolTip.Tip="{Binding Location}"/>
+                <ScrollViewer HorizontalScrollBarVisibility="Disabled" VerticalScrollBarVisibility="Auto">
+                  <Grid RowDefinitions="Auto,Auto,Auto" RowSpacing="6">
+                    <Grid Name="dashboardJourneyHeading" ColumnDefinitions="24,*" ColumnSpacing="8">
+                      <controls:QuestGlyph QuestId="{Binding QuestId}" GameDirectory="{Binding GameDirectory}" Width="24" Height="24"/>
+                      <TextBlock Name="dashboardJourneyTitle" Grid.Column="1" Text="{Binding JourneyTitle}" FontFamily="Georgia" TextWrapping="Wrap" TextTrimming="CharacterEllipsis" ToolTip.Tip="{Binding JourneyTitle}"/>
+                    </Grid>
+                    <StackPanel Grid.Row="1" Spacing="3">
+                      <controls:QuestTrail Steps="{Binding Progress}" IsVisible="{Binding HasSteps}" IsRunning="{Binding Running}" AutomationProperties.Name="{Binding ProgressLabel}"/>
+                      <TextBlock Text="{Binding ProgressLabel}" Classes="caption" FontSize="10"/>
                     </StackPanel>
+                    <Grid Grid.Row="2" ColumnDefinitions="*,88" ColumnSpacing="8">
+                      <StackPanel Spacing="6" VerticalAlignment="Center">
+                        <TextBlock Name="dashboardJourneyMessage" Text="{Binding Message}" Classes="caption" FontSize="11" TextWrapping="Wrap" TextTrimming="CharacterEllipsis" ToolTip.Tip="{Binding Message}"/>
+                        <TextBlock Text="{Binding Location}" Classes="caption" FontSize="10" TextTrimming="CharacterEllipsis" ToolTip.Tip="{Binding Location}"/>
+                      </StackPanel>
+                      <controls:CharacterSpritePreview Name="dashboardJourneySprite" Grid.Column="1" Width="96" Height="112" Snapshot="{Binding Snapshot}" RememberedAppearance="{Binding RememberedAppearance}" GameDirectory="{Binding GameDirectory}" HorizontalAlignment="Right" VerticalAlignment="Bottom" IsHitTestVisible="False" AutomationProperties.Name="{Binding Name,StringFormat='Character preview of {0}'}"/>
+                      <Canvas Grid.ColumnSpan="2" IsHitTestVisible="False">
+                        <controls:CharacterFeedbackLayer Name="dashboardJourneyFeedback" Canvas.Right="0" Canvas.Bottom="0" Width="180" Height="154" AnchorFromRight="48" Snapshot="{Binding Snapshot}"/>
+                      </Canvas>
+                    </Grid>
                   </Grid>
-                  <StackPanel Grid.Row="2" Spacing="3">
-                    <controls:QuestTrail Steps="{Binding Progress}" IsVisible="{Binding HasSteps}" IsRunning="{Binding Running}" Height="18"/>
-                    <TextBlock Text="{Binding ProgressLabel}" Classes="caption" FontSize="10"/>
-                  </StackPanel>
-                </Grid>
-                <controls:CharacterSpritePreview Name="dashboardJourneySprite" Width="96" Height="112" Snapshot="{Binding Snapshot}" RememberedAppearance="{Binding RememberedAppearance}" GameDirectory="{Binding GameDirectory}" HorizontalAlignment="Right" VerticalAlignment="Bottom" Margin="0,0,0,32" IsHitTestVisible="False" AutomationProperties.Name="{Binding Name,StringFormat='Character preview of {0}'}"/>
-                <controls:CharacterFeedbackLayer Name="dashboardJourneyFeedback" Width="180" Height="154" HorizontalAlignment="Right" VerticalAlignment="Bottom" Margin="0,0,0,32" AnchorFromRight="48" Snapshot="{Binding Snapshot}" IsHitTestVisible="False"/>
+                </ScrollViewer>
               </Grid>
             </Border>
             <Grid Name="dashboardQueueSection" Grid.Row="2" RowDefinitions="Auto,*" RowSpacing="8">

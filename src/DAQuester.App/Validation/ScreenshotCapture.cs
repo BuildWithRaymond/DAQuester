@@ -28,6 +28,7 @@ internal static partial class ScreenshotCapture
             var renders = new List<string>();
             await CaptureDanaanChoiceAsync(window, viewModel, renders);
             await CaptureDanaanLibraryAsync(window, viewModel, renders);
+            await CaptureLongTrailAsync(window, viewModel, renders);
             await CaptureFiskWaitAsync(window, viewModel, renders);
             await CaptureDashboardAsync(window, viewModel, renders);
             await CaptureCharacterDisclosuresAsync(window, viewModel, renders);

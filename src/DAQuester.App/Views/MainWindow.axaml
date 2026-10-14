@@ -298,18 +298,25 @@
                           <TextBlock Text="{Binding JourneyState}" Classes="gold" FontSize="11" TextWrapping="Wrap"/>
                           <TextBlock Text="{Binding JourneyLevelSummary}" IsVisible="{Binding HasJourneyLevelSummary}" Classes="ready" FontSize="11" TextWrapping="Wrap"/>
                           <TextBlock Text="{Binding JourneyMessage}" Classes="muted" FontSize="11" TextWrapping="Wrap" MaxLines="3" TextTrimming="CharacterEllipsis" ToolTip.Tip="{Binding JourneyMessage}"/>
-                          <Grid ColumnDefinitions="*,112" ColumnSpacing="8" MinHeight="112">
+                          <!-- Progress uses the whole card; only the text below reserves the foreground sprite. -->
+                          <controls:QuestTrail Name="journeyProgress" IsVisible="{Binding JourneyHasSteps}" Steps="{Binding JourneySteps}" IsRunning="{Binding JourneyAnimating}" AutomationProperties.Name="{Binding JourneySteps.Label}"/>
+                          <Grid ColumnDefinitions="*,112" ColumnSpacing="8" MinHeight="64">
                             <StackPanel Spacing="5" IsVisible="{Binding JourneyHasSteps}">
-                              <controls:QuestTrail Name="journeyProgress" IsVisible="{Binding JourneyHasSteps}" Steps="{Binding JourneySteps}" IsRunning="{Binding JourneyAnimating}" Height="24" AutomationProperties.Name="{Binding JourneySteps.Label}"/>
                               <TextBlock Text="{Binding JourneySteps.Label}" FontSize="11" TextWrapping="Wrap"/>
                               <TextBlock Text="{Binding JourneyNext}" Classes="caption" FontSize="10" TextWrapping="Wrap"/>
                               <TextBlock Text="{Binding JourneyRewards}" Classes="caption ready" FontSize="10" TextWrapping="Wrap"/>
                             </StackPanel>
+                            <!-- The original sprite canvas has transparent headroom. Reserve
+                                 its visible lower area below the trail, including when scrolled. -->
+                            <Canvas Grid.Column="1" Height="64" Margin="0,12,0,0" VerticalAlignment="Top" ClipToBounds="True" IsHitTestVisible="False">
+                              <controls:CharacterSpritePreview Name="journeySprite" Canvas.Left="0" Canvas.Bottom="-16" Width="112" Height="112" UseLayoutRounding="True" Snapshot="{Binding JourneyCharacter}" RememberedAppearance="{Binding JourneyRememberedAppearance}" GameDirectory="{Binding JourneyGameDirectory}" AutomationProperties.Name="Character preview"/>
+                            </Canvas>
+                            <Canvas Grid.ColumnSpan="2" Height="64" Margin="0,12,0,0" VerticalAlignment="Top" IsHitTestVisible="False">
+                              <controls:CharacterFeedbackLayer Canvas.Right="0" Canvas.Bottom="0" Width="180" Height="158" AnchorFromRight="56" Snapshot="{Binding JourneyCharacter}"/>
+                            </Canvas>
                           </Grid>
                         </StackPanel>
                       </ScrollViewer>
-                      <controls:CharacterFeedbackLayer Width="180" Height="158" AnchorFromRight="56" Snapshot="{Binding JourneyCharacter}" HorizontalAlignment="Right" VerticalAlignment="Bottom" IsHitTestVisible="False"/>
-                      <controls:CharacterSpritePreview Name="journeySprite" Width="112" Height="112" UseLayoutRounding="True" Snapshot="{Binding JourneyCharacter}" RememberedAppearance="{Binding JourneyRememberedAppearance}" GameDirectory="{Binding JourneyGameDirectory}" HorizontalAlignment="Right" VerticalAlignment="Bottom" Margin="0,0,0,-16" IsHitTestVisible="False" AutomationProperties.Name="Character preview"/>
                     </Grid>
                   </Grid>
                   <Grid Name="journeyMiniBar" IsVisible="False" VerticalAlignment="Top" Height="48" ColumnDefinitions="24,*" RowDefinitions="Auto,Auto,*" ColumnSpacing="8" RowSpacing="3" Margin="12,8,48,8">

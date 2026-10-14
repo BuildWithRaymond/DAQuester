@@ -79,6 +79,11 @@ To change the implementation:
 Step counts describe recipe checkpoints. A navigation step can contain many
 walks, and gathering can take a variable amount of time. Activity animation never
 advances saved progress. Paused, disconnected and completed quests stay still.
+Trails use normal 12-pixel numbered markers across the card width. Longer recipes
+wrap into rows instead of compressing their dots beside the sprite. Number labels
+and pens are reused between animation frames; only the activity glow and moving
+light change. At a row boundary the current marker pulses without a diagonal
+moving light across other stages.
 
 Tests use fabricated packet payloads and tiny generated image archives; they do
 not require installed game artwork or operate real characters. Manually review

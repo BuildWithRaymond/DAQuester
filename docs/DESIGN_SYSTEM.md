@@ -152,7 +152,11 @@ The queue scrolls in its own right-hand sidebar; library checkboxes and quest
 details add quests.
 Queue rows use compact padding and 26-pixel outlined reorder/remove buttons.
 A checkpoint count and numbered gold step trail show the active recipe's progress;
-the moving light shows activity without changing the completed count. The original
+the moving light shows activity without changing the completed count. Markers stay
+12 px across, with at least 24 px between centers. Long journeys wrap in reading
+order into full-width rows over the faint sprite accent. Their final partial row
+keeps the same columns. Dashboard cards grow to fit; fixed-height journey panels
+scroll rather than shrinking or clipping the markers. The original
 character sprite occupies the lower-right corner of the journey details, beside
 the journey text. Before a character loads, a default outfit made from the selected game
 folder's original DAT layers fills the box.
@@ -161,7 +165,7 @@ chooser and Characters page use circular crops of original DAT head layers.
 Run history shows the same portrait beside its character name. Saved observed
 outfits keep portraits and the journey sprite visible after logout and restart.
 The journey title reserves space for the fold toggle. Its expanded panel below
-the queue controls is 280 px high, or 180 px in windows shorter than 650 px.
+the queue controls is 280 px high, or 220 px in windows shorter than 650 px.
 It opens expanded by default to show the character sprite. The queue's primary action uses a 20 px Play icon,
 switching to Pause during a run. Tooltips and accessible names retain each action's
 meaning. Add to queue inserts the selected library quest once and never removes
