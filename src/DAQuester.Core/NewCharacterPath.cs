@@ -90,14 +90,15 @@ public static class NewCharacterPath
         return new(EligibilityKind.Eligible, "Starter gear, levels to 7, ends with a Loures Saber");
     }
 
-    public static Eligibility ClimbEligibility(CharacterSnapshot s)
+    public static Eligibility ClimbEligibility(CharacterSnapshot s, bool returning = false)
     {
         if (!s.Connected || s.Name is null || s.Level is null || s.Hp is null)
             return new(EligibilityKind.Unknown, "Waiting for connected identity, level and health.");
         if (s.Hp == 0)
             return new(EligibilityKind.Blocked, "Crypt Climb requires a living character.");
         if (s.Level >= ClimbLevel)
-            return new(EligibilityKind.Blocked, s.Name + " is already level " + s.Level + ".");
+            return returning ? new(EligibilityKind.Eligible, "Return to the Crypt Vestibule to finish Crypt Climb")
+                : new(EligibilityKind.Blocked, s.Name + " is already level " + s.Level + ".");
         if (!s.InventoryKnown)
             return new(EligibilityKind.Unknown, "Waiting for inventory.");
         if (MissingForClimb(s) is { Count: > 0 } missing)

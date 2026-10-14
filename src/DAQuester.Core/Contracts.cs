@@ -3,7 +3,29 @@ using System.Collections.Immutable;
 namespace DAQuester.Core;
 
 public record InventoryGoal(string Item, int Count);
-public record GameCommand(string Kind, int? Map = null, Tile? Target = null, string? Text = null, uint? Amount = null, Dialog? Dialog = null, byte? Slot = null, uint? EntityId = null, InventoryGoal? StopWhen = null, string? ExpectedResource = null, bool PreservePopup = false, int Tolerance = 0);
+// Optional guards bind a command to the connection and page the caller inspected.
+// Omitted guards retain existing command behavior; discovery selections require them.
+public record GameCommand(
+    string Kind,
+    int? Map = null,
+    Tile? Target = null,
+    string? Text = null,
+    uint? Amount = null,
+    Dialog? Dialog = null,
+    byte? Slot = null,
+    uint? EntityId = null,
+    InventoryGoal? StopWhen = null,
+    string? ExpectedResource = null,
+    bool PreservePopup = false,
+    int Tolerance = 0,
+    string? ReplyFrom = null,
+    int? Quantity = null,
+    long? ExpectedGeneration = null,
+    long? ExpectedDialogRevision = null,
+    Tile? InwardTarget = null,
+    bool ReadNext = false,
+    int MaxPages = 12,
+    string? ExpectedPageText = null);
 public interface IGameSession
 {
     CharacterSnapshot Snapshot
@@ -23,9 +45,22 @@ public interface IGameSession
     Task<CharacterSnapshot> WaitAsync(Func<CharacterSnapshot, bool> predicate, long after, TimeSpan timeout, CancellationToken cancellation);
 }
 
+public sealed record NpcTravelCheckpoint(long Generation, int Map, string Character, string Npc, DateTimeOffset ObservedAt)
+{
+    public long Revision { get; init; }
+}
+public interface INpcConnectionHandoff
+{
+    // A submitted travel destination is a reconciliation receipt, not permission
+    // to repeat the NPC choice when the transport changes connections.
+    NpcTravelCheckpoint? SubmittedNpcTravel { get; }
+}
+
 public record QuestStep(string Id, string Action, string? Next, Dictionary<string, string>? Arguments = null, Dictionary<string, string>? Transitions = null);
 public record QuestDefinition(string Id, int Version, string Name, string Source, string[] Capabilities, QuestStep[] Steps, double CooldownHours = 8)
 {
+    public ObservedQuestTask[] Journey { get; init; } = [];
+    public Dictionary<string, ObservedJourneyVariant> JourneyVariants { get; init; } = [];
     public QuestRequirement[] Requirements
     {
         get;
@@ -173,6 +208,10 @@ public record Transaction(string Kind, long Generation, long Revision, uint Gold
 public record HairstyleAttempt(DateTimeOffset CompletedAt, Dialog Completion, Dictionary<string, int> Rewards, bool LegendReward);
 public record QuestJob
 {
+    public ObservedQuestProgress? Route { get; init; }
+    public string? JourneyVariant { get; init; }
+    public DanaanOptions? DanaanOptions { get; init; }
+    public FiskBouquetWait? FiskWait { get; init; }
     public string Character
     {
         get;
@@ -410,7 +449,12 @@ public sealed class QuestPopupException(Dialog dialog, int? map) : QuestBlockedE
 
 public class QuestContext(IGameSession session, IQuestJournal journal, Calibration calibration, QuestJob job, Action<QuestJob>? saved = null, IQuestHelpers? helpers = null, HuntingServices? hunting = null)
 {
+    // Scheduler owns logged-out waits; an ordinary queue can instead retain an
+    // online paid continuation and yield only to work already ready for this character.
     public bool YieldScheduledWaits { get; init; }
+    public bool DeferTimedWaits { get; init; }
+    public Func<bool>? HasReadyQueuedWork { get; init; }
+    public FiskWaitingArea WaitingArea { get; init; } = new();
     public IGameSession Session { get; } = session;
     public HuntingServices? Hunting { get; } = hunting;
     public Calibration Calibration { get; } = calibration;

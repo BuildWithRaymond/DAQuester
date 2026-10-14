@@ -80,13 +80,13 @@ public sealed class ControlServer(Func<ControlRequest, Task<object?>> handler, s
                     result
                 }, ControlPipe.Json));
             }
-            catch (Exception e) when (e is not OperationCanceledException)
+            catch (Exception e) when (e is not OperationCanceledException || !lifetime.IsCancellationRequested)
             {
                 try
                 {
                     await writer.WriteLineAsync(JsonSerializer.Serialize(new
                     {
-                        error = e.Message
+                        error = e is OperationCanceledException ? "Control action interrupted. Inspect fresh character state before another action." : e.Message
                     }, ControlPipe.Json));
                 }
                 catch (IOException)

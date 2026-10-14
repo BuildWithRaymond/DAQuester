@@ -1,0 +1,2575 @@
+{
+  "Id": "cap-band-of-danaan",
+  "Version": 1,
+  "Name": "Cap / Band of Danaan",
+  "Source": "https://vorlof.com/quests/capofdanaan.html",
+  "Capabilities": [
+    "navigate",
+    "dialog",
+    "inventory",
+    "legend",
+    "speech",
+    "status-message"
+  ],
+  "CooldownHours": 0,
+  "Repeatable": false,
+  "Requirements": [],
+  "OutcomeConditions": [
+    "Fresh own completion legend; correlated actual resources and active reward; terminal popup closed",
+    "Unknown dialogue variants stop; no repeat of ambiguous payments, handoffs or claims"
+  ],
+  "Steps": [
+    {
+      "Id": "preflight",
+      "Action": "danaan-preflight",
+      "Next": "run"
+    },
+    {
+      "Id": "run",
+      "Action": "danaan-run",
+      "Next": "complete"
+    }
+  ],
+  "Journey": [
+    {
+      "Id": "rolan-dream",
+      "Kind": "dialog",
+      "Map": 177,
+      "Npc": "Rolan",
+      "Approach": {
+        "X": 2,
+        "Y": 3
+      },
+      "Pages": [
+        {
+          "Speaker": "Rolan",
+          "Text": "You are an Aising? Oh thank Danaan you came. You must have heard of my dreams. Every night it is the same. Glioca, Cail, Ceannlaidir and Luathas stand on one side, Gramail, Deoch, Fiosachd, and Sgrios on the other side. And they're all wearing hats! It is so silly. They keep arguing between themselves, sometimes they talk to me, but I can't understand what they are saying! I can't stand it anymore, every night, every night... Please, Aisling, find out where this dream comes from, and help me get rid of it. Maybe the old books in Loures say something, but the guards did not let me in for some reason...",
+          "Kind": "next",
+          "Root": false
+        }
+      ],
+      "ApproachStrategy": "inn-room7",
+      "Evidence": "240-241",
+      "Label": "Rolan dream"
+    },
+    {
+      "Id": "blaise-records",
+      "Kind": "dialog",
+      "Map": 3041,
+      "Npc": "Blaise",
+      "Approach": {
+        "X": 10,
+        "Y": 12
+      },
+      "Pages": [
+        {
+          "Speaker": "Blaise",
+          "Text": "Hello.  What can I do for you?",
+          "Kind": "choose",
+          "Root": true,
+          "Choice": "Gods and hats"
+        },
+        {
+          "Speaker": "Blaise",
+          "Text": "Ssshhh!! Quiet. You are here to help that boy in Abel, right?",
+          "Kind": "choose",
+          "Root": false,
+          "Choice": "Yes!"
+        },
+        {
+          "Speaker": "Blaise",
+          "Text": "Do not be so loud, then. We received orders not to ever touch the subject, but I did some research and found something.",
+          "Kind": "choose",
+          "Root": false,
+          "Choice": "What did you find?"
+        },
+        {
+          "Speaker": "Blaise",
+          "Text": "Many generations ago, an old man had dreams similar to that boy's. No one took him seriously, but he kept records of those. One night, he understood what one of the Gods was saying.",
+          "Kind": "choose",
+          "Root": false,
+          "Choice": "What was said?"
+        },
+        {
+          "Speaker": "Blaise",
+          "Text": "It was something like this...\"I still think they can have it, but I will agree to wait until a great trial is put upon them.\" That was all he understood. And he died not long after, so nothing else was recorded.",
+          "Kind": "next",
+          "Root": false
+        },
+        {
+          "Speaker": "Blaise",
+          "Text": "Many generations ago, an old man had dreams similar to that boy's. No one took him seriously, but he kept records of those. One night, he understood what one of the Gods was saying.",
+          "Kind": "choose",
+          "Root": false,
+          "Choice": "Which God?"
+        },
+        {
+          "Speaker": "Blaise",
+          "Text": "It was Ceannlaidir in the man's dream.",
+          "Kind": "next",
+          "Root": false
+        },
+        {
+          "Speaker": "Blaise",
+          "Text": "Many generations ago, an old man had dreams similar to that boy's. No one took him seriously, but he kept records of those. One night, he understood what one of the Gods was saying.",
+          "Kind": "choose",
+          "Root": false,
+          "Choice": "Can I see the records?"
+        },
+        {
+          "Speaker": "Blaise",
+          "Text": "I am afraid not. The guards took it away not long after I was done with it. If you need more information, you might want to speak with one closer to that God.",
+          "Kind": "next",
+          "Root": false
+        },
+        {
+          "Speaker": "Blaise",
+          "Text": "Many generations ago, an old man had dreams similar to that boy's. No one took him seriously, but he kept records of those. One night, he understood what one of the Gods was saying.",
+          "Kind": "close",
+          "Root": false
+        }
+      ],
+      "Evidence": "263-272",
+      "Label": "Blaise records"
+    },
+    {
+      "Id": "ceannlaidir-weapon",
+      "Kind": "equip-weapon",
+      "Label": "Ceannlaidir weapon"
+    },
+    {
+      "Id": "erika-records",
+      "Kind": "dialog",
+      "Map": 3019,
+      "Npc": "Erika",
+      "Approach": {
+        "X": 4,
+        "Y": 4
+      },
+      "Pages": [
+        {
+          "Speaker": "Erika",
+          "Text": "Hello.  What can I do for you?",
+          "Kind": "choose",
+          "Root": true,
+          "Choice": "About the Records"
+        },
+        {
+          "Speaker": "Erika",
+          "Text": "Yes, what is it?",
+          "Kind": "choose",
+          "Root": false,
+          "Choice": "*Tell her of the dreams of the boy and the old man*"
+        },
+        {
+          "Speaker": "Erika",
+          "Text": "I see...I am not good at interpreting dreams, but I think I know what that is about. There was an old legend that said something like that. ",
+          "Kind": "next",
+          "Root": false
+        },
+        {
+          "Speaker": "Erika",
+          "Text": "But it was always seen as only that, a legend.",
+          "Kind": "choose",
+          "Root": false,
+          "Choice": "What is the legend?"
+        },
+        {
+          "Speaker": "Erika",
+          "Text": "It was never written down, so I know little of it. It said a poor man once did something very good, so Danaan rewarded him with a strange cap that made him healthier and wiser. I cannot remember the details...the other gods offered to make his cap stronger, but he declined. After Danaan's sacrifice, the gods wondered if they could aid their fighters with similar caps. They argued over it and could not come to an agreement.  All this is hearsay, though, and happened hundreds of Deochs ago. But now that I think of it, the coincidences are quite interesting...",
+          "Kind": "choose",
+          "Root": false,
+          "Choice": "What coincidences?"
+        },
+        {
+          "Speaker": "Erika",
+          "Text": "Recently a soldier of Loures, who worships here, told me of a girl in the castle having a strange cap. Whenever she wore it, he said, she seemed stronger and her eyes shined. I dismissed him, said he was probably just in love with her. Bah, that is probably what it is.",
+          "Kind": "next",
+          "Root": false
+        }
+      ],
+      "Evidence": "277-283",
+      "Label": "Erika records"
+    },
+    {
+      "Id": "blanchefleur-origin",
+      "Kind": "dialog",
+      "Map": 117,
+      "Npc": "Blanchefleur",
+      "Approach": {
+        "X": 3,
+        "Y": 6
+      },
+      "Pages": [
+        {
+          "Speaker": "Blanchefleur",
+          "Text": "Hello.  What can I do for you?",
+          "Kind": "choose",
+          "Root": true,
+          "Choice": "Strange Cap"
+        },
+        {
+          "Speaker": "Blanchefleur",
+          "Text": "My cap? It is very special to me. I feel so much better when I wear it. Oh, here it is. ",
+          "Kind": "next",
+          "Root": false
+        },
+        {
+          "Speaker": "Blanchefleur",
+          "Text": "The burden of these cold walls seems lighter when I put it on.",
+          "Kind": "choose",
+          "Root": false,
+          "Choice": "Where did you get it?"
+        },
+        {
+          "Speaker": "Blanchefleur",
+          "Text": "It was a gift. But I cannot remember from whom, I get so many gifts ... Oh! It was that man who guards the Coliseum. Such a pity, his prison is worse than mine. ",
+          "Kind": "next",
+          "Root": false
+        },
+        {
+          "Speaker": "Blanchefleur",
+          "Text": "But at least he gets to see many different people...Ah, Loures castle, how much longer will you drain the life from my heart?",
+          "Kind": "choose",
+          "Root": false,
+          "Choice": "*Thank her for her time*"
+        },
+        {
+          "Speaker": "Blanchefleur",
+          "Text": "It is always a pleasure to have visits from the outside world. Please come back sometime, I am sure you have beautiful tales to tell.",
+          "Kind": "next",
+          "Root": false
+        }
+      ],
+      "Evidence": "286-292",
+      "Label": "Blanchefleur origin"
+    },
+    {
+      "Id": "tir-request",
+      "Kind": "dialog",
+      "Map": 5232,
+      "Npc": "ColiseumTir",
+      "Approach": {
+        "X": 7,
+        "Y": 5
+      },
+      "Pages": [
+        {
+          "Speaker": "ColiseumTir",
+          "Text": "Hello.  What can I do for you?",
+          "Kind": "choose",
+          "Root": true,
+          "Choice": "Blanchefleur's Cap"
+        },
+        {
+          "Speaker": "ColiseumTir",
+          "Text": "Blanchefleur...Oye, such a beautiful girl. Yes, I gave her that. She looks real pretty in it, uh?",
+          "Kind": "choose",
+          "Root": false,
+          "Choice": "Where did you get it?"
+        },
+        {
+          "Speaker": "ColiseumTir",
+          "Text": "You really wanna know? The you'll do a favor for me. See, I want to give her another gift. My friend Gunnar said I should take something made in Loures and put some touches from the outside world in it, and that would represent her. Something to do with symbolism or whatnot. I am not too good with that sort of thing. The only problem is I don't know what item to use. ",
+          "Kind": "next",
+          "Root": false
+        },
+        {
+          "Speaker": "ColiseumTir",
+          "Text": "Got any ideas?",
+          "Kind": "close",
+          "Root": false
+        }
+      ],
+      "ApproachStrategy": "coliseum",
+      "Evidence": "N23-N26",
+      "Label": "Tir request"
+    },
+    {
+      "Id": "loures-saber",
+      "Kind": "buy",
+      "Map": 165,
+      "Npc": "Gunnar",
+      "Approach": {
+        "X": 7,
+        "Y": 11
+      },
+      "Item": "Loures Saber",
+      "Quantity": 1,
+      "Cost": 1500,
+      "WeightReserve": 7,
+      "Evidence": "Observed stock and purchase receipts in research fixtures",
+      "Label": "Loures saber"
+    },
+    {
+      "Id": "tir-gift",
+      "Kind": "dialog",
+      "Map": 5232,
+      "Npc": "ColiseumTir",
+      "Approach": {
+        "X": 7,
+        "Y": 5
+      },
+      "Pages": [
+        {
+          "Speaker": "ColiseumTir",
+          "Text": "Hello.  What can I do for you?",
+          "Kind": "choose",
+          "Root": true,
+          "Choice": "Blanchefleur's Cap"
+        },
+        {
+          "Speaker": "ColiseumTir",
+          "Text": "Blanchefleur...Oye, such a beautiful girl. Yes, I gave her that. She looks real pretty in it, uh?",
+          "Kind": "choose",
+          "Root": false,
+          "Choice": "Where did you get it?"
+        },
+        {
+          "Speaker": "ColiseumTir",
+          "Text": "You really wanna know? The you'll do a favor for me. See, I want to give her another gift. My friend Gunnar said I should take something made in Loures and put some touches from the outside world in it, and that would represent her. Something to do with symbolism or whatnot. I am not too good with that sort of thing. The only problem is I don't know what item to use. ",
+          "Kind": "next",
+          "Root": false
+        },
+        {
+          "Speaker": "ColiseumTir",
+          "Text": "Got any ideas?",
+          "Kind": "choose",
+          "Root": false,
+          "Choice": "I have something."
+        },
+        {
+          "Speaker": "ColiseumTir",
+          "Text": "This will do nicely! A Loures Saber, why did I not think of that. Thanks a bunch! Now, where did I get that cap? Ah, yes! I traded with some poor guy I found on the road. Near the Sapphire Stream. I gave him some extra food I was carrying in exchange. Great deal, uh? Well, I got work to do, come back when you want to crush some skulls in there. ",
+          "Kind": "next",
+          "Root": false
+        }
+      ],
+      "ApproachStrategy": "coliseum",
+      "Inputs": [
+        {
+          "Item": "Loures Saber",
+          "Count": 1
+        }
+      ],
+      "Evidence": "N38-N41",
+      "Label": "Tir gift"
+    },
+    {
+      "Id": "undine-unarmed",
+      "Kind": "unequip-armaments",
+      "Label": "Undine unarmed"
+    },
+    {
+      "Id": "beggar-food-request",
+      "Kind": "dialog",
+      "Map": 3060,
+      "Npc": "Beggar",
+      "Approach": {
+        "X": 4,
+        "Y": 10
+      },
+      "Pages": [
+        {
+          "Speaker": "Beggar",
+          "Text": "Yeah? What do you want?",
+          "Kind": "choose",
+          "Root": false,
+          "Choice": "About the cap you traded."
+        },
+        {
+          "Speaker": "Beggar",
+          "Text": "Just a useless piece of woman's clothing to me. Traded it for a nice loaf of bread with some tough guy. ",
+          "Kind": "next",
+          "Root": false
+        },
+        {
+          "Speaker": "Beggar",
+          "Text": "Don't think he looked too good in that! Hah hah hah!",
+          "Kind": "choose",
+          "Root": false,
+          "Choice": "Where did you get it?"
+        },
+        {
+          "Speaker": "Beggar",
+          "Text": "That thing seems important to you. Why, are you trying to save some boy's life or something? Or just want a new piece of clothin to show off? You Aislings annoy me. Tell ya what. I'll let ya know where I got it if you give me something to fill my stomach with. ",
+          "Kind": "next",
+          "Root": false
+        },
+        {
+          "Speaker": "Beggar",
+          "Text": "Fair deal, ain't it?",
+          "Kind": "close",
+          "Root": false
+        }
+      ],
+      "Speech": "The Cap",
+      "Evidence": "N46-N48",
+      "Label": "Beggar food request"
+    },
+    {
+      "Id": "baguette",
+      "Kind": "buy",
+      "Map": 162,
+      "Npc": "Alleen",
+      "Approach": {
+        "X": 10,
+        "Y": 4
+      },
+      "Item": "Baguette",
+      "Quantity": 1,
+      "Cost": 10,
+      "WeightReserve": 1,
+      "Evidence": "Observed stock and purchase receipts in research fixtures",
+      "Label": "Baguette"
+    },
+    {
+      "Id": "beggar-food",
+      "Kind": "dialog",
+      "Map": 3060,
+      "Npc": "Beggar",
+      "Approach": {
+        "X": 4,
+        "Y": 10
+      },
+      "Pages": [
+        {
+          "Speaker": "Beggar",
+          "Text": "Yeah? What do you want?",
+          "Kind": "choose",
+          "Root": false,
+          "Choice": "About the cap you traded."
+        },
+        {
+          "Speaker": "Beggar",
+          "Text": "Just a useless piece of woman's clothing to me. Traded it for a nice loaf of bread with some tough guy. ",
+          "Kind": "next",
+          "Root": false
+        },
+        {
+          "Speaker": "Beggar",
+          "Text": "Don't think he looked too good in that! Hah hah hah!",
+          "Kind": "choose",
+          "Root": false,
+          "Choice": "Where did you get it?"
+        },
+        {
+          "Speaker": "Beggar",
+          "Text": "That thing seems important to you. Why, are you trying to save some boy's life or something? Or just want a new piece of clothin to show off? You Aislings annoy me. Tell ya what. I'll let ya know where I got it if you give me something to fill my stomach with. ",
+          "Kind": "next",
+          "Root": false
+        },
+        {
+          "Speaker": "Beggar",
+          "Text": "Fair deal, ain't it?",
+          "Kind": "choose",
+          "Root": false,
+          "Choice": "I might have something."
+        },
+        {
+          "Speaker": "Beggar",
+          "Text": "That's great! This is really tasty stuff! Alright, I got that cap from my cousin. He asked me if I could sell it around these parts, then we'd share the money. But I only got food for it, and it'd go bad before I made it to that swamp where he lives, so I just ate it myself! Heh heh!!",
+          "Kind": "next",
+          "Root": false
+        }
+      ],
+      "Speech": "The Cap",
+      "Inputs": [
+        {
+          "Item": "Baguette",
+          "Count": 1
+        }
+      ],
+      "Evidence": "N55-N58",
+      "Label": "Beggar food"
+    },
+    {
+      "Id": "cousin",
+      "Kind": "dialog",
+      "Map": 3071,
+      "Npc": "Beggar",
+      "Approach": {
+        "X": 3,
+        "Y": 2
+      },
+      "Pages": [
+        {
+          "Speaker": "Beggar",
+          "Text": "I'm a busy man, how much is my time worth to you?",
+          "Kind": "choose",
+          "Root": false,
+          "Choice": "How about 1,000 gold coins?"
+        },
+        {
+          "Speaker": "Beggar",
+          "Text": "Good, thanks a lot. What do you want with me?",
+          "Kind": "choose",
+          "Root": false,
+          "Choice": "Looking for this cap."
+        },
+        {
+          "Speaker": "Beggar",
+          "Text": "That thing is causing so much trouble. I had no idea such a simple looking piece of clothing could have so much linked to it. But I am not surprised. Let me tell you, a man can only trust two things in his life, death and his dog. ",
+          "Kind": "next",
+          "Root": false
+        },
+        {
+          "Speaker": "Beggar",
+          "Text": "I wouldn't be here if I knew that at your age.",
+          "Kind": "choose",
+          "Root": false,
+          "Choice": "Where did you get the cap?"
+        },
+        {
+          "Speaker": "Beggar",
+          "Text": "I found it half buried in the mud after a heavy rain. I don't know how it got there, though. Maybe it had been there for a long time, or maybe the river brought it. So I gave it to my cousin, to see if he would have better luck in selling it. As you see, it did not work. That wandering fool... ",
+          "Kind": "next",
+          "Root": false
+        },
+        {
+          "Speaker": "Beggar",
+          "Text": "Now, the cap, I am sure there was something strange about it...",
+          "Kind": "choose",
+          "Root": false,
+          "Choice": "Something strange?"
+        },
+        {
+          "Speaker": "Beggar",
+          "Text": "Yes! Because even with all that mud, all it took was a quick splash and it was brand new, clean and shiny, as if sewn a moment before. I think it might be the work of those Mukul people. Some of them might know more about it, you should go mention the cap to them. That thing is magical I tell you. Too bad no one cared to buy it from a beggar.",
+          "Kind": "next",
+          "Root": false
+        }
+      ],
+      "Speech": "Cousin",
+      "Cost": 1000,
+      "Evidence": "N61-N65",
+      "Label": "Cousin"
+    },
+    {
+      "Id": "varuna-request",
+      "Kind": "dialog",
+      "Map": 3075,
+      "Npc": "Varuna",
+      "Approach": {
+        "X": 30,
+        "Y": 21
+      },
+      "Pages": [
+        {
+          "Speaker": "Varuna",
+          "Text": "You are making too much noise. I will help you if it will make you stop. But I want something in return. ",
+          "Kind": "next",
+          "Root": false
+        },
+        {
+          "Speaker": "Varuna",
+          "Text": "I hope you know what it is.",
+          "Kind": "choose",
+          "Root": false,
+          "Choice": "I'll return with what you want."
+        }
+      ],
+      "Speech": "The Cap",
+      "Evidence": "N68-N70",
+      "Label": "Varuna request"
+    },
+    {
+      "Id": "vipers-gland",
+      "Kind": "gather",
+      "Map": 622,
+      "Approach": {
+        "X": 98,
+        "Y": 3
+      },
+      "Item": "Viper's Gland",
+      "Sprite": 327,
+      "Monster": 49,
+      "Evidence": "N82 actual item; resource-acquisition fixture; fresh sprite-49 fight/drop",
+      "Label": "Vipers gland"
+    },
+    {
+      "Id": "varuna-dreamer",
+      "Kind": "dialog",
+      "Map": 3075,
+      "Npc": "Varuna",
+      "Approach": {
+        "X": 30,
+        "Y": 21
+      },
+      "Pages": [
+        {
+          "Speaker": "Varuna",
+          "Text": "You are making too much noise. I will help you if it will make you stop. But I want something in return. ",
+          "Kind": "next",
+          "Root": false
+        },
+        {
+          "Speaker": "Varuna",
+          "Text": "I hope you know what it is.",
+          "Kind": "choose",
+          "Root": false,
+          "Choice": "I have what you need."
+        },
+        {
+          "Speaker": "Varuna",
+          "Text": "Good, I know what it is you seek. We saw it when the river brought it, and when it was taken away by your kind. ",
+          "Kind": "next",
+          "Root": false
+        },
+        {
+          "Speaker": "Varuna",
+          "Text": "Then I dreamed of Matrika, she told me one of your kind would come after it, and told me what to do. No deity, yours or ours, will guide you to what you pursue. ",
+          "Kind": "next",
+          "Root": false
+        },
+        {
+          "Speaker": "Varuna",
+          "Text": "You must hear the voice of the gods when they speak in one's dream.",
+          "Kind": "choose",
+          "Root": false,
+          "Choice": "But the boy could not understand the gods."
+        },
+        {
+          "Speaker": "Varuna",
+          "Text": "Then you must seek one who can, or could.",
+          "Kind": "next",
+          "Root": false
+        },
+        {
+          "Speaker": "Varuna",
+          "Text": "Good, I know what it is you seek. We saw it when the river brought it, and when it was taken away by your kind. ",
+          "Kind": "next",
+          "Root": false
+        },
+        {
+          "Speaker": "Varuna",
+          "Text": "Then I dreamed of Matrika, she told me one of your kind would come after it, and told me what to do. No deity, yours or ours, will guide you to what you pursue. ",
+          "Kind": "next",
+          "Root": false
+        },
+        {
+          "Speaker": "Varuna",
+          "Text": "You must hear the voice of the gods when they speak in one's dream.",
+          "Kind": "choose",
+          "Root": false,
+          "Choice": "I see...the old man who wrote the book Blaise spoke about."
+        },
+        {
+          "Speaker": "Varuna",
+          "Text": "I do not know who you speak of, but if you think it is him you must seek, then find him.",
+          "Kind": "next",
+          "Root": false
+        },
+        {
+          "Speaker": "Varuna",
+          "Text": "Many spirits roam in a dark land. Some can be called back. Find the one who wields such power: the power to summon those who already crossed the line of life. But be warned: he lets no mistake go unpunished, and for big issues there are big penalties.",
+          "Kind": "next",
+          "Root": false
+        }
+      ],
+      "Speech": "The Cap",
+      "Inputs": [
+        {
+          "Item": "Viper's Gland",
+          "Count": 1
+        }
+      ],
+      "Evidence": "N84-N88",
+      "Label": "Varuna dreamer"
+    },
+    {
+      "Id": "greim-warning",
+      "Kind": "dialog",
+      "Map": 3018,
+      "Npc": "Greim",
+      "Approach": {
+        "X": 4,
+        "Y": 4
+      },
+      "Pages": [
+        {
+          "Speaker": "Greim",
+          "Text": "Hello.  What can I do for you?",
+          "Kind": "choose",
+          "Root": true,
+          "Choice": "Greim, talk to the dead"
+        },
+        {
+          "Speaker": "Greim",
+          "Text": "What do you need?",
+          "Kind": "choose",
+          "Root": false,
+          "Choice": "I must speak to one who has left this land."
+        },
+        {
+          "Speaker": "Greim",
+          "Text": "Foolish mortal, dare you think it is so easily arranged? ",
+          "Kind": "next",
+          "Root": false
+        },
+        {
+          "Speaker": "Greim",
+          "Text": "One cannot tear open the fabric of realms without facing the consequences.",
+          "Kind": "choose",
+          "Root": false,
+          "Choice": "What consequences?"
+        },
+        {
+          "Speaker": "Greim",
+          "Text": "An open rift such as that will not close until it has dragged enough energy into itself. ",
+          "Kind": "next",
+          "Root": false
+        },
+        {
+          "Speaker": "Greim",
+          "Text": "The soul blind enough to open it without proper care may be forever lost in its depth.",
+          "Kind": "choose",
+          "Root": false,
+          "Choice": "What is the proper care?"
+        },
+        {
+          "Speaker": "Greim",
+          "Text": "In decay there is great energy - that is what I deal in. Bring me a token of that, and I might be able to close it for you. ",
+          "Kind": "next",
+          "Root": false
+        },
+        {
+          "Speaker": "Greim",
+          "Text": "If it is left open I may lose some fresh souls...and would have to find a way to replace them.",
+          "Kind": "close",
+          "Root": false
+        }
+      ],
+      "Evidence": "N89-N93",
+      "Label": "Greim warning"
+    },
+    {
+      "Id": "mold",
+      "Kind": "gather",
+      "Map": 1,
+      "Approach": {
+        "X": 5,
+        "Y": 10
+      },
+      "Item": "Mold",
+      "Sprite": 338,
+      "Monster": 7,
+      "Evidence": "N99 actual held Mold from ground; Mouse farming remains a guide acquisition hypothesis, inventory proof required",
+      "Label": "Mold"
+    },
+    {
+      "Id": "supplied-mold-rite",
+      "Kind": "dialog",
+      "Map": 3018,
+      "Npc": "Greim",
+      "Approach": {
+        "X": 4,
+        "Y": 4
+      },
+      "Pages": [
+        {
+          "Speaker": "Greim",
+          "Text": "Hello.  What can I do for you?",
+          "Kind": "choose",
+          "Root": true,
+          "Choice": "Greim, talk to the dead"
+        },
+        {
+          "Speaker": "Greim",
+          "Text": "What do you need?",
+          "Kind": "choose",
+          "Root": false,
+          "Choice": "I must speak to one who has left this land."
+        },
+        {
+          "Speaker": "Greim",
+          "Text": "Foolish mortal, dare you think it is so easily arranged? ",
+          "Kind": "next",
+          "Root": false
+        },
+        {
+          "Speaker": "Greim",
+          "Text": "One cannot tear open the fabric of realms without facing the consequences.",
+          "Kind": "choose",
+          "Root": false,
+          "Choice": "What consequences?"
+        },
+        {
+          "Speaker": "Greim",
+          "Text": "An open rift such as that will not close until it has dragged enough energy into itself. ",
+          "Kind": "next",
+          "Root": false
+        },
+        {
+          "Speaker": "Greim",
+          "Text": "The soul blind enough to open it without proper care may be forever lost in its depth.",
+          "Kind": "choose",
+          "Root": false,
+          "Choice": "What is the proper care?"
+        },
+        {
+          "Speaker": "Greim",
+          "Text": "In decay there is great energy - that is what I deal in. Bring me a token of that, and I might be able to close it for you. ",
+          "Kind": "next",
+          "Root": false
+        },
+        {
+          "Speaker": "Greim",
+          "Text": "If it is left open I may lose some fresh souls...and would have to find a way to replace them.",
+          "Kind": "choose",
+          "Root": false,
+          "Choice": "I am willing to try."
+        },
+        {
+          "Speaker": "Greim",
+          "Text": "Very well.",
+          "Kind": "next",
+          "Root": false
+        }
+      ],
+      "Inputs": [
+        {
+          "Item": "Mold",
+          "Count": 1
+        }
+      ],
+      "ArrivalMap": 720,
+      "Away": {
+        "X": 14,
+        "Y": 26
+      },
+      "Evidence": "N100-N104/N109 approved rite; N110-N112 arrival",
+      "Label": "Supplied mold rite"
+    },
+    {
+      "Id": "dreamer",
+      "Kind": "dialog",
+      "Map": 720,
+      "Npc": "Dreamer",
+      "Approach": {
+        "X": 15,
+        "Y": 6
+      },
+      "Pages": [
+        {
+          "Speaker": "Dreamer",
+          "Text": "Welcome, I have been expecting you.",
+          "Kind": "choose",
+          "Root": false,
+          "Choice": "What is this place?"
+        },
+        {
+          "Speaker": "Dreamer",
+          "Text": "I understand you have many questions, but there is not enough time to answer all of them. Let me put it this way: you are in a spirit form, but able to return. ",
+          "Kind": "next",
+          "Root": false
+        },
+        {
+          "Speaker": "Dreamer",
+          "Text": "We are in a rift created between the realms of dead and living. I am the one who first had the dreams that now haunt the young boy in Abel. I was keeping a record of those dreams, but when I finally understood it - when the words of the gods became clear - I could not handle it. ",
+          "Kind": "next",
+          "Root": false
+        },
+        {
+          "Speaker": "Dreamer",
+          "Text": "Eight deities speaking at the same time, a mere mundane was not made to face that. And here is where I ended up.",
+          "Kind": "next",
+          "Root": false
+        },
+        {
+          "Speaker": "Dreamer",
+          "Text": "But I do remember what they said.",
+          "Kind": "choose",
+          "Root": false,
+          "Choice": "And what was that?"
+        },
+        {
+          "Speaker": "Dreamer",
+          "Text": "It was a long story, I will try to make it short. One day, a tragic accident happened, and a young girl nearly lost her life. She was saved by a poor man, but that act cost him his own health. Seeing that, Danaan rewarded him with a cap. When he wore it, he became healthier again. That was the Cap of Danaan. ",
+          "Kind": "next",
+          "Root": false
+        },
+        {
+          "Speaker": "Dreamer",
+          "Text": "The other deities offered to make the cap more powerful, but the man declined, being alive and healthy was enough for him.",
+          "Kind": "next",
+          "Root": false
+        },
+        {
+          "Speaker": "Dreamer",
+          "Text": "So the matter was put aside and forgotten.",
+          "Kind": "choose",
+          "Root": false,
+          "Choice": "What happened to the Cap of Danaan?"
+        },
+        {
+          "Speaker": "Dreamer",
+          "Text": "It is said Fiosachd hid it, so no one unworthy would wear it. After Danaan's sacrifice, however, the gods wished to hand it to their fighters, the Aislings, to aid in their battle. They would keep the original, of course, but grant the Aislings Caps of equal power. ",
+          "Kind": "next",
+          "Root": false
+        },
+        {
+          "Speaker": "Dreamer",
+          "Text": "The same offer they made to the poor man, will be offered to the Aislings, each deity can add different powers to the Cap.",
+          "Kind": "choose",
+          "Root": false,
+          "Choice": "But these caps were never seen!"
+        },
+        {
+          "Speaker": "Dreamer",
+          "Text": "That is true. Four gods - Fiosachd, Gramail, Deoch and Sgrios - did not want to simply hand them freely to the Aislings. They wanted proof of their loyalty to Light. ",
+          "Kind": "next",
+          "Root": false
+        },
+        {
+          "Speaker": "Dreamer",
+          "Text": "So the Caps were withheld until they had such proof.",
+          "Kind": "choose",
+          "Root": false,
+          "Choice": "There is such proof now?"
+        },
+        {
+          "Speaker": "Dreamer",
+          "Text": "Yes. The victory of the Champion and Diciples of Light over their Dark counterparts was that proof. The gods then agreed to give the Aislings the Caps.",
+          "Kind": "next",
+          "Root": false
+        },
+        {
+          "Speaker": "Dreamer",
+          "Text": "But something unexpected happened, and they were delayed.",
+          "Kind": "choose",
+          "Root": false,
+          "Choice": "What happened?"
+        },
+        {
+          "Speaker": "Dreamer",
+          "Text": "It is not known how, but the original Cap of Danaan disappeared from its hiding place. This greatly distressed the gods, and they decided to find a better place to hide it, but under more subtle methods. ",
+          "Kind": "next",
+          "Root": false
+        },
+        {
+          "Speaker": "Dreamer",
+          "Text": "A vision from the Acolyte of Gramail, the honor of some Lourian soldiers, the ability of some sneaky thief and his bad luck as he went through the swamp, the \"live for the moment\" philosophy of a beggar, the love of an arena guard, the endurance of a trapped lady.",
+          "Kind": "next",
+          "Root": false
+        },
+        {
+          "Speaker": "Dreamer",
+          "Text": "And the original Cap of Danaan is safe again.",
+          "Kind": "choose",
+          "Root": false,
+          "Choice": "And why did the boy have those dreams?"
+        },
+        {
+          "Speaker": "Dreamer",
+          "Text": "For two reasons. First, because some of the things gods do cannot be explained by each Acolyte in separate, that is why they try to speak to mortals in their dreams.",
+          "Kind": "next",
+          "Root": false
+        },
+        {
+          "Speaker": "Dreamer",
+          "Text": "And second, because they finally decided to hand Aislings the Caps, and needed a...lure.",
+          "Kind": "choose",
+          "Root": false,
+          "Choice": "A lure?"
+        },
+        {
+          "Speaker": "Dreamer",
+          "Text": "Yes. This gigantic ordeal you went through, this was part of your test, to know if you are worthy of the Cap of Danaan. It is not the most powerful of items, but it was conceived from the Light of Danaan itself. The gods needed to be sure no one unworthy would wear it. So far, you have proven your worth.",
+          "Kind": "next",
+          "Root": false
+        },
+        {
+          "Speaker": "Dreamer",
+          "Text": "But one more task is ahead of you.",
+          "Kind": "choose",
+          "Root": false,
+          "Choice": "It is still not over!?"
+        },
+        {
+          "Speaker": "Dreamer",
+          "Text": "No, There is one more thing for you to do, you must match the poor man's goodness to receive equal benefit. Seek the Avatar father or the son,  either will guide you through the last step. That is all. ",
+          "Kind": "next",
+          "Root": false
+        },
+        {
+          "Speaker": "Dreamer",
+          "Text": "Oh, you must be curious why the gods decided to let the girl in Loures keep the Cap. Well... The young girl saved by the poor man, long ago, she grew up lovely and had a daughter, whom she named Blanchefleur.",
+          "Kind": "next",
+          "Root": false
+        },
+        {
+          "Speaker": "Dreamer",
+          "Text": "Goodbye.",
+          "Kind": "choose",
+          "Root": false,
+          "Choice": "Wait, I have more questions!"
+        },
+        {
+          "Speaker": "Dreamer",
+          "Text": "Before you finish your sentence, you find yourself back in the inn. But something this absurdly long and complex could not possibly have been a dream. You should go seek \"the Avatar father or the son\", as the spirit told you to.",
+          "Kind": "next",
+          "Root": false
+        }
+      ],
+      "ArrivalMap": 498,
+      "Away": {
+        "X": 5,
+        "Y": 7
+      },
+      "Evidence": "N115-N136",
+      "Label": "Dreamer",
+      "ArrivalMaps": [
+        10004
+      ],
+      "ArrivalAway": {
+        "10004": {
+          "X": 9,
+          "Y": 5
+        }
+      }
+    },
+    {
+      "Id": "donnan-accept",
+      "Kind": "dialog",
+      "Map": 348,
+      "Npc": "Donnan",
+      "Approach": {
+        "X": 4,
+        "Y": 5
+      },
+      "Pages": [
+        {
+          "Speaker": "Donnan",
+          "Text": "Hello.  What can I do for you?",
+          "Kind": "choose",
+          "Root": true,
+          "Choice": "Are you the son I seek?"
+        },
+        {
+          "Speaker": "Donnan",
+          "Text": "Yes, I am. Your goal is close. But there are two very simple tasks you must complete before you can have the Cap.",
+          "Kind": "next",
+          "Root": false
+        },
+        {
+          "Speaker": "Donnan",
+          "Text": "Do you accept it?",
+          "Kind": "choose",
+          "Root": false,
+          "Choice": "Yes. I did so much already, two more tasks are nothing."
+        },
+        {
+          "Speaker": "Donnan",
+          "Text": "Good. The first thing is...",
+          "Kind": "next",
+          "Root": false
+        },
+        {
+          "Speaker": "Donnan",
+          "Text": "She who delivers the word of the Goddess of Love needs some help. ",
+          "Kind": "next",
+          "Root": false
+        }
+      ],
+      "ApproachStrategy": "path-hall",
+      "Evidence": "N167-N171",
+      "Label": "Donnan accept"
+    },
+    {
+      "Id": "glioca-unarmed",
+      "Kind": "unequip-armaments",
+      "Label": "Glioca unarmed"
+    },
+    {
+      "Id": "meaveen-request",
+      "Kind": "dialog",
+      "Map": 3007,
+      "Npc": "Meaveen",
+      "Approach": {
+        "X": 6,
+        "Y": 4
+      },
+      "Pages": [
+        {
+          "Speaker": "Meaveen",
+          "Text": "I have to teach some young priests how to make beothaich deum, but I am all out of ingredients! ",
+          "Kind": "next",
+          "Root": false
+        },
+        {
+          "Speaker": "Meaveen",
+          "Text": "Can you get me some, please?",
+          "Kind": "close",
+          "Root": false
+        }
+      ],
+      "Speech": "Need Help?",
+      "Evidence": "N187-N188",
+      "Label": "Meaveen request"
+    },
+    {
+      "Id": "cherry",
+      "Kind": "buy",
+      "Map": 162,
+      "Npc": "Alleen",
+      "Approach": {
+        "X": 10,
+        "Y": 4
+      },
+      "Item": "Cherry",
+      "Quantity": 2,
+      "Cost": 50,
+      "WeightReserve": 1,
+      "Evidence": "Observed stock and purchase receipts in research fixtures",
+      "Label": "Cherry"
+    },
+    {
+      "Id": "glioca-grapes",
+      "Kind": "buy",
+      "Map": 162,
+      "Npc": "Alleen",
+      "Approach": {
+        "X": 10,
+        "Y": 4
+      },
+      "Item": "Grapes",
+      "Quantity": 1,
+      "Cost": 10,
+      "WeightReserve": 1,
+      "Evidence": "Observed stock and purchase receipts in research fixtures",
+      "Label": "Glioca grapes"
+    },
+    {
+      "Id": "meaveen-fruit",
+      "Kind": "dialog",
+      "Map": 3007,
+      "Npc": "Meaveen",
+      "Approach": {
+        "X": 6,
+        "Y": 4
+      },
+      "Pages": [
+        {
+          "Speaker": "Meaveen",
+          "Text": "I have to teach some young priests how to make beothaich deum, but I am all out of ingredients! ",
+          "Kind": "next",
+          "Root": false
+        },
+        {
+          "Speaker": "Meaveen",
+          "Text": "Can you get me some, please?",
+          "Kind": "choose",
+          "Root": false,
+          "Choice": "I may have what you need."
+        },
+        {
+          "Speaker": "Meaveen",
+          "Text": "By Glioca's loving heart, thank you so much! The lesson may continue now.",
+          "Kind": "next",
+          "Root": false
+        }
+      ],
+      "Speech": "Need Help?",
+      "Inputs": [
+        {
+          "Item": "Cherry",
+          "Count": 2
+        },
+        {
+          "Item": "Grapes",
+          "Count": 1
+        }
+      ],
+      "Evidence": "N205-N209",
+      "Label": "Meaveen fruit"
+    },
+    {
+      "Id": "donnan-next-task",
+      "Kind": "dialog",
+      "Map": 348,
+      "Npc": "Donnan",
+      "Approach": {
+        "X": 4,
+        "Y": 5
+      },
+      "Pages": [
+        {
+          "Speaker": "Donnan",
+          "Text": "Hello.  What can I do for you?",
+          "Kind": "choose",
+          "Root": true,
+          "Choice": "Are you the son I seek?"
+        },
+        {
+          "Speaker": "Donnan",
+          "Text": "You have completed it. Good! So, for the final task...",
+          "Kind": "next",
+          "Root": false
+        },
+        {
+          "Speaker": "Donnan",
+          "Text": "The keeper of the Ranger's unused jail gifted someone with the wrong thing. Now he needs to replace it.",
+          "Kind": "next",
+          "Root": false
+        }
+      ],
+      "ApproachStrategy": "path-hall",
+      "Evidence": "N218-N219",
+      "Label": "Donnan next task"
+    },
+    {
+      "Id": "kyros-request",
+      "Kind": "dialog",
+      "Map": 5210,
+      "Npc": "Kyros",
+      "Approach": {
+        "X": 4,
+        "Y": 6
+      },
+      "Pages": [
+        {
+          "Speaker": "Kyros",
+          "Text": "I am glad you ask. I am afraid my leather greaves could not keep up with my training.",
+          "Kind": "next",
+          "Root": false
+        },
+        {
+          "Speaker": "Kyros",
+          "Text": "Would you be so kind as to get me a new one?",
+          "Kind": "close",
+          "Root": false
+        }
+      ],
+      "Speech": "Need Help?",
+      "ApproachStrategy": "cedar-grove",
+      "Evidence": "N250-N252",
+      "Label": "Kyros request"
+    },
+    {
+      "Id": "leather-greaves",
+      "Kind": "buy",
+      "Map": 182,
+      "Npc": "Steinar",
+      "Approach": {
+        "X": 3,
+        "Y": 8
+      },
+      "Item": "Leather Greaves",
+      "Quantity": 1,
+      "Cost": 4000,
+      "WeightReserve": 4,
+      "Evidence": "Observed stock and purchase receipts in research fixtures",
+      "Label": "Leather greaves"
+    },
+    {
+      "Id": "kyros-greaves",
+      "Kind": "dialog",
+      "Map": 5210,
+      "Npc": "Kyros",
+      "Approach": {
+        "X": 4,
+        "Y": 6
+      },
+      "Pages": [
+        {
+          "Speaker": "Kyros",
+          "Text": "I am glad you ask. I am afraid my leather greaves could not keep up with my training.",
+          "Kind": "next",
+          "Root": false
+        },
+        {
+          "Speaker": "Kyros",
+          "Text": "Would you be so kind as to get me a new one?",
+          "Kind": "choose",
+          "Root": false,
+          "Choice": "I have some for you."
+        },
+        {
+          "Speaker": "Kyros",
+          "Text": "These will serve just right. Go in peace, and take my gratitude with you.",
+          "Kind": "close",
+          "Root": false
+        }
+      ],
+      "Speech": "Need Help?",
+      "ApproachStrategy": "cedar-grove",
+      "Inputs": [
+        {
+          "Item": "Leather Greaves",
+          "Count": 1
+        }
+      ],
+      "Evidence": "N270-N274",
+      "Label": "Kyros greaves"
+    },
+    {
+      "Id": "donnan-done",
+      "Kind": "dialog",
+      "Map": 348,
+      "Npc": "Donnan",
+      "Approach": {
+        "X": 4,
+        "Y": 5
+      },
+      "Pages": [
+        {
+          "Speaker": "Donnan",
+          "Text": "Hello.  What can I do for you?",
+          "Kind": "choose",
+          "Root": true,
+          "Choice": "Are you the son I seek?"
+        },
+        {
+          "Speaker": "Donnan",
+          "Text": "It is done! Please, seek she who is the very daughter of Danaan. She has what you worked so much for.",
+          "Kind": "close",
+          "Root": false
+        }
+      ],
+      "ApproachStrategy": "path-hall",
+      "Evidence": "N283-N285",
+      "Label": "Donnan done"
+    },
+    {
+      "Id": "erin-reward",
+      "Kind": "dialog",
+      "Map": 345,
+      "Npc": "Erin",
+      "Approach": {
+        "X": 6,
+        "Y": 5
+      },
+      "Pages": [
+        {
+          "Speaker": "Erin",
+          "Text": "Hello.  What can I do for you?",
+          "Kind": "choose",
+          "Root": true,
+          "Choice": "I completed the tasks"
+        },
+        {
+          "Speaker": "Erin",
+          "Text": "So I see. Very well done, Aisling. The journey has been long, but it is finally over. You have proven yourself worthy of this boon, and increased once again our hope in those who carry Deoch's Spark. This Cap goes to a very worthy Aisling. Congratulations!",
+          "Kind": "next",
+          "Root": false
+        },
+        {
+          "Speaker": "Erin",
+          "Text": "To have this consecrated to one of the eight deities, ask their Apostles for it. 'Please consecrate my Cap of Danaan' sounds polite enough for them to answer.",
+          "Kind": "close",
+          "Root": false
+        }
+      ],
+      "ApproachStrategy": "path-hall",
+      "Outputs": [
+        {
+          "Item": "Cap of Danaan",
+          "Count": 1
+        }
+      ],
+      "Experience": 1000000,
+      "WeightReserve": 4,
+      "Evidence": "N294-N298/N303 actual reward/final close; Band variant not live-certified",
+      "Label": "Erin reward"
+    }
+  ],
+  "JourneyVariants": {
+    "loures-orders": {
+      "TaskId": "blaise-records",
+      "Page": 2,
+      "Speaker": "Blaise",
+      "Text": "Don't be so loud. We received orders not to ever touch the subject, and the guards make sure the orders are followed.",
+      "Choices": [
+        "Do you know anything of the boy's dream?",
+        "Why is the subject forbidden?"
+      ],
+      "Journey": [
+        {
+          "Id": "rolan-dream",
+          "Kind": "dialog",
+          "Map": 177,
+          "Npc": "Rolan",
+          "Approach": {
+            "X": 2,
+            "Y": 3
+          },
+          "Pages": [
+            {
+              "Speaker": "Rolan",
+              "Text": "You are an Aising? Oh thank Danaan you came. You must have heard of my dreams. Every night it is the same. Glioca, Cail, Ceannlaidir and Luathas stand on one side, Gramail, Deoch, Fiosachd, and Sgrios on the other side. And they're all wearing hats! It is so silly. They keep arguing between themselves, sometimes they talk to me, but I can't understand what they are saying! I can't stand it anymore, every night, every night... Please, Aisling, find out where this dream comes from, and help me get rid of it. Maybe the old books in Loures say something, but the guards did not let me in for some reason...",
+              "Kind": "next",
+              "Root": false
+            }
+          ],
+          "ApproachStrategy": "inn-room7",
+          "Evidence": "240-241",
+          "Label": "Rolan dream"
+        },
+        {
+          "Id": "blaise-records",
+          "Kind": "dialog",
+          "Map": 3041,
+          "Npc": "Blaise",
+          "Approach": {
+            "X": 10,
+            "Y": 12
+          },
+          "Pages": [
+            {
+              "Speaker": "Blaise",
+              "Text": "Hello.  What can I do for you?",
+              "Kind": "choose",
+              "Root": true,
+              "Choice": "Gods and hats"
+            },
+            {
+              "Speaker": "Blaise",
+              "Text": "Ssshhh!! Quiet. You are here to help that boy in Abel, right?",
+              "Kind": "choose",
+              "Root": false,
+              "Choice": "Yes!"
+            },
+            {
+              "Speaker": "Blaise",
+              "Text": "Don't be so loud. We received orders not to ever touch the subject, and the guards make sure the orders are followed.",
+              "Kind": "choose",
+              "Choice": "Do you know anything of the boy's dream?",
+              "Root": false
+            },
+            {
+              "Speaker": "Blaise",
+              "Text": "Not much. I remember seeing a book, long ago, where an old man wrote about having dreams similar to that boy's. But before I could look at it again, the soldiers took it away. I'm sorry, I cannot help you.",
+              "Kind": "next",
+              "Root": false
+            },
+            {
+              "Speaker": "Blaise",
+              "Text": "Don't be so loud. We received orders not to ever touch the subject, and the guards make sure the orders are followed.",
+              "Kind": "choose",
+              "Choice": "Why is the subject forbidden?",
+              "Root": false
+            },
+            {
+              "Speaker": "Blaise",
+              "Text": "I do not know. But it was Jean himself who relayed the orders to me. He said Loures cannot defy the will of its patron deity. I wonder what Camille said in her recent visit to him. It is so rare for her to leave that temple down there, it must have been very important.",
+              "Kind": "next",
+              "Root": false
+            },
+            {
+              "Speaker": "Blaise",
+              "Text": "Don't be so loud. We received orders not to ever touch the subject, and the guards make sure the orders are followed.",
+              "Kind": "close",
+              "Root": false
+            }
+          ],
+          "Evidence": "danaan-lancelot-variation.json observations 1-6",
+          "Label": "Blaise records"
+        },
+        {
+          "Id": "gramail-unarmed",
+          "Kind": "unequip-armaments",
+          "Label": "Remove shrine armaments",
+          "Evidence": "Active refusal on map 3012; guarded removals observed at Glioca"
+        },
+        {
+          "Id": "camille-orders",
+          "Kind": "dialog",
+          "Map": 3013,
+          "Npc": "Camille",
+          "Approach": {
+            "X": 4,
+            "Y": 4
+          },
+          "Pages": [
+            {
+              "Speaker": "Camille",
+              "Text": "Hello.  What can I do for you?",
+              "Kind": "choose",
+              "Choice": "About the orders...",
+              "Root": true
+            },
+            {
+              "Speaker": "Camille",
+              "Text": "What can I do for you?",
+              "Kind": "choose",
+              "Choice": "Your skin is very nicely tanned.",
+              "Root": false
+            },
+            {
+              "Speaker": "Camille",
+              "Text": "Thank you. I went to the beaches of Abel recently, and after the job was done, I took some free time for myself. ",
+              "Kind": "next",
+              "Root": false
+            },
+            {
+              "Speaker": "Camille",
+              "Text": "Nice, isn't it?",
+              "Kind": "choose",
+              "Choice": "What job was there in Abel?",
+              "Root": false
+            },
+            {
+              "Speaker": "Camille",
+              "Text": "Nothing important. They needed an Acolyte to identify something there, but Aundy was not available, so they invited me. ",
+              "Kind": "next",
+              "Root": false
+            },
+            {
+              "Speaker": "Camille",
+              "Text": "The funny part, Aundy was here in Loures visiting that lonely girl in the castle! I just went to Abel escorted by soldiers, identified the object, and had the next couple of days to relax. ",
+              "Kind": "next",
+              "Root": false
+            },
+            {
+              "Speaker": "Camille",
+              "Text": "I really needed it!",
+              "Kind": "choose",
+              "Choice": "Why soldiers?",
+              "Root": false
+            },
+            {
+              "Speaker": "Camille",
+              "Text": "It was official Loures business. I could have handled it myself, but they insisted.  The natives of Able Beach must of thought it was strange seeing me with Loures soldiers.",
+              "Kind": "next",
+              "Root": false
+            }
+          ],
+          "Evidence": "danaan-lancelot-variation.json observations 10,11,12,13",
+          "Label": "Camille orders"
+        },
+        {
+          "Id": "ase-history",
+          "Kind": "dialog",
+          "Map": 195,
+          "Npc": "Ase",
+          "Approach": {
+            "X": 7,
+            "Y": 2
+          },
+          "Pages": [
+            {
+              "Speaker": "Ase",
+              "Text": "Hello.",
+              "Kind": "choose",
+              "Choice": "Have you seen anything unusual lately?",
+              "Root": false
+            },
+            {
+              "Speaker": "Ase",
+              "Text": "Soldiers from Loures, gods from Kadath, Aislings from...Sheesh. ",
+              "Kind": "next",
+              "Root": false
+            },
+            {
+              "Speaker": "Ase",
+              "Text": "What is next, Ainmeal will come back from the dead and tell me I am his rightful heir?",
+              "Kind": "choose",
+              "Choice": "Ainmeal?",
+              "Root": false
+            },
+            {
+              "Speaker": "Ase",
+              "Text": "Or maybe it will be Tenes. Or Ealagad.",
+              "Kind": "choose",
+              "Choice": "Tenes? Ealagad?",
+              "Root": false
+            },
+            {
+              "Speaker": "Ase",
+              "Text": "Never heard of them? Oh really, shame on you! Go read the history of Temuair, urgently! What kind of Aisling are you if you do not even know of those three?",
+              "Kind": "next",
+              "Root": false
+            },
+            {
+              "Speaker": "Ase",
+              "Text": "Soldiers from Loures, gods from Kadath, Aislings from...Sheesh. ",
+              "Kind": "next",
+              "Root": false
+            },
+            {
+              "Speaker": "Ase",
+              "Text": "What is next, Ainmeal will come back from the dead and tell me I am his rightful heir?",
+              "Kind": "choose",
+              "Choice": "Soldiers?",
+              "Root": false
+            },
+            {
+              "Speaker": "Ase",
+              "Text": "Yes, a handful of soldiers came from Loures looking for something. I do not know what it was, nor did I care at the moment. But now I am intrigued.",
+              "Kind": "next",
+              "Root": false
+            },
+            {
+              "Speaker": "Ase",
+              "Text": "Soldiers from Loures, gods from Kadath, Aislings from...Sheesh. ",
+              "Kind": "next",
+              "Root": false
+            },
+            {
+              "Speaker": "Ase",
+              "Text": "What is next, Ainmeal will come back from the dead and tell me I am his rightful heir?",
+              "Kind": "choose",
+              "Choice": "Gods?",
+              "Root": false
+            },
+            {
+              "Speaker": "Ase",
+              "Text": "Well, one god, actually. Fiosachd. I found it very strange, because, of all gods, the patron of Rogues should be the most careful about not being seen. But he seemed quite worried, came running along the beach like his immortal life depended on it. Guess he was looking for whatever the soldiers came to get. I did not ask, I am no Aisling to talk to gods in person.",
+              "Kind": "next",
+              "Root": false
+            },
+            {
+              "Speaker": "Ase",
+              "Text": "Soldiers from Loures, gods from Kadath, Aislings from...Sheesh. ",
+              "Kind": "next",
+              "Root": false
+            },
+            {
+              "Speaker": "Ase",
+              "Text": "What is next, Ainmeal will come back from the dead and tell me I am his rightful heir?",
+              "Kind": "close",
+              "Root": false
+            }
+          ],
+          "Evidence": "danaan-lancelot-variation.json observations 25,26,27,28,29",
+          "Label": "Ase history",
+          "ApproachStrategy": "coast-bar"
+        },
+        {
+          "Id": "keefe-answers",
+          "Kind": "dialog",
+          "Map": 346,
+          "Npc": "Keefe",
+          "Approach": {
+            "X": 6,
+            "Y": 4
+          },
+          "Pages": [
+            {
+              "Speaker": "Keefe",
+              "Text": "Hello.  What can I do for you?",
+              "Kind": "choose",
+              "Choice": "I seek answers...",
+              "Root": true
+            },
+            {
+              "Speaker": "Keefe",
+              "Text": "What kind of answers?",
+              "Kind": "choose",
+              "Choice": "I seek answers from Fiosachd.",
+              "Root": false
+            },
+            {
+              "Speaker": "Keefe",
+              "Text": "You address your questions to a god directly? What got into your mind, Aisling? The doubt-solving god is Luathas, not me.",
+              "Kind": "choose",
+              "Choice": "So you will not tell me of the cap?",
+              "Root": false
+            },
+            {
+              "Speaker": "Keefe",
+              "Text": "Tell you? That is not my problem. I make sure what is supposed to remain hidden, remains. Sometimes I am a bit late, but I can always take it back and hide it somewhere else. I am the God of Chance, things usually work out for me, one way or the other. But I am saying too much. Leave Aisling, I have no further business with you.",
+              "Kind": "next",
+              "Root": false
+            }
+          ],
+          "Evidence": "danaan-lancelot-variation.json observations 41,42,43",
+          "Label": "Keefe answers",
+          "ApproachStrategy": "path-hall"
+        },
+        {
+          "Id": "logan-cap",
+          "Kind": "dialog",
+          "Map": 398,
+          "Npc": "Logan",
+          "Approach": {
+            "X": 6,
+            "Y": 4
+          },
+          "Pages": [
+            {
+              "Speaker": "Logan",
+              "Text": "Hello.  What can I do for you?",
+              "Kind": "choose",
+              "Choice": "Luathas, the Cap",
+              "Root": true
+            },
+            {
+              "Speaker": "Logan",
+              "Text": "You have come far in your search, have you not? But more awaits ahead of you.",
+              "Kind": "choose",
+              "Choice": "I am eager to continue, I wish to help the boy.",
+              "Root": false
+            },
+            {
+              "Speaker": "Logan",
+              "Text": "Yes, the boy in Abel. I am surprised you still remember he was the first step of this endless walk. Helping the boy is the largest of the tasks. ",
+              "Kind": "next",
+              "Root": false
+            },
+            {
+              "Speaker": "Logan",
+              "Text": "There are many others.",
+              "Kind": "choose",
+              "Choice": "What must I do next?",
+              "Root": false
+            },
+            {
+              "Speaker": "Logan",
+              "Text": "You must first track your prize's origins. You are close. The tortuous path that you seek lies in damp marshes beyond these mountains. Look for information there, but remember, as Deoch has great goodness behind his dark figure, important information may be hidden behind what seems ignorant.",
+              "Kind": "next",
+              "Root": false
+            },
+            {
+              "Speaker": "Logan",
+              "Text": "My role in your epic pursuit is done. Go now, may the Light of Danaan guide you.",
+              "Kind": "next",
+              "Root": false
+            }
+          ],
+          "Evidence": "danaan-lancelot-variation.json observations 45,46,47",
+          "Label": "Logan cap",
+          "ApproachStrategy": "path-hall"
+        },
+        {
+          "Id": "cousin",
+          "Kind": "dialog",
+          "Map": 3071,
+          "Npc": "Beggar",
+          "Approach": {
+            "X": 3,
+            "Y": 2
+          },
+          "Pages": [
+            {
+              "Speaker": "Beggar",
+              "Text": "I'm a busy man, how much is my time worth to you?",
+              "Kind": "choose",
+              "Choice": "How about 1,000 gold coins?",
+              "Root": false
+            },
+            {
+              "Speaker": "Beggar",
+              "Text": "Good, thanks a lot. What do you want with me?",
+              "Kind": "choose",
+              "Choice": "Nothing, just felt like being kind today.",
+              "Root": false
+            },
+            {
+              "Speaker": "Beggar",
+              "Text": "That's nice. I hope you are always in the area when that happens. Are you sure there is nothing else?",
+              "Kind": "next",
+              "Root": false
+            },
+            {
+              "Speaker": "Beggar",
+              "Text": "Good, thanks a lot. What do you want with me?",
+              "Kind": "choose",
+              "Choice": "Looking for this cap.",
+              "Root": false
+            },
+            {
+              "Speaker": "Beggar",
+              "Text": "That thing is causing so much trouble. I had no idea such a simple looking piece of clothing could have so much linked to it. But I am not surprised. Let me tell you, a man can only trust two things in his life, death and his dog. ",
+              "Kind": "next",
+              "Root": false
+            },
+            {
+              "Speaker": "Beggar",
+              "Text": "I wouldn't be here if I knew that at your age.",
+              "Kind": "choose",
+              "Choice": "Where did you get the cap?",
+              "Root": false
+            },
+            {
+              "Speaker": "Beggar",
+              "Text": "I found it half buried in the mud after a heavy rain. I don't know how it got there, though. Maybe it had been there for a long time, or maybe the river brought it. So I gave it to my cousin, to see if he would have better luck in selling it. As you see, it did not work. That wandering fool... ",
+              "Kind": "next",
+              "Root": false
+            },
+            {
+              "Speaker": "Beggar",
+              "Text": "Now, the cap, I am sure there was something strange about it...",
+              "Kind": "choose",
+              "Choice": "Something strange?",
+              "Root": false
+            },
+            {
+              "Speaker": "Beggar",
+              "Text": "Yes! Because even with all that mud, all it took was a quick splash and it was brand new, clean and shiny, as if sewn a moment before. I think it might be the work of those Mukul people. Some of them might know more about it, you should go mention the cap to them. That thing is magical I tell you. Too bad no one cared to buy it from a beggar.",
+              "Kind": "next",
+              "Root": false
+            }
+          ],
+          "Evidence": "danaan-lancelot-variation.json observations 50,51,52,53,54",
+          "Label": "Cousin",
+          "Speech": "Cousin",
+          "Cost": 1000
+        },
+        {
+          "Id": "varuna-request",
+          "Kind": "dialog",
+          "Map": 3075,
+          "Npc": "Varuna",
+          "Approach": {
+            "X": 30,
+            "Y": 21
+          },
+          "Pages": [
+            {
+              "Speaker": "Varuna",
+              "Text": "You are making too much noise. I will help you if it will make you stop. But I want something in return. ",
+              "Kind": "next",
+              "Root": false
+            },
+            {
+              "Speaker": "Varuna",
+              "Text": "I hope you know what it is.",
+              "Kind": "choose",
+              "Root": false,
+              "Choice": "I'll return with what you want."
+            }
+          ],
+          "Speech": "The Cap",
+          "Evidence": "N68-N70",
+          "Label": "Varuna request"
+        },
+        {
+          "Id": "vipers-gland",
+          "Kind": "gather",
+          "Map": 622,
+          "Approach": {
+            "X": 98,
+            "Y": 3
+          },
+          "Item": "Viper's Gland",
+          "Sprite": 327,
+          "Monster": 49,
+          "Evidence": "N82 actual item; resource-acquisition fixture; fresh sprite-49 fight/drop",
+          "Label": "Vipers gland"
+        },
+        {
+          "Id": "varuna-dreamer",
+          "Kind": "dialog",
+          "Map": 3075,
+          "Npc": "Varuna",
+          "Approach": {
+            "X": 30,
+            "Y": 21
+          },
+          "Pages": [
+            {
+              "Speaker": "Varuna",
+              "Text": "You are making too much noise. I will help you if it will make you stop. But I want something in return. ",
+              "Kind": "next",
+              "Root": false
+            },
+            {
+              "Speaker": "Varuna",
+              "Text": "I hope you know what it is.",
+              "Kind": "choose",
+              "Root": false,
+              "Choice": "I have what you need."
+            },
+            {
+              "Speaker": "Varuna",
+              "Text": "Good, I know what it is you seek. We saw it when the river brought it, and when it was taken away by your kind. ",
+              "Kind": "next",
+              "Root": false
+            },
+            {
+              "Speaker": "Varuna",
+              "Text": "Then I dreamed of Matrika, she told me one of your kind would come after it, and told me what to do. No deity, yours or ours, will guide you to what you pursue. ",
+              "Kind": "next",
+              "Root": false
+            },
+            {
+              "Speaker": "Varuna",
+              "Text": "You must hear the voice of the gods when they speak in one's dream.",
+              "Kind": "choose",
+              "Root": false,
+              "Choice": "But the boy could not understand the gods."
+            },
+            {
+              "Speaker": "Varuna",
+              "Text": "Then you must seek one who can, or could.",
+              "Kind": "next",
+              "Root": false
+            },
+            {
+              "Speaker": "Varuna",
+              "Text": "Good, I know what it is you seek. We saw it when the river brought it, and when it was taken away by your kind. ",
+              "Kind": "next",
+              "Root": false
+            },
+            {
+              "Speaker": "Varuna",
+              "Text": "Then I dreamed of Matrika, she told me one of your kind would come after it, and told me what to do. No deity, yours or ours, will guide you to what you pursue. ",
+              "Kind": "next",
+              "Root": false
+            },
+            {
+              "Speaker": "Varuna",
+              "Text": "You must hear the voice of the gods when they speak in one's dream.",
+              "Kind": "choose",
+              "Root": false,
+              "Choice": "I see...the old man who wrote the book Blaise spoke about."
+            },
+            {
+              "Speaker": "Varuna",
+              "Text": "I do not know who you speak of, but if you think it is him you must seek, then find him.",
+              "Kind": "next",
+              "Root": false
+            },
+            {
+              "Speaker": "Varuna",
+              "Text": "Many spirits roam in a dark land. Some can be called back. Find the one who wields such power: the power to summon those who already crossed the line of life. But be warned: he lets no mistake go unpunished, and for big issues there are big penalties.",
+              "Kind": "next",
+              "Root": false
+            }
+          ],
+          "Speech": "The Cap",
+          "Inputs": [
+            {
+              "Item": "Viper's Gland",
+              "Count": 1
+            }
+          ],
+          "Evidence": "N84-N88",
+          "Label": "Varuna dreamer"
+        },
+        {
+          "Id": "mold",
+          "Kind": "gather",
+          "Map": 1,
+          "Approach": {
+            "X": 5,
+            "Y": 10
+          },
+          "Item": "Mold",
+          "Sprite": 338,
+          "Monster": 7,
+          "Evidence": "N99 actual held Mold from ground; Mouse farming remains a guide acquisition hypothesis, inventory proof required",
+          "Label": "Mold"
+        },
+        {
+          "Id": "supplied-mold-rite",
+          "Kind": "dialog",
+          "Map": 3018,
+          "Npc": "Greim",
+          "Approach": {
+            "X": 4,
+            "Y": 4
+          },
+          "Pages": [
+            {
+              "Speaker": "Greim",
+              "Text": "Hello.  What can I do for you?",
+              "Kind": "choose",
+              "Root": true,
+              "Choice": "Greim, talk to the dead"
+            },
+            {
+              "Speaker": "Greim",
+              "Text": "What do you need?",
+              "Kind": "choose",
+              "Root": false,
+              "Choice": "I must speak to one who has left this land."
+            },
+            {
+              "Speaker": "Greim",
+              "Text": "Foolish mortal, dare you think it is so easily arranged? ",
+              "Kind": "next",
+              "Root": false
+            },
+            {
+              "Speaker": "Greim",
+              "Text": "One cannot tear open the fabric of realms without facing the consequences.",
+              "Kind": "choose",
+              "Root": false,
+              "Choice": "What consequences?"
+            },
+            {
+              "Speaker": "Greim",
+              "Text": "An open rift such as that will not close until it has dragged enough energy into itself. ",
+              "Kind": "next",
+              "Root": false
+            },
+            {
+              "Speaker": "Greim",
+              "Text": "The soul blind enough to open it without proper care may be forever lost in its depth.",
+              "Kind": "choose",
+              "Root": false,
+              "Choice": "What is the proper care?"
+            },
+            {
+              "Speaker": "Greim",
+              "Text": "In decay there is great energy - that is what I deal in. Bring me a token of that, and I might be able to close it for you. ",
+              "Kind": "next",
+              "Root": false
+            },
+            {
+              "Speaker": "Greim",
+              "Text": "If it is left open I may lose some fresh souls...and would have to find a way to replace them.",
+              "Kind": "choose",
+              "Root": false,
+              "Choice": "I am willing to try."
+            },
+            {
+              "Speaker": "Greim",
+              "Text": "Very well.",
+              "Kind": "next",
+              "Root": false
+            }
+          ],
+          "Inputs": [
+            {
+              "Item": "Mold",
+              "Count": 1
+            }
+          ],
+          "ArrivalMap": 720,
+          "Away": {
+            "X": 14,
+            "Y": 26
+          },
+          "Evidence": "N100-N104/N109 approved rite; N110-N112 arrival",
+          "Label": "Supplied mold rite"
+        },
+        {
+          "Id": "dreamer",
+          "Kind": "dialog",
+          "Map": 720,
+          "Npc": "Dreamer",
+          "Approach": {
+            "X": 15,
+            "Y": 6
+          },
+          "Pages": [
+            {
+              "Speaker": "Dreamer",
+              "Text": "Welcome, I have been expecting you.",
+              "Kind": "choose",
+              "Root": false,
+              "Choice": "What is this place?"
+            },
+            {
+              "Speaker": "Dreamer",
+              "Text": "I understand you have many questions, but there is not enough time to answer all of them. Let me put it this way: you are in a spirit form, but able to return. ",
+              "Kind": "next",
+              "Root": false
+            },
+            {
+              "Speaker": "Dreamer",
+              "Text": "We are in a rift created between the realms of dead and living. I am the one who first had the dreams that now haunt the young boy in Abel. I was keeping a record of those dreams, but when I finally understood it - when the words of the gods became clear - I could not handle it. ",
+              "Kind": "next",
+              "Root": false
+            },
+            {
+              "Speaker": "Dreamer",
+              "Text": "Eight deities speaking at the same time, a mere mundane was not made to face that. And here is where I ended up.",
+              "Kind": "next",
+              "Root": false
+            },
+            {
+              "Speaker": "Dreamer",
+              "Text": "But I do remember what they said.",
+              "Kind": "choose",
+              "Root": false,
+              "Choice": "And what was that?"
+            },
+            {
+              "Speaker": "Dreamer",
+              "Text": "It was a long story, I will try to make it short. One day, a tragic accident happened, and a young girl nearly lost her life. She was saved by a poor man, but that act cost him his own health. Seeing that, Danaan rewarded him with a cap. When he wore it, he became healthier again. That was the Cap of Danaan. ",
+              "Kind": "next",
+              "Root": false
+            },
+            {
+              "Speaker": "Dreamer",
+              "Text": "The other deities offered to make the cap more powerful, but the man declined, being alive and healthy was enough for him.",
+              "Kind": "next",
+              "Root": false
+            },
+            {
+              "Speaker": "Dreamer",
+              "Text": "So the matter was put aside and forgotten.",
+              "Kind": "choose",
+              "Root": false,
+              "Choice": "What happened to the Cap of Danaan?"
+            },
+            {
+              "Speaker": "Dreamer",
+              "Text": "It is said Fiosachd hid it, so no one unworthy would wear it. After Danaan's sacrifice, however, the gods wished to hand it to their fighters, the Aislings, to aid in their battle. They would keep the original, of course, but grant the Aislings Caps of equal power. ",
+              "Kind": "next",
+              "Root": false
+            },
+            {
+              "Speaker": "Dreamer",
+              "Text": "The same offer they made to the poor man, will be offered to the Aislings, each deity can add different powers to the Cap.",
+              "Kind": "choose",
+              "Root": false,
+              "Choice": "But these caps were never seen!"
+            },
+            {
+              "Speaker": "Dreamer",
+              "Text": "That is true. Four gods - Fiosachd, Gramail, Deoch and Sgrios - did not want to simply hand them freely to the Aislings. They wanted proof of their loyalty to Light. ",
+              "Kind": "next",
+              "Root": false
+            },
+            {
+              "Speaker": "Dreamer",
+              "Text": "So the Caps were withheld until they had such proof.",
+              "Kind": "choose",
+              "Root": false,
+              "Choice": "There is such proof now?"
+            },
+            {
+              "Speaker": "Dreamer",
+              "Text": "Yes. The victory of the Champion and Diciples of Light over their Dark counterparts was that proof. The gods then agreed to give the Aislings the Caps.",
+              "Kind": "next",
+              "Root": false
+            },
+            {
+              "Speaker": "Dreamer",
+              "Text": "But something unexpected happened, and they were delayed.",
+              "Kind": "choose",
+              "Root": false,
+              "Choice": "What happened?"
+            },
+            {
+              "Speaker": "Dreamer",
+              "Text": "It is not known how, but the original Cap of Danaan disappeared from its hiding place. This greatly distressed the gods, and they decided to find a better place to hide it, but under more subtle methods. ",
+              "Kind": "next",
+              "Root": false
+            },
+            {
+              "Speaker": "Dreamer",
+              "Text": "A vision from the Acolyte of Gramail, the honor of some Lourian soldiers, the ability of some sneaky thief and his bad luck as he went through the swamp, the \"live for the moment\" philosophy of a beggar, the love of an arena guard, the endurance of a trapped lady.",
+              "Kind": "next",
+              "Root": false
+            },
+            {
+              "Speaker": "Dreamer",
+              "Text": "And the original Cap of Danaan is safe again.",
+              "Kind": "choose",
+              "Root": false,
+              "Choice": "And why did the boy have those dreams?"
+            },
+            {
+              "Speaker": "Dreamer",
+              "Text": "For two reasons. First, because some of the things gods do cannot be explained by each Acolyte in separate, that is why they try to speak to mortals in their dreams.",
+              "Kind": "next",
+              "Root": false
+            },
+            {
+              "Speaker": "Dreamer",
+              "Text": "And second, because they finally decided to hand Aislings the Caps, and needed a...lure.",
+              "Kind": "choose",
+              "Root": false,
+              "Choice": "A lure?"
+            },
+            {
+              "Speaker": "Dreamer",
+              "Text": "Yes. This gigantic ordeal you went through, this was part of your test, to know if you are worthy of the Cap of Danaan. It is not the most powerful of items, but it was conceived from the Light of Danaan itself. The gods needed to be sure no one unworthy would wear it. So far, you have proven your worth.",
+              "Kind": "next",
+              "Root": false
+            },
+            {
+              "Speaker": "Dreamer",
+              "Text": "But one more task is ahead of you.",
+              "Kind": "choose",
+              "Root": false,
+              "Choice": "It is still not over!?"
+            },
+            {
+              "Speaker": "Dreamer",
+              "Text": "No, There is one more thing for you to do, you must match the poor man's goodness to receive equal benefit. Seek the Avatar father or the son,  either will guide you through the last step. That is all. ",
+              "Kind": "next",
+              "Root": false
+            },
+            {
+              "Speaker": "Dreamer",
+              "Text": "Oh, you must be curious why the gods decided to let the girl in Loures keep the Cap. Well... The young girl saved by the poor man, long ago, she grew up lovely and had a daughter, whom she named Blanchefleur.",
+              "Kind": "next",
+              "Root": false
+            },
+            {
+              "Speaker": "Dreamer",
+              "Text": "Goodbye.",
+              "Kind": "choose",
+              "Root": false,
+              "Choice": "Wait, I have more questions!"
+            },
+            {
+              "Speaker": "Dreamer",
+              "Text": "Before you finish your sentence, you find yourself back in the inn. But something this absurdly long and complex could not possibly have been a dream. You should go seek \"the Avatar father or the son\", as the spirit told you to.",
+              "Kind": "next",
+              "Root": false
+            }
+          ],
+          "ArrivalMap": 498,
+          "Away": {
+            "X": 5,
+            "Y": 7
+          },
+          "Evidence": "N115-N136",
+          "Label": "Dreamer",
+          "ArrivalMaps": [
+            10004
+          ],
+          "ArrivalAway": {
+            "10004": {
+              "X": 9,
+              "Y": 5
+            }
+          }
+        },
+        {
+          "Id": "donnan-accept",
+          "Kind": "dialog",
+          "Map": 348,
+          "Npc": "Donnan",
+          "Approach": {
+            "X": 4,
+            "Y": 5
+          },
+          "Pages": [
+            {
+              "Speaker": "Donnan",
+              "Text": "Hello.  What can I do for you?",
+              "Kind": "choose",
+              "Root": true,
+              "Choice": "Are you the son I seek?"
+            },
+            {
+              "Speaker": "Donnan",
+              "Text": "Yes, I am. Your goal is close. But there are two very simple tasks you must complete before you can have the Cap.",
+              "Kind": "next",
+              "Root": false
+            },
+            {
+              "Speaker": "Donnan",
+              "Text": "Do you accept it?",
+              "Kind": "choose",
+              "Root": false,
+              "Choice": "Yes. I did so much already, two more tasks are nothing."
+            },
+            {
+              "Speaker": "Donnan",
+              "Text": "Good. The first thing is...",
+              "Kind": "next",
+              "Root": false
+            },
+            {
+              "Speaker": "Donnan",
+              "Text": "She who delivers the word of the Goddess of Love needs some help. ",
+              "Kind": "next",
+              "Root": false
+            }
+          ],
+          "ApproachStrategy": "path-hall",
+          "Evidence": "N167-N171",
+          "Label": "Donnan accept"
+        },
+        {
+          "Id": "glioca-unarmed",
+          "Kind": "unequip-armaments",
+          "Label": "Glioca unarmed"
+        },
+        {
+          "Id": "meaveen-request",
+          "Kind": "dialog",
+          "Map": 3007,
+          "Npc": "Meaveen",
+          "Approach": {
+            "X": 6,
+            "Y": 4
+          },
+          "Pages": [
+            {
+              "Speaker": "Meaveen",
+              "Text": "I have to teach some young priests how to make beothaich deum, but I am all out of ingredients! ",
+              "Kind": "next",
+              "Root": false
+            },
+            {
+              "Speaker": "Meaveen",
+              "Text": "Can you get me some, please?",
+              "Kind": "close",
+              "Root": false
+            }
+          ],
+          "Speech": "Need Help?",
+          "Evidence": "N187-N188",
+          "Label": "Meaveen request"
+        },
+        {
+          "Id": "cherry",
+          "Kind": "buy",
+          "Map": 162,
+          "Npc": "Alleen",
+          "Approach": {
+            "X": 10,
+            "Y": 4
+          },
+          "Item": "Cherry",
+          "Quantity": 2,
+          "Cost": 50,
+          "WeightReserve": 1,
+          "Evidence": "Observed stock and purchase receipts in research fixtures",
+          "Label": "Cherry"
+        },
+        {
+          "Id": "glioca-grapes",
+          "Kind": "buy",
+          "Map": 162,
+          "Npc": "Alleen",
+          "Approach": {
+            "X": 10,
+            "Y": 4
+          },
+          "Item": "Grapes",
+          "Quantity": 1,
+          "Cost": 10,
+          "WeightReserve": 1,
+          "Evidence": "Observed stock and purchase receipts in research fixtures",
+          "Label": "Glioca grapes"
+        },
+        {
+          "Id": "meaveen-fruit",
+          "Kind": "dialog",
+          "Map": 3007,
+          "Npc": "Meaveen",
+          "Approach": {
+            "X": 6,
+            "Y": 4
+          },
+          "Pages": [
+            {
+              "Speaker": "Meaveen",
+              "Text": "I have to teach some young priests how to make beothaich deum, but I am all out of ingredients! ",
+              "Kind": "next",
+              "Root": false
+            },
+            {
+              "Speaker": "Meaveen",
+              "Text": "Can you get me some, please?",
+              "Kind": "choose",
+              "Root": false,
+              "Choice": "I may have what you need."
+            },
+            {
+              "Speaker": "Meaveen",
+              "Text": "By Glioca's loving heart, thank you so much! The lesson may continue now.",
+              "Kind": "next",
+              "Root": false
+            }
+          ],
+          "Speech": "Need Help?",
+          "Inputs": [
+            {
+              "Item": "Cherry",
+              "Count": 2
+            },
+            {
+              "Item": "Grapes",
+              "Count": 1
+            }
+          ],
+          "Evidence": "N205-N209",
+          "Label": "Meaveen fruit"
+        },
+        {
+          "Id": "donnan-next-task",
+          "Kind": "dialog",
+          "Map": 348,
+          "Npc": "Donnan",
+          "Approach": {
+            "X": 4,
+            "Y": 5
+          },
+          "Pages": [
+            {
+              "Speaker": "Donnan",
+              "Text": "Hello.  What can I do for you?",
+              "Kind": "choose",
+              "Root": true,
+              "Choice": "Are you the son I seek?"
+            },
+            {
+              "Speaker": "Donnan",
+              "Text": "You have completed it. Good! So, for the final task...",
+              "Kind": "next",
+              "Root": false
+            },
+            {
+              "Speaker": "Donnan",
+              "Text": "The keeper of the Ranger's unused jail gifted someone with the wrong thing. Now he needs to replace it.",
+              "Kind": "next",
+              "Root": false
+            }
+          ],
+          "ApproachStrategy": "path-hall",
+          "Evidence": "N218-N219",
+          "Label": "Donnan next task"
+        },
+        {
+          "Id": "kyros-request",
+          "Kind": "dialog",
+          "Map": 5210,
+          "Npc": "Kyros",
+          "Approach": {
+            "X": 4,
+            "Y": 6
+          },
+          "Pages": [
+            {
+              "Speaker": "Kyros",
+              "Text": "I am glad you ask. I am afraid my leather greaves could not keep up with my training.",
+              "Kind": "next",
+              "Root": false
+            },
+            {
+              "Speaker": "Kyros",
+              "Text": "Would you be so kind as to get me a new one?",
+              "Kind": "close",
+              "Root": false
+            }
+          ],
+          "Speech": "Need Help?",
+          "ApproachStrategy": "cedar-grove",
+          "Evidence": "N250-N252",
+          "Label": "Kyros request"
+        },
+        {
+          "Id": "leather-greaves",
+          "Kind": "buy",
+          "Map": 182,
+          "Npc": "Steinar",
+          "Approach": {
+            "X": 3,
+            "Y": 8
+          },
+          "Item": "Leather Greaves",
+          "Quantity": 1,
+          "Cost": 4000,
+          "WeightReserve": 4,
+          "Evidence": "Observed stock and purchase receipts in research fixtures",
+          "Label": "Leather greaves"
+        },
+        {
+          "Id": "kyros-greaves",
+          "Kind": "dialog",
+          "Map": 5210,
+          "Npc": "Kyros",
+          "Approach": {
+            "X": 4,
+            "Y": 6
+          },
+          "Pages": [
+            {
+              "Speaker": "Kyros",
+              "Text": "I am glad you ask. I am afraid my leather greaves could not keep up with my training.",
+              "Kind": "next",
+              "Root": false
+            },
+            {
+              "Speaker": "Kyros",
+              "Text": "Would you be so kind as to get me a new one?",
+              "Kind": "choose",
+              "Root": false,
+              "Choice": "I have some for you."
+            },
+            {
+              "Speaker": "Kyros",
+              "Text": "These will serve just right. Go in peace, and take my gratitude with you.",
+              "Kind": "close",
+              "Root": false
+            }
+          ],
+          "Speech": "Need Help?",
+          "ApproachStrategy": "cedar-grove",
+          "Inputs": [
+            {
+              "Item": "Leather Greaves",
+              "Count": 1
+            }
+          ],
+          "Evidence": "N270-N274",
+          "Label": "Kyros greaves"
+        },
+        {
+          "Id": "donnan-done",
+          "Kind": "dialog",
+          "Map": 348,
+          "Npc": "Donnan",
+          "Approach": {
+            "X": 4,
+            "Y": 5
+          },
+          "Pages": [
+            {
+              "Speaker": "Donnan",
+              "Text": "Hello.  What can I do for you?",
+              "Kind": "choose",
+              "Root": true,
+              "Choice": "Are you the son I seek?"
+            },
+            {
+              "Speaker": "Donnan",
+              "Text": "It is done! Please, seek she who is the very daughter of Danaan. She has what you worked so much for.",
+              "Kind": "close",
+              "Root": false
+            }
+          ],
+          "ApproachStrategy": "path-hall",
+          "Evidence": "N283-N285",
+          "Label": "Donnan done"
+        },
+        {
+          "Id": "erin-reward",
+          "Kind": "dialog",
+          "Map": 345,
+          "Npc": "Erin",
+          "Approach": {
+            "X": 6,
+            "Y": 5
+          },
+          "Pages": [
+            {
+              "Speaker": "Erin",
+              "Text": "Hello.  What can I do for you?",
+              "Kind": "choose",
+              "Root": true,
+              "Choice": "I completed the tasks"
+            },
+            {
+              "Speaker": "Erin",
+              "Text": "So I see. Very well done, Aisling. The journey has been long, but it is finally over. You have proven yourself worthy of this boon, and increased once again our hope in those who carry Deoch's Spark. This Cap goes to a very worthy Aisling. Congratulations!",
+              "Kind": "next",
+              "Root": false
+            },
+            {
+              "Speaker": "Erin",
+              "Text": "To have this consecrated to one of the eight deities, ask their Apostles for it. 'Please consecrate my Cap of Danaan' sounds polite enough for them to answer.",
+              "Kind": "close",
+              "Root": false
+            }
+          ],
+          "ApproachStrategy": "path-hall",
+          "Outputs": [
+            {
+              "Item": "Cap of Danaan",
+              "Count": 1
+            }
+          ],
+          "Experience": 1000000,
+          "WeightReserve": 4,
+          "Evidence": "N294-N298/N303 actual reward/final close; Band variant not live-certified",
+          "Label": "Erin reward"
+        }
+      ]
+    }
+  }
+}

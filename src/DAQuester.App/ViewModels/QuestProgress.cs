@@ -8,6 +8,15 @@ public sealed record QuestProgress(int Total, int Completed, int Current, string
 
     public static QuestProgress From(QuestDefinition? quest, QuestJob job)
     {
+        if (quest?.Journey.Length > 0)
+        {
+            int count = job.JourneyVariant is null ? quest.Journey.Length :
+                quest.JourneyVariants.GetValueOrDefault(job.JourneyVariant)?.Journey.Length ?? 0;
+            if (count == 0) return new(0,0,0,"Saved quest path unavailable");
+            bool done = job.Step == "complete" && job.Pending is null && job.Route?.CleanupPending != true;
+            int made = done ? count : Math.Clamp(job.Route?.Task ?? 0, 0, count - 1);
+            return new(count, made, done ? 0 : made + 1, done ? $"{count} of {count} stages complete" : $"Stage {made + 1} of {count}");
+        }
         if (quest?.Id == AltarWorshipEvidence.Id)
         {
             int made = Math.Min(AltarWorshipEvidence.Made(job), AltarWorshipEvidence.Goal);

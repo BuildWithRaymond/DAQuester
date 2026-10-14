@@ -523,6 +523,14 @@ public class MovingObstacleTests
                 catch (OperationCanceledException)
                 {
                 }
+                catch (IOException error) when (limit.IsCancellationRequested &&
+                    error.InnerException is SocketException { SocketErrorCode: SocketError.OperationAborted })
+                {
+                    // Windows can report cancellation of the synthetic server's
+                    // pending read as wrapped WSA_OPERATION_ABORTED. Navigation
+                    // already settled above; only this explicit teardown is ignored.
+                    // Other transport faults still fail the test.
+                }
             }
         }
 

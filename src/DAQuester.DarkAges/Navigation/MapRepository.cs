@@ -2,13 +2,24 @@ using DAQuester.Core;
 using System.Text.Json;
 using System.Text;
 using System.Buffers.Binary;
+using System.Collections.Immutable;
 
 namespace DAQuester.DarkAges.Navigation;
 
-public record Portal(Tile From, int Map, Tile To, bool WorldMap = false);
+public record Portal(Tile From, int Map, Tile To, bool WorldMap = false, NpcTransfer? NpcTransfer = null);
 public record MapTransfer(Tile From, Tile To);
+// PlanningArrival estimates remaining walking cost; only server position proves arrival.
+public record NpcTransfer(Tile Anchor, int Map, Tile PlanningArrival, string Npc, string Service, string[] Destinations, uint MinimumGold = 0)
+{
+    public bool FareBeforeDestination { get; init; }
+}
 public record MapRecord(int Id, string Name, int Width, int Height, Portal[] Portals)
 {
+    public NpcTransfer[] NpcTransfers { get; init; } = [];
+
+    [System.Text.Json.Serialization.JsonIgnore]
+    public IEnumerable<Portal> Connections => Portals.Concat(NpcTransfers.Select(t => new Portal(t.Anchor, t.Map, t.PlanningArrival, NpcTransfer: t)));
+
     public MapTransfer[] InternalTransfers { get;
         init; } = [];
 
@@ -19,8 +30,17 @@ public record MapRecord(int Id, string Name, int Width, int Height, Portal[] Por
 public partial class MapRepository(string clientDirectory, string routesPath, string serverProfile = "datester-7.41")
 {
     readonly string collisionProfile = serverProfile, routeFile = routesPath;
-    readonly Dictionary<int, MapRecord> records = (JsonSerializer.Deserialize<MapRecord[]>(File.ReadAllText(routesPath), new JsonSerializerOptions { PropertyNameCaseInsensitive = true }) ?? []).ToDictionary(x => x.Id);
+    ImmutableDictionary<int, MapRecord> records = (JsonSerializer.Deserialize<MapRecord[]>(File.ReadAllText(routesPath), new JsonSerializerOptions { PropertyNameCaseInsensitive = true }) ?? []).ToImmutableDictionary(x => x.Id);
     readonly Dictionary<int, Grid> grids = [];
+    // Dimensions are server-observed; new visited maps have no assumed connectivity.
+    public void RecordVisited(MapRecord observed)
+    {
+        if (observed.Width < 1 || observed.Height < 1)
+            throw new InvalidDataException("Visited map dimensions must be positive.");
+        // Packet observations can arrive while another thread enumerates a travel plan.
+        ImmutableInterlocked.TryAdd(ref records, observed.Id, observed with { Portals = [], NpcTransfers = [], InternalTransfers = [] });
+    }
+
     public Grid Load(int id)
     {
         if (grids.TryGetValue(id, out var cached))
@@ -86,6 +106,7 @@ public partial class MapRepository(string clientDirectory, string routesPath, st
     {
         if (from == destination)
             return [];
+        bool includeNpcTransfers = !MapsReaching(destination, false).Contains(from);
         var queue = new Queue<int>();
         queue.Enqueue(from);
         var parents = new Dictionary<int, (int Map, Portal Via)>();
@@ -97,7 +118,7 @@ public partial class MapRepository(string clientDirectory, string routesPath, st
         {
             if (!records.TryGetValue(map, out var r))
                 continue;
-            foreach (var p in r.Portals)
+            foreach (var p in includeNpcTransfers ? r.Connections : r.Portals)
             {
                 if (!visited.Add(p.Map))
                     continue;
@@ -125,6 +146,7 @@ public partial class MapRepository(string clientDirectory, string routesPath, st
     }
 
     public MapRecord Record(int id) => records.TryGetValue(id, out var r) ? r : throw new InvalidOperationException("Map " + id + " has no recorded dimensions or portals.");
+    public bool IsTravelNpc(string name) => records.Values.Any(r => r.NpcTransfers.Any(t => t.Npc.Equals(name, StringComparison.OrdinalIgnoreCase)));
     string MapLabel(int id) => records.TryGetValue(id, out var r) && !string.IsNullOrWhiteSpace(r.Name) ? r.Name + " (" + id + ")" : "Map " + id;
     public MapTransfer? TransferTo(int map, Tile start, Tile target, ISet<Tile>? obstacles = null, CancellationToken ct = default)
     {

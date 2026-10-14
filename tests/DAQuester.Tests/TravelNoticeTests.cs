@@ -14,6 +14,22 @@ namespace DAQuester.Tests;
 [Collection("Walking cadence")]
 public class TravelNoticeTests
 {
+    [Theory]
+    [InlineData("Your armaments are repelled from here.")]
+    [InlineData("Your must be armed to enter here.")]
+    [InlineData("You are not a Monk.")]
+    public async Task First_active_entry_refusal_stops_before_another_move(string text)
+    {
+        await using var f=await MovingObstacleTests.Fixture.Create();
+        int moves=0;
+        f.Connection.ClientObserved+=(opcode,_,_)=> { if(opcode==(byte)ClientCommand.Move) moves++; };
+        f.Connection.Tracker.Observe(0x0A, [3,(byte)(text.Length>>8),(byte)text.Length,..System.Text.Encoding.ASCII.GetBytes(text)]);
+        using var limit=new CancellationTokenSource(TimeSpan.FromSeconds(2));
+        var error=await Assert.ThrowsAsync<QuestBlockedException>(()=>f.Session.ExecuteAsync(new("navigate",f.Session.Snapshot.Map,new(3,1)),limit.Token));
+        Assert.Contains(text,error.Message);
+        Assert.Equal(0,moves);
+    }
+
     static byte[] Payload(ServerMessage message)
     {
         var b = new NetworkPacketBuilder(ServerMessageFactory.Default.GetMessageCommand(message.GetType())!.Value);
@@ -303,5 +319,36 @@ public class TravelNoticeTests
         });
         Assert.True(removed);
         Assert.Equal(new Tile(3, 1), f.Session.Snapshot.Position);
+    }
+
+    [Theory]
+    [InlineData(false)]
+    [InlineData(true)]
+    public async Task Weapon_warning_is_remembered_when_map_transfer_clears_popup_before_walker_runs(bool fast)
+    {
+        await using var f = await MovingObstacleTests.Fixture.Create(record: new MapRecord(504, "Undine Village", 5, 5, []), additional: [new(3008, "Undine Village Way", 5, 5, [])]);
+        f.Session.FastMode = fast;
+        Equip(f);
+        f.Connection.Tracker.Observe(0x30, Warning());
+        long beforeTransfer = f.Session.Snapshot.Revision;
+        await f.Map(3008, 5, 5);
+        await f.Position(new(1, 1));
+        await f.Session.WaitAsync(s => s.Map == 3008 && s.Position == new Tile(1, 1), beforeTransfer, TimeSpan.FromSeconds(3), default);
+        Assert.Null(f.Session.Snapshot.Dialog);
+        bool removed = false;
+        await Run(f, async packet =>
+        {
+            if ((byte)packet.Command == 0x44)
+            {
+                Assert.False(removed);
+                removed = true;
+                await f.Send((byte)ServerCommand.RemoveEquip, Payload(new ServerRemoveEquipMessage { Slot = EquipmentSlot.Weapon }));
+                return;
+            }
+            Assert.True(removed, "Map transfer lost the weapon restriction before walking resumed");
+            Assert.Equal((byte)6, (byte)packet.Command);
+            await Ack(f, packet);
+        }, new("navigate", 3008, new(3, 1)));
+        Assert.True(removed);
     }
 }

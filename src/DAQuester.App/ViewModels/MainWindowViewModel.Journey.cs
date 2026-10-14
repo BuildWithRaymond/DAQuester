@@ -73,7 +73,8 @@ public sealed partial class MainWindowViewModel
 
     string? ScheduledJourneyPhase => Runtime.SchedulerRunPhase(CharacterName);
     string JourneyQuestId => Runtime.SchedulerQuestId(CharacterName) ?? Runtime.RunningQuestId(CharacterName)
-        ?? (QueueState.Locked ? QueueState.ActiveQuest : null) ?? "";
+        ?? (QueueState.Locked ? QueueState.ActiveQuest : null)
+        ?? (Runtime.QueueRunning(CharacterName) ? QueueState.Deferred.OrderBy(d => d.Due).FirstOrDefault()?.Quest : null) ?? "";
     public bool HasCurrentJourney => JourneyQuestId.Length > 0 || QueueState.Locked || Runtime.QueueRunning(CharacterName);
 
     QuestDefinition? JourneyQuest => Runtime.Recipes.GetValueOrDefault(JourneyQuestId);
@@ -101,6 +102,10 @@ public sealed partial class MainWindowViewModel
             var s = Runtime.Snapshot(CharacterName);
             if (job.Pending is not null)
                 return "Awaiting confirmation";
+            if (job.Route?.CleanupPending == true)
+                return "Closing final quest popup";
+            if (JourneyQuestId == FiskEvidence.Id && job.FiskWait is { Verified: true } bouquet && (job.NextRun ?? bouquet.Due) > DateTimeOffset.UtcNow)
+                return "Bouquet waiting";
             if (JourneyQuestId == ShinewoodFaerieEvidence.Id && job.FaeriePetWait is not null)
                 return "Pet wait · one deoch";
             if (JourneyQuest is { } quest && (QuestRunPolicy.Finished(quest, job) || Runtime.Memory(CharacterName).CompletedLegend(quest.Id, s) is not null))
@@ -139,6 +144,9 @@ public sealed partial class MainWindowViewModel
                 return "Scheduler is closing its game window and saving this attempt's progress.";
             if (job.Pending is not null)
                 return "Your last action is awaiting confirmation. Resume checks its result before continuing.";
+            if (JourneyQuestId == FiskEvidence.Id && job.FiskWait is { Verified: true } bouquet && (job.NextRun ?? bouquet.Due) > DateTimeOffset.UtcNow)
+                return "Viveka is preparing the bouquet. Your paid wait is saved; collection will be checked after " +
+                    (job.NextRun ?? bouquet.Due).ToLocalTime().ToString("MMM d, h:mm tt") + ".";
             if (job.CompletionText is { Length: > 0 } text)
                 return DesktopRuntime.PlayerReason(text);
             if (JourneyQuest is { } quest && Runtime.Memory(CharacterName).CompletedLegend(quest.Id, Runtime.Snapshot(CharacterName)) is { } legend)
@@ -170,7 +178,7 @@ public sealed partial class MainWindowViewModel
         }
     }
 
-    static string HuntingMessage(HuntingActivity activity, CharacterSnapshot s)
+    internal static string HuntingMessage(HuntingActivity activity, CharacterSnapshot s)
     {
         string place = s.MapName is { Length: > 0 } name ? " · " + name : "";
         string creature = activity.Target is { Name.Length: > 0 } target ? target.Name
@@ -198,5 +206,20 @@ public sealed partial class MainWindowViewModel
     public bool JourneyAnimating => Runtime.Snapshot(CharacterName).Connected && JourneySteps.Current > 0 && JourneyJob.Status is not ("Paused" or "Scheduled" or "Completed") && Runtime.IsRunning(CharacterName);
     public string JourneyRewards => !HasCurrentJourney ? "" : JourneyQuestId == AltarWorshipEvidence.Id && JourneyJob.CompletedAt is null ? AltarGoldLeft(JourneyJob) : JourneyJob.Rewards.Count > 0 ? string.Join(" · ", JourneyJob.Rewards.Select(p => $"{p.Value:N0} {p.Key}")) : "Confirmed rewards are saved to your journal.";
     static string AltarGoldLeft(QuestJob job) => Math.Max(0, AltarWorshipEvidence.Goal - AltarWorshipEvidence.Made(job)) is var left and > 0 ? (left * AltarWorshipEvidence.ShieldPrice).ToString("N0") + " gold for the " + left + " offering" + (left == 1 ? "" : "s") + " left" : "Confirmed rewards are saved to your journal.";
-    public string JourneyNext => !HasCurrentJourney ? "" : JourneyQuestId == AltarWorshipEvidence.Id && AltarWorshipEvidence.NextOffering(JourneyJob) is { } offering ? "Next offering · " + offering.ToLocalTime().ToString("MMM d, h:mm tt") : ScheduledJourneyPhase is null && QueueState.Locked && QueueState.Quests.FirstOrDefault(id => id != QueueState.ActiveQuest) is { } next ? "Next · " + Runtime.QuestName(next) : JourneyQuest is { } quest && QuestRunPolicy.NextAttempt(quest, JourneyJob) is { } due ? "Next attempt · " + due.ToLocalTime().ToString("MMM d, h:mm tt") : "Progress saved for each character";
+    public string JourneyNext
+    {
+        get
+        {
+            if (!HasCurrentJourney) return "";
+            if (JourneyQuestId == FiskEvidence.Id && JourneyJob.FiskWait is { Verified: true } bouquet)
+                return "Bouquet check · " + (JourneyJob.NextRun ?? bouquet.Due).ToLocalTime().ToString("MMM d, h:mm tt");
+            if (JourneyQuestId == AltarWorshipEvidence.Id && AltarWorshipEvidence.NextOffering(JourneyJob) is { } offering)
+                return "Next offering · " + offering.ToLocalTime().ToString("MMM d, h:mm tt");
+            if (ScheduledJourneyPhase is null && QueueState.Locked && QueueState.Quests.FirstOrDefault(id => id != QueueState.ActiveQuest) is { } next)
+                return "Next · " + Runtime.QuestName(next);
+            return JourneyQuest is { } quest && QuestRunPolicy.NextAttempt(quest, JourneyJob) is { } due
+                ? "Next attempt · " + due.ToLocalTime().ToString("MMM d, h:mm tt")
+                : "Progress saved for each character";
+        }
+    }
 }

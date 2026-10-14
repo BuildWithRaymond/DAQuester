@@ -7,6 +7,16 @@ namespace DAQuester.Tests;
 public class ControlPipeTests
 {
     [Fact]
+    public async Task Interrupted_handler_returns_an_explicit_error_instead_of_closing_the_bridge()
+    {
+        string name="DAQuester-test-"+Guid.NewGuid();
+        await using var server=new ControlServer(_=>Task.FromException<object?>(new OperationCanceledException("Synthetic redirect")),name);
+        server.Start();
+        var error=await Assert.ThrowsAsync<InvalidOperationException>(()=>ControlPipe.CallAsync(new("command","Synthetic"),pipeName:name));
+        Assert.Contains("interrupted",error.Message,StringComparison.OrdinalIgnoreCase);
+    }
+
+    [Fact]
     public async Task Pipe_transports_structured_requests_and_returns_handler_errors()
     {
         string name = "DAQuester-test-" + Guid.NewGuid();

@@ -8,7 +8,8 @@ public record FaerieExit(int SourceMap, Tile From, int Map, string Source);
 public static class ShinewoodFaerieEvidence
 {
     public const string Id = "shinewood-faerie", Pet = "Pet Faerie";
-    public const int Map = 992, MinimumLevel = 11;
+    public const int Map = 992, MinimumLevel = 20;
+    public const string LevelRequirement = "Requires level 20+ for the Faerie route; provisional until the Shinewood Forest 7 limit is confirmed.";
     public static readonly Tile Anchor = new(71, 37);
     public static readonly Tile Approach = new(73, 38); // Archived map 992 WalkSpot, read only.
     public static readonly FaerieSpell[] SpellRules = [new("deo lamh", "Priest", 11), new("creag neart", "Priest", 20), new("deo searg gar", "Priest", Master: true), new("deo searg", "Priest", Master: true, Pure: true), new("fas spiorad", "Wizard", Master: true), new("Wings of Protection", "Wizard", Master: true, Pure: true)];
@@ -70,7 +71,7 @@ public static class ShinewoodFaerieEvidence
         if (s.Level is null || s.Hp is null || !s.InventoryKnown || !s.SpellsKnown)
             return new(EligibilityKind.Unknown, "Waiting for level, health, inventory and spellbook.");
         if (s.Level < MinimumLevel)
-            return new(EligibilityKind.Blocked, "Requires level 11+ to pass Shinewood Forest 7 and reach the Faerie.");
+            return new(EligibilityKind.Blocked, LevelRequirement);
         if (s.Hp == 0)
             return new(EligibilityKind.Blocked, "A living character is required.");
         if (!HasPet(s) && !job.FaerieReceipts.Any(r => r.Goal == Pet))

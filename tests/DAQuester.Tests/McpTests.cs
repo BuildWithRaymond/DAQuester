@@ -7,6 +7,63 @@ namespace DAQuester.Tests;
 public class McpTests
 {
     [Fact]
+    public async Task Command_schema_exposes_equipment_removal_and_slot()
+    {
+        var protocol = new McpProtocol(_ => Task.FromResult<object?>(null));
+        using var response = JsonDocument.Parse((await protocol.HandleAsync("""{"jsonrpc":"2.0","id":1,"method":"tools/list"}"""))!);
+        var properties = response.RootElement.GetProperty("result").GetProperty("tools").EnumerateArray().Single(t => t.GetProperty("name").GetString() == "daquester_command").GetProperty("inputSchema").GetProperty("properties");
+        Assert.Contains("unequip", properties.GetProperty("kind").GetProperty("enum").EnumerateArray().Select(x => x.GetString()));
+        Assert.Equal(1, properties.GetProperty("slot").GetProperty("minimum").GetInt32());
+        Assert.Equal(18, properties.GetProperty("slot").GetProperty("maximum").GetInt32());
+    }
+
+    [Fact]
+    public async Task Discovery_command_schema_exposes_bounded_helpers_and_stale_state_guards()
+    {
+        var protocol = new McpProtocol(_ => Task.FromResult<object?>(null));
+        using var schema = JsonDocument.Parse((await protocol.HandleAsync("""{"jsonrpc":"2.0","id":1,"method":"tools/list"}"""))!);
+        var properties = schema.RootElement.GetProperty("result").GetProperty("tools").EnumerateArray()
+            .Single(tool => tool.GetProperty("name").GetString() == "daquester_command")
+            .GetProperty("inputSchema").GetProperty("properties");
+        Assert.Contains("interact", properties.GetProperty("kind").GetProperty("enum").EnumerateArray().Select(x => x.GetString()));
+        Assert.Contains("enter", properties.GetProperty("kind").GetProperty("enum").EnumerateArray().Select(x => x.GetString()));
+        Assert.Equal(1, properties.GetProperty("quantity").GetProperty("minimum").GetInt32());
+        Assert.Equal(65535, properties.GetProperty("quantity").GetProperty("maximum").GetInt32());
+        Assert.Equal("string", properties.GetProperty("replyFrom").GetProperty("type").GetString());
+        Assert.Equal("integer", properties.GetProperty("expectedGeneration").GetProperty("type").GetString());
+        Assert.Equal("integer", properties.GetProperty("expectedDialogRevision").GetProperty("type").GetString());
+        Assert.Equal("object", properties.GetProperty("inwardTarget").GetProperty("type").GetString());
+        Assert.Equal(new[] { "x", "y" }, properties.GetProperty("inwardTarget").GetProperty("required").EnumerateArray().Select(x => x.GetString()));
+        Assert.Contains("read-dialog", properties.GetProperty("kind").GetProperty("enum").EnumerateArray().Select(x => x.GetString()));
+        Assert.Equal("boolean", properties.GetProperty("readNext").GetProperty("type").GetString());
+        Assert.Equal(1, properties.GetProperty("maxPages").GetProperty("minimum").GetInt32());
+        Assert.Equal(32, properties.GetProperty("maxPages").GetProperty("maximum").GetInt32());
+        Assert.Equal("string", properties.GetProperty("expectedPageText").GetProperty("type").GetString());
+    }
+
+    [Fact]
+    public async Task Buy_command_is_advertised_and_routes_the_item_name_through_existing_control()
+    {
+        ControlRequest? actual = null;
+        var protocol = new McpProtocol(request =>
+        {
+            actual = request;
+            return Task.FromResult<object?>(new { purchased = true });
+        });
+        using var schema = JsonDocument.Parse((await protocol.HandleAsync("""{"jsonrpc":"2.0","id":1,"method":"tools/list"}"""))!);
+        var command = schema.RootElement.GetProperty("result").GetProperty("tools").EnumerateArray()
+            .Single(tool => tool.GetProperty("name").GetString() == "daquester_command");
+        var kinds = command.GetProperty("inputSchema").GetProperty("properties").GetProperty("kind").GetProperty("enum");
+        Assert.Contains("buy", kinds.EnumerateArray().Select(kind => kind.GetString()));
+        var response = await protocol.HandleAsync("""{"jsonrpc":"2.0","id":2,"method":"tools/call","params":{"name":"daquester_command","arguments":{"character":"Elara","kind":"buy","text":"Wine"}}}""");
+        Assert.Equal("command", actual!.Method);
+        Assert.Equal("Elara", actual.Character);
+        Assert.Equal("buy", actual.Arguments!.Value.GetProperty("kind").GetString());
+        Assert.Equal("Wine", actual.Arguments.Value.GetProperty("text").GetString());
+        Assert.Contains("purchased", response!);
+    }
+
+    [Fact]
     public async Task Start_schema_exposes_emerald_dawn_and_explicit_outcome_without_default()
     {
         var p = new McpProtocol(_ => Task.FromResult<object?>(null));

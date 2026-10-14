@@ -62,15 +62,30 @@ public class ReplayRecorder
             selected = actions.ToArray();
         }
 
-        File.WriteAllText(path, JsonSerializer.Serialize(new
+        string temporary = path + ".tmp-" + Guid.NewGuid().ToString("N");
+        try
         {
-            SchemaVersion = 3,
-            ServerProfile = "datester-7.41",
-            Sanitized = true,
-            Events = copy,
-            Actions = selected,
-            Analysis = QuestEvidenceAnalyzer.Analyze(ServerEvents(copy), selected)
-        }, new JsonSerializerOptions { WriteIndented = true }));
+            // A full replay string and its UTF-8 buffer exhausted the x86 app
+            // during a Medenia redirect. Keep the schema and stream each event.
+            using (var stream = new FileStream(temporary, FileMode.CreateNew, FileAccess.Write))
+            {
+                JsonSerializer.Serialize(stream, new
+                {
+                    SchemaVersion = 3,
+                    ServerProfile = "datester-7.41",
+                    Sanitized = true,
+                    Events = copy,
+                    Actions = selected,
+                    Analysis = QuestEvidenceAnalyzer.Analyze(ServerEvents(copy), selected)
+                }, new JsonSerializerOptions { WriteIndented = true });
+                stream.Flush(flushToDisk: true);
+            }
+            File.Move(temporary, path, overwrite: true);
+        }
+        finally
+        {
+            if (File.Exists(temporary)) File.Delete(temporary);
+        }
     }
 
     public void RecordAction(string kind, string? selection, CharacterSnapshot s)

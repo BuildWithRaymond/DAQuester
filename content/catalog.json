@@ -7,17 +7,28 @@
       "id": "shinewoodfaerie",
       "name": "Shinewood Faerie",
       "source": "https://vorlof.com/general/shinewoodforest11.html",
-      "level": "11+; spells vary",
+      "level": "20+; spells vary",
       "requiredItems": "1 free slot and 5 weight for pet; recommended town songs/scrolls or ready dachaidh",
       "rewards": "Pet Faerie for every class; eligible missing Priest/Wizard spells",
       "dependencies": null,
       "cooldownHours": null,
-      "capabilities": ["navigate", "dialog", "inventory", "speech", "spell", "item"],
+      "capabilities": [
+        "navigate",
+        "dialog",
+        "inventory",
+        "speech",
+        "spell",
+        "item"
+      ],
       "status": "implemented; synthetic coverage, live dialog validation pending",
       "metadataReviewRequired": true,
       "capabilitiesInferred": false,
-      "cooldownNotes": ["Explicit visits only; no automatic repeats."],
-      "dependencyNotes": ["Level 11+ required to pass Shinewood Forest 7, reported by the player."],
+      "cooldownNotes": [
+        "Explicit visits only; no automatic repeats."
+      ],
+      "dependencyNotes": [
+        "Level 20+ is provisional: level 11 was refused past Shinewood Forest 7; actual threshold awaits confirmation."
+      ],
       "givesLegend": false,
       "catalogException": "requested-pet-and-spells"
     },
@@ -398,7 +409,7 @@
       "name": "Fisk's Secret",
       "source": "https://vorlof.com/quests/fisksecret.html",
       "level": "21+",
-      "requiredItems": "32,600 Coins",
+      "requiredItems": "32,600 gold at observed prices; free space for three flower stacks",
       "rewards": "\"Kept Fisk's Secret\" 750,000 Experience",
       "dependencies": null,
       "cooldownHours": null,
@@ -409,9 +420,9 @@
         "timed",
         "inventory"
       ],
-      "status": "guide-only",
+      "status": "implemented secrecy route; source captures verified, full runner synthetic-tested",
       "metadataReviewRequired": true,
-      "capabilitiesInferred": true,
+      "capabilitiesInferred": false,
       "cooldownNotes": [
         "\" He seems pleased again",
         "Once a hour has passed speak to Viveka again"
@@ -449,7 +460,7 @@
       "name": "Emerald Dawn",
       "source": "https://vorlof.com/quests/emeralddawn.html",
       "level": "11+",
-      "requiredItems": "Collect one Emerald Knight Insignia in Shinewood Entrance; choose a final recipient",
+      "requiredItems": "Registered character; collect one Emerald Knight Insignia in Shinewood Entrance; choose a final recipient",
       "rewards": "\"Recovered the Emerald Knight Insignia\" Experience + One of the Following: \"Aided the Emerald Knights\" \"Aided the Necromancer Order\" Coins",
       "dependencies": null,
       "cooldownHours": null,
@@ -557,7 +568,7 @@
       "name": "Cap of Danaan",
       "source": "https://vorlof.com/quests/capofdanaan.html",
       "level": "50+",
-      "requiredItems": "Viper's gland Mold Wolf's Skin Stick",
+      "requiredItems": "Cail route: 6,620 gold, Viper's Gland, Mold, owned usable weapon and carrying space",
       "rewards": "\"Worthy of the Cap of Danaan\" Cap of Danaan 1,000,000 Experience",
       "dependencies": null,
       "cooldownHours": null,
@@ -565,9 +576,12 @@
         "dialog",
         "navigate",
         "speech",
-        "inventory"
+        "inventory",
+        "legend",
+        "equipment",
+        "ground-item"
       ],
-      "status": "guide-only",
+      "status": "implemented shared Cail route; unknown dialogue variants pause",
       "metadataReviewRequired": true,
       "capabilitiesInferred": true,
       "cooldownNotes": [],
@@ -580,15 +594,20 @@
       "name": "Band of Danaan",
       "source": "https://vorlof.com/quests/bandofdanaan.html",
       "level": "50+",
-      "requiredItems": "Viper's gland Mold Wolf's Skin Stick",
+      "requiredItems": "Cail route: 6,620 gold, Viper's Gland, Mold, owned usable weapon and carrying space",
       "rewards": "\"Worthy of the Band of Danaan\" Band of Danaan 1,000,000 Experience",
       "dependencies": null,
       "cooldownHours": null,
       "capabilities": [
         "dialog",
-        "navigate"
+        "navigate",
+        "speech",
+        "inventory",
+        "legend",
+        "equipment",
+        "ground-item"
       ],
-      "status": "guide-only",
+      "status": "implemented shared Cail route; unknown dialogue variants pause",
       "metadataReviewRequired": true,
       "capabilitiesInferred": true,
       "cooldownNotes": [],

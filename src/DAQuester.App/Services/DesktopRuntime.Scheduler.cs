@@ -56,6 +56,8 @@ public sealed partial class DesktopRuntime
             deadline = offering;
         if (SickChildEvidence.For(id) is not null && job.NextRun is { } flower)
             deadline = flower;
+        if (id == FiskEvidence.Id && job.FiskWait is { Verified: true } bouquet)
+            deadline = job.NextRun ?? bouquet.Due;
         return deadline is { } next && next > requested ? next : requested;
     }
 
@@ -64,6 +66,7 @@ public sealed partial class DesktopRuntime
         var job = Job(name, id);
         return id == "mundane-birth" && job.BirthOptions is null
             || id == "emerald-dawn" && job.EmeraldOptions is null
+            || id == DanaanEvidence.Id && job.DanaanOptions is null
             || SickChildEvidence.For(id) is not null && job.SickChildOptions is null
             || id == AltarWorshipEvidence.Id && !job.AltarNoMarkAccepted && !AltarWorshipEvidence.IsPriest(CharacterClass(name))
             || id == NewCharacterPath.FirstStepsId && !job.FirstStepsBriefed
@@ -81,6 +84,13 @@ public sealed partial class DesktopRuntime
             throw new QuestBlockedException("Saved submission owns its choices. Review it before changing them.");
         if (choice.BirthOptions is { } birth) { birth.Validate(); job = job with { BirthOptions = birth }; }
         if (choice.EmeraldOptions is { } emerald) { emerald.Validate(); job = job with { EmeraldOptions = emerald }; }
+        if (choice.DanaanOptions is { } danaan)
+        {
+            danaan.Validate();
+            if (DanaanEvidence.ChoicesLocked(job) && job.DanaanOptions != danaan)
+                throw new QuestBlockedException("Saved Danaan progress owns its route and rite consent.");
+            job = job with { DanaanOptions = danaan };
+        }
         if (choice.SickChildOptions is { } sick)
         {
             sick.Validate();

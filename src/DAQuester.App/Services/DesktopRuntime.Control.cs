@@ -58,7 +58,7 @@ public sealed partial class DesktopRuntime
         if (r.Method == "state")
             return new
             {
-                characters = sessions.Where(p => name.Length == 0 || p.Key.Equals(name, StringComparison.OrdinalIgnoreCase)).Select(p => new { character = p.Key, snapshot = p.Value.Snapshot, job = Job(p.Key, RunningQuestId(p.Key) ?? SelectedQuestId), visibleSteps = p.Value.VisibleMoves }).ToArray(),
+                characters = sessions.Where(p => name.Length == 0 || p.Key.Equals(name, StringComparison.OrdinalIgnoreCase)).Select(p => new { character = p.Key, snapshot = p.Value.Snapshot, observedMap = p.Value.ObservedMap, discovery = p.Value.Discovery, job = Job(p.Key, RunningQuestId(p.Key) ?? SelectedQuestId), visibleSteps = p.Value.VisibleMoves }).ToArray(),
                 queues = Characters.Where(n => name.Length == 0 || n.Equals(name, StringComparison.OrdinalIgnoreCase)).Select(Queue).ToArray(),
                 calibration = Calibration,
                 quests = recipes.Values.Select(q => new { q.Id, q.Name, q.Repeatable }).ToArray(),
@@ -144,6 +144,8 @@ public sealed partial class DesktopRuntime
         {
             int map = Number("map", 500);
             var repository = new MapRepository(Path.GetDirectoryName(Settings.ClientPath)!, Path.Combine(AppSettings.Content, "routes.json"), Settings.ServerProfile);
+            if (sessions.TryGetValue(name, out var observedSession) && observedSession.ObservedMap is { } visited && visited.Id == map)
+                repository.RecordVisited(visited);
             var record = repository.Record(map);
             var g = repository.Load(map);
             var rows = Enumerable.Range(0, record.Height).Select(y => new string(Enumerable.Range(0, record.Width).Select(x => g.Blocked(new(x, y)) ? '#' : '.').ToArray())).ToArray();
@@ -173,14 +175,16 @@ public sealed partial class DesktopRuntime
             EmeraldDawnOptions? emeraldOptions = null;
             if (id == "emerald-dawn" && TextArgument("outcome") is { } outcome)
                 emeraldOptions = new(outcome);
-            var runner = await PrepareRunnerAsync(name, selected, options, emeraldOptions, Flag("allowUnsafeWalking"));
+            DanaanOptions? danaanOptions = id == DanaanEvidence.Id && TextArgument("avatar") is { } avatar ? new(avatar, Flag("acceptSuppliedMoldRite")) : null;
+            var runner = await PrepareRunnerCoreAsync(name, selected, options, emeraldOptions, Flag("allowUnsafeWalking"), danaanOptions: danaanOptions);
             _ = runner.RunAsync(selected.Repeatable && Flag("repeat"), startNewAttempt: true);
             return new
             {
                 started = name,
                 quest = id,
                 birthChoices = runner.Job.BirthOptions,
-                emeraldChoices = runner.Job.EmeraldOptions
+                emeraldChoices = runner.Job.EmeraldOptions,
+                danaanChoices = runner.Job.DanaanOptions
             };
         }
 
@@ -237,7 +241,7 @@ public sealed partial class DesktopRuntime
         if (QueueReserves(name))
             throw new QuestBlockedException("A queue owns this character. Stop it before a control action.");
         var command = JsonSerializer.Deserialize<GameCommand>(r.Arguments?.GetRawText() ?? "{}", AppSettings.Json) ?? throw new InvalidDataException("Game command missing.");
-        if (command.Kind is not ("navigate" or "visit" or "step" or "open" or "choose" or "next" or "close" or "input" or "say" or "collect-ground" or "pickup" or "inspect-self" or "repair"))
+        if (command.Kind is not ("navigate" or "visit" or "interact" or "enter" or "step" or "open" or "choose" or "next" or "read-dialog" or "close" or "input" or "buy" or "say" or "collect-ground" or "pickup" or "inspect-self" or "repair" or "unequip"))
             throw new QuestBlockedException("Command is unavailable through control bridge.");
         if (controlActions.ContainsKey(name))
             throw new QuestBlockedException("A control action already owns this character. Stop it first.");
@@ -263,13 +267,16 @@ public sealed partial class DesktopRuntime
             long before = session.Snapshot.Revision;
             await session.ExecuteAsync(command with
             {
-                Dialog = command.Kind is "choose" or "next" or "close" or "input" ? session.Snapshot.Dialog : null
+                Dialog = command.Kind is "choose" or "next" or "close" or "input" or "buy" ? session.Snapshot.Dialog : null
             }, cancellation.Token);
-            if (command.Kind == "choose")
+            if (command.Kind == "choose" && !command.ReadNext)
                 await session.WaitAsync(s => s.Dialog is { } d && d.Revision > before, before, TimeSpan.FromSeconds(5), cancellation.Token);
+            if (command.ReadNext || command.Kind == "read-dialog")
+                return new { discovery = session.Discovery, observedMap = session.ObservedMap };
             return new
             {
-                snapshot = session.Snapshot
+                snapshot = session.Snapshot,
+                observedMap = session.ObservedMap
             };
         }
         finally

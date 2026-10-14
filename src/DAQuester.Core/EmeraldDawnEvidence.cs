@@ -77,12 +77,14 @@ public static class EmeraldDawnEvidence
             return new(EligibilityKind.Unknown, "Waiting for own legend.");
         if (FinalMark(s) is not null)
             return new(EligibilityKind.Eligible, "Emerald Dawn final legend already recorded");
+        if (s.Legends.Any(l => l.Contains("((Unregistered))", StringComparison.OrdinalIgnoreCase)))
+            return new(EligibilityKind.Blocked, "Emerald Dawn requires a registered character.");
         if (!s.InventoryKnown || s.Weight is null || s.MaxWeight is null || s.Experience is null)
             return new(EligibilityKind.Unknown, "Waiting for inventory, carrying capacity and experience.");
         if (HasRecovery(s) && s.Count(Insignia) == 0)
             return new(EligibilityKind.Blocked, "Recovered insignia is no longer carried; reconcile the prior disposition before continuing.");
         if (s.Count(Insignia) == 0 && (s.Inventory.Count >= 59 || s.MaxWeight - s.Weight < 1))
             return new(EligibilityKind.Blocked, "Free an inventory slot and carrying weight for the Emerald Knight Insignia.");
-        return new(EligibilityKind.Eligible, "Level 11+; recover one Emerald Knight Insignia");
+        return new(EligibilityKind.Eligible, "Registered character, level 11+; recover one Emerald Knight Insignia");
     }
 }

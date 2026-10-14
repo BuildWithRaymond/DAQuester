@@ -944,9 +944,14 @@ public class FastWalkingTests
         Assert.DoesNotContain((byte)0x38, f.Commands);
         Assert.False(f.Connection.Movement.Recovery);
         await Task.Delay(170);
+        // Recovery can complete an acknowledged step on the preceding call when
+        // its cadence has elapsed. The next step must use that current position.
+        var origin = f.Session.Snapshot.Position!;
         await f.Session.ExecuteAsync(new("pathfind", Target: new(4, 1)), default);
         Assert.Equal(1, f.Connection.Movement.Pending);
-        Assert.Contains(f.Connection.Movement.Projected, new Tile[] { new(2, 2), new(1, 1) });
+        var projected = Assert.IsType<Tile>(f.Connection.Movement.Projected);
+        Assert.Equal(1, Math.Abs(projected.X - origin.X) + Math.Abs(projected.Y - origin.Y));
+        Assert.True(f.Session.PathLength(projected, new(4, 1)) < f.Session.PathLength(origin, new(4, 1)));
     }
 
     [Fact]

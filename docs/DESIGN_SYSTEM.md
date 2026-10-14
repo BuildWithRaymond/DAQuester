@@ -1,5 +1,25 @@
 # DAQuester design system
 
+Dashboard is the initial page. Its default cards show every saved character's
+actual state, current journey, saved step progress, location and queue. Status
+filters and search leave planner selection alone. List view selects a character
+for a journey and queue detail pane. Open planner explicitly changes the planner
+character; pause and resume target the row's own runtime owner. Recent outcomes
+use journal history. Unknown classes, locations and timestamps are not invented.
+Cards wrap at the minimum window width. List details keep the journey and actions
+visible without a journey scrollbar; the queue scrolls independently. Short windows
+use a compact journey and leave the full queue and recent outcomes available through
+the planner and history links.
+
+Saved characters open as compact disclosures showing name, portrait, observed
+level and connection. Expanding reveals account editing and legend marks. New
+accounts open expanded for keyboard entry; ordinary refresh preserves disclosure state.
+
+Brief XP text and a gold level-up burst appear above the character sprite in the
+dashboard and current journey. Motion follows the system animation preference,
+while text remains available. Feedback never replays after navigation, reconnect
+or switching characters, and does not establish a quest outcome.
+
 DAQuester uses Avalonia with a shared, fully dark journal theme. The interface
 combines deep navy backgrounds, slate surfaces, warm gold actions and teal green
 quest states. The palette follows the supplied planner screenshot. Circular game
@@ -67,7 +87,7 @@ library keeps its full height, with bounded scrolling for open details in short
 windows. Library rows grow with their content and filters wrap. Compact filters
 use narrower padding. NPC conversation has no separate player-window panel.
 
-Quest planner, Characters, Scheduler, Run history and Settings share the same shell and
+Dashboard, Quest planner, Characters, Scheduler, Run history and Settings share the same shell and
 retain their working state when navigating. The planner separates the searchable
 library, the selected character’s queue and current journey. Queue rows keep
 their move and remove actions on one line, with a smaller checkpoint caption

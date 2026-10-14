@@ -18,7 +18,7 @@ public sealed partial class GameSession : IGameSession
     DateTimeOffset lastMove;
     readonly BounceGuard bounce = new(3);
     long dismissedMerchantRevision = -1;
-    bool townWeaponRemovalRequired;
+    volatile bool townWeaponRemovalRequired;
     Dialog? preparedDepositPrompt;
     readonly EvidenceHistory history = new();
     public CharacterSnapshot Snapshot => connection.Tracker.Snapshot;
@@ -52,8 +52,20 @@ public sealed partial class GameSession : IGameSession
         this.maps = maps;
         this.cadence = cadence;
         history.Record(c.Tracker.Snapshot);
+        if (ObservedMap is { } initialMap)
+            maps.RecordVisited(initialMap);
+        townWeaponRemovalRequired = IsWeaponNotice(c.Tracker.Snapshot);
         c.Tracker.Changed += s =>
         {
+            ObserveEntryRefusal(s);
+            if (ObservedMap is { } visitedMap)
+                maps.RecordVisited(visitedMap);
+            // The entry map packet can clear this popup before the walker sees it.
+            // Keep the restriction until authoritative equipment confirms removal.
+            if (!s.Connected)
+                townWeaponRemovalRequired = false;
+            else if (IsWeaponNotice(s))
+                townWeaponRemovalRequired = true;
             history.Record(s);
             PulseMovement();
             Changed?.Invoke(s);
@@ -115,12 +127,20 @@ public sealed partial class GameSession : IGameSession
     public async Task ExecuteAsync(GameCommand command, CancellationToken cancellation)
     {
         await actions.WaitAsync(cancellation);
+        CharacterSnapshot? discoveryBefore = null;
         try
         {
             cancellation.ThrowIfCancellationRequested();
+            ValidateCommandState(command);
             // A fight step out of sight of other players joins the fast walker's pipeline instead of draining it.
-            if (command.Kind != "pathfind" || !FastFightStep(Snapshot))
+            bool entryReconciliation = entryBlock is not null && command.Kind is "unequip" or "equip" or "inspect-self";
+            if (entryReconciliation) connection.CancelMovement();
+            if (!entryReconciliation && (command.Kind != "pathfind" || !FastFightStep(Snapshot)))
                 await SettleMovement(cancellation);
+            ValidateCommandState(command);
+            discoveryBefore = Snapshot;
+            if (command.ReadNext || command.Kind == "read-dialog")
+                Discovery = null;
             switch (command.Kind)
             {
                 case "inspect-self":
@@ -130,6 +150,14 @@ public sealed partial class GameSession : IGameSession
                     break;
                 case "visit":
                     await Visit(command.Map ?? throw new QuestBlockedException("NPC map missing."), command.Text ?? throw new QuestBlockedException("NPC name missing."), cancellation, command.Target);
+                    break;
+                case "interact":
+                    await Interact(command, cancellation);
+                    break;
+                case "enter":
+                    await Enter(command, cancellation);
+                    break;
+                case "read-dialog":
                     break;
                 case "discover-npc":
                     await DiscoverTutorialNpc(command, cancellation);
@@ -152,12 +180,11 @@ public sealed partial class GameSession : IGameSession
                     await CollectGround(command, cancellation);
                     break;
                 case "open":
-                    var npc = Snapshot.Entities.Values.SingleOrDefault(x => x.Name.Equals(command.Text, StringComparison.OrdinalIgnoreCase)) ?? throw new QuestBlockedException("NPC not visible: " + command.Text);
-                    var before = Snapshot;
-                    await Send(new ClientRequestObjectInfoMessage { InteractionType = InteractionType.Entity, TargetId = npc.Id }, cancellation);
-                    await WaitAsync(x => x.Dialog?.EntityId == npc.Id, before.Revision, TimeSpan.FromSeconds(5), cancellation);
+                    await OpenNpc(command.Text ?? throw new QuestBlockedException("NPC name missing."), cancellation);
                     break;
                 case "choose":
+                    if (command.ReadNext)
+                        submittedDiscoveryRevision = Snapshot.Dialog!.Revision;
                     await Choose(command, cancellation);
                     break;
                 case "close":
@@ -167,9 +194,15 @@ public sealed partial class GameSession : IGameSession
                 case "input":
                     var d = command.Dialog ?? Snapshot.Dialog ?? throw new QuestBlockedException("No dialog.");
                     var revision = Snapshot.Revision;
-                    await connection.SendAsync(Protocol.DialogPackets.Continue(Snapshot, d, command.Kind == "input" ? command.Text ?? "" : null), Snapshot.Generation, cancellation);
+                    if (command.ReadNext)
+                        submittedDiscoveryRevision = d.Revision;
+                    if (command.Kind == "input")
+                        await SendDialogInput(d, command.Text ?? "", cancellation);
+                    else
+                        await connection.SendAsync(Protocol.DialogPackets.Continue(Snapshot, d), Snapshot.Generation, cancellation);
                     var dialogMap = Snapshot.Map;
-                    await WaitAsync(x => x.Map == dialogMap && (command.Kind == "next" && x.Dialog is null || x.Dialog is { } next && next.EntityId == d.EntityId && next.Revision > revision), revision, TimeSpan.FromSeconds(5), cancellation);
+                    await WaitAsync(x => command.ReadNext && (x.Map != dialogMap || x.Dialog is { } changed && changed.EntityId != d.EntityId)
+                        || x.Map == dialogMap && (command.Kind == "next" && x.Dialog is null || x.Dialog is { } next && next.EntityId == d.EntityId && next.Revision > revision), revision, TimeSpan.FromSeconds(5), cancellation);
                     break;
                 case "prepare-deposit":
                     await PrepareDeposit(cancellation);
@@ -178,7 +211,7 @@ public sealed partial class GameSession : IGameSession
                     await Deposit(command.Amount ?? 0, command.Dialog ?? Snapshot.Dialog, cancellation);
                     break;
                 case "say":
-                    await Send(new ClientSayMessage { Content = command.Text ?? "" }, cancellation);
+                    await Say(command.Text ?? "", command.ReplyFrom, cancellation);
                     break;
                 case "use-item":
                     byte itemSlot = (byte)(command.Amount ?? 0);
@@ -198,7 +231,7 @@ public sealed partial class GameSession : IGameSession
                     await Send(new ClientUseMessage { Slot = command.Slot ?? throw new QuestBlockedException("Equipment inventory slot missing.") }, cancellation);
                     break;
                 case "unequip":
-                    await Send(new ClientRemoveEquipmentMessage { Slot = (EquipmentSlot)(command.Slot ?? throw new QuestBlockedException("Equipment slot missing.")) }, cancellation);
+                    await UnequipObserved(command, cancellation);
                     break;
                 case "pickup":
                     if (!Snapshot.InventoryKnown || command.Target is null)
@@ -231,7 +264,7 @@ public sealed partial class GameSession : IGameSession
                     await RefreshView(cancellation);
                     break;
                 case "buy":
-                    await Buy(command.Dialog ?? Snapshot.Dialog, command.Text ?? throw new QuestBlockedException("Item to buy missing."), cancellation);
+                    await Buy(command.Dialog ?? Snapshot.Dialog, command.Text ?? throw new QuestBlockedException("Item to buy missing."), cancellation, command.Quantity);
                     break;
                 case "repair":
                     await Repair(command.EntityId, cancellation);
@@ -276,9 +309,13 @@ public sealed partial class GameSession : IGameSession
                 default:
                     throw new QuestBlockedException("Unsupported game command: " + command.Kind);
             }
+            if (command.ReadNext || command.Kind == "read-dialog")
+                await ReadOfferedPages(command, discoveryBefore, cancellation);
         }
         finally
         {
+            if ((command.ReadNext || command.Kind == "read-dialog") && discoveryBefore is not null && Discovery is null)
+                RecordUnfinishedDiscovery(command, discoveryBefore, cancellation.IsCancellationRequested);
             if (cancellation.IsCancellationRequested)
                 connection.CancelMovement();
             actions.Release();
@@ -297,27 +334,6 @@ public sealed partial class GameSession : IGameSession
         var d = command.Dialog ?? Snapshot.Dialog ?? throw new QuestBlockedException("No dialog.");
         var packet = Protocol.DialogPackets.Choice(Snapshot, d, command.Text ?? "");
         await connection.SendAsync(packet, Snapshot.Generation, ct);
-    }
-
-    // A shop list (menu type 4) is answered with its pursuit and the item's name, one item per request (live 2026-10-12).
-    async Task Buy(Dialog? shop, string name, CancellationToken ct)
-    {
-        var before = Snapshot;
-        if (shop is null || shop.IsPursuit || shop.Type != 4 || before.Dialog?.Revision != shop.Revision || shop.Generation != before.Generation)
-            throw new QuestBlockedException("The shop list is no longer open.");
-        var item = shop.Items.FirstOrDefault(i => i.Name.Equals(name, StringComparison.OrdinalIgnoreCase)) ?? throw new QuestBlockedException(shop.Name + " doesn't sell " + name + ".");
-        if (!before.InventoryKnown || before.Gold is null || before.Gold < item.Price)
-            throw new ResourceUnavailableException("Not enough gold for " + item.Name + ".");
-        int had = before.Count(item.Name);
-        await Send(new ClientMerchantMessage { EntityType = (EntityTypeFlags)shop.EntityType, EntityId = shop.EntityId, PursuitId = shop.Pursuit, Arguments = [item.Name] }, ct);
-        try
-        {
-            await WaitAsync(s => s.Count(item.Name) > had, before.Revision, TimeSpan.FromSeconds(5), ct);
-        }
-        catch (TimeoutException)
-        {
-            throw new QuestBlockedException("The " + item.Name + " didn't arrive in the bag.");
-        }
     }
 
     // Pursuit 92 is the "Yes" to an NPC's repair price question; any NPC in view accepts it, even one with no
@@ -496,6 +512,7 @@ public sealed partial class GameSession : IGameSession
                 PreserveTravelPopup();
         }
 
+        ReconcileNpcTravel();
         bool skipKeane = ReconcileKeaneTravel();
         if (GoalReached(stopWhen))
             return;
@@ -584,6 +601,11 @@ public sealed partial class GameSession : IGameSession
             }
 
             var step = plan.Steps.FirstOrDefault();
+            if (step?.NpcTransfer is not null)
+            {
+                await ExecuteNpcTravel(step, ct);
+                continue;
+            }
             if (step is null)
             {
                 await WalkTo(goal!, ct, destination, stopWhen, replanWhen: preservePopup || popupGuard is not null ? PopupVisible : null);
@@ -631,7 +653,7 @@ public sealed partial class GameSession : IGameSession
 
     static bool IsTownNotice(Dialog? d) => d is { IsPursuit: true, EntityType: 4, Type: 0, Prompt: null } && d.Choices.Length == 0 && d.Text.StartsWith("((You are entering a role-playing", StringComparison.Ordinal);
     static bool IsWeaponNotice(CharacterSnapshot s) => s.Map is 504 or 3008 && s.Dialog is { IsPursuit: true, EntityType: 1 or 4, Type: 0, Prompt: null } d && d.Choices.Length == 0 && d.Text.StartsWith("You can't bring weapons here!", StringComparison.Ordinal);
-    bool IsTravelNotice(CharacterSnapshot s) => IsTownNotice(s.Dialog) || IsWeaponNotice(s) || townWeaponRemovalRequired;
+    bool IsTravelNotice(CharacterSnapshot s) => IsTownNotice(s.Dialog) || IsWeaponNotice(s) || townWeaponRemovalRequired || entryBlock is not null;
     async Task RemoveTownWeapon(CancellationToken ct)
     {
         var equipment = Snapshot;
@@ -660,6 +682,7 @@ public sealed partial class GameSession : IGameSession
         bool handled = false;
         for (int page = 0; page < 8; page++)
         {
+            RequireEntryAllowed();
             var before = Snapshot;
             var notice = before.Dialog;
             if (!IsTravelNotice(before))

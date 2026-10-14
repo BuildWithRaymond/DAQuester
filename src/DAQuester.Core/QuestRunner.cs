@@ -1,6 +1,6 @@
 namespace DAQuester.Core;
 
-public class QuestRunner(IGameSession session, IQuestJournal journal, QuestDefinition recipe, Calibration calibration, IQuestHelpers? helpers = null, HuntingServices? hunting = null)
+public class QuestRunner(IGameSession session, IQuestJournal journal, QuestDefinition recipe, Calibration calibration, IQuestHelpers? helpers = null, HuntingServices? hunting = null, Func<bool>? hasReadyQueuedWork = null, FiskWaitingArea? waitingArea = null)
 {
     public QuestJob Job { get; private set; } = journal.Load(session.Snapshot.Name ?? "Unknown", recipe.Id);
 
@@ -64,6 +64,8 @@ public class QuestRunner(IGameSession session, IQuestJournal journal, QuestDefin
         SickChildEvidence.Id => new[] { "sick-preflight", "sick-run" }.ToDictionary(x => x, x => (IQuestAction)new SickChildActions(SickChildEvidence.Sevti)),
         SickChildEvidence.AnamanId => new[] { "sick-preflight", "sick-run" }.ToDictionary(x => x, x => (IQuestAction)new SickChildActions(SickChildEvidence.Tulsi)),
         AltarWorshipEvidence.Id => new[] { "altar-preflight", "altar-run" }.ToDictionary(x => x, x => (IQuestAction)new AltarWorshipActions()),
+        FiskEvidence.Id => new[] { "fisk-preflight", "fisk-run" }.ToDictionary(x => x, x => (IQuestAction)new FiskActions(recipe)),
+        DanaanEvidence.Id => new[] { "danaan-preflight", "danaan-run" }.ToDictionary(x => x, x => (IQuestAction)new DanaanActions(recipe)),
         AwakeningEvidence.Id => new[] { "awakening-preflight", "awakening-run" }.ToDictionary(x => x, x => (IQuestAction)new AwakeningActions()),
         NewCharacterPath.FirstStepsId => new[] { "first-steps-preflight", "first-steps-run" }.ToDictionary(x => x, x => (IQuestAction)new NewCharacterActions()),
         NewCharacterPath.ClimbId => new[] { "climb-preflight", "climb-run" }.ToDictionary(x => x, x => (IQuestAction)new NewCharacterActions()),
@@ -71,7 +73,7 @@ public class QuestRunner(IGameSession session, IQuestJournal journal, QuestDefin
     };
     public Dictionary<string, Func<QuestContext, bool?>> Conditions { get; } = [];
 
-    public async Task RunAsync(bool repeat = false, CancellationToken cancellation = default, bool startNewAttempt = false, bool singleAttempt = false, bool yieldScheduledWaits = false)
+    public async Task RunAsync(bool repeat = false, CancellationToken cancellation = default, bool startNewAttempt = false, bool singleAttempt = false, bool yieldScheduledWaits = false, bool deferTimedWaits = false)
     {
         if (!await owner.WaitAsync(0, cancellation))
             return;
@@ -100,7 +102,7 @@ public class QuestRunner(IGameSession session, IQuestJournal journal, QuestDefin
             completionHistory.Record(s);
             if (!s.Connected)
                 Interrupt("Disconnected. Resume after fresh state.");
-            else if ((recipe.Id == ShinewoodFaerieEvidence.Id || singleAttempt) && (s.Generation != runGeneration || !string.Equals(s.Name, captureCharacter, StringComparison.OrdinalIgnoreCase)))
+            else if ((recipe.Id is ShinewoodFaerieEvidence.Id or FiskEvidence.Id or DanaanEvidence.Id || singleAttempt) && (s.Generation != runGeneration || !string.Equals(s.Name, captureCharacter, StringComparison.OrdinalIgnoreCase)))
                 Interrupt("Character connection changed. Resume to reconcile fresh state.");
         }
 
@@ -114,7 +116,7 @@ public class QuestRunner(IGameSession session, IQuestJournal journal, QuestDefin
         {
             Job = value;
             Changed?.Invoke(value);
-        }, helpers, hunting) { YieldScheduledWaits = yieldScheduledWaits };
+        }, helpers, hunting) { YieldScheduledWaits = yieldScheduledWaits, DeferTimedWaits = deferTimedWaits, HasReadyQueuedWork = hasReadyQueuedWork, WaitingArea = waitingArea ?? new() };
         var priorHairAttempt = c.Job.LastAttemptAt;
         Task Save(QuestJob value) => c.SaveAsync(value);
         try
@@ -376,6 +378,13 @@ public class QuestRunner(IGameSession session, IQuestJournal journal, QuestDefin
             if (c.Job.Pending is not null)
                 throw new QuestBlockedException("Saved submission requires reconciliation before logging out for a scheduled wait.");
             await Save(c.Job with { Status = "Scheduled", NextRun = e.Next, Reason = "Waiting while logged out until " + e.Next.ToLocalTime().ToString("g") });
+        }
+        catch (QuestDeferredWaitException e)
+        {
+            if (c.Job.Pending is not null || c.Job.FiskWait is not { Verified: true })
+                await Save(c.Job with { Status = "Paused", Reason = "Bouquet acceptance needs reconciliation before other queued work." });
+            else
+                await Save(c.Job with { Status = "Deferred", NextRun = e.Due, Reason = "Bouquet check after " + e.Due.ToLocalTime().ToString("g") });
         }
         catch (QuestPermanentlyCompletedException e)
         {

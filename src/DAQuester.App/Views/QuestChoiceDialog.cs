@@ -104,6 +104,9 @@ public sealed class QuestChoiceDialog : Window
             case "emerald-dawn":
                 BuildEmerald(job);
                 break;
+            case DanaanEvidence.Id:
+                BuildDanaan(job);
+                break;
             case "shinewood-faerie":
                 BuildFaerie(routeError);
                 break;
@@ -128,6 +131,32 @@ public sealed class QuestChoiceDialog : Window
         body.Children.Add(validation);
         // Attach only after quest-specific names are final; styling locks Control.Name.
         Content = layout;
+    }
+
+    void BuildDanaan(QuestJob job)
+    {
+        body.Children.Add(Copy("Follow the Donnan / Cail route to Danaan's gift. Other offered routes pause for review. Consecration and reversion are separate choices and are not part of this run."));
+        var avatar = new ComboBox { Name = "danaanAvatar", ItemsSource = new[] { "Donnan / Cail" }, PlaceholderText = "Choose the Avatar route", HorizontalAlignment = HorizontalAlignment.Stretch };
+        Field("Avatar", avatar);
+        body.Children.Add(Copy("Greim warns that an improperly closed rift can permanently lose a soul. This route brings one Mold for his rite; it does not attempt the rite without it."));
+        var rite = new CheckBox { Name = "danaanRiteAccepted", Content = "I accept the supplied-Mold rite and its stated risk", IsChecked = job.DanaanOptions?.SuppliedMoldRiteAccepted == true };
+        body.Children.Add(rite);
+        body.Children.Add(Copy("Reserve 6,620 gold for the observed Cail purchases and donation, plus carrying space for the current task. An owned usable weapon is required for the armed shrine."));
+        if (job.DanaanOptions?.Avatar == "cail") avatar.SelectedIndex = 0;
+        bool locked = DanaanEvidence.ChoicesLocked(job);
+        avatar.IsEnabled = !locked;
+        rite.IsEnabled = !locked;
+        void Validate() => confirm.IsEnabled = avatar.SelectedItem is string && rite.IsChecked == true;
+        avatar.SelectionChanged += (_, _) => Validate();
+        rite.IsCheckedChanged += (_, _) => Validate();
+        confirm.Content = "Confirm Cail route";
+        Validate();
+        confirm.Click += (_, _) =>
+        {
+            var options = new DanaanOptions("cail", rite.IsChecked == true);
+            options.Validate();
+            Close(new QuestChoiceResult(DanaanOptions: options));
+        };
     }
 
     static TextBlock Copy(string value) => new()

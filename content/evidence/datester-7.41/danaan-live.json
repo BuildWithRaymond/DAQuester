@@ -1,0 +1,3589 @@
+{
+  "SchemaVersion": 1,
+  "Sanitized": true,
+  "ServerProfile": "datester-7.41",
+  "Evidence": "Actual Danaan NPC packets from the approved research character. NPC allowlist comes from observed current menus; raw payloads unchanged. Own resource receipts are parsed observations. Identity/generation normalized. No guide-derived server replies, login, session keys, appearance, chat, unrelated player data or game assets retained. Uncaptured stages/variants are unknown.",
+  "Events": [
+    {
+      "Time": "2026-10-13T18:30:38.1955702+00:00",
+      "Revision": 697,
+      "Opcode": 48,
+      "Payload": "AAEAAEUyAUDcAAFA3AAERQAAAAEABVJvbGFuAmBZb3UgYXJlIGFuIEFpc2luZz8gT2ggdGhhbmsgRGFuYWFuIHlvdSBjYW1lLiBZb3UgbXVzdCBoYXZlIGhlYXJkIG9mIG15IGRyZWFtcy4gRXZlcnkgbmlnaHQgaXQgaXMgdGhlIHNhbWUuIEdsaW9jYSwgQ2FpbCwgQ2Vhbm5sYWlkaXIgYW5kIEx1YXRoYXMgc3RhbmQgb24gb25lIHNpZGUsIEdyYW1haWwsIERlb2NoLCBGaW9zYWNoZCwgYW5kIFNncmlvcyBvbiB0aGUgb3RoZXIgc2lkZS4gQW5kIHRoZXkncmUgYWxsIHdlYXJpbmcgaGF0cyEgSXQgaXMgc28gc2lsbHkuIFRoZXkga2VlcCBhcmd1aW5nIGJldHdlZW4gdGhlbXNlbHZlcywgc29tZXRpbWVzIHRoZXkgdGFsayB0byBtZSwgYnV0IEkgY2FuJ3QgdW5kZXJzdGFuZCB3aGF0IHRoZXkgYXJlIHNheWluZyEgSSBjYW4ndCBzdGFuZCBpdCBhbnltb3JlLCBldmVyeSBuaWdodCwgZXZlcnkgbmlnaHQuLi4gUGxlYXNlLCBBaXNsaW5nLCBmaW5kIG91dCB3aGVyZSB0aGlzIGRyZWFtIGNvbWVzIGZyb20sIGFuZCBoZWxwIG1lIGdldCByaWQgb2YgaXQuIE1heWJlIHRoZSBvbGQgYm9va3MgaW4gTG91cmVzIHNheSBzb21ldGhpbmcsIGJ1dCB0aGUgZ3VhcmRzIGRpZCBub3QgbGV0IG1lIGluIGZvciBzb21lIHJlYXNvbi4uLg==",
+      "Character": "ResearchFast",
+      "Generation": 4,
+      "Map": 177,
+      "Position": {
+        "X": 4,
+        "Y": 4
+      },
+      "Npc": "Rolan",
+      "OwnResources": {
+        "Gold": 967400,
+        "Experience": 320058866,
+        "Weight": 7,
+        "Equipment": {
+          "16": "Billed Cap"
+        },
+        "OccupiedSlots": 5,
+        "Items": {
+          "Shrinking Potion": 4,
+          "Oak Stick": 1,
+          "Sun Block Lotion": 1,
+          "VDay Bonus Exp-Ap(x5)": 1,
+          "Red Potion": 2
+        }
+      }
+    },
+    {
+      "Time": "2026-10-13T18:30:54.2147658+00:00",
+      "Revision": 700,
+      "Opcode": 48,
+      "Payload": "CgA=",
+      "Character": "ResearchFast",
+      "Generation": 4,
+      "Map": 177,
+      "Position": {
+        "X": 4,
+        "Y": 4
+      },
+      "Npc": null,
+      "OwnResources": {
+        "Gold": 967400,
+        "Experience": 320058866,
+        "Weight": 7,
+        "Equipment": {
+          "16": "Billed Cap"
+        },
+        "OccupiedSlots": 5,
+        "Items": {
+          "Shrinking Potion": 4,
+          "Oak Stick": 1,
+          "Sun Block Lotion": 1,
+          "VDay Bonus Exp-Ap(x5)": 1,
+          "Red Potion": 2
+        }
+      }
+    },
+    {
+      "Time": "2026-10-13T18:34:28.4009627+00:00",
+      "Revision": 750,
+      "Opcode": 48,
+      "Payload": "AAEAAEUyAUDcAAFA3AAERQAAAAEABVJvbGFuAmBZb3UgYXJlIGFuIEFpc2luZz8gT2ggdGhhbmsgRGFuYWFuIHlvdSBjYW1lLiBZb3UgbXVzdCBoYXZlIGhlYXJkIG9mIG15IGRyZWFtcy4gRXZlcnkgbmlnaHQgaXQgaXMgdGhlIHNhbWUuIEdsaW9jYSwgQ2FpbCwgQ2Vhbm5sYWlkaXIgYW5kIEx1YXRoYXMgc3RhbmQgb24gb25lIHNpZGUsIEdyYW1haWwsIERlb2NoLCBGaW9zYWNoZCwgYW5kIFNncmlvcyBvbiB0aGUgb3RoZXIgc2lkZS4gQW5kIHRoZXkncmUgYWxsIHdlYXJpbmcgaGF0cyEgSXQgaXMgc28gc2lsbHkuIFRoZXkga2VlcCBhcmd1aW5nIGJldHdlZW4gdGhlbXNlbHZlcywgc29tZXRpbWVzIHRoZXkgdGFsayB0byBtZSwgYnV0IEkgY2FuJ3QgdW5kZXJzdGFuZCB3aGF0IHRoZXkgYXJlIHNheWluZyEgSSBjYW4ndCBzdGFuZCBpdCBhbnltb3JlLCBldmVyeSBuaWdodCwgZXZlcnkgbmlnaHQuLi4gUGxlYXNlLCBBaXNsaW5nLCBmaW5kIG91dCB3aGVyZSB0aGlzIGRyZWFtIGNvbWVzIGZyb20sIGFuZCBoZWxwIG1lIGdldCByaWQgb2YgaXQuIE1heWJlIHRoZSBvbGQgYm9va3MgaW4gTG91cmVzIHNheSBzb21ldGhpbmcsIGJ1dCB0aGUgZ3VhcmRzIGRpZCBub3QgbGV0IG1lIGluIGZvciBzb21lIHJlYXNvbi4uLg==",
+      "Character": "ResearchFast",
+      "Generation": 4,
+      "Map": 177,
+      "Position": {
+        "X": 2,
+        "Y": 3
+      },
+      "Npc": "Rolan",
+      "OwnResources": {
+        "Gold": 967400,
+        "Experience": 320058866,
+        "Weight": 7,
+        "Equipment": {
+          "16": "Billed Cap"
+        },
+        "OccupiedSlots": 5,
+        "Items": {
+          "Shrinking Potion": 4,
+          "Oak Stick": 1,
+          "Sun Block Lotion": 1,
+          "VDay Bonus Exp-Ap(x5)": 1,
+          "Red Potion": 2
+        }
+      }
+    },
+    {
+      "Time": "2026-10-13T18:35:11.4140814+00:00",
+      "Revision": 752,
+      "Opcode": 48,
+      "Payload": "CgA=",
+      "Character": "ResearchFast",
+      "Generation": 4,
+      "Map": 177,
+      "Position": {
+        "X": 2,
+        "Y": 3
+      },
+      "Npc": null,
+      "OwnResources": {
+        "Gold": 967400,
+        "Experience": 320058866,
+        "Weight": 7,
+        "Equipment": {
+          "16": "Billed Cap"
+        },
+        "OccupiedSlots": 5,
+        "Items": {
+          "Shrinking Potion": 4,
+          "Oak Stick": 1,
+          "Sun Block Lotion": 1,
+          "VDay Bonus Exp-Ap(x5)": 1,
+          "Red Potion": 2
+        }
+      }
+    },
+    {
+      "Time": "2026-10-13T18:37:21.515672+00:00",
+      "Revision": 1136,
+      "Opcode": 48,
+      "Payload": "CgA=",
+      "Character": "ResearchFast",
+      "Generation": 4,
+      "Map": 115,
+      "Position": {
+        "X": 2,
+        "Y": 8
+      },
+      "Npc": null,
+      "OwnResources": {
+        "Gold": 967400,
+        "Experience": 320058866,
+        "Weight": 7,
+        "Equipment": {
+          "16": "Billed Cap"
+        },
+        "OccupiedSlots": 5,
+        "Items": {
+          "Shrinking Potion": 4,
+          "Oak Stick": 1,
+          "Sun Block Lotion": 1,
+          "VDay Bonus Exp-Ap(x5)": 1,
+          "Red Potion": 2
+        }
+      }
+    },
+    {
+      "Time": "2026-10-13T18:37:26.0105136+00:00",
+      "Revision": 1157,
+      "Opcode": 47,
+      "Payload": "AAEAAC8tAUAjAAFAIwAABkJsYWlzZQAeSGVsbG8uICBXaGF0IGNhbiBJIGRvIGZvciB5b3U/BQNCdXkAQARTZWxsAEEKQ29uaXggTG9yZQRqEUxpYnJhcnkgb2YgTG91cmVzBV0NR29kcyBhbmQgaGF0cwhGb/GIdoQPSCxQCDgYCAgYxCYeoBQ=",
+      "Character": "ResearchFast",
+      "Generation": 4,
+      "Map": 3041,
+      "Position": {
+        "X": 10,
+        "Y": 12
+      },
+      "Npc": "Blaise",
+      "OwnResources": {
+        "Gold": 967400,
+        "Experience": 320058866,
+        "Weight": 7,
+        "Equipment": {
+          "16": "Billed Cap"
+        },
+        "OccupiedSlots": 5,
+        "Items": {
+          "Shrinking Potion": 4,
+          "Oak Stick": 1,
+          "Sun Block Lotion": 1,
+          "VDay Bonus Exp-Ap(x5)": 1,
+          "Red Potion": 2
+        }
+      }
+    },
+    {
+      "Time": "2026-10-13T18:37:58.5361363+00:00",
+      "Revision": 1158,
+      "Opcode": 48,
+      "Payload": "AgEAAC8tAUAjAAFAIwAERgAJAAEABkJsYWlzZQA9U3NzaGhoISEgUXVpZXQuIFlvdSBhcmUgaGVyZSB0byBoZWxwIHRoYXQgYm95IGluIEFiZWwsIHJpZ2h0PwINTm8sIHdoYXQgYm95PwRZZXMh",
+      "Character": "ResearchFast",
+      "Generation": 4,
+      "Map": 3041,
+      "Position": {
+        "X": 10,
+        "Y": 12
+      },
+      "Npc": "Blaise",
+      "OwnResources": {
+        "Gold": 967400,
+        "Experience": 320058866,
+        "Weight": 7,
+        "Equipment": {
+          "16": "Billed Cap"
+        },
+        "OccupiedSlots": 5,
+        "Items": {
+          "Shrinking Potion": 4,
+          "Oak Stick": 1,
+          "Sun Block Lotion": 1,
+          "VDay Bonus Exp-Ap(x5)": 1,
+          "Red Potion": 2
+        }
+      }
+    },
+    {
+      "Time": "2026-10-13T18:38:08.5540644+00:00",
+      "Revision": 1160,
+      "Opcode": 48,
+      "Payload": "AgEAAC8tAUAjAAFAIwAERgARAAEABkJsYWlzZQB3RG8gbm90IGJlIHNvIGxvdWQsIHRoZW4uIFdlIHJlY2VpdmVkIG9yZGVycyBub3QgdG8gZXZlciB0b3VjaCB0aGUgc3ViamVjdCwgYnV0IEkgZGlkIHNvbWUgcmVzZWFyY2ggYW5kIGZvdW5kIHNvbWV0aGluZy4CB09yZGVycz8SV2hhdCBkaWQgeW91IGZpbmQ/",
+      "Character": "ResearchFast",
+      "Generation": 4,
+      "Map": 3041,
+      "Position": {
+        "X": 10,
+        "Y": 12
+      },
+      "Npc": "Blaise",
+      "OwnResources": {
+        "Gold": 967400,
+        "Experience": 320058866,
+        "Weight": 7,
+        "Equipment": {
+          "16": "Billed Cap"
+        },
+        "OccupiedSlots": 5,
+        "Items": {
+          "Shrinking Potion": 4,
+          "Oak Stick": 1,
+          "Sun Block Lotion": 1,
+          "VDay Bonus Exp-Ap(x5)": 1,
+          "Red Potion": 2
+        }
+      }
+    },
+    {
+      "Time": "2026-10-13T18:38:35.081403+00:00",
+      "Revision": 1162,
+      "Opcode": 48,
+      "Payload": "AgEAAC8tAUAjAAFAIwAERgAaAAEABkJsYWlzZQC1TWFueSBnZW5lcmF0aW9ucyBhZ28sIGFuIG9sZCBtYW4gaGFkIGRyZWFtcyBzaW1pbGFyIHRvIHRoYXQgYm95J3MuIE5vIG9uZSB0b29rIGhpbSBzZXJpb3VzbHksIGJ1dCBoZSBrZXB0IHJlY29yZHMgb2YgdGhvc2UuIE9uZSBuaWdodCwgaGUgdW5kZXJzdG9vZCB3aGF0IG9uZSBvZiB0aGUgR29kcyB3YXMgc2F5aW5nLgMOV2hhdCB3YXMgc2FpZD8KV2hpY2ggR29kPxZDYW4gSSBzZWUgdGhlIHJlY29yZHM/",
+      "Character": "ResearchFast",
+      "Generation": 4,
+      "Map": 3041,
+      "Position": {
+        "X": 10,
+        "Y": 12
+      },
+      "Npc": "Blaise",
+      "OwnResources": {
+        "Gold": 967400,
+        "Experience": 320058866,
+        "Weight": 7,
+        "Equipment": {
+          "16": "Billed Cap"
+        },
+        "OccupiedSlots": 5,
+        "Items": {
+          "Shrinking Potion": 4,
+          "Oak Stick": 1,
+          "Sun Block Lotion": 1,
+          "VDay Bonus Exp-Ap(x5)": 1,
+          "Red Potion": 2
+        }
+      }
+    },
+    {
+      "Time": "2026-10-13T18:38:51.6319108+00:00",
+      "Revision": 1163,
+      "Opcode": 48,
+      "Payload": "AAEAAC8tAUAjAAFAIwAERgAgAAEABkJsYWlzZQDTSXQgd2FzIHNvbWV0aGluZyBsaWtlIHRoaXMuLi4iSSBzdGlsbCB0aGluayB0aGV5IGNhbiBoYXZlIGl0LCBidXQgSSB3aWxsIGFncmVlIHRvIHdhaXQgdW50aWwgYSBncmVhdCB0cmlhbCBpcyBwdXQgdXBvbiB0aGVtLiIgVGhhdCB3YXMgYWxsIGhlIHVuZGVyc3Rvb2QuIEFuZCBoZSBkaWVkIG5vdCBsb25nIGFmdGVyLCBzbyBub3RoaW5nIGVsc2Ugd2FzIHJlY29yZGVkLg==",
+      "Character": "ResearchFast",
+      "Generation": 4,
+      "Map": 3041,
+      "Position": {
+        "X": 10,
+        "Y": 12
+      },
+      "Npc": "Blaise",
+      "OwnResources": {
+        "Gold": 967400,
+        "Experience": 320058866,
+        "Weight": 7,
+        "Equipment": {
+          "16": "Billed Cap"
+        },
+        "OccupiedSlots": 5,
+        "Items": {
+          "Shrinking Potion": 4,
+          "Oak Stick": 1,
+          "Sun Block Lotion": 1,
+          "VDay Bonus Exp-Ap(x5)": 1,
+          "Red Potion": 2
+        }
+      }
+    },
+    {
+      "Time": "2026-10-13T18:39:12.6121747+00:00",
+      "Revision": 1165,
+      "Opcode": 48,
+      "Payload": "AgEAAC8tAUAjAAFAIwAERgAaAAEABkJsYWlzZQC1TWFueSBnZW5lcmF0aW9ucyBhZ28sIGFuIG9sZCBtYW4gaGFkIGRyZWFtcyBzaW1pbGFyIHRvIHRoYXQgYm95J3MuIE5vIG9uZSB0b29rIGhpbSBzZXJpb3VzbHksIGJ1dCBoZSBrZXB0IHJlY29yZHMgb2YgdGhvc2UuIE9uZSBuaWdodCwgaGUgdW5kZXJzdG9vZCB3aGF0IG9uZSBvZiB0aGUgR29kcyB3YXMgc2F5aW5nLgMOV2hhdCB3YXMgc2FpZD8KV2hpY2ggR29kPxZDYW4gSSBzZWUgdGhlIHJlY29yZHM/",
+      "Character": "ResearchFast",
+      "Generation": 4,
+      "Map": 3041,
+      "Position": {
+        "X": 10,
+        "Y": 12
+      },
+      "Npc": "Blaise",
+      "OwnResources": {
+        "Gold": 967400,
+        "Experience": 320058866,
+        "Weight": 7,
+        "Equipment": {
+          "16": "Billed Cap"
+        },
+        "OccupiedSlots": 5,
+        "Items": {
+          "Shrinking Potion": 4,
+          "Oak Stick": 1,
+          "Sun Block Lotion": 1,
+          "VDay Bonus Exp-Ap(x5)": 1,
+          "Red Potion": 2
+        }
+      }
+    },
+    {
+      "Time": "2026-10-13T18:39:27.105419+00:00",
+      "Revision": 1166,
+      "Opcode": 48,
+      "Payload": "AAEAAC8tAUAjAAFAIwAERgAkAAEABkJsYWlzZQAmSXQgd2FzIENlYW5ubGFpZGlyIGluIHRoZSBtYW4ncyBkcmVhbS4=",
+      "Character": "ResearchFast",
+      "Generation": 4,
+      "Map": 3041,
+      "Position": {
+        "X": 10,
+        "Y": 12
+      },
+      "Npc": "Blaise",
+      "OwnResources": {
+        "Gold": 967400,
+        "Experience": 320058866,
+        "Weight": 7,
+        "Equipment": {
+          "16": "Billed Cap"
+        },
+        "OccupiedSlots": 5,
+        "Items": {
+          "Shrinking Potion": 4,
+          "Oak Stick": 1,
+          "Sun Block Lotion": 1,
+          "VDay Bonus Exp-Ap(x5)": 1,
+          "Red Potion": 2
+        }
+      }
+    },
+    {
+      "Time": "2026-10-13T18:39:36.6125523+00:00",
+      "Revision": 1167,
+      "Opcode": 48,
+      "Payload": "AgEAAC8tAUAjAAFAIwAERgAaAAEABkJsYWlzZQC1TWFueSBnZW5lcmF0aW9ucyBhZ28sIGFuIG9sZCBtYW4gaGFkIGRyZWFtcyBzaW1pbGFyIHRvIHRoYXQgYm95J3MuIE5vIG9uZSB0b29rIGhpbSBzZXJpb3VzbHksIGJ1dCBoZSBrZXB0IHJlY29yZHMgb2YgdGhvc2UuIE9uZSBuaWdodCwgaGUgdW5kZXJzdG9vZCB3aGF0IG9uZSBvZiB0aGUgR29kcyB3YXMgc2F5aW5nLgMOV2hhdCB3YXMgc2FpZD8KV2hpY2ggR29kPxZDYW4gSSBzZWUgdGhlIHJlY29yZHM/",
+      "Character": "ResearchFast",
+      "Generation": 4,
+      "Map": 3041,
+      "Position": {
+        "X": 10,
+        "Y": 12
+      },
+      "Npc": "Blaise",
+      "OwnResources": {
+        "Gold": 967400,
+        "Experience": 320058866,
+        "Weight": 7,
+        "Equipment": {
+          "16": "Billed Cap"
+        },
+        "OccupiedSlots": 5,
+        "Items": {
+          "Shrinking Potion": 4,
+          "Oak Stick": 1,
+          "Sun Block Lotion": 1,
+          "VDay Bonus Exp-Ap(x5)": 1,
+          "Red Potion": 2
+        }
+      }
+    },
+    {
+      "Time": "2026-10-13T18:39:48.1331629+00:00",
+      "Revision": 1168,
+      "Opcode": 48,
+      "Payload": "AAEAAC8tAUAjAAFAIwAERgAoAAEABkJsYWlzZQCeSSBhbSBhZnJhaWQgbm90LiBUaGUgZ3VhcmRzIHRvb2sgaXQgYXdheSBub3QgbG9uZyBhZnRlciBJIHdhcyBkb25lIHdpdGggaXQuIElmIHlvdSBuZWVkIG1vcmUgaW5mb3JtYXRpb24sIHlvdSBtaWdodCB3YW50IHRvIHNwZWFrIHdpdGggb25lIGNsb3NlciB0byB0aGF0IEdvZC4=",
+      "Character": "ResearchFast",
+      "Generation": 4,
+      "Map": 3041,
+      "Position": {
+        "X": 10,
+        "Y": 12
+      },
+      "Npc": "Blaise",
+      "OwnResources": {
+        "Gold": 967400,
+        "Experience": 320058866,
+        "Weight": 7,
+        "Equipment": {
+          "16": "Billed Cap"
+        },
+        "OccupiedSlots": 5,
+        "Items": {
+          "Shrinking Potion": 4,
+          "Oak Stick": 1,
+          "Sun Block Lotion": 1,
+          "VDay Bonus Exp-Ap(x5)": 1,
+          "Red Potion": 2
+        }
+      }
+    },
+    {
+      "Time": "2026-10-13T18:40:00.1380306+00:00",
+      "Revision": 1169,
+      "Opcode": 48,
+      "Payload": "AgEAAC8tAUAjAAFAIwAERgAaAAEABkJsYWlzZQC1TWFueSBnZW5lcmF0aW9ucyBhZ28sIGFuIG9sZCBtYW4gaGFkIGRyZWFtcyBzaW1pbGFyIHRvIHRoYXQgYm95J3MuIE5vIG9uZSB0b29rIGhpbSBzZXJpb3VzbHksIGJ1dCBoZSBrZXB0IHJlY29yZHMgb2YgdGhvc2UuIE9uZSBuaWdodCwgaGUgdW5kZXJzdG9vZCB3aGF0IG9uZSBvZiB0aGUgR29kcyB3YXMgc2F5aW5nLgMOV2hhdCB3YXMgc2FpZD8KV2hpY2ggR29kPxZDYW4gSSBzZWUgdGhlIHJlY29yZHM/",
+      "Character": "ResearchFast",
+      "Generation": 4,
+      "Map": 3041,
+      "Position": {
+        "X": 10,
+        "Y": 12
+      },
+      "Npc": "Blaise",
+      "OwnResources": {
+        "Gold": 967400,
+        "Experience": 320058866,
+        "Weight": 7,
+        "Equipment": {
+          "16": "Billed Cap"
+        },
+        "OccupiedSlots": 5,
+        "Items": {
+          "Shrinking Potion": 4,
+          "Oak Stick": 1,
+          "Sun Block Lotion": 1,
+          "VDay Bonus Exp-Ap(x5)": 1,
+          "Red Potion": 2
+        }
+      }
+    },
+    {
+      "Time": "2026-10-13T18:40:49.2212078+00:00",
+      "Revision": 1173,
+      "Opcode": 48,
+      "Payload": "CgA=",
+      "Character": "ResearchFast",
+      "Generation": 4,
+      "Map": 3041,
+      "Position": {
+        "X": 10,
+        "Y": 12
+      },
+      "Npc": null,
+      "OwnResources": {
+        "Gold": 967400,
+        "Experience": 320058866,
+        "Weight": 7,
+        "Equipment": {
+          "16": "Billed Cap"
+        },
+        "OccupiedSlots": 5,
+        "Items": {
+          "Shrinking Potion": 4,
+          "Oak Stick": 1,
+          "Sun Block Lotion": 1,
+          "VDay Bonus Exp-Ap(x5)": 1,
+          "Red Potion": 2
+        }
+      }
+    },
+    {
+      "Time": "2026-10-13T18:40:54.1678273+00:00",
+      "Revision": 1194,
+      "Opcode": 48,
+      "Payload": "CgA=",
+      "Character": "ResearchFast",
+      "Generation": 4,
+      "Map": 115,
+      "Position": {
+        "X": 1,
+        "Y": 8
+      },
+      "Npc": null,
+      "OwnResources": {
+        "Gold": 967400,
+        "Experience": 320058866,
+        "Weight": 7,
+        "Equipment": {
+          "16": "Billed Cap"
+        },
+        "OccupiedSlots": 5,
+        "Items": {
+          "Shrinking Potion": 4,
+          "Oak Stick": 1,
+          "Sun Block Lotion": 1,
+          "VDay Bonus Exp-Ap(x5)": 1,
+          "Red Potion": 2
+        }
+      }
+    },
+    {
+      "Time": "2026-10-13T18:40:58.1671753+00:00",
+      "Revision": 1215,
+      "Opcode": 48,
+      "Payload": "CgA=",
+      "Character": "ResearchFast",
+      "Generation": 4,
+      "Map": 115,
+      "Position": {
+        "X": 8,
+        "Y": 13
+      },
+      "Npc": null,
+      "OwnResources": {
+        "Gold": 967400,
+        "Experience": 320058866,
+        "Weight": 7,
+        "Equipment": {
+          "16": "Billed Cap"
+        },
+        "OccupiedSlots": 5,
+        "Items": {
+          "Shrinking Potion": 4,
+          "Oak Stick": 1,
+          "Sun Block Lotion": 1,
+          "VDay Bonus Exp-Ap(x5)": 1,
+          "Red Potion": 2
+        }
+      }
+    },
+    {
+      "Time": "2026-10-13T18:41:35.7677907+00:00",
+      "Revision": 1372,
+      "Opcode": 10,
+      "Payload": "AwAhWW91ciBtdXN0IGJlIGFybWVkIHRvIGVudGVyIGhlcmUu",
+      "Character": "ResearchFast",
+      "Generation": 4,
+      "Map": 3020,
+      "Position": {
+        "X": 10,
+        "Y": 6
+      },
+      "Npc": null,
+      "OwnResources": {
+        "Gold": 967400,
+        "Experience": 320058866,
+        "Weight": 7,
+        "Equipment": {
+          "16": "Billed Cap"
+        },
+        "OccupiedSlots": 5,
+        "Items": {
+          "Shrinking Potion": 4,
+          "Oak Stick": 1,
+          "Sun Block Lotion": 1,
+          "VDay Bonus Exp-Ap(x5)": 1,
+          "Red Potion": 2
+        }
+      }
+    },
+    {
+      "Time": "2026-10-13T18:41:35.7681793+00:00",
+      "Revision": 1379,
+      "Opcode": 48,
+      "Payload": "CgA=",
+      "Character": "ResearchFast",
+      "Generation": 4,
+      "Map": 3020,
+      "Position": {
+        "X": 10,
+        "Y": 6
+      },
+      "Npc": null,
+      "OwnResources": {
+        "Gold": 967400,
+        "Experience": 320058866,
+        "Weight": 7,
+        "Equipment": {
+          "16": "Billed Cap"
+        },
+        "OccupiedSlots": 5,
+        "Items": {
+          "Shrinking Potion": 4,
+          "Oak Stick": 1,
+          "Sun Block Lotion": 1,
+          "VDay Bonus Exp-Ap(x5)": 1,
+          "Red Potion": 2
+        }
+      }
+    },
+    {
+      "Time": "2026-10-13T18:41:37.8339368+00:00",
+      "Revision": 1387,
+      "Opcode": 10,
+      "Payload": "AwAhWW91ciBtdXN0IGJlIGFybWVkIHRvIGVudGVyIGhlcmUu",
+      "Character": "ResearchFast",
+      "Generation": 4,
+      "Map": 3020,
+      "Position": {
+        "X": 10,
+        "Y": 5
+      },
+      "Npc": null,
+      "OwnResources": {
+        "Gold": 967400,
+        "Experience": 320058866,
+        "Weight": 7,
+        "Equipment": {
+          "16": "Billed Cap"
+        },
+        "OccupiedSlots": 5,
+        "Items": {
+          "Shrinking Potion": 4,
+          "Oak Stick": 1,
+          "Sun Block Lotion": 1,
+          "VDay Bonus Exp-Ap(x5)": 1,
+          "Red Potion": 2
+        }
+      }
+    },
+    {
+      "Time": "2026-10-13T18:41:37.8345621+00:00",
+      "Revision": 1394,
+      "Opcode": 48,
+      "Payload": "CgA=",
+      "Character": "ResearchFast",
+      "Generation": 4,
+      "Map": 3020,
+      "Position": {
+        "X": 10,
+        "Y": 5
+      },
+      "Npc": null,
+      "OwnResources": {
+        "Gold": 967400,
+        "Experience": 320058866,
+        "Weight": 7,
+        "Equipment": {
+          "16": "Billed Cap"
+        },
+        "OccupiedSlots": 5,
+        "Items": {
+          "Shrinking Potion": 4,
+          "Oak Stick": 1,
+          "Sun Block Lotion": 1,
+          "VDay Bonus Exp-Ap(x5)": 1,
+          "Red Potion": 2
+        }
+      }
+    },
+    {
+      "Time": "2026-10-13T18:41:41.2100721+00:00",
+      "Revision": 1405,
+      "Opcode": 10,
+      "Payload": "AwAhWW91ciBtdXN0IGJlIGFybWVkIHRvIGVudGVyIGhlcmUu",
+      "Character": "ResearchFast",
+      "Generation": 4,
+      "Map": 3020,
+      "Position": {
+        "X": 8,
+        "Y": 4
+      },
+      "Npc": null,
+      "OwnResources": {
+        "Gold": 967400,
+        "Experience": 320058866,
+        "Weight": 7,
+        "Equipment": {
+          "16": "Billed Cap"
+        },
+        "OccupiedSlots": 5,
+        "Items": {
+          "Shrinking Potion": 4,
+          "Oak Stick": 1,
+          "Sun Block Lotion": 1,
+          "VDay Bonus Exp-Ap(x5)": 1,
+          "Red Potion": 2
+        }
+      }
+    },
+    {
+      "Time": "2026-10-13T18:41:41.2103857+00:00",
+      "Revision": 1412,
+      "Opcode": 48,
+      "Payload": "CgA=",
+      "Character": "ResearchFast",
+      "Generation": 4,
+      "Map": 3020,
+      "Position": {
+        "X": 9,
+        "Y": 5
+      },
+      "Npc": null,
+      "OwnResources": {
+        "Gold": 967400,
+        "Experience": 320058866,
+        "Weight": 7,
+        "Equipment": {
+          "16": "Billed Cap"
+        },
+        "OccupiedSlots": 5,
+        "Items": {
+          "Shrinking Potion": 4,
+          "Oak Stick": 1,
+          "Sun Block Lotion": 1,
+          "VDay Bonus Exp-Ap(x5)": 1,
+          "Red Potion": 2
+        }
+      }
+    },
+    {
+      "Time": "2026-10-13T18:41:42.2033439+00:00",
+      "Revision": 1419,
+      "Opcode": 10,
+      "Payload": "AwAhWW91ciBtdXN0IGJlIGFybWVkIHRvIGVudGVyIGhlcmUu",
+      "Character": "ResearchFast",
+      "Generation": 4,
+      "Map": 3020,
+      "Position": {
+        "X": 9,
+        "Y": 5
+      },
+      "Npc": null,
+      "OwnResources": {
+        "Gold": 967400,
+        "Experience": 320058866,
+        "Weight": 7,
+        "Equipment": {
+          "16": "Billed Cap"
+        },
+        "OccupiedSlots": 5,
+        "Items": {
+          "Shrinking Potion": 4,
+          "Oak Stick": 1,
+          "Sun Block Lotion": 1,
+          "VDay Bonus Exp-Ap(x5)": 1,
+          "Red Potion": 2
+        }
+      }
+    },
+    {
+      "Time": "2026-10-13T18:41:42.2036483+00:00",
+      "Revision": 1426,
+      "Opcode": 48,
+      "Payload": "CgA=",
+      "Character": "ResearchFast",
+      "Generation": 4,
+      "Map": 3020,
+      "Position": {
+        "X": 10,
+        "Y": 5
+      },
+      "Npc": null,
+      "OwnResources": {
+        "Gold": 967400,
+        "Experience": 320058866,
+        "Weight": 7,
+        "Equipment": {
+          "16": "Billed Cap"
+        },
+        "OccupiedSlots": 5,
+        "Items": {
+          "Shrinking Potion": 4,
+          "Oak Stick": 1,
+          "Sun Block Lotion": 1,
+          "VDay Bonus Exp-Ap(x5)": 1,
+          "Red Potion": 2
+        }
+      }
+    },
+    {
+      "Time": "2026-10-13T18:41:43.7110534+00:00",
+      "Revision": 1428,
+      "Opcode": 10,
+      "Payload": "AwAhWW91ciBtdXN0IGJlIGFybWVkIHRvIGVudGVyIGhlcmUu",
+      "Character": "ResearchFast",
+      "Generation": 4,
+      "Map": 3020,
+      "Position": {
+        "X": 10,
+        "Y": 6
+      },
+      "Npc": null,
+      "OwnResources": {
+        "Gold": 967400,
+        "Experience": 320058866,
+        "Weight": 7,
+        "Equipment": {
+          "16": "Billed Cap"
+        },
+        "OccupiedSlots": 5,
+        "Items": {
+          "Shrinking Potion": 4,
+          "Oak Stick": 1,
+          "Sun Block Lotion": 1,
+          "VDay Bonus Exp-Ap(x5)": 1,
+          "Red Potion": 2
+        }
+      }
+    },
+    {
+      "Time": "2026-10-13T18:41:43.7147175+00:00",
+      "Revision": 1435,
+      "Opcode": 48,
+      "Payload": "CgA=",
+      "Character": "ResearchFast",
+      "Generation": 4,
+      "Map": 3020,
+      "Position": {
+        "X": 10,
+        "Y": 6
+      },
+      "Npc": null,
+      "OwnResources": {
+        "Gold": 967400,
+        "Experience": 320058866,
+        "Weight": 7,
+        "Equipment": {
+          "16": "Billed Cap"
+        },
+        "OccupiedSlots": 5,
+        "Items": {
+          "Shrinking Potion": 4,
+          "Oak Stick": 1,
+          "Sun Block Lotion": 1,
+          "VDay Bonus Exp-Ap(x5)": 1,
+          "Red Potion": 2
+        }
+      }
+    },
+    {
+      "Time": "2026-10-13T18:41:45.2074288+00:00",
+      "Revision": 1443,
+      "Opcode": 10,
+      "Payload": "AwAhWW91ciBtdXN0IGJlIGFybWVkIHRvIGVudGVyIGhlcmUu",
+      "Character": "ResearchFast",
+      "Generation": 4,
+      "Map": 3020,
+      "Position": {
+        "X": 10,
+        "Y": 5
+      },
+      "Npc": null,
+      "OwnResources": {
+        "Gold": 967400,
+        "Experience": 320058866,
+        "Weight": 7,
+        "Equipment": {
+          "16": "Billed Cap"
+        },
+        "OccupiedSlots": 5,
+        "Items": {
+          "Shrinking Potion": 4,
+          "Oak Stick": 1,
+          "Sun Block Lotion": 1,
+          "VDay Bonus Exp-Ap(x5)": 1,
+          "Red Potion": 2
+        }
+      }
+    },
+    {
+      "Time": "2026-10-13T18:41:45.2080064+00:00",
+      "Revision": 1450,
+      "Opcode": 48,
+      "Payload": "CgA=",
+      "Character": "ResearchFast",
+      "Generation": 4,
+      "Map": 3020,
+      "Position": {
+        "X": 10,
+        "Y": 5
+      },
+      "Npc": null,
+      "OwnResources": {
+        "Gold": 967400,
+        "Experience": 320058866,
+        "Weight": 7,
+        "Equipment": {
+          "16": "Billed Cap"
+        },
+        "OccupiedSlots": 5,
+        "Items": {
+          "Shrinking Potion": 4,
+          "Oak Stick": 1,
+          "Sun Block Lotion": 1,
+          "VDay Bonus Exp-Ap(x5)": 1,
+          "Red Potion": 2
+        }
+      }
+    },
+    {
+      "Time": "2026-10-13T18:41:47.7145772+00:00",
+      "Revision": 1461,
+      "Opcode": 10,
+      "Payload": "AwAhWW91ciBtdXN0IGJlIGFybWVkIHRvIGVudGVyIGhlcmUu",
+      "Character": "ResearchFast",
+      "Generation": 4,
+      "Map": 3020,
+      "Position": {
+        "X": 8,
+        "Y": 4
+      },
+      "Npc": null,
+      "OwnResources": {
+        "Gold": 967400,
+        "Experience": 320058866,
+        "Weight": 7,
+        "Equipment": {
+          "16": "Billed Cap"
+        },
+        "OccupiedSlots": 5,
+        "Items": {
+          "Shrinking Potion": 4,
+          "Oak Stick": 1,
+          "Sun Block Lotion": 1,
+          "VDay Bonus Exp-Ap(x5)": 1,
+          "Red Potion": 2
+        }
+      }
+    },
+    {
+      "Time": "2026-10-13T18:41:47.7148969+00:00",
+      "Revision": 1468,
+      "Opcode": 48,
+      "Payload": "CgA=",
+      "Character": "ResearchFast",
+      "Generation": 4,
+      "Map": 3020,
+      "Position": {
+        "X": 9,
+        "Y": 5
+      },
+      "Npc": null,
+      "OwnResources": {
+        "Gold": 967400,
+        "Experience": 320058866,
+        "Weight": 7,
+        "Equipment": {
+          "16": "Billed Cap"
+        },
+        "OccupiedSlots": 5,
+        "Items": {
+          "Shrinking Potion": 4,
+          "Oak Stick": 1,
+          "Sun Block Lotion": 1,
+          "VDay Bonus Exp-Ap(x5)": 1,
+          "Red Potion": 2
+        }
+      }
+    },
+    {
+      "Time": "2026-10-13T18:41:48.274249+00:00",
+      "Revision": 1475,
+      "Opcode": 10,
+      "Payload": "AwAhWW91ciBtdXN0IGJlIGFybWVkIHRvIGVudGVyIGhlcmUu",
+      "Character": "ResearchFast",
+      "Generation": 4,
+      "Map": 3020,
+      "Position": {
+        "X": 9,
+        "Y": 5
+      },
+      "Npc": null,
+      "OwnResources": {
+        "Gold": 967400,
+        "Experience": 320058866,
+        "Weight": 7,
+        "Equipment": {
+          "16": "Billed Cap"
+        },
+        "OccupiedSlots": 5,
+        "Items": {
+          "Shrinking Potion": 4,
+          "Oak Stick": 1,
+          "Sun Block Lotion": 1,
+          "VDay Bonus Exp-Ap(x5)": 1,
+          "Red Potion": 2
+        }
+      }
+    },
+    {
+      "Time": "2026-10-13T18:41:48.2745635+00:00",
+      "Revision": 1482,
+      "Opcode": 48,
+      "Payload": "CgA=",
+      "Character": "ResearchFast",
+      "Generation": 4,
+      "Map": 3020,
+      "Position": {
+        "X": 10,
+        "Y": 5
+      },
+      "Npc": null,
+      "OwnResources": {
+        "Gold": 967400,
+        "Experience": 320058866,
+        "Weight": 7,
+        "Equipment": {
+          "16": "Billed Cap"
+        },
+        "OccupiedSlots": 5,
+        "Items": {
+          "Shrinking Potion": 4,
+          "Oak Stick": 1,
+          "Sun Block Lotion": 1,
+          "VDay Bonus Exp-Ap(x5)": 1,
+          "Red Potion": 2
+        }
+      }
+    },
+    {
+      "Time": "2026-10-13T18:41:49.7299492+00:00",
+      "Revision": 1484,
+      "Opcode": 10,
+      "Payload": "AwAhWW91ciBtdXN0IGJlIGFybWVkIHRvIGVudGVyIGhlcmUu",
+      "Character": "ResearchFast",
+      "Generation": 4,
+      "Map": 3020,
+      "Position": {
+        "X": 10,
+        "Y": 6
+      },
+      "Npc": null,
+      "OwnResources": {
+        "Gold": 967400,
+        "Experience": 320058866,
+        "Weight": 7,
+        "Equipment": {
+          "16": "Billed Cap"
+        },
+        "OccupiedSlots": 5,
+        "Items": {
+          "Shrinking Potion": 4,
+          "Oak Stick": 1,
+          "Sun Block Lotion": 1,
+          "VDay Bonus Exp-Ap(x5)": 1,
+          "Red Potion": 2
+        }
+      }
+    },
+    {
+      "Time": "2026-10-13T18:41:49.7303309+00:00",
+      "Revision": 1491,
+      "Opcode": 48,
+      "Payload": "CgA=",
+      "Character": "ResearchFast",
+      "Generation": 4,
+      "Map": 3020,
+      "Position": {
+        "X": 10,
+        "Y": 6
+      },
+      "Npc": null,
+      "OwnResources": {
+        "Gold": 967400,
+        "Experience": 320058866,
+        "Weight": 7,
+        "Equipment": {
+          "16": "Billed Cap"
+        },
+        "OccupiedSlots": 5,
+        "Items": {
+          "Shrinking Potion": 4,
+          "Oak Stick": 1,
+          "Sun Block Lotion": 1,
+          "VDay Bonus Exp-Ap(x5)": 1,
+          "Red Potion": 2
+        }
+      }
+    },
+    {
+      "Time": "2026-10-13T18:41:51.2395429+00:00",
+      "Revision": 1499,
+      "Opcode": 10,
+      "Payload": "AwAhWW91ciBtdXN0IGJlIGFybWVkIHRvIGVudGVyIGhlcmUu",
+      "Character": "ResearchFast",
+      "Generation": 4,
+      "Map": 3020,
+      "Position": {
+        "X": 10,
+        "Y": 5
+      },
+      "Npc": null,
+      "OwnResources": {
+        "Gold": 967400,
+        "Experience": 320058866,
+        "Weight": 7,
+        "Equipment": {
+          "16": "Billed Cap"
+        },
+        "OccupiedSlots": 5,
+        "Items": {
+          "Shrinking Potion": 4,
+          "Oak Stick": 1,
+          "Sun Block Lotion": 1,
+          "VDay Bonus Exp-Ap(x5)": 1,
+          "Red Potion": 2
+        }
+      }
+    },
+    {
+      "Time": "2026-10-13T18:41:51.2398659+00:00",
+      "Revision": 1506,
+      "Opcode": 48,
+      "Payload": "CgA=",
+      "Character": "ResearchFast",
+      "Generation": 4,
+      "Map": 3020,
+      "Position": {
+        "X": 10,
+        "Y": 5
+      },
+      "Npc": null,
+      "OwnResources": {
+        "Gold": 967400,
+        "Experience": 320058866,
+        "Weight": 7,
+        "Equipment": {
+          "16": "Billed Cap"
+        },
+        "OccupiedSlots": 5,
+        "Items": {
+          "Shrinking Potion": 4,
+          "Oak Stick": 1,
+          "Sun Block Lotion": 1,
+          "VDay Bonus Exp-Ap(x5)": 1,
+          "Red Potion": 2
+        }
+      }
+    },
+    {
+      "Time": "2026-10-13T18:41:53.7124276+00:00",
+      "Revision": 1516,
+      "Opcode": 10,
+      "Payload": "AwAhWW91ciBtdXN0IGJlIGFybWVkIHRvIGVudGVyIGhlcmUu",
+      "Character": "ResearchFast",
+      "Generation": 4,
+      "Map": 3020,
+      "Position": {
+        "X": 8,
+        "Y": 4
+      },
+      "Npc": null,
+      "OwnResources": {
+        "Gold": 967400,
+        "Experience": 320058866,
+        "Weight": 7,
+        "Equipment": {
+          "16": "Billed Cap"
+        },
+        "OccupiedSlots": 5,
+        "Items": {
+          "Shrinking Potion": 4,
+          "Oak Stick": 1,
+          "Sun Block Lotion": 1,
+          "VDay Bonus Exp-Ap(x5)": 1,
+          "Red Potion": 2
+        }
+      }
+    },
+    {
+      "Time": "2026-10-13T18:41:53.7127805+00:00",
+      "Revision": 1523,
+      "Opcode": 48,
+      "Payload": "CgA=",
+      "Character": "ResearchFast",
+      "Generation": 4,
+      "Map": 3020,
+      "Position": {
+        "X": 9,
+        "Y": 5
+      },
+      "Npc": null,
+      "OwnResources": {
+        "Gold": 967400,
+        "Experience": 320058866,
+        "Weight": 7,
+        "Equipment": {
+          "16": "Billed Cap"
+        },
+        "OccupiedSlots": 5,
+        "Items": {
+          "Shrinking Potion": 4,
+          "Oak Stick": 1,
+          "Sun Block Lotion": 1,
+          "VDay Bonus Exp-Ap(x5)": 1,
+          "Red Potion": 2
+        }
+      }
+    },
+    {
+      "Time": "2026-10-13T18:41:54.2128117+00:00",
+      "Revision": 1530,
+      "Opcode": 10,
+      "Payload": "AwAhWW91ciBtdXN0IGJlIGFybWVkIHRvIGVudGVyIGhlcmUu",
+      "Character": "ResearchFast",
+      "Generation": 4,
+      "Map": 3020,
+      "Position": {
+        "X": 9,
+        "Y": 5
+      },
+      "Npc": null,
+      "OwnResources": {
+        "Gold": 967400,
+        "Experience": 320058866,
+        "Weight": 7,
+        "Equipment": {
+          "16": "Billed Cap"
+        },
+        "OccupiedSlots": 5,
+        "Items": {
+          "Shrinking Potion": 4,
+          "Oak Stick": 1,
+          "Sun Block Lotion": 1,
+          "VDay Bonus Exp-Ap(x5)": 1,
+          "Red Potion": 2
+        }
+      }
+    },
+    {
+      "Time": "2026-10-13T18:41:54.213186+00:00",
+      "Revision": 1537,
+      "Opcode": 48,
+      "Payload": "CgA=",
+      "Character": "ResearchFast",
+      "Generation": 4,
+      "Map": 3020,
+      "Position": {
+        "X": 10,
+        "Y": 5
+      },
+      "Npc": null,
+      "OwnResources": {
+        "Gold": 967400,
+        "Experience": 320058866,
+        "Weight": 7,
+        "Equipment": {
+          "16": "Billed Cap"
+        },
+        "OccupiedSlots": 5,
+        "Items": {
+          "Shrinking Potion": 4,
+          "Oak Stick": 1,
+          "Sun Block Lotion": 1,
+          "VDay Bonus Exp-Ap(x5)": 1,
+          "Red Potion": 2
+        }
+      }
+    },
+    {
+      "Time": "2026-10-13T18:41:55.3026633+00:00",
+      "Revision": 1540,
+      "Opcode": 10,
+      "Payload": "AwAhWW91ciBtdXN0IGJlIGFybWVkIHRvIGVudGVyIGhlcmUu",
+      "Character": "ResearchFast",
+      "Generation": 4,
+      "Map": 3020,
+      "Position": {
+        "X": 10,
+        "Y": 6
+      },
+      "Npc": null,
+      "OwnResources": {
+        "Gold": 967400,
+        "Experience": 320058866,
+        "Weight": 7,
+        "Equipment": {
+          "16": "Billed Cap"
+        },
+        "OccupiedSlots": 5,
+        "Items": {
+          "Shrinking Potion": 4,
+          "Oak Stick": 1,
+          "Sun Block Lotion": 1,
+          "VDay Bonus Exp-Ap(x5)": 1,
+          "Red Potion": 2
+        }
+      }
+    },
+    {
+      "Time": "2026-10-13T18:41:55.3029769+00:00",
+      "Revision": 1547,
+      "Opcode": 48,
+      "Payload": "CgA=",
+      "Character": "ResearchFast",
+      "Generation": 4,
+      "Map": 3020,
+      "Position": {
+        "X": 10,
+        "Y": 6
+      },
+      "Npc": null,
+      "OwnResources": {
+        "Gold": 967400,
+        "Experience": 320058866,
+        "Weight": 7,
+        "Equipment": {
+          "16": "Billed Cap"
+        },
+        "OccupiedSlots": 5,
+        "Items": {
+          "Shrinking Potion": 4,
+          "Oak Stick": 1,
+          "Sun Block Lotion": 1,
+          "VDay Bonus Exp-Ap(x5)": 1,
+          "Red Potion": 2
+        }
+      }
+    },
+    {
+      "Time": "2026-10-13T18:41:59.2593493+00:00",
+      "Revision": 1555,
+      "Opcode": 10,
+      "Payload": "AwAhWW91ciBtdXN0IGJlIGFybWVkIHRvIGVudGVyIGhlcmUu",
+      "Character": "ResearchFast",
+      "Generation": 4,
+      "Map": 3020,
+      "Position": {
+        "X": 10,
+        "Y": 5
+      },
+      "Npc": null,
+      "OwnResources": {
+        "Gold": 967400,
+        "Experience": 320058866,
+        "Weight": 7,
+        "Equipment": {
+          "16": "Billed Cap"
+        },
+        "OccupiedSlots": 5,
+        "Items": {
+          "Shrinking Potion": 4,
+          "Oak Stick": 1,
+          "Sun Block Lotion": 1,
+          "VDay Bonus Exp-Ap(x5)": 1,
+          "Red Potion": 2
+        }
+      }
+    },
+    {
+      "Time": "2026-10-13T18:41:59.2597325+00:00",
+      "Revision": 1562,
+      "Opcode": 48,
+      "Payload": "CgA=",
+      "Character": "ResearchFast",
+      "Generation": 4,
+      "Map": 3020,
+      "Position": {
+        "X": 10,
+        "Y": 5
+      },
+      "Npc": null,
+      "OwnResources": {
+        "Gold": 967400,
+        "Experience": 320058866,
+        "Weight": 7,
+        "Equipment": {
+          "16": "Billed Cap"
+        },
+        "OccupiedSlots": 5,
+        "Items": {
+          "Shrinking Potion": 4,
+          "Oak Stick": 1,
+          "Sun Block Lotion": 1,
+          "VDay Bonus Exp-Ap(x5)": 1,
+          "Red Potion": 2
+        }
+      }
+    },
+    {
+      "Time": "2026-10-13T18:42:02.2307859+00:00",
+      "Revision": 1573,
+      "Opcode": 10,
+      "Payload": "AwAhWW91ciBtdXN0IGJlIGFybWVkIHRvIGVudGVyIGhlcmUu",
+      "Character": "ResearchFast",
+      "Generation": 4,
+      "Map": 3020,
+      "Position": {
+        "X": 8,
+        "Y": 4
+      },
+      "Npc": null,
+      "OwnResources": {
+        "Gold": 967400,
+        "Experience": 320058866,
+        "Weight": 7,
+        "Equipment": {
+          "16": "Billed Cap"
+        },
+        "OccupiedSlots": 5,
+        "Items": {
+          "Shrinking Potion": 4,
+          "Oak Stick": 1,
+          "Sun Block Lotion": 1,
+          "VDay Bonus Exp-Ap(x5)": 1,
+          "Red Potion": 2
+        }
+      }
+    },
+    {
+      "Time": "2026-10-13T18:42:02.2310922+00:00",
+      "Revision": 1580,
+      "Opcode": 48,
+      "Payload": "CgA=",
+      "Character": "ResearchFast",
+      "Generation": 4,
+      "Map": 3020,
+      "Position": {
+        "X": 9,
+        "Y": 5
+      },
+      "Npc": null,
+      "OwnResources": {
+        "Gold": 967400,
+        "Experience": 320058866,
+        "Weight": 7,
+        "Equipment": {
+          "16": "Billed Cap"
+        },
+        "OccupiedSlots": 5,
+        "Items": {
+          "Shrinking Potion": 4,
+          "Oak Stick": 1,
+          "Sun Block Lotion": 1,
+          "VDay Bonus Exp-Ap(x5)": 1,
+          "Red Potion": 2
+        }
+      }
+    },
+    {
+      "Time": "2026-10-13T18:42:03.2426745+00:00",
+      "Revision": 1587,
+      "Opcode": 10,
+      "Payload": "AwAhWW91ciBtdXN0IGJlIGFybWVkIHRvIGVudGVyIGhlcmUu",
+      "Character": "ResearchFast",
+      "Generation": 4,
+      "Map": 3020,
+      "Position": {
+        "X": 9,
+        "Y": 5
+      },
+      "Npc": null,
+      "OwnResources": {
+        "Gold": 967400,
+        "Experience": 320058866,
+        "Weight": 7,
+        "Equipment": {
+          "16": "Billed Cap"
+        },
+        "OccupiedSlots": 5,
+        "Items": {
+          "Shrinking Potion": 4,
+          "Oak Stick": 1,
+          "Sun Block Lotion": 1,
+          "VDay Bonus Exp-Ap(x5)": 1,
+          "Red Potion": 2
+        }
+      }
+    },
+    {
+      "Time": "2026-10-13T18:42:03.2430728+00:00",
+      "Revision": 1594,
+      "Opcode": 48,
+      "Payload": "CgA=",
+      "Character": "ResearchFast",
+      "Generation": 4,
+      "Map": 3020,
+      "Position": {
+        "X": 10,
+        "Y": 5
+      },
+      "Npc": null,
+      "OwnResources": {
+        "Gold": 967400,
+        "Experience": 320058866,
+        "Weight": 7,
+        "Equipment": {
+          "16": "Billed Cap"
+        },
+        "OccupiedSlots": 5,
+        "Items": {
+          "Shrinking Potion": 4,
+          "Oak Stick": 1,
+          "Sun Block Lotion": 1,
+          "VDay Bonus Exp-Ap(x5)": 1,
+          "Red Potion": 2
+        }
+      }
+    },
+    {
+      "Time": "2026-10-13T18:42:05.7799837+00:00",
+      "Revision": 1602,
+      "Opcode": 48,
+      "Payload": "CgA=",
+      "Character": "ResearchFast",
+      "Generation": 4,
+      "Map": 3020,
+      "Position": {
+        "X": 10,
+        "Y": 6
+      },
+      "Npc": null,
+      "OwnResources": {
+        "Gold": 967400,
+        "Experience": 320058866,
+        "Weight": 7,
+        "Equipment": {
+          "1": "Oak Stick",
+          "16": "Billed Cap"
+        },
+        "OccupiedSlots": 4,
+        "Items": {
+          "Shrinking Potion": 4,
+          "Sun Block Lotion": 1,
+          "VDay Bonus Exp-Ap(x5)": 1,
+          "Red Potion": 2
+        }
+      }
+    },
+    {
+      "Time": "2026-10-13T18:42:06.3351613+00:00",
+      "Revision": 1611,
+      "Opcode": 48,
+      "Payload": "CgA=",
+      "Character": "ResearchFast",
+      "Generation": 4,
+      "Map": 3019,
+      "Position": {
+        "X": 22,
+        "Y": 6
+      },
+      "Npc": null,
+      "OwnResources": {
+        "Gold": 967400,
+        "Experience": 320058866,
+        "Weight": 7,
+        "Equipment": {
+          "1": "Oak Stick",
+          "16": "Billed Cap"
+        },
+        "OccupiedSlots": 4,
+        "Items": {
+          "Shrinking Potion": 4,
+          "Sun Block Lotion": 1,
+          "VDay Bonus Exp-Ap(x5)": 1,
+          "Red Potion": 2
+        }
+      }
+    },
+    {
+      "Time": "2026-10-13T18:43:21.7901268+00:00",
+      "Revision": 1634,
+      "Opcode": 47,
+      "Payload": "AAEAAB5IAUA9AAFAPQAABUVyaWthAB5IZWxsby4gIFdoYXQgY2FuIEkgZG8gZm9yIHlvdT8LFkNlYW5ubGFpZGlyIEZlbGxvd3NoaXAGBhJDZWFubmxhaWRpciBQcmF5ZXIGJBhDZWFubmxhaWRpciBDb25zZWNyYXRpb24GCRdDZWFubmxhaWRpciBEZXNlY3JhdGlvbgYKEkNlYW5ubGFpZGlyIERlZ3JlZQYHEUNlYW5ubGFpZGlyIE9yZGVyBggNQW5ub3VuY2UgTWFzcwxvBk1hbnRsZQVJBEdvZHMEwRFBYm91dCB0aGUgUmVjb3JkcwhHEUJvbnVzIE1hc3MgUmV3YXJkC2A=",
+      "Character": "ResearchFast",
+      "Generation": 4,
+      "Map": 3019,
+      "Position": {
+        "X": 4,
+        "Y": 4
+      },
+      "Npc": "Erika",
+      "OwnResources": {
+        "Gold": 967400,
+        "Experience": 320058866,
+        "Weight": 7,
+        "Equipment": {
+          "1": "Oak Stick",
+          "16": "Billed Cap"
+        },
+        "OccupiedSlots": 4,
+        "Items": {
+          "Shrinking Potion": 4,
+          "Sun Block Lotion": 1,
+          "VDay Bonus Exp-Ap(x5)": 1,
+          "Red Potion": 2
+        }
+      }
+    },
+    {
+      "Time": "2026-10-13T18:43:33.3097777+00:00",
+      "Revision": 1635,
+      "Opcode": 48,
+      "Payload": "AgEAAB5IAUA9AAFAPQAERwADAAEABUVyaWthABBZZXMsIHdoYXQgaXMgaXQ/AhAqQ29tcGxpbWVudCBoZXIqMypUZWxsIGhlciBvZiB0aGUgZHJlYW1zIG9mIHRoZSBib3kgYW5kIHRoZSBvbGQgbWFuKg==",
+      "Character": "ResearchFast",
+      "Generation": 4,
+      "Map": 3019,
+      "Position": {
+        "X": 4,
+        "Y": 4
+      },
+      "Npc": "Erika",
+      "OwnResources": {
+        "Gold": 967400,
+        "Experience": 320058866,
+        "Weight": 7,
+        "Equipment": {
+          "1": "Oak Stick",
+          "16": "Billed Cap"
+        },
+        "OccupiedSlots": 4,
+        "Items": {
+          "Shrinking Potion": 4,
+          "Sun Block Lotion": 1,
+          "VDay Bonus Exp-Ap(x5)": 1,
+          "Red Potion": 2
+        }
+      }
+    },
+    {
+      "Time": "2026-10-13T18:43:45.8003483+00:00",
+      "Revision": 1636,
+      "Opcode": 48,
+      "Payload": "AAEAAB5IAUA9AAFAPQAERwALAAEABUVyaWthAIxJIHNlZS4uLkkgYW0gbm90IGdvb2QgYXQgaW50ZXJwcmV0aW5nIGRyZWFtcywgYnV0IEkgdGhpbmsgSSBrbm93IHdoYXQgdGhhdCBpcyBhYm91dC4gVGhlcmUgd2FzIGFuIG9sZCBsZWdlbmQgdGhhdCBzYWlkIHNvbWV0aGluZyBsaWtlIHRoYXQuIA==",
+      "Character": "ResearchFast",
+      "Generation": 4,
+      "Map": 3019,
+      "Position": {
+        "X": 4,
+        "Y": 4
+      },
+      "Npc": "Erika",
+      "OwnResources": {
+        "Gold": 967400,
+        "Experience": 320058866,
+        "Weight": 7,
+        "Equipment": {
+          "1": "Oak Stick",
+          "16": "Billed Cap"
+        },
+        "OccupiedSlots": 4,
+        "Items": {
+          "Shrinking Potion": 4,
+          "Sun Block Lotion": 1,
+          "VDay Bonus Exp-Ap(x5)": 1,
+          "Red Potion": 2
+        }
+      }
+    },
+    {
+      "Time": "2026-10-13T18:43:55.8173502+00:00",
+      "Revision": 1637,
+      "Opcode": 48,
+      "Payload": "AgEAAB5IAUA9AAFAPQAERwAMAQEABUVyaWthAC5CdXQgaXQgd2FzIGFsd2F5cyBzZWVuIGFzIG9ubHkgdGhhdCwgYSBsZWdlbmQuARNXaGF0IGlzIHRoZSBsZWdlbmQ/",
+      "Character": "ResearchFast",
+      "Generation": 4,
+      "Map": 3019,
+      "Position": {
+        "X": 4,
+        "Y": 4
+      },
+      "Npc": "Erika",
+      "OwnResources": {
+        "Gold": 967400,
+        "Experience": 320058866,
+        "Weight": 7,
+        "Equipment": {
+          "1": "Oak Stick",
+          "16": "Billed Cap"
+        },
+        "OccupiedSlots": 4,
+        "Items": {
+          "Shrinking Potion": 4,
+          "Sun Block Lotion": 1,
+          "VDay Bonus Exp-Ap(x5)": 1,
+          "Red Potion": 2
+        }
+      }
+    },
+    {
+      "Time": "2026-10-13T18:44:06.316461+00:00",
+      "Revision": 1639,
+      "Opcode": 48,
+      "Payload": "AgEAAB5IAUA9AAFAPQAERwAQAAEABUVyaWthAjNJdCB3YXMgbmV2ZXIgd3JpdHRlbiBkb3duLCBzbyBJIGtub3cgbGl0dGxlIG9mIGl0LiBJdCBzYWlkIGEgcG9vciBtYW4gb25jZSBkaWQgc29tZXRoaW5nIHZlcnkgZ29vZCwgc28gRGFuYWFuIHJld2FyZGVkIGhpbSB3aXRoIGEgc3RyYW5nZSBjYXAgdGhhdCBtYWRlIGhpbSBoZWFsdGhpZXIgYW5kIHdpc2VyLiBJIGNhbm5vdCByZW1lbWJlciB0aGUgZGV0YWlscy4uLnRoZSBvdGhlciBnb2RzIG9mZmVyZWQgdG8gbWFrZSBoaXMgY2FwIHN0cm9uZ2VyLCBidXQgaGUgZGVjbGluZWQuIEFmdGVyIERhbmFhbidzIHNhY3JpZmljZSwgdGhlIGdvZHMgd29uZGVyZWQgaWYgdGhleSBjb3VsZCBhaWQgdGhlaXIgZmlnaHRlcnMgd2l0aCBzaW1pbGFyIGNhcHMuIFRoZXkgYXJndWVkIG92ZXIgaXQgYW5kIGNvdWxkIG5vdCBjb21lIHRvIGFuIGFncmVlbWVudC4gIEFsbCB0aGlzIGlzIGhlYXJzYXksIHRob3VnaCwgYW5kIGhhcHBlbmVkIGh1bmRyZWRzIG9mIERlb2NocyBhZ28uIEJ1dCBub3cgdGhhdCBJIHRoaW5rIG9mIGl0LCB0aGUgY29pbmNpZGVuY2VzIGFyZSBxdWl0ZSBpbnRlcmVzdGluZy4uLgESV2hhdCBjb2luY2lkZW5jZXM/",
+      "Character": "ResearchFast",
+      "Generation": 4,
+      "Map": 3019,
+      "Position": {
+        "X": 4,
+        "Y": 4
+      },
+      "Npc": "Erika",
+      "OwnResources": {
+        "Gold": 967400,
+        "Experience": 320058866,
+        "Weight": 7,
+        "Equipment": {
+          "1": "Oak Stick",
+          "16": "Billed Cap"
+        },
+        "OccupiedSlots": 4,
+        "Items": {
+          "Shrinking Potion": 4,
+          "Sun Block Lotion": 1,
+          "VDay Bonus Exp-Ap(x5)": 1,
+          "Red Potion": 2
+        }
+      }
+    },
+    {
+      "Time": "2026-10-13T18:44:14.3289408+00:00",
+      "Revision": 1640,
+      "Opcode": 48,
+      "Payload": "AAEAAB5IAUA9AAFAPQAERwAUAAEABUVyaWthAQ1SZWNlbnRseSBhIHNvbGRpZXIgb2YgTG91cmVzLCB3aG8gd29yc2hpcHMgaGVyZSwgdG9sZCBtZSBvZiBhIGdpcmwgaW4gdGhlIGNhc3RsZSBoYXZpbmcgYSBzdHJhbmdlIGNhcC4gV2hlbmV2ZXIgc2hlIHdvcmUgaXQsIGhlIHNhaWQsIHNoZSBzZWVtZWQgc3Ryb25nZXIgYW5kIGhlciBleWVzIHNoaW5lZC4gSSBkaXNtaXNzZWQgaGltLCBzYWlkIGhlIHdhcyBwcm9iYWJseSBqdXN0IGluIGxvdmUgd2l0aCBoZXIuIEJhaCwgdGhhdCBpcyBwcm9iYWJseSB3aGF0IGl0IGlzLg==",
+      "Character": "ResearchFast",
+      "Generation": 4,
+      "Map": 3019,
+      "Position": {
+        "X": 4,
+        "Y": 4
+      },
+      "Npc": "Erika",
+      "OwnResources": {
+        "Gold": 967400,
+        "Experience": 320058866,
+        "Weight": 7,
+        "Equipment": {
+          "1": "Oak Stick",
+          "16": "Billed Cap"
+        },
+        "OccupiedSlots": 4,
+        "Items": {
+          "Shrinking Potion": 4,
+          "Sun Block Lotion": 1,
+          "VDay Bonus Exp-Ap(x5)": 1,
+          "Red Potion": 2
+        }
+      }
+    },
+    {
+      "Time": "2026-10-13T18:44:25.3357429+00:00",
+      "Revision": 1641,
+      "Opcode": 48,
+      "Payload": "CgA=",
+      "Character": "ResearchFast",
+      "Generation": 4,
+      "Map": 3019,
+      "Position": {
+        "X": 4,
+        "Y": 4
+      },
+      "Npc": null,
+      "OwnResources": {
+        "Gold": 967400,
+        "Experience": 320058866,
+        "Weight": 7,
+        "Equipment": {
+          "1": "Oak Stick",
+          "16": "Billed Cap"
+        },
+        "OccupiedSlots": 4,
+        "Items": {
+          "Shrinking Potion": 4,
+          "Sun Block Lotion": 1,
+          "VDay Bonus Exp-Ap(x5)": 1,
+          "Red Potion": 2
+        }
+      }
+    },
+    {
+      "Time": "2026-10-13T18:48:05.4982974+00:00",
+      "Revision": 1823,
+      "Opcode": 47,
+      "Payload": "AAEAAC8lAUA9AAFAPQAADEJsYW5jaGVmbGV1cgAeSGVsbG8uICBXaGF0IGNhbiBJIGRvIGZvciB5b3U/AglDb3VydHNoaXAERwtTdHJhbmdlIENhcAhIoBQ=",
+      "Character": "ResearchFast",
+      "Generation": 4,
+      "Map": 117,
+      "Position": {
+        "X": 3,
+        "Y": 6
+      },
+      "Npc": "Blanchefleur",
+      "OwnResources": {
+        "Gold": 967400,
+        "Experience": 320058866,
+        "Weight": 7,
+        "Equipment": {
+          "1": "Oak Stick",
+          "16": "Billed Cap"
+        },
+        "OccupiedSlots": 4,
+        "Items": {
+          "Shrinking Potion": 4,
+          "Sun Block Lotion": 1,
+          "VDay Bonus Exp-Ap(x5)": 1,
+          "Red Potion": 2
+        }
+      }
+    },
+    {
+      "Time": "2026-10-13T18:49:20.0599434+00:00",
+      "Revision": 1825,
+      "Opcode": 48,
+      "Payload": "AAEAAC8lAUA9AAFAPQAESAAJAAEADEJsYW5jaGVmbGV1cgBYTXkgY2FwPyBJdCBpcyB2ZXJ5IHNwZWNpYWwgdG8gbWUuIEkgZmVlbCBzbyBtdWNoIGJldHRlciB3aGVuIEkgd2VhciBpdC4gT2gsIGhlcmUgaXQgaXMuIA==",
+      "Character": "ResearchFast",
+      "Generation": 4,
+      "Map": 117,
+      "Position": {
+        "X": 3,
+        "Y": 6
+      },
+      "Npc": "Blanchefleur",
+      "OwnResources": {
+        "Gold": 967400,
+        "Experience": 320058866,
+        "Weight": 7,
+        "Equipment": {
+          "1": "Oak Stick",
+          "16": "Billed Cap"
+        },
+        "OccupiedSlots": 4,
+        "Items": {
+          "Shrinking Potion": 4,
+          "Sun Block Lotion": 1,
+          "VDay Bonus Exp-Ap(x5)": 1,
+          "Red Potion": 2
+        }
+      }
+    },
+    {
+      "Time": "2026-10-13T18:49:34.6672227+00:00",
+      "Revision": 1826,
+      "Opcode": 48,
+      "Payload": "AgEAAC8lAUA9AAFAPQAESAAKAQEADEJsYW5jaGVmbGV1cgA+VGhlIGJ1cmRlbiBvZiB0aGVzZSBjb2xkIHdhbGxzIHNlZW1zIGxpZ2h0ZXIgd2hlbiBJIHB1dCBpdCBvbi4CEEdpdmUgbWUgdGhlIGNhcC4VV2hlcmUgZGlkIHlvdSBnZXQgaXQ/",
+      "Character": "ResearchFast",
+      "Generation": 4,
+      "Map": 117,
+      "Position": {
+        "X": 3,
+        "Y": 6
+      },
+      "Npc": "Blanchefleur",
+      "OwnResources": {
+        "Gold": 967400,
+        "Experience": 320058866,
+        "Weight": 7,
+        "Equipment": {
+          "1": "Oak Stick",
+          "16": "Billed Cap"
+        },
+        "OccupiedSlots": 4,
+        "Items": {
+          "Shrinking Potion": 4,
+          "Sun Block Lotion": 1,
+          "VDay Bonus Exp-Ap(x5)": 1,
+          "Red Potion": 2
+        }
+      }
+    },
+    {
+      "Time": "2026-10-13T18:49:46.599632+00:00",
+      "Revision": 1827,
+      "Opcode": 48,
+      "Payload": "AAEAAC8lAUA9AAFAPQAESAAjAAEADEJsYW5jaGVmbGV1cgChSXQgd2FzIGEgZ2lmdC4gQnV0IEkgY2Fubm90IHJlbWVtYmVyIGZyb20gd2hvbSwgSSBnZXQgc28gbWFueSBnaWZ0cyAuLi4gT2ghIEl0IHdhcyB0aGF0IG1hbiB3aG8gZ3VhcmRzIHRoZSBDb2xpc2V1bS4gU3VjaCBhIHBpdHksIGhpcyBwcmlzb24gaXMgd29yc2UgdGhhbiBtaW5lLiA=",
+      "Character": "ResearchFast",
+      "Generation": 4,
+      "Map": 117,
+      "Position": {
+        "X": 3,
+        "Y": 6
+      },
+      "Npc": "Blanchefleur",
+      "OwnResources": {
+        "Gold": 967400,
+        "Experience": 320058866,
+        "Weight": 7,
+        "Equipment": {
+          "1": "Oak Stick",
+          "16": "Billed Cap"
+        },
+        "OccupiedSlots": 4,
+        "Items": {
+          "Shrinking Potion": 4,
+          "Sun Block Lotion": 1,
+          "VDay Bonus Exp-Ap(x5)": 1,
+          "Red Potion": 2
+        }
+      }
+    },
+    {
+      "Time": "2026-10-13T18:50:00.6142208+00:00",
+      "Revision": 1828,
+      "Opcode": 48,
+      "Payload": "AgEAAC8lAUA9AAFAPQAESAAkAQEADEJsYW5jaGVmbGV1cgB9QnV0IGF0IGxlYXN0IGhlIGdldHMgdG8gc2VlIG1hbnkgZGlmZmVyZW50IHBlb3BsZS4uLkFoLCBMb3VyZXMgY2FzdGxlLCBob3cgbXVjaCBsb25nZXIgd2lsbCB5b3UgZHJhaW4gdGhlIGxpZmUgZnJvbSBteSBoZWFydD8BGCpUaGFuayBoZXIgZm9yIGhlciB0aW1lKg==",
+      "Character": "ResearchFast",
+      "Generation": 4,
+      "Map": 117,
+      "Position": {
+        "X": 3,
+        "Y": 6
+      },
+      "Npc": "Blanchefleur",
+      "OwnResources": {
+        "Gold": 967400,
+        "Experience": 320058866,
+        "Weight": 7,
+        "Equipment": {
+          "1": "Oak Stick",
+          "16": "Billed Cap"
+        },
+        "OccupiedSlots": 4,
+        "Items": {
+          "Shrinking Potion": 4,
+          "Sun Block Lotion": 1,
+          "VDay Bonus Exp-Ap(x5)": 1,
+          "Red Potion": 2
+        }
+      }
+    },
+    {
+      "Time": "2026-10-13T18:50:25.1309817+00:00",
+      "Revision": 1830,
+      "Opcode": 48,
+      "Payload": "AAEAAC8lAUA9AAFAPQAESAAoAAEADEJsYW5jaGVmbGV1cgCFSXQgaXMgYWx3YXlzIGEgcGxlYXN1cmUgdG8gaGF2ZSB2aXNpdHMgZnJvbSB0aGUgb3V0c2lkZSB3b3JsZC4gUGxlYXNlIGNvbWUgYmFjayBzb21ldGltZSwgSSBhbSBzdXJlIHlvdSBoYXZlIGJlYXV0aWZ1bCB0YWxlcyB0byB0ZWxsLg==",
+      "Character": "ResearchFast",
+      "Generation": 4,
+      "Map": 117,
+      "Position": {
+        "X": 3,
+        "Y": 6
+      },
+      "Npc": "Blanchefleur",
+      "OwnResources": {
+        "Gold": 967400,
+        "Experience": 320058866,
+        "Weight": 7,
+        "Equipment": {
+          "1": "Oak Stick",
+          "16": "Billed Cap"
+        },
+        "OccupiedSlots": 4,
+        "Items": {
+          "Shrinking Potion": 4,
+          "Sun Block Lotion": 1,
+          "VDay Bonus Exp-Ap(x5)": 1,
+          "Red Potion": 2
+        }
+      }
+    },
+    {
+      "Time": "2026-10-13T18:50:45.1371346+00:00",
+      "Revision": 1832,
+      "Opcode": 48,
+      "Payload": "CgA=",
+      "Character": "ResearchFast",
+      "Generation": 4,
+      "Map": 117,
+      "Position": {
+        "X": 3,
+        "Y": 6
+      },
+      "Npc": null,
+      "OwnResources": {
+        "Gold": 967400,
+        "Experience": 320058866,
+        "Weight": 7,
+        "Equipment": {
+          "1": "Oak Stick",
+          "16": "Billed Cap"
+        },
+        "OccupiedSlots": 4,
+        "Items": {
+          "Shrinking Potion": 4,
+          "Sun Block Lotion": 1,
+          "VDay Bonus Exp-Ap(x5)": 1,
+          "Red Potion": 2
+        }
+      }
+    }
+  ],
+  "Actions": [
+    {
+      "Time": "2026-10-13T18:30:54.0631224+00:00",
+      "Revision": 699,
+      "Kind": "next",
+      "Selection": null,
+      "Character": "ResearchFast",
+      "Generation": 4,
+      "Npc": "Rolan",
+      "DialogRevision": 697
+    },
+    {
+      "Time": "2026-10-13T18:35:11.0545643+00:00",
+      "Revision": 751,
+      "Kind": "next",
+      "Selection": null,
+      "Character": "ResearchFast",
+      "Generation": 4,
+      "Npc": "Rolan",
+      "DialogRevision": 750
+    },
+    {
+      "Time": "2026-10-13T18:37:58.1604734+00:00",
+      "Revision": 1157,
+      "Kind": "choose",
+      "Selection": "Gods and hats",
+      "Character": "ResearchFast",
+      "Generation": 4,
+      "Npc": "Blaise",
+      "DialogRevision": 1157
+    },
+    {
+      "Time": "2026-10-13T18:38:07.9946353+00:00",
+      "Revision": 1159,
+      "Kind": "choose",
+      "Selection": "Yes!",
+      "Character": "ResearchFast",
+      "Generation": 4,
+      "Npc": "Blaise",
+      "DialogRevision": 1158
+    },
+    {
+      "Time": "2026-10-13T18:38:34.7883555+00:00",
+      "Revision": 1161,
+      "Kind": "choose",
+      "Selection": "What did you find?",
+      "Character": "ResearchFast",
+      "Generation": 4,
+      "Npc": "Blaise",
+      "DialogRevision": 1160
+    },
+    {
+      "Time": "2026-10-13T18:38:51.113818+00:00",
+      "Revision": 1162,
+      "Kind": "choose",
+      "Selection": "What was said?",
+      "Character": "ResearchFast",
+      "Generation": 4,
+      "Npc": "Blaise",
+      "DialogRevision": 1162
+    },
+    {
+      "Time": "2026-10-13T18:39:12.1086401+00:00",
+      "Revision": 1164,
+      "Kind": "next",
+      "Selection": null,
+      "Character": "ResearchFast",
+      "Generation": 4,
+      "Npc": "Blaise",
+      "DialogRevision": 1163
+    },
+    {
+      "Time": "2026-10-13T18:39:26.810763+00:00",
+      "Revision": 1165,
+      "Kind": "choose",
+      "Selection": "Which God?",
+      "Character": "ResearchFast",
+      "Generation": 4,
+      "Npc": "Blaise",
+      "DialogRevision": 1165
+    },
+    {
+      "Time": "2026-10-13T18:39:36.464817+00:00",
+      "Revision": 1166,
+      "Kind": "next",
+      "Selection": null,
+      "Character": "ResearchFast",
+      "Generation": 4,
+      "Npc": "Blaise",
+      "DialogRevision": 1166
+    },
+    {
+      "Time": "2026-10-13T18:39:47.7480575+00:00",
+      "Revision": 1167,
+      "Kind": "choose",
+      "Selection": "Can I see the records?",
+      "Character": "ResearchFast",
+      "Generation": 4,
+      "Npc": "Blaise",
+      "DialogRevision": 1167
+    },
+    {
+      "Time": "2026-10-13T18:39:59.9830389+00:00",
+      "Revision": 1168,
+      "Kind": "next",
+      "Selection": null,
+      "Character": "ResearchFast",
+      "Generation": 4,
+      "Npc": "Blaise",
+      "DialogRevision": 1168
+    },
+    {
+      "Time": "2026-10-13T18:40:48.6633696+00:00",
+      "Revision": 1172,
+      "Kind": "close",
+      "Selection": null,
+      "Character": "ResearchFast",
+      "Generation": 4,
+      "Npc": "Blaise",
+      "DialogRevision": 1169
+    },
+    {
+      "Time": "2026-10-13T18:43:33.2114821+00:00",
+      "Revision": 1634,
+      "Kind": "choose",
+      "Selection": "About the Records",
+      "Character": "ResearchFast",
+      "Generation": 4,
+      "Npc": "Erika",
+      "DialogRevision": 1634
+    },
+    {
+      "Time": "2026-10-13T18:43:45.4760503+00:00",
+      "Revision": 1635,
+      "Kind": "choose",
+      "Selection": "*Tell her of the dreams of the boy and the old man*",
+      "Character": "ResearchFast",
+      "Generation": 4,
+      "Npc": "Erika",
+      "DialogRevision": 1635
+    },
+    {
+      "Time": "2026-10-13T18:43:55.4001289+00:00",
+      "Revision": 1636,
+      "Kind": "next",
+      "Selection": null,
+      "Character": "ResearchFast",
+      "Generation": 4,
+      "Npc": "Erika",
+      "DialogRevision": 1636
+    },
+    {
+      "Time": "2026-10-13T18:44:05.817967+00:00",
+      "Revision": 1638,
+      "Kind": "choose",
+      "Selection": "What is the legend?",
+      "Character": "ResearchFast",
+      "Generation": 4,
+      "Npc": "Erika",
+      "DialogRevision": 1637
+    },
+    {
+      "Time": "2026-10-13T18:44:14.1862419+00:00",
+      "Revision": 1639,
+      "Kind": "choose",
+      "Selection": "What coincidences?",
+      "Character": "ResearchFast",
+      "Generation": 4,
+      "Npc": "Erika",
+      "DialogRevision": 1639
+    },
+    {
+      "Time": "2026-10-13T18:44:25.212385+00:00",
+      "Revision": 1640,
+      "Kind": "next",
+      "Selection": null,
+      "Character": "ResearchFast",
+      "Generation": 4,
+      "Npc": "Erika",
+      "DialogRevision": 1640
+    },
+    {
+      "Time": "2026-10-13T18:49:19.5297705+00:00",
+      "Revision": 1824,
+      "Kind": "choose",
+      "Selection": "Strange Cap",
+      "Character": "ResearchFast",
+      "Generation": 4,
+      "Npc": "Blanchefleur",
+      "DialogRevision": 1823
+    },
+    {
+      "Time": "2026-10-13T18:49:34.2747643+00:00",
+      "Revision": 1825,
+      "Kind": "next",
+      "Selection": null,
+      "Character": "ResearchFast",
+      "Generation": 4,
+      "Npc": "Blanchefleur",
+      "DialogRevision": 1825
+    },
+    {
+      "Time": "2026-10-13T18:49:46.3856661+00:00",
+      "Revision": 1826,
+      "Kind": "choose",
+      "Selection": "Where did you get it?",
+      "Character": "ResearchFast",
+      "Generation": 4,
+      "Npc": "Blanchefleur",
+      "DialogRevision": 1826
+    },
+    {
+      "Time": "2026-10-13T18:50:00.4049728+00:00",
+      "Revision": 1827,
+      "Kind": "next",
+      "Selection": null,
+      "Character": "ResearchFast",
+      "Generation": 4,
+      "Npc": "Blanchefleur",
+      "DialogRevision": 1827
+    },
+    {
+      "Time": "2026-10-13T18:50:24.7050222+00:00",
+      "Revision": 1829,
+      "Kind": "choose",
+      "Selection": "*Thank her for her time*",
+      "Character": "ResearchFast",
+      "Generation": 4,
+      "Npc": "Blanchefleur",
+      "DialogRevision": 1828
+    },
+    {
+      "Time": "2026-10-13T18:50:44.5903456+00:00",
+      "Revision": 1831,
+      "Kind": "next",
+      "Selection": null,
+      "Character": "ResearchFast",
+      "Generation": 4,
+      "Npc": "Blanchefleur",
+      "DialogRevision": 1830
+    }
+  ],
+  "ObservedMapTransitions": [
+    {
+      "Time": "2026-10-13T17:50:33.3925918+00:00",
+      "Revision": 23,
+      "SourceMap": null,
+      "LastObservedSourcePosition": null,
+      "Map": 415,
+      "MapName": "Suomi Special Skill Mast",
+      "Landing": {
+        "X": 7,
+        "Y": 6
+      },
+      "LandingRevision": 24
+    },
+    {
+      "Time": "2026-10-13T17:54:05.0279521+00:00",
+      "Revision": 53,
+      "SourceMap": 415,
+      "LastObservedSourcePosition": {
+        "X": 7,
+        "Y": 13
+      },
+      "Map": 503,
+      "MapName": "Suomi Village",
+      "Landing": {
+        "X": 13,
+        "Y": 18
+      },
+      "LandingRevision": 54
+    },
+    {
+      "Time": "2026-10-13T17:54:21.5411323+00:00",
+      "Revision": 130,
+      "SourceMap": 503,
+      "LastObservedSourcePosition": {
+        "X": 38,
+        "Y": 58
+      },
+      "Map": 3014,
+      "MapName": "Abel Port Way",
+      "Landing": {
+        "X": 9,
+        "Y": 13
+      },
+      "LandingRevision": 131
+    },
+    {
+      "Time": "2026-10-13T17:54:26.0406098+00:00",
+      "Revision": 148,
+      "SourceMap": 3014,
+      "LastObservedSourcePosition": {
+        "X": 9,
+        "Y": 20
+      },
+      "Map": 502,
+      "MapName": "Abel Port",
+      "Landing": {
+        "X": 28,
+        "Y": 1
+      },
+      "LandingRevision": 149
+    },
+    {
+      "Time": "2026-10-13T17:55:17.5833325+00:00",
+      "Revision": 221,
+      "SourceMap": 502,
+      "LastObservedSourcePosition": {
+        "X": 58,
+        "Y": 39
+      },
+      "Map": 169,
+      "MapName": "Abel Inn",
+      "Landing": {
+        "X": 5,
+        "Y": 10
+      },
+      "LandingRevision": 222
+    },
+    {
+      "Time": "2026-10-13T17:55:41.598895+00:00",
+      "Revision": 228,
+      "SourceMap": 169,
+      "LastObservedSourcePosition": {
+        "X": 5,
+        "Y": 10
+      },
+      "Map": 502,
+      "MapName": "Abel Port",
+      "Landing": {
+        "X": 58,
+        "Y": 39
+      },
+      "LandingRevision": 229
+    },
+    {
+      "Time": "2026-10-13T17:56:18.129696+00:00",
+      "Revision": 234,
+      "SourceMap": 502,
+      "LastObservedSourcePosition": {
+        "X": 58,
+        "Y": 39
+      },
+      "Map": 169,
+      "MapName": "Abel Inn",
+      "Landing": {
+        "X": 5,
+        "Y": 10
+      },
+      "LandingRevision": 235
+    },
+    {
+      "Time": "2026-10-13T17:56:42.1425585+00:00",
+      "Revision": 243,
+      "SourceMap": 169,
+      "LastObservedSourcePosition": {
+        "X": 5,
+        "Y": 10
+      },
+      "Map": 502,
+      "MapName": "Abel Port",
+      "Landing": {
+        "X": 58,
+        "Y": 39
+      },
+      "LandingRevision": 244
+    },
+    {
+      "Time": "2026-10-13T17:56:50.157358+00:00",
+      "Revision": 248,
+      "SourceMap": 502,
+      "LastObservedSourcePosition": {
+        "X": 58,
+        "Y": 39
+      },
+      "Map": 169,
+      "MapName": "Abel Inn",
+      "Landing": {
+        "X": 5,
+        "Y": 10
+      },
+      "LandingRevision": 249
+    },
+    {
+      "Time": "2026-10-13T17:57:22.2814423+00:00",
+      "Revision": 254,
+      "SourceMap": 169,
+      "LastObservedSourcePosition": {
+        "X": 5,
+        "Y": 10
+      },
+      "Map": 502,
+      "MapName": "Abel Port",
+      "Landing": {
+        "X": 58,
+        "Y": 39
+      },
+      "LandingRevision": 255
+    },
+    {
+      "Time": "2026-10-13T17:57:58.2125115+00:00",
+      "Revision": 258,
+      "SourceMap": 502,
+      "LastObservedSourcePosition": {
+        "X": 58,
+        "Y": 39
+      },
+      "Map": 169,
+      "MapName": "Abel Inn",
+      "Landing": {
+        "X": 5,
+        "Y": 10
+      },
+      "LandingRevision": 259
+    },
+    {
+      "Time": "2026-10-13T17:58:22.2271306+00:00",
+      "Revision": 264,
+      "SourceMap": 169,
+      "LastObservedSourcePosition": {
+        "X": 5,
+        "Y": 10
+      },
+      "Map": 502,
+      "MapName": "Abel Port",
+      "Landing": {
+        "X": 58,
+        "Y": 39
+      },
+      "LandingRevision": 265
+    },
+    {
+      "Time": "2026-10-13T17:58:58.7479639+00:00",
+      "Revision": 273,
+      "SourceMap": 502,
+      "LastObservedSourcePosition": {
+        "X": 58,
+        "Y": 39
+      },
+      "Map": 169,
+      "MapName": "Abel Inn",
+      "Landing": {
+        "X": 5,
+        "Y": 10
+      },
+      "LandingRevision": 274
+    },
+    {
+      "Time": "2026-10-13T17:59:22.7638851+00:00",
+      "Revision": 283,
+      "SourceMap": 169,
+      "LastObservedSourcePosition": {
+        "X": 5,
+        "Y": 10
+      },
+      "Map": 502,
+      "MapName": "Abel Port",
+      "Landing": {
+        "X": 58,
+        "Y": 39
+      },
+      "LandingRevision": 284
+    },
+    {
+      "Time": "2026-10-13T17:59:58.8014847+00:00",
+      "Revision": 293,
+      "SourceMap": 502,
+      "LastObservedSourcePosition": {
+        "X": 58,
+        "Y": 39
+      },
+      "Map": 169,
+      "MapName": "Abel Inn",
+      "Landing": {
+        "X": 5,
+        "Y": 10
+      },
+      "LandingRevision": 294
+    },
+    {
+      "Time": "2026-10-13T18:00:22.8279662+00:00",
+      "Revision": 302,
+      "SourceMap": 169,
+      "LastObservedSourcePosition": {
+        "X": 5,
+        "Y": 10
+      },
+      "Map": 502,
+      "MapName": "Abel Port",
+      "Landing": {
+        "X": 58,
+        "Y": 39
+      },
+      "LandingRevision": 303
+    },
+    {
+      "Time": "2026-10-13T18:00:59.3444089+00:00",
+      "Revision": 313,
+      "SourceMap": 502,
+      "LastObservedSourcePosition": {
+        "X": 58,
+        "Y": 39
+      },
+      "Map": 169,
+      "MapName": "Abel Inn",
+      "Landing": {
+        "X": 5,
+        "Y": 10
+      },
+      "LandingRevision": 314
+    },
+    {
+      "Time": "2026-10-13T18:01:22.8592447+00:00",
+      "Revision": 322,
+      "SourceMap": 169,
+      "LastObservedSourcePosition": {
+        "X": 5,
+        "Y": 10
+      },
+      "Map": 502,
+      "MapName": "Abel Port",
+      "Landing": {
+        "X": 58,
+        "Y": 39
+      },
+      "LandingRevision": 323
+    },
+    {
+      "Time": "2026-10-13T18:01:59.3841538+00:00",
+      "Revision": 331,
+      "SourceMap": 502,
+      "LastObservedSourcePosition": {
+        "X": 58,
+        "Y": 39
+      },
+      "Map": 169,
+      "MapName": "Abel Inn",
+      "Landing": {
+        "X": 5,
+        "Y": 10
+      },
+      "LandingRevision": 332
+    },
+    {
+      "Time": "2026-10-13T18:02:23.4086972+00:00",
+      "Revision": 337,
+      "SourceMap": 169,
+      "LastObservedSourcePosition": {
+        "X": 5,
+        "Y": 10
+      },
+      "Map": 502,
+      "MapName": "Abel Port",
+      "Landing": {
+        "X": 58,
+        "Y": 39
+      },
+      "LandingRevision": 338
+    },
+    {
+      "Time": "2026-10-13T18:02:59.4581166+00:00",
+      "Revision": 342,
+      "SourceMap": 502,
+      "LastObservedSourcePosition": {
+        "X": 58,
+        "Y": 39
+      },
+      "Map": 169,
+      "MapName": "Abel Inn",
+      "Landing": {
+        "X": 5,
+        "Y": 10
+      },
+      "LandingRevision": 343
+    },
+    {
+      "Time": "2026-10-13T18:03:23.4523557+00:00",
+      "Revision": 348,
+      "SourceMap": 169,
+      "LastObservedSourcePosition": {
+        "X": 5,
+        "Y": 10
+      },
+      "Map": 502,
+      "MapName": "Abel Port",
+      "Landing": {
+        "X": 58,
+        "Y": 39
+      },
+      "LandingRevision": 349
+    },
+    {
+      "Time": "2026-10-13T18:03:59.9790081+00:00",
+      "Revision": 357,
+      "SourceMap": 502,
+      "LastObservedSourcePosition": {
+        "X": 58,
+        "Y": 39
+      },
+      "Map": 169,
+      "MapName": "Abel Inn",
+      "Landing": {
+        "X": 5,
+        "Y": 10
+      },
+      "LandingRevision": 358
+    },
+    {
+      "Time": "2026-10-13T18:04:23.4992807+00:00",
+      "Revision": 366,
+      "SourceMap": 169,
+      "LastObservedSourcePosition": {
+        "X": 5,
+        "Y": 10
+      },
+      "Map": 502,
+      "MapName": "Abel Port",
+      "Landing": {
+        "X": 58,
+        "Y": 39
+      },
+      "LandingRevision": 367
+    },
+    {
+      "Time": "2026-10-13T18:04:56.515389+00:00",
+      "Revision": 375,
+      "SourceMap": 502,
+      "LastObservedSourcePosition": {
+        "X": 58,
+        "Y": 39
+      },
+      "Map": 169,
+      "MapName": "Abel Inn",
+      "Landing": {
+        "X": 5,
+        "Y": 10
+      },
+      "LandingRevision": 376
+    },
+    {
+      "Time": "2026-10-13T18:05:44.0493737+00:00",
+      "Revision": 384,
+      "SourceMap": 169,
+      "LastObservedSourcePosition": {
+        "X": 5,
+        "Y": 9
+      },
+      "Map": 502,
+      "MapName": "Abel Port",
+      "Landing": {
+        "X": 58,
+        "Y": 39
+      },
+      "LandingRevision": 385
+    },
+    {
+      "Time": "2026-10-13T18:06:20.5818423+00:00",
+      "Revision": 389,
+      "SourceMap": 502,
+      "LastObservedSourcePosition": {
+        "X": 58,
+        "Y": 39
+      },
+      "Map": 169,
+      "MapName": "Abel Inn",
+      "Landing": {
+        "X": 5,
+        "Y": 10
+      },
+      "LandingRevision": 390
+    },
+    {
+      "Time": "2026-10-13T18:06:44.0980505+00:00",
+      "Revision": 395,
+      "SourceMap": 169,
+      "LastObservedSourcePosition": {
+        "X": 5,
+        "Y": 10
+      },
+      "Map": 502,
+      "MapName": "Abel Port",
+      "Landing": {
+        "X": 58,
+        "Y": 39
+      },
+      "LandingRevision": 396
+    },
+    {
+      "Time": "2026-10-13T18:07:20.6230889+00:00",
+      "Revision": 405,
+      "SourceMap": 502,
+      "LastObservedSourcePosition": {
+        "X": 58,
+        "Y": 39
+      },
+      "Map": 169,
+      "MapName": "Abel Inn",
+      "Landing": {
+        "X": 5,
+        "Y": 10
+      },
+      "LandingRevision": 406
+    },
+    {
+      "Time": "2026-10-13T18:07:44.6379803+00:00",
+      "Revision": 413,
+      "SourceMap": 169,
+      "LastObservedSourcePosition": {
+        "X": 5,
+        "Y": 10
+      },
+      "Map": 502,
+      "MapName": "Abel Port",
+      "Landing": {
+        "X": 58,
+        "Y": 39
+      },
+      "LandingRevision": 414
+    },
+    {
+      "Time": "2026-10-13T18:08:21.1742409+00:00",
+      "Revision": 423,
+      "SourceMap": 502,
+      "LastObservedSourcePosition": {
+        "X": 58,
+        "Y": 39
+      },
+      "Map": 169,
+      "MapName": "Abel Inn",
+      "Landing": {
+        "X": 5,
+        "Y": 10
+      },
+      "LandingRevision": 424
+    },
+    {
+      "Time": "2026-10-13T18:09:53.2414616+00:00",
+      "Revision": 446,
+      "SourceMap": 169,
+      "LastObservedSourcePosition": {
+        "X": 1,
+        "Y": 10
+      },
+      "Map": 204,
+      "MapName": "Abel Inn Corridor 1",
+      "Landing": {
+        "X": 3,
+        "Y": 13
+      },
+      "LandingRevision": 447
+    },
+    {
+      "Time": "2026-10-13T18:10:50.2895242+00:00",
+      "Revision": 465,
+      "SourceMap": 204,
+      "LastObservedSourcePosition": {
+        "X": 3,
+        "Y": 1
+      },
+      "Map": 205,
+      "MapName": "Abel Inn Corridor 2",
+      "Landing": {
+        "X": 2,
+        "Y": 3
+      },
+      "LandingRevision": 466
+    },
+    {
+      "Time": "2026-10-13T18:19:42.3322504+00:00",
+      "Revision": 519,
+      "SourceMap": 205,
+      "LastObservedSourcePosition": {
+        "X": 7,
+        "Y": 1
+      },
+      "Map": 178,
+      "MapName": "Abel Inn Room 8",
+      "Landing": {
+        "X": 4,
+        "Y": 6
+      },
+      "LandingRevision": 520
+    },
+    {
+      "Time": "2026-10-13T18:20:12.3386165+00:00",
+      "Revision": 524,
+      "SourceMap": 178,
+      "LastObservedSourcePosition": {
+        "X": 4,
+        "Y": 6
+      },
+      "Map": 205,
+      "MapName": "Abel Inn Corridor 2",
+      "Landing": {
+        "X": 7,
+        "Y": 1
+      },
+      "LandingRevision": 525
+    },
+    {
+      "Time": "2026-10-13T18:20:49.2473709+00:00",
+      "Revision": 530,
+      "SourceMap": 205,
+      "LastObservedSourcePosition": {
+        "X": 7,
+        "Y": 1
+      },
+      "Map": 178,
+      "MapName": "Abel Inn Room 8",
+      "Landing": {
+        "X": 4,
+        "Y": 6
+      },
+      "LandingRevision": 531
+    },
+    {
+      "Time": "2026-10-13T18:21:12.2700575+00:00",
+      "Revision": 535,
+      "SourceMap": 178,
+      "LastObservedSourcePosition": {
+        "X": 4,
+        "Y": 6
+      },
+      "Map": 205,
+      "MapName": "Abel Inn Corridor 2",
+      "Landing": {
+        "X": 7,
+        "Y": 1
+      },
+      "LandingRevision": 536
+    },
+    {
+      "Time": "2026-10-13T18:22:11.8926215+00:00",
+      "Revision": 547,
+      "SourceMap": 205,
+      "LastObservedSourcePosition": {
+        "X": 4,
+        "Y": 1
+      },
+      "Map": 177,
+      "MapName": "Abel Inn Room 7",
+      "Landing": {
+        "X": 4,
+        "Y": 6
+      },
+      "LandingRevision": 548
+    },
+    {
+      "Time": "2026-10-13T18:22:37.3273223+00:00",
+      "Revision": 553,
+      "SourceMap": 177,
+      "LastObservedSourcePosition": {
+        "X": 4,
+        "Y": 5
+      },
+      "Map": 205,
+      "MapName": "Abel Inn Corridor 2",
+      "Landing": {
+        "X": 4,
+        "Y": 1
+      },
+      "LandingRevision": 554
+    },
+    {
+      "Time": "2026-10-13T18:23:13.3687533+00:00",
+      "Revision": 558,
+      "SourceMap": 205,
+      "LastObservedSourcePosition": {
+        "X": 4,
+        "Y": 1
+      },
+      "Map": 177,
+      "MapName": "Abel Inn Room 7",
+      "Landing": {
+        "X": 4,
+        "Y": 6
+      },
+      "LandingRevision": 559
+    },
+    {
+      "Time": "2026-10-13T18:23:37.8762893+00:00",
+      "Revision": 564,
+      "SourceMap": 177,
+      "LastObservedSourcePosition": {
+        "X": 4,
+        "Y": 6
+      },
+      "Map": 205,
+      "MapName": "Abel Inn Corridor 2",
+      "Landing": {
+        "X": 4,
+        "Y": 1
+      },
+      "LandingRevision": 565
+    },
+    {
+      "Time": "2026-10-13T18:24:13.4162267+00:00",
+      "Revision": 573,
+      "SourceMap": 205,
+      "LastObservedSourcePosition": {
+        "X": 4,
+        "Y": 1
+      },
+      "Map": 177,
+      "MapName": "Abel Inn Room 7",
+      "Landing": {
+        "X": 4,
+        "Y": 6
+      },
+      "LandingRevision": 574
+    },
+    {
+      "Time": "2026-10-13T18:24:37.9285445+00:00",
+      "Revision": 582,
+      "SourceMap": 177,
+      "LastObservedSourcePosition": {
+        "X": 4,
+        "Y": 6
+      },
+      "Map": 205,
+      "MapName": "Abel Inn Corridor 2",
+      "Landing": {
+        "X": 4,
+        "Y": 1
+      },
+      "LandingRevision": 583
+    },
+    {
+      "Time": "2026-10-13T18:25:13.9632858+00:00",
+      "Revision": 591,
+      "SourceMap": 205,
+      "LastObservedSourcePosition": {
+        "X": 4,
+        "Y": 1
+      },
+      "Map": 177,
+      "MapName": "Abel Inn Room 7",
+      "Landing": {
+        "X": 4,
+        "Y": 6
+      },
+      "LandingRevision": 592
+    },
+    {
+      "Time": "2026-10-13T18:25:38.465501+00:00",
+      "Revision": 600,
+      "SourceMap": 177,
+      "LastObservedSourcePosition": {
+        "X": 4,
+        "Y": 6
+      },
+      "Map": 205,
+      "MapName": "Abel Inn Corridor 2",
+      "Landing": {
+        "X": 4,
+        "Y": 1
+      },
+      "LandingRevision": 601
+    },
+    {
+      "Time": "2026-10-13T18:26:14.0342583+00:00",
+      "Revision": 612,
+      "SourceMap": 205,
+      "LastObservedSourcePosition": {
+        "X": 4,
+        "Y": 1
+      },
+      "Map": 177,
+      "MapName": "Abel Inn Room 7",
+      "Landing": {
+        "X": 4,
+        "Y": 6
+      },
+      "LandingRevision": 613
+    },
+    {
+      "Time": "2026-10-13T18:26:38.5145873+00:00",
+      "Revision": 621,
+      "SourceMap": 177,
+      "LastObservedSourcePosition": {
+        "X": 4,
+        "Y": 6
+      },
+      "Map": 205,
+      "MapName": "Abel Inn Corridor 2",
+      "Landing": {
+        "X": 4,
+        "Y": 1
+      },
+      "LandingRevision": 622
+    },
+    {
+      "Time": "2026-10-13T18:27:14.5810662+00:00",
+      "Revision": 631,
+      "SourceMap": 205,
+      "LastObservedSourcePosition": {
+        "X": 4,
+        "Y": 1
+      },
+      "Map": 177,
+      "MapName": "Abel Inn Room 7",
+      "Landing": {
+        "X": 4,
+        "Y": 6
+      },
+      "LandingRevision": 632
+    },
+    {
+      "Time": "2026-10-13T18:27:39.0985751+00:00",
+      "Revision": 639,
+      "SourceMap": 177,
+      "LastObservedSourcePosition": {
+        "X": 4,
+        "Y": 6
+      },
+      "Map": 205,
+      "MapName": "Abel Inn Corridor 2",
+      "Landing": {
+        "X": 4,
+        "Y": 1
+      },
+      "LandingRevision": 640
+    },
+    {
+      "Time": "2026-10-13T18:28:14.6100624+00:00",
+      "Revision": 649,
+      "SourceMap": 205,
+      "LastObservedSourcePosition": {
+        "X": 4,
+        "Y": 1
+      },
+      "Map": 177,
+      "MapName": "Abel Inn Room 7",
+      "Landing": {
+        "X": 4,
+        "Y": 6
+      },
+      "LandingRevision": 650
+    },
+    {
+      "Time": "2026-10-13T18:28:39.1334316+00:00",
+      "Revision": 657,
+      "SourceMap": 177,
+      "LastObservedSourcePosition": {
+        "X": 4,
+        "Y": 6
+      },
+      "Map": 205,
+      "MapName": "Abel Inn Corridor 2",
+      "Landing": {
+        "X": 4,
+        "Y": 1
+      },
+      "LandingRevision": 658
+    },
+    {
+      "Time": "2026-10-13T18:29:14.6673685+00:00",
+      "Revision": 667,
+      "SourceMap": 205,
+      "LastObservedSourcePosition": {
+        "X": 4,
+        "Y": 1
+      },
+      "Map": 177,
+      "MapName": "Abel Inn Room 7",
+      "Landing": {
+        "X": 4,
+        "Y": 6
+      },
+      "LandingRevision": 668
+    },
+    {
+      "Time": "2026-10-13T18:29:39.6656216+00:00",
+      "Revision": 677,
+      "SourceMap": 177,
+      "LastObservedSourcePosition": {
+        "X": 4,
+        "Y": 6
+      },
+      "Map": 205,
+      "MapName": "Abel Inn Corridor 2",
+      "Landing": {
+        "X": 4,
+        "Y": 1
+      },
+      "LandingRevision": 678
+    },
+    {
+      "Time": "2026-10-13T18:30:15.2010059+00:00",
+      "Revision": 686,
+      "SourceMap": 205,
+      "LastObservedSourcePosition": {
+        "X": 4,
+        "Y": 1
+      },
+      "Map": 177,
+      "MapName": "Abel Inn Room 7",
+      "Landing": {
+        "X": 4,
+        "Y": 6
+      },
+      "LandingRevision": 687
+    },
+    {
+      "Time": "2026-10-13T18:31:41.7375318+00:00",
+      "Revision": 704,
+      "SourceMap": 177,
+      "LastObservedSourcePosition": {
+        "X": 4,
+        "Y": 6
+      },
+      "Map": 205,
+      "MapName": "Abel Inn Corridor 2",
+      "Landing": {
+        "X": 4,
+        "Y": 1
+      },
+      "LandingRevision": 705
+    },
+    {
+      "Time": "2026-10-13T18:32:15.7848891+00:00",
+      "Revision": 710,
+      "SourceMap": 205,
+      "LastObservedSourcePosition": {
+        "X": 4,
+        "Y": 2
+      },
+      "Map": 177,
+      "MapName": "Abel Inn Room 7",
+      "Landing": {
+        "X": 4,
+        "Y": 6
+      },
+      "LandingRevision": 711
+    },
+    {
+      "Time": "2026-10-13T18:32:40.370974+00:00",
+      "Revision": 716,
+      "SourceMap": 177,
+      "LastObservedSourcePosition": {
+        "X": 4,
+        "Y": 6
+      },
+      "Map": 205,
+      "MapName": "Abel Inn Corridor 2",
+      "Landing": {
+        "X": 4,
+        "Y": 1
+      },
+      "LandingRevision": 717
+    },
+    {
+      "Time": "2026-10-13T18:33:15.8271399+00:00",
+      "Revision": 721,
+      "SourceMap": 205,
+      "LastObservedSourcePosition": {
+        "X": 4,
+        "Y": 1
+      },
+      "Map": 177,
+      "MapName": "Abel Inn Room 7",
+      "Landing": {
+        "X": 4,
+        "Y": 6
+      },
+      "LandingRevision": 722
+    },
+    {
+      "Time": "2026-10-13T18:33:40.3444187+00:00",
+      "Revision": 729,
+      "SourceMap": 177,
+      "LastObservedSourcePosition": {
+        "X": 4,
+        "Y": 6
+      },
+      "Map": 205,
+      "MapName": "Abel Inn Corridor 2",
+      "Landing": {
+        "X": 4,
+        "Y": 1
+      },
+      "LandingRevision": 730
+    },
+    {
+      "Time": "2026-10-13T18:33:50.362078+00:00",
+      "Revision": 736,
+      "SourceMap": 205,
+      "LastObservedSourcePosition": {
+        "X": 4,
+        "Y": 1
+      },
+      "Map": 177,
+      "MapName": "Abel Inn Room 7",
+      "Landing": {
+        "X": 4,
+        "Y": 6
+      },
+      "LandingRevision": 737
+    },
+    {
+      "Time": "2026-10-13T18:35:39.9347219+00:00",
+      "Revision": 758,
+      "SourceMap": 177,
+      "LastObservedSourcePosition": {
+        "X": 4,
+        "Y": 6
+      },
+      "Map": 205,
+      "MapName": "Abel Inn Corridor 2",
+      "Landing": {
+        "X": 4,
+        "Y": 1
+      },
+      "LandingRevision": 759
+    },
+    {
+      "Time": "2026-10-13T18:35:42.4363893+00:00",
+      "Revision": 766,
+      "SourceMap": 205,
+      "LastObservedSourcePosition": {
+        "X": 2,
+        "Y": 3
+      },
+      "Map": 204,
+      "MapName": "Abel Inn Corridor 1",
+      "Landing": {
+        "X": 3,
+        "Y": 1
+      },
+      "LandingRevision": 767
+    },
+    {
+      "Time": "2026-10-13T18:35:46.9432825+00:00",
+      "Revision": 784,
+      "SourceMap": 204,
+      "LastObservedSourcePosition": {
+        "X": 3,
+        "Y": 13
+      },
+      "Map": 169,
+      "MapName": "Abel Inn",
+      "Landing": {
+        "X": 1,
+        "Y": 10
+      },
+      "LandingRevision": 785
+    },
+    {
+      "Time": "2026-10-13T18:35:49.9385001+00:00",
+      "Revision": 794,
+      "SourceMap": 169,
+      "LastObservedSourcePosition": {
+        "X": 6,
+        "Y": 10
+      },
+      "Map": 502,
+      "MapName": "Abel Port",
+      "Landing": {
+        "X": 59,
+        "Y": 39
+      },
+      "LandingRevision": 795
+    },
+    {
+      "Time": "2026-10-13T18:36:46.9806588+00:00",
+      "Revision": 970,
+      "SourceMap": 502,
+      "LastObservedSourcePosition": {
+        "X": 15,
+        "Y": 66
+      },
+      "Map": 3081,
+      "MapName": "Rucesion Port Threshold",
+      "Landing": {
+        "X": 8,
+        "Y": 1
+      },
+      "LandingRevision": 971
+    },
+    {
+      "Time": "2026-10-13T18:36:48.4937964+00:00",
+      "Revision": 979,
+      "SourceMap": 3081,
+      "LastObservedSourcePosition": {
+        "X": 7,
+        "Y": 1
+      },
+      "Map": 3271,
+      "MapName": "Loures Castle",
+      "Landing": {
+        "X": 62,
+        "Y": 60
+      },
+      "LandingRevision": 980
+    },
+    {
+      "Time": "2026-10-13T18:37:02.4988414+00:00",
+      "Revision": 1042,
+      "SourceMap": 3271,
+      "LastObservedSourcePosition": {
+        "X": 30,
+        "Y": 38
+      },
+      "Map": 109,
+      "MapName": "Loures 1 Floor Hall",
+      "Landing": {
+        "X": 6,
+        "Y": 13
+      },
+      "LandingRevision": 1043
+    },
+    {
+      "Time": "2026-10-13T18:37:06.9954902+00:00",
+      "Revision": 1061,
+      "SourceMap": 109,
+      "LastObservedSourcePosition": {
+        "X": 14,
+        "Y": 7
+      },
+      "Map": 126,
+      "MapName": "Loures 2 Floor Corridor",
+      "Landing": {
+        "X": 2,
+        "Y": 30
+      },
+      "LandingRevision": 1062
+    },
+    {
+      "Time": "2026-10-13T18:37:14.1794188+00:00",
+      "Revision": 1094,
+      "SourceMap": 126,
+      "LastObservedSourcePosition": {
+        "X": 2,
+        "Y": 1
+      },
+      "Map": 119,
+      "MapName": "Loures 2 Floor Hall",
+      "Landing": {
+        "X": 6,
+        "Y": 13
+      },
+      "LandingRevision": 1095
+    },
+    {
+      "Time": "2026-10-13T18:37:18.5336954+00:00",
+      "Revision": 1112,
+      "SourceMap": 119,
+      "LastObservedSourcePosition": {
+        "X": 14,
+        "Y": 7
+      },
+      "Map": 115,
+      "MapName": "Loures 3 Floor Office",
+      "Landing": {
+        "X": 8,
+        "Y": 13
+      },
+      "LandingRevision": 1113
+    },
+    {
+      "Time": "2026-10-13T18:37:22.0109688+00:00",
+      "Revision": 1138,
+      "SourceMap": 115,
+      "LastObservedSourcePosition": {
+        "X": 1,
+        "Y": 8
+      },
+      "Map": 123,
+      "MapName": "Loures 3 Floor Corridor",
+      "Landing": {
+        "X": 7,
+        "Y": 6
+      },
+      "LandingRevision": 1139
+    },
+    {
+      "Time": "2026-10-13T18:37:24.5236923+00:00",
+      "Revision": 1149,
+      "SourceMap": 123,
+      "LastObservedSourcePosition": {
+        "X": 5,
+        "Y": 1
+      },
+      "Map": 3041,
+      "MapName": "Loures Library",
+      "Landing": {
+        "X": 8,
+        "Y": 13
+      },
+      "LandingRevision": 1150
+    },
+    {
+      "Time": "2026-10-13T18:40:51.7106254+00:00",
+      "Revision": 1178,
+      "SourceMap": 3041,
+      "LastObservedSourcePosition": {
+        "X": 8,
+        "Y": 14
+      },
+      "Map": 123,
+      "MapName": "Loures 3 Floor Corridor",
+      "Landing": {
+        "X": 5,
+        "Y": 2
+      },
+      "LandingRevision": 1179
+    },
+    {
+      "Time": "2026-10-13T18:40:54.1674994+00:00",
+      "Revision": 1189,
+      "SourceMap": 123,
+      "LastObservedSourcePosition": {
+        "X": 8,
+        "Y": 6
+      },
+      "Map": 115,
+      "MapName": "Loures 3 Floor Office",
+      "Landing": {
+        "X": 1,
+        "Y": 8
+      },
+      "LandingRevision": 1190
+    },
+    {
+      "Time": "2026-10-13T18:40:58.8969445+00:00",
+      "Revision": 1217,
+      "SourceMap": 115,
+      "LastObservedSourcePosition": {
+        "X": 8,
+        "Y": 14
+      },
+      "Map": 119,
+      "MapName": "Loures 2 Floor Hall",
+      "Landing": {
+        "X": 14,
+        "Y": 7
+      },
+      "LandingRevision": 1218
+    },
+    {
+      "Time": "2026-10-13T18:41:03.6758666+00:00",
+      "Revision": 1237,
+      "SourceMap": 119,
+      "LastObservedSourcePosition": {
+        "X": 5,
+        "Y": 14
+      },
+      "Map": 126,
+      "MapName": "Loures 2 Floor Corridor",
+      "Landing": {
+        "X": 2,
+        "Y": 2
+      },
+      "LandingRevision": 1238
+    },
+    {
+      "Time": "2026-10-13T18:41:11.1759311+00:00",
+      "Revision": 1271,
+      "SourceMap": 126,
+      "LastObservedSourcePosition": {
+        "X": 2,
+        "Y": 31
+      },
+      "Map": 109,
+      "MapName": "Loures 1 Floor Hall",
+      "Landing": {
+        "X": 14,
+        "Y": 7
+      },
+      "LandingRevision": 1272
+    },
+    {
+      "Time": "2026-10-13T18:41:15.1774477+00:00",
+      "Revision": 1291,
+      "SourceMap": 109,
+      "LastObservedSourcePosition": {
+        "X": 5,
+        "Y": 14
+      },
+      "Map": 3271,
+      "MapName": "Loures Castle",
+      "Landing": {
+        "X": 28,
+        "Y": 39
+      },
+      "LandingRevision": 1292
+    },
+    {
+      "Time": "2026-10-13T18:41:29.6976135+00:00",
+      "Revision": 1353,
+      "SourceMap": 3271,
+      "LastObservedSourcePosition": {
+        "X": 64,
+        "Y": 58
+      },
+      "Map": 3020,
+      "MapName": "Piet Village Way",
+      "Landing": {
+        "X": 16,
+        "Y": 1
+      },
+      "LandingRevision": 1354
+    },
+    {
+      "Time": "2026-10-13T18:42:06.3343742+00:00",
+      "Revision": 1606,
+      "SourceMap": 3020,
+      "LastObservedSourcePosition": {
+        "X": 9,
+        "Y": 6
+      },
+      "Map": 3019,
+      "MapName": "Shrine of Ceannlaidir - ",
+      "Landing": {
+        "X": 22,
+        "Y": 6
+      },
+      "LandingRevision": 1607
+    },
+    {
+      "Time": "2026-10-13T18:47:27.9764065+00:00",
+      "Revision": 1678,
+      "SourceMap": 3019,
+      "LastObservedSourcePosition": {
+        "X": 22,
+        "Y": 4
+      },
+      "Map": 3020,
+      "MapName": "Piet Village Way",
+      "Landing": {
+        "X": 12,
+        "Y": 6
+      },
+      "LandingRevision": 1679
+    },
+    {
+      "Time": "2026-10-13T18:47:34.4934823+00:00",
+      "Revision": 1699,
+      "SourceMap": 3020,
+      "LastObservedSourcePosition": {
+        "X": 15,
+        "Y": 1
+      },
+      "Map": 3271,
+      "MapName": "Loures Castle",
+      "Landing": {
+        "X": 62,
+        "Y": 59
+      },
+      "LandingRevision": 1700
+    },
+    {
+      "Time": "2026-10-13T18:47:48.4967783+00:00",
+      "Revision": 1756,
+      "SourceMap": 3271,
+      "LastObservedSourcePosition": {
+        "X": 30,
+        "Y": 38
+      },
+      "Map": 109,
+      "MapName": "Loures 1 Floor Hall",
+      "Landing": {
+        "X": 6,
+        "Y": 13
+      },
+      "LandingRevision": 1757
+    },
+    {
+      "Time": "2026-10-13T18:47:53.024495+00:00",
+      "Revision": 1774,
+      "SourceMap": 109,
+      "LastObservedSourcePosition": {
+        "X": 14,
+        "Y": 7
+      },
+      "Map": 126,
+      "MapName": "Loures 2 Floor Corridor",
+      "Landing": {
+        "X": 2,
+        "Y": 30
+      },
+      "LandingRevision": 1775
+    },
+    {
+      "Time": "2026-10-13T18:48:03.0032028+00:00",
+      "Revision": 1809,
+      "SourceMap": 126,
+      "LastObservedSourcePosition": {
+        "X": 1,
+        "Y": 4
+      },
+      "Map": 117,
+      "MapName": "Loures 2 Floor Bed Room",
+      "Landing": {
+        "X": 7,
+        "Y": 6
+      },
+      "LandingRevision": 1810
+    }
+  ]
+}

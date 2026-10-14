@@ -256,6 +256,26 @@
     "name": "Asilon Town",
     "width": 90,
     "height": 80,
+    "npcTransfers": [
+      {
+        "Anchor": {
+          "X": 32,
+          "Y": 33
+        },
+        "Map": 10999,
+        "PlanningArrival": {
+          "X": 5,
+          "Y": 7
+        },
+        "Npc": "Lenoa",
+        "Service": "Caravan to Noam",
+        "Destinations": [
+          "Noam"
+        ],
+        "MinimumGold": 10001,
+        "FareBeforeDestination": true
+      }
+    ],
     "portals": [
       {
         "from": {
@@ -4806,6 +4826,43 @@
     "name": "Noam Village",
     "width": 100,
     "height": 100,
+    "npcTransfers": [
+      {
+        "Anchor": {
+          "X": 44,
+          "Y": 21
+        },
+        "Map": 1960,
+        "PlanningArrival": {
+          "X": 5,
+          "Y": 6
+        },
+        "Npc": "Habab",
+        "Service": "Carpet Merchant",
+        "Destinations": [
+          "Tagor",
+          "Temuair"
+        ],
+        "MinimumGold": 10001
+      },
+      {
+        "Anchor": {
+          "X": 44,
+          "Y": 21
+        },
+        "Map": 10999,
+        "PlanningArrival": {
+          "X": 5,
+          "Y": 7
+        },
+        "Npc": "Habab",
+        "Service": "Caravan to Asilon or Hwarone",
+        "Destinations": [
+          "Asilon"
+        ],
+        "MinimumGold": 10001
+      }
+    ],
     "portals": [
       {
         "from": {
@@ -25915,6 +25972,18 @@
           "X": 21,
           "Y": 1
         }
+      },
+      {
+        "from": {
+          "X": 7,
+          "Y": 29
+        },
+        "map": 195,
+        "to": {
+          "X": 8,
+          "Y": 5
+        },
+        "worldMap": false
       }
     ]
   },
@@ -74761,6 +74830,25 @@
     "name": "Loures Harbor Shop",
     "width": 14,
     "height": 14,
+    "npcTransfers": [
+      {
+        "Anchor": {
+          "X": 7,
+          "Y": 7
+        },
+        "Map": 10028,
+        "PlanningArrival": {
+          "X": 43,
+          "Y": 2
+        },
+        "Npc": "Quard",
+        "Service": "Express Ship",
+        "Destinations": [
+          "Asilon",
+          "Medenia"
+        ]
+      }
+    ],
     "portals": [
       {
         "from": {
@@ -97698,6 +97786,26 @@
           "X": 10,
           "Y": 3
         }
+      }
+    ]
+  },
+  {
+    "id": 195,
+    "name": "Coast Bar",
+    "width": 10,
+    "height": 10,
+    "portals": [
+      {
+        "from": {
+          "X": 9,
+          "Y": 5
+        },
+        "map": 185,
+        "to": {
+          "X": 8,
+          "Y": 29
+        },
+        "worldMap": false
       }
     ]
   }

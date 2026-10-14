@@ -1,5 +1,22 @@
 # Source provenance
 
+On October 13, 2026 the player reported Emerald Dawn requires registration and
+level 11 was refused beyond Shinewood Forest 7. Emerald now uses the existing
+own-legend `((Unregistered))` restriction. Faerie minimum level is provisionally
+20 at the player's request; this does not claim the actual server threshold is
+confirmed. Synthetic eligibility and offline-memory tests cover these rules.
+
+Synthetic Undine transport tests reproduce a weapon warning followed by a map
+transfer before the walker processes the popup. The restriction is now retained
+until confirmed weapon removal. This is a verified recovery race, not a claim
+that an inspected packet from the player's latest run proves its cause.
+
+Dashboard XP feedback comes only from fresh numeric active messages. Quest XP
+uses the same wording, so the Kill caption additionally requires an observed own
+killing-blow effect (263/278) on a nonplayer creature. Level-up feedback requires
+an observed level increase. The gold burst is application artwork; no unverified
+game animation ID is assumed. Neither overlay creates quest or reward evidence.
+
 Read-only inspection of the player's 2026-10-12 Spare a Stick replay found an
 additional ordinary Callough terminal reply: "Ah thank ya, you've done well."
 The reply is pursuit 177, step 73, from the same NPC entity and connection as
@@ -417,3 +434,116 @@ Library progression is authored presentation guidance. It does not change server
 Spin's diagnostics recorded an unanswered movement refresh and a five-second timeout while reopening Carlos between consecutive purchases. The running build's replay export exhausted memory; no complete packet trace is claimed for those incidents. Synthetic tests reproduce unnecessary refresh after a position rejection and repeated shop opening. Recovery accepts a confirmed sole-step rejection or drained movement correction; uncertain projected requests retain a refresh barrier. Consecutive purchases reuse the observed Carlos list, with independent bag/gold proof and durable pending purchases.
 
 The owned-equipment table uses documented practical peasant items from [Vorlof armors](https://vorlof.com/armors.php), [boots](https://vorlof.com/daitems/boots.htm) and [rings](https://vorlof.com/daitems/rings.htm). It is deliberately bounded: unknown items are not ranked, known requirements are respected, and an upgrade cannot discard a documented benefit. Nothing is purchased from this table. Emerald Ring requires level 12, so a level-7 character retains the tutorial ring. Combat activity comes from the actual selected entity; names for unnamed creatures on starter crypt floors use the existing ground's documented sprite mapping. Names are presentation metadata, never kill or reward evidence.
+
+
+The 2026-10-13 continent travel update reads Excalibur commit
+**813418e37dc54ed1c9e3d55fe15a474c45f580a2** without changing its working copy.
+`ProxyBase/Client.cs` lines 8132-8142 identify Quard and Express Ship; lines
+8216-8225 identify Lenoa and Caravan to Noam; lines 8242-8271 identify Habab's
+Carpet Merchant return and Caravan to Asilon or Hwarone service. Approach
+anchors come from lines 26461-26464 and 26624-26627. `Client.AutoWalk.cs` lines
+5097-5099 connect Quard to Asilon Harbor; lines 6822-6828 connect Lenoa to Caravan
+Road; lines 6888-6896 connect Habab to Tagor Inn or Caravan Road. The source's
+10,000-gold guards require an observed balance above that boundary for Habab and
+Lenoa. These are source-derived requirements, not captured server replies.
+
+NPC transfers are separate from walking triggers. Tagor Inn's (5,6) planning
+arrival is Excalibur's destination default; Asilon Harbor's (43,2) is an existing
+recorded walking arrival; Caravan Road's (5,7) is an inferred open tile beside
+its recorded world exit. None establishes a live travel landing or exact route
+cost. Execution replans from authoritative server map and position. Service
+labels, destination choices, confirmations, pursuit IDs and option positions
+must come from fresh owned dialogues. Missing NPCs, unexpected replies,
+ambiguous menus and insufficient observed gold pause travel. Submitted travel
+is preserved for reconciliation and is not repeated on the same session.
+Synthetic loopback fixtures cover merchant and pursuit menus, cancellation,
+late arrival, changed landing coordinates and refusal to choose citizenship
+options. No live travel packets were captured and no real character was operated.
+
+### Fisk's Secret and Cap/Band of Danaan research (2026-10-13)
+
+Authorized live research used Fast through the existing installed DAQuester MCP
+and local control bridge. Actual Fisk pages establish the secret-preserving
+promise and five-Water-Lily request; actual Thulin pages request five Wine and
+name Viveka and the `wine` speech trigger. Viveka's unchanged stock packet quotes
+Wine at 500 gold each. Initial zero gold and a missing Buy bridge operation
+blocked purchasing. After player funding and a narrow existing-bridge correction,
+actual receipts prove five Wine cost 2,500, ten Grapes cost 100, each supplier
+exchange and Fisk flower delivery, a 10,000 donation/Pink Rose receipt, and full
+flower-bundle return on Fisk's final Next. Viveka consumed that bundle and charged
+20,000 at 16:21:46.1953068Z with an explicit one-hour wait; an early current-menu
+checks replied `I can't rush perfection. Come back in a bit.` Actual collection
+at 17:22:34.3445539Z added Special Bouquet. Fisk attached a letter; Bertil's
+secret-admirer reply consumed the bouquet. Final return awarded exactly 750,000
+XP, confirmed by active messages and same-generation delta. Fresh own legend
+contains `Kept Fisk's Secret - Deoch 223, Summer` and `- Reputable - 1 `.
+Completed-character dialogue thanks Fast without another reward. The public-side
+Tavern approach (10,8) opened Viveka;
+the guide's direct door was not verified or added to routes.
+
+`content/evidence/datester-7.41/fisk-secret-initial.json` contains 15 unchanged
+quest-NPC packets and recorded actions, with normalized character/generation
+and separately parsed map landings. `fisk-danaan-research.json` contains
+allowlisted MCP observations; it is not a replay-schema fixture.
+`fisk-wine-quantity.json` records the malformed old quantity reply and prompt;
+`fisk-secret-live.json` retains unchanged later NPC packets, parsed own-resource
+receipts and map landings. Speaker names inside original quest packets are
+unchanged; event character/generation are normalized. Credentials,
+login packets, session keys, unrelated players and raw game assets are excluded.
+The saved-login configuration used the existing encrypted vault, outside these
+artifacts. No Excalibur process or working copy was changed.
+
+The [Fisk guide](https://vorlof.com/quests/fisksecret.html) and
+[Danaan guide](https://vorlof.com/quests/capofdanaan.html) remain hypotheses for
+uncaptured stages. Read-only bridge inspection reports that guide-linked Rolan
+map 177 initially had no recorded dimensions or portals. Later actual Inn visits
+and door-state packets are in `danaan-inn-navigation.json`; the observed Room 7
+approach at (2,3), initial Rolan request and Blaise's Ceannlaidir referral are
+captured separately in `danaan-live.json`, along with Erika's armed-entry
+requirement and Blanchefleur's Coliseum guardian referral. The live dialogue differs from the
+guide and includes an informational loop. Native chat-MCP observations are
+separate in `danaan-native-mcp.json`; its recorded portals and local collision
+are not proof of server transitions. Native route now verifies one Loures Saber,
+one Baguette, a 1,000-gold donation, one Viper's Gland and one Mold consumed.
+`danaan-resource-acquisition.json` separates public combat/drop observations
+from item receipts; already-visible Mold has unknown drop origin.
+`danaan-native-live.json` retains unchanged allowlisted NPC packets with normalized
+event identity/generation. The specifically approved supplied-Mold rite reached
+Hall of Souls and returned Fast alive to Rucesion Inn/map 498 after Dreamer's
+story. The player chose Donnan/Cail before acceptance; Aoife's Guide Reception/Yes
+provided Temple access. Guarded native unequip returned Oak Stick to the bag;
+successful unarmed Glioca entry followed. Two Cherry cost 100 and one Grapes
+cost 10; after a user-closed session, fresh saved-login state verified the same
+held bundle before Meaveen consumed it. Donnan confirmed the first task.
+Fresh monastery reactor consent at Sapphire Stream Pass 5220 (0,7) granted
+Cedar Grove 5210 access. Steinar sold one Leather Greaves for 4,000; Kyros
+consumed it and Donnan confirmed all tasks. Erin's claim awarded 1,000,000 XP
+before her final Next delivered one Cap of Danaan. Actual type-3 message is
+`1000000 experience!`; fresh own legend adds
+`Worthy of the Cap of Danaan, Deoch 223, Summer`. Selected-route cost is 6,620,
+with one combat XP recorded separately. Her terminal consecration popup was
+explicitly closed with a server receipt; fresh completed root still offers claim
+and reversion, neither selected. Other variants, Band determination,
+duplicate-claim behavior and consecration remain unknown.
+`danaan-cail-live.json` contains generation-6 ingredient menus;
+`danaan-cail-task-live.json` contains generation-7 tasks/reward/close packets,
+filtered by actual replay generation before normalization. Detailed stage proofs, recovery limits,
+missing captures and regression-test handoffs are in
+[Fisk research](research/fisk-secret.md),
+[Danaan research](research/cap-band-of-danaan.md),
+[observed continuation](research/danaan-observed-continuation.md) and the
+[durable checklist](research/fisk-danaan-checklist.md). Fisk's approved path is
+verified on this character, as is the selected Cail/Cap route; eligibility and
+untested branches remain limited.
+Neither family was promoted to an implemented recipe at the research milestone.
+The later player-approved [automation task](research/fisk-danaan-automation.md)
+adds Fisk secrecy and the shared observed Cail route. Recipe pages derive from
+71 Fisk and 128 Danaan captured source pages; runtime identities remain fresh.
+Synthetic tests normalize actor, generation and timer clock, and are separate
+from the unchanged server evidence. A complete automatic live run of each new
+recipe, Band-specific dialogue and other variants remain unverified.
+
+The player also requested stronger/faster MCP helpers while the bouquet timer
+runs. The bounded existing-bridge design and synthetic validation are tracked in
+[MCP discovery improvements](research/mcp-discovery-improvements.md); builds and
+tests leave the live paid wait intact. No replacement MCP or Excalibur change.

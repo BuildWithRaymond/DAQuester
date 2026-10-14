@@ -9,6 +9,20 @@ namespace DAQuester.Tests;
 public class DialogResponseTests
 {
     [Fact]
+    public void Merchant_quantity_input_keeps_the_server_supplied_item_argument()
+    {
+        // Synthetic dialog with the shape observed for Viveka's Wine quantity prompt.
+        var dialog = new Dialog(1, 4, 77, 1, "Viveka", "How many do you need?", false, 76, 0, 3, [], "Wine");
+        var state = FoundationTests.Ready() with { Dialog = dialog };
+        var message = new ClientMerchantMessage();
+        message.Deserialize(new NetworkPacketReader(DialogPackets.Continue(state, dialog, "5")));
+        Assert.Equal(77u, message.EntityId);
+        Assert.Equal((ushort)76, message.PursuitId);
+        Assert.Equal(new[] { "Wine", "5" }, message.Arguments);
+        Assert.Throws<QuestBlockedException>(() => DialogPackets.Continue(state with { Generation = 2 }, dialog, "5"));
+    }
+
+    [Fact]
     public void Closing_pursuit_keeps_step_and_sends_no_choice()
     {
         var d = new Dialog(1, 4, 77, 1, "Callough", "Run along", true, 177, 41, 0, []);

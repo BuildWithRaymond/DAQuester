@@ -18,6 +18,8 @@ public sealed partial class DesktopRuntime
             job = owner.Job;
         var remembered = Memory(name);
         var current = Snapshot(name);
+        if (job.Route?.CleanupPending == true)
+            return new(current.Connected ? "Resume ready" : "Not checked", "Rewards verified; resume closes the final quest popup without another claim", true);
         // A submitted action must reconcile its durable receipt even if a new attempt is now ineligible.
         if (job.Pending is not null)
             return new(current.Connected ? "Resume ready" : "Not checked", "Resume checks your last action before continuing", remembered.CompletedLegend(quest.Id, current) is null && remembered.SelectionRestriction(quest.Id, current) is null);
@@ -36,6 +38,13 @@ public sealed partial class DesktopRuntime
         var snapshot = current;
         if (snapshot.Hp == 0)
             return new("Blocked", "Requires a living character.", false);
+        if (id == FiskEvidence.Id && job.FiskWait is { Verified: true } bouquet && (job.NextRun ?? bouquet.Due) > DateTimeOffset.UtcNow)
+        {
+            var gate = FiskEvidence.Eligibility(snapshot,job);
+            return gate.Kind == EligibilityKind.Eligible
+                ? new("Bouquet waiting", "Bouquet check after " + (job.NextRun ?? bouquet.Due).ToLocalTime().ToString("MMM d, h:mm tt") + "; paid wait saved", true)
+                : new(gate.Kind == EligibilityKind.Unknown ? "Not checked" : "Blocked",gate.Reason,false);
+        }
         if (quest.Id == "mundane-birth" && job.BirthOptions is null)
             return new("Choices", "Choose season, age, and town before starting", true);
         if (quest.Id == AltarWorshipEvidence.Id)
@@ -56,7 +65,8 @@ public sealed partial class DesktopRuntime
 
         if (quest.Id is NewCharacterPath.FirstStepsId or NewCharacterPath.ClimbId)
         {
-            var gate = quest.Id == NewCharacterPath.FirstStepsId ? NewCharacterPath.FirstStepsEligibility(snapshot) : NewCharacterPath.ClimbEligibility(snapshot);
+            bool returning = quest.Id == NewCharacterPath.ClimbId && job.Step == "run" && job.CompletedAt is null;
+            var gate = quest.Id == NewCharacterPath.FirstStepsId ? NewCharacterPath.FirstStepsEligibility(snapshot) : NewCharacterPath.ClimbEligibility(snapshot, returning);
             if (gate.Kind != EligibilityKind.Eligible)
                 return new(gate.Kind == EligibilityKind.Unknown ? "Not checked" : "Blocked", gate.Reason, gate.Kind == EligibilityKind.Unknown);
             bool terror = quest.Id == NewCharacterPath.ClimbId && NewCharacterPath.TerrorWarning(name, snapshot) is not null;
@@ -70,6 +80,8 @@ public sealed partial class DesktopRuntime
             "entered-muisir-village" => MuisirEvidence.Eligibility(snapshot),
             "emerald-dawn" => EmeraldDawnEvidence.Eligibility(snapshot),
             "shinewood-faerie" => ShinewoodFaerieEvidence.Eligibility(snapshot, job),
+            FiskEvidence.Id => FiskEvidence.Eligibility(snapshot, job),
+            DanaanEvidence.Id => DanaanEvidence.Eligibility(snapshot, job),
             SickChildEvidence.Id => SickChildEvidence.Eligibility(snapshot, job, SickChildEvidence.Sevti),
             SickChildEvidence.AnamanId => SickChildEvidence.Eligibility(snapshot, job, SickChildEvidence.Tulsi),
             _ => StickEligibility.Check(snapshot, job.CompletedAt, DateTimeOffset.UtcNow)
@@ -80,6 +92,8 @@ public sealed partial class DesktopRuntime
             return new(eligibility.Kind == EligibilityKind.Unknown ? "Not checked" : "Blocked", PlayerReason(eligibility.Reason), eligibility.Kind == EligibilityKind.Unknown);
         if (quest.Id == "emerald-dawn" && job.EmeraldOptions is null)
             return new("Choices", "Choose who receives the insignia before starting", true);
+        if (quest.Id == DanaanEvidence.Id && job.DanaanOptions is null)
+            return new("Choices", "Choose Donnan / Cail and accept Greim's supplied-Mold rite warning", true);
         if (SickChildEvidence.For(quest.Id) is not null && job.SickChildOptions is null)
             return new("Choices", "Choose how to get the flowers before starting", true);
         return new(job.Step is not ("preflight" or "complete") ? "Resume ready" : "Ready", eligibility.Reason, true);
@@ -139,6 +153,12 @@ public sealed partial class DesktopRuntime
             throw new QuestBlockedException("A quest is already preparing for this character.");
         if (QueueReserves(name))
             throw new QuestBlockedException("Stop the queue before starting a separate quest.");
+        if (id == FiskEvidence.Id && Queue(name).Quests.Any(q => q != FiskEvidence.Id && Availability(name,q).Ready))
+        {
+            await EditQueueAsync(name, q => q with { Quests = [FiskEvidence.Id, .. q.Quests.Where(x => x != FiskEvidence.Id)] });
+            await StartQueueAsync(name);
+            return;
+        }
         var selected = recipes[id];
         if (!await ConfigureQuestAsync(name, selected, resume))
             return;
@@ -174,13 +194,14 @@ public sealed partial class DesktopRuntime
     }
 
     static bool EmeraldChoicesLocked(QuestJob job) => EmeraldDawnEvidence.ChoicesLocked(job);
-    public static bool HasChoices(string questId) => questId is "emerald-dawn" or "mundane-birth" or SickChildEvidence.Id or SickChildEvidence.AnamanId;
+    public static bool HasChoices(string questId) => questId is "emerald-dawn" or "mundane-birth" or SickChildEvidence.Id or SickChildEvidence.AnamanId or DanaanEvidence.Id;
     public bool ChoicesLocked(string name, string questId)
     {
         var job = Job(name, questId);
         return questId switch
         {
             "emerald-dawn" => EmeraldChoicesLocked(job) || EmeraldDawnEvidence.FinalMark(Snapshot(name)) is not null,
+            DanaanEvidence.Id => DanaanEvidence.ChoicesLocked(job) || DanaanEvidence.Mark(Snapshot(name)) is not null,
             "mundane-birth" => job.Pending is not null || job.CompletedAt is not null,
             SickChildEvidence.Id or SickChildEvidence.AnamanId => SickChildEvidence.ChoicesLocked(job) || SickChildEvidence.Mark(Snapshot(name), SickChildEvidence.For(questId)!.Legend) is not null,
             _ => true
@@ -217,6 +238,7 @@ public sealed partial class DesktopRuntime
         var saved = runners.TryGetValue(name, out var existing) && existing.Job.Quest == selected.Id ? existing.Job : journal.Load(name, selected.Id);
         bool birth = selected.Id == "mundane-birth" && saved.Pending is null && saved.CompletedAt is null && (change || !resume || saved.BirthOptions is null);
         bool emerald = selected.Id == "emerald-dawn" && EmeraldDawnEvidence.FinalMark(session.Snapshot) is null && !EmeraldChoicesLocked(saved) && (change || !resume || saved.EmeraldOptions is null);
+        bool danaan = selected.Id == DanaanEvidence.Id && DanaanEvidence.Mark(session.Snapshot) is null && !DanaanEvidence.ChoicesLocked(saved) && (change || saved.DanaanOptions is null);
         bool walk = selected.Id == ShinewoodFaerieEvidence.Id && saved.Pending?.Kind.StartsWith("faerie-return", StringComparison.Ordinal) != true && ShinewoodFaerieEvidence.Escape(session.Snapshot) is null && (ShinewoodFaerieEvidence.Goals(session.Snapshot, saved).Length > 0 || ShinewoodFaerieEvidence.InForest(session.Snapshot.Map));
         bool sick = SickChildEvidence.For(selected.Id) is { } flower && SickChildEvidence.Mark(session.Snapshot, flower.Legend) is null && !SickChildEvidence.ChoicesLocked(saved) && (change || !resume || saved.SickChildOptions is null);
         bool altarCheck = selected.Id == AltarWorshipEvidence.Id && !saved.AltarNoMarkAccepted && saved.CompletedAt is null;
@@ -245,7 +267,7 @@ public sealed partial class DesktopRuntime
             }
         bool climb = climbCheck && NewCharacterPath.TerrorWarning(name, session.Snapshot) is not null;
         QuestChoiceResult? choice = null;
-        if (birth || emerald || walk || sick || altar || firstSteps || climb)
+        if (birth || emerald || danaan || walk || sick || altar || firstSteps || climb)
         {
             string? error = null;
             if (walk)
@@ -269,7 +291,7 @@ public sealed partial class DesktopRuntime
                 throw new QuestBlockedException("Character connection changed. Choose again after fresh state.");
             if (controlActions.ContainsKey(name))
                 throw new QuestBlockedException("Another action owns this character.");
-            if (birth && choice.BirthOptions is null || emerald && choice.EmeraldOptions is null || walk && !choice.AllowUnsafeWalking || sick && choice.SickChildOptions is null || altar && !choice.AltarNoMarkAccepted || firstSteps && !choice.FirstStepsBriefed || climb && !choice.TerrorWindowAccepted)
+            if (birth && choice.BirthOptions is null || emerald && choice.EmeraldOptions is null || danaan && choice.DanaanOptions is null || walk && !choice.AllowUnsafeWalking || sick && choice.SickChildOptions is null || altar && !choice.AltarNoMarkAccepted || firstSteps && !choice.FirstStepsBriefed || climb && !choice.TerrorWindowAccepted)
                 return false;
         }
 
@@ -331,6 +353,13 @@ public sealed partial class DesktopRuntime
                     NextRun = null
                 };
             }
+            if (choice?.DanaanOptions is { } danaanOptions)
+            {
+                danaanOptions.Validate();
+                if (DanaanEvidence.ChoicesLocked(job) && job.DanaanOptions != danaanOptions)
+                    throw new QuestBlockedException("Saved Danaan progress owns its route and rite consent.");
+                job = job with { DanaanOptions = danaanOptions, Repeat = false };
+            }
 
             if (choice?.SickChildOptions is { } sickOptions)
             {
@@ -385,7 +414,7 @@ public sealed partial class DesktopRuntime
 
     Task<QuestRunner> PrepareRunnerAsync(string name, QuestDefinition selected, MundaneBirthOptions? options = null, EmeraldDawnOptions? emeraldOptions = null, bool allowUnsafeWalking = false) => PrepareRunnerCoreAsync(name, selected, options, emeraldOptions, allowUnsafeWalking);
 
-    async Task<QuestRunner> PrepareRunnerCoreAsync(string name, QuestDefinition selected, MundaneBirthOptions? options = null, EmeraldDawnOptions? emeraldOptions = null, bool allowUnsafeWalking = false, bool scheduled = false)
+    async Task<QuestRunner> PrepareRunnerCoreAsync(string name, QuestDefinition selected, MundaneBirthOptions? options = null, EmeraldDawnOptions? emeraldOptions = null, bool allowUnsafeWalking = false, bool scheduled = false, DanaanOptions? danaanOptions = null)
     {
         if (!scheduled)
             RequireNoScheduler(name);
@@ -449,7 +478,16 @@ public sealed partial class DesktopRuntime
                 emeraldOptions?.Validate();
             }
 
-            if (old is not null && (old.Job.Quest != selected.Id || options is not null && old.Job.BirthOptions != options || emeraldOptions is not null && old.Job.EmeraldOptions != emeraldOptions || selected.Id == ShinewoodFaerieEvidence.Id && allowUnsafeWalking))
+            if (selected.Id == DanaanEvidence.Id)
+            {
+                danaanOptions ??= saved.DanaanOptions;
+                if (danaanOptions is null && DanaanEvidence.Mark(session.Snapshot) is null)
+                    throw new QuestBlockedException("Danaan requires an explicit Donnan / Cail choice and supplied-Mold rite acceptance.");
+                danaanOptions?.Validate();
+                if (DanaanEvidence.ChoicesLocked(saved) && danaanOptions != saved.DanaanOptions)
+                    throw new QuestBlockedException("Saved Danaan progress cannot change its choices.");
+            }
+            if (old is not null && (old.Job.Quest != selected.Id || options is not null && old.Job.BirthOptions != options || emeraldOptions is not null && old.Job.EmeraldOptions != emeraldOptions || danaanOptions is not null && old.Job.DanaanOptions != danaanOptions || selected.Id == ShinewoodFaerieEvidence.Id && allowUnsafeWalking))
             {
                 await old.PauseAsync("Another quest or birth choices selected; progress saved");
                 if (runners.GetValueOrDefault(name) == old)
@@ -492,6 +530,8 @@ public sealed partial class DesktopRuntime
                     Repeat = false,
                     NextRun = null
                 });
+            if (selected.Id == DanaanEvidence.Id && danaanOptions is not null)
+                await journal.SaveAsync(saved with { DanaanOptions = danaanOptions, Repeat = false });
             RequireOpen();
             preparation.Token.ThrowIfCancellationRequested();
             if (sessions.GetValueOrDefault(name) != session || !session.Snapshot.Connected || session.Snapshot.Generation != generation)
@@ -502,7 +542,8 @@ public sealed partial class DesktopRuntime
             var hunting = new HuntingServices(LoadHuntingProgress, SaveHuntingProgress, session.IsOwnCharacter,
                 (character, line) => Log(character + ": " + line),
                 (character, activity) => RecordHuntingActivity(character, selected.Id, generation, activity));
-            var runner = new QuestRunner(session, journal, selected, Calibration, SickChildEvidence.For(selected.Id) is not null ? new QuestHelperHub(this, name) : null, hunting);
+            var runner = new QuestRunner(session, journal, selected, Calibration, SickChildEvidence.For(selected.Id) is not null ? new QuestHelperHub(this, name) : null, hunting,
+                () => HasReadyWorkDuringBouquet(name), bouquetWaitingArea);
             runners[name] = runner;
             ObserveRunner(name, runner);
             await RestoreStickCompletionAsync(runner, preparation.Token);

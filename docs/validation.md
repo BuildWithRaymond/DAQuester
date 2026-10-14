@@ -1,5 +1,72 @@
 # Validation status
 
+## Worktree integration preflight — October 13, 2026
+
+The current main worktree builds in Release with **zero warnings and errors**.
+The focused quest/recovery selection passed **79/79**, the complete app suite
+passed **209/209**, and the complete Core/protocol suite passed **1,100/1,100**
+with test collection parallelism disabled. There were no skipped tests in these
+passing runs. The serial Core invocation used xUnit's documented
+`-- xUnit.ParallelizeTestCollections=false xUnit.MaxParallelThreads=1`
+[runner settings](https://xunit.net/docs/config-runsettings).
+
+Default parallel Core runs exposed intermittent walking assertions and a journal
+reader-lock deadline. The affected walking cases passed in isolation; their
+assertions and timing bounds remain unchanged. A separate Windows socket teardown
+race was corrected in the synthetic walking fixture: only a wrapped
+`SocketError.OperationAborted` after deliberate cancellation is ignored. Other
+transport faults still fail. Sandbox-denied current-user pipe tests passed with
+local pipe access. These results do not establish that the intermittent parallel
+failures are resolved; recheck them after concurrent chat work has stopped.
+
+New C# files follow the existing formatter settings. Added comments explain
+resource receipts, write-ahead submissions, reconnect boundaries, paid waits,
+doorway departure and reward/popup separation. Generated `TestResults` folders
+are ignored. Changed JSON parses successfully, whitespace checks pass, and the
+source/documentation/content scan found no private home paths or token-pattern
+matches. These checks supplement the existing sanitized-evidence boundaries.
+
+Manual isolated native previews were reviewed for Fisk's paid wait, Cap/Band
+library filtering, unselected and accepted Cail consent, and normal/compact dark
+dashboard layouts. No real character or Excalibur operation occurred. Fresh full
+automatic live runs retain the limits in the [automation handoff](research/fisk-danaan-automation.md).
+
+**Integration remains pending.** Other chats are still editing the sibling
+planning/UI worktree. A normalized three-way preview of its currently committed
+planning changes found overlapping regions in availability, queue dispatch and
+character state; additional unfinished UI files must also be included once ready.
+There is no active Git merge or unmerged index entry. This preflight does not
+certify the eventual merged tree, and no commit or merge has been performed here.
+
+## Fisk and Danaan automation — October 13, 2026
+
+The approved [automation design](superpowers/specs/2026-10-13-fisk-danaan-automation-design.md)
+adds Fisk secrecy and the shared observed Donnan/Cail Cap/Band journey. Isolated
+complete xUnit runs passed **1,079 Core/protocol tests** and **190 app tests**,
+with no failures or skips. Focused regressions cover actual Fisk pages/resources
+and parsed XP packets, delayed final Next rewards, ambiguous transactions,
+guarded equipment and token pickups, current route choices, paid wait/queue
+deferral, waiting-row occupancy/down direction, interrupted guidance arrivals,
+own completion detection and final popup cleanup/reconnect. Existing app recovery
+calls and artwork alias coverage also pass.
+
+Manual isolated native previews reviewed the unselected route/unchecked risk
+state, accepted Cail confirmation and saved bouquet wait. Review found a generic
+restored message during the wait; its regression failed, the message was fixed,
+and the complete app suite passed again. Previews cannot open listeners, launch
+clients or operate characters. Four unrelated saved queue files remain unchanged.
+Sanitized research fixtures and documentation links pass the existing privacy
+and structural checks. No packaging change, release, commit or Excalibur change
+was made.
+
+Live research completed Fisk secrecy and one Cail/Cap route on Fast through MCP
+discovery. That evidence does **not** certify a new full automatic live run.
+Band-specific pages, other Avatar routes, lower-level eligibility, reward bonus
+variants, the exact bouquet threshold and paid-wait reconnect still need live
+captures. Unknown menus stop safely. See the
+[implementation handoff](research/fisk-danaan-automation.md) for supported routes,
+saved state, component changes and exact remaining limits.
+
 ## Release 1.4.0 candidate — October 12, 2026
 
 This release includes today's merged Altar Worship and melee combat work from
@@ -881,3 +948,22 @@ the birth form.
 The midnight quest journal keeps the existing quest, proxy and control behavior. All 308 automated tests pass. The native smoke path verifies all four quest policies, character journal selection, developer visibility, library search/availability, birth validation and exact choices, and renders standard/compact workspaces plus settings, login, the client picker, calibration, and dropdowns. It rejects solid light 8×8 surfaces and clipped buttons outside scrollable workspaces. Screenshots are under `artifacts/*-smoke.png` and `artifacts/quest-*.png`.
 
 The Windows x86 self-contained build is published separately under `release/midnight-win-x86`; current saved data is copied locally. Existing running game and DAQuester processes are not restarted by the build or smoke checks.
+
+## Danaan variation validation — October 13, 2026
+
+Lancelot's second opening was discovered live before implementation validation.
+Its final Cap, 1,000,000 XP, own legend and terminal popup closure are observed
+MCP evidence, not an end-to-end automatic-run result. See
+[the variation handoff](research/danaan-lancelot-variation.md).
+
+After the active-status change was separated from existing filtered quest
+notices, all 1,100 core tests and all 209 app tests passed. The focused variation
+set passed 62 tests. The app suite built the Windows x86 desktop project;
+generated TRX files remain under ignored `artifacts/danaan-variation/test-results`.
+Tests used synthetic sessions and did not operate game characters. Four other
+saved queues retained their baseline hashes. No packaging, deployment, release,
+commit or merge was performed. The running app and game session remain open.
+
+Fresh automatic live validation and live review of variant progress remain
+outstanding. The player requested wrap-up and no further MCP work; no additional
+live actions were taken to reconcile the old read-only research checkpoint.

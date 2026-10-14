@@ -199,7 +199,7 @@
       "dye": 0,
       "variant": "",
       "bottomCrop": false,
-      "aliases": [],
+      "aliases": ["fisk-secret"],
       "source": "https://www.vorlof.com/quests/fisksecret.html"
     },
     {
@@ -267,7 +267,7 @@
       "dye": 0,
       "variant": "",
       "bottomCrop": false,
-      "aliases": [],
+      "aliases": ["cap-band-of-danaan"],
       "source": "https://www.vorlof.com/quests/capofdanaan.html"
     },
     {

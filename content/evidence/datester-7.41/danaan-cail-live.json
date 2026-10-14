@@ -1,0 +1,911 @@
+{
+  "SchemaVersion": 1,
+  "Sanitized": true,
+  "ServerProfile": "datester-7.41",
+  "Evidence": "Actual allowlisted NPC packets and own reward messages, raw payloads unchanged. Event character/generation normalized. Parsed own resources and server map changes are separate observations. No login, session keys, appearance, chat, unrelated player data or raw game assets. Guide claims and untested routes are not fixtures. This captures one offered route only.",
+  "Events": [
+    {
+      "Time": "2026-10-13T21:33:50.1676011+00:00",
+      "Revision": 84,
+      "Direction": "S",
+      "Opcode": 47,
+      "Payload": "AAEAABmUAUA9AAFAPQAAB01lYXZlZW4AHkhlbGxvLiAgV2hhdCBjYW4gSSBkbyBmb3IgeW91PwoRR2xpb2NhIEZlbGxvd3NoaXAFxQ1HbGlvY2EgUHJheWVyBh8TR2xpb2NhIENvbnNlY3JhdGlvbgXIEkdsaW9jYSBEZXNlY3JhdGlvbgXJDUdsaW9jYSBEZWdyZWUFxgxHbGlvY2EgT3JkZXIFxw1Bbm5vdW5jZSBNYXNzDG8GTWFudGxlBUkER29kcwTBEUJvbnVzIE1hc3MgUmV3YXJkC2BudCIgd2hlbiAyMDI0MDIxOTA4CiJGYWUiIHdoZW4gMjAyMzA4MDUwNwoiR290UGFyY2htZW50NSIgd2hlbiAyMDIzMTAyNjA4CiJSbGdGYXYiIGluaXRpYWxseSAyMDIzMDkwMTA2IHJlY2VudGx5IDIwMjQwMjA3MDAgdGltZXMgMTY5CiJSZWNlaXZlZEdGIiB3aGVuIDIwMjQwNDIxMDkKIkxvY2t5Q2hhcm1zIiB3aGVuIDIwMjYwMzMwMDcKIkdvdFBHb2xkMTciIHdoZW4gMjAyNDAzMTYyMwoiR290UEdvbGQxOCIgd2hlbiAyMDI1MDMxNzA3CiJTdW1tLUFCMzAiIHdoZW4gMjAyMzA4MTkwMwoiTWFzdGVyIiB3aGVuIDIwMjMwODA5MDQKIktSYXJlV2l6YXJkIiB3aGVuIDIwMjMwOTA1MDYKIlJlY2VpdmVkR1AiIHdoZW4gMjAyNDA0MTYwOQoiUmV1bml0ZWRDaGllZnMiIHdoZW4gMjAyNDAyMTYxOQoiQ29tcGxldGVkRFFBIiBpbml0aWFsbHkgMjAyNDA1MzEwNiByZWNlbnRseSAyMDI0MDUzMTA2IHRpbWVzIDEKIlBsYW1pdENhdmU1IiB3aGVuIDIwMjMwODI0MTYKIkNvbXBsZXRlZERRQiIgaW5pdGlhbGx5IDIwMjMwODEyMDYgcmVjZW50bHkgMjAyNDAzMDIwNiB0aW1lcyAyCiJDb21wbGV0ZWREUUMiIGluaXRpYWxseSAyMDIzMDgxMjA2IHJlY2VudGx5IDIwMjMwODEyMDYgdGltZXMgMQoiRWxnTWhkIiBpbml0aWFsbHkgMjAyMzExMTgwMCByZWNlbnRseSAyMDIzMTExODAwIHRpbWVzIDEKIkRDUGVudFJpdDIwMjUiIGluaXRpYWxseSAyMDI1MDUyNTA1IHJlY2VudGx5IDIwMjUwNTI1MDUgdGltZXMgMQoiTFF1ZXN0MzUiIGluaXRpYWxseSAyMDIzMDkzMDIzIHJlY2VudGx5IDIwMjMwOTMwMjMgdGltZXMgMQoiQ29tcGxldGVkRFFFIiBpbml0aWFsbHkgMjAyMzA4MDkwNiByZWNlbnRseSAyMDI0MDMwMjA2IHRpbWVzIDMKIkNvbXBsZXRlZERRRiIgaW5pdGlhbGx5IDIwMjQwMzAyMDYgcmVjZW50bHkgMjAyNDAzMzAwOCB0aW1lcyAyCiJLaWxsZWRZZXRpIiBpbml0aWFsbHkgMjAyMzEyMjcwNiByZWNlbnRseSAyMDI0MTIyMjA5IHRpbWVzIDQ1CiJDcmFmdGVkRkZQIiBpbml0aWFsbHkgMjAyNjA0MjgwOSByZWNlbnRseSAyMDI2MDQyODA5IHRpbWVzIDEKIkNvbXBsZXRlZERRRyIgaW5pdGlhbGx5IDIwMjMwOTEwMDMgcmVjZW50bHkgMjAyNjEwMTMwNSB0aW1lcyAyOQoiR290R1N0YXJmaXNoIiB3aGVuIDIwMjMwODA1MDYKIkNvbXBsZXRlZERRSCIgaW5pdGlhbGx5IDIwMjQwMjA5MDIgcmVjZW50bHkgMjAyNDA0MTAxMSB0aW1lcyAyCiJGb3VuZEVsZW11cyIgd2hlbiAyMDI0MDIxMjAxCiJEYXJrQUxhdyIgd2hlbiAyMDI1MDYyOTExCiJUYXZhbHlDYXZlRW50IiB3aGVuIDIwMjUwNjAzMDkKIkZpbmlzaExSIiBpbml0aWFsbHkgMjAyNDAyMTAwNCByZWNlbnRseSAyMDI0MDIxMDA0IHRpbWVzIDEKIlNQYXRTbmFrZSIgd2hlbiAyMDI1MDMyNzA4CiJFbGdQcnYiIGluaXRpYWxseSAyMDI1MTEyMjAzIHJlY2VudGx5IDIwMjUxMTIyMDMgdGltZXMgMQoiQ3JjNVRsZyIgd2hlbiAyMDIzMDgwNTExCiJCIiB3aGVuIDIwMjMwNzE1MDgKIkFyY2VsbGVTQmFnczIiIGluaXRpYWxseSAyMDI0MDIxOTExIHJlY2VudGx5IDIwMjQwMjIwMDMgdGltZXMgMwoiQWNjZXNzU0FyZWEiIHdoZW4gMjAyNDAyMTkwNgoiREEyNUFubml2ZXJzYXJ5IiB3aGVuIDIwMjQwODIxMDUKIkluc2VjdEV2bnQiIGluaXRpYWxseSAyMDIzMDkyMTA4IHJlY2VudGx5IDIwMjYwOTE5MDYgdGltZXMgMTIKIkQiIGluaXRpYWxseSAyMDI0MDIwOTIwIHJlY2VudGx5IDIwMjYxMDA3MjAgdGltZXMgMTIwCiJTdW1tQUI0MCIgd2hlbiAyMDIzMDgxMjEyCiJCbGtTdHJUaWVyOCIgd2hlbiAyMDI0MDcxOTA0CiJFbGdNaGRSIiBpbml0aWFsbHkgMjAyNDA0MTIwNiByZWNlbnRseSAyMDI0MDQxMjA2IHRpbWVzIDEKIlN1bW1BQjUwIiB3aGVuIDIwMjMwODEyMTIKIkFybkkiIGluaXRpYWxseSAyMDI1MDgwMzAxIHJlY2VudGx5IDIwMjUwODAzMDEgdGltZXMgMQoiRWxnQXN0UiIgaW5pdGlhbGx5IDIwMjYwNDI5MDggcmVjZW50bHkgMjAyNjA0MjkwOCB0aW1lcyAxCiJTdW1tQUI2MCIgd2hlbiAyMDIzMDgxMjEyCiJQcm90ZWN0THV3ZWxsYSIgd2hlbiAyMDI0MDIxOTA4CiJBcmNlbGxlU0JhZ3MiIHdoZW4gMjAyNDAyMTkxMQoiQ2FuZHlUcmVhdHMyMDE5IiBpbml0aWFsbHkgMjAyMzEwMjExMSByZWNlbnRseSAyMDI1MTAyNzA3IHRpbWVzIDIKIkNsZWFuQmFuayIgaW5pdGlhbGx5IDIwMjQwNDEyMDUgcmVjZW50bHkgMjAyNjA0MTgwNiB0aW1lcyAzCiJUYXZhbHlFWFAxIiBpbml0aWFsbHkgMjAyNTA2MDMwMiByZWNlbnRseSAyMDI1MDYwMzAyIHRpbWVzIDEKIlRhdmFseUVYUDIiIGluaXRpYWxseSAyMDI1MDYwMzAyIHJlY2VudGx5IDIwMjUwNjAzMDIgdGltZXMgMQoiR2lmdEZyb21Hb2RzMiIgaW5pdGlhbGx5IDIwMjMwOTIzMTEgcmVjZW50bHkgMjAyNjA5MjEwOSB0aW1lcyAzCiJXYXJLaWxsIiBpbml0aWFsbHkgMjAyNDAyMTEwNiByZWNlbnRseSAyMDI0MDMwMTA5IHRpbWVzIDI3ODEKIlJlY2VpdmVkU0ciIHdoZW4gMjAyNDA0MTcwOQoiREEyMDBEZW9jaCIgd2hlbiAyMDIzMTExODAyCiJUZXJyb3IiIGluaXRpYWxseSAyMDIzMDcyNjA3IHJlY2VudGx5IDIwMjMwNzI2MDcgdGltZXMgMSBleHRyYSAiQWxsZXkiCiJSbGcyLTEiIHdoZW4gMjAyMzA4MDkwMiBleHRyYSAiSGFpc2xleSIKIkdvdFlvd0Nvc3R1bWUiIHdoZW4gMjAyNDAyMTkwOAoiSHdhcm9uZVNvbGQiIHdoZW4gMjAyNDA1MzAyMQoiRWFzdGVyRXZlbnQ0IiBpbml0aWFsbHkgMjAyNDA0MTIxNiByZWNlbnRseSAyMDI2MDQyNDA3IHRpbWVzIDYyNQoiTHVtZW5VcGdyYWRlMSIgaW5pdGlhbGx5IDIwMjQwMTI4MDcgcmVjZW50bHkgMjAyNjA4MDkxMCB0aW1lcyA5CiJQRUQiIHdoZW4gMjAyNDAyMDkwNwoiU2F2ZWRPcmlhbmEiIHdoZW4gMjAyNDAyMTEwMAoiSG50VDctMCIgd2hlbiAyMDIzMDkyMzEwCiJIQ2hpZWZGcmllbmQiIHdoZW4gMjAyNDAyMTQwNwoiQ291bnRFdmVudCIgd2hlbiAyMDI1MTAzMTA5CiJJdGVtc2hvcFRyYWRlIiBpbml0aWFsbHkgMjAyMzA4MTIwNiByZWNlbnRseSAyMDI0MDExMTA4IHRpbWVzIDQKIkVsZ0FkciIgaW5pdGlhbGx5IDIwMjQwNTE4MDUgcmVjZW50bHkgMjAyNjA1MTgxMiB0aW1lcyAzIGV4dHJhICJYWFhYWFhYWFhYWCIKIkhlbHBKb3dLaGFybCIgd2hlbiAyMDI0MDIxOTA2CmxlZ2VuZF9lbmQKaW5kaWN0CgppbmRpY3RfZW5kCnNwZWxsZWQKMCAiR3JlYXRlc3QgRXhwZXJpZW5jZSBCb251cyIgMTczODQKMSAiRE9VQkxFIEVYUCBBUCBCb251cyIgMTczODQKc3BlbGxlZF9lbmQKcmVzZXJ2ZWRfcHVyc3VpdApyZXNlcnZlZF9wdXJzdWl0X2VuZAo=",
+      "Character": "ResearchFast",
+      "Generation": 6,
+      "Map": 3007,
+      "Position": {
+        "X": 6,
+        "Y": 4
+      },
+      "Npc": "Meaveen",
+      "OwnResources": {
+        "Gold": 964890,
+        "Experience": 320058867,
+        "Weight": 7,
+        "OccupiedSlots": 5,
+        "Equipment": {
+          "16": "Billed Cap"
+        },
+        "Items": {
+          "Oak Stick": 1,
+          "Red Potion": 2,
+          "Shrinking Potion": 4,
+          "Sun Block Lotion": 1,
+          "VDay Bonus Exp-Ap(x5)": 1
+        }
+      }
+    },
+    {
+      "Time": "2026-10-13T21:34:16.6819232+00:00",
+      "Revision": 86,
+      "Direction": "S",
+      "Opcode": 48,
+      "Payload": "AAEAABmUAUA9AAFAPQAEVwADAAEAB01lYXZlZW4AYEkgaGF2ZSB0byB0ZWFjaCBzb21lIHlvdW5nIHByaWVzdHMgaG93IHRvIG1ha2UgYmVvdGhhaWNoIGRldW0sIGJ1dCBJIGFtIGFsbCBvdXQgb2YgaW5ncmVkaWVudHMhIA==",
+      "Character": "ResearchFast",
+      "Generation": 6,
+      "Map": 3007,
+      "Position": {
+        "X": 6,
+        "Y": 4
+      },
+      "Npc": "Meaveen",
+      "OwnResources": {
+        "Gold": 964890,
+        "Experience": 320058867,
+        "Weight": 7,
+        "OccupiedSlots": 5,
+        "Equipment": {
+          "16": "Billed Cap"
+        },
+        "Items": {
+          "Oak Stick": 1,
+          "Red Potion": 2,
+          "Shrinking Potion": 4,
+          "Sun Block Lotion": 1,
+          "VDay Bonus Exp-Ap(x5)": 1
+        }
+      }
+    },
+    {
+      "Time": "2026-10-13T21:34:19.6809131+00:00",
+      "Revision": 87,
+      "Direction": "S",
+      "Opcode": 48,
+      "Payload": "AgEAABmUAUA9AAFAPQAEVwAEAQEAB01lYXZlZW4AHENhbiB5b3UgZ2V0IG1lIHNvbWUsIHBsZWFzZT8CKFlvdSBzaG91bGQgcGxhbnQgc29tZSBiZWhpbmQgdGhlIHRlbXBsZS4ZSSBtYXkgaGF2ZSB3aGF0IHlvdSBuZWVkLg==",
+      "Character": "ResearchFast",
+      "Generation": 6,
+      "Map": 3007,
+      "Position": {
+        "X": 6,
+        "Y": 4
+      },
+      "Npc": "Meaveen",
+      "OwnResources": {
+        "Gold": 964890,
+        "Experience": 320058867,
+        "Weight": 7,
+        "OccupiedSlots": 5,
+        "Equipment": {
+          "16": "Billed Cap"
+        },
+        "Items": {
+          "Oak Stick": 1,
+          "Red Potion": 2,
+          "Shrinking Potion": 4,
+          "Sun Block Lotion": 1,
+          "VDay Bonus Exp-Ap(x5)": 1
+        }
+      }
+    },
+    {
+      "Time": "2026-10-13T21:35:02.7126358+00:00",
+      "Revision": 88,
+      "Direction": "S",
+      "Opcode": 48,
+      "Payload": "CgA=",
+      "Character": "ResearchFast",
+      "Generation": 6,
+      "Map": 3007,
+      "Position": {
+        "X": 6,
+        "Y": 4
+      },
+      "Npc": null,
+      "OwnResources": {
+        "Gold": 964890,
+        "Experience": 320058867,
+        "Weight": 7,
+        "OccupiedSlots": 5,
+        "Equipment": {
+          "16": "Billed Cap"
+        },
+        "Items": {
+          "Oak Stick": 1,
+          "Red Potion": 2,
+          "Shrinking Potion": 4,
+          "Sun Block Lotion": 1,
+          "VDay Bonus Exp-Ap(x5)": 1
+        }
+      }
+    },
+    {
+      "Time": "2026-10-13T21:35:42.7455591+00:00",
+      "Revision": 268,
+      "Direction": "S",
+      "Opcode": 47,
+      "Payload": "AAEAACrwAUAYAAFAGAAABkFsbGVlbgAeSGVsbG8uICBXaGF0IGNhbiBJIGRvIGZvciB5b3U/BgNCdXkAQARTZWxsAEENTW90aGVyJ3MgTG92ZQRGDlZpbGxhZ2UgTWVtb3J5BCgMQ2xhdmUgTWVtb3J5BCcXQ2Fycm90cyBhbmQgU3VnYXIgQmVldHMKqwhQxQQKS84mZ4OA9OXk",
+      "Character": "ResearchFast",
+      "Generation": 6,
+      "Map": 162,
+      "Position": {
+        "X": 10,
+        "Y": 4
+      },
+      "Npc": "Alleen",
+      "OwnResources": {
+        "Gold": 964890,
+        "Experience": 320058867,
+        "Weight": 7,
+        "OccupiedSlots": 5,
+        "Equipment": {
+          "16": "Billed Cap"
+        },
+        "Items": {
+          "Oak Stick": 1,
+          "Red Potion": 2,
+          "Shrinking Potion": 4,
+          "Sun Block Lotion": 1,
+          "VDay Bonus Exp-Ap(x5)": 1
+        }
+      }
+    },
+    {
+      "Time": "2026-10-13T21:36:15.7790769+00:00",
+      "Revision": 271,
+      "Direction": "S",
+      "Opcode": 47,
+      "Payload": "BAEAACrwAUAYAAFAGAAABkFsbGVlbgA3UGVyaGFwcyBJIGNhbiBvZmZlciB5b3Ugc29tZXRoaW5nIHlvdSBhcmUgbG9va2luZyBmb3I/IABKAAWARAAAAAAKCEJhZ3VldHRlGCAgICAgICAgICAgICAgICAgICAgICAgIIAkAAAAABQHQ2hpY2tlbhggICAgICAgICAgICAgICAgICAgICAgICCAIwAAAAAjBEJlZWYYICAgICAgICAgICAgICAgICAgICAgICAgiL4AAAAACgZHcmFwZXMYICAgICAgICAgICAgICAgICAgICAgICAggCoAAAAAMgZDaGVycnkYICAgICAgICAgICAgICAgICAgICAgICAg",
+      "Character": "ResearchFast",
+      "Generation": 6,
+      "Map": 162,
+      "Position": {
+        "X": 10,
+        "Y": 4
+      },
+      "Npc": "Alleen",
+      "OwnResources": {
+        "Gold": 964890,
+        "Experience": 320058867,
+        "Weight": 7,
+        "OccupiedSlots": 5,
+        "Equipment": {
+          "16": "Billed Cap"
+        },
+        "Items": {
+          "Oak Stick": 1,
+          "Red Potion": 2,
+          "Shrinking Potion": 4,
+          "Sun Block Lotion": 1,
+          "VDay Bonus Exp-Ap(x5)": 1
+        }
+      }
+    },
+    {
+      "Time": "2026-10-13T21:36:48.3127448+00:00",
+      "Revision": 272,
+      "Direction": "S",
+      "Opcode": 47,
+      "Payload": "AwEAACrwAUAYAAFAGAAABkFsbGVlbgAVSG93IG1hbnkgZG8geW91IG5lZWQ/BkNoZXJyeQBM",
+      "Character": "ResearchFast",
+      "Generation": 6,
+      "Map": 162,
+      "Position": {
+        "X": 10,
+        "Y": 4
+      },
+      "Npc": "Alleen",
+      "OwnResources": {
+        "Gold": 964890,
+        "Experience": 320058867,
+        "Weight": 7,
+        "OccupiedSlots": 5,
+        "Equipment": {
+          "16": "Billed Cap"
+        },
+        "Items": {
+          "Oak Stick": 1,
+          "Red Potion": 2,
+          "Shrinking Potion": 4,
+          "Sun Block Lotion": 1,
+          "VDay Bonus Exp-Ap(x5)": 1
+        }
+      }
+    },
+    {
+      "Time": "2026-10-13T21:36:48.8092413+00:00",
+      "Revision": 276,
+      "Direction": "S",
+      "Opcode": 47,
+      "Payload": "BAEAACrwAUAYAAFAGAAABkFsbGVlbgA3UGVyaGFwcyBJIGNhbiBvZmZlciB5b3Ugc29tZXRoaW5nIHlvdSBhcmUgbG9va2luZyBmb3I/IABKAAWARAAAAAAKCEJhZ3VldHRlGCAgICAgICAgICAgICAgICAgICAgICAgIIAkAAAAABQHQ2hpY2tlbhggICAgICAgICAgICAgICAgICAgICAgICCAIwAAAAAjBEJlZWYYICAgICAgICAgICAgICAgICAgICAgICAgiL4AAAAACgZHcmFwZXMYICAgICAgICAgICAgICAgICAgICAgICAggCoAAAAAMgZDaGVycnkYICAgICAgICAgICAgICAgICAgICAgICAg",
+      "Character": "ResearchFast",
+      "Generation": 6,
+      "Map": 162,
+      "Position": {
+        "X": 10,
+        "Y": 4
+      },
+      "Npc": "Alleen",
+      "OwnResources": {
+        "Gold": 964790,
+        "Experience": 320058867,
+        "Weight": 8,
+        "OccupiedSlots": 6,
+        "Equipment": {
+          "16": "Billed Cap"
+        },
+        "Items": {
+          "Cherry": 2,
+          "Oak Stick": 1,
+          "Red Potion": 2,
+          "Shrinking Potion": 4,
+          "Sun Block Lotion": 1,
+          "VDay Bonus Exp-Ap(x5)": 1
+        }
+      }
+    },
+    {
+      "Time": "2026-10-13T21:36:56.3030008+00:00",
+      "Revision": 277,
+      "Direction": "S",
+      "Opcode": 47,
+      "Payload": "AwEAACrwAUAYAAFAGAAABkFsbGVlbgAVSG93IG1hbnkgZG8geW91IG5lZWQ/BkdyYXBlcwBM",
+      "Character": "ResearchFast",
+      "Generation": 6,
+      "Map": 162,
+      "Position": {
+        "X": 10,
+        "Y": 4
+      },
+      "Npc": "Alleen",
+      "OwnResources": {
+        "Gold": 964790,
+        "Experience": 320058867,
+        "Weight": 8,
+        "OccupiedSlots": 6,
+        "Equipment": {
+          "16": "Billed Cap"
+        },
+        "Items": {
+          "Cherry": 2,
+          "Oak Stick": 1,
+          "Red Potion": 2,
+          "Shrinking Potion": 4,
+          "Sun Block Lotion": 1,
+          "VDay Bonus Exp-Ap(x5)": 1
+        }
+      }
+    },
+    {
+      "Time": "2026-10-13T21:36:56.8119587+00:00",
+      "Revision": 281,
+      "Direction": "S",
+      "Opcode": 47,
+      "Payload": "BAEAACrwAUAYAAFAGAAABkFsbGVlbgA3UGVyaGFwcyBJIGNhbiBvZmZlciB5b3Ugc29tZXRoaW5nIHlvdSBhcmUgbG9va2luZyBmb3I/IABKAAWARAAAAAAKCEJhZ3VldHRlGCAgICAgICAgICAgICAgICAgICAgICAgIIAkAAAAABQHQ2hpY2tlbhggICAgICAgICAgICAgICAgICAgICAgICCAIwAAAAAjBEJlZWYYICAgICAgICAgICAgICAgICAgICAgICAgiL4AAAAACgZHcmFwZXMYICAgICAgICAgICAgICAgICAgICAgICAggCoAAAAAMgZDaGVycnkYICAgICAgICAgICAgICAgICAgICAgICAg",
+      "Character": "ResearchFast",
+      "Generation": 6,
+      "Map": 162,
+      "Position": {
+        "X": 10,
+        "Y": 4
+      },
+      "Npc": "Alleen",
+      "OwnResources": {
+        "Gold": 964780,
+        "Experience": 320058867,
+        "Weight": 9,
+        "OccupiedSlots": 7,
+        "Equipment": {
+          "16": "Billed Cap"
+        },
+        "Items": {
+          "Cherry": 2,
+          "Grapes": 1,
+          "Oak Stick": 1,
+          "Red Potion": 2,
+          "Shrinking Potion": 4,
+          "Sun Block Lotion": 1,
+          "VDay Bonus Exp-Ap(x5)": 1
+        }
+      }
+    },
+    {
+      "Time": "2026-10-13T21:38:02.9525507+00:00",
+      "Revision": 483,
+      "Direction": "S",
+      "Opcode": 48,
+      "Payload": "CgA=",
+      "Character": "ResearchFast",
+      "Generation": 6,
+      "Map": 3079,
+      "Position": {
+        "X": 10,
+        "Y": 5
+      },
+      "Npc": null,
+      "OwnResources": {
+        "Gold": 964780,
+        "Experience": 320058867,
+        "Weight": 9,
+        "OccupiedSlots": 7,
+        "Equipment": {
+          "16": "Billed Cap"
+        },
+        "Items": {
+          "Cherry": 2,
+          "Grapes": 1,
+          "Oak Stick": 1,
+          "Red Potion": 2,
+          "Shrinking Potion": 4,
+          "Sun Block Lotion": 1,
+          "VDay Bonus Exp-Ap(x5)": 1
+        }
+      }
+    },
+    {
+      "Time": "2026-10-13T21:38:21.8703173+00:00",
+      "Revision": 546,
+      "Direction": "S",
+      "Opcode": 48,
+      "Payload": "AAEAABmUAUA9AAFAPQAEVwADAAEAB01lYXZlZW4AYEkgaGF2ZSB0byB0ZWFjaCBzb21lIHlvdW5nIHByaWVzdHMgaG93IHRvIG1ha2UgYmVvdGhhaWNoIGRldW0sIGJ1dCBJIGFtIGFsbCBvdXQgb2YgaW5ncmVkaWVudHMhIA==",
+      "Character": "ResearchFast",
+      "Generation": 6,
+      "Map": 3007,
+      "Position": {
+        "X": 6,
+        "Y": 4
+      },
+      "Npc": "Meaveen",
+      "OwnResources": {
+        "Gold": 964780,
+        "Experience": 320058867,
+        "Weight": 9,
+        "OccupiedSlots": 7,
+        "Equipment": {
+          "16": "Billed Cap"
+        },
+        "Items": {
+          "Cherry": 2,
+          "Grapes": 1,
+          "Oak Stick": 1,
+          "Red Potion": 2,
+          "Shrinking Potion": 4,
+          "Sun Block Lotion": 1,
+          "VDay Bonus Exp-Ap(x5)": 1
+        }
+      }
+    }
+  ],
+  "Actions": [
+    {
+      "Time": "2026-10-13T21:34:19.4775781+00:00",
+      "Revision": 86,
+      "Kind": "next",
+      "Selection": null,
+      "Character": "ResearchFast",
+      "Generation": 6,
+      "Npc": "Meaveen",
+      "DialogRevision": 86
+    },
+    {
+      "Time": "2026-10-13T21:35:02.3289516+00:00",
+      "Revision": 87,
+      "Kind": "close",
+      "Selection": null,
+      "Character": "ResearchFast",
+      "Generation": 6,
+      "Npc": "Meaveen",
+      "DialogRevision": 87
+    },
+    {
+      "Time": "2026-10-13T21:36:15.6435248+00:00",
+      "Revision": 270,
+      "Kind": "choose",
+      "Selection": "Buy",
+      "Character": "ResearchFast",
+      "Generation": 6,
+      "Npc": "Alleen",
+      "DialogRevision": 268
+    },
+    {
+      "Time": "2026-10-13T21:36:48.1410701+00:00",
+      "Revision": 271,
+      "Kind": "input",
+      "Selection": "pursuit=74 slot= args=Cherry",
+      "Character": "ResearchFast",
+      "Generation": 6,
+      "Npc": "Alleen",
+      "DialogRevision": 271
+    },
+    {
+      "Time": "2026-10-13T21:36:48.3751479+00:00",
+      "Revision": 272,
+      "Kind": "input",
+      "Selection": "pursuit=76 slot= args=Cherry|2",
+      "Character": "ResearchFast",
+      "Generation": 6,
+      "Npc": "Alleen",
+      "DialogRevision": 272
+    },
+    {
+      "Time": "2026-10-13T21:36:55.9696386+00:00",
+      "Revision": 276,
+      "Kind": "input",
+      "Selection": "pursuit=74 slot= args=Grapes",
+      "Character": "ResearchFast",
+      "Generation": 6,
+      "Npc": "Alleen",
+      "DialogRevision": 276
+    },
+    {
+      "Time": "2026-10-13T21:36:56.3613554+00:00",
+      "Revision": 277,
+      "Kind": "input",
+      "Selection": "pursuit=76 slot= args=Grapes|1",
+      "Character": "ResearchFast",
+      "Generation": 6,
+      "Npc": "Alleen",
+      "DialogRevision": 277
+    }
+  ],
+  "ObservedMapTransitions": [
+    {
+      "Time": "2026-10-13T21:32:44.6681511+00:00",
+      "Revision": 23,
+      "SourceMap": null,
+      "LastObservedSourcePosition": null,
+      "Map": 3006,
+      "MapName": "Mileth Village Way",
+      "Landing": {
+        "X": 12,
+        "Y": 19
+      },
+      "NearbyOwnMove": null,
+      "Basis": "Actual server map change and next authoritative own position; nearby move is temporal correlation, not invented portal connectivity.",
+      "LandingRevision": 24
+    },
+    {
+      "Time": "2026-10-13T21:33:45.6600127+00:00",
+      "Revision": 59,
+      "SourceMap": 3006,
+      "LastObservedSourcePosition": {
+        "X": 11,
+        "Y": 19
+      },
+      "Map": 3007,
+      "MapName": "Shrine of Glioca - Milet",
+      "Landing": {
+        "X": 22,
+        "Y": 6
+      },
+      "NearbyOwnMove": {
+        "Time": "2026-10-13T21:33:45.4273052+00:00",
+        "Revision": 55,
+        "Direction": "C",
+        "Opcode": 6,
+        "Payload": "AwE=",
+        "Character": "ResearchFast",
+        "Generation": 6,
+        "Map": 3006,
+        "Position": {
+          "X": 11,
+          "Y": 19
+        }
+      },
+      "Basis": "Actual server map change and next authoritative own position; nearby move is temporal correlation, not invented portal connectivity.",
+      "LandingRevision": 60
+    },
+    {
+      "Time": "2026-10-13T21:35:08.2223893+00:00",
+      "Revision": 109,
+      "SourceMap": 3007,
+      "LastObservedSourcePosition": {
+        "X": 22,
+        "Y": 6
+      },
+      "Map": 3006,
+      "MapName": "Mileth Village Way",
+      "Landing": {
+        "X": 12,
+        "Y": 19
+      },
+      "NearbyOwnMove": {
+        "Time": "2026-10-13T21:35:07.7961853+00:00",
+        "Revision": 108,
+        "Direction": "C",
+        "Opcode": 6,
+        "Payload": "ASY=",
+        "Character": "ResearchFast",
+        "Generation": 6,
+        "Map": 3007,
+        "Position": {
+          "X": 22,
+          "Y": 6
+        }
+      },
+      "Basis": "Actual server map change and next authoritative own position; nearby move is temporal correlation, not invented portal connectivity.",
+      "LandingRevision": 110
+    },
+    {
+      "Time": "2026-10-13T21:35:14.7228706+00:00",
+      "Revision": 141,
+      "SourceMap": 3006,
+      "LastObservedSourcePosition": {
+        "X": 14,
+        "Y": 10
+      },
+      "Map": 3037,
+      "MapName": "Mileth College Threshold",
+      "Landing": {
+        "X": 5,
+        "Y": 5
+      },
+      "NearbyOwnMove": {
+        "Time": "2026-10-13T21:35:13.8576892+00:00",
+        "Revision": 136,
+        "Direction": "C",
+        "Opcode": 6,
+        "Payload": "ATI=",
+        "Character": "ResearchFast",
+        "Generation": 6,
+        "Map": 3006,
+        "Position": {
+          "X": 14,
+          "Y": 10
+        }
+      },
+      "Basis": "Actual server map change and next authoritative own position; nearby move is temporal correlation, not invented portal connectivity.",
+      "LandingRevision": 142
+    },
+    {
+      "Time": "2026-10-13T21:35:16.7275535+00:00",
+      "Revision": 152,
+      "SourceMap": 3037,
+      "LastObservedSourcePosition": {
+        "X": 1,
+        "Y": 5
+      },
+      "Map": 3020,
+      "MapName": "Piet Village Way",
+      "Landing": {
+        "X": 15,
+        "Y": 1
+      },
+      "NearbyOwnMove": {
+        "Time": "2026-10-13T21:35:15.8035161+00:00",
+        "Revision": 148,
+        "Direction": "C",
+        "Opcode": 6,
+        "Payload": "Azc=",
+        "Character": "ResearchFast",
+        "Generation": 6,
+        "Map": 3037,
+        "Position": {
+          "X": 1,
+          "Y": 5
+        }
+      },
+      "Basis": "Actual server map change and next authoritative own position; nearby move is temporal correlation, not invented portal connectivity.",
+      "LandingRevision": 153
+    },
+    {
+      "Time": "2026-10-13T21:35:24.2283478+00:00",
+      "Revision": 178,
+      "SourceMap": 3020,
+      "LastObservedSourcePosition": {
+        "X": 22,
+        "Y": 8
+      },
+      "Map": 501,
+      "MapName": "Piet Village",
+      "Landing": {
+        "X": 1,
+        "Y": 8
+      },
+      "NearbyOwnMove": {
+        "Time": "2026-10-13T21:35:23.72709+00:00",
+        "Revision": 177,
+        "Direction": "C",
+        "Opcode": 6,
+        "Payload": "AUY=",
+        "Character": "ResearchFast",
+        "Generation": 6,
+        "Map": 3020,
+        "Position": {
+          "X": 22,
+          "Y": 8
+        }
+      },
+      "Basis": "Actual server map change and next authoritative own position; nearby move is temporal correlation, not invented portal connectivity.",
+      "LandingRevision": 179
+    },
+    {
+      "Time": "2026-10-13T21:35:36.2406703+00:00",
+      "Revision": 240,
+      "SourceMap": 501,
+      "LastObservedSourcePosition": {
+        "X": 18,
+        "Y": 39
+      },
+      "Map": 149,
+      "MapName": "Piet Tavern",
+      "Landing": {
+        "X": 13,
+        "Y": 4
+      },
+      "NearbyOwnMove": {
+        "Time": "2026-10-13T21:35:35.774074+00:00",
+        "Revision": 239,
+        "Direction": "C",
+        "Opcode": 6,
+        "Payload": "A3s=",
+        "Character": "ResearchFast",
+        "Generation": 6,
+        "Map": 501,
+        "Position": {
+          "X": 18,
+          "Y": 39
+        }
+      },
+      "Basis": "Actual server map change and next authoritative own position; nearby move is temporal correlation, not invented portal connectivity.",
+      "LandingRevision": 241
+    },
+    {
+      "Time": "2026-10-13T21:35:39.740764+00:00",
+      "Revision": 257,
+      "SourceMap": 149,
+      "LastObservedSourcePosition": {
+        "X": 10,
+        "Y": 13
+      },
+      "Map": 162,
+      "MapName": "Piet Restaurant",
+      "Landing": {
+        "X": 13,
+        "Y": 1
+      },
+      "NearbyOwnMove": {
+        "Time": "2026-10-13T21:35:39.2383413+00:00",
+        "Revision": 256,
+        "Direction": "C",
+        "Opcode": 6,
+        "Payload": "Aog=",
+        "Character": "ResearchFast",
+        "Generation": 6,
+        "Map": 149,
+        "Position": {
+          "X": 10,
+          "Y": 13
+        }
+      },
+      "Basis": "Actual server map change and next authoritative own position; nearby move is temporal correlation, not invented portal connectivity.",
+      "LandingRevision": 258
+    },
+    {
+      "Time": "2026-10-13T21:37:28.8256561+00:00",
+      "Revision": 289,
+      "SourceMap": 162,
+      "LastObservedSourcePosition": {
+        "X": 13,
+        "Y": 1
+      },
+      "Map": 149,
+      "MapName": "Piet Tavern",
+      "Landing": {
+        "X": 10,
+        "Y": 13
+      },
+      "NearbyOwnMove": {
+        "Time": "2026-10-13T21:37:28.3915116+00:00",
+        "Revision": 288,
+        "Direction": "C",
+        "Opcode": 6,
+        "Payload": "AJU=",
+        "Character": "ResearchFast",
+        "Generation": 6,
+        "Map": 162,
+        "Position": {
+          "X": 13,
+          "Y": 1
+        }
+      },
+      "Basis": "Actual server map change and next authoritative own position; nearby move is temporal correlation, not invented portal connectivity.",
+      "LandingRevision": 290
+    },
+    {
+      "Time": "2026-10-13T21:37:32.8445308+00:00",
+      "Revision": 307,
+      "SourceMap": 149,
+      "LastObservedSourcePosition": {
+        "X": 14,
+        "Y": 6
+      },
+      "Map": 501,
+      "MapName": "Piet Village",
+      "Landing": {
+        "X": 18,
+        "Y": 40
+      },
+      "NearbyOwnMove": {
+        "Time": "2026-10-13T21:37:32.3986387+00:00",
+        "Revision": 306,
+        "Direction": "C",
+        "Opcode": 6,
+        "Payload": "AKE=",
+        "Character": "ResearchFast",
+        "Generation": 6,
+        "Map": 149,
+        "Position": {
+          "X": 14,
+          "Y": 6
+        }
+      },
+      "Basis": "Actual server map change and next authoritative own position; nearby move is temporal correlation, not invented portal connectivity.",
+      "LandingRevision": 308
+    },
+    {
+      "Time": "2026-10-13T21:37:45.8442737+00:00",
+      "Revision": 364,
+      "SourceMap": 501,
+      "LastObservedSourcePosition": {
+        "X": 1,
+        "Y": 11
+      },
+      "Map": 3020,
+      "MapName": "Piet Village Way",
+      "Landing": {
+        "X": 22,
+        "Y": 11
+      },
+      "NearbyOwnMove": {
+        "Time": "2026-10-13T21:37:45.4765779+00:00",
+        "Revision": 363,
+        "Direction": "C",
+        "Opcode": 6,
+        "Payload": "A9Q=",
+        "Character": "ResearchFast",
+        "Generation": 6,
+        "Map": 501,
+        "Position": {
+          "X": 1,
+          "Y": 11
+        }
+      },
+      "Basis": "Actual server map change and next authoritative own position; nearby move is temporal correlation, not invented portal connectivity.",
+      "LandingRevision": 365
+    },
+    {
+      "Time": "2026-10-13T21:37:54.3778075+00:00",
+      "Revision": 394,
+      "SourceMap": 3020,
+      "LastObservedSourcePosition": {
+        "X": 17,
+        "Y": 1
+      },
+      "Map": 3052,
+      "MapName": "Pravat South Entrance",
+      "Landing": {
+        "X": 36,
+        "Y": 24
+      },
+      "NearbyOwnMove": {
+        "Time": "2026-10-13T21:37:53.5815263+00:00",
+        "Revision": 390,
+        "Direction": "C",
+        "Opcode": 6,
+        "Payload": "AOQ=",
+        "Character": "ResearchFast",
+        "Generation": 6,
+        "Map": 3020,
+        "Position": {
+          "X": 17,
+          "Y": 1
+        }
+      },
+      "Basis": "Actual server map change and next authoritative own position; nearby move is temporal correlation, not invented portal connectivity.",
+      "LandingRevision": 395
+    },
+    {
+      "Time": "2026-10-13T21:38:02.3468646+00:00",
+      "Revision": 469,
+      "SourceMap": 3052,
+      "LastObservedSourcePosition": {
+        "X": 28,
+        "Y": 25
+      },
+      "Map": 3079,
+      "MapName": "Mileth Threshold",
+      "Landing": {
+        "X": 10,
+        "Y": 1
+      },
+      "NearbyOwnMove": {
+        "Time": "2026-10-13T21:38:01.344037+00:00",
+        "Revision": 463,
+        "Direction": "C",
+        "Opcode": 6,
+        "Payload": "A+4=",
+        "Character": "ResearchFast",
+        "Generation": 6,
+        "Map": 3052,
+        "Position": {
+          "X": 28,
+          "Y": 25
+        }
+      },
+      "Basis": "Actual server map change and next authoritative own position; nearby move is temporal correlation, not invented portal connectivity.",
+      "LandingRevision": 470
+    },
+    {
+      "Time": "2026-10-13T21:38:04.9760777+00:00",
+      "Revision": 484,
+      "SourceMap": 3079,
+      "LastObservedSourcePosition": {
+        "X": 10,
+        "Y": 5
+      },
+      "Map": 3006,
+      "MapName": "Mileth Village Way",
+      "Landing": {
+        "X": 14,
+        "Y": 9
+      },
+      "NearbyOwnMove": {
+        "Time": "2026-10-13T21:38:04.3808619+00:00",
+        "Revision": 483,
+        "Direction": "C",
+        "Opcode": 6,
+        "Payload": "AvA=",
+        "Character": "ResearchFast",
+        "Generation": 6,
+        "Map": 3079,
+        "Position": {
+          "X": 10,
+          "Y": 5
+        }
+      },
+      "Basis": "Actual server map change and next authoritative own position; nearby move is temporal correlation, not invented portal connectivity.",
+      "LandingRevision": 485
+    },
+    {
+      "Time": "2026-10-13T21:38:11.3604465+00:00",
+      "Revision": 521,
+      "SourceMap": 3006,
+      "LastObservedSourcePosition": {
+        "X": 11,
+        "Y": 19
+      },
+      "Map": 3007,
+      "MapName": "Shrine of Glioca - Milet",
+      "Landing": {
+        "X": 22,
+        "Y": 6
+      },
+      "NearbyOwnMove": {
+        "Time": "2026-10-13T21:38:10.8617335+00:00",
+        "Revision": 517,
+        "Direction": "C",
+        "Opcode": 6,
+        "Payload": "A/4=",
+        "Character": "ResearchFast",
+        "Generation": 6,
+        "Map": 3006,
+        "Position": {
+          "X": 11,
+          "Y": 19
+        }
+      },
+      "Basis": "Actual server map change and next authoritative own position; nearby move is temporal correlation, not invented portal connectivity.",
+      "LandingRevision": 522
+    }
+  ]
+}

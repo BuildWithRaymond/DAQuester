@@ -61,6 +61,7 @@ public partial class App : Application
             {
                 vm.Refresh();
                 await runtime.TickSchedulerAsync();
+                await runtime.TickDanaanContinuationsAsync();
             };
             window.Closed += (_, _) => timer.Stop();
             window.Opened += async (_, _) =>

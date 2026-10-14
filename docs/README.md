@@ -14,6 +14,8 @@
 - [Architecture](architecture.md): application, quest engine, and game integration.
 - [Design system](DESIGN_SYSTEM.md): colors, controls, typography, and accessibility.
 - [Local control and MCP](control.md): developer commands and their contracts.
+- [MCP and Dark Ages integration](mcp-darkages-interface.md): the complete current
+  tool-to-game path, observations, actions, ownership, recovery, and limitations.
 - [Provenance](provenance.md): client support, upstream sources, and packet evidence.
 - [CI](CI.md): build and verification commands.
 - [Releasing](RELEASING.md): package, publish, and verify the update feed.

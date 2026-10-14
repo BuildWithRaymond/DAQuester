@@ -92,6 +92,9 @@ public sealed partial class DesktopRuntime
 
     public Task MoveQueueAsync(string name, string id, int target) => EditQueueAsync(name, state => state.Reorder(id, target));
     static bool HasBothPaulinQuests(QuestQueueState queue) => queue.Quests.Contains(SickChildEvidence.Id) && queue.Quests.Contains(SickChildEvidence.AnamanId);
+    bool HasDeferredBouquet(QuestQueueState queue) => queue.Quests.Contains(FiskEvidence.Id) &&
+        journal.Load(queue.Character,FiskEvidence.Id).FiskWait is { Verified:true } wait &&
+        queue.Deferred.Any(d => d.Quest == FiskEvidence.Id && d.Due >= wait.Due);
     public string QueueStartReason(string name, QuestQueueState queue)
     {
         if (SchedulerReserves(name))
@@ -108,6 +111,20 @@ public sealed partial class DesktopRuntime
             return "Select a quest to get started";
         if (HasBothPaulinQuests(queue))
             return "Choose either Cured the Sick Child or Aided the Pact of Anaman before running this queue.";
+        if (queue.Quests.Any(id => !recipes.ContainsKey(id)))
+            return "A queued quest has no automatic journey.";
+        if (HasDeferredBouquet(queue))
+        {
+            // Paid waiting is independent of later requirements. An active
+            // unresolved checkpoint still owns the character and cannot yield.
+            if (queue.ActiveQuest is { } active)
+                return Availability(name,active).Ready || CanSettleQueueCheckpoint(name,active) || journal.Load(name,active).Pending is not null
+                    ? "" : QuestName(active) + ": " + Availability(name,active).Reason;
+            if (queue.Quests.Any(id => Availability(name,id).Ready && !queue.Deferred.Any(d => d.Quest == id && d.Due > DateTimeOffset.UtcNow)) ||
+                Availability(name,FiskEvidence.Id).Ready)
+                return "";
+            return QuestName(FiskEvidence.Id) + ": " + Availability(name,FiskEvidence.Id).Reason;
+        }
         foreach (string id in queue.Quests)
         {
             if (!recipes.ContainsKey(id))
@@ -147,6 +164,8 @@ public sealed partial class DesktopRuntime
                 throw new QuestBlockedException(blocker);
             foreach (string id in state.Quests)
             {
+                if (HasDeferredBouquet(state) && state.ActiveQuest != id && !Availability(name,id).Ready)
+                    continue;
                 if (!await ConfigureQuestAsync(name, recipes[id], state.ActiveQuest == id))
                     return;
                 preparing.Token.ThrowIfCancellationRequested();
@@ -170,9 +189,10 @@ public sealed partial class DesktopRuntime
                     if (resume && !active.ActiveResume && active.ActiveStartedAt is { } started && oldOutcome is not null && oldOutcome.At < started)
                         resume = false;
                     var runner = await PrepareRunnerAsync(name, recipes[id]);
-                    await runner.RunAsync(RepeatEnabled(name, id), cancellation, startNewAttempt: !resume, singleAttempt: true);
+                    await runner.RunAsync(RepeatEnabled(name, id), cancellation, startNewAttempt: !resume, singleAttempt: true, deferTimedWaits: true);
                     return runner.Job;
-                }, id => HasUnfinishedCheckpoint(name, id));
+                }, id => HasUnfinishedCheckpoint(name, id), id => Availability(name,id).Ready,
+                    (due, cancellation) => WaitForBouquetQueueAsync(name,due,cancellation));
                 queueCoordinators[name] = coordinator;
                 coordinator.Changed += value => Ui(() =>
                 {

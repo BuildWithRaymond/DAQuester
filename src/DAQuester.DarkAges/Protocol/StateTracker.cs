@@ -1,14 +1,20 @@
 using DAQuester.Core;
+using DAQuester.DarkAges.Navigation;
 using Arbiter.Net.Server;
 using Arbiter.Net.Server.Messages;
 using Arbiter.Net.Server.Types;
 using Arbiter.Net.Types;
 using System.Collections.Immutable;
+using System.Globalization;
+using System.Text.RegularExpressions;
 
 namespace DAQuester.DarkAges.Protocol;
 
 public class StateTracker(long generation)
 {
+    static readonly Regex experienceReply = new(@"^(?<xp>[0-9]+|[0-9]{1,3}(?:,[0-9]{3})+) experience!$", RegexOptions.CultureInvariant);
+    DateTimeOffset? ownDefeatAt;
+    int? feedbackLevel;
     public CharacterSnapshot Snapshot
     {
         get; private set;
@@ -24,6 +30,7 @@ public class StateTracker(long generation)
     {
         get; private set;
     }
+    public MapRecord? ObservedMap { get; private set; }
     public ServerFieldMapMessage? WorldMap
     {
         get; private set;
@@ -43,15 +50,31 @@ public class StateTracker(long generation)
     public event Action<byte, string>? ServerMessage;
     public static bool IsActiveMessage(byte messageType) => messageType == 3;
     public void Identity(string name, uint id) => Publish(Snapshot with { Name = name, Id = id, Connected = true, Appearance = Snapshot.Id == id && Snapshot.Name == name ? Snapshot.Appearance : null, Motion = Snapshot.Id == id && Snapshot.Name == name ? Snapshot.Motion : null });
-    public void Disconnect() => Publish(Snapshot with { Connected = false, Effects = ImmutableDictionary<ushort, byte>.Empty, Appearance = null, Motion = null, Dialog = null, InventoryKnown = false, SpellsKnown = false, Class = null, DisplayClass = null, IsMaster = null, IsPure = null, Mana = null, LegendsKnown = false, Notice = null, Exchange = null, GroundItems = ImmutableDictionary<uint, GroundItem>.Empty });
+    public void Disconnect()
+    {
+        ObservedMap = null;
+        Publish(Snapshot with { Connected = false, Effects = ImmutableDictionary<ushort, byte>.Empty, Appearance = null, Motion = null, Dialog = null, InventoryKnown = false, SpellsKnown = false, Class = null, DisplayClass = null, IsMaster = null, IsPure = null, Mana = null, LegendsKnown = false, Notice = null, ActiveStatus = null, Exchange = null, GroundItems = ImmutableDictionary<uint, GroundItem>.Empty });
+    }
     void Publish(CharacterSnapshot s)
     {
+        bool sameCharacter = s.Name == Snapshot.Name && s.Id == Snapshot.Id && s.Generation == Snapshot.Generation;
+        if (!sameCharacter || !s.Connected)
+        {
+            ownDefeatAt = null;
+            feedbackLevel = null;
+            s = s with { Feedback = [] };
+        }
         Snapshot = s with
         {
             Revision = Snapshot.Revision + 1
         };
         Changed?.Invoke(Snapshot);
     }
+    CharacterSnapshot Feedback(CharacterSnapshot s, string kind, uint value, DateTimeOffset now) => s with
+    {
+        Feedback = s.Feedback.Where(e => e.Generation == generation && now - e.At < TimeSpan.FromSeconds(3)).TakeLast(15)
+            .Append(new(generation, Snapshot.Revision + 1, kind, value, now)).ToImmutableArray()
+    };
 
     Exchange? Trade(Exchange? current, ServerExchangeMessage p, long rev)
     {
@@ -103,6 +126,12 @@ public class StateTracker(long generation)
                 };
                 break;
             case ServerStatusMessage p:
+                if (p.Level is { } observedLevel && s.Connected && s.Id is not null)
+                {
+                    if (feedbackLevel is { } prior && observedLevel > prior)
+                        s = Feedback(s, "Level", observedLevel, DateTimeOffset.UtcNow);
+                    feedbackLevel = observedLevel;
+                }
                 s = s with
                 {
                     Level = p.Level ?? s.Level,
@@ -127,10 +156,18 @@ public class StateTracker(long generation)
                 var notice = new ServerNotice(generation, rev, (byte)p.MessageType, p.Message, DateTimeOffset.UtcNow);
                 s = s with
                 {
-                    Notice = MundaneBirthEvidence.Matches(notice) || MuisirEvidence.IsKirilNotice(notice, s.Map) || EmeraldDawnEvidence.IsNotice(notice, s.Map) || SickChildEvidence.IsNotice(notice, s.Map) || AltarWorshipEvidence.IsNotice(notice, s.Map) ? notice : null
+                    ActiveStatus = IsActiveMessage((byte)p.MessageType) ? notice : s.ActiveStatus,
+                    Notice = MundaneBirthEvidence.Matches(notice) || MuisirEvidence.IsKirilNotice(notice, s.Map) || EmeraldDawnEvidence.IsNotice(notice, s.Map) || SickChildEvidence.IsNotice(notice, s.Map) || AltarWorshipEvidence.IsNotice(notice, s.Map) || FiskEvidence.IsNotice(notice, s.Map) || DanaanEvidence.IsNotice(notice, s.Map) ? notice : null
                 };
                 if (IsActiveMessage((byte)p.MessageType))
                 {
+                    var match = experienceReply.Match(p.Message);
+                    if (s.Connected && s.Id is not null && match.Success && uint.TryParse(match.Groups["xp"].Value, NumberStyles.AllowThousands, CultureInfo.InvariantCulture, out uint xp) && xp > 0)
+                    {
+                        var now = DateTimeOffset.UtcNow;
+                        s = Feedback(s, ownDefeatAt is { } defeat && now - defeat < TimeSpan.FromSeconds(3) ? "Kill" : "Experience", xp, now);
+                        ownDefeatAt = null;
+                    }
                     s = CombatReply(s, p.Message, rev);
                     ServerMessage?.Invoke((byte)p.MessageType, p.Message);
                 }
@@ -218,6 +255,7 @@ public class StateTracker(long generation)
             case ServerMapSizeMessage p:
                 Width = p.Width;
                 Height = p.Height;
+                ObservedMap = new(p.MapId, p.Name ?? "Map " + p.MapId, p.Width, p.Height, []);
                 WorldMap = null;
                 // The client keeps an open popup across a same-map refresh (insignia discovery, 2026-10-11).
                 s = s with
@@ -301,6 +339,8 @@ public class StateTracker(long generation)
                 break;
             case ServerEffectLayerMessage p:
                 // 263/278: a killing blow; 268: our own target reflected an attack with asgall (Talos AnimationHandler).
+                if (p.TargetAnimation is 263 or 278 && p.SourceId == s.Id && s.Entities.TryGetValue(p.TargetId, out var defeated) && !defeated.IsPlayer && defeated.HealthPercent > 0)
+                    ownDefeatAt = DateTimeOffset.UtcNow;
                 if (p.TargetAnimation is 263 or 278 && s.Entities.TryGetValue(p.TargetId, out var felled))
                     s = s with
                     {
@@ -411,6 +451,7 @@ public class StateTracker(long generation)
         "You can't move freely if you use it." or "You can't use the weapon when holding it." => s with { SkillRefusedRevision = rev },
         "You can't have more." => s with { BagFullRevision = rev },
         // Crypt stairs below the character's level: "You almost understand the secrets of this entrance."
+        "Your must be armed to enter here." => s with { EntranceRefusedRevision = rev, EntranceRefusedText = text },
         _ when text.Contains("secrets of this entrance", StringComparison.Ordinal) => s with { EntranceRefusedRevision = rev, EntranceRefusedText = text },
         _ when bagFull.IsMatch(text) => s with { BagFullRevision = rev },
         _ when durability.Match(text) is { Success: true } d && int.TryParse(d.Groups[2].Value, out int percent) => s with { Durability = s.Durability.SetItem(d.Groups[1].Value, percent) },

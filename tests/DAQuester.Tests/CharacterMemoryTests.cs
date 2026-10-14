@@ -83,7 +83,9 @@ public class CharacterMemoryTests : IDisposable
 
     [Theory]
     [InlineData(10, true)]
-    [InlineData(11, false)]
+    [InlineData(11, true)]
+    [InlineData(19, true)]
+    [InlineData(20, false)]
     public async Task Remembered_level_enforces_Shinewood_access_without_connection(int level, bool blocked)
     {
         await Store().ObserveAsync("Clock", Own() with

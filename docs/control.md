@@ -1,7 +1,36 @@
 # Local testing and MCP
 
+Fisk uses `quest: "fisk-secret"` and always preserves the secret. Its journal
+saves the paid bouquet acceptance and due check separately from collection.
+An hour is not a receipt. The app queue yields to other ready planned quests;
+otherwise it parks on a free Suomi Tavern tile (10–14,1), facing down. Direct
+MCP starts use the same runner and retain paid waits and uncertain submissions.
+
+```json
+{"method":"start","character":"YourCharacter","arguments":{"quest":"fisk-secret"}}
+```
+
+Cap and Band use one family: `quest: "cap-band-of-danaan"`. The first start
+requires the player's explicit `avatar: "cail"` and
+`acceptSuppliedMoldRite: true`. Do not supply that risk acceptance on their
+behalf. Saved choices resume unchanged after progress starts. The observed Cail
+route is available; unknown variant dialogue stops, and consecration/reversion
+are separate unimplemented choices.
+
+```json
+{"method":"start","character":"YourCharacter","arguments":{"quest":"cap-band-of-danaan","avatar":"cail","acceptSuppliedMoldRite":true}}
+```
+
+The start response includes `danaanChoices`. State exposes `job.Route`,
+`job.DanaanOptions`, `job.FiskWait`, pending submissions and final cleanup.
+Erin's final popup closes only after verified item, XP message and fresh own
+legend. A failed close resumes cleanup without another claim. Full runner live
+validation and unknown variants are tracked in the
+[automation handoff](research/fisk-danaan-automation.md).
+
 Shinewood Faerie uses `quest: "shinewood-faerie"`. It adopts a pet and learns
 eligible missing spells, then returns by town song, ready dachaidh or walking.
+Minimum level is provisionally 20 until the Shinewood Forest 7 threshold is confirmed.
 No repeat schedule applies. A later explicit start checks newly unlocked spells.
 An unprepared start is blocked unless the player explicitly accepts the danger
 warning with `allowUnsafeWalking: true`, which defaults off. The same preparation
@@ -23,6 +52,8 @@ Saved terminal refusals can reconcile after a manual close/return.
 Emerald Dawn uses `quest: "emerald-dawn"` and requires `outcome` on its first
 start: `emerald-knights`, `necromancer-order`, or `rogue-order`. Gans (the
 Druid line) is not offered: he keeps nothing and gives nothing (live 2026-10-11).
+It also requires a registered character at level 11+; an unknown own legend must
+be checked before starting, and an `((Unregistered))` mark blocks the quest.
 
 ```json
 {"method":"start","character":"YourCharacter","arguments":{"quest":"emerald-dawn","outcome":"emerald-knights"}}
@@ -94,16 +125,134 @@ The shipped executable is also a standard stdio MCP server:
 [mcp_servers.daquester]
 command = 'C:\Tools\DAQuester\DAQuester.exe'
 args = ["--mcp"]
+startup_timeout_sec = 20
+tool_timeout_sec = 1800
 ```
 
 MCP follows the [2025-06-18 stdio transport](https://modelcontextprotocol.io/specification/2025-06-18/basic/transports)
 and [tools protocol](https://modelcontextprotocol.io/specification/2025-06-18/server/tools).
 Only JSON-RPC messages go to stdout. Diagnostics go to stderr.
 
+For Codex, register that same executable with `codex mcp add daquester --
+<absolute-path-to-DAQuester.exe> --mcp`. Use the native `daquester_*` tools once
+they appear in chat. The stdio process forwards to the existing app/control
+bridge; it is not a replacement game client. Long navigation needs a tool
+timeout longer than the default minute. Preserve other MCP registrations.
+
 Tools: `daquester_state`, `daquester_map`, `daquester_command`,
 `daquester_export`, `daquester_analyze`, `daquester_calibrate`,
 `daquester_start`, `daquester_stop`, `daquester_launch`, `daquester_log`,
 `daquester_calibration`, `daquester_settings`.
+
+`daquester_command` also accepts `kind: "unequip"`, with `slot` from the
+character's current equipment (1–18). Optional `text` binds the equipped item
+name; supply `expectedGeneration` from fresh state. Known inventory and one
+free bag slot are required. The existing removal message is sent once; success
+requires both the equipment slot clearing and one matching item added to the
+bag. Timeout/interruption keeps removal pending in that session, blocking another
+request until both receipts reconcile. No weapon removal is inferred from a
+quest referral, and shrine weapon rules differ.
+
+```json
+{"method":"command","character":"YourCharacter","arguments":{"kind":"unequip","slot":1,"text":"Oak Stick","expectedGeneration":123}}
+```
+
+`daquester_command` accepts `kind: "buy"` and `text` naming an item offered in
+the current observed merchant stock list. Selection either delivers one item or
+returns the merchant's actual quantity prompt. Answer that fresh prompt with
+`kind: "input"`, `text: "5"` for five, for example; the protocol keeps the
+server-supplied item argument. `amount` does not request a bulk quantity.
+The bridge binds the fresh shop dialog and uses the existing ordered purchase path. Queue, scheduler and control
+owners retain their normal gates. An uncertain result requires fresh inventory,
+gold and dialog inspection before another purchase; never retry a payment blindly.
+
+For a known required quantity, pass `quantity` (1–65,535), rather than `amount`:
+
+```json
+{"method":"command","character":"YourCharacter","arguments":{"kind":"buy","text":"Wine","quantity":5,"expectedGeneration":123,"expectedDialogRevision":456}}
+```
+
+Replace the example generation/revision with the actual current stock state.
+The total observed price must fit carried gold before selection. The command
+selects once, answers only the actual newer same-NPC/item quantity prompt once,
+then requires the requested inventory increase and quoted gold deduction. A
+direct partial delivery or missing receipt blocks; it never starts another
+purchase automatically. This range is a control limit, not proof every item
+supports that stack size.
+Merchant type-3 quantity input is authorized once per observed prompt. After a
+timeout/interruption, that same prompt cannot send another quantity, even if it
+is still visible. Reconcile inventory/gold, then reopen a fresh shop flow only
+when the outcome is understood. This applies to manual `input` too.
+
+`interact` combines travel and opening a fresh menu, without selecting an option.
+Use `text` for the observed NPC name, `map` for its map, and optionally `target`
+for a reachable public-side approach. Omitting target uses normal NPC approach
+selection. Existing `visit` still approaches only and uses its NPC-anchor filter.
+
+```json
+{"method":"command","character":"YourCharacter","arguments":{"kind":"interact","map":413,"target":{"x":10,"y":8},"text":"Viveka"}}
+{"method":"command","character":"YourCharacter","arguments":{"kind":"say","text":"wine","replyFrom":"Thulin"}}
+```
+
+`replyFrom` makes speech wait for a newer same-map dialog from that NPC. Ordinary
+speech remains immediate. A timeout never resends speech. For choices, Next,
+input and purchases, supply `expectedGeneration` and `expectedDialogRevision`
+from the page just inspected. A replaced connection, changed page or closed
+dialog rejects before execution. The bridge still binds its observed dialog;
+caller-supplied packet IDs or dialog objects cannot replace it.
+
+For dialogue research, `readNext: true` on `interact`, `open`, `choose` or `next`
+reads the subsequent offered Next pages in one call. `read-dialog` starts from
+the current page. It never selects choices or answers inputs. It stops at a
+choice, prompt, terminal/closed page, changed map/NPC/connection, interruption,
+uncertain response or `maxPages` (default 12, range 1–32). The limit counts the
+source page too; `choose`/`next` require at least two pages.
+
+```json
+{"method":"command","character":"YourCharacter","arguments":{"kind":"read-dialog","maxPages":12,"expectedGeneration":123,"expectedDialogRevision":456}}
+{"method":"command","character":"YourCharacter","arguments":{"kind":"choose","text":"What did you find?","readNext":true,"expectedGeneration":123,"expectedDialogRevision":456,"expectedPageText":"Replace with the exact full freshly observed page text."}}
+```
+
+Use actual revisions, page text and options. A discovery selection requires both
+`expectedPageText` and `expectedDialogRevision`; this does not approve a permanent
+quest choice. The compact response includes `discovery.stopReason`, every observed
+page and own before/after inventory, equipment, gold, XP, weight, map and revision.
+It omits entity lists. `state.characters[].discovery` retains the last report,
+including partial evidence if the initial action was interrupted. Before/after
+values are observed snapshots, not proof a delayed reward has finished arriving.
+Inspect fresh state and active server replies to establish transaction receipts.
+An uncertain submitted discovery page cannot be sent again by the reader; reopen
+only after reconciling its outcome.
+
+For an unrecorded doorway, `enter` requires an adjacent, in-bounds `target` on
+the currently observed map. It sends one ordinary move, respecting movement
+cadence, and waits for an actual different map with a server position. Optional
+`map` validates the destination after arrival; it never sends that ID as a
+teleport request. Unexpected landing or timeout stops, with no automatic return
+or retry. Inspect state before moving again. Ordinary walking still honors
+collision and existing routes.
+
+Immediately step one tile inward after every building landing before inspecting
+menus or pausing; standing at the entrance can pull the character outside.
+For a previously observed entry, `inwardTarget` combines this with `enter`:
+
+```json
+{"method":"command","character":"YourCharacter","arguments":{"kind":"enter","map":169,"target":{"x":58,"y":38},"inwardTarget":{"x":5,"y":9},"expectedGeneration":123}}
+```
+
+`inwardTarget` requires explicit destination `map`. It must be adjacent to the
+actual landing, walkable, unoccupied and outside recorded triggers. The helper
+sends one inward movement and requires its separate authoritative position
+receipt. An unexpected map/landing or uncertain inward step stops without a
+retry. For an unknown landing, inspect actual arrival and immediately perform
+the safe inward step; never infer its direction from the outside approach.
+
+State and command responses include `observedMap` with actual server-provided
+name/dimensions and empty inferred connectivity. Missing visited map records are
+registered only in the session's memory, with no invented portals. To read its
+collision, call `map` with `character` and that actual map ID. The normal client
+must have downloaded collision assets. Persistent route additions still require
+observed entrances/landings and documented provenance.
 
 The window has no developer panel. What it used to show is here instead:
 
@@ -141,6 +290,12 @@ Gameplay continues. Jobs, pending transactions and observed evidence persist.
 
 The `close` command dismisses a pursuit using its current entity, pursuit and step,
 then waits for the server's close response. It never advances to an invented step.
+For Danaan, finish Erin's offered Next and verify the Cap, numeric XP, active
+reward message and own legend, then explicitly close her terminal consecration
+instruction. The bounded reader stops at that terminal page and leaves it open.
+Treat an uncertain close as a separate pending presentation action, never a reason
+to repeat her claim. The live final pursuit close was followed by a fresh root
+menu with unchanged rewards; duplicate claims and reversion were not selected.
 Merchant menus are dismissed in the client through the same ordered output path;
 this changes presentation only and does not publish fabricated server evidence.
 

@@ -126,12 +126,12 @@ public class McpProtocol(Func<ControlRequest, Task<object?>> call)
     static string Description(string m) => m switch
     {
         "state" => "Read connected characters, observed snapshots, current dialogs, jobs, and calibration status.",
-        "map" => "Read an actual client map, walkable tiles, portals, and image-derived candidate tree regions.",
-        "command" => "Perform an ordered game action with server-observed state: navigate, visit, step, open, choose, next, close, input, or say. Stop and connection interruptions cancel it; ordinary manual input does not.",
+        "map" => "Read actual client collision and recorded portals. Pass character when inspecting its newly visited map: server-observed dimensions are supported even without a persistent route record. This never invents portals.",
+        "command" => "Perform an ordered game action with server-observed state. Interact navigates to map/optional public-side target, resolves the NPC named by text and opens its fresh menu. readNext on interact/open/choose/next, or read-dialog on the current page, follows offered Next only, stops at choices/prompts/changed state/page limit and returns a compact transcript plus own before/after resources. A discovery choose requires exact expectedPageText and expectedDialogRevision; no choice is automatic. Enter probes one adjacent doorway, requires actual map transition/landing and optionally performs an inwardTarget step bound to expected map. Say can wait for a fresh same-map NPC reply using replyFrom. Buy selects observed stock named by text; optional quantity answers its actual bound prompt once and requires inventory plus quoted gold receipt. Omitted quantity returns the prompt or direct item receipt. expectedGeneration and expectedDialogRevision reject changed state before sending. Inspect resources after an uncertain result; never retry a payment or submitted discovery page blindly. Stop and connection interruptions cancel it; ordinary manual input does not.",
         "export" => "Export a sanitized packet replay; credentials and handshake secrets are omitted.",
         "analyze" => "Label dialog evidence and branch collection regions automatically from recorded state changes.",
         "calibrate" => "Start one monitored Spare a Stick calibration run. Only evidence-proven completion enables its recipe.",
-        "start" => "Start a quest for a connected character. Mundane Birth requires season, whole-number age 12-40, and town. Emerald Dawn requires an explicit outcome, with an optional Gans visit. Saved choices resume unchanged; these quests never repeat.",
+        "start" => "Start a quest for a connected character. Mundane Birth requires season, whole-number age 12-40, and town. Emerald Dawn requires an explicit outcome. Fisk preserves the secret and its paid bouquet wait. Cap/Band of Danaan requires avatar=cail and explicit acceptSuppliedMoldRite=true; unverified dialogue variants stop. Saved choices resume unchanged; these quests never repeat.",
         "launch" => "Launch or focus this character's supported DATester client. Saved credentials use verified login; otherwise sign in manually.",
         "log" => "Read the diagnostics lines kept in memory (all by default, or the last `count`). The same lines are appended to diagnostics.log.",
         "calibration" => "Read the Spare a Stick calibration, or replace it by passing `json`. Saving requires no active operations.",
@@ -177,17 +177,22 @@ public class McpProtocol(Func<ControlRequest, Task<object?>> call)
                 {
                     "navigate",
                     "visit",
+                    "interact",
+                    "enter",
                     "step",
                     "open",
                     "choose",
                     "next",
+                    "read-dialog",
                     "close",
                     "input",
+                    "buy",
                     "say",
                     "collect-ground",
                     "pickup",
                     "inspect-self",
-                    "repair"
+                    "repair",
+                    "unequip"
                 }
             };
             properties["map"] = new
@@ -218,6 +223,53 @@ public class McpProtocol(Func<ControlRequest, Task<object?>> call)
             properties["text"] = new
             {
                 type = "string"
+            };
+            properties["inwardTarget"] = new
+            {
+                type = "object",
+                description = "For enter: optional known inward tile on required destination map; one adjacent walkable unoccupied non-trigger step after actual landing, with its own server receipt. Never guesses direction or retries.",
+                properties = new { x = new { type = "integer" }, y = new { type = "integer" } },
+                required = new[] { "x", "y" },
+                additionalProperties = false
+            };
+            properties["replyFrom"] = new
+            {
+                type = "string",
+                minLength = 1,
+                description = "For say: wait for a newer same-map dialog from this NPC; never resend speech on timeout."
+            };
+            properties["quantity"] = new
+            {
+                type = "integer",
+                minimum = 1,
+                maximum = 65535,
+                description = "For buy: select once, answer the actual item-bound quantity prompt once, and require inventory plus quoted gold receipt."
+            };
+            properties["slot"] = new
+            {
+                type = "integer", minimum = 1, maximum = 18,
+                description = "For unequip: current observed equipment slot. Requires known bag capacity, sends once, and waits for both equipment removal and matching inventory item. Optional text binds the current item name. Reconcile uncertain removal before another request."
+            };
+            properties["expectedGeneration"] = new
+            {
+                type = "integer",
+                description = "Reject before sending if the observed connection generation changed."
+            };
+            properties["expectedDialogRevision"] = new
+            {
+                type = "integer",
+                description = "Reject before sending if the observed dialog page changed or closed."
+            };
+            properties["readNext"] = new
+            {
+                type = "boolean", @default = false,
+                description = "For interact/open/choose/next: read each actually offered pursuit Next in this call, stopping at choices, prompts, terminal/closed pages or changed state. Returns a compact transcript with own before/after resources. Never selects choices automatically."
+            };
+            properties["maxPages"] = new { type = "integer", minimum = 1, maximum = 32, @default = 12 };
+            properties["expectedPageText"] = new
+            {
+                type = "string",
+                description = "Exact full current page text; required with expectedDialogRevision when choose uses readNext, so changed terms cannot authorize a selection."
             };
             properties["amount"] = new
             {
@@ -356,7 +408,9 @@ public class McpProtocol(Func<ControlRequest, Task<object?>> call)
                     "perfect-hairstyle",
                     "entered-muisir-village",
                     "emerald-dawn",
-                    "shinewood-faerie"
+                    "shinewood-faerie",
+                    "fisk-secret",
+                    "cap-band-of-danaan"
                 },
                 @default = "spare-a-stick"
             };
@@ -371,6 +425,8 @@ public class McpProtocol(Func<ControlRequest, Task<object?>> call)
                 type = "string",
                 @enum = Core.EmeraldDawnOptions.Outcomes
             };
+            properties["avatar"] = new { type = "string", @enum = new[] { "cail" }, description = "Danaan family: explicitly selected Donnan / Cail route; other variants pause." };
+            properties["acceptSuppliedMoldRite"] = new { type = "boolean", @default = false, description = "Danaan only: explicitly accept Greim's supplied-Mold rite and stated soul-loss risk." };
             properties["visitDruid"] = new
             {
                 type = "boolean",

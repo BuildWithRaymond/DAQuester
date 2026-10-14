@@ -1,0 +1,59 @@
+{
+  "Sanitized": true,
+  "ServerProfile": "datester-7.41",
+  "Evidence": "Observed Viveka stock and type-3 Wine quantity prompt, followed by the malformed one-argument reply. Only authorized NPC menu and merchant reply packets; no login, appearance, chat or other-player data. This proves no purchase receipt.",
+  "Events": [
+    {
+      "Time": "2026-10-13T15:36:53.4397617+00:00",
+      "Revision": 721,
+      "Opcode": 47,
+      "Payload": "BAEAACvXAUIEAAFCBAAABlZpdmVrYQA3UGVyaGFwcyBJIGNhbiBvZmZlciB5b3Ugc29tZXRoaW5nIHlvdSBhcmUgbG9va2luZyBmb3I/IABKAAOAJQAAAABkA1J1bRggICAgICAgICAgICAgICAgICAgICAgICCAJwAAAAH0BFdpbmUYICAgICAgICAgICAgICAgICAgICAgICAggBkAAADDUAxSb3NlIEJvdXF1ZXQQICAgICAgICAgICAgICAgIA==",
+      "Character": "ResearchFast",
+      "Generation": 2,
+      "Direction": "S",
+      "Gold": 1000000,
+      "WineCount": 0
+    },
+    {
+      "Time": "2026-10-13T15:37:04.3518625+00:00",
+      "Revision": 721,
+      "Opcode": 57,
+      "Payload": "AQAAK9cASgRXaW5l",
+      "Character": "ResearchFast",
+      "Generation": 2,
+      "Direction": "C",
+      "Gold": 1000000,
+      "WineCount": 0
+    },
+    {
+      "Time": "2026-10-13T15:37:04.4426058+00:00",
+      "Revision": 722,
+      "Opcode": 47,
+      "Payload": "AwEAACvXAUIEAAFCBAAABlZpdmVrYQAVSG93IG1hbnkgZG8geW91IG5lZWQ/BFdpbmUATA==",
+      "Character": "ResearchFast",
+      "Generation": 2,
+      "Direction": "S",
+      "Gold": 1000000,
+      "WineCount": 0
+    },
+    {
+      "Time": "2026-10-13T15:38:03.2709238+00:00",
+      "Revision": 723,
+      "Opcode": 57,
+      "Payload": "AQAAK9cATAE1",
+      "Character": "ResearchFast",
+      "Generation": 2,
+      "Direction": "C",
+      "Gold": 1000000,
+      "WineCount": 0
+    }
+  ],
+  "ContractSource": {
+    "Kind": "Read-only source, not server outcome evidence",
+    "Repository": "Excalibur",
+    "Commit": "813418e37dc54ed1c9e3d55fe15a474c45f580a2",
+    "File": "ProxyBase/Client.cs",
+    "Lines": "23655-23662 and 23881-23884",
+    "Fact": "Merchant purchase reply carries item name followed by quantity. The captured reply carried only 5."
+  }
+}

@@ -26,6 +26,11 @@ internal static class ScreenshotCapture
             window.Width = 1450;
             window.Height = 930;
             var renders = new List<string>();
+            await CaptureDanaanChoiceAsync(window, viewModel, renders);
+            await CaptureDanaanLibraryAsync(window, viewModel, renders);
+            await CaptureFiskWaitAsync(window, viewModel, renders);
+            await CaptureDashboardAsync(window, viewModel, renders);
+            await CaptureCharacterDisclosuresAsync(window, viewModel, renders);
             foreach (string page in new[]
             {
                 "Planner",
@@ -297,6 +302,240 @@ internal static class ScreenshotCapture
             if (Application.Current?.ApplicationLifetime is IClassicDesktopStyleApplicationLifetime desktop)
                 desktop.Shutdown(exitCode);
         }
+    }
+
+    static async Task CaptureCharacterDisclosuresAsync(Window window, MainWindowViewModel vm, List<string> renders)
+    {
+        vm.Page = "Characters";
+        foreach (bool compact in new[] { false, true })
+        {
+            window.Width = compact ? 900 : 1450;
+            window.Height = compact ? 560 : 930;
+            foreach (bool expanded in new[] { false, true })
+            {
+                vm.Characters[0].IsExpanded = expanded;
+                await Task.Delay(200);
+                Dispatcher.UIThread.RunJobs();
+                window.UpdateLayout();
+                string path = "artifacts/screenshots/characters-" + (expanded ? "expanded" : "collapsed") + (compact ? "-compact" : "") + ".png";
+                using var bitmap = new RenderTargetBitmap(new PixelSize((int)window.ClientSize.Width, (int)window.ClientSize.Height), new Vector(96, 96));
+                bitmap.Render(window);
+                bitmap.Save(path);
+                renders.Add(path);
+            }
+        }
+        vm.Characters[0].IsExpanded = false;
+        var selected = vm.SelectedCharacter;
+        string accountStatus = vm.AccountStatus;
+        vm.AddCharacterCommand.Execute(null);
+        var draft = vm.SelectedCharacter!;
+        await Task.Delay(200);
+        Dispatcher.UIThread.RunJobs();
+        window.UpdateLayout();
+        using (var bitmap = new RenderTargetBitmap(new PixelSize((int)window.ClientSize.Width, (int)window.ClientSize.Height), new Vector(96, 96)))
+        {
+            bitmap.Render(window);
+            bitmap.Save("artifacts/screenshots/characters-new.png");
+            renders.Add("artifacts/screenshots/characters-new.png");
+        }
+        draft.RemoveCommand.Execute(null);
+        vm.SelectedCharacter = selected;
+        vm.AccountStatus = accountStatus;
+        window.Width = 1450;
+        window.Height = 930;
+    }
+
+    static async Task CaptureFiskWaitAsync(Window window, MainWindowViewModel vm, List<string> renders)
+    {
+        if (!vm.Runtime.Preview) throw new InvalidOperationException("Wait capture requires isolated preview data.");
+        var original = vm.Runtime.Queue("Agent");
+        var journal = new FileQuestJournal(Path.Combine(AppSettings.DataPath, "journal"));
+        var at = DateTimeOffset.UtcNow;
+        var acceptance = new Dialog(1, 10, 55, 1, "Viveka", FiskEvidence.BouquetAccepted, true, 0, 1, 0, []) { ObservedAt = at };
+        await journal.SaveAsync(new() { Character = "Agent", Quest = FiskEvidence.Id, Step = "run", Status = "Deferred",
+            FiskWait = new(at, acceptance, 50000, 30000, true), NextRun = at.AddHours(1), Route = new() { Task = 12 },
+            Reason = "Waiting in Suomi Tavern; the paid bouquet wait is saved" });
+        vm.Runtime.SetPreviewQueue(new() { Character = "Agent", State = "Running", Quests = [FiskEvidence.Id], Deferred = [new(FiskEvidence.Id, at.AddHours(1))] });
+        vm.Runtime.SetPreviewQueueRunning("Agent", true);
+        vm.Page = "Planner";
+        vm.Filter = "All";
+        vm.SelectedCharacter = vm.Characters.Single(c => c.Name == "Agent");
+        vm.SelectedQuest = vm.Quests.Single(q => q.RecipeId == FiskEvidence.Id);
+        vm.Refresh();
+        await Task.Delay(200);
+        Dispatcher.UIThread.RunJobs(); window.UpdateLayout();
+        using (var bitmap = new RenderTargetBitmap(new PixelSize((int)window.ClientSize.Width, (int)window.ClientSize.Height), new Vector(96, 96)))
+        {
+            bitmap.Render(window);
+            bitmap.Save("artifacts/screenshots/fisk-wait.png");
+            renders.Add("artifacts/screenshots/fisk-wait.png");
+        }
+        vm.Runtime.SetPreviewQueueRunning("Agent", false);
+        vm.Runtime.SetPreviewQueue(original);
+        vm.Filter = "Available";
+        vm.Refresh();
+    }
+
+    static async Task CaptureDanaanLibraryAsync(Window window, MainWindowViewModel vm, List<string> renders)
+    {
+        if (!vm.Runtime.Preview) throw new InvalidOperationException("Library capture requires isolated preview data.");
+        var snapshot = vm.Runtime.Snapshot("Agent");
+        var selected = vm.SelectedQuest;
+        var look = Controls.CharacterPreviewAppearance.From(null).Look;
+        vm.Page = "Planner";
+        vm.Filter = "All";
+        vm.Search = "Danaan";
+        foreach (byte body in new byte[] { 0x10, 0x20 })
+        {
+            vm.Runtime.SetPreviewSnapshot(snapshot with { Appearance = look with { Body = body } });
+            vm.Refresh();
+            vm.SelectedQuest = vm.Quests.Single(q => q.RecipeId == DanaanEvidence.Id);
+            window.FindControl<Expander>("questDetails")!.IsExpanded = true;
+            await Task.Delay(200);
+            Dispatcher.UIThread.RunJobs();
+            window.UpdateLayout();
+            using var bitmap = new RenderTargetBitmap(new PixelSize((int)window.ClientSize.Width, (int)window.ClientSize.Height), new Vector(96, 96));
+            bitmap.Render(window);
+            string path = "artifacts/screenshots/danaan-" + (body == 0x10 ? "male" : "female") + ".png";
+            bitmap.Save(path);
+            renders.Add(path);
+        }
+        vm.Runtime.SetPreviewSnapshot(snapshot);
+        vm.Search = "";
+        vm.SelectedQuest = selected;
+        window.FindControl<Expander>("questDetails")!.IsExpanded = false;
+    }
+
+    static async Task CaptureDanaanChoiceAsync(Window owner, MainWindowViewModel vm, List<string> renders)
+    {
+        if (!vm.Runtime.Preview) throw new InvalidOperationException("Choice capture requires isolated preview data.");
+        var dialog = new Views.QuestChoiceDialog("Elara", vm.Runtime.Recipes[DanaanEvidence.Id], new() { Character = "Elara", Quest = DanaanEvidence.Id }, null);
+        var closed = dialog.ShowDialog<Services.QuestChoiceResult?>(owner);
+        await Task.Delay(200);
+        Dispatcher.UIThread.RunJobs();
+        dialog.UpdateLayout();
+        using (var bitmap = new RenderTargetBitmap(new PixelSize((int)dialog.ClientSize.Width, (int)dialog.ClientSize.Height), new Vector(96, 96)))
+        {
+            bitmap.Render(dialog);
+            string path = "artifacts/screenshots/danaan-choices.png";
+            bitmap.Save(path);
+            renders.Add(path);
+        }
+        dialog.GetVisualDescendants().OfType<ComboBox>().Single(c => c.Name == "danaanAvatar").SelectedIndex = 0;
+        dialog.GetVisualDescendants().OfType<CheckBox>().Single(c => c.Name == "danaanRiteAccepted").IsChecked = true;
+        await Task.Delay(100);
+        Dispatcher.UIThread.RunJobs();
+        dialog.UpdateLayout();
+        using (var bitmap = new RenderTargetBitmap(new PixelSize((int)dialog.ClientSize.Width, (int)dialog.ClientSize.Height), new Vector(96, 96)))
+        {
+            bitmap.Render(dialog);
+            string path = "artifacts/screenshots/danaan-choices-selected.png";
+            bitmap.Save(path);
+            renders.Add(path);
+        }
+        dialog.Close();
+        await closed;
+    }
+
+    static async Task CaptureDashboardAsync(Window window, MainWindowViewModel vm, List<string> renders)
+    {
+        var runtime = vm.Runtime;
+        var originalQueue = runtime.Queue("Agent");
+        var originalElara = runtime.Snapshot("Elara");
+        runtime.SetPreviewQueue(originalQueue with { State = "Running", ActiveQuest = "perfect-hairstyle" });
+        runtime.SetPreviewRunning("Agent", true);
+        runtime.SetPreviewQueue(new() { Character = "Elara", Quests = [NewCharacterPath.ClimbId], State = "Paused", ActiveQuest = NewCharacterPath.ClimbId, Reason = "Free an inventory slot, then resume." });
+        vm.Page = "Dashboard";
+        foreach (bool compact in new[] { false, true })
+        {
+            window.Width = compact ? 900 : 1450;
+            window.Height = compact ? 560 : 930;
+            foreach (bool list in new[] { false, true })
+            {
+                vm.DashboardListView = list;
+                vm.SelectedDashboardCharacter = vm.DashboardCharacters.First(c => c.Name == "Agent");
+                await Task.Delay(400);
+                Dispatcher.UIThread.RunJobs();
+                window.UpdateLayout();
+                string path = "artifacts/screenshots/dashboard-" + (list ? "list" : "cards") + (compact ? "-compact" : "") + ".png";
+                using var bitmap = new RenderTargetBitmap(new PixelSize((int)window.ClientSize.Width, (int)window.ClientSize.Height), new Vector(96, 96));
+                bitmap.Render(window); bitmap.Save(path); renders.Add(path);
+            }
+        }
+        var attentionQueue = runtime.Queue("Elara");
+        runtime.SetPreviewQueue(attentionQueue with
+        {
+            Quests = [DanaanEvidence.Id], ActiveQuest = DanaanEvidence.Id,
+            Reason = "Free an inventory slot before returning to your guide. Open the planner to review the saved journey, then resume when you are ready to continue."
+        });
+        vm.SelectedDashboardCharacter = vm.DashboardCharacters.First(c => c.Name == "Elara");
+        await Task.Delay(200);
+        Dispatcher.UIThread.RunJobs();
+        window.UpdateLayout();
+        using (var bitmap = new RenderTargetBitmap(new PixelSize((int)window.ClientSize.Width, (int)window.ClientSize.Height), new Vector(96, 96)))
+        {
+            bitmap.Render(window);
+            bitmap.Save("artifacts/screenshots/dashboard-list-long-text.png");
+            renders.Add("artifacts/screenshots/dashboard-list-long-text.png");
+        }
+        runtime.SetPreviewQueue(attentionQueue);
+        vm.SelectedDashboardCharacter = vm.DashboardCharacters.First(c => c.Name == "Agent");
+        window.Width = 1450; window.Height = 930;
+        vm.DashboardListView = false;
+        await Task.Delay(250);
+        var levelFeedback = new CharacterFeedback(1, 13, "Level", 12, DateTimeOffset.UtcNow);
+        runtime.SetPreviewSnapshot(originalElara with { Revision = 13, Level = 12, Feedback = [levelFeedback] });
+        await Task.Delay(150);
+        Dispatcher.UIThread.RunJobs(); window.UpdateLayout();
+        using (var bitmap = new RenderTargetBitmap(new PixelSize((int)window.ClientSize.Width, (int)window.ClientSize.Height), new Vector(96, 96)))
+        {
+            bitmap.Render(window); bitmap.Save("artifacts/screenshots/dashboard-feedback.png"); renders.Add("artifacts/screenshots/dashboard-feedback.png");
+        }
+        vm.Page = "Planner";
+        vm.SelectedCharacter = vm.Characters.Single(c => c.Name == "Elara");
+        await Task.Delay(200);
+        runtime.SetPreviewSnapshot(originalElara with { Revision = 14, Feedback = [new(1, 14, "Kill", 123, DateTimeOffset.UtcNow)] });
+        await Task.Delay(150);
+        Dispatcher.UIThread.RunJobs(); window.UpdateLayout();
+        using (var bitmap = new RenderTargetBitmap(new PixelSize((int)window.ClientSize.Width, (int)window.ClientSize.Height), new Vector(96, 96)))
+        {
+            bitmap.Render(window); bitmap.Save("artifacts/screenshots/journey-kill-feedback.png"); renders.Add("artifacts/screenshots/journey-kill-feedback.png");
+        }
+        vm.SelectedCharacter = vm.Characters.Single(c => c.Name == "Agent");
+        vm.Page = "Dashboard";
+        window.Width = 900; window.Height = 560;
+        vm.DashboardListView = true;
+        vm.DashboardSearch = "no matching character";
+        await Task.Delay(100);
+        Dispatcher.UIThread.RunJobs(); window.UpdateLayout();
+        using (var bitmap = new RenderTargetBitmap(new PixelSize((int)window.ClientSize.Width, (int)window.ClientSize.Height), new Vector(96, 96)))
+        {
+            bitmap.Render(window); bitmap.Save("artifacts/screenshots/dashboard-empty.png"); renders.Add("artifacts/screenshots/dashboard-empty.png");
+        }
+        vm.DashboardSearch = "";
+        await Task.Delay(200);
+        var originalAgent = runtime.Snapshot("Agent");
+        runtime.SetPreviewSnapshot(originalAgent with
+        {
+            Revision = originalAgent.Revision + 1,
+            Feedback = [new(originalAgent.Generation, originalAgent.Revision + 1, "Experience", 12345, DateTimeOffset.UtcNow)]
+        });
+        await Task.Delay(150);
+        Dispatcher.UIThread.RunJobs();
+        window.UpdateLayout();
+        using (var bitmap = new RenderTargetBitmap(new PixelSize((int)window.ClientSize.Width, (int)window.ClientSize.Height), new Vector(96, 96)))
+        {
+            bitmap.Render(window);
+            bitmap.Save("artifacts/screenshots/dashboard-list-feedback.png");
+            renders.Add("artifacts/screenshots/dashboard-list-feedback.png");
+        }
+        runtime.SetPreviewSnapshot(originalAgent);
+        vm.DashboardListView = false;
+        window.Width = 1450; window.Height = 930;
+        runtime.SetPreviewRunning("Agent", false);
+        runtime.SetPreviewQueue(originalQueue);
+        runtime.SetPreviewQueue(new() { Character = "Elara" });
+        runtime.SetPreviewSnapshot(originalElara);
     }
 
     private static async Task SeedWorkspaceAsync(MainWindowViewModel viewModel)

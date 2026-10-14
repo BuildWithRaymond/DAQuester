@@ -1,6 +1,7 @@
 using System.Collections.ObjectModel;
 using System.Diagnostics;
 using System.Text.Json;
+using Arbiter.Net.Types;
 using DAQuester.App.Services;
 using DAQuester.Core;
 
@@ -19,7 +20,7 @@ public sealed partial class MainWindowViewModel : ObservableObject
     bool refreshing;
     bool questConfirmationPending;
     public Func<string, string, string?, Task<bool>>? ConfirmPaulinQuestAsync { get; set; }
-    string page = "Planner", search = "", filter = "Available", errorMessage = "", noticeMessage = "", clientPath, accountStatus = "";
+    string page = "Dashboard", search = "", filter = "Available", errorMessage = "", noticeMessage = "", clientPath, accountStatus = "";
     bool legendMarksOnly;
     bool automaticUpdateChecks;
     CharacterItemVM? selectedCharacter;
@@ -111,6 +112,7 @@ public sealed partial class MainWindowViewModel : ObservableObject
     };
     public string PageSubtitle => Page switch
     {
+        "Dashboard" => "Every character. One clear view.",
         "Characters" => "Every character. Their own journey.",
         "History" => "Verified outcomes and saved attempts.",
         "Scheduler" => "Log in, run a quest, log out. Completely optional.",
@@ -147,7 +149,26 @@ public sealed partial class MainWindowViewModel : ObservableObject
         get => legendMarksOnly;
         set { if (Set(ref legendMarksOnly, value)) Refresh(); }
     }
-    IEnumerable<QuestItemVM> LegendFilteredLibrary => library.Where(q => !LegendMarksOnly || q.HasLegendReward);
+    IEnumerable<QuestItemVM> CharacterFilteredLibrary
+    {
+        get
+        {
+            var snapshot = Runtime.Snapshot(CharacterName);
+            var appearance = snapshot is { Connected: true, Id: not null, Appearance: not null }
+                && string.Equals(snapshot.Name, CharacterName, StringComparison.OrdinalIgnoreCase)
+                ? snapshot.Appearance : Runtime.Memory(CharacterName).Appearance;
+            BodySprite? body = appearance is null ? null : (BodySprite)appearance.Body;
+            return library.Where(q => q.Id switch
+            {
+                "capofdanaan" => body is BodySprite.Male or BodySprite.MaleGhost or BodySprite.MaleInvisible
+                    or BodySprite.MaleJester or BodySprite.MaleHead or BodySprite.MaleBlank,
+                "bandofdanaan" => body is BodySprite.Female or BodySprite.FemaleGhost or BodySprite.FemaleInvisible
+                    or BodySprite.FemaleHead or BodySprite.FemaleBlank,
+                _ => true
+            });
+        }
+    }
+    IEnumerable<QuestItemVM> LegendFilteredLibrary => CharacterFilteredLibrary.Where(q => !LegendMarksOnly || q.HasLegendReward);
     public int AllCount => LegendFilteredLibrary.Count();
     public int AvailableCount => LegendFilteredLibrary.Count(q => q.QueueEligible);
     public int CompletedCount => LegendFilteredLibrary.Count(q => q.IsCompleted);
@@ -277,6 +298,7 @@ public sealed partial class MainWindowViewModel : ObservableObject
     public MainWindowViewModel(DesktopRuntime runtime)
     {
         Runtime = runtime;
+        InitializeDashboard();
         clientPath = runtime.Settings.ClientPath;
         automaticUpdateChecks = runtime.Settings.AutomaticUpdateChecks;
         journeyCollapsed = runtime.Settings.JourneyCollapsed;
@@ -391,7 +413,8 @@ public sealed partial class MainWindowViewModel : ObservableObject
         {
             string Get(string key) => q.TryGetProperty(key, out var value) && value.ValueKind == JsonValueKind.String ? value.GetString() ?? "" : "";
             string name = Get("name");
-            var recipe = Runtime.Recipes.Values.FirstOrDefault(r => r.Name.Equals(name, StringComparison.OrdinalIgnoreCase));
+            var recipe = Get("id") is "capofdanaan" or "bandofdanaan" ? Runtime.Recipes.GetValueOrDefault(DanaanEvidence.Id)
+                : Runtime.Recipes.Values.FirstOrDefault(r => r.Name.Equals(name, StringComparison.OrdinalIgnoreCase));
             var (description, region) = Details(recipe?.Id);
             bool givesLegend = q.TryGetProperty("givesLegend", out var legend) && legend.ValueKind == JsonValueKind.True;
             library.Add(new(this, Get("id"), recipe?.Id ?? "", name, Get("rewards"), Get("requiredItems"), Get("level"), Get("source"), description, region, givesLegend, Get("legendEvidence")));
@@ -410,6 +433,8 @@ public sealed partial class MainWindowViewModel : ObservableObject
         "mundane-birth" => ("Choose your season, age and hometown. Riona records a lasting birth legend.", "MILETH · RIONA"),
         "perfect-hairstyle" => ("Visit Eeva for a ponytail. Weekly attempts continue until your own Suomi legend is awarded.", "SUOMI · EEVA"),
         "entered-muisir-village" => ("Bring Kiril five Undine Mushrooms. Verify your Muisir legend and four Shrinking Potions.", "UNDINE · KIRIL"),
+        FiskEvidence.Id => ("Keep Fisk's secret, arrange his bouquet and deliver it discreetly. The paid hour wait is saved; other ready queued quests can run before collection.", "SUOMI · FISK"),
+        DanaanEvidence.Id => ("Follow the Donnan / Cail route to Danaan's gift. Bring Mold for Greim's approved rite. Other offered routes pause for review; consecration is separate.", "LOURES · DANAAN"),
         "emerald-dawn" => ("Recover an Emerald Knight Insignia, hear Berg's story, then give it to the Knights, the Necromancers, or sell it to Skan.", "SUOMI · SHINEWOOD"),
         "shinewood-faerie" => ("Try for a Pet Faerie and learn eligible missing spells. Prepare a safe return before entering the forest.", "SHINEWOOD · FAERIE"),
         "cured-sick-child" => ("Pick White Blossoms at Mehadi and give Paulin five, one a day or with help from your other characters. Locks out Aided the Pact of Anaman.", "LOURES · PAULIN"),
@@ -436,6 +461,8 @@ public sealed partial class MainWindowViewModel : ObservableObject
                 character.Refresh();
             foreach (var quest in library)
                 quest.Refresh(CharacterName, queue);
+            if (selectedQuest is { Id: "capofdanaan" or "bandofdanaan" } && !CharacterFilteredLibrary.Contains(selectedQuest))
+                SelectedQuest = CharacterFilteredLibrary.FirstOrDefault(q => q.RecipeId == DanaanEvidence.Id);
             var visible = LegendFilteredLibrary.Where(q => (Search.Length == 0 || string.Join(' ', q.Name, q.Rewards, q.Requirements, q.Level, q.Reason).Contains(Search, StringComparison.OrdinalIgnoreCase)) && (Filter switch
             {
                 "Available" => q.QueueEligible,
@@ -452,6 +479,7 @@ public sealed partial class MainWindowViewModel : ObservableObject
             }).ToArray();
             Sync(QueueItems, rows);
             RefreshHistory();
+            RefreshDashboard();
             RaiseAll();
             foreach (var command in commands)
                 command.Notify();

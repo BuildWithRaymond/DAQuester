@@ -1,5 +1,31 @@
 # Quest details and observed behavior
 
+**Fisk's Secret** follows the secret-preserving path with missing-only supplies,
+observed payments and item receipts. The guide lists level 21+ provisionally.
+Observed spending was **32,600 gold**, followed by **750,000 XP** and the own
+secrecy legend. After the paid bouquet acceptance, the saved one-hour wait yields
+to other ready queued quests. Otherwise the character waits at a free Suomi
+Tavern tile **(10–14,1), facing down**. A full row leaves the paid wait intact.
+An hour allows a check; only a new Special Bouquet proves collection. A not-ready
+reply schedules another check without paying again.
+
+**Cap / Band of Danaan** share one queue and journal identity. The available
+route is **Donnan/Cail**, with an explicit per-character acceptance of Greim's
+**supplied-Mold rite risk**. The guide lists level 50+ provisionally. Observed
+spending was **6,620 gold**, followed by **1,000,000 XP**, one Cap and its own
+worthy legend. Current equipment and bag receipts handle armed/unarmed shrine
+access; actual menu consent handles Path Reception and monastery entry. Final
+Next, item, XP notice, own legend and popup close all require proof. The actual
+Cap/Band item must match its legend; unknown variant dialogue pauses. No
+consecration, reversion or other Avatar route runs automatically.
+
+Both paths were completed through live MCP discovery on Fast. The new full
+automatic recipes have synthetic regressions; fresh automatic live runs and
+Band-specific variants still need captures. Uncertain transactions and
+unjournaled intermediate progress stop for reconciliation rather than repeat a
+payment or handoff. Requirements, routes, captures and remaining limits are in
+the [automation handoff](research/fisk-danaan-automation.md).
+
 **Shinewood Faerie** visits the Faerie near (71,37) in Shinewood Forest 11 and
 says **Hello**. Every class may adopt one **Pet Faerie**. Existing carried or
 equipped pets and verified adoption receipts prevent duplicate adoption.

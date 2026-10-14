@@ -57,7 +57,7 @@ public static class DialogPackets
             EntityType = (EntityTypeFlags)d.EntityType,
             EntityId = d.EntityId,
             PursuitId = d.Pursuit,
-            Arguments = input is null ? [] : [input]
+            Arguments = input is null ? [] : d.Type == 3 ? [d.Prompt ?? throw new QuestBlockedException("Current merchant prompt is missing its argument."), input] : [input]
         };
         var builder = new NetworkPacketBuilder(d.IsPursuit ? ClientCommand.Pursuit : ClientCommand.Merchant);
         try

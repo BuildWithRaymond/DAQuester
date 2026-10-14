@@ -22,8 +22,13 @@ public enum EligibilityKind
 }
 
 public record Eligibility(EligibilityKind Kind, string Reason);
+// Presentation observations only; these never establish quest completion or rewards.
+public sealed record CharacterFeedback(long Generation, long Revision, string Kind, uint Value, DateTimeOffset At);
 public record CharacterSnapshot
 {
+    // Current server status is diagnostic context, not automatic quest evidence.
+    public ServerNotice? ActiveStatus { get; init; }
+    public ImmutableArray<CharacterFeedback> Feedback { get; init; } = [];
     public CharacterAppearance? Appearance
     {
         get; init;

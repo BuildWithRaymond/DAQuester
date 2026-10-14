@@ -1,0 +1,63 @@
+{
+  "SchemaVersion": 1,
+  "Sanitized": true,
+  "ServerProfile": "datester-7.41",
+  "Evidence": "Observed native MCP state projected to own resources and public monster/ground fields. Guide labels remain hypotheses. No player entities or game assets retained.",
+  "BeforeCombat": {
+    "Generation": 1834925716619267,
+    "Map": 622,
+    "Hp": 4108,
+    "Experience": 320058866,
+    "Monsters": [
+      {
+        "Id": 480379,
+        "Sprite": 49,
+        "Position": {
+          "x": 99,
+          "y": 5
+        },
+        "Name": "",
+        "HealthPercent": 100
+      }
+    ]
+  },
+  "AfterCombat": {
+    "Hp": 4084,
+    "Experience": 320058867,
+    "Ground": {
+      "Id": 1172419,
+      "Sprite": 327,
+      "Position": {
+        "x": 99,
+        "y": 3
+      }
+    }
+  },
+  "GuideHypotheses": {
+    "Sprite49": "Viper (Vorlof map 622)",
+    "Sprite327": "Viper's Gland candidate at discovery; actual pickup receipt is recorded below"
+  },
+  "AfterPickup": {
+    "SourceNativeObservation": "N82",
+    "Map": 622,
+    "Position": { "x": 98, "y": 3 },
+    "Hp": 4108,
+    "Gold": 964890,
+    "Experience": 320058867,
+    "Weight": 8,
+    "Received": { "Name": "Viper's Gland", "Quantity": 1, "Slot": 2, "Sprite": 327 },
+    "Equipment": { "1": "Oak Stick", "16": "Billed Cap" }
+  },
+  "ObservedFacts": "One pickup of the newly observed sprite-327 drop produced one Viper's Gland. Combat added one XP before pickup. No gold changed. The fighter equipped the existing Oak Stick. Monster display names were empty; Viper naming comes from the guide's sprite mapping.",
+  "MoldAcquisition": {
+    "SourceNativeObservations": ["N96", "N97", "N98", "N99"],
+    "Map": 1,
+    "Ground": { "Id": 582550, "Sprite": 338, "Position": { "x": 4, "y": 10 } },
+    "Origin": "Already visible on arrival; drop origin and drop rate unverified. No additional combat was used.",
+    "Received": { "Name": "Mold", "Quantity": 1, "Slot": 2, "Sprite": 338 },
+    "Hp": 4108,
+    "Gold": 964890,
+    "Experience": 320058867,
+    "Weight": 8
+  }
+}

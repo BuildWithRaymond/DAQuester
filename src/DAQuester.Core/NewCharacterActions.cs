@@ -73,11 +73,19 @@ public sealed class NewCharacterActions : IQuestAction
     static async Task Climb(QuestContext c, string name, CancellationToken ct)
     {
         var s = c.Session;
+        Require(ClimbEligibility(s.Snapshot, returning: true));
         await EquipOwned(c, ct);
-        Require(ClimbEligibility(s.Snapshot));
-        await Level(c, name, ClimbLevel, new Dictionary<int, ushort[]>(), ct);
+        if ((s.Snapshot.Level ?? 0) < ClimbLevel)
+        {
+            Require(ClimbEligibility(s.Snapshot));
+            await Level(c, name, ClimbLevel, new Dictionary<int, ushort[]>(), ct);
+        }
         if ((s.Snapshot.Level ?? 0) < ClimbLevel)
             throw new QuestBlockedException("Hunting ended before level 11. Resume to continue.");
+        // Returning is part of the run, so an obstructed return can resume at level 11.
+        Activity(c, "Returning", Vestibule.Place);
+        await c.SaveAsync(c.Job with { Reason = "Returning to the Crypt Vestibule" });
+        await MeleeFight.WalkToRetreat(s, Vestibule, ct);
         await Complete(c, name + " reached level " + s.Snapshot.Level);
     }
 

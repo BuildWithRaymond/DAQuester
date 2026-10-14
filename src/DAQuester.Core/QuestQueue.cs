@@ -3,8 +3,10 @@ using System.Text.Json.Serialization;
 namespace DAQuester.Core;
 
 public record QueueOutcome(string Quest, string Outcome, DateTimeOffset At, string Summary);
+public record DeferredQuest(string Quest, DateTimeOffset Due);
 public record QuestQueueState
 {
+    public DeferredQuest[] Deferred { get; init; } = [];
     public string Character { get;
         init; } = "";
     public string[] Quests { get;
@@ -55,6 +57,7 @@ public record QuestQueueState
     internal QuestQueueState Normalize() => this with
     {
         Quests = UniqueQuests(),
+        Deferred = Deferred.Where(d => Quests.Contains(d.Quest)).DistinctBy(d => d.Quest).ToArray(),
         History = History.TakeLast(100).ToArray()
     };
 }

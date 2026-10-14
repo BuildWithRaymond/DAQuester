@@ -17,7 +17,7 @@ public class ShinewoodFaerieTests
         Repeatable = false
     };
     static FileQuestJournal Journal() => new(Path.Combine(Path.GetTempPath(), "DAQuester-tests", Guid.NewGuid().ToString()));
-    static CharacterSnapshot State(string cls = "Warrior", int level = 11, bool master = false, bool? pure = null) => JsonSerializer.Deserialize<CharacterSnapshot>(JsonSerializer.Serialize(new { Name = "Nuclear", Id = 42, Connected = true, Generation = 1, Level = level, Hp = 100, Mana = 100, Gold = 999, Weight = 1, MaxWeight = 100, InventoryKnown = true, SpellsKnown = true, Class = cls, IsMaster = master, IsPure = pure, Map = 500, Position = new { X = 20, Y = 20 }, Inventory = new Dictionary<byte, Item> { { 3, new(3, "Mileth Song", 1) } } }), Json)!;
+    static CharacterSnapshot State(string cls = "Warrior", int level = 20, bool master = false, bool? pure = null, bool knownCreagNeart = true) => JsonSerializer.Deserialize<CharacterSnapshot>(JsonSerializer.Serialize(new { Name = "Nuclear", Id = 42, Connected = true, Generation = 1, Level = level, Hp = 100, Mana = 100, Gold = 999, Weight = 1, MaxWeight = 100, InventoryKnown = true, SpellsKnown = true, Class = cls, IsMaster = master, IsPure = pure, Spells = cls == "Priest" && knownCreagNeart ? new Dictionary<byte, string> { { 8, "creag neart" } } : new Dictionary<byte, string>(), Map = 500, Position = new { X = 20, Y = 20 }, Inventory = new Dictionary<byte, Item> { { 3, new(3, "Mileth Song", 1) } } }), Json)!;
     static SimulatedSession Session(CharacterSnapshot state)
     {
         var s = new SimulatedSession();
@@ -132,7 +132,9 @@ public class ShinewoodFaerieTests
     [InlineData(1)]
     [InlineData(10)]
     [InlineData(11)]
-    public async Task Shinewood_access_requires_level_eleven_before_any_travel(int level)
+    [InlineData(19)]
+    [InlineData(20)]
+    public async Task Shinewood_access_requires_provisional_level_twenty_before_any_travel(int level)
     {
         var s = Session(State(level: level));
         var job = new QuestJob
@@ -141,18 +143,17 @@ public class ShinewoodFaerieTests
             Quest = Id
         };
         var gate = ShinewoodFaerieEvidence.Eligibility(s.Snapshot, job);
-        Assert.Equal(level < 11 ? EligibilityKind.Blocked : EligibilityKind.Eligible, gate.Kind);
-        if (level < 11)
+        Assert.Equal(level < 20 ? EligibilityKind.Blocked : EligibilityKind.Eligible, gate.Kind);
+        if (level < 20)
         {
             var runner = new QuestRunner(s, Journal(), Recipe(), new());
             await runner.RunAsync();
             Assert.Empty(s.Commands);
-            Assert.Contains("11", runner.Job.Reason);
+            Assert.Contains("20", runner.Job.Reason);
         }
     }
 
     [Theory]
-    [InlineData("Priest", 11, false, false, "deo lamh")]
     [InlineData("Priest", 20, false, false, "deo lamh|creag neart")]
     [InlineData("Priest", 99, true, false, "deo lamh|creag neart|deo searg gar")]
     [InlineData("Priest", 99, true, true, "deo lamh|creag neart|deo searg gar|deo searg")]
@@ -161,7 +162,7 @@ public class ShinewoodFaerieTests
     public async Task Learns_all_eligible_missing_spells_without_duplicate_pet(string cls, int level, bool master, bool pure, string expected)
     {
         string[] wanted = expected.Split('|', StringSplitOptions.RemoveEmptyEntries);
-        var state = State(cls, level, master, pure);
+        var state = State(cls, level, master, pure, knownCreagNeart: false);
         var s = Session(state with
         {
             Inventory = state.Inventory.Add(8, new(8, Pet, 1))
@@ -180,12 +181,12 @@ public class ShinewoodFaerieTests
     [InlineData(" (Lev:100/100)")]
     public async Task Carried_spell_skips_learning_and_uses_dachaidh_when_no_song(string rank)
     {
-        var state = State("Priest", 11);
+        var state = State("Priest", 20);
         var s = Session(state with
         {
             Map = 992,
             Inventory = ImmutableDictionary<byte, Item>.Empty.Add(8, new(8, Pet, 1)),
-            Spells = ImmutableDictionary<byte, string>.Empty.Add(7, "dachaidh" + rank).Add(9, "deo lamh" + rank)
+            Spells = ImmutableDictionary<byte, string>.Empty.Add(7, "dachaidh" + rank).Add(8, "creag neart" + rank).Add(9, "deo lamh" + rank)
         });
         var j = Journal();
         Flow(s, j, ["deo lamh"]);
@@ -200,10 +201,10 @@ public class ShinewoodFaerieTests
     [Fact]
     public async Task Ranked_baseline_spell_is_not_a_new_reward_after_a_saved_submission()
     {
-        var state = State("Priest", 11) with
+        var state = State("Priest", 20) with
         {
             Inventory = State().Inventory.Add(8, new(8, Pet, 1)),
-            Spells = ImmutableDictionary<byte, string>.Empty.Add(9, "deo lamh")
+            Spells = ImmutableDictionary<byte, string>.Empty.Add(8, "creag neart").Add(9, "deo lamh")
         };
         var j = Journal();
         await j.SaveAsync(new()
@@ -237,7 +238,7 @@ public class ShinewoodFaerieTests
     [Fact]
     public async Task Newly_learned_ranked_spell_proves_its_saved_goal()
     {
-        var state = State("Priest", 11) with
+        var state = State("Priest", 20) with
         {
             Inventory = State().Inventory.Add(8, new(8, Pet, 1))
         };
@@ -432,10 +433,10 @@ public class ShinewoodFaerieTests
     [Fact]
     public async Task Equipped_pet_and_known_spell_finish_in_town_without_commands()
     {
-        var s = Session(State("Priest", 11, false, false) with
+        var s = Session(State("Priest", 20, false, false) with
         {
             Equipment = ImmutableDictionary<byte, string>.Empty.Add(1, Pet),
-            Spells = ImmutableDictionary<byte, string>.Empty.Add(9, "deo lamh")
+            Spells = ImmutableDictionary<byte, string>.Empty.Add(8, "creag neart").Add(9, "deo lamh")
         });
         var r = new QuestRunner(s, Journal(), Recipe(), new());
         await r.RunAsync();
@@ -638,20 +639,20 @@ public class ShinewoodFaerieTests
     [Fact]
     public async Task Later_explicit_visit_picks_up_newly_unlocked_spell_without_another_pet()
     {
-        var s = Session(State("Priest", 11, false, false));
+        var s = Session(State("Priest", 20, false, false));
         var j = Journal();
-        Flow(s, j, ["deo lamh", "creag neart"]);
+        Flow(s, j, ["deo lamh", "creag neart", "deo searg gar"]);
         var r = new QuestRunner(s, j, Recipe(), new());
         await r.RunAsync();
         Assert.Contains("deo lamh", s.Snapshot.Spells.Values);
-        Assert.DoesNotContain("creag neart", s.Snapshot.Spells.Values);
+        Assert.DoesNotContain("deo searg gar", s.Snapshot.Spells.Values);
         s.Set(s.Snapshot with
         {
-            Level = 20
+            Level = 99, IsMaster = true
         });
         await r.RunAsync(startNewAttempt: true);
         Assert.Equal("Completed", r.Job.Status);
-        Assert.Contains("creag neart", s.Snapshot.Spells.Values);
+        Assert.Contains("deo searg gar", s.Snapshot.Spells.Values);
         Assert.Single(s.Commands, c => c.Text == "Adopt a Pet Faerie");
     }
 
@@ -690,7 +691,7 @@ public class ShinewoodFaerieTests
     [InlineData(true)]
     public async Task Delayed_selection_reply_does_not_reuse_or_resubmit_the_old_menu(bool spell)
     {
-        var state = State("Priest", 11, false, false);
+        var state = State("Priest", 20, false, false);
         if (spell)
             state = state with
             {
@@ -699,7 +700,7 @@ public class ShinewoodFaerieTests
         else
             state = state with
             {
-                Spells = ImmutableDictionary<byte, string>.Empty.Add(9, "deo lamh")
+                Spells = ImmutableDictionary<byte, string>.Empty.Add(8, "creag neart").Add(9, "deo lamh")
             };
         var s = Session(state);
         var j = Journal();
@@ -752,7 +753,7 @@ public class ShinewoodFaerieTests
     [InlineData(true)]
     public async Task Reward_with_server_dialog_close_returns_without_an_extra_resume(bool spell)
     {
-        var state = State("Priest", 11, false, false);
+        var state = State("Priest", 20, false, false);
         if (spell)
             state = state with
             {
@@ -761,7 +762,7 @@ public class ShinewoodFaerieTests
         else
             state = state with
             {
-                Spells = ImmutableDictionary<byte, string>.Empty.Add(9, "deo lamh")
+                Spells = ImmutableDictionary<byte, string>.Empty.Add(8, "creag neart").Add(9, "deo lamh")
             };
         var s = Session(state);
         var j = Journal();

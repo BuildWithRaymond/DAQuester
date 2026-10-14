@@ -71,7 +71,7 @@ collision data. Raw game maps and artwork are not bundled.
 
 ## Available quests
 
-The library has 71 entries. These nine have automatic recipes:
+The quest library includes guides and automatic recipes:
 
 | Quest | What to expect |
 | --- | --- |
@@ -84,6 +84,8 @@ The library has 71 entries. These nine have automatic recipes:
 | Cured the Sick Child | Level **11+**. Give Paulin five Sevti Blossoms with **5,000 gold per flower**. Pick daily or use helpers; completion requires your own sick-child legend. |
 | Aided the Pact of Anaman | Give Paulin five Tulsi (Golden) Blossoms **without gold**. Uses the same daily/helper options; its brown legend mark is hidden from other players. |
 | Altar Worship | Offers a Leather Shield at the Mileth Altar every three hours, buying one for **750 gold** if needed. Stops after ten offerings. Only Priests can earn the legend; other classes must confirm they want the experience and ring instead. |
+| Fisk's Secret | Preserves the secret, buys missing supplies and saves the paid bouquet wait. Runs other ready queued work meanwhile, or waits at a free Tavern spot facing down. Collection requires the actual Bouquet. |
+| Cap / Band of Danaan | One family journey through the observed Donnan/Cail route. Each character must select Cail and accept the supplied-Mold rite risk. Unknown dialogue variants pause; Erin's final popup closes after verified rewards. |
 
 Each character can pick one flower a day across both flower quests. With enough
 eligible helpers, all five turn-ins can finish in one day. The two legend marks
@@ -97,6 +99,11 @@ quests have recorded live completions, including helper picking, trading and
 logout. The complete queue and broader sign-in recovery flows retain synthetic
 coverage; those runs do not establish live success. Current results and limits
 are in [validation](docs/validation.md).
+
+Fisk's secrecy path and the Cail/Cap outcome have observed MCP completions.
+Their new full automatic runners have synthetic coverage and still require fresh
+automated live validation. Band-specific dialogue and other Avatar routes remain
+unverified. See the [automation handoff](docs/research/fisk-danaan-automation.md).
 
 Altar Worship's first automated offering is live-verified; the full ten-offering
 run and final rewards have synthetic coverage only. Melee combat support is also

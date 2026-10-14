@@ -116,6 +116,7 @@ public partial class MainWindow : Window
             label.IsVisible = !compact;
         foreach (string name in new[]
         {
+            "navDashboard",
             "navPlanner",
             "navCharacters",
             "navScheduler",

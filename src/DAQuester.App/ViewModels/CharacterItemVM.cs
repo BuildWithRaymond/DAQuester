@@ -8,7 +8,9 @@ public sealed class CharacterItemVM : ObservableObject
     readonly MainWindowViewModel owner;
     internal DesktopRuntime Runtime => owner.Runtime;
     string name, password = "";
+    bool expanded;
     string[] legendMarks = [];
+    public bool IsExpanded { get => expanded; set => Set(ref expanded, value); }
     public string OriginalName
     {
         get; private set;
@@ -98,6 +100,7 @@ public sealed class CharacterItemVM : ObservableObject
     {
         this.owner = owner;
         OriginalName = name = original;
+        expanded = original.Length == 0;
         LaunchCommand = owner.Command(_ => owner.Runtime.LaunchAsync(OriginalName), _ => LaunchBlocker is null);
         SelectCommand = new(_ =>
         {

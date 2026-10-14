@@ -1,0 +1,5792 @@
+{
+  "SchemaVersion": 1,
+  "Sanitized": true,
+  "ServerProfile": "datester-7.41",
+  "Evidence": "Actual own-character Inn map-size/position/movement and nonempty server door-state packets. Event identity/generation normalized; payloads unchanged. No NPC quest dialogue or Danaan eligibility/completion is proven. No login, CRC replies, session keys, map assets, appearance, chat or other-player data retained. Server transitions without recorded movement are retained as unresolved observations, not invented input or successful route evidence.",
+  "Events": [
+    {
+      "Time": "2026-10-13T17:55:17.5833325+00:00",
+      "Revision": 221,
+      "Opcode": 21,
+      "Payload": "AKkMDAAAAHTMCEFiZWwgSW5uAA==",
+      "Direction": "S",
+      "Source": null,
+      "Character": "ResearchFast",
+      "Generation": 4,
+      "Map": 169,
+      "Position": null,
+      "OwnResources": {
+        "Gold": 967400,
+        "Experience": 320058866,
+        "Weight": 7,
+        "OccupiedSlots": 5
+      }
+    },
+    {
+      "Time": "2026-10-13T17:55:17.5833991+00:00",
+      "Revision": 222,
+      "Opcode": 4,
+      "Payload": "AAUACgALAAs=",
+      "Direction": "S",
+      "Source": null,
+      "Character": "ResearchFast",
+      "Generation": 4,
+      "Map": 169,
+      "Position": {
+        "X": 5,
+        "Y": 10
+      },
+      "OwnResources": {
+        "Gold": 967400,
+        "Experience": 320058866,
+        "Weight": 7,
+        "OccupiedSlots": 5
+      }
+    },
+    {
+      "Time": "2026-10-13T17:56:18.129696+00:00",
+      "Revision": 234,
+      "Opcode": 21,
+      "Payload": "AKkMDAAAAHTMCEFiZWwgSW5uAA==",
+      "Direction": "S",
+      "Source": null,
+      "Character": "ResearchFast",
+      "Generation": 4,
+      "Map": 169,
+      "Position": null,
+      "OwnResources": {
+        "Gold": 967400,
+        "Experience": 320058866,
+        "Weight": 7,
+        "OccupiedSlots": 5
+      }
+    },
+    {
+      "Time": "2026-10-13T17:56:18.1297431+00:00",
+      "Revision": 235,
+      "Opcode": 4,
+      "Payload": "AAUACgALAAs=",
+      "Direction": "S",
+      "Source": null,
+      "Character": "ResearchFast",
+      "Generation": 4,
+      "Map": 169,
+      "Position": {
+        "X": 5,
+        "Y": 10
+      },
+      "OwnResources": {
+        "Gold": 967400,
+        "Experience": 320058866,
+        "Weight": 7,
+        "OccupiedSlots": 5
+      }
+    },
+    {
+      "Time": "2026-10-13T17:56:50.157358+00:00",
+      "Revision": 248,
+      "Opcode": 21,
+      "Payload": "AKkMDAAAAHTMCEFiZWwgSW5uAA==",
+      "Direction": "S",
+      "Source": null,
+      "Character": "ResearchFast",
+      "Generation": 4,
+      "Map": 169,
+      "Position": null,
+      "OwnResources": {
+        "Gold": 967400,
+        "Experience": 320058866,
+        "Weight": 7,
+        "OccupiedSlots": 5
+      }
+    },
+    {
+      "Time": "2026-10-13T17:56:50.1574094+00:00",
+      "Revision": 249,
+      "Opcode": 4,
+      "Payload": "AAUACgALAAs=",
+      "Direction": "S",
+      "Source": null,
+      "Character": "ResearchFast",
+      "Generation": 4,
+      "Map": 169,
+      "Position": {
+        "X": 5,
+        "Y": 10
+      },
+      "OwnResources": {
+        "Gold": 967400,
+        "Experience": 320058866,
+        "Weight": 7,
+        "OccupiedSlots": 5
+      }
+    },
+    {
+      "Time": "2026-10-13T17:57:58.2125115+00:00",
+      "Revision": 258,
+      "Opcode": 21,
+      "Payload": "AKkMDAAAAHTMCEFiZWwgSW5uAA==",
+      "Direction": "S",
+      "Source": null,
+      "Character": "ResearchFast",
+      "Generation": 4,
+      "Map": 169,
+      "Position": null,
+      "OwnResources": {
+        "Gold": 967400,
+        "Experience": 320058866,
+        "Weight": 7,
+        "OccupiedSlots": 5
+      }
+    },
+    {
+      "Time": "2026-10-13T17:57:58.2125734+00:00",
+      "Revision": 259,
+      "Opcode": 4,
+      "Payload": "AAUACgALAAs=",
+      "Direction": "S",
+      "Source": null,
+      "Character": "ResearchFast",
+      "Generation": 4,
+      "Map": 169,
+      "Position": {
+        "X": 5,
+        "Y": 10
+      },
+      "OwnResources": {
+        "Gold": 967400,
+        "Experience": 320058866,
+        "Weight": 7,
+        "OccupiedSlots": 5
+      }
+    },
+    {
+      "Time": "2026-10-13T17:58:58.7479639+00:00",
+      "Revision": 273,
+      "Opcode": 21,
+      "Payload": "AKkMDAAAAHTMCEFiZWwgSW5uAA==",
+      "Direction": "S",
+      "Source": null,
+      "Character": "ResearchFast",
+      "Generation": 4,
+      "Map": 169,
+      "Position": null,
+      "OwnResources": {
+        "Gold": 967400,
+        "Experience": 320058866,
+        "Weight": 7,
+        "OccupiedSlots": 5
+      }
+    },
+    {
+      "Time": "2026-10-13T17:58:58.7480171+00:00",
+      "Revision": 274,
+      "Opcode": 4,
+      "Payload": "AAUACgALAAs=",
+      "Direction": "S",
+      "Source": null,
+      "Character": "ResearchFast",
+      "Generation": 4,
+      "Map": 169,
+      "Position": {
+        "X": 5,
+        "Y": 10
+      },
+      "OwnResources": {
+        "Gold": 967400,
+        "Experience": 320058866,
+        "Weight": 7,
+        "OccupiedSlots": 5
+      }
+    },
+    {
+      "Time": "2026-10-13T17:59:58.8014847+00:00",
+      "Revision": 293,
+      "Opcode": 21,
+      "Payload": "AKkMDAAAAHTMCEFiZWwgSW5uAA==",
+      "Direction": "S",
+      "Source": null,
+      "Character": "ResearchFast",
+      "Generation": 4,
+      "Map": 169,
+      "Position": null,
+      "OwnResources": {
+        "Gold": 967400,
+        "Experience": 320058866,
+        "Weight": 7,
+        "OccupiedSlots": 5
+      }
+    },
+    {
+      "Time": "2026-10-13T17:59:58.8015299+00:00",
+      "Revision": 294,
+      "Opcode": 4,
+      "Payload": "AAUACgALAAs=",
+      "Direction": "S",
+      "Source": null,
+      "Character": "ResearchFast",
+      "Generation": 4,
+      "Map": 169,
+      "Position": {
+        "X": 5,
+        "Y": 10
+      },
+      "OwnResources": {
+        "Gold": 967400,
+        "Experience": 320058866,
+        "Weight": 7,
+        "OccupiedSlots": 5
+      }
+    },
+    {
+      "Time": "2026-10-13T18:00:59.3444089+00:00",
+      "Revision": 313,
+      "Opcode": 21,
+      "Payload": "AKkMDAAAAHTMCEFiZWwgSW5uAA==",
+      "Direction": "S",
+      "Source": null,
+      "Character": "ResearchFast",
+      "Generation": 4,
+      "Map": 169,
+      "Position": null,
+      "OwnResources": {
+        "Gold": 967400,
+        "Experience": 320058866,
+        "Weight": 7,
+        "OccupiedSlots": 5
+      }
+    },
+    {
+      "Time": "2026-10-13T18:00:59.3444647+00:00",
+      "Revision": 314,
+      "Opcode": 4,
+      "Payload": "AAUACgALAAs=",
+      "Direction": "S",
+      "Source": null,
+      "Character": "ResearchFast",
+      "Generation": 4,
+      "Map": 169,
+      "Position": {
+        "X": 5,
+        "Y": 10
+      },
+      "OwnResources": {
+        "Gold": 967400,
+        "Experience": 320058866,
+        "Weight": 7,
+        "OccupiedSlots": 5
+      }
+    },
+    {
+      "Time": "2026-10-13T18:01:59.3841538+00:00",
+      "Revision": 331,
+      "Opcode": 21,
+      "Payload": "AKkMDAAAAHTMCEFiZWwgSW5uAA==",
+      "Direction": "S",
+      "Source": null,
+      "Character": "ResearchFast",
+      "Generation": 4,
+      "Map": 169,
+      "Position": null,
+      "OwnResources": {
+        "Gold": 967400,
+        "Experience": 320058866,
+        "Weight": 7,
+        "OccupiedSlots": 5
+      }
+    },
+    {
+      "Time": "2026-10-13T18:01:59.3842027+00:00",
+      "Revision": 332,
+      "Opcode": 4,
+      "Payload": "AAUACgALAAs=",
+      "Direction": "S",
+      "Source": null,
+      "Character": "ResearchFast",
+      "Generation": 4,
+      "Map": 169,
+      "Position": {
+        "X": 5,
+        "Y": 10
+      },
+      "OwnResources": {
+        "Gold": 967400,
+        "Experience": 320058866,
+        "Weight": 7,
+        "OccupiedSlots": 5
+      }
+    },
+    {
+      "Time": "2026-10-13T18:02:59.4581166+00:00",
+      "Revision": 342,
+      "Opcode": 21,
+      "Payload": "AKkMDAAAAHTMCEFiZWwgSW5uAA==",
+      "Direction": "S",
+      "Source": null,
+      "Character": "ResearchFast",
+      "Generation": 4,
+      "Map": 169,
+      "Position": null,
+      "OwnResources": {
+        "Gold": 967400,
+        "Experience": 320058866,
+        "Weight": 7,
+        "OccupiedSlots": 5
+      }
+    },
+    {
+      "Time": "2026-10-13T18:02:59.4581735+00:00",
+      "Revision": 343,
+      "Opcode": 4,
+      "Payload": "AAUACgALAAs=",
+      "Direction": "S",
+      "Source": null,
+      "Character": "ResearchFast",
+      "Generation": 4,
+      "Map": 169,
+      "Position": {
+        "X": 5,
+        "Y": 10
+      },
+      "OwnResources": {
+        "Gold": 967400,
+        "Experience": 320058866,
+        "Weight": 7,
+        "OccupiedSlots": 5
+      }
+    },
+    {
+      "Time": "2026-10-13T18:03:59.9790081+00:00",
+      "Revision": 357,
+      "Opcode": 21,
+      "Payload": "AKkMDAAAAHTMCEFiZWwgSW5uAA==",
+      "Direction": "S",
+      "Source": null,
+      "Character": "ResearchFast",
+      "Generation": 4,
+      "Map": 169,
+      "Position": null,
+      "OwnResources": {
+        "Gold": 967400,
+        "Experience": 320058866,
+        "Weight": 7,
+        "OccupiedSlots": 5
+      }
+    },
+    {
+      "Time": "2026-10-13T18:03:59.9790561+00:00",
+      "Revision": 358,
+      "Opcode": 4,
+      "Payload": "AAUACgALAAs=",
+      "Direction": "S",
+      "Source": null,
+      "Character": "ResearchFast",
+      "Generation": 4,
+      "Map": 169,
+      "Position": {
+        "X": 5,
+        "Y": 10
+      },
+      "OwnResources": {
+        "Gold": 967400,
+        "Experience": 320058866,
+        "Weight": 7,
+        "OccupiedSlots": 5
+      }
+    },
+    {
+      "Time": "2026-10-13T18:04:56.515389+00:00",
+      "Revision": 375,
+      "Opcode": 21,
+      "Payload": "AKkMDAAAAHTMCEFiZWwgSW5uAA==",
+      "Direction": "S",
+      "Source": null,
+      "Character": "ResearchFast",
+      "Generation": 4,
+      "Map": 169,
+      "Position": null,
+      "OwnResources": {
+        "Gold": 967400,
+        "Experience": 320058866,
+        "Weight": 7,
+        "OccupiedSlots": 5
+      }
+    },
+    {
+      "Time": "2026-10-13T18:04:56.5154391+00:00",
+      "Revision": 376,
+      "Opcode": 4,
+      "Payload": "AAUACgALAAs=",
+      "Direction": "S",
+      "Source": null,
+      "Character": "ResearchFast",
+      "Generation": 4,
+      "Map": 169,
+      "Position": {
+        "X": 5,
+        "Y": 10
+      },
+      "OwnResources": {
+        "Gold": 967400,
+        "Experience": 320058866,
+        "Weight": 7,
+        "OccupiedSlots": 5
+      }
+    },
+    {
+      "Time": "2026-10-13T18:05:03.8288676+00:00",
+      "Revision": 379,
+      "Opcode": 6,
+      "Payload": "AJc=",
+      "Direction": "C",
+      "Source": "bot",
+      "Character": "ResearchFast",
+      "Generation": 4,
+      "Map": 169,
+      "Position": {
+        "X": 5,
+        "Y": 10
+      },
+      "OwnResources": {
+        "Gold": 967400,
+        "Experience": 320058866,
+        "Weight": 7,
+        "OccupiedSlots": 5
+      }
+    },
+    {
+      "Time": "2026-10-13T18:05:04.0289443+00:00",
+      "Revision": 380,
+      "Opcode": 11,
+      "Payload": "AAAFAAoACwALAQ==",
+      "Direction": "S",
+      "Source": null,
+      "Character": "ResearchFast",
+      "Generation": 4,
+      "Map": 169,
+      "Position": {
+        "X": 5,
+        "Y": 9
+      },
+      "OwnResources": {
+        "Gold": 967400,
+        "Experience": 320058866,
+        "Weight": 7,
+        "OccupiedSlots": 5
+      }
+    },
+    {
+      "Time": "2026-10-13T18:06:20.5818423+00:00",
+      "Revision": 389,
+      "Opcode": 21,
+      "Payload": "AKkMDAAAAHTMCEFiZWwgSW5uAA==",
+      "Direction": "S",
+      "Source": null,
+      "Character": "ResearchFast",
+      "Generation": 4,
+      "Map": 169,
+      "Position": null,
+      "OwnResources": {
+        "Gold": 967400,
+        "Experience": 320058866,
+        "Weight": 7,
+        "OccupiedSlots": 5
+      }
+    },
+    {
+      "Time": "2026-10-13T18:06:20.5818884+00:00",
+      "Revision": 390,
+      "Opcode": 4,
+      "Payload": "AAUACgALAAs=",
+      "Direction": "S",
+      "Source": null,
+      "Character": "ResearchFast",
+      "Generation": 4,
+      "Map": 169,
+      "Position": {
+        "X": 5,
+        "Y": 10
+      },
+      "OwnResources": {
+        "Gold": 967400,
+        "Experience": 320058866,
+        "Weight": 7,
+        "OccupiedSlots": 5
+      }
+    },
+    {
+      "Time": "2026-10-13T18:07:20.6230889+00:00",
+      "Revision": 405,
+      "Opcode": 21,
+      "Payload": "AKkMDAAAAHTMCEFiZWwgSW5uAA==",
+      "Direction": "S",
+      "Source": null,
+      "Character": "ResearchFast",
+      "Generation": 4,
+      "Map": 169,
+      "Position": null,
+      "OwnResources": {
+        "Gold": 967400,
+        "Experience": 320058866,
+        "Weight": 7,
+        "OccupiedSlots": 5
+      }
+    },
+    {
+      "Time": "2026-10-13T18:07:20.6231253+00:00",
+      "Revision": 406,
+      "Opcode": 4,
+      "Payload": "AAUACgALAAs=",
+      "Direction": "S",
+      "Source": null,
+      "Character": "ResearchFast",
+      "Generation": 4,
+      "Map": 169,
+      "Position": {
+        "X": 5,
+        "Y": 10
+      },
+      "OwnResources": {
+        "Gold": 967400,
+        "Experience": 320058866,
+        "Weight": 7,
+        "OccupiedSlots": 5
+      }
+    },
+    {
+      "Time": "2026-10-13T18:08:21.1742409+00:00",
+      "Revision": 423,
+      "Opcode": 21,
+      "Payload": "AKkMDAAAAHTMCEFiZWwgSW5uAA==",
+      "Direction": "S",
+      "Source": null,
+      "Character": "ResearchFast",
+      "Generation": 4,
+      "Map": 169,
+      "Position": null,
+      "OwnResources": {
+        "Gold": 967400,
+        "Experience": 320058866,
+        "Weight": 7,
+        "OccupiedSlots": 5
+      }
+    },
+    {
+      "Time": "2026-10-13T18:08:21.174285+00:00",
+      "Revision": 424,
+      "Opcode": 4,
+      "Payload": "AAUACgALAAs=",
+      "Direction": "S",
+      "Source": null,
+      "Character": "ResearchFast",
+      "Generation": 4,
+      "Map": 169,
+      "Position": {
+        "X": 5,
+        "Y": 10
+      },
+      "OwnResources": {
+        "Gold": 967400,
+        "Experience": 320058866,
+        "Weight": 7,
+        "OccupiedSlots": 5
+      }
+    },
+    {
+      "Time": "2026-10-13T18:08:41.5865872+00:00",
+      "Revision": 430,
+      "Opcode": 6,
+      "Payload": "AJg=",
+      "Direction": "C",
+      "Source": "bot",
+      "Character": "ResearchFast",
+      "Generation": 4,
+      "Map": 169,
+      "Position": {
+        "X": 5,
+        "Y": 10
+      },
+      "OwnResources": {
+        "Gold": 967400,
+        "Experience": 320058866,
+        "Weight": 7,
+        "OccupiedSlots": 5
+      }
+    },
+    {
+      "Time": "2026-10-13T18:08:41.7538343+00:00",
+      "Revision": 430,
+      "Opcode": 6,
+      "Payload": "AJk=",
+      "Direction": "C",
+      "Source": "bot",
+      "Character": "ResearchFast",
+      "Generation": 4,
+      "Map": 169,
+      "Position": {
+        "X": 5,
+        "Y": 10
+      },
+      "OwnResources": {
+        "Gold": 967400,
+        "Experience": 320058866,
+        "Weight": 7,
+        "OccupiedSlots": 5
+      }
+    },
+    {
+      "Time": "2026-10-13T18:08:43.1860507+00:00",
+      "Revision": 431,
+      "Opcode": 11,
+      "Payload": "AAAFAAoACwALAQ==",
+      "Direction": "S",
+      "Source": null,
+      "Character": "ResearchFast",
+      "Generation": 4,
+      "Map": 169,
+      "Position": {
+        "X": 5,
+        "Y": 9
+      },
+      "OwnResources": {
+        "Gold": 967400,
+        "Experience": 320058866,
+        "Weight": 7,
+        "OccupiedSlots": 5
+      }
+    },
+    {
+      "Time": "2026-10-13T18:08:43.1861285+00:00",
+      "Revision": 432,
+      "Opcode": 11,
+      "Payload": "AAAFAAkACwALAQ==",
+      "Direction": "S",
+      "Source": null,
+      "Character": "ResearchFast",
+      "Generation": 4,
+      "Map": 169,
+      "Position": {
+        "X": 5,
+        "Y": 8
+      },
+      "OwnResources": {
+        "Gold": 967400,
+        "Experience": 320058866,
+        "Weight": 7,
+        "OccupiedSlots": 5
+      }
+    },
+    {
+      "Time": "2026-10-13T18:08:43.1864361+00:00",
+      "Revision": 432,
+      "Opcode": 6,
+      "Payload": "AJo=",
+      "Direction": "C",
+      "Source": "bot",
+      "Character": "ResearchFast",
+      "Generation": 4,
+      "Map": 169,
+      "Position": {
+        "X": 5,
+        "Y": 8
+      },
+      "OwnResources": {
+        "Gold": 967400,
+        "Experience": 320058866,
+        "Weight": 7,
+        "OccupiedSlots": 5
+      }
+    },
+    {
+      "Time": "2026-10-13T18:08:43.3528834+00:00",
+      "Revision": 432,
+      "Opcode": 6,
+      "Payload": "AJs=",
+      "Direction": "C",
+      "Source": "bot",
+      "Character": "ResearchFast",
+      "Generation": 4,
+      "Map": 169,
+      "Position": {
+        "X": 5,
+        "Y": 8
+      },
+      "OwnResources": {
+        "Gold": 967400,
+        "Experience": 320058866,
+        "Weight": 7,
+        "OccupiedSlots": 5
+      }
+    },
+    {
+      "Time": "2026-10-13T18:08:43.5133109+00:00",
+      "Revision": 432,
+      "Opcode": 6,
+      "Payload": "A5w=",
+      "Direction": "C",
+      "Source": "bot",
+      "Character": "ResearchFast",
+      "Generation": 4,
+      "Map": 169,
+      "Position": {
+        "X": 5,
+        "Y": 8
+      },
+      "OwnResources": {
+        "Gold": 967400,
+        "Experience": 320058866,
+        "Weight": 7,
+        "OccupiedSlots": 5
+      }
+    },
+    {
+      "Time": "2026-10-13T18:08:43.6858393+00:00",
+      "Revision": 433,
+      "Opcode": 11,
+      "Payload": "AAAFAAgACwALAQ==",
+      "Direction": "S",
+      "Source": null,
+      "Character": "ResearchFast",
+      "Generation": 4,
+      "Map": 169,
+      "Position": {
+        "X": 5,
+        "Y": 7
+      },
+      "OwnResources": {
+        "Gold": 967400,
+        "Experience": 320058866,
+        "Weight": 7,
+        "OccupiedSlots": 5
+      }
+    },
+    {
+      "Time": "2026-10-13T18:08:43.6859182+00:00",
+      "Revision": 434,
+      "Opcode": 11,
+      "Payload": "AAAFAAcACwALAQ==",
+      "Direction": "S",
+      "Source": null,
+      "Character": "ResearchFast",
+      "Generation": 4,
+      "Map": 169,
+      "Position": {
+        "X": 5,
+        "Y": 6
+      },
+      "OwnResources": {
+        "Gold": 967400,
+        "Experience": 320058866,
+        "Weight": 7,
+        "OccupiedSlots": 5
+      }
+    },
+    {
+      "Time": "2026-10-13T18:08:43.6859926+00:00",
+      "Revision": 435,
+      "Opcode": 11,
+      "Payload": "AwAFAAYACwALAQ==",
+      "Direction": "S",
+      "Source": null,
+      "Character": "ResearchFast",
+      "Generation": 4,
+      "Map": 169,
+      "Position": {
+        "X": 4,
+        "Y": 6
+      },
+      "OwnResources": {
+        "Gold": 967400,
+        "Experience": 320058866,
+        "Weight": 7,
+        "OccupiedSlots": 5
+      }
+    },
+    {
+      "Time": "2026-10-13T18:09:33.5047246+00:00",
+      "Revision": 438,
+      "Opcode": 6,
+      "Payload": "Ap0=",
+      "Direction": "C",
+      "Source": "bot",
+      "Character": "ResearchFast",
+      "Generation": 4,
+      "Map": 169,
+      "Position": {
+        "X": 4,
+        "Y": 6
+      },
+      "OwnResources": {
+        "Gold": 967400,
+        "Experience": 320058866,
+        "Weight": 7,
+        "OccupiedSlots": 5
+      }
+    },
+    {
+      "Time": "2026-10-13T18:09:33.6732936+00:00",
+      "Revision": 438,
+      "Opcode": 6,
+      "Payload": "Ap4=",
+      "Direction": "C",
+      "Source": "bot",
+      "Character": "ResearchFast",
+      "Generation": 4,
+      "Map": 169,
+      "Position": {
+        "X": 4,
+        "Y": 6
+      },
+      "OwnResources": {
+        "Gold": 967400,
+        "Experience": 320058866,
+        "Weight": 7,
+        "OccupiedSlots": 5
+      }
+    },
+    {
+      "Time": "2026-10-13T18:09:33.7241263+00:00",
+      "Revision": 439,
+      "Opcode": 11,
+      "Payload": "AgAEAAYACwALAQ==",
+      "Direction": "S",
+      "Source": null,
+      "Character": "ResearchFast",
+      "Generation": 4,
+      "Map": 169,
+      "Position": {
+        "X": 4,
+        "Y": 7
+      },
+      "OwnResources": {
+        "Gold": 967400,
+        "Experience": 320058866,
+        "Weight": 7,
+        "OccupiedSlots": 5
+      }
+    },
+    {
+      "Time": "2026-10-13T18:09:33.8439711+00:00",
+      "Revision": 439,
+      "Opcode": 6,
+      "Payload": "Ap8=",
+      "Direction": "C",
+      "Source": "bot",
+      "Character": "ResearchFast",
+      "Generation": 4,
+      "Map": 169,
+      "Position": {
+        "X": 4,
+        "Y": 7
+      },
+      "OwnResources": {
+        "Gold": 967400,
+        "Experience": 320058866,
+        "Weight": 7,
+        "OccupiedSlots": 5
+      }
+    },
+    {
+      "Time": "2026-10-13T18:09:34.0138493+00:00",
+      "Revision": 439,
+      "Opcode": 6,
+      "Payload": "AqA=",
+      "Direction": "C",
+      "Source": "bot",
+      "Character": "ResearchFast",
+      "Generation": 4,
+      "Map": 169,
+      "Position": {
+        "X": 4,
+        "Y": 7
+      },
+      "OwnResources": {
+        "Gold": 967400,
+        "Experience": 320058866,
+        "Weight": 7,
+        "OccupiedSlots": 5
+      }
+    },
+    {
+      "Time": "2026-10-13T18:09:34.2238747+00:00",
+      "Revision": 440,
+      "Opcode": 11,
+      "Payload": "AgAEAAcACwALAQ==",
+      "Direction": "S",
+      "Source": null,
+      "Character": "ResearchFast",
+      "Generation": 4,
+      "Map": 169,
+      "Position": {
+        "X": 4,
+        "Y": 8
+      },
+      "OwnResources": {
+        "Gold": 967400,
+        "Experience": 320058866,
+        "Weight": 7,
+        "OccupiedSlots": 5
+      }
+    },
+    {
+      "Time": "2026-10-13T18:09:34.2239958+00:00",
+      "Revision": 441,
+      "Opcode": 11,
+      "Payload": "AgAEAAgACwALAQ==",
+      "Direction": "S",
+      "Source": null,
+      "Character": "ResearchFast",
+      "Generation": 4,
+      "Map": 169,
+      "Position": {
+        "X": 4,
+        "Y": 9
+      },
+      "OwnResources": {
+        "Gold": 967400,
+        "Experience": 320058866,
+        "Weight": 7,
+        "OccupiedSlots": 5
+      }
+    },
+    {
+      "Time": "2026-10-13T18:09:34.2241612+00:00",
+      "Revision": 442,
+      "Opcode": 11,
+      "Payload": "AgAEAAkACwALAQ==",
+      "Direction": "S",
+      "Source": null,
+      "Character": "ResearchFast",
+      "Generation": 4,
+      "Map": 169,
+      "Position": {
+        "X": 4,
+        "Y": 10
+      },
+      "OwnResources": {
+        "Gold": 967400,
+        "Experience": 320058866,
+        "Weight": 7,
+        "OccupiedSlots": 5
+      }
+    },
+    {
+      "Time": "2026-10-13T18:09:34.2244407+00:00",
+      "Revision": 442,
+      "Opcode": 6,
+      "Payload": "A6E=",
+      "Direction": "C",
+      "Source": "bot",
+      "Character": "ResearchFast",
+      "Generation": 4,
+      "Map": 169,
+      "Position": {
+        "X": 4,
+        "Y": 10
+      },
+      "OwnResources": {
+        "Gold": 967400,
+        "Experience": 320058866,
+        "Weight": 7,
+        "OccupiedSlots": 5
+      }
+    },
+    {
+      "Time": "2026-10-13T18:09:34.3866509+00:00",
+      "Revision": 442,
+      "Opcode": 6,
+      "Payload": "A6I=",
+      "Direction": "C",
+      "Source": "bot",
+      "Character": "ResearchFast",
+      "Generation": 4,
+      "Map": 169,
+      "Position": {
+        "X": 4,
+        "Y": 10
+      },
+      "OwnResources": {
+        "Gold": 967400,
+        "Experience": 320058866,
+        "Weight": 7,
+        "OccupiedSlots": 5
+      }
+    },
+    {
+      "Time": "2026-10-13T18:09:34.5475403+00:00",
+      "Revision": 442,
+      "Opcode": 6,
+      "Payload": "A6M=",
+      "Direction": "C",
+      "Source": "bot",
+      "Character": "ResearchFast",
+      "Generation": 4,
+      "Map": 169,
+      "Position": {
+        "X": 4,
+        "Y": 10
+      },
+      "OwnResources": {
+        "Gold": 967400,
+        "Experience": 320058866,
+        "Weight": 7,
+        "OccupiedSlots": 5
+      }
+    },
+    {
+      "Time": "2026-10-13T18:09:34.7246804+00:00",
+      "Revision": 443,
+      "Opcode": 11,
+      "Payload": "AwAEAAoACwALAQ==",
+      "Direction": "S",
+      "Source": null,
+      "Character": "ResearchFast",
+      "Generation": 4,
+      "Map": 169,
+      "Position": {
+        "X": 3,
+        "Y": 10
+      },
+      "OwnResources": {
+        "Gold": 967400,
+        "Experience": 320058866,
+        "Weight": 7,
+        "OccupiedSlots": 5
+      }
+    },
+    {
+      "Time": "2026-10-13T18:09:34.7247636+00:00",
+      "Revision": 444,
+      "Opcode": 11,
+      "Payload": "AwADAAoACwALAQ==",
+      "Direction": "S",
+      "Source": null,
+      "Character": "ResearchFast",
+      "Generation": 4,
+      "Map": 169,
+      "Position": {
+        "X": 2,
+        "Y": 10
+      },
+      "OwnResources": {
+        "Gold": 967400,
+        "Experience": 320058866,
+        "Weight": 7,
+        "OccupiedSlots": 5
+      }
+    },
+    {
+      "Time": "2026-10-13T18:09:34.7248355+00:00",
+      "Revision": 445,
+      "Opcode": 11,
+      "Payload": "AwACAAoACwALAQ==",
+      "Direction": "S",
+      "Source": null,
+      "Character": "ResearchFast",
+      "Generation": 4,
+      "Map": 169,
+      "Position": {
+        "X": 1,
+        "Y": 10
+      },
+      "OwnResources": {
+        "Gold": 967400,
+        "Experience": 320058866,
+        "Weight": 7,
+        "OccupiedSlots": 5
+      }
+    },
+    {
+      "Time": "2026-10-13T18:09:53.0657573+00:00",
+      "Revision": 445,
+      "Opcode": 6,
+      "Payload": "A6Q=",
+      "Direction": "C",
+      "Source": "bot",
+      "Character": "ResearchFast",
+      "Generation": 4,
+      "Map": 169,
+      "Position": {
+        "X": 1,
+        "Y": 10
+      },
+      "OwnResources": {
+        "Gold": 967400,
+        "Experience": 320058866,
+        "Weight": 7,
+        "OccupiedSlots": 5
+      }
+    },
+    {
+      "Time": "2026-10-13T18:09:53.2414616+00:00",
+      "Revision": 446,
+      "Opcode": 21,
+      "Payload": "AMwFDwAAAPUSE0FiZWwgSW5uIENvcnJpZG9yIDEA",
+      "Direction": "S",
+      "Source": null,
+      "Character": "ResearchFast",
+      "Generation": 4,
+      "Map": 204,
+      "Position": null,
+      "OwnResources": {
+        "Gold": 967400,
+        "Experience": 320058866,
+        "Weight": 7,
+        "OccupiedSlots": 5
+      }
+    },
+    {
+      "Time": "2026-10-13T18:09:53.2415257+00:00",
+      "Revision": 447,
+      "Opcode": 4,
+      "Payload": "AAMADQALAAs=",
+      "Direction": "S",
+      "Source": null,
+      "Character": "ResearchFast",
+      "Generation": 4,
+      "Map": 204,
+      "Position": {
+        "X": 3,
+        "Y": 13
+      },
+      "OwnResources": {
+        "Gold": 967400,
+        "Experience": 320058866,
+        "Weight": 7,
+        "OccupiedSlots": 5
+      }
+    },
+    {
+      "Time": "2026-10-13T18:09:53.2415711+00:00",
+      "Revision": 447,
+      "Opcode": 50,
+      "Payload": "BAANAQAACgEAAAcBAAAEAQAA",
+      "Direction": "S",
+      "Source": null,
+      "Character": "ResearchFast",
+      "Generation": 4,
+      "Map": 204,
+      "Position": {
+        "X": 3,
+        "Y": 13
+      },
+      "OwnResources": {
+        "Gold": 967400,
+        "Experience": 320058866,
+        "Weight": 7,
+        "OccupiedSlots": 5
+      }
+    },
+    {
+      "Time": "2026-10-13T18:10:05.461507+00:00",
+      "Revision": 449,
+      "Opcode": 6,
+      "Payload": "AKU=",
+      "Direction": "C",
+      "Source": "bot",
+      "Character": "ResearchFast",
+      "Generation": 4,
+      "Map": 204,
+      "Position": {
+        "X": 3,
+        "Y": 13
+      },
+      "OwnResources": {
+        "Gold": 967400,
+        "Experience": 320058866,
+        "Weight": 7,
+        "OccupiedSlots": 5
+      }
+    },
+    {
+      "Time": "2026-10-13T18:10:05.7460198+00:00",
+      "Revision": 451,
+      "Opcode": 11,
+      "Payload": "AAADAA0ACwALAQ==",
+      "Direction": "S",
+      "Source": null,
+      "Character": "ResearchFast",
+      "Generation": 4,
+      "Map": 204,
+      "Position": {
+        "X": 3,
+        "Y": 12
+      },
+      "OwnResources": {
+        "Gold": 967400,
+        "Experience": 320058866,
+        "Weight": 7,
+        "OccupiedSlots": 5
+      }
+    },
+    {
+      "Time": "2026-10-13T18:10:34.3409725+00:00",
+      "Revision": 451,
+      "Opcode": 6,
+      "Payload": "AKY=",
+      "Direction": "C",
+      "Source": "bot",
+      "Character": "ResearchFast",
+      "Generation": 4,
+      "Map": 204,
+      "Position": {
+        "X": 3,
+        "Y": 12
+      },
+      "OwnResources": {
+        "Gold": 967400,
+        "Experience": 320058866,
+        "Weight": 7,
+        "OccupiedSlots": 5
+      }
+    },
+    {
+      "Time": "2026-10-13T18:10:34.5253448+00:00",
+      "Revision": 451,
+      "Opcode": 6,
+      "Payload": "AKc=",
+      "Direction": "C",
+      "Source": "bot",
+      "Character": "ResearchFast",
+      "Generation": 4,
+      "Map": 204,
+      "Position": {
+        "X": 3,
+        "Y": 12
+      },
+      "OwnResources": {
+        "Gold": 967400,
+        "Experience": 320058866,
+        "Weight": 7,
+        "OccupiedSlots": 5
+      }
+    },
+    {
+      "Time": "2026-10-13T18:10:34.6981874+00:00",
+      "Revision": 451,
+      "Opcode": 6,
+      "Payload": "AKg=",
+      "Direction": "C",
+      "Source": "bot",
+      "Character": "ResearchFast",
+      "Generation": 4,
+      "Map": 204,
+      "Position": {
+        "X": 3,
+        "Y": 12
+      },
+      "OwnResources": {
+        "Gold": 967400,
+        "Experience": 320058866,
+        "Weight": 7,
+        "OccupiedSlots": 5
+      }
+    },
+    {
+      "Time": "2026-10-13T18:10:34.7739915+00:00",
+      "Revision": 452,
+      "Opcode": 11,
+      "Payload": "AAADAAwACwALAQ==",
+      "Direction": "S",
+      "Source": null,
+      "Character": "ResearchFast",
+      "Generation": 4,
+      "Map": 204,
+      "Position": {
+        "X": 3,
+        "Y": 11
+      },
+      "OwnResources": {
+        "Gold": 967400,
+        "Experience": 320058866,
+        "Weight": 7,
+        "OccupiedSlots": 5
+      }
+    },
+    {
+      "Time": "2026-10-13T18:10:34.77404+00:00",
+      "Revision": 452,
+      "Opcode": 50,
+      "Payload": "AQABAQA=",
+      "Direction": "S",
+      "Source": null,
+      "Character": "ResearchFast",
+      "Generation": 4,
+      "Map": 204,
+      "Position": {
+        "X": 3,
+        "Y": 11
+      },
+      "OwnResources": {
+        "Gold": 967400,
+        "Experience": 320058866,
+        "Weight": 7,
+        "OccupiedSlots": 5
+      }
+    },
+    {
+      "Time": "2026-10-13T18:10:34.7740703+00:00",
+      "Revision": 453,
+      "Opcode": 11,
+      "Payload": "AAADAAsACwALAQ==",
+      "Direction": "S",
+      "Source": null,
+      "Character": "ResearchFast",
+      "Generation": 4,
+      "Map": 204,
+      "Position": {
+        "X": 3,
+        "Y": 10
+      },
+      "OwnResources": {
+        "Gold": 967400,
+        "Experience": 320058866,
+        "Weight": 7,
+        "OccupiedSlots": 5
+      }
+    },
+    {
+      "Time": "2026-10-13T18:10:34.7741153+00:00",
+      "Revision": 454,
+      "Opcode": 11,
+      "Payload": "AAADAAoACwALAQ==",
+      "Direction": "S",
+      "Source": null,
+      "Character": "ResearchFast",
+      "Generation": 4,
+      "Map": 204,
+      "Position": {
+        "X": 3,
+        "Y": 9
+      },
+      "OwnResources": {
+        "Gold": 967400,
+        "Experience": 320058866,
+        "Weight": 7,
+        "OccupiedSlots": 5
+      }
+    },
+    {
+      "Time": "2026-10-13T18:10:34.8812928+00:00",
+      "Revision": 454,
+      "Opcode": 6,
+      "Payload": "AKk=",
+      "Direction": "C",
+      "Source": "bot",
+      "Character": "ResearchFast",
+      "Generation": 4,
+      "Map": 204,
+      "Position": {
+        "X": 3,
+        "Y": 9
+      },
+      "OwnResources": {
+        "Gold": 967400,
+        "Experience": 320058866,
+        "Weight": 7,
+        "OccupiedSlots": 5
+      }
+    },
+    {
+      "Time": "2026-10-13T18:10:35.0485611+00:00",
+      "Revision": 454,
+      "Opcode": 6,
+      "Payload": "AKo=",
+      "Direction": "C",
+      "Source": "bot",
+      "Character": "ResearchFast",
+      "Generation": 4,
+      "Map": 204,
+      "Position": {
+        "X": 3,
+        "Y": 9
+      },
+      "OwnResources": {
+        "Gold": 967400,
+        "Experience": 320058866,
+        "Weight": 7,
+        "OccupiedSlots": 5
+      }
+    },
+    {
+      "Time": "2026-10-13T18:10:35.2798746+00:00",
+      "Revision": 455,
+      "Opcode": 11,
+      "Payload": "AAADAAkACwALAQ==",
+      "Direction": "S",
+      "Source": null,
+      "Character": "ResearchFast",
+      "Generation": 4,
+      "Map": 204,
+      "Position": {
+        "X": 3,
+        "Y": 8
+      },
+      "OwnResources": {
+        "Gold": 967400,
+        "Experience": 320058866,
+        "Weight": 7,
+        "OccupiedSlots": 5
+      }
+    },
+    {
+      "Time": "2026-10-13T18:10:35.2799566+00:00",
+      "Revision": 456,
+      "Opcode": 11,
+      "Payload": "AAADAAgACwALAQ==",
+      "Direction": "S",
+      "Source": null,
+      "Character": "ResearchFast",
+      "Generation": 4,
+      "Map": 204,
+      "Position": {
+        "X": 3,
+        "Y": 7
+      },
+      "OwnResources": {
+        "Gold": 967400,
+        "Experience": 320058866,
+        "Weight": 7,
+        "OccupiedSlots": 5
+      }
+    },
+    {
+      "Time": "2026-10-13T18:10:35.280083+00:00",
+      "Revision": 456,
+      "Opcode": 6,
+      "Payload": "AKs=",
+      "Direction": "C",
+      "Source": "bot",
+      "Character": "ResearchFast",
+      "Generation": 4,
+      "Map": 204,
+      "Position": {
+        "X": 3,
+        "Y": 7
+      },
+      "OwnResources": {
+        "Gold": 967400,
+        "Experience": 320058866,
+        "Weight": 7,
+        "OccupiedSlots": 5
+      }
+    },
+    {
+      "Time": "2026-10-13T18:10:35.4429632+00:00",
+      "Revision": 456,
+      "Opcode": 6,
+      "Payload": "AKw=",
+      "Direction": "C",
+      "Source": "bot",
+      "Character": "ResearchFast",
+      "Generation": 4,
+      "Map": 204,
+      "Position": {
+        "X": 3,
+        "Y": 7
+      },
+      "OwnResources": {
+        "Gold": 967400,
+        "Experience": 320058866,
+        "Weight": 7,
+        "OccupiedSlots": 5
+      }
+    },
+    {
+      "Time": "2026-10-13T18:10:35.7742695+00:00",
+      "Revision": 457,
+      "Opcode": 11,
+      "Payload": "AAADAAcACwALAQ==",
+      "Direction": "S",
+      "Source": null,
+      "Character": "ResearchFast",
+      "Generation": 4,
+      "Map": 204,
+      "Position": {
+        "X": 3,
+        "Y": 6
+      },
+      "OwnResources": {
+        "Gold": 967400,
+        "Experience": 320058866,
+        "Weight": 7,
+        "OccupiedSlots": 5
+      }
+    },
+    {
+      "Time": "2026-10-13T18:10:35.7743243+00:00",
+      "Revision": 458,
+      "Opcode": 11,
+      "Payload": "AAADAAYACwALAQ==",
+      "Direction": "S",
+      "Source": null,
+      "Character": "ResearchFast",
+      "Generation": 4,
+      "Map": 204,
+      "Position": {
+        "X": 3,
+        "Y": 5
+      },
+      "OwnResources": {
+        "Gold": 967400,
+        "Experience": 320058866,
+        "Weight": 7,
+        "OccupiedSlots": 5
+      }
+    },
+    {
+      "Time": "2026-10-13T18:10:35.7744834+00:00",
+      "Revision": 458,
+      "Opcode": 6,
+      "Payload": "AK0=",
+      "Direction": "C",
+      "Source": "bot",
+      "Character": "ResearchFast",
+      "Generation": 4,
+      "Map": 204,
+      "Position": {
+        "X": 3,
+        "Y": 5
+      },
+      "OwnResources": {
+        "Gold": 967400,
+        "Experience": 320058866,
+        "Weight": 7,
+        "OccupiedSlots": 5
+      }
+    },
+    {
+      "Time": "2026-10-13T18:10:35.9385144+00:00",
+      "Revision": 458,
+      "Opcode": 6,
+      "Payload": "AK4=",
+      "Direction": "C",
+      "Source": "bot",
+      "Character": "ResearchFast",
+      "Generation": 4,
+      "Map": 204,
+      "Position": {
+        "X": 3,
+        "Y": 5
+      },
+      "OwnResources": {
+        "Gold": 967400,
+        "Experience": 320058866,
+        "Weight": 7,
+        "OccupiedSlots": 5
+      }
+    },
+    {
+      "Time": "2026-10-13T18:10:36.1061379+00:00",
+      "Revision": 458,
+      "Opcode": 6,
+      "Payload": "AK8=",
+      "Direction": "C",
+      "Source": "bot",
+      "Character": "ResearchFast",
+      "Generation": 4,
+      "Map": 204,
+      "Position": {
+        "X": 3,
+        "Y": 5
+      },
+      "OwnResources": {
+        "Gold": 967400,
+        "Experience": 320058866,
+        "Weight": 7,
+        "OccupiedSlots": 5
+      }
+    },
+    {
+      "Time": "2026-10-13T18:10:36.2788406+00:00",
+      "Revision": 459,
+      "Opcode": 11,
+      "Payload": "AAADAAUACwALAQ==",
+      "Direction": "S",
+      "Source": null,
+      "Character": "ResearchFast",
+      "Generation": 4,
+      "Map": 204,
+      "Position": {
+        "X": 3,
+        "Y": 4
+      },
+      "OwnResources": {
+        "Gold": 967400,
+        "Experience": 320058866,
+        "Weight": 7,
+        "OccupiedSlots": 5
+      }
+    },
+    {
+      "Time": "2026-10-13T18:10:36.278908+00:00",
+      "Revision": 460,
+      "Opcode": 11,
+      "Payload": "AAADAAQACwALAQ==",
+      "Direction": "S",
+      "Source": null,
+      "Character": "ResearchFast",
+      "Generation": 4,
+      "Map": 204,
+      "Position": {
+        "X": 3,
+        "Y": 3
+      },
+      "OwnResources": {
+        "Gold": 967400,
+        "Experience": 320058866,
+        "Weight": 7,
+        "OccupiedSlots": 5
+      }
+    },
+    {
+      "Time": "2026-10-13T18:10:36.2789655+00:00",
+      "Revision": 461,
+      "Opcode": 11,
+      "Payload": "AAADAAMACwALAQ==",
+      "Direction": "S",
+      "Source": null,
+      "Character": "ResearchFast",
+      "Generation": 4,
+      "Map": 204,
+      "Position": {
+        "X": 3,
+        "Y": 2
+      },
+      "OwnResources": {
+        "Gold": 967400,
+        "Experience": 320058866,
+        "Weight": 7,
+        "OccupiedSlots": 5
+      }
+    },
+    {
+      "Time": "2026-10-13T18:10:36.2791199+00:00",
+      "Revision": 461,
+      "Opcode": 6,
+      "Payload": "ALA=",
+      "Direction": "C",
+      "Source": "bot",
+      "Character": "ResearchFast",
+      "Generation": 4,
+      "Map": 204,
+      "Position": {
+        "X": 3,
+        "Y": 2
+      },
+      "OwnResources": {
+        "Gold": 967400,
+        "Experience": 320058866,
+        "Weight": 7,
+        "OccupiedSlots": 5
+      }
+    },
+    {
+      "Time": "2026-10-13T18:10:36.7773374+00:00",
+      "Revision": 462,
+      "Opcode": 11,
+      "Payload": "AAADAAIACwALAQ==",
+      "Direction": "S",
+      "Source": null,
+      "Character": "ResearchFast",
+      "Generation": 4,
+      "Map": 204,
+      "Position": {
+        "X": 3,
+        "Y": 1
+      },
+      "OwnResources": {
+        "Gold": 967400,
+        "Experience": 320058866,
+        "Weight": 7,
+        "OccupiedSlots": 5
+      }
+    },
+    {
+      "Time": "2026-10-13T18:10:49.8384454+00:00",
+      "Revision": 464,
+      "Opcode": 6,
+      "Payload": "ALE=",
+      "Direction": "C",
+      "Source": "bot",
+      "Character": "ResearchFast",
+      "Generation": 4,
+      "Map": 204,
+      "Position": {
+        "X": 3,
+        "Y": 1
+      },
+      "OwnResources": {
+        "Gold": 967400,
+        "Experience": 320058866,
+        "Weight": 7,
+        "OccupiedSlots": 5
+      }
+    },
+    {
+      "Time": "2026-10-13T18:10:50.2895242+00:00",
+      "Revision": 465,
+      "Opcode": 21,
+      "Payload": "AM0PBQAAAKZXE0FiZWwgSW5uIENvcnJpZG9yIDIA",
+      "Direction": "S",
+      "Source": null,
+      "Character": "ResearchFast",
+      "Generation": 4,
+      "Map": 205,
+      "Position": null,
+      "OwnResources": {
+        "Gold": 967400,
+        "Experience": 320058866,
+        "Weight": 7,
+        "OccupiedSlots": 5
+      }
+    },
+    {
+      "Time": "2026-10-13T18:10:50.2895716+00:00",
+      "Revision": 466,
+      "Opcode": 4,
+      "Payload": "AAIAAwALAAs=",
+      "Direction": "S",
+      "Source": null,
+      "Character": "ResearchFast",
+      "Generation": 4,
+      "Map": 205,
+      "Position": {
+        "X": 2,
+        "Y": 3
+      },
+      "OwnResources": {
+        "Gold": 967400,
+        "Experience": 320058866,
+        "Weight": 7,
+        "OccupiedSlots": 5
+      }
+    },
+    {
+      "Time": "2026-10-13T18:10:50.2896164+00:00",
+      "Revision": 466,
+      "Opcode": 50,
+      "Payload": "BAoAAAEHAAABBAAAAQEAAAE=",
+      "Direction": "S",
+      "Source": null,
+      "Character": "ResearchFast",
+      "Generation": 4,
+      "Map": 205,
+      "Position": {
+        "X": 2,
+        "Y": 3
+      },
+      "OwnResources": {
+        "Gold": 967400,
+        "Experience": 320058866,
+        "Weight": 7,
+        "OccupiedSlots": 5
+      }
+    },
+    {
+      "Time": "2026-10-13T18:11:00.6094795+00:00",
+      "Revision": 468,
+      "Opcode": 6,
+      "Payload": "AbI=",
+      "Direction": "C",
+      "Source": "bot",
+      "Character": "ResearchFast",
+      "Generation": 4,
+      "Map": 205,
+      "Position": {
+        "X": 2,
+        "Y": 3
+      },
+      "OwnResources": {
+        "Gold": 967400,
+        "Experience": 320058866,
+        "Weight": 7,
+        "OccupiedSlots": 5
+      }
+    },
+    {
+      "Time": "2026-10-13T18:11:00.7952209+00:00",
+      "Revision": 469,
+      "Opcode": 11,
+      "Payload": "AQACAAMACwALAQ==",
+      "Direction": "S",
+      "Source": null,
+      "Character": "ResearchFast",
+      "Generation": 4,
+      "Map": 205,
+      "Position": {
+        "X": 3,
+        "Y": 3
+      },
+      "OwnResources": {
+        "Gold": 967400,
+        "Experience": 320058866,
+        "Weight": 7,
+        "OccupiedSlots": 5
+      }
+    },
+    {
+      "Time": "2026-10-13T18:12:17.5032794+00:00",
+      "Revision": 472,
+      "Opcode": 6,
+      "Payload": "ALM=",
+      "Direction": "C",
+      "Source": "bot",
+      "Character": "ResearchFast",
+      "Generation": 4,
+      "Map": 205,
+      "Position": {
+        "X": 3,
+        "Y": 3
+      },
+      "OwnResources": {
+        "Gold": 967400,
+        "Experience": 320058866,
+        "Weight": 7,
+        "OccupiedSlots": 5
+      }
+    },
+    {
+      "Time": "2026-10-13T18:12:17.6681778+00:00",
+      "Revision": 472,
+      "Opcode": 6,
+      "Payload": "ALQ=",
+      "Direction": "C",
+      "Source": "bot",
+      "Character": "ResearchFast",
+      "Generation": 4,
+      "Map": 205,
+      "Position": {
+        "X": 3,
+        "Y": 3
+      },
+      "OwnResources": {
+        "Gold": 967400,
+        "Experience": 320058866,
+        "Weight": 7,
+        "OccupiedSlots": 5
+      }
+    },
+    {
+      "Time": "2026-10-13T18:12:17.8540848+00:00",
+      "Revision": 472,
+      "Opcode": 50,
+      "Payload": "AQ0AAAE=",
+      "Direction": "S",
+      "Source": null,
+      "Character": "ResearchFast",
+      "Generation": 4,
+      "Map": 205,
+      "Position": {
+        "X": 3,
+        "Y": 3
+      },
+      "OwnResources": {
+        "Gold": 967400,
+        "Experience": 320058866,
+        "Weight": 7,
+        "OccupiedSlots": 5
+      }
+    },
+    {
+      "Time": "2026-10-13T18:12:17.854178+00:00",
+      "Revision": 473,
+      "Opcode": 11,
+      "Payload": "AAADAAMACwALAQ==",
+      "Direction": "S",
+      "Source": null,
+      "Character": "ResearchFast",
+      "Generation": 4,
+      "Map": 205,
+      "Position": {
+        "X": 3,
+        "Y": 2
+      },
+      "OwnResources": {
+        "Gold": 967400,
+        "Experience": 320058866,
+        "Weight": 7,
+        "OccupiedSlots": 5
+      }
+    },
+    {
+      "Time": "2026-10-13T18:12:17.8542641+00:00",
+      "Revision": 474,
+      "Opcode": 11,
+      "Payload": "AAADAAIACwALAQ==",
+      "Direction": "S",
+      "Source": null,
+      "Character": "ResearchFast",
+      "Generation": 4,
+      "Map": 205,
+      "Position": {
+        "X": 3,
+        "Y": 1
+      },
+      "OwnResources": {
+        "Gold": 967400,
+        "Experience": 320058866,
+        "Weight": 7,
+        "OccupiedSlots": 5
+      }
+    },
+    {
+      "Time": "2026-10-13T18:12:17.8544407+00:00",
+      "Revision": 474,
+      "Opcode": 6,
+      "Payload": "AbU=",
+      "Direction": "C",
+      "Source": "bot",
+      "Character": "ResearchFast",
+      "Generation": 4,
+      "Map": 205,
+      "Position": {
+        "X": 3,
+        "Y": 1
+      },
+      "OwnResources": {
+        "Gold": 967400,
+        "Experience": 320058866,
+        "Weight": 7,
+        "OccupiedSlots": 5
+      }
+    },
+    {
+      "Time": "2026-10-13T18:12:18.0235248+00:00",
+      "Revision": 474,
+      "Opcode": 6,
+      "Payload": "AbY=",
+      "Direction": "C",
+      "Source": "bot",
+      "Character": "ResearchFast",
+      "Generation": 4,
+      "Map": 205,
+      "Position": {
+        "X": 3,
+        "Y": 1
+      },
+      "OwnResources": {
+        "Gold": 967400,
+        "Experience": 320058866,
+        "Weight": 7,
+        "OccupiedSlots": 5
+      }
+    },
+    {
+      "Time": "2026-10-13T18:12:18.3521254+00:00",
+      "Revision": 475,
+      "Opcode": 11,
+      "Payload": "AQADAAEACwALAQ==",
+      "Direction": "S",
+      "Source": null,
+      "Character": "ResearchFast",
+      "Generation": 4,
+      "Map": 205,
+      "Position": {
+        "X": 4,
+        "Y": 1
+      },
+      "OwnResources": {
+        "Gold": 967400,
+        "Experience": 320058866,
+        "Weight": 7,
+        "OccupiedSlots": 5
+      }
+    },
+    {
+      "Time": "2026-10-13T18:12:18.3521982+00:00",
+      "Revision": 476,
+      "Opcode": 11,
+      "Payload": "AQAEAAEACwALAQ==",
+      "Direction": "S",
+      "Source": null,
+      "Character": "ResearchFast",
+      "Generation": 4,
+      "Map": 205,
+      "Position": {
+        "X": 5,
+        "Y": 1
+      },
+      "OwnResources": {
+        "Gold": 967400,
+        "Experience": 320058866,
+        "Weight": 7,
+        "OccupiedSlots": 5
+      }
+    },
+    {
+      "Time": "2026-10-13T18:12:18.352427+00:00",
+      "Revision": 476,
+      "Opcode": 6,
+      "Payload": "Abc=",
+      "Direction": "C",
+      "Source": "bot",
+      "Character": "ResearchFast",
+      "Generation": 4,
+      "Map": 205,
+      "Position": {
+        "X": 5,
+        "Y": 1
+      },
+      "OwnResources": {
+        "Gold": 967400,
+        "Experience": 320058866,
+        "Weight": 7,
+        "OccupiedSlots": 5
+      }
+    },
+    {
+      "Time": "2026-10-13T18:12:18.5182697+00:00",
+      "Revision": 476,
+      "Opcode": 6,
+      "Payload": "Abg=",
+      "Direction": "C",
+      "Source": "bot",
+      "Character": "ResearchFast",
+      "Generation": 4,
+      "Map": 205,
+      "Position": {
+        "X": 5,
+        "Y": 1
+      },
+      "OwnResources": {
+        "Gold": 967400,
+        "Experience": 320058866,
+        "Weight": 7,
+        "OccupiedSlots": 5
+      }
+    },
+    {
+      "Time": "2026-10-13T18:12:18.6872424+00:00",
+      "Revision": 476,
+      "Opcode": 6,
+      "Payload": "Abk=",
+      "Direction": "C",
+      "Source": "bot",
+      "Character": "ResearchFast",
+      "Generation": 4,
+      "Map": 205,
+      "Position": {
+        "X": 5,
+        "Y": 1
+      },
+      "OwnResources": {
+        "Gold": 967400,
+        "Experience": 320058866,
+        "Weight": 7,
+        "OccupiedSlots": 5
+      }
+    },
+    {
+      "Time": "2026-10-13T18:12:18.8505427+00:00",
+      "Revision": 477,
+      "Opcode": 11,
+      "Payload": "AQAFAAEACwALAQ==",
+      "Direction": "S",
+      "Source": null,
+      "Character": "ResearchFast",
+      "Generation": 4,
+      "Map": 205,
+      "Position": {
+        "X": 6,
+        "Y": 1
+      },
+      "OwnResources": {
+        "Gold": 967400,
+        "Experience": 320058866,
+        "Weight": 7,
+        "OccupiedSlots": 5
+      }
+    },
+    {
+      "Time": "2026-10-13T18:12:18.8507679+00:00",
+      "Revision": 478,
+      "Opcode": 11,
+      "Payload": "AQAGAAEACwALAQ==",
+      "Direction": "S",
+      "Source": null,
+      "Character": "ResearchFast",
+      "Generation": 4,
+      "Map": 205,
+      "Position": {
+        "X": 7,
+        "Y": 1
+      },
+      "OwnResources": {
+        "Gold": 967400,
+        "Experience": 320058866,
+        "Weight": 7,
+        "OccupiedSlots": 5
+      }
+    },
+    {
+      "Time": "2026-10-13T18:12:18.8508381+00:00",
+      "Revision": 479,
+      "Opcode": 11,
+      "Payload": "AQAHAAEACwALAQ==",
+      "Direction": "S",
+      "Source": null,
+      "Character": "ResearchFast",
+      "Generation": 4,
+      "Map": 205,
+      "Position": {
+        "X": 8,
+        "Y": 1
+      },
+      "OwnResources": {
+        "Gold": 967400,
+        "Experience": 320058866,
+        "Weight": 7,
+        "OccupiedSlots": 5
+      }
+    },
+    {
+      "Time": "2026-10-13T18:12:33.9731527+00:00",
+      "Revision": 479,
+      "Opcode": 6,
+      "Payload": "ALo=",
+      "Direction": "C",
+      "Source": "bot",
+      "Character": "ResearchFast",
+      "Generation": 4,
+      "Map": 205,
+      "Position": {
+        "X": 8,
+        "Y": 1
+      },
+      "OwnResources": {
+        "Gold": 967400,
+        "Experience": 320058866,
+        "Weight": 7,
+        "OccupiedSlots": 5
+      }
+    },
+    {
+      "Time": "2026-10-13T18:12:34.3646912+00:00",
+      "Revision": 480,
+      "Opcode": 11,
+      "Payload": "BAAIAAEACwALAQ==",
+      "Direction": "S",
+      "Source": null,
+      "Character": "ResearchFast",
+      "Generation": 4,
+      "Map": 205,
+      "Position": {
+        "X": 8,
+        "Y": 1
+      },
+      "OwnResources": {
+        "Gold": 967400,
+        "Experience": 320058866,
+        "Weight": 7,
+        "OccupiedSlots": 5
+      }
+    },
+    {
+      "Time": "2026-10-13T18:14:28.2267931+00:00",
+      "Revision": 485,
+      "Opcode": 6,
+      "Payload": "Ars=",
+      "Direction": "C",
+      "Source": "bot",
+      "Character": "ResearchFast",
+      "Generation": 4,
+      "Map": 205,
+      "Position": {
+        "X": 8,
+        "Y": 1
+      },
+      "OwnResources": {
+        "Gold": 967400,
+        "Experience": 320058866,
+        "Weight": 7,
+        "OccupiedSlots": 5
+      }
+    },
+    {
+      "Time": "2026-10-13T18:14:28.3987149+00:00",
+      "Revision": 485,
+      "Opcode": 6,
+      "Payload": "A7w=",
+      "Direction": "C",
+      "Source": "bot",
+      "Character": "ResearchFast",
+      "Generation": 4,
+      "Map": 205,
+      "Position": {
+        "X": 8,
+        "Y": 1
+      },
+      "OwnResources": {
+        "Gold": 967400,
+        "Experience": 320058866,
+        "Weight": 7,
+        "OccupiedSlots": 5
+      }
+    },
+    {
+      "Time": "2026-10-13T18:14:28.4519327+00:00",
+      "Revision": 487,
+      "Opcode": 11,
+      "Payload": "AgAIAAEACwALAQ==",
+      "Direction": "S",
+      "Source": null,
+      "Character": "ResearchFast",
+      "Generation": 4,
+      "Map": 205,
+      "Position": {
+        "X": 8,
+        "Y": 2
+      },
+      "OwnResources": {
+        "Gold": 967400,
+        "Experience": 320058866,
+        "Weight": 7,
+        "OccupiedSlots": 5
+      }
+    },
+    {
+      "Time": "2026-10-13T18:14:28.5743789+00:00",
+      "Revision": 487,
+      "Opcode": 6,
+      "Payload": "A70=",
+      "Direction": "C",
+      "Source": "bot",
+      "Character": "ResearchFast",
+      "Generation": 4,
+      "Map": 205,
+      "Position": {
+        "X": 8,
+        "Y": 2
+      },
+      "OwnResources": {
+        "Gold": 967400,
+        "Experience": 320058866,
+        "Weight": 7,
+        "OccupiedSlots": 5
+      }
+    },
+    {
+      "Time": "2026-10-13T18:14:28.950411+00:00",
+      "Revision": 488,
+      "Opcode": 11,
+      "Payload": "AwAIAAIACwALAQ==",
+      "Direction": "S",
+      "Source": null,
+      "Character": "ResearchFast",
+      "Generation": 4,
+      "Map": 205,
+      "Position": {
+        "X": 7,
+        "Y": 2
+      },
+      "OwnResources": {
+        "Gold": 967400,
+        "Experience": 320058866,
+        "Weight": 7,
+        "OccupiedSlots": 5
+      }
+    },
+    {
+      "Time": "2026-10-13T18:14:28.9505437+00:00",
+      "Revision": 489,
+      "Opcode": 11,
+      "Payload": "AwAHAAIACwALAQ==",
+      "Direction": "S",
+      "Source": null,
+      "Character": "ResearchFast",
+      "Generation": 4,
+      "Map": 205,
+      "Position": {
+        "X": 6,
+        "Y": 2
+      },
+      "OwnResources": {
+        "Gold": 967400,
+        "Experience": 320058866,
+        "Weight": 7,
+        "OccupiedSlots": 5
+      }
+    },
+    {
+      "Time": "2026-10-13T18:14:43.8354261+00:00",
+      "Revision": 490,
+      "Opcode": 6,
+      "Payload": "AL4=",
+      "Direction": "C",
+      "Source": "bot",
+      "Character": "ResearchFast",
+      "Generation": 4,
+      "Map": 205,
+      "Position": {
+        "X": 6,
+        "Y": 2
+      },
+      "OwnResources": {
+        "Gold": 967400,
+        "Experience": 320058866,
+        "Weight": 7,
+        "OccupiedSlots": 5
+      }
+    },
+    {
+      "Time": "2026-10-13T18:14:45.4671955+00:00",
+      "Revision": 491,
+      "Opcode": 11,
+      "Payload": "AAAGAAIACwALAQ==",
+      "Direction": "S",
+      "Source": null,
+      "Character": "ResearchFast",
+      "Generation": 4,
+      "Map": 205,
+      "Position": {
+        "X": 6,
+        "Y": 1
+      },
+      "OwnResources": {
+        "Gold": 967400,
+        "Experience": 320058866,
+        "Weight": 7,
+        "OccupiedSlots": 5
+      }
+    },
+    {
+      "Time": "2026-10-13T18:15:32.4100635+00:00",
+      "Revision": 492,
+      "Opcode": 6,
+      "Payload": "AL8=",
+      "Direction": "C",
+      "Source": "bot",
+      "Character": "ResearchFast",
+      "Generation": 4,
+      "Map": 205,
+      "Position": {
+        "X": 6,
+        "Y": 1
+      },
+      "OwnResources": {
+        "Gold": 967400,
+        "Experience": 320058866,
+        "Weight": 7,
+        "OccupiedSlots": 5
+      }
+    },
+    {
+      "Time": "2026-10-13T18:15:32.5107892+00:00",
+      "Revision": 493,
+      "Opcode": 11,
+      "Payload": "BAAGAAEACwALAQ==",
+      "Direction": "S",
+      "Source": null,
+      "Character": "ResearchFast",
+      "Generation": 4,
+      "Map": 205,
+      "Position": {
+        "X": 6,
+        "Y": 1
+      },
+      "OwnResources": {
+        "Gold": 967400,
+        "Experience": 320058866,
+        "Weight": 7,
+        "OccupiedSlots": 5
+      }
+    },
+    {
+      "Time": "2026-10-13T18:19:18.7691369+00:00",
+      "Revision": 517,
+      "Opcode": 6,
+      "Payload": "AcA=",
+      "Direction": "C",
+      "Source": "bot",
+      "Character": "ResearchFast",
+      "Generation": 4,
+      "Map": 205,
+      "Position": {
+        "X": 6,
+        "Y": 1
+      },
+      "OwnResources": {
+        "Gold": 967400,
+        "Experience": 320058866,
+        "Weight": 7,
+        "OccupiedSlots": 5
+      }
+    },
+    {
+      "Time": "2026-10-13T18:19:19.190201+00:00",
+      "Revision": 518,
+      "Opcode": 11,
+      "Payload": "AQAGAAEACwALAQ==",
+      "Direction": "S",
+      "Source": null,
+      "Character": "ResearchFast",
+      "Generation": 4,
+      "Map": 205,
+      "Position": {
+        "X": 7,
+        "Y": 1
+      },
+      "OwnResources": {
+        "Gold": 967400,
+        "Experience": 320058866,
+        "Weight": 7,
+        "OccupiedSlots": 5
+      }
+    },
+    {
+      "Time": "2026-10-13T18:19:41.7864914+00:00",
+      "Revision": 518,
+      "Opcode": 6,
+      "Payload": "AME=",
+      "Direction": "C",
+      "Source": "bot",
+      "Character": "ResearchFast",
+      "Generation": 4,
+      "Map": 205,
+      "Position": {
+        "X": 7,
+        "Y": 1
+      },
+      "OwnResources": {
+        "Gold": 967400,
+        "Experience": 320058866,
+        "Weight": 7,
+        "OccupiedSlots": 5
+      }
+    },
+    {
+      "Time": "2026-10-13T18:19:42.3322504+00:00",
+      "Revision": 519,
+      "Opcode": 21,
+      "Payload": "ALIICAAAADQvD0FiZWwgSW5uIFJvb20gOA==",
+      "Direction": "S",
+      "Source": null,
+      "Character": "ResearchFast",
+      "Generation": 4,
+      "Map": 178,
+      "Position": null,
+      "OwnResources": {
+        "Gold": 967400,
+        "Experience": 320058866,
+        "Weight": 7,
+        "OccupiedSlots": 5
+      }
+    },
+    {
+      "Time": "2026-10-13T18:19:42.3322996+00:00",
+      "Revision": 520,
+      "Opcode": 4,
+      "Payload": "AAQABgALAAs=",
+      "Direction": "S",
+      "Source": null,
+      "Character": "ResearchFast",
+      "Generation": 4,
+      "Map": 178,
+      "Position": {
+        "X": 4,
+        "Y": 6
+      },
+      "OwnResources": {
+        "Gold": 967400,
+        "Experience": 320058866,
+        "Weight": 7,
+        "OccupiedSlots": 5
+      }
+    },
+    {
+      "Time": "2026-10-13T18:20:12.3386165+00:00",
+      "Revision": 524,
+      "Opcode": 21,
+      "Payload": "AM0PBQAAAKZXE0FiZWwgSW5uIENvcnJpZG9yIDIA",
+      "Direction": "S",
+      "Source": null,
+      "Character": "ResearchFast",
+      "Generation": 4,
+      "Map": 205,
+      "Position": null,
+      "OwnResources": {
+        "Gold": 967400,
+        "Experience": 320058866,
+        "Weight": 7,
+        "OccupiedSlots": 5
+      }
+    },
+    {
+      "Time": "2026-10-13T18:20:12.3388198+00:00",
+      "Revision": 525,
+      "Opcode": 4,
+      "Payload": "AAcAAQALAAs=",
+      "Direction": "S",
+      "Source": null,
+      "Character": "ResearchFast",
+      "Generation": 4,
+      "Map": 205,
+      "Position": {
+        "X": 7,
+        "Y": 1
+      },
+      "OwnResources": {
+        "Gold": 967400,
+        "Experience": 320058866,
+        "Weight": 7,
+        "OccupiedSlots": 5
+      }
+    },
+    {
+      "Time": "2026-10-13T18:20:12.3388678+00:00",
+      "Revision": 525,
+      "Opcode": 50,
+      "Payload": "BQ0AAAEKAAABBwAAAQQAAAEBAAAB",
+      "Direction": "S",
+      "Source": null,
+      "Character": "ResearchFast",
+      "Generation": 4,
+      "Map": 205,
+      "Position": {
+        "X": 7,
+        "Y": 1
+      },
+      "OwnResources": {
+        "Gold": 967400,
+        "Experience": 320058866,
+        "Weight": 7,
+        "OccupiedSlots": 5
+      }
+    },
+    {
+      "Time": "2026-10-13T18:20:49.2473709+00:00",
+      "Revision": 530,
+      "Opcode": 21,
+      "Payload": "ALIICAAAADQvD0FiZWwgSW5uIFJvb20gOA==",
+      "Direction": "S",
+      "Source": null,
+      "Character": "ResearchFast",
+      "Generation": 4,
+      "Map": 178,
+      "Position": null,
+      "OwnResources": {
+        "Gold": 967400,
+        "Experience": 320058866,
+        "Weight": 7,
+        "OccupiedSlots": 5
+      }
+    },
+    {
+      "Time": "2026-10-13T18:20:49.2474489+00:00",
+      "Revision": 531,
+      "Opcode": 4,
+      "Payload": "AAQABgALAAs=",
+      "Direction": "S",
+      "Source": null,
+      "Character": "ResearchFast",
+      "Generation": 4,
+      "Map": 178,
+      "Position": {
+        "X": 4,
+        "Y": 6
+      },
+      "OwnResources": {
+        "Gold": 967400,
+        "Experience": 320058866,
+        "Weight": 7,
+        "OccupiedSlots": 5
+      }
+    },
+    {
+      "Time": "2026-10-13T18:21:12.2700575+00:00",
+      "Revision": 535,
+      "Opcode": 21,
+      "Payload": "AM0PBQAAAKZXE0FiZWwgSW5uIENvcnJpZG9yIDI=",
+      "Direction": "S",
+      "Source": null,
+      "Character": "ResearchFast",
+      "Generation": 4,
+      "Map": 205,
+      "Position": null,
+      "OwnResources": {
+        "Gold": 967400,
+        "Experience": 320058866,
+        "Weight": 7,
+        "OccupiedSlots": 5
+      }
+    },
+    {
+      "Time": "2026-10-13T18:21:12.2701096+00:00",
+      "Revision": 536,
+      "Opcode": 4,
+      "Payload": "AAcAAQALAAs=",
+      "Direction": "S",
+      "Source": null,
+      "Character": "ResearchFast",
+      "Generation": 4,
+      "Map": 205,
+      "Position": {
+        "X": 7,
+        "Y": 1
+      },
+      "OwnResources": {
+        "Gold": 967400,
+        "Experience": 320058866,
+        "Weight": 7,
+        "OccupiedSlots": 5
+      }
+    },
+    {
+      "Time": "2026-10-13T18:21:12.2701429+00:00",
+      "Revision": 536,
+      "Opcode": 50,
+      "Payload": "BQ0AAAEKAAABBwAAAQQAAAEBAAAB",
+      "Direction": "S",
+      "Source": null,
+      "Character": "ResearchFast",
+      "Generation": 4,
+      "Map": 205,
+      "Position": {
+        "X": 7,
+        "Y": 1
+      },
+      "OwnResources": {
+        "Gold": 967400,
+        "Experience": 320058866,
+        "Weight": 7,
+        "OccupiedSlots": 5
+      }
+    },
+    {
+      "Time": "2026-10-13T18:21:42.8530372+00:00",
+      "Revision": 542,
+      "Opcode": 6,
+      "Payload": "A8I=",
+      "Direction": "C",
+      "Source": "bot",
+      "Character": "ResearchFast",
+      "Generation": 4,
+      "Map": 205,
+      "Position": {
+        "X": 7,
+        "Y": 1
+      },
+      "OwnResources": {
+        "Gold": 967400,
+        "Experience": 320058866,
+        "Weight": 7,
+        "OccupiedSlots": 5
+      }
+    },
+    {
+      "Time": "2026-10-13T18:21:43.0268496+00:00",
+      "Revision": 542,
+      "Opcode": 6,
+      "Payload": "A8M=",
+      "Direction": "C",
+      "Source": "bot",
+      "Character": "ResearchFast",
+      "Generation": 4,
+      "Map": 205,
+      "Position": {
+        "X": 7,
+        "Y": 1
+      },
+      "OwnResources": {
+        "Gold": 967400,
+        "Experience": 320058866,
+        "Weight": 7,
+        "OccupiedSlots": 5
+      }
+    },
+    {
+      "Time": "2026-10-13T18:21:43.3470727+00:00",
+      "Revision": 542,
+      "Opcode": 6,
+      "Payload": "A8Q=",
+      "Direction": "C",
+      "Source": "bot",
+      "Character": "ResearchFast",
+      "Generation": 4,
+      "Map": 205,
+      "Position": {
+        "X": 7,
+        "Y": 1
+      },
+      "OwnResources": {
+        "Gold": 967400,
+        "Experience": 320058866,
+        "Weight": 7,
+        "OccupiedSlots": 5
+      }
+    },
+    {
+      "Time": "2026-10-13T18:21:43.3475338+00:00",
+      "Revision": 543,
+      "Opcode": 11,
+      "Payload": "AwAHAAEACwALAQ==",
+      "Direction": "S",
+      "Source": null,
+      "Character": "ResearchFast",
+      "Generation": 4,
+      "Map": 205,
+      "Position": {
+        "X": 6,
+        "Y": 1
+      },
+      "OwnResources": {
+        "Gold": 967400,
+        "Experience": 320058866,
+        "Weight": 7,
+        "OccupiedSlots": 5
+      }
+    },
+    {
+      "Time": "2026-10-13T18:21:43.347613+00:00",
+      "Revision": 544,
+      "Opcode": 11,
+      "Payload": "AwAGAAEACwALAQ==",
+      "Direction": "S",
+      "Source": null,
+      "Character": "ResearchFast",
+      "Generation": 4,
+      "Map": 205,
+      "Position": {
+        "X": 5,
+        "Y": 1
+      },
+      "OwnResources": {
+        "Gold": 967400,
+        "Experience": 320058866,
+        "Weight": 7,
+        "OccupiedSlots": 5
+      }
+    },
+    {
+      "Time": "2026-10-13T18:21:43.7908409+00:00",
+      "Revision": 545,
+      "Opcode": 11,
+      "Payload": "AwAFAAEACwALAQ==",
+      "Direction": "S",
+      "Source": null,
+      "Character": "ResearchFast",
+      "Generation": 4,
+      "Map": 205,
+      "Position": {
+        "X": 4,
+        "Y": 1
+      },
+      "OwnResources": {
+        "Gold": 967400,
+        "Experience": 320058866,
+        "Weight": 7,
+        "OccupiedSlots": 5
+      }
+    },
+    {
+      "Time": "2026-10-13T18:22:11.4079187+00:00",
+      "Revision": 546,
+      "Opcode": 6,
+      "Payload": "AMU=",
+      "Direction": "C",
+      "Source": "bot",
+      "Character": "ResearchFast",
+      "Generation": 4,
+      "Map": 205,
+      "Position": {
+        "X": 4,
+        "Y": 1
+      },
+      "OwnResources": {
+        "Gold": 967400,
+        "Experience": 320058866,
+        "Weight": 7,
+        "OccupiedSlots": 5
+      }
+    },
+    {
+      "Time": "2026-10-13T18:22:11.8926215+00:00",
+      "Revision": 547,
+      "Opcode": 21,
+      "Payload": "ALEICAAAAI21D0FiZWwgSW5uIFJvb20gNwA=",
+      "Direction": "S",
+      "Source": null,
+      "Character": "ResearchFast",
+      "Generation": 4,
+      "Map": 177,
+      "Position": null,
+      "OwnResources": {
+        "Gold": 967400,
+        "Experience": 320058866,
+        "Weight": 7,
+        "OccupiedSlots": 5
+      }
+    },
+    {
+      "Time": "2026-10-13T18:22:11.8926647+00:00",
+      "Revision": 548,
+      "Opcode": 4,
+      "Payload": "AAQABgALAAs=",
+      "Direction": "S",
+      "Source": null,
+      "Character": "ResearchFast",
+      "Generation": 4,
+      "Map": 177,
+      "Position": {
+        "X": 4,
+        "Y": 6
+      },
+      "OwnResources": {
+        "Gold": 967400,
+        "Experience": 320058866,
+        "Weight": 7,
+        "OccupiedSlots": 5
+      }
+    },
+    {
+      "Time": "2026-10-13T18:22:12.7145647+00:00",
+      "Revision": 551,
+      "Opcode": 6,
+      "Payload": "AMY=",
+      "Direction": "C",
+      "Source": "bot",
+      "Character": "ResearchFast",
+      "Generation": 4,
+      "Map": 177,
+      "Position": {
+        "X": 4,
+        "Y": 6
+      },
+      "OwnResources": {
+        "Gold": 967400,
+        "Experience": 320058866,
+        "Weight": 7,
+        "OccupiedSlots": 5
+      }
+    },
+    {
+      "Time": "2026-10-13T18:22:12.8425612+00:00",
+      "Revision": 552,
+      "Opcode": 11,
+      "Payload": "AAAEAAYACwALAQ==",
+      "Direction": "S",
+      "Source": null,
+      "Character": "ResearchFast",
+      "Generation": 4,
+      "Map": 177,
+      "Position": {
+        "X": 4,
+        "Y": 5
+      },
+      "OwnResources": {
+        "Gold": 967400,
+        "Experience": 320058866,
+        "Weight": 7,
+        "OccupiedSlots": 5
+      }
+    },
+    {
+      "Time": "2026-10-13T18:22:37.3273223+00:00",
+      "Revision": 553,
+      "Opcode": 21,
+      "Payload": "AM0PBQAAAKZXE0FiZWwgSW5uIENvcnJpZG9yIDI=",
+      "Direction": "S",
+      "Source": null,
+      "Character": "ResearchFast",
+      "Generation": 4,
+      "Map": 205,
+      "Position": null,
+      "OwnResources": {
+        "Gold": 967400,
+        "Experience": 320058866,
+        "Weight": 7,
+        "OccupiedSlots": 5
+      }
+    },
+    {
+      "Time": "2026-10-13T18:22:37.3273655+00:00",
+      "Revision": 554,
+      "Opcode": 4,
+      "Payload": "AAQAAQALAAs=",
+      "Direction": "S",
+      "Source": null,
+      "Character": "ResearchFast",
+      "Generation": 4,
+      "Map": 205,
+      "Position": {
+        "X": 4,
+        "Y": 1
+      },
+      "OwnResources": {
+        "Gold": 967400,
+        "Experience": 320058866,
+        "Weight": 7,
+        "OccupiedSlots": 5
+      }
+    },
+    {
+      "Time": "2026-10-13T18:22:37.3273948+00:00",
+      "Revision": 554,
+      "Opcode": 50,
+      "Payload": "BQ0AAAEKAAABBwAAAQQAAAEBAAAB",
+      "Direction": "S",
+      "Source": null,
+      "Character": "ResearchFast",
+      "Generation": 4,
+      "Map": 205,
+      "Position": {
+        "X": 4,
+        "Y": 1
+      },
+      "OwnResources": {
+        "Gold": 967400,
+        "Experience": 320058866,
+        "Weight": 7,
+        "OccupiedSlots": 5
+      }
+    },
+    {
+      "Time": "2026-10-13T18:23:13.3687533+00:00",
+      "Revision": 558,
+      "Opcode": 21,
+      "Payload": "ALEICAAAAI21D0FiZWwgSW5uIFJvb20gNw==",
+      "Direction": "S",
+      "Source": null,
+      "Character": "ResearchFast",
+      "Generation": 4,
+      "Map": 177,
+      "Position": null,
+      "OwnResources": {
+        "Gold": 967400,
+        "Experience": 320058866,
+        "Weight": 7,
+        "OccupiedSlots": 5
+      }
+    },
+    {
+      "Time": "2026-10-13T18:23:13.3688184+00:00",
+      "Revision": 559,
+      "Opcode": 4,
+      "Payload": "AAQABgALAAs=",
+      "Direction": "S",
+      "Source": null,
+      "Character": "ResearchFast",
+      "Generation": 4,
+      "Map": 177,
+      "Position": {
+        "X": 4,
+        "Y": 6
+      },
+      "OwnResources": {
+        "Gold": 967400,
+        "Experience": 320058866,
+        "Weight": 7,
+        "OccupiedSlots": 5
+      }
+    },
+    {
+      "Time": "2026-10-13T18:23:37.8762893+00:00",
+      "Revision": 564,
+      "Opcode": 21,
+      "Payload": "AM0PBQAAAKZXE0FiZWwgSW5uIENvcnJpZG9yIDI=",
+      "Direction": "S",
+      "Source": null,
+      "Character": "ResearchFast",
+      "Generation": 4,
+      "Map": 205,
+      "Position": null,
+      "OwnResources": {
+        "Gold": 967400,
+        "Experience": 320058866,
+        "Weight": 7,
+        "OccupiedSlots": 5
+      }
+    },
+    {
+      "Time": "2026-10-13T18:23:37.876344+00:00",
+      "Revision": 565,
+      "Opcode": 4,
+      "Payload": "AAQAAQALAAs=",
+      "Direction": "S",
+      "Source": null,
+      "Character": "ResearchFast",
+      "Generation": 4,
+      "Map": 205,
+      "Position": {
+        "X": 4,
+        "Y": 1
+      },
+      "OwnResources": {
+        "Gold": 967400,
+        "Experience": 320058866,
+        "Weight": 7,
+        "OccupiedSlots": 5
+      }
+    },
+    {
+      "Time": "2026-10-13T18:23:37.876385+00:00",
+      "Revision": 565,
+      "Opcode": 50,
+      "Payload": "BQ0AAAEKAAABBwAAAQQAAAEBAAAB",
+      "Direction": "S",
+      "Source": null,
+      "Character": "ResearchFast",
+      "Generation": 4,
+      "Map": 205,
+      "Position": {
+        "X": 4,
+        "Y": 1
+      },
+      "OwnResources": {
+        "Gold": 967400,
+        "Experience": 320058866,
+        "Weight": 7,
+        "OccupiedSlots": 5
+      }
+    },
+    {
+      "Time": "2026-10-13T18:24:13.4162267+00:00",
+      "Revision": 573,
+      "Opcode": 21,
+      "Payload": "ALEICAAAAI21D0FiZWwgSW5uIFJvb20gNw==",
+      "Direction": "S",
+      "Source": null,
+      "Character": "ResearchFast",
+      "Generation": 4,
+      "Map": 177,
+      "Position": null,
+      "OwnResources": {
+        "Gold": 967400,
+        "Experience": 320058866,
+        "Weight": 7,
+        "OccupiedSlots": 5
+      }
+    },
+    {
+      "Time": "2026-10-13T18:24:13.4162746+00:00",
+      "Revision": 574,
+      "Opcode": 4,
+      "Payload": "AAQABgALAAs=",
+      "Direction": "S",
+      "Source": null,
+      "Character": "ResearchFast",
+      "Generation": 4,
+      "Map": 177,
+      "Position": {
+        "X": 4,
+        "Y": 6
+      },
+      "OwnResources": {
+        "Gold": 967400,
+        "Experience": 320058866,
+        "Weight": 7,
+        "OccupiedSlots": 5
+      }
+    },
+    {
+      "Time": "2026-10-13T18:24:37.9285445+00:00",
+      "Revision": 582,
+      "Opcode": 21,
+      "Payload": "AM0PBQAAAKZXE0FiZWwgSW5uIENvcnJpZG9yIDI=",
+      "Direction": "S",
+      "Source": null,
+      "Character": "ResearchFast",
+      "Generation": 4,
+      "Map": 205,
+      "Position": null,
+      "OwnResources": {
+        "Gold": 967400,
+        "Experience": 320058866,
+        "Weight": 7,
+        "OccupiedSlots": 5
+      }
+    },
+    {
+      "Time": "2026-10-13T18:24:37.9286039+00:00",
+      "Revision": 583,
+      "Opcode": 4,
+      "Payload": "AAQAAQALAAs=",
+      "Direction": "S",
+      "Source": null,
+      "Character": "ResearchFast",
+      "Generation": 4,
+      "Map": 205,
+      "Position": {
+        "X": 4,
+        "Y": 1
+      },
+      "OwnResources": {
+        "Gold": 967400,
+        "Experience": 320058866,
+        "Weight": 7,
+        "OccupiedSlots": 5
+      }
+    },
+    {
+      "Time": "2026-10-13T18:24:37.9286451+00:00",
+      "Revision": 583,
+      "Opcode": 50,
+      "Payload": "BQ0AAAEKAAABBwAAAQQAAAEBAAAB",
+      "Direction": "S",
+      "Source": null,
+      "Character": "ResearchFast",
+      "Generation": 4,
+      "Map": 205,
+      "Position": {
+        "X": 4,
+        "Y": 1
+      },
+      "OwnResources": {
+        "Gold": 967400,
+        "Experience": 320058866,
+        "Weight": 7,
+        "OccupiedSlots": 5
+      }
+    },
+    {
+      "Time": "2026-10-13T18:25:13.9632858+00:00",
+      "Revision": 591,
+      "Opcode": 21,
+      "Payload": "ALEICAAAAI21D0FiZWwgSW5uIFJvb20gNw==",
+      "Direction": "S",
+      "Source": null,
+      "Character": "ResearchFast",
+      "Generation": 4,
+      "Map": 177,
+      "Position": null,
+      "OwnResources": {
+        "Gold": 967400,
+        "Experience": 320058866,
+        "Weight": 7,
+        "OccupiedSlots": 5
+      }
+    },
+    {
+      "Time": "2026-10-13T18:25:13.9633282+00:00",
+      "Revision": 592,
+      "Opcode": 4,
+      "Payload": "AAQABgALAAs=",
+      "Direction": "S",
+      "Source": null,
+      "Character": "ResearchFast",
+      "Generation": 4,
+      "Map": 177,
+      "Position": {
+        "X": 4,
+        "Y": 6
+      },
+      "OwnResources": {
+        "Gold": 967400,
+        "Experience": 320058866,
+        "Weight": 7,
+        "OccupiedSlots": 5
+      }
+    },
+    {
+      "Time": "2026-10-13T18:25:38.465501+00:00",
+      "Revision": 600,
+      "Opcode": 21,
+      "Payload": "AM0PBQAAAKZXE0FiZWwgSW5uIENvcnJpZG9yIDI=",
+      "Direction": "S",
+      "Source": null,
+      "Character": "ResearchFast",
+      "Generation": 4,
+      "Map": 205,
+      "Position": null,
+      "OwnResources": {
+        "Gold": 967400,
+        "Experience": 320058866,
+        "Weight": 7,
+        "OccupiedSlots": 5
+      }
+    },
+    {
+      "Time": "2026-10-13T18:25:38.4655565+00:00",
+      "Revision": 601,
+      "Opcode": 4,
+      "Payload": "AAQAAQALAAs=",
+      "Direction": "S",
+      "Source": null,
+      "Character": "ResearchFast",
+      "Generation": 4,
+      "Map": 205,
+      "Position": {
+        "X": 4,
+        "Y": 1
+      },
+      "OwnResources": {
+        "Gold": 967400,
+        "Experience": 320058866,
+        "Weight": 7,
+        "OccupiedSlots": 5
+      }
+    },
+    {
+      "Time": "2026-10-13T18:25:38.4656091+00:00",
+      "Revision": 601,
+      "Opcode": 50,
+      "Payload": "BQ0AAAEKAAABBwAAAQQAAAEBAAAB",
+      "Direction": "S",
+      "Source": null,
+      "Character": "ResearchFast",
+      "Generation": 4,
+      "Map": 205,
+      "Position": {
+        "X": 4,
+        "Y": 1
+      },
+      "OwnResources": {
+        "Gold": 967400,
+        "Experience": 320058866,
+        "Weight": 7,
+        "OccupiedSlots": 5
+      }
+    },
+    {
+      "Time": "2026-10-13T18:26:14.0342583+00:00",
+      "Revision": 612,
+      "Opcode": 21,
+      "Payload": "ALEICAAAAI21D0FiZWwgSW5uIFJvb20gNw==",
+      "Direction": "S",
+      "Source": null,
+      "Character": "ResearchFast",
+      "Generation": 4,
+      "Map": 177,
+      "Position": null,
+      "OwnResources": {
+        "Gold": 967400,
+        "Experience": 320058866,
+        "Weight": 7,
+        "OccupiedSlots": 5
+      }
+    },
+    {
+      "Time": "2026-10-13T18:26:14.0342969+00:00",
+      "Revision": 613,
+      "Opcode": 4,
+      "Payload": "AAQABgALAAs=",
+      "Direction": "S",
+      "Source": null,
+      "Character": "ResearchFast",
+      "Generation": 4,
+      "Map": 177,
+      "Position": {
+        "X": 4,
+        "Y": 6
+      },
+      "OwnResources": {
+        "Gold": 967400,
+        "Experience": 320058866,
+        "Weight": 7,
+        "OccupiedSlots": 5
+      }
+    },
+    {
+      "Time": "2026-10-13T18:26:38.5145873+00:00",
+      "Revision": 621,
+      "Opcode": 21,
+      "Payload": "AM0PBQAAAKZXE0FiZWwgSW5uIENvcnJpZG9yIDI=",
+      "Direction": "S",
+      "Source": null,
+      "Character": "ResearchFast",
+      "Generation": 4,
+      "Map": 205,
+      "Position": null,
+      "OwnResources": {
+        "Gold": 967400,
+        "Experience": 320058866,
+        "Weight": 7,
+        "OccupiedSlots": 5
+      }
+    },
+    {
+      "Time": "2026-10-13T18:26:38.5146535+00:00",
+      "Revision": 622,
+      "Opcode": 4,
+      "Payload": "AAQAAQALAAs=",
+      "Direction": "S",
+      "Source": null,
+      "Character": "ResearchFast",
+      "Generation": 4,
+      "Map": 205,
+      "Position": {
+        "X": 4,
+        "Y": 1
+      },
+      "OwnResources": {
+        "Gold": 967400,
+        "Experience": 320058866,
+        "Weight": 7,
+        "OccupiedSlots": 5
+      }
+    },
+    {
+      "Time": "2026-10-13T18:26:38.5146925+00:00",
+      "Revision": 622,
+      "Opcode": 50,
+      "Payload": "BQ0AAAEKAAABBwAAAQQAAAEBAAAB",
+      "Direction": "S",
+      "Source": null,
+      "Character": "ResearchFast",
+      "Generation": 4,
+      "Map": 205,
+      "Position": {
+        "X": 4,
+        "Y": 1
+      },
+      "OwnResources": {
+        "Gold": 967400,
+        "Experience": 320058866,
+        "Weight": 7,
+        "OccupiedSlots": 5
+      }
+    },
+    {
+      "Time": "2026-10-13T18:27:14.5810662+00:00",
+      "Revision": 631,
+      "Opcode": 21,
+      "Payload": "ALEICAAAAI21D0FiZWwgSW5uIFJvb20gNw==",
+      "Direction": "S",
+      "Source": null,
+      "Character": "ResearchFast",
+      "Generation": 4,
+      "Map": 177,
+      "Position": null,
+      "OwnResources": {
+        "Gold": 967400,
+        "Experience": 320058866,
+        "Weight": 7,
+        "OccupiedSlots": 5
+      }
+    },
+    {
+      "Time": "2026-10-13T18:27:14.5811233+00:00",
+      "Revision": 632,
+      "Opcode": 4,
+      "Payload": "AAQABgALAAs=",
+      "Direction": "S",
+      "Source": null,
+      "Character": "ResearchFast",
+      "Generation": 4,
+      "Map": 177,
+      "Position": {
+        "X": 4,
+        "Y": 6
+      },
+      "OwnResources": {
+        "Gold": 967400,
+        "Experience": 320058866,
+        "Weight": 7,
+        "OccupiedSlots": 5
+      }
+    },
+    {
+      "Time": "2026-10-13T18:27:39.0985751+00:00",
+      "Revision": 639,
+      "Opcode": 21,
+      "Payload": "AM0PBQAAAKZXE0FiZWwgSW5uIENvcnJpZG9yIDI=",
+      "Direction": "S",
+      "Source": null,
+      "Character": "ResearchFast",
+      "Generation": 4,
+      "Map": 205,
+      "Position": null,
+      "OwnResources": {
+        "Gold": 967400,
+        "Experience": 320058866,
+        "Weight": 7,
+        "OccupiedSlots": 5
+      }
+    },
+    {
+      "Time": "2026-10-13T18:27:39.0986201+00:00",
+      "Revision": 640,
+      "Opcode": 4,
+      "Payload": "AAQAAQALAAs=",
+      "Direction": "S",
+      "Source": null,
+      "Character": "ResearchFast",
+      "Generation": 4,
+      "Map": 205,
+      "Position": {
+        "X": 4,
+        "Y": 1
+      },
+      "OwnResources": {
+        "Gold": 967400,
+        "Experience": 320058866,
+        "Weight": 7,
+        "OccupiedSlots": 5
+      }
+    },
+    {
+      "Time": "2026-10-13T18:27:39.09865+00:00",
+      "Revision": 640,
+      "Opcode": 50,
+      "Payload": "BQ0AAAEKAAABBwAAAQQAAAEBAAAB",
+      "Direction": "S",
+      "Source": null,
+      "Character": "ResearchFast",
+      "Generation": 4,
+      "Map": 205,
+      "Position": {
+        "X": 4,
+        "Y": 1
+      },
+      "OwnResources": {
+        "Gold": 967400,
+        "Experience": 320058866,
+        "Weight": 7,
+        "OccupiedSlots": 5
+      }
+    },
+    {
+      "Time": "2026-10-13T18:28:14.6100624+00:00",
+      "Revision": 649,
+      "Opcode": 21,
+      "Payload": "ALEICAAAAI21D0FiZWwgSW5uIFJvb20gNw==",
+      "Direction": "S",
+      "Source": null,
+      "Character": "ResearchFast",
+      "Generation": 4,
+      "Map": 177,
+      "Position": null,
+      "OwnResources": {
+        "Gold": 967400,
+        "Experience": 320058866,
+        "Weight": 7,
+        "OccupiedSlots": 5
+      }
+    },
+    {
+      "Time": "2026-10-13T18:28:14.6101204+00:00",
+      "Revision": 650,
+      "Opcode": 4,
+      "Payload": "AAQABgALAAs=",
+      "Direction": "S",
+      "Source": null,
+      "Character": "ResearchFast",
+      "Generation": 4,
+      "Map": 177,
+      "Position": {
+        "X": 4,
+        "Y": 6
+      },
+      "OwnResources": {
+        "Gold": 967400,
+        "Experience": 320058866,
+        "Weight": 7,
+        "OccupiedSlots": 5
+      }
+    },
+    {
+      "Time": "2026-10-13T18:28:39.1334316+00:00",
+      "Revision": 657,
+      "Opcode": 21,
+      "Payload": "AM0PBQAAAKZXE0FiZWwgSW5uIENvcnJpZG9yIDI=",
+      "Direction": "S",
+      "Source": null,
+      "Character": "ResearchFast",
+      "Generation": 4,
+      "Map": 205,
+      "Position": null,
+      "OwnResources": {
+        "Gold": 967400,
+        "Experience": 320058866,
+        "Weight": 7,
+        "OccupiedSlots": 5
+      }
+    },
+    {
+      "Time": "2026-10-13T18:28:39.1334855+00:00",
+      "Revision": 658,
+      "Opcode": 4,
+      "Payload": "AAQAAQALAAs=",
+      "Direction": "S",
+      "Source": null,
+      "Character": "ResearchFast",
+      "Generation": 4,
+      "Map": 205,
+      "Position": {
+        "X": 4,
+        "Y": 1
+      },
+      "OwnResources": {
+        "Gold": 967400,
+        "Experience": 320058866,
+        "Weight": 7,
+        "OccupiedSlots": 5
+      }
+    },
+    {
+      "Time": "2026-10-13T18:28:39.1335216+00:00",
+      "Revision": 658,
+      "Opcode": 50,
+      "Payload": "BQ0AAAEKAAABBwAAAQQAAAEBAAAB",
+      "Direction": "S",
+      "Source": null,
+      "Character": "ResearchFast",
+      "Generation": 4,
+      "Map": 205,
+      "Position": {
+        "X": 4,
+        "Y": 1
+      },
+      "OwnResources": {
+        "Gold": 967400,
+        "Experience": 320058866,
+        "Weight": 7,
+        "OccupiedSlots": 5
+      }
+    },
+    {
+      "Time": "2026-10-13T18:29:14.6673685+00:00",
+      "Revision": 667,
+      "Opcode": 21,
+      "Payload": "ALEICAAAAI21D0FiZWwgSW5uIFJvb20gNw==",
+      "Direction": "S",
+      "Source": null,
+      "Character": "ResearchFast",
+      "Generation": 4,
+      "Map": 177,
+      "Position": null,
+      "OwnResources": {
+        "Gold": 967400,
+        "Experience": 320058866,
+        "Weight": 7,
+        "OccupiedSlots": 5
+      }
+    },
+    {
+      "Time": "2026-10-13T18:29:14.6674202+00:00",
+      "Revision": 668,
+      "Opcode": 4,
+      "Payload": "AAQABgALAAs=",
+      "Direction": "S",
+      "Source": null,
+      "Character": "ResearchFast",
+      "Generation": 4,
+      "Map": 177,
+      "Position": {
+        "X": 4,
+        "Y": 6
+      },
+      "OwnResources": {
+        "Gold": 967400,
+        "Experience": 320058866,
+        "Weight": 7,
+        "OccupiedSlots": 5
+      }
+    },
+    {
+      "Time": "2026-10-13T18:29:39.6656216+00:00",
+      "Revision": 677,
+      "Opcode": 21,
+      "Payload": "AM0PBQAAAKZXE0FiZWwgSW5uIENvcnJpZG9yIDI=",
+      "Direction": "S",
+      "Source": null,
+      "Character": "ResearchFast",
+      "Generation": 4,
+      "Map": 205,
+      "Position": null,
+      "OwnResources": {
+        "Gold": 967400,
+        "Experience": 320058866,
+        "Weight": 7,
+        "OccupiedSlots": 5
+      }
+    },
+    {
+      "Time": "2026-10-13T18:29:39.6656675+00:00",
+      "Revision": 678,
+      "Opcode": 4,
+      "Payload": "AAQAAQALAAs=",
+      "Direction": "S",
+      "Source": null,
+      "Character": "ResearchFast",
+      "Generation": 4,
+      "Map": 205,
+      "Position": {
+        "X": 4,
+        "Y": 1
+      },
+      "OwnResources": {
+        "Gold": 967400,
+        "Experience": 320058866,
+        "Weight": 7,
+        "OccupiedSlots": 5
+      }
+    },
+    {
+      "Time": "2026-10-13T18:29:39.6656959+00:00",
+      "Revision": 678,
+      "Opcode": 50,
+      "Payload": "BQ0AAAEKAAABBwAAAQQAAAEBAAAB",
+      "Direction": "S",
+      "Source": null,
+      "Character": "ResearchFast",
+      "Generation": 4,
+      "Map": 205,
+      "Position": {
+        "X": 4,
+        "Y": 1
+      },
+      "OwnResources": {
+        "Gold": 967400,
+        "Experience": 320058866,
+        "Weight": 7,
+        "OccupiedSlots": 5
+      }
+    },
+    {
+      "Time": "2026-10-13T18:30:15.2010059+00:00",
+      "Revision": 686,
+      "Opcode": 21,
+      "Payload": "ALEICAAAAI21D0FiZWwgSW5uIFJvb20gNw==",
+      "Direction": "S",
+      "Source": null,
+      "Character": "ResearchFast",
+      "Generation": 4,
+      "Map": 177,
+      "Position": null,
+      "OwnResources": {
+        "Gold": 967400,
+        "Experience": 320058866,
+        "Weight": 7,
+        "OccupiedSlots": 5
+      }
+    },
+    {
+      "Time": "2026-10-13T18:30:15.2010512+00:00",
+      "Revision": 687,
+      "Opcode": 4,
+      "Payload": "AAQABgALAAs=",
+      "Direction": "S",
+      "Source": null,
+      "Character": "ResearchFast",
+      "Generation": 4,
+      "Map": 177,
+      "Position": {
+        "X": 4,
+        "Y": 6
+      },
+      "OwnResources": {
+        "Gold": 967400,
+        "Experience": 320058866,
+        "Weight": 7,
+        "OccupiedSlots": 5
+      }
+    },
+    {
+      "Time": "2026-10-13T18:30:37.0013969+00:00",
+      "Revision": 693,
+      "Opcode": 6,
+      "Payload": "AMc=",
+      "Direction": "C",
+      "Source": "bot",
+      "Character": "ResearchFast",
+      "Generation": 4,
+      "Map": 177,
+      "Position": {
+        "X": 4,
+        "Y": 6
+      },
+      "OwnResources": {
+        "Gold": 967400,
+        "Experience": 320058866,
+        "Weight": 7,
+        "OccupiedSlots": 5
+      }
+    },
+    {
+      "Time": "2026-10-13T18:30:37.245908+00:00",
+      "Revision": 693,
+      "Opcode": 6,
+      "Payload": "AMg=",
+      "Direction": "C",
+      "Source": "bot",
+      "Character": "ResearchFast",
+      "Generation": 4,
+      "Map": 177,
+      "Position": {
+        "X": 4,
+        "Y": 6
+      },
+      "OwnResources": {
+        "Gold": 967400,
+        "Experience": 320058866,
+        "Weight": 7,
+        "OccupiedSlots": 5
+      }
+    },
+    {
+      "Time": "2026-10-13T18:30:37.2462269+00:00",
+      "Revision": 695,
+      "Opcode": 11,
+      "Payload": "AAAEAAYACwALAQ==",
+      "Direction": "S",
+      "Source": null,
+      "Character": "ResearchFast",
+      "Generation": 4,
+      "Map": 177,
+      "Position": {
+        "X": 4,
+        "Y": 5
+      },
+      "OwnResources": {
+        "Gold": 967400,
+        "Experience": 320058866,
+        "Weight": 7,
+        "OccupiedSlots": 5
+      }
+    },
+    {
+      "Time": "2026-10-13T18:30:37.6925721+00:00",
+      "Revision": 696,
+      "Opcode": 11,
+      "Payload": "AAAEAAUACwALAQ==",
+      "Direction": "S",
+      "Source": null,
+      "Character": "ResearchFast",
+      "Generation": 4,
+      "Map": 177,
+      "Position": {
+        "X": 4,
+        "Y": 4
+      },
+      "OwnResources": {
+        "Gold": 967400,
+        "Experience": 320058866,
+        "Weight": 7,
+        "OccupiedSlots": 5
+      }
+    },
+    {
+      "Time": "2026-10-13T18:31:25.9208644+00:00",
+      "Revision": 701,
+      "Opcode": 6,
+      "Payload": "Ask=",
+      "Direction": "C",
+      "Source": "bot",
+      "Character": "ResearchFast",
+      "Generation": 4,
+      "Map": 177,
+      "Position": {
+        "X": 4,
+        "Y": 4
+      },
+      "OwnResources": {
+        "Gold": 967400,
+        "Experience": 320058866,
+        "Weight": 7,
+        "OccupiedSlots": 5
+      }
+    },
+    {
+      "Time": "2026-10-13T18:31:26.3436653+00:00",
+      "Revision": 701,
+      "Opcode": 6,
+      "Payload": "Aso=",
+      "Direction": "C",
+      "Source": "bot",
+      "Character": "ResearchFast",
+      "Generation": 4,
+      "Map": 177,
+      "Position": {
+        "X": 4,
+        "Y": 4
+      },
+      "OwnResources": {
+        "Gold": 967400,
+        "Experience": 320058866,
+        "Weight": 7,
+        "OccupiedSlots": 5
+      }
+    },
+    {
+      "Time": "2026-10-13T18:31:26.3441552+00:00",
+      "Revision": 702,
+      "Opcode": 11,
+      "Payload": "AgAEAAQACwALAQ==",
+      "Direction": "S",
+      "Source": null,
+      "Character": "ResearchFast",
+      "Generation": 4,
+      "Map": 177,
+      "Position": {
+        "X": 4,
+        "Y": 5
+      },
+      "OwnResources": {
+        "Gold": 967400,
+        "Experience": 320058866,
+        "Weight": 7,
+        "OccupiedSlots": 5
+      }
+    },
+    {
+      "Time": "2026-10-13T18:31:26.7966535+00:00",
+      "Revision": 703,
+      "Opcode": 11,
+      "Payload": "AgAEAAUACwALAQ==",
+      "Direction": "S",
+      "Source": null,
+      "Character": "ResearchFast",
+      "Generation": 4,
+      "Map": 177,
+      "Position": {
+        "X": 4,
+        "Y": 6
+      },
+      "OwnResources": {
+        "Gold": 967400,
+        "Experience": 320058866,
+        "Weight": 7,
+        "OccupiedSlots": 5
+      }
+    },
+    {
+      "Time": "2026-10-13T18:31:41.5616111+00:00",
+      "Revision": 703,
+      "Opcode": 6,
+      "Payload": "Ass=",
+      "Direction": "C",
+      "Source": "bot",
+      "Character": "ResearchFast",
+      "Generation": 4,
+      "Map": 177,
+      "Position": {
+        "X": 4,
+        "Y": 6
+      },
+      "OwnResources": {
+        "Gold": 967400,
+        "Experience": 320058866,
+        "Weight": 7,
+        "OccupiedSlots": 5
+      }
+    },
+    {
+      "Time": "2026-10-13T18:31:41.7375318+00:00",
+      "Revision": 704,
+      "Opcode": 21,
+      "Payload": "AM0PBQAAAKZXE0FiZWwgSW5uIENvcnJpZG9yIDIA",
+      "Direction": "S",
+      "Source": null,
+      "Character": "ResearchFast",
+      "Generation": 4,
+      "Map": 205,
+      "Position": null,
+      "OwnResources": {
+        "Gold": 967400,
+        "Experience": 320058866,
+        "Weight": 7,
+        "OccupiedSlots": 5
+      }
+    },
+    {
+      "Time": "2026-10-13T18:31:41.7375914+00:00",
+      "Revision": 705,
+      "Opcode": 4,
+      "Payload": "AAQAAQALAAs=",
+      "Direction": "S",
+      "Source": null,
+      "Character": "ResearchFast",
+      "Generation": 4,
+      "Map": 205,
+      "Position": {
+        "X": 4,
+        "Y": 1
+      },
+      "OwnResources": {
+        "Gold": 967400,
+        "Experience": 320058866,
+        "Weight": 7,
+        "OccupiedSlots": 5
+      }
+    },
+    {
+      "Time": "2026-10-13T18:31:41.7376414+00:00",
+      "Revision": 705,
+      "Opcode": 50,
+      "Payload": "BQ0AAAEKAAABBwAAAQQAAAEBAAAB",
+      "Direction": "S",
+      "Source": null,
+      "Character": "ResearchFast",
+      "Generation": 4,
+      "Map": 205,
+      "Position": {
+        "X": 4,
+        "Y": 1
+      },
+      "OwnResources": {
+        "Gold": 967400,
+        "Experience": 320058866,
+        "Weight": 7,
+        "OccupiedSlots": 5
+      }
+    },
+    {
+      "Time": "2026-10-13T18:31:42.1205975+00:00",
+      "Revision": 707,
+      "Opcode": 6,
+      "Payload": "Asw=",
+      "Direction": "C",
+      "Source": "bot",
+      "Character": "ResearchFast",
+      "Generation": 4,
+      "Map": 205,
+      "Position": {
+        "X": 4,
+        "Y": 1
+      },
+      "OwnResources": {
+        "Gold": 967400,
+        "Experience": 320058866,
+        "Weight": 7,
+        "OccupiedSlots": 5
+      }
+    },
+    {
+      "Time": "2026-10-13T18:31:42.2517341+00:00",
+      "Revision": 708,
+      "Opcode": 11,
+      "Payload": "AgAEAAEACwALAQ==",
+      "Direction": "S",
+      "Source": null,
+      "Character": "ResearchFast",
+      "Generation": 4,
+      "Map": 205,
+      "Position": {
+        "X": 4,
+        "Y": 2
+      },
+      "OwnResources": {
+        "Gold": 967400,
+        "Experience": 320058866,
+        "Weight": 7,
+        "OccupiedSlots": 5
+      }
+    },
+    {
+      "Time": "2026-10-13T18:32:15.7848891+00:00",
+      "Revision": 710,
+      "Opcode": 21,
+      "Payload": "ALEICAAAAI21D0FiZWwgSW5uIFJvb20gNw==",
+      "Direction": "S",
+      "Source": null,
+      "Character": "ResearchFast",
+      "Generation": 4,
+      "Map": 177,
+      "Position": null,
+      "OwnResources": {
+        "Gold": 967400,
+        "Experience": 320058866,
+        "Weight": 7,
+        "OccupiedSlots": 5
+      }
+    },
+    {
+      "Time": "2026-10-13T18:32:15.7849362+00:00",
+      "Revision": 711,
+      "Opcode": 4,
+      "Payload": "AAQABgALAAs=",
+      "Direction": "S",
+      "Source": null,
+      "Character": "ResearchFast",
+      "Generation": 4,
+      "Map": 177,
+      "Position": {
+        "X": 4,
+        "Y": 6
+      },
+      "OwnResources": {
+        "Gold": 967400,
+        "Experience": 320058866,
+        "Weight": 7,
+        "OccupiedSlots": 5
+      }
+    },
+    {
+      "Time": "2026-10-13T18:32:40.370974+00:00",
+      "Revision": 716,
+      "Opcode": 21,
+      "Payload": "AM0PBQAAAKZXE0FiZWwgSW5uIENvcnJpZG9yIDI=",
+      "Direction": "S",
+      "Source": null,
+      "Character": "ResearchFast",
+      "Generation": 4,
+      "Map": 205,
+      "Position": null,
+      "OwnResources": {
+        "Gold": 967400,
+        "Experience": 320058866,
+        "Weight": 7,
+        "OccupiedSlots": 5
+      }
+    },
+    {
+      "Time": "2026-10-13T18:32:40.3710203+00:00",
+      "Revision": 717,
+      "Opcode": 4,
+      "Payload": "AAQAAQALAAs=",
+      "Direction": "S",
+      "Source": null,
+      "Character": "ResearchFast",
+      "Generation": 4,
+      "Map": 205,
+      "Position": {
+        "X": 4,
+        "Y": 1
+      },
+      "OwnResources": {
+        "Gold": 967400,
+        "Experience": 320058866,
+        "Weight": 7,
+        "OccupiedSlots": 5
+      }
+    },
+    {
+      "Time": "2026-10-13T18:32:40.3710521+00:00",
+      "Revision": 717,
+      "Opcode": 50,
+      "Payload": "BQ0AAAEKAAABBwAAAQQAAAEBAAAB",
+      "Direction": "S",
+      "Source": null,
+      "Character": "ResearchFast",
+      "Generation": 4,
+      "Map": 205,
+      "Position": {
+        "X": 4,
+        "Y": 1
+      },
+      "OwnResources": {
+        "Gold": 967400,
+        "Experience": 320058866,
+        "Weight": 7,
+        "OccupiedSlots": 5
+      }
+    },
+    {
+      "Time": "2026-10-13T18:33:15.8271399+00:00",
+      "Revision": 721,
+      "Opcode": 21,
+      "Payload": "ALEICAAAAI21D0FiZWwgSW5uIFJvb20gNw==",
+      "Direction": "S",
+      "Source": null,
+      "Character": "ResearchFast",
+      "Generation": 4,
+      "Map": 177,
+      "Position": null,
+      "OwnResources": {
+        "Gold": 967400,
+        "Experience": 320058866,
+        "Weight": 7,
+        "OccupiedSlots": 5
+      }
+    },
+    {
+      "Time": "2026-10-13T18:33:15.8271885+00:00",
+      "Revision": 722,
+      "Opcode": 4,
+      "Payload": "AAQABgALAAs=",
+      "Direction": "S",
+      "Source": null,
+      "Character": "ResearchFast",
+      "Generation": 4,
+      "Map": 177,
+      "Position": {
+        "X": 4,
+        "Y": 6
+      },
+      "OwnResources": {
+        "Gold": 967400,
+        "Experience": 320058866,
+        "Weight": 7,
+        "OccupiedSlots": 5
+      }
+    },
+    {
+      "Time": "2026-10-13T18:33:40.3444187+00:00",
+      "Revision": 729,
+      "Opcode": 21,
+      "Payload": "AM0PBQAAAKZXE0FiZWwgSW5uIENvcnJpZG9yIDI=",
+      "Direction": "S",
+      "Source": null,
+      "Character": "ResearchFast",
+      "Generation": 4,
+      "Map": 205,
+      "Position": null,
+      "OwnResources": {
+        "Gold": 967400,
+        "Experience": 320058866,
+        "Weight": 7,
+        "OccupiedSlots": 5
+      }
+    },
+    {
+      "Time": "2026-10-13T18:33:40.3444626+00:00",
+      "Revision": 730,
+      "Opcode": 4,
+      "Payload": "AAQAAQALAAs=",
+      "Direction": "S",
+      "Source": null,
+      "Character": "ResearchFast",
+      "Generation": 4,
+      "Map": 205,
+      "Position": {
+        "X": 4,
+        "Y": 1
+      },
+      "OwnResources": {
+        "Gold": 967400,
+        "Experience": 320058866,
+        "Weight": 7,
+        "OccupiedSlots": 5
+      }
+    },
+    {
+      "Time": "2026-10-13T18:33:40.3444985+00:00",
+      "Revision": 730,
+      "Opcode": 50,
+      "Payload": "BQ0AAAEKAAABBwAAAQQAAAEBAAAB",
+      "Direction": "S",
+      "Source": null,
+      "Character": "ResearchFast",
+      "Generation": 4,
+      "Map": 205,
+      "Position": {
+        "X": 4,
+        "Y": 1
+      },
+      "OwnResources": {
+        "Gold": 967400,
+        "Experience": 320058866,
+        "Weight": 7,
+        "OccupiedSlots": 5
+      }
+    },
+    {
+      "Time": "2026-10-13T18:33:49.802556+00:00",
+      "Revision": 734,
+      "Opcode": 6,
+      "Payload": "AM0=",
+      "Direction": "C",
+      "Source": "client",
+      "Character": "ResearchFast",
+      "Generation": 4,
+      "Map": 205,
+      "Position": {
+        "X": 4,
+        "Y": 1
+      },
+      "OwnResources": {
+        "Gold": 967400,
+        "Experience": 320058866,
+        "Weight": 7,
+        "OccupiedSlots": 5
+      }
+    },
+    {
+      "Time": "2026-10-13T18:33:50.362078+00:00",
+      "Revision": 736,
+      "Opcode": 21,
+      "Payload": "ALEICAAAAI21D0FiZWwgSW5uIFJvb20gNwA=",
+      "Direction": "S",
+      "Source": null,
+      "Character": "ResearchFast",
+      "Generation": 4,
+      "Map": 177,
+      "Position": null,
+      "OwnResources": {
+        "Gold": 967400,
+        "Experience": 320058866,
+        "Weight": 7,
+        "OccupiedSlots": 5
+      }
+    },
+    {
+      "Time": "2026-10-13T18:33:50.3621328+00:00",
+      "Revision": 737,
+      "Opcode": 4,
+      "Payload": "AAQABgALAAs=",
+      "Direction": "S",
+      "Source": null,
+      "Character": "ResearchFast",
+      "Generation": 4,
+      "Map": 177,
+      "Position": {
+        "X": 4,
+        "Y": 6
+      },
+      "OwnResources": {
+        "Gold": 967400,
+        "Experience": 320058866,
+        "Weight": 7,
+        "OccupiedSlots": 5
+      }
+    },
+    {
+      "Time": "2026-10-13T18:33:50.8110077+00:00",
+      "Revision": 740,
+      "Opcode": 6,
+      "Payload": "AM4=",
+      "Direction": "C",
+      "Source": "client",
+      "Character": "ResearchFast",
+      "Generation": 4,
+      "Map": 177,
+      "Position": {
+        "X": 4,
+        "Y": 6
+      },
+      "OwnResources": {
+        "Gold": 967400,
+        "Experience": 320058866,
+        "Weight": 7,
+        "OccupiedSlots": 5
+      }
+    },
+    {
+      "Time": "2026-10-13T18:33:51.3961377+00:00",
+      "Revision": 740,
+      "Opcode": 6,
+      "Payload": "AM8=",
+      "Direction": "C",
+      "Source": "client",
+      "Character": "ResearchFast",
+      "Generation": 4,
+      "Map": 177,
+      "Position": {
+        "X": 4,
+        "Y": 6
+      },
+      "OwnResources": {
+        "Gold": 967400,
+        "Experience": 320058866,
+        "Weight": 7,
+        "OccupiedSlots": 5
+      }
+    },
+    {
+      "Time": "2026-10-13T18:33:51.396405+00:00",
+      "Revision": 741,
+      "Opcode": 11,
+      "Payload": "AAAEAAYACwALAQ==",
+      "Direction": "S",
+      "Source": null,
+      "Character": "ResearchFast",
+      "Generation": 4,
+      "Map": 177,
+      "Position": {
+        "X": 4,
+        "Y": 5
+      },
+      "OwnResources": {
+        "Gold": 967400,
+        "Experience": 320058866,
+        "Weight": 7,
+        "OccupiedSlots": 5
+      }
+    },
+    {
+      "Time": "2026-10-13T18:33:51.8919146+00:00",
+      "Revision": 742,
+      "Opcode": 11,
+      "Payload": "AAAEAAUACwALAQ==",
+      "Direction": "S",
+      "Source": null,
+      "Character": "ResearchFast",
+      "Generation": 4,
+      "Map": 177,
+      "Position": {
+        "X": 4,
+        "Y": 4
+      },
+      "OwnResources": {
+        "Gold": 967400,
+        "Experience": 320058866,
+        "Weight": 7,
+        "OccupiedSlots": 5
+      }
+    },
+    {
+      "Time": "2026-10-13T18:33:52.802129+00:00",
+      "Revision": 742,
+      "Opcode": 6,
+      "Payload": "A9A=",
+      "Direction": "C",
+      "Source": "client",
+      "Character": "ResearchFast",
+      "Generation": 4,
+      "Map": 177,
+      "Position": {
+        "X": 4,
+        "Y": 4
+      },
+      "OwnResources": {
+        "Gold": 967400,
+        "Experience": 320058866,
+        "Weight": 7,
+        "OccupiedSlots": 5
+      }
+    },
+    {
+      "Time": "2026-10-13T18:33:53.3227236+00:00",
+      "Revision": 743,
+      "Opcode": 6,
+      "Payload": "A9E=",
+      "Direction": "C",
+      "Source": "client",
+      "Character": "ResearchFast",
+      "Generation": 4,
+      "Map": 177,
+      "Position": {
+        "X": 4,
+        "Y": 4
+      },
+      "OwnResources": {
+        "Gold": 967400,
+        "Experience": 320058866,
+        "Weight": 7,
+        "OccupiedSlots": 5
+      }
+    },
+    {
+      "Time": "2026-10-13T18:33:53.3732771+00:00",
+      "Revision": 744,
+      "Opcode": 11,
+      "Payload": "AwAEAAQACwALAQ==",
+      "Direction": "S",
+      "Source": null,
+      "Character": "ResearchFast",
+      "Generation": 4,
+      "Map": 177,
+      "Position": {
+        "X": 3,
+        "Y": 4
+      },
+      "OwnResources": {
+        "Gold": 967400,
+        "Experience": 320058866,
+        "Weight": 7,
+        "OccupiedSlots": 5
+      }
+    },
+    {
+      "Time": "2026-10-13T18:33:53.8782762+00:00",
+      "Revision": 745,
+      "Opcode": 11,
+      "Payload": "AwADAAQACwALAQ==",
+      "Direction": "S",
+      "Source": null,
+      "Character": "ResearchFast",
+      "Generation": 4,
+      "Map": 177,
+      "Position": {
+        "X": 2,
+        "Y": 4
+      },
+      "OwnResources": {
+        "Gold": 967400,
+        "Experience": 320058866,
+        "Weight": 7,
+        "OccupiedSlots": 5
+      }
+    },
+    {
+      "Time": "2026-10-13T18:33:54.4660242+00:00",
+      "Revision": 745,
+      "Opcode": 6,
+      "Payload": "ANI=",
+      "Direction": "C",
+      "Source": "client",
+      "Character": "ResearchFast",
+      "Generation": 4,
+      "Map": 177,
+      "Position": {
+        "X": 2,
+        "Y": 4
+      },
+      "OwnResources": {
+        "Gold": 967400,
+        "Experience": 320058866,
+        "Weight": 7,
+        "OccupiedSlots": 5
+      }
+    },
+    {
+      "Time": "2026-10-13T18:33:54.8581085+00:00",
+      "Revision": 747,
+      "Opcode": 11,
+      "Payload": "AAACAAQACwALAQ==",
+      "Direction": "S",
+      "Source": null,
+      "Character": "ResearchFast",
+      "Generation": 4,
+      "Map": 177,
+      "Position": {
+        "X": 2,
+        "Y": 3
+      },
+      "OwnResources": {
+        "Gold": 967400,
+        "Experience": 320058866,
+        "Weight": 7,
+        "OccupiedSlots": 5
+      }
+    },
+    {
+      "Time": "2026-10-13T18:35:38.3678479+00:00",
+      "Revision": 752,
+      "Opcode": 6,
+      "Payload": "AtM=",
+      "Direction": "C",
+      "Source": "bot",
+      "Character": "ResearchFast",
+      "Generation": 4,
+      "Map": 177,
+      "Position": {
+        "X": 2,
+        "Y": 3
+      },
+      "OwnResources": {
+        "Gold": 967400,
+        "Experience": 320058866,
+        "Weight": 7,
+        "OccupiedSlots": 5
+      }
+    },
+    {
+      "Time": "2026-10-13T18:35:38.4409207+00:00",
+      "Revision": 753,
+      "Opcode": 11,
+      "Payload": "AgACAAMACwALAQ==",
+      "Direction": "S",
+      "Source": null,
+      "Character": "ResearchFast",
+      "Generation": 4,
+      "Map": 177,
+      "Position": {
+        "X": 2,
+        "Y": 4
+      },
+      "OwnResources": {
+        "Gold": 967400,
+        "Experience": 320058866,
+        "Weight": 7,
+        "OccupiedSlots": 5
+      }
+    },
+    {
+      "Time": "2026-10-13T18:35:38.5422574+00:00",
+      "Revision": 753,
+      "Opcode": 6,
+      "Payload": "AdQ=",
+      "Direction": "C",
+      "Source": "bot",
+      "Character": "ResearchFast",
+      "Generation": 4,
+      "Map": 177,
+      "Position": {
+        "X": 2,
+        "Y": 4
+      },
+      "OwnResources": {
+        "Gold": 967400,
+        "Experience": 320058866,
+        "Weight": 7,
+        "OccupiedSlots": 5
+      }
+    },
+    {
+      "Time": "2026-10-13T18:35:38.7176613+00:00",
+      "Revision": 753,
+      "Opcode": 6,
+      "Payload": "AdU=",
+      "Direction": "C",
+      "Source": "bot",
+      "Character": "ResearchFast",
+      "Generation": 4,
+      "Map": 177,
+      "Position": {
+        "X": 2,
+        "Y": 4
+      },
+      "OwnResources": {
+        "Gold": 967400,
+        "Experience": 320058866,
+        "Weight": 7,
+        "OccupiedSlots": 5
+      }
+    },
+    {
+      "Time": "2026-10-13T18:35:38.9295542+00:00",
+      "Revision": 754,
+      "Opcode": 11,
+      "Payload": "AQACAAQACwALAQ==",
+      "Direction": "S",
+      "Source": null,
+      "Character": "ResearchFast",
+      "Generation": 4,
+      "Map": 177,
+      "Position": {
+        "X": 3,
+        "Y": 4
+      },
+      "OwnResources": {
+        "Gold": 967400,
+        "Experience": 320058866,
+        "Weight": 7,
+        "OccupiedSlots": 5
+      }
+    },
+    {
+      "Time": "2026-10-13T18:35:38.9297888+00:00",
+      "Revision": 755,
+      "Opcode": 11,
+      "Payload": "AQADAAQACwALAQ==",
+      "Direction": "S",
+      "Source": null,
+      "Character": "ResearchFast",
+      "Generation": 4,
+      "Map": 177,
+      "Position": {
+        "X": 4,
+        "Y": 4
+      },
+      "OwnResources": {
+        "Gold": 967400,
+        "Experience": 320058866,
+        "Weight": 7,
+        "OccupiedSlots": 5
+      }
+    },
+    {
+      "Time": "2026-10-13T18:35:39.0163491+00:00",
+      "Revision": 755,
+      "Opcode": 6,
+      "Payload": "AtY=",
+      "Direction": "C",
+      "Source": "bot",
+      "Character": "ResearchFast",
+      "Generation": 4,
+      "Map": 177,
+      "Position": {
+        "X": 4,
+        "Y": 4
+      },
+      "OwnResources": {
+        "Gold": 967400,
+        "Experience": 320058866,
+        "Weight": 7,
+        "OccupiedSlots": 5
+      }
+    },
+    {
+      "Time": "2026-10-13T18:35:39.2032178+00:00",
+      "Revision": 755,
+      "Opcode": 6,
+      "Payload": "Atc=",
+      "Direction": "C",
+      "Source": "bot",
+      "Character": "ResearchFast",
+      "Generation": 4,
+      "Map": 177,
+      "Position": {
+        "X": 4,
+        "Y": 4
+      },
+      "OwnResources": {
+        "Gold": 967400,
+        "Experience": 320058866,
+        "Weight": 7,
+        "OccupiedSlots": 5
+      }
+    },
+    {
+      "Time": "2026-10-13T18:35:39.4371867+00:00",
+      "Revision": 756,
+      "Opcode": 11,
+      "Payload": "AgAEAAQACwALAQ==",
+      "Direction": "S",
+      "Source": null,
+      "Character": "ResearchFast",
+      "Generation": 4,
+      "Map": 177,
+      "Position": {
+        "X": 4,
+        "Y": 5
+      },
+      "OwnResources": {
+        "Gold": 967400,
+        "Experience": 320058866,
+        "Weight": 7,
+        "OccupiedSlots": 5
+      }
+    },
+    {
+      "Time": "2026-10-13T18:35:39.4374684+00:00",
+      "Revision": 757,
+      "Opcode": 11,
+      "Payload": "AgAEAAUACwALAQ==",
+      "Direction": "S",
+      "Source": null,
+      "Character": "ResearchFast",
+      "Generation": 4,
+      "Map": 177,
+      "Position": {
+        "X": 4,
+        "Y": 6
+      },
+      "OwnResources": {
+        "Gold": 967400,
+        "Experience": 320058866,
+        "Weight": 7,
+        "OccupiedSlots": 5
+      }
+    },
+    {
+      "Time": "2026-10-13T18:35:39.8307295+00:00",
+      "Revision": 757,
+      "Opcode": 6,
+      "Payload": "Atg=",
+      "Direction": "C",
+      "Source": "bot",
+      "Character": "ResearchFast",
+      "Generation": 4,
+      "Map": 177,
+      "Position": {
+        "X": 4,
+        "Y": 6
+      },
+      "OwnResources": {
+        "Gold": 967400,
+        "Experience": 320058866,
+        "Weight": 7,
+        "OccupiedSlots": 5
+      }
+    },
+    {
+      "Time": "2026-10-13T18:35:39.9347219+00:00",
+      "Revision": 758,
+      "Opcode": 21,
+      "Payload": "AM0PBQAAAKZXE0FiZWwgSW5uIENvcnJpZG9yIDIA",
+      "Direction": "S",
+      "Source": null,
+      "Character": "ResearchFast",
+      "Generation": 4,
+      "Map": 205,
+      "Position": null,
+      "OwnResources": {
+        "Gold": 967400,
+        "Experience": 320058866,
+        "Weight": 7,
+        "OccupiedSlots": 5
+      }
+    },
+    {
+      "Time": "2026-10-13T18:35:39.9347748+00:00",
+      "Revision": 759,
+      "Opcode": 4,
+      "Payload": "AAQAAQALAAs=",
+      "Direction": "S",
+      "Source": null,
+      "Character": "ResearchFast",
+      "Generation": 4,
+      "Map": 205,
+      "Position": {
+        "X": 4,
+        "Y": 1
+      },
+      "OwnResources": {
+        "Gold": 967400,
+        "Experience": 320058866,
+        "Weight": 7,
+        "OccupiedSlots": 5
+      }
+    },
+    {
+      "Time": "2026-10-13T18:35:39.9351011+00:00",
+      "Revision": 759,
+      "Opcode": 50,
+      "Payload": "BQ0AAAEKAAABBwAAAQQAAAEBAAABAA==",
+      "Direction": "S",
+      "Source": null,
+      "Character": "ResearchFast",
+      "Generation": 4,
+      "Map": 205,
+      "Position": {
+        "X": 4,
+        "Y": 1
+      },
+      "OwnResources": {
+        "Gold": 967400,
+        "Experience": 320058866,
+        "Weight": 7,
+        "OccupiedSlots": 5
+      }
+    },
+    {
+      "Time": "2026-10-13T18:35:40.34272+00:00",
+      "Revision": 761,
+      "Opcode": 6,
+      "Payload": "Atk=",
+      "Direction": "C",
+      "Source": "bot",
+      "Character": "ResearchFast",
+      "Generation": 4,
+      "Map": 205,
+      "Position": {
+        "X": 4,
+        "Y": 1
+      },
+      "OwnResources": {
+        "Gold": 967400,
+        "Experience": 320058866,
+        "Weight": 7,
+        "OccupiedSlots": 5
+      }
+    },
+    {
+      "Time": "2026-10-13T18:35:40.4335071+00:00",
+      "Revision": 762,
+      "Opcode": 11,
+      "Payload": "AgAEAAEACwALAQ==",
+      "Direction": "S",
+      "Source": null,
+      "Character": "ResearchFast",
+      "Generation": 4,
+      "Map": 205,
+      "Position": {
+        "X": 4,
+        "Y": 2
+      },
+      "OwnResources": {
+        "Gold": 967400,
+        "Experience": 320058866,
+        "Weight": 7,
+        "OccupiedSlots": 5
+      }
+    },
+    {
+      "Time": "2026-10-13T18:35:40.7369531+00:00",
+      "Revision": 762,
+      "Opcode": 6,
+      "Payload": "Ato=",
+      "Direction": "C",
+      "Source": "bot",
+      "Character": "ResearchFast",
+      "Generation": 4,
+      "Map": 205,
+      "Position": {
+        "X": 4,
+        "Y": 2
+      },
+      "OwnResources": {
+        "Gold": 967400,
+        "Experience": 320058866,
+        "Weight": 7,
+        "OccupiedSlots": 5
+      }
+    },
+    {
+      "Time": "2026-10-13T18:35:40.983991+00:00",
+      "Revision": 763,
+      "Opcode": 11,
+      "Payload": "AgAEAAIACwALAQ==",
+      "Direction": "S",
+      "Source": null,
+      "Character": "ResearchFast",
+      "Generation": 4,
+      "Map": 205,
+      "Position": {
+        "X": 4,
+        "Y": 3
+      },
+      "OwnResources": {
+        "Gold": 967400,
+        "Experience": 320058866,
+        "Weight": 7,
+        "OccupiedSlots": 5
+      }
+    },
+    {
+      "Time": "2026-10-13T18:35:40.9841614+00:00",
+      "Revision": 763,
+      "Opcode": 6,
+      "Payload": "A9s=",
+      "Direction": "C",
+      "Source": "bot",
+      "Character": "ResearchFast",
+      "Generation": 4,
+      "Map": 205,
+      "Position": {
+        "X": 4,
+        "Y": 3
+      },
+      "OwnResources": {
+        "Gold": 967400,
+        "Experience": 320058866,
+        "Weight": 7,
+        "OccupiedSlots": 5
+      }
+    },
+    {
+      "Time": "2026-10-13T18:35:41.3592226+00:00",
+      "Revision": 763,
+      "Opcode": 6,
+      "Payload": "A9w=",
+      "Direction": "C",
+      "Source": "bot",
+      "Character": "ResearchFast",
+      "Generation": 4,
+      "Map": 205,
+      "Position": {
+        "X": 4,
+        "Y": 3
+      },
+      "OwnResources": {
+        "Gold": 967400,
+        "Experience": 320058866,
+        "Weight": 7,
+        "OccupiedSlots": 5
+      }
+    },
+    {
+      "Time": "2026-10-13T18:35:41.5441241+00:00",
+      "Revision": 764,
+      "Opcode": 11,
+      "Payload": "AwAEAAMACwALAQ==",
+      "Direction": "S",
+      "Source": null,
+      "Character": "ResearchFast",
+      "Generation": 4,
+      "Map": 205,
+      "Position": {
+        "X": 3,
+        "Y": 3
+      },
+      "OwnResources": {
+        "Gold": 967400,
+        "Experience": 320058866,
+        "Weight": 7,
+        "OccupiedSlots": 5
+      }
+    },
+    {
+      "Time": "2026-10-13T18:35:41.5442188+00:00",
+      "Revision": 765,
+      "Opcode": 11,
+      "Payload": "AwADAAMACwALAQ==",
+      "Direction": "S",
+      "Source": null,
+      "Character": "ResearchFast",
+      "Generation": 4,
+      "Map": 205,
+      "Position": {
+        "X": 2,
+        "Y": 3
+      },
+      "OwnResources": {
+        "Gold": 967400,
+        "Experience": 320058866,
+        "Weight": 7,
+        "OccupiedSlots": 5
+      }
+    },
+    {
+      "Time": "2026-10-13T18:35:42.087695+00:00",
+      "Revision": 765,
+      "Opcode": 6,
+      "Payload": "At0=",
+      "Direction": "C",
+      "Source": "bot",
+      "Character": "ResearchFast",
+      "Generation": 4,
+      "Map": 205,
+      "Position": {
+        "X": 2,
+        "Y": 3
+      },
+      "OwnResources": {
+        "Gold": 967400,
+        "Experience": 320058866,
+        "Weight": 7,
+        "OccupiedSlots": 5
+      }
+    },
+    {
+      "Time": "2026-10-13T18:35:42.4363893+00:00",
+      "Revision": 766,
+      "Opcode": 21,
+      "Payload": "AMwFDwAAAPUSE0FiZWwgSW5uIENvcnJpZG9yIDEA",
+      "Direction": "S",
+      "Source": null,
+      "Character": "ResearchFast",
+      "Generation": 4,
+      "Map": 204,
+      "Position": null,
+      "OwnResources": {
+        "Gold": 967400,
+        "Experience": 320058866,
+        "Weight": 7,
+        "OccupiedSlots": 5
+      }
+    },
+    {
+      "Time": "2026-10-13T18:35:42.4365344+00:00",
+      "Revision": 767,
+      "Opcode": 4,
+      "Payload": "AAMAAQALAAs=",
+      "Direction": "S",
+      "Source": null,
+      "Character": "ResearchFast",
+      "Generation": 4,
+      "Map": 204,
+      "Position": {
+        "X": 3,
+        "Y": 1
+      },
+      "OwnResources": {
+        "Gold": 967400,
+        "Experience": 320058866,
+        "Weight": 7,
+        "OccupiedSlots": 5
+      }
+    },
+    {
+      "Time": "2026-10-13T18:35:42.4365845+00:00",
+      "Revision": 767,
+      "Opcode": 50,
+      "Payload": "BAAKAQAABwEAAAQBAAABAQAA",
+      "Direction": "S",
+      "Source": null,
+      "Character": "ResearchFast",
+      "Generation": 4,
+      "Map": 204,
+      "Position": {
+        "X": 3,
+        "Y": 1
+      },
+      "OwnResources": {
+        "Gold": 967400,
+        "Experience": 320058866,
+        "Weight": 7,
+        "OccupiedSlots": 5
+      }
+    },
+    {
+      "Time": "2026-10-13T18:35:42.7880142+00:00",
+      "Revision": 769,
+      "Opcode": 6,
+      "Payload": "At4=",
+      "Direction": "C",
+      "Source": "bot",
+      "Character": "ResearchFast",
+      "Generation": 4,
+      "Map": 204,
+      "Position": {
+        "X": 3,
+        "Y": 1
+      },
+      "OwnResources": {
+        "Gold": 967400,
+        "Experience": 320058866,
+        "Weight": 7,
+        "OccupiedSlots": 5
+      }
+    },
+    {
+      "Time": "2026-10-13T18:35:42.9413377+00:00",
+      "Revision": 770,
+      "Opcode": 11,
+      "Payload": "AgADAAEACwALAQ==",
+      "Direction": "S",
+      "Source": null,
+      "Character": "ResearchFast",
+      "Generation": 4,
+      "Map": 204,
+      "Position": {
+        "X": 3,
+        "Y": 2
+      },
+      "OwnResources": {
+        "Gold": 967400,
+        "Experience": 320058866,
+        "Weight": 7,
+        "OccupiedSlots": 5
+      }
+    },
+    {
+      "Time": "2026-10-13T18:35:43.5393811+00:00",
+      "Revision": 770,
+      "Opcode": 6,
+      "Payload": "At8=",
+      "Direction": "C",
+      "Source": "bot",
+      "Character": "ResearchFast",
+      "Generation": 4,
+      "Map": 204,
+      "Position": {
+        "X": 3,
+        "Y": 2
+      },
+      "OwnResources": {
+        "Gold": 967400,
+        "Experience": 320058866,
+        "Weight": 7,
+        "OccupiedSlots": 5
+      }
+    },
+    {
+      "Time": "2026-10-13T18:35:43.7205736+00:00",
+      "Revision": 770,
+      "Opcode": 6,
+      "Payload": "AuA=",
+      "Direction": "C",
+      "Source": "bot",
+      "Character": "ResearchFast",
+      "Generation": 4,
+      "Map": 204,
+      "Position": {
+        "X": 3,
+        "Y": 2
+      },
+      "OwnResources": {
+        "Gold": 967400,
+        "Experience": 320058866,
+        "Weight": 7,
+        "OccupiedSlots": 5
+      }
+    },
+    {
+      "Time": "2026-10-13T18:35:43.9362584+00:00",
+      "Revision": 771,
+      "Opcode": 11,
+      "Payload": "AgADAAIACwALAQ==",
+      "Direction": "S",
+      "Source": null,
+      "Character": "ResearchFast",
+      "Generation": 4,
+      "Map": 204,
+      "Position": {
+        "X": 3,
+        "Y": 3
+      },
+      "OwnResources": {
+        "Gold": 967400,
+        "Experience": 320058866,
+        "Weight": 7,
+        "OccupiedSlots": 5
+      }
+    },
+    {
+      "Time": "2026-10-13T18:35:43.9362993+00:00",
+      "Revision": 771,
+      "Opcode": 50,
+      "Payload": "AQANAQA=",
+      "Direction": "S",
+      "Source": null,
+      "Character": "ResearchFast",
+      "Generation": 4,
+      "Map": 204,
+      "Position": {
+        "X": 3,
+        "Y": 3
+      },
+      "OwnResources": {
+        "Gold": 967400,
+        "Experience": 320058866,
+        "Weight": 7,
+        "OccupiedSlots": 5
+      }
+    },
+    {
+      "Time": "2026-10-13T18:35:43.9363363+00:00",
+      "Revision": 772,
+      "Opcode": 11,
+      "Payload": "AgADAAMACwALAQ==",
+      "Direction": "S",
+      "Source": null,
+      "Character": "ResearchFast",
+      "Generation": 4,
+      "Map": 204,
+      "Position": {
+        "X": 3,
+        "Y": 4
+      },
+      "OwnResources": {
+        "Gold": 967400,
+        "Experience": 320058866,
+        "Weight": 7,
+        "OccupiedSlots": 5
+      }
+    },
+    {
+      "Time": "2026-10-13T18:35:44.0117123+00:00",
+      "Revision": 772,
+      "Opcode": 6,
+      "Payload": "AuE=",
+      "Direction": "C",
+      "Source": "bot",
+      "Character": "ResearchFast",
+      "Generation": 4,
+      "Map": 204,
+      "Position": {
+        "X": 3,
+        "Y": 4
+      },
+      "OwnResources": {
+        "Gold": 967400,
+        "Experience": 320058866,
+        "Weight": 7,
+        "OccupiedSlots": 5
+      }
+    },
+    {
+      "Time": "2026-10-13T18:35:44.1944052+00:00",
+      "Revision": 772,
+      "Opcode": 6,
+      "Payload": "AuI=",
+      "Direction": "C",
+      "Source": "bot",
+      "Character": "ResearchFast",
+      "Generation": 4,
+      "Map": 204,
+      "Position": {
+        "X": 3,
+        "Y": 4
+      },
+      "OwnResources": {
+        "Gold": 967400,
+        "Experience": 320058866,
+        "Weight": 7,
+        "OccupiedSlots": 5
+      }
+    },
+    {
+      "Time": "2026-10-13T18:35:44.4400867+00:00",
+      "Revision": 773,
+      "Opcode": 11,
+      "Payload": "AgADAAQACwALAQ==",
+      "Direction": "S",
+      "Source": null,
+      "Character": "ResearchFast",
+      "Generation": 4,
+      "Map": 204,
+      "Position": {
+        "X": 3,
+        "Y": 5
+      },
+      "OwnResources": {
+        "Gold": 967400,
+        "Experience": 320058866,
+        "Weight": 7,
+        "OccupiedSlots": 5
+      }
+    },
+    {
+      "Time": "2026-10-13T18:35:44.4401857+00:00",
+      "Revision": 774,
+      "Opcode": 11,
+      "Payload": "AgADAAUACwALAQ==",
+      "Direction": "S",
+      "Source": null,
+      "Character": "ResearchFast",
+      "Generation": 4,
+      "Map": 204,
+      "Position": {
+        "X": 3,
+        "Y": 6
+      },
+      "OwnResources": {
+        "Gold": 967400,
+        "Experience": 320058866,
+        "Weight": 7,
+        "OccupiedSlots": 5
+      }
+    },
+    {
+      "Time": "2026-10-13T18:35:44.5392024+00:00",
+      "Revision": 774,
+      "Opcode": 6,
+      "Payload": "AuM=",
+      "Direction": "C",
+      "Source": "bot",
+      "Character": "ResearchFast",
+      "Generation": 4,
+      "Map": 204,
+      "Position": {
+        "X": 3,
+        "Y": 6
+      },
+      "OwnResources": {
+        "Gold": 967400,
+        "Experience": 320058866,
+        "Weight": 7,
+        "OccupiedSlots": 5
+      }
+    },
+    {
+      "Time": "2026-10-13T18:35:44.7093612+00:00",
+      "Revision": 774,
+      "Opcode": 6,
+      "Payload": "AuQ=",
+      "Direction": "C",
+      "Source": "bot",
+      "Character": "ResearchFast",
+      "Generation": 4,
+      "Map": 204,
+      "Position": {
+        "X": 3,
+        "Y": 6
+      },
+      "OwnResources": {
+        "Gold": 967400,
+        "Experience": 320058866,
+        "Weight": 7,
+        "OccupiedSlots": 5
+      }
+    },
+    {
+      "Time": "2026-10-13T18:35:45.0894594+00:00",
+      "Revision": 775,
+      "Opcode": 11,
+      "Payload": "AgADAAYACwALAQ==",
+      "Direction": "S",
+      "Source": null,
+      "Character": "ResearchFast",
+      "Generation": 4,
+      "Map": 204,
+      "Position": {
+        "X": 3,
+        "Y": 7
+      },
+      "OwnResources": {
+        "Gold": 967400,
+        "Experience": 320058866,
+        "Weight": 7,
+        "OccupiedSlots": 5
+      }
+    },
+    {
+      "Time": "2026-10-13T18:35:45.0895354+00:00",
+      "Revision": 776,
+      "Opcode": 11,
+      "Payload": "AgADAAcACwALAQ==",
+      "Direction": "S",
+      "Source": null,
+      "Character": "ResearchFast",
+      "Generation": 4,
+      "Map": 204,
+      "Position": {
+        "X": 3,
+        "Y": 8
+      },
+      "OwnResources": {
+        "Gold": 967400,
+        "Experience": 320058866,
+        "Weight": 7,
+        "OccupiedSlots": 5
+      }
+    },
+    {
+      "Time": "2026-10-13T18:35:45.0897208+00:00",
+      "Revision": 776,
+      "Opcode": 6,
+      "Payload": "AuU=",
+      "Direction": "C",
+      "Source": "bot",
+      "Character": "ResearchFast",
+      "Generation": 4,
+      "Map": 204,
+      "Position": {
+        "X": 3,
+        "Y": 8
+      },
+      "OwnResources": {
+        "Gold": 967400,
+        "Experience": 320058866,
+        "Weight": 7,
+        "OccupiedSlots": 5
+      }
+    },
+    {
+      "Time": "2026-10-13T18:35:45.3572768+00:00",
+      "Revision": 776,
+      "Opcode": 6,
+      "Payload": "AuY=",
+      "Direction": "C",
+      "Source": "bot",
+      "Character": "ResearchFast",
+      "Generation": 4,
+      "Map": 204,
+      "Position": {
+        "X": 3,
+        "Y": 8
+      },
+      "OwnResources": {
+        "Gold": 967400,
+        "Experience": 320058866,
+        "Weight": 7,
+        "OccupiedSlots": 5
+      }
+    },
+    {
+      "Time": "2026-10-13T18:35:45.6225153+00:00",
+      "Revision": 777,
+      "Opcode": 11,
+      "Payload": "AgADAAgACwALAQ==",
+      "Direction": "S",
+      "Source": null,
+      "Character": "ResearchFast",
+      "Generation": 4,
+      "Map": 204,
+      "Position": {
+        "X": 3,
+        "Y": 9
+      },
+      "OwnResources": {
+        "Gold": 967400,
+        "Experience": 320058866,
+        "Weight": 7,
+        "OccupiedSlots": 5
+      }
+    },
+    {
+      "Time": "2026-10-13T18:35:45.6234118+00:00",
+      "Revision": 778,
+      "Opcode": 11,
+      "Payload": "AgADAAkACwALAQ==",
+      "Direction": "S",
+      "Source": null,
+      "Character": "ResearchFast",
+      "Generation": 4,
+      "Map": 204,
+      "Position": {
+        "X": 3,
+        "Y": 10
+      },
+      "OwnResources": {
+        "Gold": 967400,
+        "Experience": 320058866,
+        "Weight": 7,
+        "OccupiedSlots": 5
+      }
+    },
+    {
+      "Time": "2026-10-13T18:35:45.6244508+00:00",
+      "Revision": 778,
+      "Opcode": 6,
+      "Payload": "Auc=",
+      "Direction": "C",
+      "Source": "bot",
+      "Character": "ResearchFast",
+      "Generation": 4,
+      "Map": 204,
+      "Position": {
+        "X": 3,
+        "Y": 10
+      },
+      "OwnResources": {
+        "Gold": 967400,
+        "Experience": 320058866,
+        "Weight": 7,
+        "OccupiedSlots": 5
+      }
+    },
+    {
+      "Time": "2026-10-13T18:35:45.8069704+00:00",
+      "Revision": 778,
+      "Opcode": 6,
+      "Payload": "Aug=",
+      "Direction": "C",
+      "Source": "bot",
+      "Character": "ResearchFast",
+      "Generation": 4,
+      "Map": 204,
+      "Position": {
+        "X": 3,
+        "Y": 10
+      },
+      "OwnResources": {
+        "Gold": 967400,
+        "Experience": 320058866,
+        "Weight": 7,
+        "OccupiedSlots": 5
+      }
+    },
+    {
+      "Time": "2026-10-13T18:35:45.9339976+00:00",
+      "Revision": 781,
+      "Opcode": 11,
+      "Payload": "AgADAAoACwALAQ==",
+      "Direction": "S",
+      "Source": null,
+      "Character": "ResearchFast",
+      "Generation": 4,
+      "Map": 204,
+      "Position": {
+        "X": 3,
+        "Y": 11
+      },
+      "OwnResources": {
+        "Gold": 967400,
+        "Experience": 320058866,
+        "Weight": 7,
+        "OccupiedSlots": 5
+      }
+    },
+    {
+      "Time": "2026-10-13T18:35:45.9340649+00:00",
+      "Revision": 782,
+      "Opcode": 11,
+      "Payload": "AgADAAsACwALAQ==",
+      "Direction": "S",
+      "Source": null,
+      "Character": "ResearchFast",
+      "Generation": 4,
+      "Map": 204,
+      "Position": {
+        "X": 3,
+        "Y": 12
+      },
+      "OwnResources": {
+        "Gold": 967400,
+        "Experience": 320058866,
+        "Weight": 7,
+        "OccupiedSlots": 5
+      }
+    },
+    {
+      "Time": "2026-10-13T18:35:46.1096573+00:00",
+      "Revision": 782,
+      "Opcode": 6,
+      "Payload": "Auk=",
+      "Direction": "C",
+      "Source": "bot",
+      "Character": "ResearchFast",
+      "Generation": 4,
+      "Map": 204,
+      "Position": {
+        "X": 3,
+        "Y": 12
+      },
+      "OwnResources": {
+        "Gold": 967400,
+        "Experience": 320058866,
+        "Weight": 7,
+        "OccupiedSlots": 5
+      }
+    },
+    {
+      "Time": "2026-10-13T18:35:46.4345837+00:00",
+      "Revision": 783,
+      "Opcode": 11,
+      "Payload": "AgADAAwACwALAQ==",
+      "Direction": "S",
+      "Source": null,
+      "Character": "ResearchFast",
+      "Generation": 4,
+      "Map": 204,
+      "Position": {
+        "X": 3,
+        "Y": 13
+      },
+      "OwnResources": {
+        "Gold": 967400,
+        "Experience": 320058866,
+        "Weight": 7,
+        "OccupiedSlots": 5
+      }
+    },
+    {
+      "Time": "2026-10-13T18:35:46.6818285+00:00",
+      "Revision": 783,
+      "Opcode": 6,
+      "Payload": "Aeo=",
+      "Direction": "C",
+      "Source": "bot",
+      "Character": "ResearchFast",
+      "Generation": 4,
+      "Map": 204,
+      "Position": {
+        "X": 3,
+        "Y": 13
+      },
+      "OwnResources": {
+        "Gold": 967400,
+        "Experience": 320058866,
+        "Weight": 7,
+        "OccupiedSlots": 5
+      }
+    },
+    {
+      "Time": "2026-10-13T18:35:46.9432825+00:00",
+      "Revision": 784,
+      "Opcode": 21,
+      "Payload": "AKkMDAAAAHTMCEFiZWwgSW5uAA==",
+      "Direction": "S",
+      "Source": null,
+      "Character": "ResearchFast",
+      "Generation": 4,
+      "Map": 169,
+      "Position": null,
+      "OwnResources": {
+        "Gold": 967400,
+        "Experience": 320058866,
+        "Weight": 7,
+        "OccupiedSlots": 5
+      }
+    },
+    {
+      "Time": "2026-10-13T18:35:46.9433338+00:00",
+      "Revision": 785,
+      "Opcode": 4,
+      "Payload": "AAEACgALAAs=",
+      "Direction": "S",
+      "Source": null,
+      "Character": "ResearchFast",
+      "Generation": 4,
+      "Map": 169,
+      "Position": {
+        "X": 1,
+        "Y": 10
+      },
+      "OwnResources": {
+        "Gold": 967400,
+        "Experience": 320058866,
+        "Weight": 7,
+        "OccupiedSlots": 5
+      }
+    },
+    {
+      "Time": "2026-10-13T18:35:47.7322792+00:00",
+      "Revision": 788,
+      "Opcode": 6,
+      "Payload": "Aes=",
+      "Direction": "C",
+      "Source": "bot",
+      "Character": "ResearchFast",
+      "Generation": 4,
+      "Map": 169,
+      "Position": {
+        "X": 1,
+        "Y": 10
+      },
+      "OwnResources": {
+        "Gold": 967400,
+        "Experience": 320058866,
+        "Weight": 7,
+        "OccupiedSlots": 5
+      }
+    },
+    {
+      "Time": "2026-10-13T18:35:48.0034408+00:00",
+      "Revision": 789,
+      "Opcode": 11,
+      "Payload": "AQABAAoACwALAQ==",
+      "Direction": "S",
+      "Source": null,
+      "Character": "ResearchFast",
+      "Generation": 4,
+      "Map": 169,
+      "Position": {
+        "X": 2,
+        "Y": 10
+      },
+      "OwnResources": {
+        "Gold": 967400,
+        "Experience": 320058866,
+        "Weight": 7,
+        "OccupiedSlots": 5
+      }
+    },
+    {
+      "Time": "2026-10-13T18:35:48.3482782+00:00",
+      "Revision": 789,
+      "Opcode": 6,
+      "Payload": "Aew=",
+      "Direction": "C",
+      "Source": "bot",
+      "Character": "ResearchFast",
+      "Generation": 4,
+      "Map": 169,
+      "Position": {
+        "X": 2,
+        "Y": 10
+      },
+      "OwnResources": {
+        "Gold": 967400,
+        "Experience": 320058866,
+        "Weight": 7,
+        "OccupiedSlots": 5
+      }
+    },
+    {
+      "Time": "2026-10-13T18:35:48.4404609+00:00",
+      "Revision": 790,
+      "Opcode": 11,
+      "Payload": "AQACAAoACwALAQ==",
+      "Direction": "S",
+      "Source": null,
+      "Character": "ResearchFast",
+      "Generation": 4,
+      "Map": 169,
+      "Position": {
+        "X": 3,
+        "Y": 10
+      },
+      "OwnResources": {
+        "Gold": 967400,
+        "Experience": 320058866,
+        "Weight": 7,
+        "OccupiedSlots": 5
+      }
+    },
+    {
+      "Time": "2026-10-13T18:35:48.5108966+00:00",
+      "Revision": 790,
+      "Opcode": 6,
+      "Payload": "Ae0=",
+      "Direction": "C",
+      "Source": "bot",
+      "Character": "ResearchFast",
+      "Generation": 4,
+      "Map": 169,
+      "Position": {
+        "X": 3,
+        "Y": 10
+      },
+      "OwnResources": {
+        "Gold": 967400,
+        "Experience": 320058866,
+        "Weight": 7,
+        "OccupiedSlots": 5
+      }
+    },
+    {
+      "Time": "2026-10-13T18:35:48.6843964+00:00",
+      "Revision": 790,
+      "Opcode": 6,
+      "Payload": "Ae4=",
+      "Direction": "C",
+      "Source": "bot",
+      "Character": "ResearchFast",
+      "Generation": 4,
+      "Map": 169,
+      "Position": {
+        "X": 3,
+        "Y": 10
+      },
+      "OwnResources": {
+        "Gold": 967400,
+        "Experience": 320058866,
+        "Weight": 7,
+        "OccupiedSlots": 5
+      }
+    },
+    {
+      "Time": "2026-10-13T18:35:48.9395242+00:00",
+      "Revision": 791,
+      "Opcode": 11,
+      "Payload": "AQADAAoACwALAQ==",
+      "Direction": "S",
+      "Source": null,
+      "Character": "ResearchFast",
+      "Generation": 4,
+      "Map": 169,
+      "Position": {
+        "X": 4,
+        "Y": 10
+      },
+      "OwnResources": {
+        "Gold": 967400,
+        "Experience": 320058866,
+        "Weight": 7,
+        "OccupiedSlots": 5
+      }
+    },
+    {
+      "Time": "2026-10-13T18:35:48.9396684+00:00",
+      "Revision": 792,
+      "Opcode": 11,
+      "Payload": "AQAEAAoACwALAQ==",
+      "Direction": "S",
+      "Source": null,
+      "Character": "ResearchFast",
+      "Generation": 4,
+      "Map": 169,
+      "Position": {
+        "X": 5,
+        "Y": 10
+      },
+      "OwnResources": {
+        "Gold": 967400,
+        "Experience": 320058866,
+        "Weight": 7,
+        "OccupiedSlots": 5
+      }
+    },
+    {
+      "Time": "2026-10-13T18:35:48.9398531+00:00",
+      "Revision": 792,
+      "Opcode": 6,
+      "Payload": "Ae8=",
+      "Direction": "C",
+      "Source": "bot",
+      "Character": "ResearchFast",
+      "Generation": 4,
+      "Map": 169,
+      "Position": {
+        "X": 5,
+        "Y": 10
+      },
+      "OwnResources": {
+        "Gold": 967400,
+        "Experience": 320058866,
+        "Weight": 7,
+        "OccupiedSlots": 5
+      }
+    },
+    {
+      "Time": "2026-10-13T18:35:49.4400833+00:00",
+      "Revision": 793,
+      "Opcode": 11,
+      "Payload": "AQAFAAoACwALAQ==",
+      "Direction": "S",
+      "Source": null,
+      "Character": "ResearchFast",
+      "Generation": 4,
+      "Map": 169,
+      "Position": {
+        "X": 6,
+        "Y": 10
+      },
+      "OwnResources": {
+        "Gold": 967400,
+        "Experience": 320058866,
+        "Weight": 7,
+        "OccupiedSlots": 5
+      }
+    },
+    {
+      "Time": "2026-10-13T18:35:49.7768261+00:00",
+      "Revision": 793,
+      "Opcode": 6,
+      "Payload": "AvA=",
+      "Direction": "C",
+      "Source": "bot",
+      "Character": "ResearchFast",
+      "Generation": 4,
+      "Map": 169,
+      "Position": {
+        "X": 6,
+        "Y": 10
+      },
+      "OwnResources": {
+        "Gold": 967400,
+        "Experience": 320058866,
+        "Weight": 7,
+        "OccupiedSlots": 5
+      }
+    }
+  ]
+}
