@@ -21,7 +21,10 @@ public sealed partial class MainWindowViewModel
             if (Set(ref journeyCollapsed, value))
             {
                 Runtime.Settings.JourneyCollapsed = value;
-                try { Runtime.Settings.Save(); }
+                try
+                {
+                    Runtime.Settings.Save();
+                }
                 catch (Exception error) { ReportError(error); }
                 Raise(nameof(JourneyExpanded));
                 Raise(nameof(JourneyToggleLabel));
@@ -58,7 +61,28 @@ public sealed partial class MainWindowViewModel
     public string QueueHeading => CharacterName.Length == 0 ? "Your queue" : CharacterName + "’s queue";
     public string QueueSummary => QueueItems.Count == 1 ? "1 quest in queue" : $"{QueueItems.Count} quests in queue";
     public string QueueHint => QueueLocked ? "Stop this run to edit its order." : "Drag to reorder · Ctrl + ↑ / ↓";
-    public string QueueReadiness => Runtime.QueueRunning(CharacterName) ? "Running for " + CharacterName : QueueState.State == "Paused" ? PlayerQuestReason(QueueState.Reason) : Runtime.QueueStartReason(CharacterName, QueueState) is { Length: > 0 } reason ? PlayerQuestReason(reason) : QueueState.Reason == "Queue completed" ? "Journey complete · progress saved" : "All selected quests are ready";
+    public string QueueReadiness
+    {
+        get
+        {
+            if (Runtime.QueueRunning(CharacterName))
+                return "Running for " + CharacterName;
+            if (QueueState.State == "Paused")
+                return PlayerQuestReason(QueueState.Reason);
+            if (Runtime.QueueStartReason(CharacterName, QueueState) is { Length: > 0 } reason)
+                return PlayerQuestReason(reason);
+            if (QueueState.Reason == "Queue completed")
+                return "Journey complete · progress saved";
+            var entries = JourneyOverview.Plan.Entries;
+            if (entries.FirstOrDefault() is { ChoicesRequired: true })
+                return "Save required choices before the first quest can run.";
+            if (entries.FirstOrDefault() is { State: not JourneyPlanningState.ReadyNow } first)
+                return PlayerQuestReason(first.Reason);
+            return entries.Skip(1).Any(entry => entry.State != JourneyPlanningState.ReadyNow)
+                ? "First quest ready. Later requirements will be checked."
+                : "All selected quests are ready";
+        }
+    }
     public string QueuePrimaryLabel => Runtime.QueueRunning(CharacterName) ? "Pause queue" : QueueState.State == "Paused" ? "Resume queue" : $"Run queue · {QueueItems.Count}";
     public string QueuePrimaryIcon => Runtime.QueueRunning(CharacterName) ? "Pause" : "Play";
     public string QueuePrimaryTooltip => Runtime.QueueRunning(CharacterName) ? "Pause the queue and keep progress."
@@ -166,7 +190,12 @@ public sealed partial class MainWindowViewModel
     {
         get
         {
-            int target = JourneyQuestId switch { NewCharacterPath.FirstStepsId => NewCharacterPath.FirstStepsLevel, NewCharacterPath.ClimbId => NewCharacterPath.ClimbLevel, _ => 0 };
+            int target = JourneyQuestId switch
+            {
+                NewCharacterPath.FirstStepsId => NewCharacterPath.FirstStepsLevel,
+                NewCharacterPath.ClimbId => NewCharacterPath.ClimbLevel,
+                _ => 0
+            };
             if (!HasCurrentJourney || target == 0)
                 return "";
             var s = Runtime.Snapshot(CharacterName);
@@ -182,7 +211,15 @@ public sealed partial class MainWindowViewModel
     {
         string place = s.MapName is { Length: > 0 } name ? " · " + name : "";
         string creature = activity.Target is { Name.Length: > 0 } target ? target.Name
-            : s.Map is 1 or 2 ? activity.Target?.Sprite switch { 7 => "Mouse", 53 => "Spider", 52 => "Centipede", 47 => "Bat", 55 => "Scorpion", _ => "nearby creature" } : "nearby creature";
+            : s.Map is 1 or 2 ? activity.Target?.Sprite switch
+            {
+                7 => "Mouse",
+                53 => "Spider",
+                52 => "Centipede",
+                47 => "Bat",
+                55 => "Scorpion",
+                _ => "nearby creature"
+            } : "nearby creature";
         return activity.Kind switch
         {
             "Attacking" => "Attacking " + creature + place,
@@ -210,7 +247,8 @@ public sealed partial class MainWindowViewModel
     {
         get
         {
-            if (!HasCurrentJourney) return "";
+            if (!HasCurrentJourney)
+                return "";
             if (JourneyQuestId == FiskEvidence.Id && JourneyJob.FiskWait is { Verified: true } bouquet)
                 return "Bouquet check · " + (JourneyJob.NextRun ?? bouquet.Due).ToLocalTime().ToString("MMM d, h:mm tt");
             if (JourneyQuestId == AltarWorshipEvidence.Id && AltarWorshipEvidence.NextOffering(JourneyJob) is { } offering)

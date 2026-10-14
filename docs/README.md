@@ -12,6 +12,9 @@
 ## Working on DAQuester
 
 - [Architecture](architecture.md): application, quest engine, and game integration.
+- [Journey planning](journey-planning.md): ordered dependencies and execution boundaries.
+- [Journey forecasts](journey-forecast.md): resource fields, wait bounds, UI integration and examples.
+- [Journey upgrade validation](journey-validation.md): baseline comparisons and platform limits.
 - [Design system](DESIGN_SYSTEM.md): colors, controls, typography, and accessibility.
 - [Local control and MCP](control.md): developer commands and their contracts.
 - [MCP and Dark Ages integration](mcp-darkages-interface.md): the complete current

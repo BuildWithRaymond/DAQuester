@@ -17,8 +17,14 @@ public sealed class QuestItemVM : ObservableObject
     }
     public string RecipeId => recipeId;
     public bool IsGuideOnly => recipeId.Length == 0;
-    public bool HasLegendReward { get; }
-    public string LegendEvidence { get; }
+    public bool HasLegendReward
+    {
+        get;
+    }
+    public string LegendEvidence
+    {
+        get;
+    }
     public string Name
     {
         get;
@@ -122,7 +128,7 @@ public sealed class QuestItemVM : ObservableObject
 
     public void Refresh(string character, QuestQueueState queue)
     {
-        availability = owner.Runtime.Availability(character, recipeId.Length == 0 ? Id : recipeId);
+        availability = owner.Runtime.PlanningAvailability(character, recipeId.Length == 0 ? Id : recipeId);
         queued = queue.Quests.Contains(recipeId);
         if (recipeId == AltarWorshipEvidence.Id)
             RefreshAltar(character);

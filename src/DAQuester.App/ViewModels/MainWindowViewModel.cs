@@ -19,7 +19,10 @@ public sealed partial class MainWindowViewModel : ObservableObject
     readonly HashSet<string> removedAccounts = new(StringComparer.OrdinalIgnoreCase);
     bool refreshing;
     bool questConfirmationPending;
-    public Func<string, string, string?, Task<bool>>? ConfirmPaulinQuestAsync { get; set; }
+    public Func<string, string, string?, Task<bool>>? ConfirmPaulinQuestAsync
+    {
+        get; set;
+    }
     string page = "Dashboard", search = "", filter = "Available", errorMessage = "", noticeMessage = "", clientPath, accountStatus = "";
     bool legendMarksOnly;
     bool automaticUpdateChecks;
@@ -147,7 +150,11 @@ public sealed partial class MainWindowViewModel : ObservableObject
     public bool LegendMarksOnly
     {
         get => legendMarksOnly;
-        set { if (Set(ref legendMarksOnly, value)) Refresh(); }
+        set
+        {
+            if (Set(ref legendMarksOnly, value))
+                Refresh();
+        }
     }
     IEnumerable<QuestItemVM> CharacterFilteredLibrary
     {
@@ -295,9 +302,10 @@ public sealed partial class MainWindowViewModel : ObservableObject
         get;
     }
 
-    public MainWindowViewModel(DesktopRuntime runtime)
+    public MainWindowViewModel(DesktopRuntime runtime, Func<DateTimeOffset>? forecastClock = null)
     {
         Runtime = runtime;
+        this.forecastClock = forecastClock ?? (() => DateTimeOffset.UtcNow);
         InitializeDashboard();
         clientPath = runtime.Settings.ClientPath;
         automaticUpdateChecks = runtime.Settings.AutomaticUpdateChecks;
@@ -457,6 +465,7 @@ public sealed partial class MainWindowViewModel : ObservableObject
             if (selectedCharacter is null)
                 selectedCharacter = Characters.FirstOrDefault();
             var queue = QueueState;
+            RefreshJourneyOverviews();
             foreach (var character in Characters)
                 character.Refresh();
             foreach (var quest in library)
@@ -564,7 +573,10 @@ public sealed partial class MainWindowViewModel : ObservableObject
                     {
                         if (!s.Quests.SequenceEqual(before))
                             throw new QuestBlockedException("The queue changed while choosing. Review it and choose again.");
-                        return s with { Quests = replacing is null ? s.Quests.Append(id).ToArray() : s.Quests.Select(q => q == other ? id : q).ToArray() };
+                        return s with
+                        {
+                            Quests = replacing is null ? s.Quests.Append(id).ToArray() : s.Quests.Select(q => q == other ? id : q).ToArray()
+                        };
                     });
                 }
                 finally { questConfirmationPending = false; }

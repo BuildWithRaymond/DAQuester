@@ -10,7 +10,11 @@ public sealed class CharacterItemVM : ObservableObject
     string name, password = "";
     bool expanded;
     string[] legendMarks = [];
-    public bool IsExpanded { get => expanded; set => Set(ref expanded, value); }
+    public bool IsExpanded
+    {
+        get => expanded; set => Set(ref expanded, value);
+    }
+    public JourneyOverviewVM JourneyOverview => owner.OverviewFor(OriginalName);
     public string OriginalName
     {
         get; private set;

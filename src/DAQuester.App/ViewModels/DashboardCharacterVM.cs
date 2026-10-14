@@ -70,8 +70,11 @@ public sealed class DashboardCharacterVM : ObservableObject
     public QuestProgress Progress => QuestProgress.From(Quest, Job);
     public string ProgressLabel => HasJourney ? Progress.Label : "No active quest";
     public bool HasSteps => HasJourney && Progress.Total > 0;
+    // Share one immutable forecast with the planner and character card so their
+    // resource estimates cannot disagree during the same refresh.
+    public JourneyOverviewVM JourneyOverview => owner.OverviewFor(Name);
     public string QueueSummary => Queue.Quests.Length == 0 ? "No queued quests" : $"{Queue.Quests.Length} queued · {owner.Runtime.QuestName(Queue.Quests.FirstOrDefault(id => id != QuestId) ?? Queue.Quests[0])}";
-    public IReadOnlyList<DashboardQueueEntry> QueueEntries => Queue.Quests.Select((id, index) => new DashboardQueueEntry(index + 1, owner.Runtime.QuestName(id), id == QuestId ? "Current journey" : "Queued")).ToArray();
+    public IReadOnlyList<JourneyPlanRowVM> QueueEntries => JourneyOverview.Rows;
     public string QueueHeading => $"Queue ({Queue.Quests.Length})";
     public string PrimaryLabel => Running ? "Pause" : Queue.State == "Paused" ? "Resume" : "Run queue";
     public string PrimaryIcon => Running ? "Pause" : "Play";
@@ -120,5 +123,3 @@ public sealed class DashboardCharacterVM : ObservableObject
         PrimaryCommand.Notify();
     }
 }
-
-public sealed record DashboardQueueEntry(int Position, string Title, string State);

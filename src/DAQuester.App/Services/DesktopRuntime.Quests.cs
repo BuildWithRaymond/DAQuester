@@ -5,9 +5,11 @@ namespace DAQuester.App.Services;
 public sealed partial class DesktopRuntime
 {
     public string QuestName(string id) => recipes.TryGetValue(id, out var quest) ? quest.Name : id;
-    public QuestAvailability Availability(string name, string id)
+    public QuestAvailability Availability(string name, string id) => Availability(name, id, Snapshot(name));
+
+    QuestAvailability Availability(string name, string id, CharacterSnapshot current)
     {
-        if (name.Length > 0 && id == SickChildEvidence.AnamanCatalogId && Memory(name).SelectionRestriction(id, Snapshot(name)) is { } locked)
+        if (name.Length > 0 && id == SickChildEvidence.AnamanCatalogId && Memory(name).SelectionRestriction(id, current) is { } locked)
             return new("Blocked", locked.Reason, false);
         if (!recipes.TryGetValue(id, out var quest))
             return new("Unavailable", "Automatic journey unavailable. Open the guide for manual play.", false);
@@ -17,7 +19,6 @@ public sealed partial class DesktopRuntime
         if (runners.TryGetValue(name, out var owner) && owner.Job.Quest == quest.Id)
             job = owner.Job;
         var remembered = Memory(name);
-        var current = Snapshot(name);
         if (job.Route?.CleanupPending == true)
             return new(current.Connected ? "Resume ready" : "Not checked", "Rewards verified; resume closes the final quest popup without another claim", true);
         // A submitted action must reconcile its durable receipt even if a new attempt is now ineligible.
@@ -40,10 +41,10 @@ public sealed partial class DesktopRuntime
             return new("Blocked", "Requires a living character.", false);
         if (id == FiskEvidence.Id && job.FiskWait is { Verified: true } bouquet && (job.NextRun ?? bouquet.Due) > DateTimeOffset.UtcNow)
         {
-            var gate = FiskEvidence.Eligibility(snapshot,job);
+            var gate = FiskEvidence.Eligibility(snapshot, job);
             return gate.Kind == EligibilityKind.Eligible
                 ? new("Bouquet waiting", "Bouquet check after " + (job.NextRun ?? bouquet.Due).ToLocalTime().ToString("MMM d, h:mm tt") + "; paid wait saved", true)
-                : new(gate.Kind == EligibilityKind.Unknown ? "Not checked" : "Blocked",gate.Reason,false);
+                : new(gate.Kind == EligibilityKind.Unknown ? "Not checked" : "Blocked", gate.Reason, false);
         }
         if (quest.Id == "mundane-birth" && job.BirthOptions is null)
             return new("Choices", "Choose season, age, and town before starting", true);
@@ -153,7 +154,7 @@ public sealed partial class DesktopRuntime
             throw new QuestBlockedException("A quest is already preparing for this character.");
         if (QueueReserves(name))
             throw new QuestBlockedException("Stop the queue before starting a separate quest.");
-        if (id == FiskEvidence.Id && Queue(name).Quests.Any(q => q != FiskEvidence.Id && Availability(name,q).Ready))
+        if (id == FiskEvidence.Id && Queue(name).Quests.Any(q => q != FiskEvidence.Id && Availability(name, q).Ready))
         {
             await EditQueueAsync(name, q => q with { Quests = [FiskEvidence.Id, .. q.Quests.Where(x => x != FiskEvidence.Id)] });
             await StartQueueAsync(name);
@@ -358,7 +359,11 @@ public sealed partial class DesktopRuntime
                 danaanOptions.Validate();
                 if (DanaanEvidence.ChoicesLocked(job) && job.DanaanOptions != danaanOptions)
                     throw new QuestBlockedException("Saved Danaan progress owns its route and rite consent.");
-                job = job with { DanaanOptions = danaanOptions, Repeat = false };
+                job = job with
+                {
+                    DanaanOptions = danaanOptions,
+                    Repeat = false
+                };
             }
 
             if (choice?.SickChildOptions is { } sickOptions)
@@ -531,7 +536,11 @@ public sealed partial class DesktopRuntime
                     NextRun = null
                 });
             if (selected.Id == DanaanEvidence.Id && danaanOptions is not null)
-                await journal.SaveAsync(saved with { DanaanOptions = danaanOptions, Repeat = false });
+                await journal.SaveAsync(saved with
+                {
+                    DanaanOptions = danaanOptions,
+                    Repeat = false
+                });
             RequireOpen();
             preparation.Token.ThrowIfCancellationRequested();
             if (sessions.GetValueOrDefault(name) != session || !session.Snapshot.Connected || session.Snapshot.Generation != generation)

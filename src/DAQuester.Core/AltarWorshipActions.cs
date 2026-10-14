@@ -105,7 +105,7 @@ public sealed class AltarWorshipActions : IQuestAction
         var s = c.Session;
         if (s.Snapshot.Gold is not { } carried || carried < ShieldPrice)
             throw new ResourceUnavailableException("Carry at least 750 gold for a Leather Shield from Torrance.");
-        if (s.Snapshot.Inventory.Count >= 59)
+        if (s.Snapshot.Inventory.Count >= CharacterSnapshot.InventoryCapacity)
             throw new QuestBlockedException("Free an inventory slot for a Leather Shield.");
         await c.SaveAsync(c.Job with
         {

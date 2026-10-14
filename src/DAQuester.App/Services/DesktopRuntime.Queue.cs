@@ -20,6 +20,34 @@ public sealed partial class DesktopRuntime
         return queueCoordinators.TryGetValue(name, out var owner) ? owner.State : state;
     }
 
+    public JourneyPlan PlanQueue(string name, QuestQueueState? state = null) => JourneyPlanner.Plan(state ?? Queue(name), Snapshot(name), (id, facts) =>
+    {
+        var available = Availability(name, id, facts);
+        var kind = available.Ready ? EligibilityKind.Eligible : available.CanQueue ? EligibilityKind.Unknown : EligibilityKind.Blocked;
+        return new(new(kind, available.Reason), available.Status == "Choices", Job(name, id).Pending is not null);
+    });
+
+    // Library selection can plan a dependency; Availability continues to describe real execution.
+    public QuestAvailability PlanningAvailability(string name, string id)
+    {
+        var actual = Availability(name, id);
+        if (name.Length == 0 || !recipes.ContainsKey(id) || actual.Ready || actual.Status is "Completed" or "Unavailable")
+            return actual;
+        var queue = Queue(name);
+        if (!queue.Quests.Contains(id))
+            queue = queue with
+            {
+                Quests = [.. queue.Quests, id]
+            };
+        var entry = PlanQueue(name, queue).Entries.First(e => e.Quest == id);
+        bool warning = actual.Warning || id == NewCharacterPath.ClimbId && NewCharacterPath.TerrorWarning(name, Snapshot(name)) is not null;
+        return entry.State == JourneyPlanningState.Conditional
+            ? new("Conditional", entry.Reason, true, warning)
+            : entry.State == JourneyPlanningState.Unknown && entry.Conditions.Length > 0
+                ? new("Not checked", entry.Reason + " " + string.Join(" ", entry.Conditions.Select(c => c.Explanation)), true, warning)
+                : actual;
+    }
+
     public bool QueueRunning(string name) => Preview && previewQueueRunning.Contains(name) || queueCoordinators.TryGetValue(name, out var queue) && queue.IsRunning;
     public bool QueueBusy(string name) => queueSaving.Contains(name) || queuePreparations.ContainsKey(name);
     public bool QueueReserves(string name) => queueSaving.Contains(name) || queuePreparations.ContainsKey(name) || QueueRunning(name) || Queue(name).Locked;
@@ -68,7 +96,8 @@ public sealed partial class DesktopRuntime
             foreach (string id in next.Quests.Except(saved.Quests))
             {
                 var availability = Availability(name, id);
-                if (!availability.CanQueue)
+                var planned = PlanQueue(name, next).Entries.First(e => e.Quest == id);
+                if (!availability.CanQueue && planned.State != JourneyPlanningState.Conditional && !(planned.State == JourneyPlanningState.Unknown && planned.Conditions.Length > 0))
                     throw new QuestBlockedException(QuestName(id) + ": " + availability.Reason);
             }
 
@@ -93,7 +122,7 @@ public sealed partial class DesktopRuntime
     public Task MoveQueueAsync(string name, string id, int target) => EditQueueAsync(name, state => state.Reorder(id, target));
     static bool HasBothPaulinQuests(QuestQueueState queue) => queue.Quests.Contains(SickChildEvidence.Id) && queue.Quests.Contains(SickChildEvidence.AnamanId);
     bool HasDeferredBouquet(QuestQueueState queue) => queue.Quests.Contains(FiskEvidence.Id) &&
-        journal.Load(queue.Character,FiskEvidence.Id).FiskWait is { Verified:true } wait &&
+        journal.Load(queue.Character, FiskEvidence.Id).FiskWait is { Verified: true } wait &&
         queue.Deferred.Any(d => d.Quest == FiskEvidence.Id && d.Due >= wait.Due);
     public string QueueStartReason(string name, QuestQueueState queue)
     {
@@ -118,17 +147,19 @@ public sealed partial class DesktopRuntime
             // Paid waiting is independent of later requirements. An active
             // unresolved checkpoint still owns the character and cannot yield.
             if (queue.ActiveQuest is { } active)
-                return Availability(name,active).Ready || CanSettleQueueCheckpoint(name,active) || journal.Load(name,active).Pending is not null
-                    ? "" : QuestName(active) + ": " + Availability(name,active).Reason;
-            if (queue.Quests.Any(id => Availability(name,id).Ready && !queue.Deferred.Any(d => d.Quest == id && d.Due > DateTimeOffset.UtcNow)) ||
-                Availability(name,FiskEvidence.Id).Ready)
+                return Availability(name, active).Ready || CanSettleQueueCheckpoint(name, active) || journal.Load(name, active).Pending is not null
+                    ? "" : QuestName(active) + ": " + Availability(name, active).Reason;
+            if (queue.Quests.Any(id => Availability(name, id).Ready && !queue.Deferred.Any(d => d.Quest == id && d.Due > DateTimeOffset.UtcNow)) ||
+                Availability(name, FiskEvidence.Id).Ready)
                 return "";
-            return QuestName(FiskEvidence.Id) + ": " + Availability(name,FiskEvidence.Id).Reason;
+            return QuestName(FiskEvidence.Id) + ": " + Availability(name, FiskEvidence.Id).Reason;
         }
         foreach (string id in queue.Quests)
         {
             if (!recipes.ContainsKey(id))
                 return QuestName(id) + ": automatic journey unavailable";
+            if (id != queue.Quests[0])
+                continue;
             var availability = Availability(name, id);
             if (queue.ActiveQuest == id && (CanSettleQueueCheckpoint(name, id) || journal.Load(name, id).Pending is not null))
                 continue;
@@ -164,7 +195,7 @@ public sealed partial class DesktopRuntime
                 throw new QuestBlockedException(blocker);
             foreach (string id in state.Quests)
             {
-                if (HasDeferredBouquet(state) && state.ActiveQuest != id && !Availability(name,id).Ready)
+                if (HasDeferredBouquet(state) && state.ActiveQuest != id && !Availability(name, id).Ready)
                     continue;
                 if (!await ConfigureQuestAsync(name, recipes[id], state.ActiveQuest == id))
                     return;
@@ -180,19 +211,21 @@ public sealed partial class DesktopRuntime
             {
                 coordinator = new(queueStore, state, () => Snapshot(name), async (id, resume, cancellation) =>
                 {
-                    var availability = Availability(name, id);
-                    if (!availability.Ready && !(resume && CanSettleQueueCheckpoint(name, id)))
-                        throw new QuestBlockedException(availability.Reason);
+                    long generation = Snapshot(name).Generation;
+                    RequireQueueDispatch(name, id, resume, generation);
                     // A crash between activation and runner preparation must not accept an old outcome.
                     var active = Queue(name);
                     var oldOutcome = SavedQueueOutcome(journal.Load(name, id));
                     if (resume && !active.ActiveResume && active.ActiveStartedAt is { } started && oldOutcome is not null && oldOutcome.At < started)
                         resume = false;
                     var runner = await PrepareRunnerAsync(name, recipes[id]);
+                    // Preparation may await UI or I/O. Recheck the same real
+                    // connection before dispatch; planning projections cannot authorize it.
+                    RequireQueueDispatch(name, id, resume, generation);
                     await runner.RunAsync(RepeatEnabled(name, id), cancellation, startNewAttempt: !resume, singleAttempt: true, deferTimedWaits: true);
                     return runner.Job;
-                }, id => HasUnfinishedCheckpoint(name, id), id => Availability(name,id).Ready,
-                    (due, cancellation) => WaitForBouquetQueueAsync(name,due,cancellation));
+                }, id => HasUnfinishedCheckpoint(name, id), id => Availability(name, id).Ready,
+                    (due, cancellation) => WaitForBouquetQueueAsync(name, due, cancellation));
                 queueCoordinators[name] = coordinator;
                 coordinator.Changed += value => Ui(() =>
                 {
@@ -212,6 +245,30 @@ public sealed partial class DesktopRuntime
         }
 
         await RunQueueCoordinatorAsync(coordinator, sessions[name]);
+    }
+
+    void RequireQueueDispatch(string name, string id, bool resume, long generation)
+    {
+        var current = Snapshot(name);
+        if (!current.Connected || current.Id is null || generation <= 0 || current.Generation != generation || current.Revision <= 0
+            || !string.Equals(current.Name, name, StringComparison.OrdinalIgnoreCase))
+            throw new QuestBlockedException("Character connection changed. Resume after fresh identity and state.");
+        // Reconciliation is still governed by the runner's receipts, never by planning facts.
+        if (resume && (CanSettleQueueCheckpoint(name, id) || Job(name, id).Pending is not null))
+            return;
+        var available = Availability(name, id);
+        if (!available.Ready || available.Status == "Choices")
+            throw new QuestBlockedException(QuestName(id) + ": " + available.Reason + " Queue retained; check the preceding quest's observed result and current requirements.");
+        var job = Job(name, id);
+        job.BirthOptions?.Validate();
+        job.EmeraldOptions?.Validate();
+        job.SickChildOptions?.Validate();
+        if (id == NewCharacterPath.FirstStepsId && !job.FirstStepsBriefed)
+            throw new QuestBlockedException("Read the Peasant's First Steps briefing before dispatch.");
+        if (id == NewCharacterPath.ClimbId && (!current.LegendsKnown || NewCharacterPath.TerrorWarning(name, current) is not null && !job.TerrorWindowAccepted))
+            throw new QuestBlockedException("Fresh legend and acknowledgement of the Terror quest limit are required before Crypt Climb.");
+        if (id == AltarWorshipEvidence.Id && (current.Class is null || AltarWorshipEvidence.NoMark(name, current.Class) is not null && !job.AltarNoMarkAccepted))
+            throw new QuestBlockedException("Fresh class and acknowledgement of the Altar reward are required before dispatch.");
     }
 
     internal async Task RunQueueCoordinatorAsync(QuestQueueCoordinator coordinator, IGameSession session)

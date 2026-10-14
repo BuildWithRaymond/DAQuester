@@ -1,8 +1,44 @@
 # Validation status
 
-## Worktree integration preflight — October 13, 2026
+## Merged worktree validation — October 13, 2026
 
-The current main worktree builds in Release with **zero warnings and errors**.
+The completed quest/dashboard checkpoint (`a00b975`) and planning/UI branch
+(`dd34318`) are combined on main. Eleven overlapping files were reconciled while
+retaining both observed quest families, saved bouquet waits, real dispatch gates,
+reward-popup cleanup, character feedback and shared planning/forecast views.
+Forecasts remain presentation estimates and cannot supply execution receipts.
+
+The merged Release solution build passed with **zero warnings and errors**.
+Focused runs passed **102 Core/protocol cases** and **59 app cases**. Both
+complete xUnit projects then passed with their normal settings: **1,138 Core
+tests** and **222 app tests**, with no failures or skips. The final Core run used
+normal collection parallelism. Earlier timing failures did not recur in this
+run; no walking assertion or timing threshold was relaxed. Local pipe access
+was provided for synthetic fixtures. An initial sandbox-only NuGet audit lookup
+warning was cleared by restoring with network access; auditing stayed enabled.
+
+Two additional integration cases verify that Fisk and Danaan remain available
+alongside shared forecasts, that unsupported resource estimates stay explicitly
+unavailable, and that rendering a forecast changes neither observed character
+state nor the saved quest checkpoint. New and merged C# files use the repository
+formatter settings, with explanatory comments around receipts, ownership,
+reconnects, waits and forecast uncertainty.
+
+The merged native preview produced **55 isolated sample states**. Manual review
+covered normal/minimum planning and dashboard layouts, partial-supply forecasts,
+Fisk's saved paid wait, Danaan library filtering and Cail/rite consent. Framework
+queue reorder/removal events passed; physical keyboard delivery was not exercised.
+No real game character or Excalibur process was operated. Builds and previews
+remain in ignored artifacts; the running player host was not replaced.
+
+Changed JSON parses and Git whitespace/conflict checks pass. Private Data, test
+reports, generated images and binaries are excluded from source commits. Fresh
+full automatic live runs and Band-specific live outcomes retain the limitations
+in the [automation handoff](research/fisk-danaan-automation.md).
+
+## Earlier worktree integration preflight — October 13, 2026
+
+Before integration, the main worktree built in Release with **zero warnings and errors**.
 The focused quest/recovery selection passed **79/79**, the complete app suite
 passed **209/209**, and the complete Core/protocol suite passed **1,100/1,100**
 with test collection parallelism disabled. There were no skipped tests in these
@@ -17,7 +53,7 @@ race was corrected in the synthetic walking fixture: only a wrapped
 `SocketError.OperationAborted` after deliberate cancellation is ignored. Other
 transport faults still fail. Sandbox-denied current-user pipe tests passed with
 local pipe access. These results do not establish that the intermittent parallel
-failures are resolved; recheck them after concurrent chat work has stopped.
+failures were resolved. The later normal parallel merged run is recorded above.
 
 New C# files follow the existing formatter settings. Added comments explain
 resource receipts, write-ahead submissions, reconnect boundaries, paid waits,
@@ -31,12 +67,10 @@ library filtering, unselected and accepted Cail consent, and normal/compact dark
 dashboard layouts. No real character or Excalibur operation occurred. Fresh full
 automatic live runs retain the limits in the [automation handoff](research/fisk-danaan-automation.md).
 
-**Integration remains pending.** Other chats are still editing the sibling
-planning/UI worktree. A normalized three-way preview of its currently committed
-planning changes found overlapping regions in availability, queue dispatch and
-character state; additional unfinished UI files must also be included once ready.
-There is no active Git merge or unmerged index entry. This preflight does not
-certify the eventual merged tree, and no commit or merge has been performed here.
+At this preflight checkpoint, other chats were still editing the sibling
+planning/UI worktree. The preview identified overlapping availability, queue
+dispatch and character state; later completed UI files added further overlaps.
+The merged build, tests and manual review above supersede this earlier checkpoint.
 
 ## Fisk and Danaan automation — October 13, 2026
 

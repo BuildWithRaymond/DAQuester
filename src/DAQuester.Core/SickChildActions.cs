@@ -238,7 +238,10 @@ public sealed class SickChildActions(PaulinFlower? flower = null) : IQuestAction
                     }
                     catch (Exception error) { cleanupFailure ??= error; }
                 while (ready.Count > 0)
-                    try { await Release(hub, ready.Dequeue(), c.YieldScheduledWaits); }
+                    try
+                    {
+                        await Release(hub, ready.Dequeue(), c.YieldScheduledWaits);
+                    }
                     catch (Exception error) { cleanupFailure ??= error; }
                 // Already reported by the failure that ended the round.
                 if (ownPick is not null)
@@ -345,7 +348,7 @@ public sealed class SickChildActions(PaulinFlower? flower = null) : IQuestAction
         {
             if (s.Snapshot.Count(f.Item) > 0)
                 return true;
-            if (s.Snapshot.InventoryKnown && s.Snapshot.Inventory.Count >= 59)
+            if (s.Snapshot.InventoryKnown && s.Snapshot.Inventory.Count >= CharacterSnapshot.InventoryCapacity)
                 throw new QuestBlockedException(who + " needs a free inventory slot for the " + f.Item + ".");
             // A popup blocks movement, so close it before stepping off; stepping back on opens a fresh one.
             if (s.Snapshot.Dialog is { } open)

@@ -12,7 +12,7 @@ using DAQuester.Core;
 namespace DAQuester.App.Validation;
 // Optional documentation captures, not a UI test suite. The preview runtime
 // never opens listeners or launches clients, and all data stays in artifacts.
-internal static class ScreenshotCapture
+internal static partial class ScreenshotCapture
 {
     public static async Task RunAsync(Window window, MainWindowViewModel viewModel)
     {
@@ -69,7 +69,12 @@ internal static class ScreenshotCapture
             viewModel.JourneyCollapsed = false;
             await Task.Delay(650);
             var plannedQueue = viewModel.Runtime.Queue("Agent");
-            viewModel.Runtime.SetPreviewQueue(plannedQueue with { State = "Paused", ActiveQuest = "perfect-hairstyle", Reason = "Paused by player" });
+            viewModel.Runtime.SetPreviewQueue(plannedQueue with
+            {
+                State = "Paused",
+                ActiveQuest = "perfect-hairstyle",
+                Reason = "Paused by player"
+            });
             viewModel.SelectedQuest = viewModel.Quests.Single(q => q.RecipeId == "emerald-dawn");
             window.FindControl<Expander>("questDetails")!.IsExpanded = true;
             await Task.Delay(100);
@@ -221,8 +226,18 @@ internal static class ScreenshotCapture
             // A starter reference makes the app medallions and legend reward shapes reviewable.
             window.Width = 1450;
             window.Height = 930;
-            viewModel.Runtime.SetPreviewSnapshot(new() { Name = "Agent", Id = 42, Connected = true,
-                Generation = 1, Revision = 20, Map = 500, Position = new(10, 10), Level = 3, Hp = 40 });
+            viewModel.Runtime.SetPreviewSnapshot(new()
+            {
+                Name = "Agent",
+                Id = 42,
+                Connected = true,
+                Generation = 1,
+                Revision = 20,
+                Map = 500,
+                Position = new(10, 10),
+                Level = 3,
+                Hp = 40
+            });
             viewModel.Page = "Planner";
             viewModel.Filter = "All";
             viewModel.Search = "";
@@ -256,10 +271,27 @@ internal static class ScreenshotCapture
                 await closed;
             }
 
-            var huntingSnapshot = viewModel.Runtime.Snapshot("Agent") with { Level = 5, ToNextLevel = 1234, Map = 1, MapName = "Crypt 1-1", Position = new(5, 5),
-                Entities = ImmutableDictionary<uint, Entity>.Empty.Add(55, new(55, "", new(6, 5), true) { Sprite = 53, Kind = 0 }) };
+            var huntingSnapshot = viewModel.Runtime.Snapshot("Agent") with
+            {
+                Level = 5,
+                ToNextLevel = 1234,
+                Map = 1,
+                MapName = "Crypt 1-1",
+                Position = new(5, 5),
+                Entities = ImmutableDictionary<uint, Entity>.Empty.Add(55, new(55, "", new(6, 5), true)
+                {
+                    Sprite = 53,
+                    Kind = 0
+                })
+            };
             viewModel.Runtime.SetPreviewSnapshot(huntingSnapshot);
-            viewModel.Runtime.SetPreviewQueue(new() { Character = "Agent", State = "Running", Quests = [NewCharacterPath.FirstStepsId], ActiveQuest = NewCharacterPath.FirstStepsId });
+            viewModel.Runtime.SetPreviewQueue(new()
+            {
+                Character = "Agent",
+                State = "Running",
+                Quests = [NewCharacterPath.FirstStepsId],
+                ActiveQuest = NewCharacterPath.FirstStepsId
+            });
             viewModel.Runtime.SetPreviewRunning("Agent", true);
             viewModel.Runtime.RecordHuntingActivity("Agent", NewCharacterPath.FirstStepsId, huntingSnapshot.Generation, new("Attacking", huntingSnapshot.Entities[55]));
             viewModel.JourneyCollapsed = false;
@@ -279,6 +311,7 @@ internal static class ScreenshotCapture
                 renders.Add(huntingPath);
             }
 
+            var journeyReview = await CaptureJourneysAsync(window, viewModel, renders);
             File.WriteAllText("artifacts/screenshots.json", JsonSerializer.Serialize(new
             {
                 framework = "Avalonia",
@@ -286,7 +319,13 @@ internal static class ScreenshotCapture
                 isolated = true,
                 synthetic = true,
                 failed = 0,
-                detailsScroll = new { scrolledDetails, reopenedDetails, selectedDetails },
+                detailsScroll = new
+                {
+                    scrolledDetails,
+                    reopenedDetails,
+                    selectedDetails
+                },
+                journeyReview,
                 renders
             }, AppSettings.Json));
             File.WriteAllText("artifacts/screenshots.txt", "Documentation screenshots captured with isolated sample data. No game clients, listeners, or updates.");
@@ -347,15 +386,33 @@ internal static class ScreenshotCapture
 
     static async Task CaptureFiskWaitAsync(Window window, MainWindowViewModel vm, List<string> renders)
     {
-        if (!vm.Runtime.Preview) throw new InvalidOperationException("Wait capture requires isolated preview data.");
+        if (!vm.Runtime.Preview)
+            throw new InvalidOperationException("Wait capture requires isolated preview data.");
         var original = vm.Runtime.Queue("Agent");
         var journal = new FileQuestJournal(Path.Combine(AppSettings.DataPath, "journal"));
         var at = DateTimeOffset.UtcNow;
         var acceptance = new Dialog(1, 10, 55, 1, "Viveka", FiskEvidence.BouquetAccepted, true, 0, 1, 0, []) { ObservedAt = at };
-        await journal.SaveAsync(new() { Character = "Agent", Quest = FiskEvidence.Id, Step = "run", Status = "Deferred",
-            FiskWait = new(at, acceptance, 50000, 30000, true), NextRun = at.AddHours(1), Route = new() { Task = 12 },
-            Reason = "Waiting in Suomi Tavern; the paid bouquet wait is saved" });
-        vm.Runtime.SetPreviewQueue(new() { Character = "Agent", State = "Running", Quests = [FiskEvidence.Id], Deferred = [new(FiskEvidence.Id, at.AddHours(1))] });
+        await journal.SaveAsync(new()
+        {
+            Character = "Agent",
+            Quest = FiskEvidence.Id,
+            Step = "run",
+            Status = "Deferred",
+            FiskWait = new(at, acceptance, 50000, 30000, true),
+            NextRun = at.AddHours(1),
+            Route = new()
+            {
+                Task = 12
+            },
+            Reason = "Waiting in Suomi Tavern; the paid bouquet wait is saved"
+        });
+        vm.Runtime.SetPreviewQueue(new()
+        {
+            Character = "Agent",
+            State = "Running",
+            Quests = [FiskEvidence.Id],
+            Deferred = [new(FiskEvidence.Id, at.AddHours(1))]
+        });
         vm.Runtime.SetPreviewQueueRunning("Agent", true);
         vm.Page = "Planner";
         vm.Filter = "All";
@@ -363,7 +420,8 @@ internal static class ScreenshotCapture
         vm.SelectedQuest = vm.Quests.Single(q => q.RecipeId == FiskEvidence.Id);
         vm.Refresh();
         await Task.Delay(200);
-        Dispatcher.UIThread.RunJobs(); window.UpdateLayout();
+        Dispatcher.UIThread.RunJobs();
+        window.UpdateLayout();
         using (var bitmap = new RenderTargetBitmap(new PixelSize((int)window.ClientSize.Width, (int)window.ClientSize.Height), new Vector(96, 96)))
         {
             bitmap.Render(window);
@@ -378,7 +436,8 @@ internal static class ScreenshotCapture
 
     static async Task CaptureDanaanLibraryAsync(Window window, MainWindowViewModel vm, List<string> renders)
     {
-        if (!vm.Runtime.Preview) throw new InvalidOperationException("Library capture requires isolated preview data.");
+        if (!vm.Runtime.Preview)
+            throw new InvalidOperationException("Library capture requires isolated preview data.");
         var snapshot = vm.Runtime.Snapshot("Agent");
         var selected = vm.SelectedQuest;
         var look = Controls.CharacterPreviewAppearance.From(null).Look;
@@ -387,7 +446,13 @@ internal static class ScreenshotCapture
         vm.Search = "Danaan";
         foreach (byte body in new byte[] { 0x10, 0x20 })
         {
-            vm.Runtime.SetPreviewSnapshot(snapshot with { Appearance = look with { Body = body } });
+            vm.Runtime.SetPreviewSnapshot(snapshot with
+            {
+                Appearance = look with
+                {
+                    Body = body
+                }
+            });
             vm.Refresh();
             vm.SelectedQuest = vm.Quests.Single(q => q.RecipeId == DanaanEvidence.Id);
             window.FindControl<Expander>("questDetails")!.IsExpanded = true;
@@ -408,8 +473,13 @@ internal static class ScreenshotCapture
 
     static async Task CaptureDanaanChoiceAsync(Window owner, MainWindowViewModel vm, List<string> renders)
     {
-        if (!vm.Runtime.Preview) throw new InvalidOperationException("Choice capture requires isolated preview data.");
-        var dialog = new Views.QuestChoiceDialog("Elara", vm.Runtime.Recipes[DanaanEvidence.Id], new() { Character = "Elara", Quest = DanaanEvidence.Id }, null);
+        if (!vm.Runtime.Preview)
+            throw new InvalidOperationException("Choice capture requires isolated preview data.");
+        var dialog = new Views.QuestChoiceDialog("Elara", vm.Runtime.Recipes[DanaanEvidence.Id], new()
+        {
+            Character = "Elara",
+            Quest = DanaanEvidence.Id
+        }, null);
         var closed = dialog.ShowDialog<Services.QuestChoiceResult?>(owner);
         await Task.Delay(200);
         Dispatcher.UIThread.RunJobs();
@@ -442,9 +512,20 @@ internal static class ScreenshotCapture
         var runtime = vm.Runtime;
         var originalQueue = runtime.Queue("Agent");
         var originalElara = runtime.Snapshot("Elara");
-        runtime.SetPreviewQueue(originalQueue with { State = "Running", ActiveQuest = "perfect-hairstyle" });
+        runtime.SetPreviewQueue(originalQueue with
+        {
+            State = "Running",
+            ActiveQuest = "perfect-hairstyle"
+        });
         runtime.SetPreviewRunning("Agent", true);
-        runtime.SetPreviewQueue(new() { Character = "Elara", Quests = [NewCharacterPath.ClimbId], State = "Paused", ActiveQuest = NewCharacterPath.ClimbId, Reason = "Free an inventory slot, then resume." });
+        runtime.SetPreviewQueue(new()
+        {
+            Character = "Elara",
+            Quests = [NewCharacterPath.ClimbId],
+            State = "Paused",
+            ActiveQuest = NewCharacterPath.ClimbId,
+            Reason = "Free an inventory slot, then resume."
+        });
         vm.Page = "Dashboard";
         foreach (bool compact in new[] { false, true })
         {
@@ -459,13 +540,16 @@ internal static class ScreenshotCapture
                 window.UpdateLayout();
                 string path = "artifacts/screenshots/dashboard-" + (list ? "list" : "cards") + (compact ? "-compact" : "") + ".png";
                 using var bitmap = new RenderTargetBitmap(new PixelSize((int)window.ClientSize.Width, (int)window.ClientSize.Height), new Vector(96, 96));
-                bitmap.Render(window); bitmap.Save(path); renders.Add(path);
+                bitmap.Render(window);
+                bitmap.Save(path);
+                renders.Add(path);
             }
         }
         var attentionQueue = runtime.Queue("Elara");
         runtime.SetPreviewQueue(attentionQueue with
         {
-            Quests = [DanaanEvidence.Id], ActiveQuest = DanaanEvidence.Id,
+            Quests = [DanaanEvidence.Id],
+            ActiveQuest = DanaanEvidence.Id,
             Reason = "Free an inventory slot before returning to your guide. Open the planner to review the saved journey, then resume when you are ready to continue."
         });
         vm.SelectedDashboardCharacter = vm.DashboardCharacters.First(c => c.Name == "Elara");
@@ -480,37 +564,57 @@ internal static class ScreenshotCapture
         }
         runtime.SetPreviewQueue(attentionQueue);
         vm.SelectedDashboardCharacter = vm.DashboardCharacters.First(c => c.Name == "Agent");
-        window.Width = 1450; window.Height = 930;
+        window.Width = 1450;
+        window.Height = 930;
         vm.DashboardListView = false;
         await Task.Delay(250);
         var levelFeedback = new CharacterFeedback(1, 13, "Level", 12, DateTimeOffset.UtcNow);
-        runtime.SetPreviewSnapshot(originalElara with { Revision = 13, Level = 12, Feedback = [levelFeedback] });
+        runtime.SetPreviewSnapshot(originalElara with
+        {
+            Revision = 13,
+            Level = 12,
+            Feedback = [levelFeedback]
+        });
         await Task.Delay(150);
-        Dispatcher.UIThread.RunJobs(); window.UpdateLayout();
+        Dispatcher.UIThread.RunJobs();
+        window.UpdateLayout();
         using (var bitmap = new RenderTargetBitmap(new PixelSize((int)window.ClientSize.Width, (int)window.ClientSize.Height), new Vector(96, 96)))
         {
-            bitmap.Render(window); bitmap.Save("artifacts/screenshots/dashboard-feedback.png"); renders.Add("artifacts/screenshots/dashboard-feedback.png");
+            bitmap.Render(window);
+            bitmap.Save("artifacts/screenshots/dashboard-feedback.png");
+            renders.Add("artifacts/screenshots/dashboard-feedback.png");
         }
         vm.Page = "Planner";
         vm.SelectedCharacter = vm.Characters.Single(c => c.Name == "Elara");
         await Task.Delay(200);
-        runtime.SetPreviewSnapshot(originalElara with { Revision = 14, Feedback = [new(1, 14, "Kill", 123, DateTimeOffset.UtcNow)] });
+        runtime.SetPreviewSnapshot(originalElara with
+        {
+            Revision = 14,
+            Feedback = [new(1, 14, "Kill", 123, DateTimeOffset.UtcNow)]
+        });
         await Task.Delay(150);
-        Dispatcher.UIThread.RunJobs(); window.UpdateLayout();
+        Dispatcher.UIThread.RunJobs();
+        window.UpdateLayout();
         using (var bitmap = new RenderTargetBitmap(new PixelSize((int)window.ClientSize.Width, (int)window.ClientSize.Height), new Vector(96, 96)))
         {
-            bitmap.Render(window); bitmap.Save("artifacts/screenshots/journey-kill-feedback.png"); renders.Add("artifacts/screenshots/journey-kill-feedback.png");
+            bitmap.Render(window);
+            bitmap.Save("artifacts/screenshots/journey-kill-feedback.png");
+            renders.Add("artifacts/screenshots/journey-kill-feedback.png");
         }
         vm.SelectedCharacter = vm.Characters.Single(c => c.Name == "Agent");
         vm.Page = "Dashboard";
-        window.Width = 900; window.Height = 560;
+        window.Width = 900;
+        window.Height = 560;
         vm.DashboardListView = true;
         vm.DashboardSearch = "no matching character";
         await Task.Delay(100);
-        Dispatcher.UIThread.RunJobs(); window.UpdateLayout();
+        Dispatcher.UIThread.RunJobs();
+        window.UpdateLayout();
         using (var bitmap = new RenderTargetBitmap(new PixelSize((int)window.ClientSize.Width, (int)window.ClientSize.Height), new Vector(96, 96)))
         {
-            bitmap.Render(window); bitmap.Save("artifacts/screenshots/dashboard-empty.png"); renders.Add("artifacts/screenshots/dashboard-empty.png");
+            bitmap.Render(window);
+            bitmap.Save("artifacts/screenshots/dashboard-empty.png");
+            renders.Add("artifacts/screenshots/dashboard-empty.png");
         }
         vm.DashboardSearch = "";
         await Task.Delay(200);
@@ -531,10 +635,14 @@ internal static class ScreenshotCapture
         }
         runtime.SetPreviewSnapshot(originalAgent);
         vm.DashboardListView = false;
-        window.Width = 1450; window.Height = 930;
+        window.Width = 1450;
+        window.Height = 930;
         runtime.SetPreviewRunning("Agent", false);
         runtime.SetPreviewQueue(originalQueue);
-        runtime.SetPreviewQueue(new() { Character = "Elara" });
+        runtime.SetPreviewQueue(new()
+        {
+            Character = "Elara"
+        });
         runtime.SetPreviewSnapshot(originalElara);
     }
 

@@ -27,8 +27,15 @@ public sealed record CharacterFeedback(long Generation, long Revision, string Ki
 public record CharacterSnapshot
 {
     // Current server status is diagnostic context, not automatic quest evidence.
-    public ServerNotice? ActiveStatus { get; init; }
+    public ServerNotice? ActiveStatus
+    {
+        get; init;
+    }
     public ImmutableArray<CharacterFeedback> Feedback { get; init; } = [];
+    public const int InventoryCapacity = 59;
+    [System.Text.Json.Serialization.JsonIgnore]
+    public int FreeInventorySlots => Math.Max(0, InventoryCapacity - Inventory.Count);
+
     public CharacterAppearance? Appearance
     {
         get; init;
