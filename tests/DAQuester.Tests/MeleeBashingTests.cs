@@ -42,6 +42,7 @@ public class MeleeBashingTests
         {
             get; set;
         }
+        public bool IgnoreEquip { get; set; }
         public Action? OnWait
         {
             get; set;
@@ -120,7 +121,7 @@ public class MeleeBashingTests
                         }
                     });
                     break;
-                case "equip" when Snapshot.Inventory.TryGetValue(c.Slot!.Value, out var weapon):
+                case "equip" when !IgnoreEquip && Snapshot.Inventory.TryGetValue(c.Slot!.Value, out var weapon):
                     Set(s => s with { Equipment = s.Equipment.SetItem(1, weapon.Name), Inventory = s.Inventory.Remove(c.Slot.Value) });
                     break;
                 case "loot":
@@ -349,18 +350,66 @@ public class MeleeBashingTests
         Assert.Contains("Mass Strike 11", Used(q));
     }
 
+    [Theory]
+    [InlineData("Peasant")]
+    [InlineData("Warrior")]
+    [InlineData("Rogue")]
+    [InlineData("Monk")]
+    [InlineData("Priest")]
+    [InlineData("Wizard")]
+    public async Task Bare_hands_keep_assailing_without_a_weapon_or_skills(string characterClass)
+    {
+        var q = new Scripted();
+        q.Set(s => s with { Class = characterClass, Equipment = s.Equipment.Remove(1), Inventory = [], Skills = [] });
+        q.Monster(100, new(5, 6));
+        var b = new DynamicMeleeBashing(q, new OpenMap(), new());
+        await Task.Delay(1050); // Basic assail retains its existing one-second startup interval.
+        for (int i = 0; i < 4; i++) Assert.True(await b.DoBashingAsync(default));
+        Assert.Contains(q.Commands, c => c.Kind == "assail");
+        Assert.DoesNotContain(q.Commands, c => c.Kind is "equip" or "use-skill");
+        Assert.False(q.Snapshot.Equipment.ContainsKey(1));
+    }
+
     [Fact]
-    public async Task With_no_usable_weapon_the_fight_stops_instead_of_retrying_forever()
+    public async Task No_usable_melee_weapon_in_the_bag_does_not_stop_bashing()
     {
         var q = new Scripted();
         q.Skills("Mass Strike 11");
         q.Set(s => s with { Equipment = s.Equipment.SetItem(1, "Staff of Clarity"), Inventory = s.Inventory.SetItem(30, new(30, "Two-Handed Gladius", 1)) });
         q.Monster(100, new(5, 6));
         var b = new DynamicMeleeBashing(q, new OpenMap(), new());
-        await b.DoBashingAsync(default);
-        var e = await Assert.ThrowsAsync<QuestBlockedException>(() => b.DoBashingAsync(default));
-        Assert.Contains("No usable melee weapon", e.Message);
+        await Task.Delay(1050);
+        await Ticks(b, 4);
+        Assert.Contains(q.Commands, c => c.Kind == "assail");
+        Assert.Contains("Mass Strike 11", Used(q));
         Assert.DoesNotContain(q.Commands, c => c.Kind == "equip");
+    }
+
+    [Fact]
+    public async Task An_owned_usable_weapon_is_still_equipped_when_starting_bare_handed()
+    {
+        var q = new Scripted();
+        q.Set(s => s with { Equipment = s.Equipment.Remove(1), Inventory = s.Inventory.SetItem(25, new(25, "Oak Stick", 1)) });
+        q.Monster(100, new(5, 6));
+        var b = new DynamicMeleeBashing(q, new OpenMap(), new());
+        await Task.Delay(1050);
+        await Ticks(b, 4);
+        Assert.Equal((byte?)25, Assert.Single(q.Commands, c => c.Kind == "equip").Slot);
+        Assert.Equal("Oak Stick", q.Snapshot.Equipment[1]);
+        Assert.Contains(q.Commands, c => c.Kind == "assail");
+    }
+
+    [Fact]
+    public async Task An_unconfirmed_weapon_equip_stops_without_resubmitting()
+    {
+        var q = new Scripted { IgnoreEquip = true };
+        q.Set(s => s with { Equipment = s.Equipment.Remove(1), Inventory = s.Inventory.SetItem(25, new(25, "Oak Stick", 1)) });
+        q.Monster(100, new(5, 6));
+        var b = new DynamicMeleeBashing(q, new OpenMap(), new());
+        await b.DoBashingAsync(default);
+        await Assert.ThrowsAsync<QuestBlockedException>(() => b.DoBashingAsync(default));
+        await Assert.ThrowsAsync<QuestBlockedException>(() => b.DoBashingAsync(default));
+        Assert.Single(q.Commands, c => c.Kind == "equip");
     }
 
     [Fact]

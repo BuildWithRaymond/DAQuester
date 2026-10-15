@@ -1,0 +1,61 @@
+{
+  "ServerProfile": "datester-7.41",
+  "Source": "Native daquester_state inspection of the player's paused Ase stage on October 13, 2026 (America/Chicago). No live choice was submitted.",
+  "Character": "ResearchPixel",
+  "Observed": {
+    "generation": 1834956046427141,
+    "revision": 5523,
+    "map": 195,
+    "position": {
+      "x": 7,
+      "y": 2
+    },
+    "gold": 967001,
+    "experience": 193264281,
+    "inventoryKnown": true,
+    "dialog": {
+      "generation": 1834956046427141,
+      "revision": 5503,
+      "entityId": 7464,
+      "entityType": 1,
+      "name": "Ase",
+      "text": "Hello.",
+      "isPursuit": true,
+      "pursuit": 1100,
+      "step": 48,
+      "type": 2,
+      "choices": [
+        {
+          "text": "Nice weather is it not?",
+          "pursuit": 1100,
+          "option": 1
+        },
+        {
+          "text": "Many warriors fighting lately?",
+          "pursuit": 1100,
+          "option": 2
+        },
+        {
+          "text": "Seen anything unusual lately?",
+          "pursuit": 1100,
+          "option": 3
+        }
+      ],
+      "prompt": null,
+      "hasNext": true,
+      "observedAt": "2026-10-14T04:07:24.4881742+00:00",
+      "items": []
+    }
+  },
+  "Comparison": {
+    "Evidence": "danaan-lancelot-variation.json observation 24",
+    "PageText": "Hello.",
+    "OriginalChoice": "Have you seen anything unusual lately?",
+    "ObservedAlternative": "Seen anything unusual lately?"
+  },
+  "Limits": [
+    "Only the opening menu is newly observed. Pixel's successor pages have not been selected or captured.",
+    "Option 3 and pursuit 1100 are retained observations, not stage selectors.",
+    "No reward, quest completion or fresh automatic journey is certified by this inspection."
+  ]
+}

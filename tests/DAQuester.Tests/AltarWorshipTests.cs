@@ -58,10 +58,11 @@ public class AltarWorshipTests
                 "inspect-self" => s with { Class = characterClass, LegendsKnown = true, LegendsRevision = s.Revision + 1, Legends = Reward is { } mark && Drops >= Goal ? [mark] : [] },
                 "visit" => s with { Map = ShopMap, Position = new(4, 6), Entities = s.Entities.SetItem(8691, new(8691, Torrance, new(3, 5), true)) },
                 "open" => s with { Dialog = new(s.Generation, s.Revision + 1, 8691, 1, Torrance, "Hello.  What can I do for you?", false, 0, 0, 0, [new(Buy, 0x40, 1), new("Sell", 0x41, 2)]) },
+                "interact" => s with { Map = ShopMap, Dialog = new(s.Generation, s.Revision + 1, 8691, 1, Torrance, "Hello.  What can I do for you?", false, 0, 0, 0, [new(Buy, 0x40, 1), new("Sell", 0x41, 2)]) },
                 "choose" when c.Text == Buy => s with { Dialog = new Dialog(s.Generation, s.Revision + 1, 8691, 1, Torrance, "Perhaps I can offer you something you are looking for?", false, 74, 0, 4, []) { Items = [new("Wooden Shield", 100), new(Shield, ShieldPrice)] } },
                 "buy" => s with { Gold = s.Gold - ShieldPrice, Inventory = s.Inventory.SetItem(14, new(14, Shield, 1)), Dialog = s.Dialog! with { Revision = s.Revision + 1 } },
                 "close" => s with { Dialog = null },
-                "navigate" => s with { Map = c.Map, Position = c.Target, Dialog = null },
+                "navigate" => s with { Map = c.Map, Position = c.Target ?? s.Position, Dialog = null },
                 "drop" when AltarTakes => Dropped(s, c.Slot!.Value),
                 _ => null
             };
@@ -136,7 +137,7 @@ public class AltarWorshipTests
         var recipe = new QuestDefinition(Id, 1, "Altar Worship", "synthetic", [], [new("preflight", "altar-preflight", "run"), new("run", "altar-run", null)], 0) { Repeatable = false };
         var runner = new QuestRunner(session, journal, recipe, new());
         await runner.RunAsync(singleAttempt: true, yieldScheduledWaits: true);
-        Assert.Equal("Scheduled", runner.Job.Status);
+        Assert.True(runner.Job.Status == "Scheduled", runner.Job.Reason);
         Assert.Equal("run", runner.Job.Step);
         Assert.Null(runner.Job.CompletedAt);
         Assert.Null(runner.Job.Pending);

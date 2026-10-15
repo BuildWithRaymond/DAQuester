@@ -155,7 +155,8 @@ public class RecoveryTests
         {
             Character = "Nuclear",
             Step = "gather",
-            Accepted = true
+            Accepted = true,
+            AcceptedGeneration = s.Snapshot.Generation
         });
         var def = new QuestDefinition("spare-a-stick", 1, "", "", ["navigate"], [new("gather", "gather", null)]);
         var r = new QuestRunner(s, j, def, Cal());

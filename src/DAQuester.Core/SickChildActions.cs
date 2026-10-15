@@ -450,14 +450,14 @@ public sealed class SickChildActions(PaulinFlower? flower = null) : IQuestAction
         }
 
         // The swamp can stun or blind for about 18 seconds; wait it out instead of failing the walk.
-        static async Task Travel(IGameSession s, int map, Tile tile, int tolerance, CancellationToken ct)
+        static async Task Travel(IGameSession s, int map, Tile tile, int tolerance, CancellationToken ct, string? npc = null)
         {
             for (int attempt = 0; ; attempt++)
             {
                 long before = s.Snapshot.Revision;
                 try
                 {
-                    await s.ExecuteAsync(new("navigate", map, tile, Tolerance: tolerance), ct);
+                    await s.ExecuteAsync(new("navigate", map, tile, Tolerance: tolerance, StopAtVisibleNpc: npc), ct);
                     return;
                 }
                 catch (QuestBlockedException) when (attempt < 4)
@@ -548,7 +548,7 @@ public sealed class SickChildActions(PaulinFlower? flower = null) : IQuestAction
                 throw new QuestBlockedException(Quester + " has no " + f.Item + " to give.");
             if (f.Cost > 0 && (s.Snapshot.Gold is not { } gold || gold < f.Cost))
                 throw new ResourceUnavailableException("Carry at least 5,000 gold; Paulin takes 5,000 for each flower.");
-            await Travel(s, PaulinMap, QuesterTile, 1, ct);
+            await Travel(s, PaulinMap, QuesterTile, 1, ct, Paulin);
             if (s.Snapshot.Dialog is { } open)
                 await s.ExecuteAsync(new("close", Dialog: open), ct);
             var npc = s.Snapshot.Entities.Values.SingleOrDefault(e => !e.IsPlayer && e.Name.Equals(Paulin, StringComparison.OrdinalIgnoreCase)) ?? throw new QuestBlockedException("Paulin is not visible.");

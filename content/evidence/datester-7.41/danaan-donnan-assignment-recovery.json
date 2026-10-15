@@ -1,0 +1,258 @@
+{
+  "SchemaVersion": 1,
+  "ServerProfile": "datester-7.41",
+  "Sanitized": true,
+  "Evidence": "Actual retained Agent Donnan root/Next/referral receipts and later paused requery. Character normalized to ReplayAgent; original/requery generations normalized to 1/2. Revisions and exact pages/actions retained; unrelated own state omitted. No completion or Kyros handoff inferred.",
+  "Checkpoint": {
+    "Quest": "cap-band-of-danaan",
+    "Version": 1,
+    "Step": "run",
+    "Status": "Paused",
+    "Reason": "The submitted Donnan page has no matching later receipt. Inspect it; never repeat its choice or handoff.",
+    "DanaanOptions": {
+      "Avatar": "cail",
+      "SuppliedMoldRiteAccepted": true
+    },
+    "Character": "ReplayAgent",
+    "Pending": {
+      "Kind": "observed-page:donnan-next-task",
+      "Revision": 137,
+      "Gold": 44800235,
+      "Branches": 0,
+      "Experience": 18248523,
+      "Started": "2026-10-14T23:56:40.7128931+00:00",
+      "EntityId": 6516,
+      "EntityType": 1,
+      "InventoryBaselineKnown": true,
+      "Generation": 2
+    },
+    "Route": {
+      "Task": 26,
+      "Page": 0,
+      "BoundEntity": 6516,
+      "BoundGeneration": 2,
+      "Baseline": {
+        "Kind": "observed-stage",
+        "Revision": 138,
+        "Gold": 44800235,
+        "Branches": 0,
+        "Experience": 18248523,
+        "Started": "2026-10-14T23:56:40.68648+00:00",
+        "InventoryBaselineKnown": true,
+        "Generation": 2
+      },
+      "SubmittedPage": {
+        "Generation": 2,
+        "Revision": 138,
+        "EntityId": 6516,
+        "EntityType": 1,
+        "Name": "Donnan",
+        "Text": "Hello.  What can I do for you?",
+        "IsPursuit": false,
+        "Pursuit": 0,
+        "Step": 0,
+        "Type": 0,
+        "Choices": [
+          {
+            "Text": "Monk",
+            "Pursuit": 1188,
+            "Option": 1
+          },
+          {
+            "Text": "Guide",
+            "Pursuit": 1189,
+            "Option": 2
+          },
+          {
+            "Text": "Are you the son I seek?",
+            "Pursuit": 2134,
+            "Option": 3
+          }
+        ],
+        "Prompt": null,
+        "HasNext": false,
+        "ObservedAt": "2026-10-14T23:56:40.6820647+00:00",
+        "Items": []
+      },
+      "LastReply": {
+        "Generation": 2,
+        "Revision": 139,
+        "EntityId": 6516,
+        "EntityType": 1,
+        "Name": "Donnan",
+        "Text": "You have not finished your task",
+        "IsPursuit": true,
+        "Pursuit": 1110,
+        "Step": 5,
+        "Type": 0,
+        "Choices": [],
+        "Prompt": null,
+        "HasNext": false,
+        "ObservedAt": "2026-10-14T23:56:41.1718793+00:00",
+        "Items": []
+      }
+    }
+  },
+  "Snapshots": [
+    {
+      "Name": "ReplayAgent",
+      "Connected": true,
+      "Generation": 1,
+      "Revision": 2575,
+      "Map": 348,
+      "Dialog": {
+        "Generation": 1,
+        "Revision": 2575,
+        "EntityId": 6516,
+        "EntityType": 1,
+        "Name": "Donnan",
+        "Text": "Hello.  What can I do for you?",
+        "IsPursuit": false,
+        "Pursuit": 0,
+        "Step": 0,
+        "Type": 0,
+        "Choices": [
+          {
+            "Text": "Monk",
+            "Pursuit": 1188,
+            "Option": 1
+          },
+          {
+            "Text": "Guide",
+            "Pursuit": 1189,
+            "Option": 2
+          },
+          {
+            "Text": "Are you the son I seek?",
+            "Pursuit": 2134,
+            "Option": 3
+          }
+        ],
+        "Prompt": null,
+        "HasNext": false,
+        "ObservedAt": "2026-10-14T22:59:50.4949305+00:00",
+        "Items": []
+      }
+    },
+    {
+      "Name": "ReplayAgent",
+      "Connected": true,
+      "Generation": 1,
+      "Revision": 2576,
+      "Map": 348,
+      "Dialog": {
+        "Generation": 1,
+        "Revision": 2576,
+        "EntityId": 6516,
+        "EntityType": 1,
+        "Name": "Donnan",
+        "Text": "You have completed it. Good! So, for the final task...",
+        "IsPursuit": true,
+        "Pursuit": 1110,
+        "Step": 46,
+        "Type": 0,
+        "Choices": [],
+        "Prompt": null,
+        "HasNext": true,
+        "ObservedAt": "2026-10-14T22:59:50.9968201+00:00",
+        "Items": []
+      }
+    },
+    {
+      "Name": "ReplayAgent",
+      "Connected": true,
+      "Generation": 1,
+      "Revision": 2577,
+      "Map": 348,
+      "Dialog": {
+        "Generation": 1,
+        "Revision": 2577,
+        "EntityId": 6516,
+        "EntityType": 1,
+        "Name": "Donnan",
+        "Text": "A meditative master of colorful martial arts trained too much for his equipment's good.",
+        "IsPursuit": true,
+        "Pursuit": 1110,
+        "Step": 65,
+        "Type": 0,
+        "Choices": [],
+        "Prompt": null,
+        "HasNext": true,
+        "ObservedAt": "2026-10-14T22:59:51.4945573+00:00",
+        "Items": []
+      }
+    }
+  ],
+  "Actions": [
+    {
+      "Time": "2026-10-14T22:59:50.5190664+00:00",
+      "Character": "ReplayAgent",
+      "Generation": 1,
+      "Revision": 2575,
+      "Kind": "choose",
+      "Selection": "Are you the son I seek?",
+      "Dialog": {
+        "Generation": 1,
+        "Revision": 2575,
+        "EntityId": 6516,
+        "EntityType": 1,
+        "Name": "Donnan",
+        "Text": "Hello.  What can I do for you?",
+        "IsPursuit": false,
+        "Pursuit": 0,
+        "Step": 0,
+        "Type": 0,
+        "Choices": [
+          {
+            "Text": "Monk",
+            "Pursuit": 1188,
+            "Option": 1
+          },
+          {
+            "Text": "Guide",
+            "Pursuit": 1189,
+            "Option": 2
+          },
+          {
+            "Text": "Are you the son I seek?",
+            "Pursuit": 2134,
+            "Option": 3
+          }
+        ],
+        "Prompt": null,
+        "HasNext": false,
+        "ObservedAt": "2026-10-14T22:59:50.4949305+00:00",
+        "Items": []
+      },
+      "Branches": 0,
+      "Experience": 18248523
+    },
+    {
+      "Time": "2026-10-14T22:59:51.0310835+00:00",
+      "Character": "ReplayAgent",
+      "Generation": 1,
+      "Revision": 2576,
+      "Kind": "next",
+      "Selection": null,
+      "Dialog": {
+        "Generation": 1,
+        "Revision": 2576,
+        "EntityId": 6516,
+        "EntityType": 1,
+        "Name": "Donnan",
+        "Text": "You have completed it. Good! So, for the final task...",
+        "IsPursuit": true,
+        "Pursuit": 1110,
+        "Step": 46,
+        "Type": 0,
+        "Choices": [],
+        "Prompt": null,
+        "HasNext": true,
+        "ObservedAt": "2026-10-14T22:59:50.9968201+00:00",
+        "Items": []
+      },
+      "Branches": 0,
+      "Experience": 18248523
+    }
+  ]
+}

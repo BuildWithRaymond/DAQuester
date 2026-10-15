@@ -741,7 +741,7 @@ public class RunnerTests
     [Theory]
     [InlineData(1)]
     [InlineData(6)]
-    public async Task Fresh_attempt_accepts_at_Callough_before_using_carried_branches(int branches)
+    public async Task Fresh_attempt_accepts_at_Callough_before_gathering_missing_branches_and_turn_in(int branches)
     {
         var session = new SimulatedSession();
         session.Set(session.Snapshot with
@@ -794,7 +794,7 @@ public class RunnerTests
         int accepted = session.Commands.FindIndex(c => c.Kind == "choose" && c.Text == "I'll gather them now");
         Assert.True(accepted >= 0);
         int gathered = session.Commands.FindIndex(c => c.Kind == "navigate");
-        Assert.True(gathered < 0 || accepted < gathered);
+        Assert.True(branches >= 6 ? gathered < 0 : gathered > accepted);
     }
 
     [Fact]

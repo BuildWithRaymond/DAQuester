@@ -171,7 +171,7 @@ public class NpcTransferTests
     [InlineData(true)]
     public async Task Carpet_uses_fresh_service_destination_fare_and_Next_then_replans_actual_landing(bool merchant)
     {
-        await using var f = await Create();
+        await using var f = await Create(origin: new(44, 30));
         int phase = 0;
         await Run(f, async packet =>
         {

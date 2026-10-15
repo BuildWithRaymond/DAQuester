@@ -61,7 +61,7 @@ public sealed partial class GameSession
         string npc = command.Text ?? throw new QuestBlockedException("NPC name missing.");
         // Public counter approaches need not be close to the NPC's drawn tile.
         if (command.Target is { } approach)
-            await Navigate(map, approach, ct, tolerance: command.Tolerance);
+            await Navigate(map, approach, ct, tolerance: command.Tolerance, visibleNpc: npc);
         else
             await Visit(map, npc, ct);
         if (Snapshot.Map != map)
@@ -130,9 +130,11 @@ public sealed partial class GameSession
 
     async Task OpenNpc(string name, CancellationToken ct)
     {
+        if (!NpcPositionStable(Snapshot)) await DepartNpcLanding(ct);
         var before = Snapshot;
-        var npc = before.Entities.Values.SingleOrDefault(e => !e.IsPlayer && e.Name.Equals(name, StringComparison.OrdinalIgnoreCase))
-            ?? throw new QuestBlockedException("NPC not visible: " + name);
+        var npc = before.Map is { } map ? NpcVisibility.Find(before, map, name) : null;
+        if (npc is null)
+            throw new QuestBlockedException("NPC not visible: " + name);
         await Send(new ClientRequestObjectInfoMessage { InteractionType = InteractionType.Entity, TargetId = npc.Id }, ct);
         await WaitAsync(s => s.Map == before.Map && s.Dialog is { } dialog && dialog.EntityId == npc.Id
             && dialog.Revision > before.Revision, before.Revision, TimeSpan.FromSeconds(5), ct);

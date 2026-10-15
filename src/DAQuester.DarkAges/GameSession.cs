@@ -51,20 +51,22 @@ public sealed partial class GameSession : IGameSession
         connection = c;
         this.maps = maps;
         this.cadence = cadence;
+        npcObservedMap = c.Tracker.Snapshot.Map;
         history.Record(c.Tracker.Snapshot);
         if (ObservedMap is { } initialMap)
             maps.RecordVisited(initialMap);
-        townWeaponRemovalRequired = IsWeaponNotice(c.Tracker.Snapshot);
+        townWeaponRemovalRequired = IsWeaponNotice(c.Tracker.Snapshot) || IsWeaponStatus(c.Tracker.Snapshot);
         c.Tracker.Changed += s =>
         {
             ObserveEntryRefusal(s);
+            ObserveNpcLanding(s);
             if (ObservedMap is { } visitedMap)
                 maps.RecordVisited(visitedMap);
             // The entry map packet can clear this popup before the walker sees it.
             // Keep the restriction until authoritative equipment confirms removal.
             if (!s.Connected)
                 townWeaponRemovalRequired = false;
-            else if (IsWeaponNotice(s))
+            else if (IsWeaponNotice(s) || IsWeaponStatus(s))
                 townWeaponRemovalRequired = true;
             history.Record(s);
             PulseMovement();
@@ -133,7 +135,7 @@ public sealed partial class GameSession : IGameSession
             cancellation.ThrowIfCancellationRequested();
             ValidateCommandState(command);
             // A fight step out of sight of other players joins the fast walker's pipeline instead of draining it.
-            bool entryReconciliation = entryBlock is not null && command.Kind is "unequip" or "equip" or "inspect-self";
+            bool entryReconciliation = (entryBlock is not null || townWeaponRemovalRequired || pendingEquipmentRemoval is not null) && command.Kind is "unequip" or "equip" or "inspect-self";
             if (entryReconciliation) connection.CancelMovement();
             if (!entryReconciliation && (command.Kind != "pathfind" || !FastFightStep(Snapshot)))
                 await SettleMovement(cancellation);
@@ -174,7 +176,7 @@ public sealed partial class GameSession : IGameSession
                     await WalkTo(destination, cancellation);
                     break;
                 case "navigate":
-                    await Navigate(command.Map ?? throw new InvalidOperationException("Map missing"), command.Target ?? throw new InvalidOperationException("Tile missing"), cancellation, command.StopWhen, popupGuard: command.PreservePopup ? TravelPopupVisible : null, tolerance: command.Tolerance);
+                    await Navigate(command.Map ?? throw new InvalidOperationException("Map missing"), command.Target, cancellation, command.StopWhen, popupGuard: command.PreservePopup ? TravelPopupVisible : null, tolerance: command.Tolerance, visibleNpc: command.StopAtVisibleNpc);
                     break;
                 case "collect-ground":
                     await CollectGround(command, cancellation);
@@ -194,15 +196,17 @@ public sealed partial class GameSession : IGameSession
                 case "input":
                     var d = command.Dialog ?? Snapshot.Dialog ?? throw new QuestBlockedException("No dialog.");
                     var revision = Snapshot.Revision;
+                    var dialogMap = Snapshot.Map;
                     if (command.ReadNext)
                         submittedDiscoveryRevision = d.Revision;
                     if (command.Kind == "input")
                         await SendDialogInput(d, command.Text ?? "", cancellation);
                     else
                         await connection.SendAsync(Protocol.DialogPackets.Continue(Snapshot, d), Snapshot.Generation, cancellation);
-                    var dialogMap = Snapshot.Map;
-                    await WaitAsync(x => command.ReadNext && (x.Map != dialogMap || x.Dialog is { } changed && changed.EntityId != d.EntityId)
-                        || x.Map == dialogMap && (command.Kind == "next" && x.Dialog is null || x.Dialog is { } next && next.EntityId == d.EntityId && next.Revision > revision), revision, TimeSpan.FromSeconds(5), cancellation);
+                    await WaitAsync(x => (command.Kind == "next" || command.ReadNext) && x.Map != dialogMap ||
+                        command.ReadNext && x.Dialog is { } changed && changed.EntityId != d.EntityId ||
+                        x.Map == dialogMap && (command.Kind == "next" && x.Dialog is null || x.Dialog is { } next && next.EntityId == d.EntityId && next.Revision > revision),
+                        revision, command.ReplyTimeout ?? TimeSpan.FromSeconds(5), cancellation);
                     break;
                 case "prepare-deposit":
                     await PrepareDeposit(cancellation);
@@ -451,9 +455,10 @@ public sealed partial class GameSession : IGameSession
     async Task Visit(int map, string name, CancellationToken ct, Tile? anchor = null)
     {
         bool faerie = map == ShinewoodFaerieEvidence.Map && name.Equals("Faerie", StringComparison.OrdinalIgnoreCase) && anchor == ShinewoodFaerieEvidence.Anchor;
-        await Navigate(map, faerie ? ShinewoodFaerieEvidence.Approach : anchor, ct, popupGuard: faerie ? TravelPopupVisible : null);
+        await Navigate(map, faerie ? ShinewoodFaerieEvidence.Approach : anchor, ct, popupGuard: faerie ? TravelPopupVisible : null, visibleNpc: faerie ? null : name);
+        if (!faerie && VisibleNpc(map, name)) return;
         var before = Snapshot;
-        bool Matches(Entity e) => faerie ? ShinewoodFaerieEvidence.FaerieEntity(e) : e.Name.Equals(name, StringComparison.OrdinalIgnoreCase) && (anchor is null || Math.Abs(e.Position.X - anchor.X) + Math.Abs(e.Position.Y - anchor.Y) <= 4);
+        bool Matches(Entity e) => faerie ? ShinewoodFaerieEvidence.FaerieEntity(e) : !e.IsPlayer && e.Name.Equals(name, StringComparison.OrdinalIgnoreCase) && (anchor is null || Math.Abs(e.Position.X - anchor.X) + Math.Abs(e.Position.Y - anchor.Y) <= 4);
         // The live Faerie is a map reactor, without a drawn creature. Her documented
         // greeting tile is sufficient for speech; the reply supplies its real ID.
         if (faerie && !before.Entities.Values.Any(Matches))
@@ -475,11 +480,13 @@ public sealed partial class GameSession : IGameSession
         var blocked = before.Entities.Values.Where(e => e.Blocks).Select(e => e.Position).ToHashSet();
         blocked.UnionWith(maps.Record(map).ExitTiles);
         var goal = NpcApproach.Find(maps.Load(map), before.Position, npc.Position, blocked);
-        await WalkTo(goal, ct, map, replanWhen: faerie ? TravelPopupVisible : null);
+        await WalkTo(goal, ct, map, replanWhen: () => faerie ? TravelPopupVisible() : VisibleNpc(map, name));
         if (faerie)
             PreserveTravelPopup();
         if (Snapshot.Map != map)
             throw new QuestBlockedException("Server moved character away during NPC approach; inspect doorway pushback.");
+        if (!faerie && !VisibleNpc(map, name))
+            throw new QuestBlockedException("NPC not visible after approach: " + name);
     }
 
     bool GoalReached(InventoryGoal? goal) => goal is not null && Snapshot.InventoryKnown && Snapshot.Count(goal.Item) >= goal.Count;
@@ -489,21 +496,36 @@ public sealed partial class GameSession : IGameSession
         // Excalibur's acknowledged walker blocks new movement until authoritative
         // position reanchors recovery. A fixed sleep can race a delayed refresh.
         var before = Snapshot;
-        await connection.SendAsync(new ClientPacket((byte)ClientCommand.RefreshUser, []), before.Generation, ct);
-        try
+        bool Refreshed(CharacterSnapshot s) => s.Revision > before.Revision &&
+            (connection.Tracker.WorldMap is not null || s.Position is not null &&
+                (s.Map != before.Map || connection.Tracker.LastPositionRevision > before.Revision && s.Revision >= connection.Tracker.LastPositionRevision));
+        while (true)
         {
-            return await WaitAsync(s => connection.Tracker.WorldMap is not null || s.Position is not null && (s.Map != before.Map || connection.Tracker.LastPositionRevision > before.Revision && s.Revision >= connection.Tracker.LastPositionRevision), before.Revision, TimeSpan.FromSeconds(5), ct);
-        }
-        catch (TimeoutException)
-        {
-            throw new QuestBlockedException("Server position refresh unanswered. Resume when connection recovers.");
+            ct.ThrowIfCancellationRequested();
+            var current = Snapshot;
+            if (!current.Connected || current.Generation != before.Generation)
+                throw new IOException("Session disconnected or replaced.");
+            // A delayed reply to an earlier F5 still proves the refresh. Keep
+            // the original baseline instead of discarding that late receipt.
+            if (Refreshed(current))
+                return current;
+            await connection.SendAsync(new ClientPacket((byte)ClientCommand.RefreshUser, []), before.Generation, ct);
+            try
+            {
+                return await WaitAsync(Refreshed, before.Revision, TimeSpan.FromSeconds(5), ct);
+            }
+            catch (TimeoutException)
+            {
+                connection.Report((before.Name ?? "Walker") + ": server position refresh delayed; retrying F5 while movement waits for authoritative position.");
+            }
         }
     }
 
     // tolerance>0: a blocked or occupied target is replaced by the nearest free reachable tile within that many tiles.
-    async Task Navigate(int destination, Tile? target, CancellationToken ct, InventoryGoal? stopWhen = null, bool preservePopup = false, Func<bool>? popupGuard = null, int tolerance = 0)
+    async Task Navigate(int destination, Tile? target, CancellationToken ct, InventoryGoal? stopWhen = null, bool preservePopup = false, Func<bool>? popupGuard = null, int tolerance = 0, string? visibleNpc = null)
     {
-        bool PopupVisible() => preservePopup && CollectionPopupVisible() || popupGuard?.Invoke() == true;
+        bool NpcReached() => visibleNpc is not null && VisibleNpc(destination, visibleNpc);
+        bool PopupVisible() => preservePopup && CollectionPopupVisible() || popupGuard?.Invoke() == true || NpcReached();
         void PreservePopup()
         {
             if (preservePopup)
@@ -522,6 +544,8 @@ public sealed partial class GameSession : IGameSession
         if (Snapshot.Map is null || Snapshot.Position is null)
             throw new QuestBlockedException("Waiting for server map and position.");
         Tile? worldEntrance = null;
+        bool findingWorldRoute = false;
+        var visitedWorldHubs = new HashSet<int>();
         while (true)
         {
             ct.ThrowIfCancellationRequested();
@@ -529,6 +553,9 @@ public sealed partial class GameSession : IGameSession
                 return;
             await DismissTravelNotice(ct);
             PreservePopup();
+            if ((visibleNpc is not null || target is null) && Snapshot.Map == destination && !NpcPositionStable(Snapshot))
+                await DepartNpcLanding(ct);
+            if (NpcReached()) return;
             var world = connection.Tracker.WorldMap;
             if (world is not null)
             {
@@ -536,17 +563,18 @@ public sealed partial class GameSession : IGameSession
                 Arbiter.Net.Server.Types.ServerWorldMapNode node;
                 try
                 {
-                    node = maps.WorldDestination(destination, world.Locations, observed.Map!.Value, worldEntrance ?? observed.Position!, target, ct);
+                    node = maps.WorldDestination(destination, world.Locations.Where(n => !findingWorldRoute || !visitedWorldHubs.Contains(n.MapId)), observed.Map!.Value, worldEntrance ?? observed.Position!, target, ct);
                 }
                 // With a tolerance the exact tile may be a prop; reach the map and substitute on arrival.
                 catch (QuestBlockedException) when (tolerance > 0 && target is not null)
                 {
-                    node = maps.WorldDestination(destination, world.Locations, observed.Map!.Value, worldEntrance ?? observed.Position!, null, ct);
+                    node = maps.WorldDestination(destination, world.Locations.Where(n => !findingWorldRoute || !visitedWorldHubs.Contains(n.MapId)), observed.Map!.Value, worldEntrance ?? observed.Position!, null, ct);
                 }
 
                 var old = Snapshot;
                 await Send(new ClientFieldMapMessage { MapId = node.MapId, X = node.MapX, Y = node.MapY, Checksum = node.Checksum }, ct);
                 await WaitAsync(x => x.Map == node.MapId && x.Position is not null && connection.Tracker.WorldMap is null, old.Revision, TimeSpan.FromSeconds(5), ct);
+                visitedWorldHubs.Add(node.MapId);
                 worldEntrance = null;
                 continue;
             }
@@ -573,21 +601,26 @@ public sealed partial class GameSession : IGameSession
             TravelPlan? plan = null;
             try
             {
-                plan = maps.Plan(from, entry.Position, destination, goal, obstacles, ct);
+                try
+                {
+                    plan = maps.Plan(from, entry.Position, destination, goal, obstacles, ct);
+                }
+                catch (InvalidOperationException) when (obstacles.Count > 0 || tolerance > 0 && from != destination)
+                {
+                    if (obstacles.Count > 0)
+                    {
+                        try { plan = maps.Plan(from, entry.Position, destination, goal, ct: ct); }
+                        catch (InvalidOperationException) when (tolerance > 0 && from != destination) { }
+                    }
+                    // Reach the map first; the substitute tile is chosen once there.
+                    plan ??= maps.Plan(from, entry.Position, destination, null, ct: ct);
+                }
             }
-            catch (InvalidOperationException) when (obstacles.Count > 0 || tolerance > 0 && from != destination)
+            catch (InvalidOperationException) when (from != destination)
             {
-                if (obstacles.Count > 0)
-                    try
-                    {
-                        plan = maps.Plan(from, entry.Position, destination, goal, ct: ct);
-                    }
-                    catch (InvalidOperationException) when (tolerance > 0 && from != destination)
-                    {
-                    }
-
-                // Reach the map first; the substitute tile is chosen once there.
-                plan ??= maps.Plan(from, entry.Position, destination, null, ct: ct);
+                plan = maps.PlanToWorldMap(from, entry.Position, obstacles, ct);
+                findingWorldRoute = true;
+                connection.Report((entry.Name ?? "Walker") + ": taking a recorded route to a world-map hub to resolve the onward path.");
             }
 
             if (Snapshot.Map != from || Snapshot.Position != entry.Position || !ReferenceEquals(Snapshot.Entities, entry.Entities))
@@ -608,7 +641,7 @@ public sealed partial class GameSession : IGameSession
             }
             if (step is null)
             {
-                await WalkTo(goal!, ct, destination, stopWhen, replanWhen: preservePopup || popupGuard is not null ? PopupVisible : null);
+                await WalkTo(goal!, ct, destination, stopWhen, replanWhen: preservePopup || popupGuard is not null || visibleNpc is not null ? PopupVisible : null);
                 PreservePopup();
                 return;
             }
@@ -652,10 +685,20 @@ public sealed partial class GameSession : IGameSession
     }
 
     static bool IsTownNotice(Dialog? d) => d is { IsPursuit: true, EntityType: 4, Type: 0, Prompt: null } && d.Choices.Length == 0 && d.Text.StartsWith("((You are entering a role-playing", StringComparison.Ordinal);
-    static bool IsWeaponNotice(CharacterSnapshot s) => s.Map is 504 or 3008 && s.Dialog is { IsPursuit: true, EntityType: 1 or 4, Type: 0, Prompt: null } d && d.Choices.Length == 0 && d.Text.StartsWith("You can't bring weapons here!", StringComparison.Ordinal);
+    static bool IsWeaponNotice(CharacterSnapshot s) => s.Map is 504 or 3008 && s.Dialog is { IsPursuit: true, EntityType: 1 or 4, Type: 0, Prompt: null } d && d.Generation == s.Generation && d.Choices.Length == 0 && d.Text.StartsWith("You can't bring weapons here!", StringComparison.Ordinal);
+    static bool IsWeaponStatus(CharacterSnapshot s) => s.Map is 504 or 3008 && s.ActiveStatus is { Type: 3 } notice &&
+        notice.Generation == s.Generation && notice.Revision == s.Revision && notice.Text.StartsWith("You can't bring weapons here!", StringComparison.Ordinal);
     bool IsTravelNotice(CharacterSnapshot s) => IsTownNotice(s.Dialog) || IsWeaponNotice(s) || townWeaponRemovalRequired || entryBlock is not null;
     async Task RemoveTownWeapon(CancellationToken ct)
     {
+        if (pendingEquipmentRemoval is { } pending)
+        {
+            if (!RemovalReceived(Snapshot, pending))
+                throw new QuestBlockedException("Town weapon removal is pending. Reconcile equipment and its bag receipt; no removal repeated.");
+            pendingEquipmentRemoval = null;
+            townWeaponRemovalRequired = false;
+            return;
+        }
         var equipment = Snapshot;
         if (equipment.Equipment.ContainsKey((byte)EquipmentSlot.Weapon))
         {
@@ -663,15 +706,7 @@ public sealed partial class GameSession : IGameSession
                 throw new QuestBlockedException("Waiting for inventory before removing weapon. Resume when inventory is known.");
             if (equipment.Inventory.Count >= 59)
                 throw new QuestBlockedException("Free an inventory slot for the weapon, then resume travel.");
-            await Send(new ClientRemoveEquipmentMessage { Slot = EquipmentSlot.Weapon }, ct);
-            try
-            {
-                await WaitAsync(s => !s.Equipment.ContainsKey((byte)EquipmentSlot.Weapon), equipment.Revision, TimeSpan.FromSeconds(5), ct);
-            }
-            catch (TimeoutException)
-            {
-                throw new QuestBlockedException("Weapon removal was not confirmed. Check equipment and resume travel.");
-            }
+            await UnequipObserved(new("unequip", Slot: (byte)EquipmentSlot.Weapon, Text: equipment.Equipment[(byte)EquipmentSlot.Weapon]), ct);
         }
 
         townWeaponRemovalRequired = false;

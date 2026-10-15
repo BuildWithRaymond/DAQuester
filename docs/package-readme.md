@@ -8,12 +8,16 @@ See RELEASE_NOTES.md beside this file for changes in this version.
 1. Open DAQuester.exe. Keep all files in the portable folder together; the .NET
    runtime is included.
 2. In Settings, select your supported DATester 7.41 Darkages.exe, then save.
+   DAWindower X is included and loads automatically for clients opened with
+   DAQuester. Keep `DAWindowerX.dll` beside the application executable.
    Restart DAQuester after changing the client path. The game is not included.
 3. In Characters, add your character names and optional passwords, then choose
    Save accounts. Saved passwords are encrypted by Windows. Without a password,
    you can sign in manually.
 4. Use Launch beside the character. Only clients launched through DAQuester
    connect to it; already-open game clients are not attached.
+   X's + button opens another blank login through DAQuester. Sign in manually;
+   the new client is tracked by DAQuester and can run quests after connecting.
 5. Choose the character in the planner. Check eligible quests, arrange their order,
    and choose Run queue with the play icon. Some quests ask for choices first.
 

@@ -30,6 +30,22 @@ public class DashboardTests
     }
 
     [Fact]
+    public async Task Recent_outcomes_keep_all_history_rows_for_scrolling()
+    {
+        var runtime = Workspace();
+        try
+        {
+            var vm = new MainWindowViewModel(runtime);
+            vm.History.Clear();
+            for (int index = 0; index < 12; index++)
+                vm.History.Add(new("Elara", "Quest " + index, "Completed", DateTimeOffset.UnixEpoch.AddMinutes(index), "Verified outcome", runtime));
+            Assert.Equal(12, vm.DashboardActivity.Count);
+            Assert.Equal("Quest 11", vm.DashboardActivity[11].Quest);
+        }
+        finally { await runtime.ShutdownAsync(); }
+    }
+
+    [Fact]
     public async Task Application_opens_on_character_dashboard()
     {
         var runtime = Workspace();

@@ -13,6 +13,18 @@ public partial class MapRepository
     const int MaxCachedCells = 4 * 1024 * 1024; // At most 16 MiB of distance arrays per character.
     readonly Dictionary<(int Destination, bool NpcTransfers), HashSet<int>> destinationReachability = [];
     readonly record struct RouteNode(int Map, Tile Position, bool Goal = false);
+    HashSet<int> MapsReachingWorldMap(bool includeNpcTransfers)
+    {
+        var reverse = records.Values.SelectMany(r => (includeNpcTransfers ? r.Connections : r.Portals)
+            .Select(p => (To: p.Map, From: r.Id))).ToLookup(p => p.To, p => p.From);
+        var result = records.Values.Where(r => r.Portals.Any(p => p.WorldMap)).Select(r => r.Id).ToHashSet();
+        var pending = new Queue<int>(result);
+        while (pending.TryDequeue(out int map))
+            foreach (int parent in reverse[map])
+                if (result.Add(parent))
+                    pending.Enqueue(parent);
+        return result;
+    }
     HashSet<int> MapsReaching(int destination, bool includeNpcTransfers = true)
     {
         var key = (destination, includeNpcTransfers);
@@ -93,9 +105,21 @@ public partial class MapRepository
         return PlanRecorded(from, origin, destination, target, obstacles, ct, true);
     }
 
-    TravelPlan PlanRecorded(int from, Tile origin, int destination, Tile? target, ISet<Tile>? obstacles, CancellationToken ct, bool includeNpcTransfers)
+    public TravelPlan PlanToWorldMap(int from, Tile origin, ISet<Tile>? obstacles = null, CancellationToken ct = default)
     {
-        var reachable = MapsReaching(destination, includeNpcTransfers);
+        try
+        {
+            return PlanRecorded(from, origin, -1, null, obstacles, ct, false, true);
+        }
+        catch (InvalidOperationException) when (records.Values.Any(r => r.NpcTransfers.Length > 0))
+        {
+            return PlanRecorded(from, origin, -1, null, obstacles, ct, true, true);
+        }
+    }
+
+    TravelPlan PlanRecorded(int from, Tile origin, int destination, Tile? target, ISet<Tile>? obstacles, CancellationToken ct, bool includeNpcTransfers, bool stopAtWorldMap = false)
+    {
+        var reachable = stopAtWorldMap ? MapsReachingWorldMap(includeNpcTransfers) : MapsReaching(destination, includeNpcTransfers);
         var start = new RouteNode(from, origin);
         var costs = new Dictionary<RouteNode, (int Actions, int Changes)>
         {
@@ -154,12 +178,13 @@ public partial class MapRepository
 
             if (node.Map == destination && target is not null && Distance(r, field, target) is >= 0 and var tail)
                 Offer(new(destination, target, true), node, null, (cost.Actions + tail, cost.Changes));
-            foreach (var p in r.Portals.Where(p => reachable.Contains(p.Map) && (node.Map != destination || p.Map == destination)))
+            foreach (var p in r.Portals.Where(p => stopAtWorldMap && p.WorldMap || reachable.Contains(p.Map) && (node.Map != destination || p.Map == destination)))
             {
                 int walk = TriggerDistance(r, field, node.Position, p.From, blocks);
                 if (walk < 0)
                     continue;
-                Offer(new(p.Map, p.To), node, new(node.Map, p.From, p.Map, p.To, p.WorldMap), (cost.Actions + walk + (p.WorldMap ? 1 : 0), cost.Changes + 1));
+                var arrival = stopAtWorldMap && p.WorldMap ? new RouteNode(node.Map, p.From, true) : new(p.Map, p.To);
+                Offer(arrival, node, new(node.Map, p.From, p.Map, p.To, p.WorldMap), (cost.Actions + walk + (p.WorldMap ? 1 : 0), cost.Changes + 1));
             }
 
             foreach (var t in r.InternalTransfers)
@@ -187,7 +212,8 @@ public partial class MapRepository
         }
 
         string unavailable = unavailableCollision.Count == 0 ? "" : " Collision data could not be loaded for: " + string.Join(", ", unavailableCollision.Order().Select(MapLabel)) + ".";
-        throw new InvalidOperationException("No walkable recorded route from " + from + " to " + destination + ". Check map data or blocked exits." + unavailable);
+        string goal = stopAtWorldMap ? "a known world-map entrance" : destination.ToString(System.Globalization.CultureInfo.InvariantCulture);
+        throw new InvalidOperationException("No walkable recorded route from " + from + " to " + goal + ". Check map data or blocked exits." + unavailable);
     }
 
     public ServerWorldMapNode WorldDestination(int destination, IEnumerable<ServerWorldMapNode> available, int sourceMap, Tile entrance, Tile? target = null, CancellationToken ct = default)
@@ -214,6 +240,16 @@ public partial class MapRepository
         var best = candidates.OrderBy(c => c.Cost).ThenBy(c => c.Changes).ThenBy(c => c.Node.MapId).Select(c => c.Node).FirstOrDefault();
         if (best is not null)
             return best;
+        // The live field may offer hubs absent from this entrance's saved list.
+        // Select only an actually offered identity with recorded onward paths;
+        // its landing is reconciled from server position after selection.
+        var additional = nodes.Where(n => !exits.Any(e => e.Map == n.MapId)).ToArray();
+        if (additional.Length > 0)
+            try
+            {
+                return WorldDestination(destination, additional);
+            }
+            catch (QuestBlockedException) { }
         if (exits.Any(e => nodes.Any(n => n.MapId == e.Map)))
             throw new QuestBlockedException("World-map destination has no walkable recorded route. Check map data or blocked exits.");
         return WorldDestination(destination, nodes); // Already-open field without a recorded entrance/landing.

@@ -59,6 +59,7 @@ public sealed partial class GameSession
         var entry = Snapshot;
         if (entry.Map != 503 || !plan.Steps.Any(s => s.Map is 502 or 3014))
             return false;
+        if (!NpcPositionStable(entry)) await DepartNpcLanding(ct);
         HashSet<Tile> Obstacles(CharacterSnapshot s)
         {
             var r = maps.Record(503);
@@ -67,17 +68,19 @@ public sealed partial class GameSession
 
         Entity? Npc(CharacterSnapshot s) => s.Entities.Values.SingleOrDefault(e => !e.IsPlayer && e.Name.Equals("Keane", StringComparison.OrdinalIgnoreCase));
         var npc = Npc(entry);
-        Tile approach;
-        try
+        if (!VisibleNpc(503, "Keane"))
         {
-            approach = NpcApproach.Find(maps.Load(503), entry.Position!, npc?.Position ?? new(40, 59), Obstacles(entry));
+            Tile approach;
+            try
+            {
+                approach = NpcApproach.Find(maps.Load(503), Snapshot.Position!, npc?.Position ?? new(40, 59), Obstacles(Snapshot));
+            }
+            catch (QuestBlockedException)
+            {
+                return false;
+            }
+            await WalkTo(approach, ct, 503, replanWhen: () => Snapshot.Dialog is not null || VisibleNpc(503, "Keane"));
         }
-        catch (QuestBlockedException)
-        {
-            return false;
-        }
-
-        await WalkTo(approach, ct, 503, replanWhen: () => Snapshot.Dialog is not null);
         if (Snapshot.Dialog is not null)
             throw new QuestBlockedException("Popup appeared during Keane approach. It is preserved for review.");
         if (Snapshot.Map != 503)
@@ -98,10 +101,8 @@ public sealed partial class GameSession
         npc = Npc(observed);
         if (npc is null)
             return false;
-        approach = NpcApproach.Find(maps.Load(503), observed.Position!, npc.Position, Obstacles(observed));
-        await WalkTo(approach, ct, 503, replanWhen: () => Snapshot.Dialog is not null);
         observed = Snapshot;
-        if (observed.Generation != entry.Generation || observed.Map != 503 || observed.Dialog is not null || Npc(observed)?.Id != npc.Id || observed.Position is null || Math.Abs(observed.Position.X - npc.Position.X) + Math.Abs(observed.Position.Y - npc.Position.Y) > 3)
+        if (observed.Generation != entry.Generation || observed.Map != 503 || observed.Dialog is not null || Npc(observed)?.Id != npc.Id || observed.Position is null || !VisibleNpc(503, "Keane"))
             throw new QuestBlockedException("Keane approach changed. Review location and popup before resuming.");
         keaneTravel = new(observed.Generation, npc.Id, observed.Revision);
         try

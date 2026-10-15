@@ -1,0 +1,466 @@
+{
+  "Title": "DATester Wizard dachaidh learning requirements",
+  "ServerProfile": "datester-7.41",
+  "EvidenceType": "Native MCP and player-operated trainer dialogue; no acquisition proved in this excerpt",
+  "Character": "ResearchPixel",
+  "Generation": 1835011655833614,
+  "WizardRequirements": {
+    "Strength": 5,
+    "Intelligence": 36,
+    "Wisdom": 5,
+    "Constitution": 5,
+    "Dexterity": 5,
+    "Items": [
+      {
+        "name": "Goblin's Skull",
+        "quantity": 1
+      }
+    ],
+    "Gold": 5000
+  },
+  "SpellMenu": {
+    "revision": 1081,
+    "name": "Devlin",
+    "body": "You have unravelled your mind.  It is waiting now; is it not?  There are some secrets which you may learn. ",
+    "pursuit": 17,
+    "spellNames": [
+      "dachaidh"
+    ]
+  },
+  "Pages": [
+    {
+      "revision": 1080,
+      "dialog": {
+        "Generation": 1835011655833614,
+        "Revision": 1080,
+        "EntityId": 7030,
+        "EntityType": 1,
+        "Name": "Devlin",
+        "Text": "Hello.  What can I do for you?",
+        "IsPursuit": false,
+        "Pursuit": 0,
+        "Step": 0,
+        "Type": 0,
+        "Choices": [
+          {
+            "Text": "Learn Secret",
+            "Pursuit": 5,
+            "Option": 1
+          },
+          {
+            "Text": "Forget Secret",
+            "Pursuit": 7,
+            "Option": 2
+          },
+          {
+            "Text": "Buy",
+            "Pursuit": 64,
+            "Option": 3
+          },
+          {
+            "Text": "Sell",
+            "Pursuit": 65,
+            "Option": 4
+          },
+          {
+            "Text": "On Honey",
+            "Pursuit": 1195,
+            "Option": 5
+          },
+          {
+            "Text": "Woods",
+            "Pursuit": 1214,
+            "Option": 6
+          },
+          {
+            "Text": "On Faerie Love",
+            "Pursuit": 1215,
+            "Option": 7
+          },
+          {
+            "Text": "Graymayre",
+            "Pursuit": 1222,
+            "Option": 8
+          },
+          {
+            "Text": "Mentor Someone",
+            "Pursuit": 1199,
+            "Option": 9
+          }
+        ],
+        "Prompt": null,
+        "HasNext": false,
+        "ObservedAt": "2026-10-14T19:09:36.3518691+00:00",
+        "Items": []
+      },
+      "stats": {
+        "Str": 3,
+        "Int": 3,
+        "Wis": 11,
+        "Con": 11,
+        "Dex": 3,
+        "Unspent": 178
+      },
+      "gold": 961816
+    },
+    {
+      "revision": 1081,
+      "dialog": {
+        "Generation": 1835011655833614,
+        "Revision": 1081,
+        "EntityId": 7030,
+        "EntityType": 1,
+        "Name": "Devlin",
+        "Text": "You have unravelled your mind.  It is waiting now; is it not?  There are some secrets which you may learn. ",
+        "IsPursuit": false,
+        "Pursuit": 17,
+        "Step": 0,
+        "Type": 6,
+        "Choices": [],
+        "Prompt": null,
+        "HasNext": false,
+        "ObservedAt": "2026-10-14T19:09:44.8454789+00:00",
+        "Items": []
+      },
+      "stats": {
+        "Str": 3,
+        "Int": 3,
+        "Wis": 11,
+        "Con": 11,
+        "Dex": 3,
+        "Unspent": 178
+      },
+      "gold": 961816
+    },
+    {
+      "revision": 1091,
+      "dialog": {
+        "Generation": 1835011655833614,
+        "Revision": 1091,
+        "EntityId": 7030,
+        "EntityType": 1,
+        "Name": "Devlin",
+        "Text": "dachaidh Return to the starting position, you swear you will this secret for just good causes?",
+        "IsPursuit": false,
+        "Pursuit": 0,
+        "Step": 0,
+        "Type": 1,
+        "Choices": [
+          {
+            "Text": "Yes",
+            "Pursuit": 36,
+            "Option": 1
+          },
+          {
+            "Text": "No",
+            "Pursuit": 37,
+            "Option": 2
+          }
+        ],
+        "Prompt": "dachaidh",
+        "HasNext": false,
+        "ObservedAt": "2026-10-14T19:12:05.9610258+00:00",
+        "Items": []
+      },
+      "stats": {
+        "Str": 3,
+        "Int": 3,
+        "Wis": 11,
+        "Con": 11,
+        "Dex": 3,
+        "Unspent": 178
+      },
+      "gold": 961816
+    },
+    {
+      "revision": 1107,
+      "dialog": {
+        "Generation": 1835011655833614,
+        "Revision": 1107,
+        "EntityId": 7030,
+        "EntityType": 1,
+        "Name": "Devlin",
+        "Text": "You need these qualities                                                     Strength     5                                                     Intelligence 36                                                     Wisdom       5                                                     Constitution 5                                                     Dexterity    5",
+        "IsPursuit": false,
+        "Pursuit": 0,
+        "Step": 0,
+        "Type": 0,
+        "Choices": [],
+        "Prompt": null,
+        "HasNext": false,
+        "ObservedAt": "2026-10-14T19:12:31.4950088+00:00",
+        "Items": []
+      },
+      "stats": {
+        "Str": 3,
+        "Int": 3,
+        "Wis": 11,
+        "Con": 11,
+        "Dex": 3,
+        "Unspent": 178
+      },
+      "gold": 961816
+    },
+    {
+      "revision": 1185,
+      "dialog": {
+        "Generation": 1835011655833614,
+        "Revision": 1185,
+        "EntityId": 7030,
+        "EntityType": 1,
+        "Name": "Devlin",
+        "Text": "Hello.  What can I do for you?",
+        "IsPursuit": false,
+        "Pursuit": 0,
+        "Step": 0,
+        "Type": 0,
+        "Choices": [
+          {
+            "Text": "Learn Secret",
+            "Pursuit": 5,
+            "Option": 1
+          },
+          {
+            "Text": "Forget Secret",
+            "Pursuit": 7,
+            "Option": 2
+          },
+          {
+            "Text": "Buy",
+            "Pursuit": 64,
+            "Option": 3
+          },
+          {
+            "Text": "Sell",
+            "Pursuit": 65,
+            "Option": 4
+          },
+          {
+            "Text": "On Honey",
+            "Pursuit": 1195,
+            "Option": 5
+          },
+          {
+            "Text": "Woods",
+            "Pursuit": 1214,
+            "Option": 6
+          },
+          {
+            "Text": "On Faerie Love",
+            "Pursuit": 1215,
+            "Option": 7
+          },
+          {
+            "Text": "Graymayre",
+            "Pursuit": 1222,
+            "Option": 8
+          },
+          {
+            "Text": "Mentor Someone",
+            "Pursuit": 1199,
+            "Option": 9
+          }
+        ],
+        "Prompt": null,
+        "HasNext": false,
+        "ObservedAt": "2026-10-14T19:13:30.0241472+00:00",
+        "Items": []
+      },
+      "stats": {
+        "Str": 5,
+        "Int": 36,
+        "Wis": 11,
+        "Con": 11,
+        "Dex": 5,
+        "Unspent": 141
+      },
+      "gold": 961816
+    },
+    {
+      "revision": 1186,
+      "dialog": {
+        "Generation": 1835011655833614,
+        "Revision": 1186,
+        "EntityId": 7030,
+        "EntityType": 1,
+        "Name": "Devlin",
+        "Text": "You have unravelled your mind.  It is waiting now; is it not?  There are some secrets which you may learn. ",
+        "IsPursuit": false,
+        "Pursuit": 17,
+        "Step": 0,
+        "Type": 6,
+        "Choices": [],
+        "Prompt": null,
+        "HasNext": false,
+        "ObservedAt": "2026-10-14T19:13:31.5326126+00:00",
+        "Items": []
+      },
+      "stats": {
+        "Str": 5,
+        "Int": 36,
+        "Wis": 11,
+        "Con": 11,
+        "Dex": 5,
+        "Unspent": 141
+      },
+      "gold": 961816
+    },
+    {
+      "revision": 1187,
+      "dialog": {
+        "Generation": 1835011655833614,
+        "Revision": 1187,
+        "EntityId": 7030,
+        "EntityType": 1,
+        "Name": "Devlin",
+        "Text": "dachaidh Return to the starting position, you swear you will this secret for just good causes?",
+        "IsPursuit": false,
+        "Pursuit": 0,
+        "Step": 0,
+        "Type": 1,
+        "Choices": [
+          {
+            "Text": "Yes",
+            "Pursuit": 36,
+            "Option": 1
+          },
+          {
+            "Text": "No",
+            "Pursuit": 37,
+            "Option": 2
+          }
+        ],
+        "Prompt": "dachaidh",
+        "HasNext": false,
+        "ObservedAt": "2026-10-14T19:13:32.5318648+00:00",
+        "Items": []
+      },
+      "stats": {
+        "Str": 5,
+        "Int": 36,
+        "Wis": 11,
+        "Con": 11,
+        "Dex": 5,
+        "Unspent": 141
+      },
+      "gold": 961816
+    },
+    {
+      "revision": 1188,
+      "dialog": {
+        "Generation": 1835011655833614,
+        "Revision": 1188,
+        "EntityId": 7030,
+        "EntityType": 1,
+        "Name": "Devlin",
+        "Text": "To learn dachaidh, Goblin's Skull (1) and 5000 coins have to be presented to me.  You want to do that?",
+        "IsPursuit": false,
+        "Pursuit": 0,
+        "Step": 0,
+        "Type": 1,
+        "Choices": [
+          {
+            "Text": "Yes",
+            "Pursuit": 38,
+            "Option": 1
+          },
+          {
+            "Text": "No",
+            "Pursuit": 39,
+            "Option": 2
+          }
+        ],
+        "Prompt": "dachaidh",
+        "HasNext": false,
+        "ObservedAt": "2026-10-14T19:13:34.026786+00:00",
+        "Items": []
+      },
+      "stats": {
+        "Str": 5,
+        "Int": 36,
+        "Wis": 11,
+        "Con": 11,
+        "Dex": 5,
+        "Unspent": 141
+      },
+      "gold": 961816
+    },
+    {
+      "revision": 1189,
+      "dialog": {
+        "Generation": 1835011655833614,
+        "Revision": 1189,
+        "EntityId": 7030,
+        "EntityType": 1,
+        "Name": "Devlin",
+        "Text": "Return when you have what I required and have it in perfect condition.",
+        "IsPursuit": false,
+        "Pursuit": 0,
+        "Step": 0,
+        "Type": 0,
+        "Choices": [],
+        "Prompt": null,
+        "HasNext": false,
+        "ObservedAt": "2026-10-14T19:13:57.5474665+00:00",
+        "Items": []
+      },
+      "stats": {
+        "Str": 5,
+        "Int": 36,
+        "Wis": 11,
+        "Con": 11,
+        "Dex": 5,
+        "Unspent": 141
+      },
+      "gold": 961816
+    }
+  ],
+  "ClientSelections": [
+    {
+      "revision": 1080,
+      "pursuit": 5,
+      "arguments": []
+    },
+    {
+      "revision": 1090,
+      "pursuit": 17,
+      "arguments": [
+        "dachaidh"
+      ]
+    },
+    {
+      "revision": 1106,
+      "pursuit": 36,
+      "arguments": [
+        "dachaidh"
+      ]
+    },
+    {
+      "revision": 1185,
+      "pursuit": 5,
+      "arguments": []
+    },
+    {
+      "revision": 1186,
+      "pursuit": 17,
+      "arguments": [
+        "dachaidh"
+      ]
+    },
+    {
+      "revision": 1187,
+      "pursuit": 36,
+      "arguments": [
+        "dachaidh"
+      ]
+    },
+    {
+      "revision": 1188,
+      "pursuit": 38,
+      "arguments": [
+        "dachaidh"
+      ]
+    }
+  ],
+  "PriestBoundary": "Priest stats and gold-only quote are guide hypotheses, not a live Priest capture."
+}

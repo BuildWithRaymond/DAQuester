@@ -1,0 +1,33 @@
+{
+  "Title": "Unrelated Monk Nightmare status during Danaan final approach",
+  "ServerProfile": "datester-7.41",
+  "EvidenceType": "Read-only native MCP state; player identifies the message as a Monk Nightmare tile response",
+  "Boundary": "The state establishes Path Temple 395 and the exact active status; it does not identify the precise reactor tile at the earlier status time or prove quest completion.",
+  "Character": "ResearchPixel",
+  "Snapshot": {
+    "Generation": 1835007872445443,
+    "Revision": 4922,
+    "Map": 395,
+    "Position": {
+      "x": 2,
+      "y": 2
+    },
+    "Dialog": null,
+    "ActiveStatus": {
+      "generation": 1835007872445443,
+      "revision": 4899,
+      "type": 3,
+      "text": "You are not a Monk.",
+      "observedAt": "2026-10-14T18:00:21.9480222+00:00"
+    }
+  },
+  "QueueReason": "Entry blocked: You are not a Monk. Reconcile requirements before another approach.",
+  "ObservedRecentStops": [
+    "12:50:23  ResearchPixel: Cap / Band of Danaan · run · Paused Server evidence timeout.",
+    "12:50:23  ResearchPixel: Cap / Band of Danaan · run · Paused Server evidence timeout.",
+    "12:50:49  ResearchPixel: Cap / Band of Danaan · run · Paused Server evidence timeout.",
+    "12:50:49  ResearchPixel: Cap / Band of Danaan · run · Paused Server evidence timeout.",
+    "12:50:52  ResearchPixel: Cap / Band of Danaan · run · Paused Transport landing differs from the observed inward step; inspect before walking.",
+    "12:50:52  ResearchPixel: Cap / Band of Danaan · run · Paused Transport landing differs from the observed inward step; inspect before walking."
+  ]
+}

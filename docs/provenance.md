@@ -547,3 +547,117 @@ The player also requested stronger/faster MCP helpers while the bouquet timer
 runs. The bounded existing-bridge design and synthetic validation are tracked in
 [MCP discovery improvements](research/mcp-discovery-improvements.md); builds and
 tests leave the live paid wait intact. No replacement MCP or Excalibur change.
+
+Pixel's paused Ase opening was inspected through native MCP on October 13,
+2026 (America/Chicago). `danaan-ase-choice-variation.json` retains the actual
+`Hello.` menu with `Seen anything unusual lately?`, compared with Lancelot's
+longer `Have you seen anything unusual lately?` in observation 24 of
+`danaan-lancelot-variation.json`. Only this opening is newly observed; successor
+pages in the regression are synthetic, and no live choice or reward was sent.
+See [Ase choice variation](research/danaan-ase-choice-variation.md).
+
+The later player-authorized [Loures court discovery](research/danaan-loures-court.md)
+retains 43 parsed native MCP observations through Logan and a restricted replay
+excerpt with 30 actual submitted actions and 46 own server snapshots. It proves
+the 75-gold Oren Brandy purchase and subsequent item consumption separately.
+The recipe adds `loures-court` from Ase's exact fresh reply, with no inferred
+cause or class selector. Simulation tests and replay recovery are not new live
+quest completions; no final reward or fresh full automatic run is certified.
+
+[Varuna finale research](research/danaan-varuna-gatekeeper.md) on October 14
+confirmed that the gatekeeper paragraph matched Lancelot observation 67 but had
+not been copied into the two Loures recipes. Native MCP read the final offered
+Next once on Pixel and confirmed closure with unchanged gold/XP and the already
+consumed Gland. Sanitized evidence retains two MCP observations, 11 actual
+submitted actions, 14 original-generation server snapshots and the scoped saved
+checkpoint. Replay-based recovery advances to Mold only with the full handoff
+and closure proof; replacement-session balances and synthetic tests cannot
+establish a live quest completion.
+
+[Travel recovery research](research/danaan-travel-recovery.md) retains a later
+read-only native MCP capture of Pixel's Path Temple state and exact active
+`You are not a Monk.` message. The player identifies the Monk Nightmare cause;
+the capture does not establish its earlier trigger tile or any final reward.
+Code analysis and synthetic protocol/session regressions establish the refresh,
+Next and landing timing fixes separately from this live observation.
+
+[Reward and routing research](research/quest-reward-route-dachaidh.md) retains
+restricted own Danaan/Fisk XP, item, legend and popup states, plus the actual
+345-to-342 doorway submission/map/position receipts. Pixel's completed journal
+states came through normal own-legend reconciliation, not manual Data edits or
+new reward claims. Code analysis identifies the late-reply message persistence
+fault separately from those live results. The hub and Coliseum fixtures are
+synthetic and do not prove a new automatic live quest.
+
+`dachaidh-devlin-wizard.json` retains the player's actual Wizard trainer menus,
+stat and item requirements, fee quote and decoded merchant arguments. It proves
+requirements, not acquisition. Priest stat thresholds are official-guide
+hypotheses; the fee example in tests is synthetic and actual fresh trainer quotes
+still gate payment. Wizards require a player-supplied Skull; no hunting or stat
+allocation is authorized by the preparation feature.
+
+`danaan-agent-gatekeeper.json` retains 11 decoded own submissions, 21 restricted
+server snapshots and Agent's original-opening saved stage under a research
+alias. The player sent the final informational Next and actual closure arrived
+at revision 3590. This establishes the original route's alternate Varuna finale
+and full Gland handoff, not a final reward. Recovery preserves Greim's warning.
+
+[Blanchefleur's Fiosachd branch](research/danaan-blanchefleur-fiosachd.md)
+retains the player's approved informational choice, the returned menu loop,
+Keefe and Logan, and the unpaid Cousin pause. Three sanitized captures keep
+the original pending page, bounded live transcripts, and exact owned submitted
+action/server closure projections. Recovery proves only that informational
+prefix. Wizard Hall's (6,9) pullback and successful (6,8) approach are observed;
+their precise transport timing is not inferred. Fresh automatic completion
+and a live Band outcome remain separate validation work.
+
+`danaan-blanchefleur-resumed-completion.json` separately retains the later
+automatic Erin reward selection, offered Next and terminal close from the
+resumed run. Original revisions, the XP active message and balance increase,
+Cap receipt and fresh own Danaan legend are preserved under a research alias;
+inventory and legends are explicitly limited to Danaan fields. It proves this
+resumed Cap completion, not a new uninterrupted full run or Band reward.
+
+[The successful Shinewood bond capture](research/shinewood-faerie-pet-bond.md)
+retains the exact 250hp/250mp offer, player-selected Yes, Pet Faerie inventory
+receipt, observed maximum-HP change, server dialogue closure and town arrival.
+Its actor and generation are normalized; projected resources and quoted terms
+remain distinct. Synthetic automatic-choice coverage is separate from the
+player-selected live bond.
+
+DAWindower X is built from `BuildWithRaymond/DAWindower` commit
+`ef70a98275444ffa0c1b306995c5bb579ae4e08a` (0.2.3 candidate). The upstream
+[integration](https://github.com/BuildWithRaymond/DAWindower/blob/ef70a98275444ffa0c1b306995c5bb579ae4e08a/docs/integration.md)
+and [X launch source](https://github.com/BuildWithRaymond/DAWindower/blob/ef70a98275444ffa0c1b306995c5bb579ae4e08a/src/x/launch.cpp)
+establish early LoadLibrary loading, same-bitness Unicode launch and no extra
+initializer. Its MIT notice is retained under App licenses. The native fixture
+is upstream's `tests/x_launch_fixture.cpp` at the same revision; it contains no
+game code/assets. Original client identity and actual renderer/login acceptance
+remain distinct from synthetic fixture success.
+
+Release validation on October 14, 2026 found three newly recorded routes absent
+from the existing collision asset: Coast Bar 195 (10 by 10), Mileth Inn Room 0
+3000 (8 by 8), and Tutorial: 1 3029 (50 by 50). Their installed map files exist.
+Only these three boolean grids were derived through `export_walkability.py`'s
+existing collision interpretation, after verifying the collision-table digest
+against the established asset. All 2,664 new tile bits were audited; the previous
+1,417 map records and 15 unavailable-map entries were preserved. Current coverage
+is 1,420 of 1,435 recorded maps. Source SHA-256 digests are retained in each grid;
+the resulting asset digest is
+`736aa6fa0819f4bb393edc6a3fe69f360564ebf5a0e2cda9cd4f5f54c8cc7a91`.
+No raw maps, artwork or installation paths are included. This repairs release
+metadata coverage and does not establish new live travel evidence.
+
+The player subsequently requested that X's + button use DAQuester and chose a
+blank managed login window. `native/DAWindowerX-daquester.patch` extends the same
+upstream revision with a bounded, current-user-only handoff. Its SHA-256 is
+`28a638011b33f779f41b1f90eb1cfe566b3c1b04db983662761db5bc5abef235`;
+the resulting x86 DLL is 212,992 bytes with SHA-256
+`ffc1325cb059f9a64a472ae3a93704a8df279d18e05dfad60fcd23118aac9bb2`.
+Both fingerprints are retained with the upstream pin in release source metadata.
+The patch also extends upstream's synthetic fixture to click the real caption
+twice, await the host response and complete without a standalone child. Its
+host-written marker is explicitly a synthetic wait release, not proof of a game
+client launch or a quest receipt. Windows' actual pipe-client PID, one host call,
+fixture exit, loader order and blank-launch validation are tested separately.
+No real character was launched or operated for this integration.

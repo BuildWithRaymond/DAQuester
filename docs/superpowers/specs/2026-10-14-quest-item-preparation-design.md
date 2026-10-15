@@ -42,6 +42,14 @@ ownership. Preparation cannot preempt it. Do not prepare completed quests,
 ineligible entries, unapproved permanent choices, or indefinite future repeats.
 Aggregate only the next eligible attempts of ready entries for this character.
 
+Spare a Stick branches require Callough's acceptance on the current connection.
+The player's later run confirmed that pre-acceptance patrols produce no branches.
+Defer that supply until activation; other freely obtainable queued items still
+prepare early. A legacy branch-preparation checkpoint without current acceptance
+yields to the quest's acceptance stage. Callough visits use the recorded public
+approach (6,10), stopping sooner if he becomes visible, rather than waiting for
+an offscreen actor at the shop's entry tile.
+
 Calculate remaining demand in consumption order, subtracting actual carried
 inventory and respecting outputs obtainable only from earlier quest stages.
 Shared consumable requirements add together; one carried item cannot satisfy
@@ -63,7 +71,8 @@ available. Quests without external item requirements need no preparation. Starte
 rewards, Emerald discovery, Faerie training/pet outcomes, timed flowers, and
 altar attempts retain their own eligibility, activation, and outcome rules.
 For fixed freely collectible requirements, preparation should precede the first
-quest-NPC visit even if the current recipe collects later.
+  quest-NPC visit even if the current recipe collects later, except for an
+  activation dialogue required before those items can be obtained.
 
 For Danaan, all captured branches share one Gland, one Mold, two Cherry, one
 Grapes, and one Leather Greaves. Prepare that common bundle early. Loures Saber,
@@ -99,9 +108,10 @@ reconciliation and choose another source only after it is safe to do so.
 
 Update the shared NPC travel/interaction path and quest callers that currently
 navigate to fixed approach tiles first. When the intended mundane is uniquely
-visible in fresh current-map state, use its observed identity from the current
+visible in fresh current-map state and within ten tile steps, use its observed identity from the current
 safe position. Stop further approach walking as soon as this becomes true.
 Keep recorded approaches as fallbacks when the NPC is not yet visible.
+An off-screen cached entity does not establish visibility.
 
 Building entry must finish its validated inward departure before this shortcut.
 Preserve the deeper stable approaches already required for Room 7 and the Monk
@@ -132,7 +142,8 @@ under existing rules.
 
 Add failing synthetic regressions before each production change:
 
-- Supplies precede the first relevant NPC visit, including Danaan's shared bundle.
+- Obtainable supplies precede the first relevant NPC visit, including Danaan's
+  shared bundle. Callough's fresh acceptance precedes branch collection.
 - Owned quantities, shared queued consumption, branch selection, and generated
   quest items produce the right shortfall without extra purchases.
 - Bag, weight, price, reward capacity, cancellation, and pending receipts gate
@@ -158,4 +169,4 @@ Data or Excalibur working copies, or stop/restart/relaunch Excalibur.
 - [x] Alternatives, recommendation, recovery rules, and validation specified.
 - [x] Scope and source provenance reviewed; no fabricated live evidence.
 - [x] Player confirms preparation scope and approves this written design.
-- [ ] Record approved design and implementation plan, then begin test-first changes.
+- [x] Record approved design and implementation plan, then begin test-first changes.

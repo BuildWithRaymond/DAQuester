@@ -20,7 +20,7 @@ public class DanaanRewardTests
     {
         ObservedAt = DateTimeOffset.UtcNow
     };
-    static async Task<(SimulatedSession Session, QuestRunner Runner)> Create(bool closeTimeout = false, bool deliver = true, bool band = false)
+    static async Task<(SimulatedSession Session, QuestRunner Runner)> Create(bool closeTimeout = false, bool deliver = true, bool band = false, bool delayed = false, bool activeOnly = false)
     {
         var s = new SimulatedSession();
         s.Set(s.Snapshot with
@@ -37,20 +37,34 @@ public class DanaanRewardTests
         {
             Dialog = Page(s, Root, false, true)
         });
+        bool rewardPending = false;
+        void DeliverReward()
+        {
+            var reward = new ServerNotice(s.Snapshot.Generation, s.Snapshot.Revision + 1, 3, "1000000 experience!", DateTimeOffset.UtcNow);
+            s.Set(s.Snapshot with
+            {
+                Experience = 1001000,
+                Notice = activeOnly ? null : reward,
+                ActiveStatus = activeOnly ? reward : null,
+                Dialog = Page(s, Congratulations, true)
+            });
+        }
         s.OnCommand = c =>
         {
             if (c.Kind == "choose")
-                s.Set(s.Snapshot with
-                {
-                    Experience = 1001000,
-                    Notice = new(s.Snapshot.Generation, s.Snapshot.Revision + 1, 3, "1000000 experience!", DateTimeOffset.UtcNow),
-                    Dialog = Page(s, Congratulations, true)
-                });
+            {
+                if (delayed)
+                    rewardPending = true;
+                else
+                    DeliverReward();
+            }
             if (c.Kind == "next")
                 s.Set(s.Snapshot with
                 {
                     Dialog = Page(s, Terminal, false),
-                    Inventory = deliver ? s.Snapshot.Inventory.SetItem(3, new(3, band ? "Band of Danaan" : "Cap of Danaan", 1)) : s.Snapshot.Inventory
+                    Inventory = deliver ? s.Snapshot.Inventory.SetItem(3, new(3, band ? "Band of Danaan" : "Cap of Danaan", 1)) : s.Snapshot.Inventory,
+                    Notice = delayed || activeOnly ? null : s.Snapshot.Notice,
+                    ActiveStatus = delayed || activeOnly ? new(s.Snapshot.Generation, s.Snapshot.Revision + 1, 3, "Synthetic later active message", DateTimeOffset.UtcNow) : s.Snapshot.ActiveStatus
                 });
             if (c.Kind == "inspect-self")
                 s.Set(s.Snapshot with
@@ -75,7 +89,85 @@ public class DanaanRewardTests
             Quest = DanaanEvidence.Id,
             DanaanOptions = new("cail", true)
         });
-        return (s, new(s, j, Recipe(), new()));
+        IGameSession session = delayed ? new ReplySession(s, () =>
+        {
+            if (rewardPending)
+            {
+                rewardPending = false;
+                DeliverReward();
+            }
+        }) : s;
+        return (s, new(session, j, Recipe(), new()));
+    }
+    sealed class ReplySession(SimulatedSession inner, Action receive) : IGameSession
+    {
+        public CharacterSnapshot Snapshot => inner.Snapshot;
+        public IReadOnlySet<string> Capabilities => inner.Capabilities;
+        public event Action<CharacterSnapshot>? Changed { add => inner.Changed += value; remove => inner.Changed -= value; }
+        public event Action<string>? Interrupted { add => inner.Interrupted += value; remove => inner.Interrupted -= value; }
+        public Task ExecuteAsync(GameCommand command, CancellationToken cancellation) => inner.ExecuteAsync(command, cancellation);
+        public Task<CharacterSnapshot> WaitAsync(Func<CharacterSnapshot, bool> predicate, long after, TimeSpan timeout, CancellationToken cancellation)
+        {
+            receive();
+            return inner.WaitAsync(predicate, after, timeout, cancellation);
+        }
+    }
+    [Theory]
+    [InlineData(true, false)]
+    [InlineData(false, true)]
+    [InlineData(true, true)]
+    public async Task Reward_received_during_reply_wait_or_only_in_active_status_is_saved_before_final_cleanup(bool delayed, bool activeOnly)
+    {
+        var (s, r) = await Create(delayed: delayed, activeOnly: activeOnly);
+        await r.RunAsync();
+        Assert.Equal("Completed", r.Job.Status);
+        Assert.Contains("1000000 experience!", r.Job.Route!.RewardMessages);
+        Assert.Equal(1000000, r.Job.Rewards["experience"]);
+        Assert.Equal(Mark, r.Job.CompletionLegend);
+        Assert.Null(s.Snapshot.Dialog);
+        Assert.Single(s.Commands, c => c.Kind == "choose");
+        Assert.Single(s.Commands, c => c.Kind == "next");
+        Assert.Single(s.Commands, c => c.Kind == "close");
+    }
+    [Theory]
+    [InlineData("fresh", true)]
+    [InlineData("preinspected", true)]
+    [InlineData("generation", false)]
+    [InlineData("revision", false)]
+    [InlineData("type", false)]
+    [InlineData("text", false)]
+    [InlineData("map", false)]
+    public async Task Paused_terminal_reward_uses_only_a_correlated_retained_active_message(string evidence, bool completes)
+    {
+        var s = new SimulatedSession();
+        var baseline = new Transaction("observed-stage",1,1,20000,0,1000,DateTimeOffset.UtcNow)
+        { InventoryBaselineKnown=true,InventoryCounts=new() };
+        s.Set(s.Snapshot with { Map=evidence=="map"?346:345,Position=new(6,5),Level=99,Gold=20000,Experience=1001000,LegendsKnown=true,LegendsRevision=1 });
+        s.Set(s.Snapshot with
+        {
+            Inventory=s.Snapshot.Inventory.SetItem(3,new(3,"Cap of Danaan",1)), Dialog=Page(s,Terminal,false),
+            Legends=evidence=="preinspected"?[Mark]:[],
+            ActiveStatus=new(evidence=="generation"?2:1,evidence=="revision"?1:2,evidence=="type"?(byte)0:(byte)3,evidence=="text"?"750000 experience!":"1000000 experience!",DateTimeOffset.UtcNow)
+        });
+        s.OnCommand=c=>
+        {
+            if(c.Kind=="inspect-self")
+                s.Set(s.Snapshot with { Legends=[Mark],LegendsRevision=s.Snapshot.Revision+1 });
+            if(c.Kind=="close")
+                s.Set(s.Snapshot with { Dialog=null });
+        };
+        var journal=new FileQuestJournal(Path.Combine(Path.GetTempPath(),"DAQuester-tests",Guid.NewGuid().ToString()));
+        await journal.SaveAsync(new() { Character=s.Snapshot.Name!,Quest=DanaanEvidence.Id,Step="run",DanaanOptions=new("cail",true),
+            Route=new() { Task=0,Page=2,Baseline=baseline,BoundGeneration=1,BoundEntity=55,LastReply=s.Snapshot.Dialog } });
+        var runner=new QuestRunner(s,journal,Recipe(),new());
+        await runner.RunAsync();
+        Assert.Equal(completes?"Completed":"Paused",runner.Job.Status);
+        Assert.DoesNotContain(s.Commands,c=>c.Kind is "choose" or "next");
+        Assert.Equal(completes?1:0,s.Commands.Count(c=>c.Kind=="close"));
+        if(completes)
+            Assert.Equal(1000000,runner.Job.Rewards["experience"]);
+        else
+            Assert.Null(runner.Job.CompletedAt);
     }
     [Fact]
     public async Task Final_next_item_own_legend_and_explicit_close_finish_the_run()

@@ -37,8 +37,10 @@ public class DanaanRedirectTests
     [Theory]
     [InlineData(true, 10004, true)]
     [InlineData(false, 10004, false)]
-    [InlineData(true, 1960, false)]
-    public async Task Only_recorded_final_redirect_and_known_hometown_can_resume_without_another_choice(bool recorded, int map, bool resume)
+    [InlineData(true, 1960, true)]
+    [InlineData(true, 3079, true)]
+    [InlineData(true, 720, false)]
+    public async Task Recorded_final_redirect_uses_actual_changed_map_without_another_choice(bool recorded, int map, bool resume)
     {
         var s = new SimulatedSession();
         s.Set(s.Snapshot with
@@ -104,7 +106,9 @@ public class DanaanRedirectTests
         {
             Assert.Null(second.Job.Pending);
             Assert.Equal(1, second.Job.Route?.Task);
-            Assert.Equal(new Tile(9, 5), s.Snapshot.Position);
+            Assert.Equal(map == 10004 ? new Tile(9, 5) : new Tile(10, 5), s.Snapshot.Position);
+            if (map != 10004)
+                Assert.DoesNotContain(s.Commands, c => c.Kind == "step");
         }
         else
         {

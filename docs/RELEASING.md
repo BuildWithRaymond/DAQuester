@@ -6,6 +6,16 @@ Use a clean source checkout on Windows with .NET 10. Update `Version` in
 `Directory.Build.props`, add changelog/release notes, then run the complete checks
 documented in [CI](CI.md).
 
+App/release builds prepare `DAWindowerX.dll` from the revision in
+`native/DAWindowerX.json`. The first native build needs Git, Python, CMake and
+Visual Studio 2022 C++ x86 tools; no native build tools are needed by players.
+Each package carries the DLL, its MIT notice and a source/hash record under
+`licenses/DAWindowerX`. Verification binds that record to the pin, retained
+integration patch and packaged DLL. Updating `native/DAWindowerX-daquester.patch`
+also requires updating its SHA-256 in the source pin; source changes outside
+that exact patch are rejected. Generated binaries and the native synthetic test
+fixture are not committed.
+
 ```powershell
 ./tools/Build-Release.ps1
 ./tools/Verify-Release.ps1

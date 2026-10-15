@@ -872,6 +872,13 @@
       "sourceSha256": "1a8bb8f93c1e54efea36e19c8df2eade13529acc8bfa092dffdb4d4c20f906a2"
     },
     {
+      "id": 195,
+      "width": 10,
+      "height": 10,
+      "blockedBits": "/w9RxBFHDDHEEEMMAQ==",
+      "sourceSha256": "6ed12c73f1065d02d9637c9dde01f71cab8d6c88d2963504e530496a5d5e20cf"
+    },
+    {
       "id": 196,
       "width": 50,
       "height": 50,
@@ -3182,6 +3189,13 @@
       "sourceSha256": "820d3b4de165f4ec9368d384aa57ad12f2ad5983acf87d1cb9849fd54c9a6216"
     },
     {
+      "id": 3000,
+      "width": 8,
+      "height": 8,
+      "blockedBits": "/30nAQMDAwM=",
+      "sourceSha256": "db6f446191c458dc8a292643c9c0cad338ff6e5ce984bf84d6deadc337b0b995"
+    },
+    {
       "id": 3004,
       "width": 12,
       "height": 12,
@@ -3320,6 +3334,13 @@
       "height": 16,
       "blockedBits": "//8HgAOAAYABgOH/4f9ggGGAYYBhgGGAYYBhgGGA//8=",
       "sourceSha256": "2b03903f58a3144583d01ae7a5863d775d5e1688ad5b8bbf0229516949f7970a"
+    },
+    {
+      "id": 3029,
+      "width": 50,
+      "height": 50,
+      "blockedBits": "///h////BwAAAAAAEAAgAAAAQAAAAAAAAAEAAAAAAAQAAAAAABAACAAAAEACMAAAAAABAAAACAEEAAAAoA8QABAAgD5AAEAAAPoAAQABAOgDBAAEgKMHEAAAAI4ZQAAAABgCAAEAAAgAAAT+ARAAABAYCkAAAEBgIAAQAACB8QC4AAAExgNAAgAQ2A8AHwBcYD8AIABwgX0AAACABPYBAAAAEDgBAAAAQAAAAAAAQAEBAAAAAAQAAAAAABAAAAAAAEAAAAAAAAABAAAAAAAEAAAAAAAQAAAAAABAAAAAAAAAAQAAAAAABAAAAAAAEAAAAgAAQAAADAAAAAHBUAAAAASCgwEAABAAHgAA4EAAAAAAgAMBAAAAAAYEAAAAAAAQAAAAAABAAAAAOAAAAQAA4AAABAAAAAIAAA==",
+      "sourceSha256": "9563c37562bc2e6d9a08c2c71fbb489fdd6270518f16256ff1a4deef2ecb34c9"
     },
     {
       "id": 3037,

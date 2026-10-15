@@ -28,9 +28,27 @@ legend. A failed close resumes cleanup without another claim. Full runner live
 validation and unknown variants are tracked in the
 [automation handoff](research/fisk-danaan-automation.md).
 
+`job.DanaanReplies` retains local captured NPC continuations separately from
+the opening variant. A fresh known informational reply can change the remaining
+path while preserving the already submitted prefix and resource contract.
+
+State also exposes `job.Preparation`: its source tasks, current index, and
+independent acquisition progress. Its pending transaction must reconcile before
+quest dialogue resumes. Standalone starts prepare their own known supplies;
+active queues provide the ready batch to the same runner. Existing quest task
+indexes retain their meaning. Native mundane approaches stop when the intended
+NPC becomes visible after safe doorway departure.
+
+`{"method":"queue-start","character":"YourCharacter"}` resumes the character's
+saved queue through the same ownership, configuration and checkpoint gates as
+the window. It does not change the queue order. Repeating this request while
+the queue is running returns its current state without toggling Pause. The
+request can remain pending while the queue runs; inspect fresh `state` after
+an interrupted transport instead of assuming that execution stopped.
+
 Shinewood Faerie uses `quest: "shinewood-faerie"`. It adopts a pet and learns
 eligible missing spells, then returns by town song, ready dachaidh or walking.
-Minimum level is provisionally 20 until the Shinewood Forest 7 threshold is confirmed.
+Level 11+ is required to pass Shinewood Forest 7, as reported by the player.
 No repeat schedule applies. A later explicit start checks newly unlocked spells.
 An unprepared start is blocked unless the player explicitly accepts the danger
 warning with `allowUnsafeWalking: true`, which defaults off. The same preparation

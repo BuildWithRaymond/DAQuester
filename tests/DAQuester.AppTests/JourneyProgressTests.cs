@@ -5,6 +5,22 @@ using Xunit;
 namespace DAQuester.AppTests;
 public class JourneyProgressTests
 {
+    [Fact]
+    public void Progress_counts_the_observed_NPC_continuation_instead_of_the_opening_tail()
+    {
+        var root = new DirectoryInfo(AppContext.BaseDirectory);
+        while (root is not null && !Directory.Exists(Path.Combine(root.FullName, "content", "evidence"))) root = root.Parent;
+        Assert.NotNull(root);
+        var recipe = System.Text.Json.JsonSerializer.Deserialize<QuestDefinition>(File.ReadAllText(Path.Combine(root.FullName,
+            "content/recipes/cap-band-of-danaan.v1.json")))!;
+        using var capture = System.Text.Json.JsonDocument.Parse(File.ReadAllText(Path.Combine(root.FullName,
+            "content/evidence/datester-7.41/danaan-blanchefleur-varuna-spirits.json")));
+        var job = System.Text.Json.JsonSerializer.Deserialize<QuestJob>(capture.RootElement.GetProperty("Checkpoint").GetRawText())!;
+        job = DanaanReplyContinuation.Select(job, recipe, job.Route!.SubmittedPage!, job.Route.LastReply!);
+        Assert.Equal(27, QuestProgress.From(recipe, job).Total);
+        Assert.Equal(11, QuestProgress.From(recipe, job).Current);
+    }
+
     static readonly QuestDefinition Quest = new("test", 1, "Test quest", "", [], [new("prepare", "prepare", "travel"), new("travel", "travel", "confirm"), new("confirm", "confirm", "complete")]);
     [Theory]
     [InlineData("prepare", 0, "Step 1 of 3")]

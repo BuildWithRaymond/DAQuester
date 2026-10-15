@@ -1,0 +1,545 @@
+{
+  "Title": "Own final rewards, closure, and observed Priest Hall exit",
+  "ServerProfile": "datester-7.41",
+  "EvidenceType": "Restricted own server states; native MCP reconciliation through existing own-legend gate; player and MCP closure separate from automatic execution",
+  "Danaan": [
+    {
+      "Generation": 1835011655833605,
+      "Revision": 149,
+      "Name": "ResearchPixel",
+      "Connected": true,
+      "Map": 345,
+      "Position": {
+        "X": 6,
+        "Y": 5
+      },
+      "Gold": 961816,
+      "Experience": 193264283,
+      "CapCount": 0,
+      "CompletionLegends": [],
+      "LegendsRevision": 45,
+      "Dialog": {
+        "Generation": 1835011655833605,
+        "Revision": 149,
+        "EntityId": 6518,
+        "EntityType": 1,
+        "Name": "Erin",
+        "Text": "Hello.  What can I do for you?",
+        "IsPursuit": false,
+        "Pursuit": 0,
+        "Step": 0,
+        "Type": 0,
+        "Choices": [
+          {
+            "Text": "Priest",
+            "Pursuit": 1187,
+            "Option": 1
+          },
+          {
+            "Text": "Guide",
+            "Pursuit": 1189,
+            "Option": 2
+          },
+          {
+            "Text": "I completed the tasks",
+            "Pursuit": 2142,
+            "Option": 3
+          },
+          {
+            "Text": "Original Cap or Band of Danaan",
+            "Pursuit": 2151,
+            "Option": 4
+          }
+        ],
+        "Prompt": null,
+        "HasNext": false,
+        "ObservedAt": "2026-10-14T18:46:54.1027478+00:00",
+        "Items": []
+      },
+      "ActiveStatus": {
+        "Generation": 1835011655833605,
+        "Revision": 96,
+        "Type": 3,
+        "Text": "You shudder in realization of what may be below",
+        "ObservedAt": "2026-10-14T18:46:48.591464+00:00"
+      },
+      "Notice": null
+    },
+    {
+      "Generation": 1835011655833605,
+      "Revision": 151,
+      "Name": "ResearchPixel",
+      "Connected": true,
+      "Map": 345,
+      "Position": {
+        "X": 6,
+        "Y": 5
+      },
+      "Gold": 961816,
+      "Experience": 194264283,
+      "CapCount": 0,
+      "CompletionLegends": [],
+      "LegendsRevision": 45,
+      "Dialog": {
+        "Generation": 1835011655833605,
+        "Revision": 149,
+        "EntityId": 6518,
+        "EntityType": 1,
+        "Name": "Erin",
+        "Text": "Hello.  What can I do for you?",
+        "IsPursuit": false,
+        "Pursuit": 0,
+        "Step": 0,
+        "Type": 0,
+        "Choices": [
+          {
+            "Text": "Priest",
+            "Pursuit": 1187,
+            "Option": 1
+          },
+          {
+            "Text": "Guide",
+            "Pursuit": 1189,
+            "Option": 2
+          },
+          {
+            "Text": "I completed the tasks",
+            "Pursuit": 2142,
+            "Option": 3
+          },
+          {
+            "Text": "Original Cap or Band of Danaan",
+            "Pursuit": 2151,
+            "Option": 4
+          }
+        ],
+        "Prompt": null,
+        "HasNext": false,
+        "ObservedAt": "2026-10-14T18:46:54.1027478+00:00",
+        "Items": []
+      },
+      "ActiveStatus": {
+        "Generation": 1835011655833605,
+        "Revision": 151,
+        "Type": 3,
+        "Text": "1000000 experience!",
+        "ObservedAt": "2026-10-14T18:46:54.5823569+00:00"
+      },
+      "Notice": {
+        "Generation": 1835011655833605,
+        "Revision": 151,
+        "Type": 3,
+        "Text": "1000000 experience!",
+        "ObservedAt": "2026-10-14T18:46:54.5823569+00:00"
+      }
+    },
+    {
+      "Generation": 1835011655833605,
+      "Revision": 156,
+      "Name": "ResearchPixel",
+      "Connected": true,
+      "Map": 345,
+      "Position": {
+        "X": 6,
+        "Y": 5
+      },
+      "Gold": 961816,
+      "Experience": 194264283,
+      "CapCount": 1,
+      "CompletionLegends": [],
+      "LegendsRevision": 45,
+      "Dialog": {
+        "Generation": 1835011655833605,
+        "Revision": 156,
+        "EntityId": 6518,
+        "EntityType": 1,
+        "Name": "Erin",
+        "Text": "To have this consecrated to one of the eight deities, ask their Apostles for it. 'Please consecrate my Cap of Danaan' sounds polite enough for them to answer.",
+        "IsPursuit": true,
+        "Pursuit": 1118,
+        "Step": 27,
+        "Type": 0,
+        "Choices": [],
+        "Prompt": null,
+        "HasNext": false,
+        "ObservedAt": "2026-10-14T18:46:55.0871498+00:00",
+        "Items": []
+      },
+      "ActiveStatus": {
+        "Generation": 1835011655833605,
+        "Revision": 151,
+        "Type": 3,
+        "Text": "1000000 experience!",
+        "ObservedAt": "2026-10-14T18:46:54.5823569+00:00"
+      },
+      "Notice": {
+        "Generation": 1835011655833605,
+        "Revision": 151,
+        "Type": 3,
+        "Text": "1000000 experience!",
+        "ObservedAt": "2026-10-14T18:46:54.5823569+00:00"
+      }
+    },
+    {
+      "Generation": 1835011655833605,
+      "Revision": 184,
+      "Name": "ResearchPixel",
+      "Connected": true,
+      "Map": 345,
+      "Position": {
+        "X": 6,
+        "Y": 5
+      },
+      "Gold": 961816,
+      "Experience": 194264283,
+      "CapCount": 1,
+      "CompletionLegends": [
+        "Worthy of the Cap of Danaan, Deoch 223, Summer"
+      ],
+      "LegendsRevision": 184,
+      "Dialog": {
+        "Generation": 1835011655833605,
+        "Revision": 156,
+        "EntityId": 6518,
+        "EntityType": 1,
+        "Name": "Erin",
+        "Text": "To have this consecrated to one of the eight deities, ask their Apostles for it. 'Please consecrate my Cap of Danaan' sounds polite enough for them to answer.",
+        "IsPursuit": true,
+        "Pursuit": 1118,
+        "Step": 27,
+        "Type": 0,
+        "Choices": [],
+        "Prompt": null,
+        "HasNext": false,
+        "ObservedAt": "2026-10-14T18:46:55.0871498+00:00",
+        "Items": []
+      },
+      "ActiveStatus": {
+        "Generation": 1835011655833605,
+        "Revision": 151,
+        "Type": 3,
+        "Text": "1000000 experience!",
+        "ObservedAt": "2026-10-14T18:46:54.5823569+00:00"
+      },
+      "Notice": null
+    },
+    {
+      "Generation": 1835011655833605,
+      "Revision": 186,
+      "Name": "ResearchPixel",
+      "Connected": true,
+      "Map": 345,
+      "Position": {
+        "X": 6,
+        "Y": 5
+      },
+      "Gold": 961816,
+      "Experience": 194264283,
+      "CapCount": 1,
+      "CompletionLegends": [
+        "Worthy of the Cap of Danaan, Deoch 223, Summer"
+      ],
+      "LegendsRevision": 184,
+      "Dialog": null,
+      "ActiveStatus": {
+        "Generation": 1835011655833605,
+        "Revision": 151,
+        "Type": 3,
+        "Text": "1000000 experience!",
+        "ObservedAt": "2026-10-14T18:46:54.5823569+00:00"
+      },
+      "Notice": null
+    }
+  ],
+  "Fisk": [
+    {
+      "Generation": 1835011655833614,
+      "Revision": 780,
+      "Name": "ResearchPixel",
+      "Connected": true,
+      "Map": 415,
+      "Position": {
+        "X": 7,
+        "Y": 6
+      },
+      "Gold": 961816,
+      "Experience": 194264283,
+      "CapCount": 0,
+      "CompletionLegends": [
+        "Worthy of the Cap of Danaan, Deoch 223, Summer"
+      ],
+      "LegendsRevision": 62,
+      "Dialog": {
+        "Generation": 1835011655833614,
+        "Revision": 780,
+        "EntityId": 7495,
+        "EntityType": 1,
+        "Name": "Fisk",
+        "Text": "It must have been some trip.  Thank you very much.  I would like to help you in any situation.",
+        "IsPursuit": false,
+        "Pursuit": 0,
+        "Step": 0,
+        "Type": 0,
+        "Choices": [
+          {
+            "Text": "Forget Secret",
+            "Pursuit": 7,
+            "Option": 1
+          },
+          {
+            "Text": "Forget Skill",
+            "Pursuit": 12,
+            "Option": 2
+          },
+          {
+            "Text": "Buy",
+            "Pursuit": 64,
+            "Option": 3
+          },
+          {
+            "Text": "Sell",
+            "Pursuit": 65,
+            "Option": 4
+          },
+          {
+            "Text": "Secret Admirer",
+            "Pursuit": 3014,
+            "Option": 5
+          }
+        ],
+        "Prompt": null,
+        "HasNext": false,
+        "ObservedAt": "2026-10-14T19:06:44.2249809+00:00",
+        "Items": []
+      },
+      "ActiveStatus": {
+        "Generation": 1835011655833614,
+        "Revision": 662,
+        "Type": 3,
+        "Text": "Bertil goes into deep thought.",
+        "ObservedAt": "2026-10-14T19:06:19.6993701+00:00"
+      },
+      "Notice": null
+    },
+    {
+      "Generation": 1835011655833614,
+      "Revision": 783,
+      "Name": "ResearchPixel",
+      "Connected": true,
+      "Map": 415,
+      "Position": {
+        "X": 7,
+        "Y": 6
+      },
+      "Gold": 961816,
+      "Experience": 195014283,
+      "CapCount": 0,
+      "CompletionLegends": [
+        "Worthy of the Cap of Danaan, Deoch 223, Summer"
+      ],
+      "LegendsRevision": 62,
+      "Dialog": {
+        "Generation": 1835011655833614,
+        "Revision": 780,
+        "EntityId": 7495,
+        "EntityType": 1,
+        "Name": "Fisk",
+        "Text": "It must have been some trip.  Thank you very much.  I would like to help you in any situation.",
+        "IsPursuit": false,
+        "Pursuit": 0,
+        "Step": 0,
+        "Type": 0,
+        "Choices": [
+          {
+            "Text": "Forget Secret",
+            "Pursuit": 7,
+            "Option": 1
+          },
+          {
+            "Text": "Forget Skill",
+            "Pursuit": 12,
+            "Option": 2
+          },
+          {
+            "Text": "Buy",
+            "Pursuit": 64,
+            "Option": 3
+          },
+          {
+            "Text": "Sell",
+            "Pursuit": 65,
+            "Option": 4
+          },
+          {
+            "Text": "Secret Admirer",
+            "Pursuit": 3014,
+            "Option": 5
+          }
+        ],
+        "Prompt": null,
+        "HasNext": false,
+        "ObservedAt": "2026-10-14T19:06:44.2249809+00:00",
+        "Items": []
+      },
+      "ActiveStatus": {
+        "Generation": 1835011655833614,
+        "Revision": 783,
+        "Type": 3,
+        "Text": "You gain 750,000 experience!",
+        "ObservedAt": "2026-10-14T19:06:44.7199286+00:00"
+      },
+      "Notice": {
+        "Generation": 1835011655833614,
+        "Revision": 783,
+        "Type": 3,
+        "Text": "You gain 750,000 experience!",
+        "ObservedAt": "2026-10-14T19:06:44.7199286+00:00"
+      }
+    },
+    {
+      "Generation": 1835011655833614,
+      "Revision": 788,
+      "Name": "ResearchPixel",
+      "Connected": true,
+      "Map": 415,
+      "Position": {
+        "X": 7,
+        "Y": 6
+      },
+      "Gold": 961816,
+      "Experience": 195014283,
+      "CapCount": 0,
+      "CompletionLegends": [
+        "Worthy of the Cap of Danaan, Deoch 223, Summer"
+      ],
+      "LegendsRevision": 62,
+      "Dialog": {
+        "Generation": 1835011655833614,
+        "Revision": 788,
+        "EntityId": 7495,
+        "EntityType": 1,
+        "Name": "Fisk",
+        "Text": "Thank you so much!",
+        "IsPursuit": true,
+        "Pursuit": 0,
+        "Step": 1,
+        "Type": 0,
+        "Choices": [],
+        "Prompt": null,
+        "HasNext": false,
+        "ObservedAt": "2026-10-14T19:06:46.7133829+00:00",
+        "Items": []
+      },
+      "ActiveStatus": {
+        "Generation": 1835011655833614,
+        "Revision": 783,
+        "Type": 3,
+        "Text": "You gain 750,000 experience!",
+        "ObservedAt": "2026-10-14T19:06:44.7199286+00:00"
+      },
+      "Notice": {
+        "Generation": 1835011655833614,
+        "Revision": 783,
+        "Type": 3,
+        "Text": "You gain 750,000 experience!",
+        "ObservedAt": "2026-10-14T19:06:44.7199286+00:00"
+      }
+    },
+    {
+      "Generation": 1835011655833614,
+      "Revision": 792,
+      "Name": "ResearchPixel",
+      "Connected": true,
+      "Map": 415,
+      "Position": {
+        "X": 7,
+        "Y": 6
+      },
+      "Gold": 961816,
+      "Experience": 195014283,
+      "CapCount": 0,
+      "CompletionLegends": [
+        "Worthy of the Cap of Danaan, Deoch 223, Summer",
+        "Kept Fisk's Secret - Deoch 223, Summer"
+      ],
+      "LegendsRevision": 792,
+      "Dialog": null,
+      "ActiveStatus": {
+        "Generation": 1835011655833614,
+        "Revision": 783,
+        "Type": 3,
+        "Text": "You gain 750,000 experience!",
+        "ObservedAt": "2026-10-14T19:06:44.7199286+00:00"
+      },
+      "Notice": {
+        "Generation": 1835011655833614,
+        "Revision": 783,
+        "Type": 3,
+        "Text": "You gain 750,000 experience!",
+        "ObservedAt": "2026-10-14T19:06:44.7199286+00:00"
+      }
+    },
+    {
+      "Generation": 1835011655833614,
+      "Revision": 799,
+      "Name": "ResearchPixel",
+      "Connected": true,
+      "Map": 415,
+      "Position": {
+        "X": 7,
+        "Y": 6
+      },
+      "Gold": 961816,
+      "Experience": 195014283,
+      "CapCount": 0,
+      "CompletionLegends": [
+        "Worthy of the Cap of Danaan, Deoch 223, Summer",
+        "Kept Fisk's Secret - Deoch 223, Summer"
+      ],
+      "LegendsRevision": 792,
+      "Dialog": null,
+      "ActiveStatus": {
+        "Generation": 1835011655833614,
+        "Revision": 783,
+        "Type": 3,
+        "Text": "You gain 750,000 experience!",
+        "ObservedAt": "2026-10-14T19:06:44.7199286+00:00"
+      },
+      "Notice": null
+    }
+  ],
+  "ObservedDoorway": [
+    {
+      "generation": 1835011655833605,
+      "sourceMap": 345,
+      "from": {
+        "X": 6,
+        "Y": 11
+      },
+      "destination": 342,
+      "landing": {
+        "X": 6,
+        "Y": 2
+      },
+      "move": {
+        "revision": 226,
+        "source": "client",
+        "direction": 2
+      },
+      "mapReceipt": 227,
+      "positionReceipt": 228
+    }
+  ],
+  "LiveCompletion": {
+    "Danaan": {
+      "Status": "Completed",
+      "At": "2026-10-14T18:51:10Z",
+      "Method": "MCP guarded close, then existing own-legend reconciliation; no second reward claim"
+    },
+    "Fisk": {
+      "Status": "Completed",
+      "At": "2026-10-14T19:08:14Z",
+      "Method": "Popup was already closed at inspection; existing own-legend reconciliation; no second payment or handoff"
+    }
+  }
+}

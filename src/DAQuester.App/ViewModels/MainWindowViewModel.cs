@@ -500,6 +500,7 @@ public sealed partial class MainWindowViewModel : ObservableObject
             Sync(QueueItems, rows);
             RefreshHistory();
             RefreshDashboard();
+            WarmArtwork();
             RaiseAll();
             foreach (var command in commands)
                 command.Notify();

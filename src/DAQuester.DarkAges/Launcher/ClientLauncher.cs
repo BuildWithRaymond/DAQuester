@@ -2,11 +2,67 @@ using System.Runtime.InteropServices;
 using System.Security.Cryptography;
 using System.Text;
 using System.ComponentModel;
+using System.Reflection.PortableExecutable;
 
 namespace DAQuester.DarkAges.Launcher;
 
-public class ClientLauncher
+public partial class ClientLauncher
 {
+    public const string WindowingFile = "DAWindowerX.dll";
+    public static string WindowingPath => Path.Combine(AppContext.BaseDirectory, WindowingFile);
+
+    public static void ValidateWindowing(string file)
+    {
+        if (!File.Exists(file))
+            throw new FileNotFoundException("DAWindower X is missing. Restore the application files before launching clients.", file);
+        try
+        {
+            using var stream = File.OpenRead(file);
+            using var image = new PEReader(stream);
+            if (image.PEHeaders.CoffHeader.Machine != Machine.I386 || image.PEHeaders.PEHeader?.Magic != PEMagic.PE32 || image.PEHeaders.CorHeader is not null ||
+                !image.PEHeaders.CoffHeader.Characteristics.HasFlag(Characteristics.Dll))
+                throw new BadImageFormatException();
+        }
+        catch (BadImageFormatException error)
+        {
+            throw new InvalidOperationException("DAWindower X must be the packaged native x86 DLL. Restore the application files.", error);
+        }
+    }
+
+    internal static int Start(ISuspendedClient client, int port, string windowing, CancellationToken cancellation = default, Action<int>? beforeResume = null)
+    {
+        try
+        {
+            cancellation.ThrowIfCancellationRequested();
+            if (port < 1024 || port > 65535) throw new ArgumentOutOfRangeException(nameof(port));
+            var pointer = client.Allocate(Encoding.ASCII.GetBytes("localhost\0"));
+            foreach (int address in new[] { 0x433392, 0x565628 })
+                client.Patch(address, BitConverter.GetBytes(unchecked((uint)pointer.ToInt64())));
+            client.Patch(0x4333E3, [0xBA, (byte)port, (byte)(port >> 8), 0, 0]);
+            // Preserve whole PUSH instructions, starting at the opcode at C2.
+            client.Patch(0x4333C2, [0x6A, 1, 0x6A, 0, 0x6A, 0, 0x6A, 127]);
+            // Keep the existing supported-client multi-instance bypass.
+            client.Patch(0x57A7CE, [0x31, 0xC0, 0x90, 0x90, 0x90, 0x90]);
+            client.Patch(0x42E61F, [0x83, 0xFA, 0, 0x90, 0x90, 0x90]);
+            ApplyAgreementBypass(client.Patch);
+            if (client.LoadWindowing(windowing, cancellation) == 0)
+                throw new InvalidOperationException("DAWindower X could not load. The new client was not started.");
+            cancellation.ThrowIfCancellationRequested();
+            beforeResume?.Invoke(client.Id);
+            cancellation.ThrowIfCancellationRequested();
+            client.Resume();
+            return client.Id;
+        }
+        catch
+        {
+            client.Abort();
+            throw;
+        }
+        finally
+        {
+            client.Dispose();
+        }
+    }
     // DAOrganizer's supported-7.41 agreement bypass. Keep both jump destinations.
     public static void ApplyAgreementBypass(Action<int, byte[]> patch)
     {
@@ -25,57 +81,19 @@ public class ClientLauncher
             throw new InvalidOperationException("Unsupported client image. Configure the validated DATester 7.41 binary.");
     }
 
-    public static int Launch(string file, int port)
+    public static int Launch(string file, int port, string? windowing = null, CancellationToken cancellation = default,
+        string? launchPipe = null, Action<int>? beforeResume = null)
     {
+        cancellation.ThrowIfCancellationRequested();
         Validate(file);
         if (port < 1024 || port > 65535)
             throw new ArgumentOutOfRangeException(nameof(port));
-        var si = new StartupInfo
-        {
-            Size = Marshal.SizeOf<StartupInfo>()
-        };
-        if (!CreateProcess(file, null, IntPtr.Zero, IntPtr.Zero, false, 4, IntPtr.Zero, Path.GetDirectoryName(file), ref si, out var pi))
-            throw new Win32Exception();
-        try
-        {
-            var host = Encoding.ASCII.GetBytes("localhost\0");
-            var pointer = VirtualAllocEx(pi.Process, IntPtr.Zero, (nuint)host.Length, 0x3000, 4);
-            if (pointer == IntPtr.Zero)
-                throw new Win32Exception();
-            Write(pi.Process, pointer, host);
-            foreach (int address in new[]
-            {
-                0x433392,
-                0x565628
-            }
-
-            )
-                Write(pi.Process, new(address), BitConverter.GetBytes(unchecked((uint)pointer.ToInt64())));
-            Write(pi.Process, new(0x4333E3), [0xBA, (byte)port, (byte)(port >> 8), 0, 0]);
-            // Installed image has PUSH's opcode at C2 and its first operand at C3.
-            // Patch whole instructions starting at C2, correcting the legacy C3 offset.
-            Write(pi.Process, new(0x4333C2), [0x6A, 1, 0x6A, 0, 0x6A, 0, 0x6A, 127]);
-            // Multi instance: GetLastError -> xor eax,eax, so the Nexon.SingleInstance check never exits.
-            Write(pi.Process, new(0x57A7CE), [0x31, 0xC0, 0x90, 0x90, 0x90, 0x90]);
-            Write(pi.Process, new(0x42E61F), [0x83, 0xFA, 0, 0x90, 0x90, 0x90]);
-            // Only this newly created, hash-validated, still-suspended client is patched.
-            ApplyAgreementBypass((address, bytes) => Write(pi.Process, new(address), bytes));
-            FlushInstructionCache(pi.Process, IntPtr.Zero, 0);
-            if (ResumeThread(pi.Thread) == uint.MaxValue)
-                throw new Win32Exception();
-            return (int)pi.ProcessId;
-        }
-        catch
-        {
-            // Only this freshly created, still-suspended DATester process is owned here.
-            TerminateProcess(pi.Process, 1);
-            throw;
-        }
-        finally
-        {
-            CloseHandle(pi.Thread);
-            CloseHandle(pi.Process);
-        }
+        windowing = Path.GetFullPath(windowing ?? WindowingPath);
+        ValidateWindowing(windowing);
+        if (IntPtr.Size != 4)
+            throw new PlatformNotSupportedException("Client startup and DAWindower X require the x86 DAQuester application.");
+        cancellation.ThrowIfCancellationRequested();
+        return Start(NativeSuspendedClient.Create(Path.GetFullPath(file), launchPipe), port, windowing, cancellation, beforeResume);
     }
 
     static void Write(IntPtr process, IntPtr address, byte[] bytes)
@@ -107,7 +125,7 @@ public class ClientLauncher
     }
 
     [StructLayout(LayoutKind.Sequential)]
-    struct ProcessInfo
+    internal struct ProcessInfo
     {
         public IntPtr Process, Thread;
         public uint ProcessId, ThreadId;

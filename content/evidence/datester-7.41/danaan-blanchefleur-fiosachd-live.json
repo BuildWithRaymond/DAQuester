@@ -1,0 +1,4106 @@
+{
+  "SchemaVersion": 1,
+  "ServerProfile": "datester-7.41",
+  "Sanitized": true,
+  "Evidence": "Authorized live Blanchefleur Fiosachd route research. Character normalized to ReplayBlanche and connection generation to 1. Exact observed pages, choices, revisions and relevant own receipts retained. Unrelated own inventory/equipment/legends and all other-player state omitted. Arrival pullback is an observed map change; no cause inferred. Research paused at Cousin before payment. Gold and XP unchanged from Blanchefleur; no quest completion inferred.",
+  "Pause": {
+    "generation": 1,
+    "revision": 5703,
+    "name": "ReplayBlanche",
+    "connected": true,
+    "map": 3071,
+    "position": {
+      "x": 3,
+      "y": 2
+    },
+    "gold": 13456855,
+    "experience": 864703409,
+    "weight": 47,
+    "inventoryKnown": true,
+    "bagSlots": 37,
+    "inventory": {
+      "11": {
+        "slot": 11,
+        "name": "Viper's Gland",
+        "quantity": 1,
+        "stackable": true,
+        "sprite": 327
+      },
+      "12": {
+        "slot": 12,
+        "name": "Mold",
+        "quantity": 1,
+        "stackable": true,
+        "sprite": 338
+      },
+      "13": {
+        "slot": 13,
+        "name": "Cherry",
+        "quantity": 2,
+        "stackable": true,
+        "sprite": 42
+      },
+      "14": {
+        "slot": 14,
+        "name": "Grapes",
+        "quantity": 11,
+        "stackable": true,
+        "sprite": 2238
+      },
+      "15": {
+        "slot": 15,
+        "name": "Leather Greaves",
+        "quantity": 1,
+        "stackable": false,
+        "sprite": 238
+      },
+      "16": {
+        "slot": 16,
+        "name": "Wine",
+        "quantity": 5,
+        "stackable": true,
+        "sprite": 39
+      },
+      "17": {
+        "slot": 17,
+        "name": "Loures Saber",
+        "quantity": 1,
+        "stackable": false,
+        "sprite": 88
+      },
+      "18": {
+        "slot": 18,
+        "name": "Baguette",
+        "quantity": 1,
+        "stackable": true,
+        "sprite": 68
+      }
+    },
+    "equipment": {
+      "1": "Loures Saber"
+    },
+    "dialog": null,
+    "activeStatus": {
+      "generation": 1,
+      "revision": 5431,
+      "type": 3,
+      "text": "[Shnarbette]: B> Eggs 150 Missives 50 and thunderfuries! ",
+      "observedAt": "2026-10-15T01:25:14.3706689+00:00"
+    },
+    "legendsKnown": true,
+    "legends": []
+  },
+  "Observations": [
+    {
+      "Sequence": 1,
+      "Request": {
+        "Kind": "read-dialog"
+      },
+      "Result": {
+        "discovery": {
+          "stopReason": "choice",
+          "pages": [
+            {
+              "generation": 1,
+              "revision": 3743,
+              "entityId": 8002,
+              "entityType": 1,
+              "name": "Blanchefleur",
+              "text": "It was a gift, but I do not remember from whom. I do remember a sailor that came to visit me the other day. He said it looked like something they have a tale about over in Abel. Something involving Fiosachd. But it sounded too much like a silly big city legend, and he was such a bad storyteller...Besides, he brought no gifts from the outside world. ",
+              "isPursuit": true,
+              "pursuit": 1096,
+              "step": 73,
+              "type": 0,
+              "choices": [],
+              "prompt": null,
+              "hasNext": true,
+              "observedAt": "2026-10-15T01:04:05.3729252+00:00",
+              "items": []
+            },
+            {
+              "generation": 1,
+              "revision": 3796,
+              "entityId": 8002,
+              "entityType": 1,
+              "name": "Blanchefleur",
+              "text": "I paid little attention to him.",
+              "isPursuit": true,
+              "pursuit": 1096,
+              "step": 74,
+              "type": 2,
+              "choices": [
+                {
+                  "text": "Something involving Fiosachd?",
+                  "pursuit": 1096,
+                  "option": 1
+                },
+                {
+                  "text": "Gifts from the outside world?",
+                  "pursuit": 1096,
+                  "option": 2
+                }
+              ],
+              "prompt": null,
+              "hasNext": true,
+              "observedAt": "2026-10-15T01:10:56.1746252+00:00",
+              "items": []
+            }
+          ],
+          "before": {
+            "generation": 1,
+            "revision": 3795,
+            "name": "ReplayBlanche",
+            "connected": true,
+            "map": 117,
+            "position": {
+              "x": 7,
+              "y": 5
+            },
+            "gold": 13456855,
+            "experience": 864703409,
+            "weight": 47,
+            "inventoryKnown": true,
+            "bagSlots": 37,
+            "inventory": {
+              "11": {
+                "slot": 11,
+                "name": "Viper's Gland",
+                "quantity": 1,
+                "stackable": true,
+                "sprite": 327
+              },
+              "12": {
+                "slot": 12,
+                "name": "Mold",
+                "quantity": 1,
+                "stackable": true,
+                "sprite": 338
+              },
+              "13": {
+                "slot": 13,
+                "name": "Cherry",
+                "quantity": 2,
+                "stackable": true,
+                "sprite": 42
+              },
+              "14": {
+                "slot": 14,
+                "name": "Grapes",
+                "quantity": 11,
+                "stackable": true,
+                "sprite": 2238
+              },
+              "15": {
+                "slot": 15,
+                "name": "Leather Greaves",
+                "quantity": 1,
+                "stackable": false,
+                "sprite": 238
+              },
+              "16": {
+                "slot": 16,
+                "name": "Wine",
+                "quantity": 5,
+                "stackable": true,
+                "sprite": 39
+              },
+              "17": {
+                "slot": 17,
+                "name": "Loures Saber",
+                "quantity": 1,
+                "stackable": false,
+                "sprite": 88
+              },
+              "18": {
+                "slot": 18,
+                "name": "Baguette",
+                "quantity": 1,
+                "stackable": true,
+                "sprite": 68
+              }
+            },
+            "equipment": {
+              "1": "Loures Saber"
+            }
+          },
+          "after": {
+            "generation": 1,
+            "revision": 3796,
+            "name": "ReplayBlanche",
+            "connected": true,
+            "map": 117,
+            "position": {
+              "x": 7,
+              "y": 5
+            },
+            "gold": 13456855,
+            "experience": 864703409,
+            "weight": 47,
+            "inventoryKnown": true,
+            "bagSlots": 37,
+            "inventory": {
+              "11": {
+                "slot": 11,
+                "name": "Viper's Gland",
+                "quantity": 1,
+                "stackable": true,
+                "sprite": 327
+              },
+              "12": {
+                "slot": 12,
+                "name": "Mold",
+                "quantity": 1,
+                "stackable": true,
+                "sprite": 338
+              },
+              "13": {
+                "slot": 13,
+                "name": "Cherry",
+                "quantity": 2,
+                "stackable": true,
+                "sprite": 42
+              },
+              "14": {
+                "slot": 14,
+                "name": "Grapes",
+                "quantity": 11,
+                "stackable": true,
+                "sprite": 2238
+              },
+              "15": {
+                "slot": 15,
+                "name": "Leather Greaves",
+                "quantity": 1,
+                "stackable": false,
+                "sprite": 238
+              },
+              "16": {
+                "slot": 16,
+                "name": "Wine",
+                "quantity": 5,
+                "stackable": true,
+                "sprite": 39
+              },
+              "17": {
+                "slot": 17,
+                "name": "Loures Saber",
+                "quantity": 1,
+                "stackable": false,
+                "sprite": 88
+              },
+              "18": {
+                "slot": 18,
+                "name": "Baguette",
+                "quantity": 1,
+                "stackable": true,
+                "sprite": 68
+              }
+            },
+            "equipment": {
+              "1": "Loures Saber"
+            }
+          },
+          "error": null
+        },
+        "observedMap": {
+          "id": 117,
+          "name": "Loures 2 Floor Bed Room",
+          "width": 10,
+          "height": 10,
+          "portals": [],
+          "npcTransfers": [],
+          "internalTransfers": []
+        }
+      }
+    },
+    {
+      "Sequence": 2,
+      "Request": {
+        "Kind": "choose",
+        "Text": "Something involving Fiosachd?"
+      },
+      "Result": {
+        "discovery": {
+          "stopReason": "choice",
+          "pages": [
+            {
+              "generation": 1,
+              "revision": 3796,
+              "entityId": 8002,
+              "entityType": 1,
+              "name": "Blanchefleur",
+              "text": "I paid little attention to him.",
+              "isPursuit": true,
+              "pursuit": 1096,
+              "step": 74,
+              "type": 2,
+              "choices": [
+                {
+                  "text": "Something involving Fiosachd?",
+                  "pursuit": 1096,
+                  "option": 1
+                },
+                {
+                  "text": "Gifts from the outside world?",
+                  "pursuit": 1096,
+                  "option": 2
+                }
+              ],
+              "prompt": null,
+              "hasNext": true,
+              "observedAt": "2026-10-15T01:10:56.1746252+00:00",
+              "items": []
+            },
+            {
+              "generation": 1,
+              "revision": 3832,
+              "entityId": 8002,
+              "entityType": 1,
+              "name": "Blanchefleur",
+              "text": "Yes, I just told you that. But that is all there is to it. Just to let you know, sometimes my friend Aundy comes from the temple she lives in, in Abel, and tells me stories fo the big city. I asked her about that, out of curiosity, and she did not know anything. If Fiosachd has any ties to this pretty cap of mine, and not even his Acolyte knows it, who would, other than himself? Oh well...You are an Aisling, free to travel across the world. Maybe you can find a way to ask the patron of Rogues himself.",
+              "isPursuit": true,
+              "pursuit": 1096,
+              "step": 79,
+              "type": 0,
+              "choices": [],
+              "prompt": null,
+              "hasNext": true,
+              "observedAt": "2026-10-15T01:15:44.8989509+00:00",
+              "items": []
+            },
+            {
+              "generation": 1,
+              "revision": 3833,
+              "entityId": 8002,
+              "entityType": 1,
+              "name": "Blanchefleur",
+              "text": "It was a gift, but I do not remember from whom. I do remember a sailor that came to visit me the other day. He said it looked like something they have a tale about over in Abel. Something involving Fiosachd. But it sounded too much like a silly big city legend, and he was such a bad storyteller...Besides, he brought no gifts from the outside world. ",
+              "isPursuit": true,
+              "pursuit": 1096,
+              "step": 73,
+              "type": 0,
+              "choices": [],
+              "prompt": null,
+              "hasNext": true,
+              "observedAt": "2026-10-15T01:15:45.4021527+00:00",
+              "items": []
+            },
+            {
+              "generation": 1,
+              "revision": 3834,
+              "entityId": 8002,
+              "entityType": 1,
+              "name": "Blanchefleur",
+              "text": "I paid little attention to him.",
+              "isPursuit": true,
+              "pursuit": 1096,
+              "step": 74,
+              "type": 2,
+              "choices": [
+                {
+                  "text": "Something involving Fiosachd?",
+                  "pursuit": 1096,
+                  "option": 1
+                },
+                {
+                  "text": "Gifts from the outside world?",
+                  "pursuit": 1096,
+                  "option": 2
+                }
+              ],
+              "prompt": null,
+              "hasNext": true,
+              "observedAt": "2026-10-15T01:15:47.8999922+00:00",
+              "items": []
+            }
+          ],
+          "before": {
+            "generation": 1,
+            "revision": 3830,
+            "name": "ReplayBlanche",
+            "connected": true,
+            "map": 117,
+            "position": {
+              "x": 7,
+              "y": 5
+            },
+            "gold": 13456855,
+            "experience": 864703409,
+            "weight": 47,
+            "inventoryKnown": true,
+            "bagSlots": 37,
+            "inventory": {
+              "11": {
+                "slot": 11,
+                "name": "Viper's Gland",
+                "quantity": 1,
+                "stackable": true,
+                "sprite": 327
+              },
+              "12": {
+                "slot": 12,
+                "name": "Mold",
+                "quantity": 1,
+                "stackable": true,
+                "sprite": 338
+              },
+              "13": {
+                "slot": 13,
+                "name": "Cherry",
+                "quantity": 2,
+                "stackable": true,
+                "sprite": 42
+              },
+              "14": {
+                "slot": 14,
+                "name": "Grapes",
+                "quantity": 11,
+                "stackable": true,
+                "sprite": 2238
+              },
+              "15": {
+                "slot": 15,
+                "name": "Leather Greaves",
+                "quantity": 1,
+                "stackable": false,
+                "sprite": 238
+              },
+              "16": {
+                "slot": 16,
+                "name": "Wine",
+                "quantity": 5,
+                "stackable": true,
+                "sprite": 39
+              },
+              "17": {
+                "slot": 17,
+                "name": "Loures Saber",
+                "quantity": 1,
+                "stackable": false,
+                "sprite": 88
+              },
+              "18": {
+                "slot": 18,
+                "name": "Baguette",
+                "quantity": 1,
+                "stackable": true,
+                "sprite": 68
+              }
+            },
+            "equipment": {
+              "1": "Loures Saber"
+            }
+          },
+          "after": {
+            "generation": 1,
+            "revision": 3834,
+            "name": "ReplayBlanche",
+            "connected": true,
+            "map": 117,
+            "position": {
+              "x": 7,
+              "y": 5
+            },
+            "gold": 13456855,
+            "experience": 864703409,
+            "weight": 47,
+            "inventoryKnown": true,
+            "bagSlots": 37,
+            "inventory": {
+              "11": {
+                "slot": 11,
+                "name": "Viper's Gland",
+                "quantity": 1,
+                "stackable": true,
+                "sprite": 327
+              },
+              "12": {
+                "slot": 12,
+                "name": "Mold",
+                "quantity": 1,
+                "stackable": true,
+                "sprite": 338
+              },
+              "13": {
+                "slot": 13,
+                "name": "Cherry",
+                "quantity": 2,
+                "stackable": true,
+                "sprite": 42
+              },
+              "14": {
+                "slot": 14,
+                "name": "Grapes",
+                "quantity": 11,
+                "stackable": true,
+                "sprite": 2238
+              },
+              "15": {
+                "slot": 15,
+                "name": "Leather Greaves",
+                "quantity": 1,
+                "stackable": false,
+                "sprite": 238
+              },
+              "16": {
+                "slot": 16,
+                "name": "Wine",
+                "quantity": 5,
+                "stackable": true,
+                "sprite": 39
+              },
+              "17": {
+                "slot": 17,
+                "name": "Loures Saber",
+                "quantity": 1,
+                "stackable": false,
+                "sprite": 88
+              },
+              "18": {
+                "slot": 18,
+                "name": "Baguette",
+                "quantity": 1,
+                "stackable": true,
+                "sprite": 68
+              }
+            },
+            "equipment": {
+              "1": "Loures Saber"
+            }
+          },
+          "error": null
+        },
+        "observedMap": {
+          "id": 117,
+          "name": "Loures 2 Floor Bed Room",
+          "width": 10,
+          "height": 10,
+          "portals": [],
+          "npcTransfers": [],
+          "internalTransfers": []
+        }
+      }
+    },
+    {
+      "Sequence": 3,
+      "Request": {
+        "Kind": "close"
+      },
+      "Result": {
+        "snapshot": {
+          "generation": 1,
+          "revision": 3837,
+          "name": "ReplayBlanche",
+          "connected": true,
+          "map": 117,
+          "position": {
+            "x": 7,
+            "y": 5
+          },
+          "gold": 13456855,
+          "experience": 864703409,
+          "weight": 47,
+          "inventoryKnown": true,
+          "bagSlots": 37,
+          "inventory": {
+            "11": {
+              "slot": 11,
+              "name": "Viper's Gland",
+              "quantity": 1,
+              "stackable": true,
+              "sprite": 327
+            },
+            "12": {
+              "slot": 12,
+              "name": "Mold",
+              "quantity": 1,
+              "stackable": true,
+              "sprite": 338
+            },
+            "13": {
+              "slot": 13,
+              "name": "Cherry",
+              "quantity": 2,
+              "stackable": true,
+              "sprite": 42
+            },
+            "14": {
+              "slot": 14,
+              "name": "Grapes",
+              "quantity": 11,
+              "stackable": true,
+              "sprite": 2238
+            },
+            "15": {
+              "slot": 15,
+              "name": "Leather Greaves",
+              "quantity": 1,
+              "stackable": false,
+              "sprite": 238
+            },
+            "16": {
+              "slot": 16,
+              "name": "Wine",
+              "quantity": 5,
+              "stackable": true,
+              "sprite": 39
+            },
+            "17": {
+              "slot": 17,
+              "name": "Loures Saber",
+              "quantity": 1,
+              "stackable": false,
+              "sprite": 88
+            },
+            "18": {
+              "slot": 18,
+              "name": "Baguette",
+              "quantity": 1,
+              "stackable": true,
+              "sprite": 68
+            }
+          },
+          "equipment": {
+            "1": "Loures Saber"
+          },
+          "dialog": null,
+          "activeStatus": {
+            "generation": 1,
+            "revision": 3572,
+            "type": 3,
+            "text": "You enter the temple of Ceannlaidir",
+            "observedAt": "2026-10-15T01:03:30.3365313+00:00"
+          },
+          "legendsKnown": true,
+          "legends": []
+        },
+        "observedMap": {
+          "id": 117,
+          "name": "Loures 2 Floor Bed Room",
+          "width": 10,
+          "height": 10,
+          "portals": [],
+          "npcTransfers": [],
+          "internalTransfers": []
+        }
+      }
+    },
+    {
+      "Sequence": 4,
+      "Request": {
+        "Kind": "interact",
+        "Map": 393,
+        "Npc": "Aoife"
+      },
+      "Result": {
+        "discovery": {
+          "stopReason": "choice",
+          "pages": [
+            {
+              "generation": 1,
+              "revision": 4110,
+              "entityId": 6312,
+              "entityType": 1,
+              "name": "Aoife",
+              "text": "Hello.  What can I do for you?",
+              "isPursuit": false,
+              "pursuit": 0,
+              "step": 0,
+              "type": 0,
+              "choices": [
+                {
+                  "text": "Buy",
+                  "pursuit": 64,
+                  "option": 1
+                },
+                {
+                  "text": "Sell",
+                  "pursuit": 65,
+                  "option": 2
+                },
+                {
+                  "text": "Danaan Consecration",
+                  "pursuit": 3664,
+                  "option": 3
+                },
+                {
+                  "text": "Legendary Aisling",
+                  "pursuit": 2999,
+                  "option": 4
+                },
+                {
+                  "text": "Class Dedication",
+                  "pursuit": 1948,
+                  "option": 5
+                },
+                {
+                  "text": "Guide Reception",
+                  "pursuit": 1170,
+                  "option": 6
+                },
+                {
+                  "text": "Wizard Master",
+                  "pursuit": 1690,
+                  "option": 7
+                },
+                {
+                  "text": "Master Stats",
+                  "pursuit": 1693,
+                  "option": 8
+                },
+                {
+                  "text": "((Stat Reallocation))",
+                  "pursuit": 1720,
+                  "option": 9
+                }
+              ],
+              "prompt": null,
+              "hasNext": false,
+              "observedAt": "2026-10-15T01:17:22.4824929+00:00",
+              "items": []
+            }
+          ],
+          "before": {
+            "generation": 1,
+            "revision": 3837,
+            "name": "ReplayBlanche",
+            "connected": true,
+            "map": 117,
+            "position": {
+              "x": 7,
+              "y": 5
+            },
+            "gold": 13456855,
+            "experience": 864703409,
+            "weight": 47,
+            "inventoryKnown": true,
+            "bagSlots": 37,
+            "inventory": {
+              "11": {
+                "slot": 11,
+                "name": "Viper's Gland",
+                "quantity": 1,
+                "stackable": true,
+                "sprite": 327
+              },
+              "12": {
+                "slot": 12,
+                "name": "Mold",
+                "quantity": 1,
+                "stackable": true,
+                "sprite": 338
+              },
+              "13": {
+                "slot": 13,
+                "name": "Cherry",
+                "quantity": 2,
+                "stackable": true,
+                "sprite": 42
+              },
+              "14": {
+                "slot": 14,
+                "name": "Grapes",
+                "quantity": 11,
+                "stackable": true,
+                "sprite": 2238
+              },
+              "15": {
+                "slot": 15,
+                "name": "Leather Greaves",
+                "quantity": 1,
+                "stackable": false,
+                "sprite": 238
+              },
+              "16": {
+                "slot": 16,
+                "name": "Wine",
+                "quantity": 5,
+                "stackable": true,
+                "sprite": 39
+              },
+              "17": {
+                "slot": 17,
+                "name": "Loures Saber",
+                "quantity": 1,
+                "stackable": false,
+                "sprite": 88
+              },
+              "18": {
+                "slot": 18,
+                "name": "Baguette",
+                "quantity": 1,
+                "stackable": true,
+                "sprite": 68
+              }
+            },
+            "equipment": {
+              "1": "Loures Saber"
+            }
+          },
+          "after": {
+            "generation": 1,
+            "revision": 4110,
+            "name": "ReplayBlanche",
+            "connected": true,
+            "map": 393,
+            "position": {
+              "x": 10,
+              "y": 4
+            },
+            "gold": 13456855,
+            "experience": 864703409,
+            "weight": 47,
+            "inventoryKnown": true,
+            "bagSlots": 37,
+            "inventory": {
+              "11": {
+                "slot": 11,
+                "name": "Viper's Gland",
+                "quantity": 1,
+                "stackable": true,
+                "sprite": 327
+              },
+              "12": {
+                "slot": 12,
+                "name": "Mold",
+                "quantity": 1,
+                "stackable": true,
+                "sprite": 338
+              },
+              "13": {
+                "slot": 13,
+                "name": "Cherry",
+                "quantity": 2,
+                "stackable": true,
+                "sprite": 42
+              },
+              "14": {
+                "slot": 14,
+                "name": "Grapes",
+                "quantity": 11,
+                "stackable": true,
+                "sprite": 2238
+              },
+              "15": {
+                "slot": 15,
+                "name": "Leather Greaves",
+                "quantity": 1,
+                "stackable": false,
+                "sprite": 238
+              },
+              "16": {
+                "slot": 16,
+                "name": "Wine",
+                "quantity": 5,
+                "stackable": true,
+                "sprite": 39
+              },
+              "17": {
+                "slot": 17,
+                "name": "Loures Saber",
+                "quantity": 1,
+                "stackable": false,
+                "sprite": 88
+              },
+              "18": {
+                "slot": 18,
+                "name": "Baguette",
+                "quantity": 1,
+                "stackable": true,
+                "sprite": 68
+              }
+            },
+            "equipment": {
+              "1": "Loures Saber"
+            }
+          },
+          "error": null
+        },
+        "observedMap": {
+          "id": 393,
+          "name": "Path Reception",
+          "width": 12,
+          "height": 12,
+          "portals": [],
+          "npcTransfers": [],
+          "internalTransfers": []
+        }
+      }
+    },
+    {
+      "Sequence": 5,
+      "Request": {
+        "Kind": "choose",
+        "Text": "Guide Reception"
+      },
+      "Result": {
+        "discovery": {
+          "stopReason": "choice",
+          "pages": [
+            {
+              "generation": 1,
+              "revision": 4110,
+              "entityId": 6312,
+              "entityType": 1,
+              "name": "Aoife",
+              "text": "Hello.  What can I do for you?",
+              "isPursuit": false,
+              "pursuit": 0,
+              "step": 0,
+              "type": 0,
+              "choices": [
+                {
+                  "text": "Buy",
+                  "pursuit": 64,
+                  "option": 1
+                },
+                {
+                  "text": "Sell",
+                  "pursuit": 65,
+                  "option": 2
+                },
+                {
+                  "text": "Danaan Consecration",
+                  "pursuit": 3664,
+                  "option": 3
+                },
+                {
+                  "text": "Legendary Aisling",
+                  "pursuit": 2999,
+                  "option": 4
+                },
+                {
+                  "text": "Class Dedication",
+                  "pursuit": 1948,
+                  "option": 5
+                },
+                {
+                  "text": "Guide Reception",
+                  "pursuit": 1170,
+                  "option": 6
+                },
+                {
+                  "text": "Wizard Master",
+                  "pursuit": 1690,
+                  "option": 7
+                },
+                {
+                  "text": "Master Stats",
+                  "pursuit": 1693,
+                  "option": 8
+                },
+                {
+                  "text": "((Stat Reallocation))",
+                  "pursuit": 1720,
+                  "option": 9
+                }
+              ],
+              "prompt": null,
+              "hasNext": false,
+              "observedAt": "2026-10-15T01:17:22.4824929+00:00",
+              "items": []
+            },
+            {
+              "generation": 1,
+              "revision": 4111,
+              "entityId": 6312,
+              "entityType": 1,
+              "name": "Aoife",
+              "text": "Come to give guidance to a new Aisling who is choosing his or her Craft?",
+              "isPursuit": true,
+              "pursuit": 146,
+              "step": 9,
+              "type": 2,
+              "choices": [
+                {
+                  "text": "No",
+                  "pursuit": 146,
+                  "option": 1
+                },
+                {
+                  "text": "Yes",
+                  "pursuit": 146,
+                  "option": 2
+                }
+              ],
+              "prompt": null,
+              "hasNext": true,
+              "observedAt": "2026-10-15T01:17:31.9871957+00:00",
+              "items": []
+            }
+          ],
+          "before": {
+            "generation": 1,
+            "revision": 4110,
+            "name": "ReplayBlanche",
+            "connected": true,
+            "map": 393,
+            "position": {
+              "x": 10,
+              "y": 4
+            },
+            "gold": 13456855,
+            "experience": 864703409,
+            "weight": 47,
+            "inventoryKnown": true,
+            "bagSlots": 37,
+            "inventory": {
+              "11": {
+                "slot": 11,
+                "name": "Viper's Gland",
+                "quantity": 1,
+                "stackable": true,
+                "sprite": 327
+              },
+              "12": {
+                "slot": 12,
+                "name": "Mold",
+                "quantity": 1,
+                "stackable": true,
+                "sprite": 338
+              },
+              "13": {
+                "slot": 13,
+                "name": "Cherry",
+                "quantity": 2,
+                "stackable": true,
+                "sprite": 42
+              },
+              "14": {
+                "slot": 14,
+                "name": "Grapes",
+                "quantity": 11,
+                "stackable": true,
+                "sprite": 2238
+              },
+              "15": {
+                "slot": 15,
+                "name": "Leather Greaves",
+                "quantity": 1,
+                "stackable": false,
+                "sprite": 238
+              },
+              "16": {
+                "slot": 16,
+                "name": "Wine",
+                "quantity": 5,
+                "stackable": true,
+                "sprite": 39
+              },
+              "17": {
+                "slot": 17,
+                "name": "Loures Saber",
+                "quantity": 1,
+                "stackable": false,
+                "sprite": 88
+              },
+              "18": {
+                "slot": 18,
+                "name": "Baguette",
+                "quantity": 1,
+                "stackable": true,
+                "sprite": 68
+              }
+            },
+            "equipment": {
+              "1": "Loures Saber"
+            }
+          },
+          "after": {
+            "generation": 1,
+            "revision": 4111,
+            "name": "ReplayBlanche",
+            "connected": true,
+            "map": 393,
+            "position": {
+              "x": 10,
+              "y": 4
+            },
+            "gold": 13456855,
+            "experience": 864703409,
+            "weight": 47,
+            "inventoryKnown": true,
+            "bagSlots": 37,
+            "inventory": {
+              "11": {
+                "slot": 11,
+                "name": "Viper's Gland",
+                "quantity": 1,
+                "stackable": true,
+                "sprite": 327
+              },
+              "12": {
+                "slot": 12,
+                "name": "Mold",
+                "quantity": 1,
+                "stackable": true,
+                "sprite": 338
+              },
+              "13": {
+                "slot": 13,
+                "name": "Cherry",
+                "quantity": 2,
+                "stackable": true,
+                "sprite": 42
+              },
+              "14": {
+                "slot": 14,
+                "name": "Grapes",
+                "quantity": 11,
+                "stackable": true,
+                "sprite": 2238
+              },
+              "15": {
+                "slot": 15,
+                "name": "Leather Greaves",
+                "quantity": 1,
+                "stackable": false,
+                "sprite": 238
+              },
+              "16": {
+                "slot": 16,
+                "name": "Wine",
+                "quantity": 5,
+                "stackable": true,
+                "sprite": 39
+              },
+              "17": {
+                "slot": 17,
+                "name": "Loures Saber",
+                "quantity": 1,
+                "stackable": false,
+                "sprite": 88
+              },
+              "18": {
+                "slot": 18,
+                "name": "Baguette",
+                "quantity": 1,
+                "stackable": true,
+                "sprite": 68
+              }
+            },
+            "equipment": {
+              "1": "Loures Saber"
+            }
+          },
+          "error": null
+        },
+        "observedMap": {
+          "id": 393,
+          "name": "Path Reception",
+          "width": 12,
+          "height": 12,
+          "portals": [],
+          "npcTransfers": [],
+          "internalTransfers": []
+        }
+      }
+    },
+    {
+      "Sequence": 6,
+      "Request": {
+        "Kind": "choose",
+        "Text": "Yes",
+        "Page": "Come to give guidance to a new Aisling who is choosing his or her Craft?"
+      },
+      "Result": {
+        "discovery": {
+          "stopReason": "state-changed",
+          "pages": [
+            {
+              "generation": 1,
+              "revision": 4111,
+              "entityId": 6312,
+              "entityType": 1,
+              "name": "Aoife",
+              "text": "Come to give guidance to a new Aisling who is choosing his or her Craft?",
+              "isPursuit": true,
+              "pursuit": 146,
+              "step": 9,
+              "type": 2,
+              "choices": [
+                {
+                  "text": "No",
+                  "pursuit": 146,
+                  "option": 1
+                },
+                {
+                  "text": "Yes",
+                  "pursuit": 146,
+                  "option": 2
+                }
+              ],
+              "prompt": null,
+              "hasNext": true,
+              "observedAt": "2026-10-15T01:17:31.9871957+00:00",
+              "items": []
+            }
+          ],
+          "before": {
+            "generation": 1,
+            "revision": 4111,
+            "name": "ReplayBlanche",
+            "connected": true,
+            "map": 393,
+            "position": {
+              "x": 10,
+              "y": 4
+            },
+            "gold": 13456855,
+            "experience": 864703409,
+            "weight": 47,
+            "inventoryKnown": true,
+            "bagSlots": 37,
+            "inventory": {
+              "11": {
+                "slot": 11,
+                "name": "Viper's Gland",
+                "quantity": 1,
+                "stackable": true,
+                "sprite": 327
+              },
+              "12": {
+                "slot": 12,
+                "name": "Mold",
+                "quantity": 1,
+                "stackable": true,
+                "sprite": 338
+              },
+              "13": {
+                "slot": 13,
+                "name": "Cherry",
+                "quantity": 2,
+                "stackable": true,
+                "sprite": 42
+              },
+              "14": {
+                "slot": 14,
+                "name": "Grapes",
+                "quantity": 11,
+                "stackable": true,
+                "sprite": 2238
+              },
+              "15": {
+                "slot": 15,
+                "name": "Leather Greaves",
+                "quantity": 1,
+                "stackable": false,
+                "sprite": 238
+              },
+              "16": {
+                "slot": 16,
+                "name": "Wine",
+                "quantity": 5,
+                "stackable": true,
+                "sprite": 39
+              },
+              "17": {
+                "slot": 17,
+                "name": "Loures Saber",
+                "quantity": 1,
+                "stackable": false,
+                "sprite": 88
+              },
+              "18": {
+                "slot": 18,
+                "name": "Baguette",
+                "quantity": 1,
+                "stackable": true,
+                "sprite": 68
+              }
+            },
+            "equipment": {
+              "1": "Loures Saber"
+            }
+          },
+          "after": {
+            "generation": 1,
+            "revision": 4119,
+            "name": "ReplayBlanche",
+            "connected": true,
+            "map": 394,
+            "position": {
+              "x": 7,
+              "y": 7
+            },
+            "gold": 13456855,
+            "experience": 864703409,
+            "weight": 47,
+            "inventoryKnown": true,
+            "bagSlots": 37,
+            "inventory": {
+              "11": {
+                "slot": 11,
+                "name": "Viper's Gland",
+                "quantity": 1,
+                "stackable": true,
+                "sprite": 327
+              },
+              "12": {
+                "slot": 12,
+                "name": "Mold",
+                "quantity": 1,
+                "stackable": true,
+                "sprite": 338
+              },
+              "13": {
+                "slot": 13,
+                "name": "Cherry",
+                "quantity": 2,
+                "stackable": true,
+                "sprite": 42
+              },
+              "14": {
+                "slot": 14,
+                "name": "Grapes",
+                "quantity": 11,
+                "stackable": true,
+                "sprite": 2238
+              },
+              "15": {
+                "slot": 15,
+                "name": "Leather Greaves",
+                "quantity": 1,
+                "stackable": false,
+                "sprite": 238
+              },
+              "16": {
+                "slot": 16,
+                "name": "Wine",
+                "quantity": 5,
+                "stackable": true,
+                "sprite": 39
+              },
+              "17": {
+                "slot": 17,
+                "name": "Loures Saber",
+                "quantity": 1,
+                "stackable": false,
+                "sprite": 88
+              },
+              "18": {
+                "slot": 18,
+                "name": "Baguette",
+                "quantity": 1,
+                "stackable": true,
+                "sprite": 68
+              }
+            },
+            "equipment": {
+              "1": "Loures Saber"
+            }
+          },
+          "error": null
+        },
+        "observedMap": {
+          "id": 394,
+          "name": "Path Sitting Room",
+          "width": 12,
+          "height": 12,
+          "portals": [],
+          "npcTransfers": [],
+          "internalTransfers": []
+        }
+      }
+    },
+    {
+      "Sequence": 7,
+      "Request": {
+        "Kind": "step",
+        "Map": 394,
+        "Target": {
+          "x": 6,
+          "y": 7
+        }
+      },
+      "Result": {
+        "snapshot": {
+          "generation": 1,
+          "revision": 4120,
+          "name": "ReplayBlanche",
+          "connected": true,
+          "map": 394,
+          "position": {
+            "x": 6,
+            "y": 7
+          },
+          "gold": 13456855,
+          "experience": 864703409,
+          "weight": 47,
+          "inventoryKnown": true,
+          "bagSlots": 37,
+          "inventory": {
+            "11": {
+              "slot": 11,
+              "name": "Viper's Gland",
+              "quantity": 1,
+              "stackable": true,
+              "sprite": 327
+            },
+            "12": {
+              "slot": 12,
+              "name": "Mold",
+              "quantity": 1,
+              "stackable": true,
+              "sprite": 338
+            },
+            "13": {
+              "slot": 13,
+              "name": "Cherry",
+              "quantity": 2,
+              "stackable": true,
+              "sprite": 42
+            },
+            "14": {
+              "slot": 14,
+              "name": "Grapes",
+              "quantity": 11,
+              "stackable": true,
+              "sprite": 2238
+            },
+            "15": {
+              "slot": 15,
+              "name": "Leather Greaves",
+              "quantity": 1,
+              "stackable": false,
+              "sprite": 238
+            },
+            "16": {
+              "slot": 16,
+              "name": "Wine",
+              "quantity": 5,
+              "stackable": true,
+              "sprite": 39
+            },
+            "17": {
+              "slot": 17,
+              "name": "Loures Saber",
+              "quantity": 1,
+              "stackable": false,
+              "sprite": 88
+            },
+            "18": {
+              "slot": 18,
+              "name": "Baguette",
+              "quantity": 1,
+              "stackable": true,
+              "sprite": 68
+            }
+          },
+          "equipment": {
+            "1": "Loures Saber"
+          },
+          "dialog": null,
+          "activeStatus": {
+            "generation": 1,
+            "revision": 4113,
+            "type": 3,
+            "text": "The light from before flickers about you",
+            "observedAt": "2026-10-15T01:17:49.0000732+00:00"
+          },
+          "legendsKnown": true,
+          "legends": []
+        },
+        "observedMap": {
+          "id": 394,
+          "name": "Path Sitting Room",
+          "width": 12,
+          "height": 12,
+          "portals": [],
+          "npcTransfers": [],
+          "internalTransfers": []
+        }
+      }
+    },
+    {
+      "Sequence": 8,
+      "Request": {
+        "Kind": "interact",
+        "Map": 346,
+        "Npc": "Keefe"
+      },
+      "Result": {
+        "discovery": {
+          "stopReason": "choice",
+          "pages": [
+            {
+              "generation": 1,
+              "revision": 4252,
+              "entityId": 6517,
+              "entityType": 1,
+              "name": "Keefe",
+              "text": "Hello.  What can I do for you?",
+              "isPursuit": false,
+              "pursuit": 0,
+              "step": 0,
+              "type": 0,
+              "choices": [
+                {
+                  "text": "Rogue",
+                  "pursuit": 1185,
+                  "option": 1
+                },
+                {
+                  "text": "Guide",
+                  "pursuit": 1189,
+                  "option": 2
+                },
+                {
+                  "text": "I seek answers...",
+                  "pursuit": 2125,
+                  "option": 3
+                }
+              ],
+              "prompt": null,
+              "hasNext": false,
+              "observedAt": "2026-10-15T01:18:10.5193672+00:00",
+              "items": []
+            }
+          ],
+          "before": {
+            "generation": 1,
+            "revision": 4120,
+            "name": "ReplayBlanche",
+            "connected": true,
+            "map": 394,
+            "position": {
+              "x": 6,
+              "y": 7
+            },
+            "gold": 13456855,
+            "experience": 864703409,
+            "weight": 47,
+            "inventoryKnown": true,
+            "bagSlots": 37,
+            "inventory": {
+              "11": {
+                "slot": 11,
+                "name": "Viper's Gland",
+                "quantity": 1,
+                "stackable": true,
+                "sprite": 327
+              },
+              "12": {
+                "slot": 12,
+                "name": "Mold",
+                "quantity": 1,
+                "stackable": true,
+                "sprite": 338
+              },
+              "13": {
+                "slot": 13,
+                "name": "Cherry",
+                "quantity": 2,
+                "stackable": true,
+                "sprite": 42
+              },
+              "14": {
+                "slot": 14,
+                "name": "Grapes",
+                "quantity": 11,
+                "stackable": true,
+                "sprite": 2238
+              },
+              "15": {
+                "slot": 15,
+                "name": "Leather Greaves",
+                "quantity": 1,
+                "stackable": false,
+                "sprite": 238
+              },
+              "16": {
+                "slot": 16,
+                "name": "Wine",
+                "quantity": 5,
+                "stackable": true,
+                "sprite": 39
+              },
+              "17": {
+                "slot": 17,
+                "name": "Loures Saber",
+                "quantity": 1,
+                "stackable": false,
+                "sprite": 88
+              },
+              "18": {
+                "slot": 18,
+                "name": "Baguette",
+                "quantity": 1,
+                "stackable": true,
+                "sprite": 68
+              }
+            },
+            "equipment": {
+              "1": "Loures Saber"
+            }
+          },
+          "after": {
+            "generation": 1,
+            "revision": 4252,
+            "name": "ReplayBlanche",
+            "connected": true,
+            "map": 346,
+            "position": {
+              "x": 6,
+              "y": 9
+            },
+            "gold": 13456855,
+            "experience": 864703409,
+            "weight": 47,
+            "inventoryKnown": true,
+            "bagSlots": 37,
+            "inventory": {
+              "11": {
+                "slot": 11,
+                "name": "Viper's Gland",
+                "quantity": 1,
+                "stackable": true,
+                "sprite": 327
+              },
+              "12": {
+                "slot": 12,
+                "name": "Mold",
+                "quantity": 1,
+                "stackable": true,
+                "sprite": 338
+              },
+              "13": {
+                "slot": 13,
+                "name": "Cherry",
+                "quantity": 2,
+                "stackable": true,
+                "sprite": 42
+              },
+              "14": {
+                "slot": 14,
+                "name": "Grapes",
+                "quantity": 11,
+                "stackable": true,
+                "sprite": 2238
+              },
+              "15": {
+                "slot": 15,
+                "name": "Leather Greaves",
+                "quantity": 1,
+                "stackable": false,
+                "sprite": 238
+              },
+              "16": {
+                "slot": 16,
+                "name": "Wine",
+                "quantity": 5,
+                "stackable": true,
+                "sprite": 39
+              },
+              "17": {
+                "slot": 17,
+                "name": "Loures Saber",
+                "quantity": 1,
+                "stackable": false,
+                "sprite": 88
+              },
+              "18": {
+                "slot": 18,
+                "name": "Baguette",
+                "quantity": 1,
+                "stackable": true,
+                "sprite": 68
+              }
+            },
+            "equipment": {
+              "1": "Loures Saber"
+            }
+          },
+          "error": null
+        },
+        "observedMap": {
+          "id": 346,
+          "name": "Chief Rogue Hall",
+          "width": 12,
+          "height": 12,
+          "portals": [],
+          "npcTransfers": [],
+          "internalTransfers": []
+        }
+      }
+    },
+    {
+      "Sequence": 9,
+      "Request": {
+        "Kind": "choose",
+        "Text": "I seek answers..."
+      },
+      "Result": {
+        "discovery": {
+          "stopReason": "choice",
+          "pages": [
+            {
+              "generation": 1,
+              "revision": 4252,
+              "entityId": 6517,
+              "entityType": 1,
+              "name": "Keefe",
+              "text": "Hello.  What can I do for you?",
+              "isPursuit": false,
+              "pursuit": 0,
+              "step": 0,
+              "type": 0,
+              "choices": [
+                {
+                  "text": "Rogue",
+                  "pursuit": 1185,
+                  "option": 1
+                },
+                {
+                  "text": "Guide",
+                  "pursuit": 1189,
+                  "option": 2
+                },
+                {
+                  "text": "I seek answers...",
+                  "pursuit": 2125,
+                  "option": 3
+                }
+              ],
+              "prompt": null,
+              "hasNext": false,
+              "observedAt": "2026-10-15T01:18:10.5193672+00:00",
+              "items": []
+            },
+            {
+              "generation": 1,
+              "revision": 4255,
+              "entityId": 6517,
+              "entityType": 1,
+              "name": "Keefe",
+              "text": "What kind of answers?",
+              "isPursuit": true,
+              "pursuit": 1101,
+              "step": 3,
+              "type": 2,
+              "choices": [
+                {
+                  "text": "I seek answers from Fiosachd.",
+                  "pursuit": 1101,
+                  "option": 1
+                }
+              ],
+              "prompt": null,
+              "hasNext": true,
+              "observedAt": "2026-10-15T01:18:27.0273215+00:00",
+              "items": []
+            }
+          ],
+          "before": {
+            "generation": 1,
+            "revision": 4254,
+            "name": "ReplayBlanche",
+            "connected": true,
+            "map": 346,
+            "position": {
+              "x": 6,
+              "y": 9
+            },
+            "gold": 13456855,
+            "experience": 864703409,
+            "weight": 47,
+            "inventoryKnown": true,
+            "bagSlots": 37,
+            "inventory": {
+              "11": {
+                "slot": 11,
+                "name": "Viper's Gland",
+                "quantity": 1,
+                "stackable": true,
+                "sprite": 327
+              },
+              "12": {
+                "slot": 12,
+                "name": "Mold",
+                "quantity": 1,
+                "stackable": true,
+                "sprite": 338
+              },
+              "13": {
+                "slot": 13,
+                "name": "Cherry",
+                "quantity": 2,
+                "stackable": true,
+                "sprite": 42
+              },
+              "14": {
+                "slot": 14,
+                "name": "Grapes",
+                "quantity": 11,
+                "stackable": true,
+                "sprite": 2238
+              },
+              "15": {
+                "slot": 15,
+                "name": "Leather Greaves",
+                "quantity": 1,
+                "stackable": false,
+                "sprite": 238
+              },
+              "16": {
+                "slot": 16,
+                "name": "Wine",
+                "quantity": 5,
+                "stackable": true,
+                "sprite": 39
+              },
+              "17": {
+                "slot": 17,
+                "name": "Loures Saber",
+                "quantity": 1,
+                "stackable": false,
+                "sprite": 88
+              },
+              "18": {
+                "slot": 18,
+                "name": "Baguette",
+                "quantity": 1,
+                "stackable": true,
+                "sprite": 68
+              }
+            },
+            "equipment": {
+              "1": "Loures Saber"
+            }
+          },
+          "after": {
+            "generation": 1,
+            "revision": 4255,
+            "name": "ReplayBlanche",
+            "connected": true,
+            "map": 346,
+            "position": {
+              "x": 6,
+              "y": 9
+            },
+            "gold": 13456855,
+            "experience": 864703409,
+            "weight": 47,
+            "inventoryKnown": true,
+            "bagSlots": 37,
+            "inventory": {
+              "11": {
+                "slot": 11,
+                "name": "Viper's Gland",
+                "quantity": 1,
+                "stackable": true,
+                "sprite": 327
+              },
+              "12": {
+                "slot": 12,
+                "name": "Mold",
+                "quantity": 1,
+                "stackable": true,
+                "sprite": 338
+              },
+              "13": {
+                "slot": 13,
+                "name": "Cherry",
+                "quantity": 2,
+                "stackable": true,
+                "sprite": 42
+              },
+              "14": {
+                "slot": 14,
+                "name": "Grapes",
+                "quantity": 11,
+                "stackable": true,
+                "sprite": 2238
+              },
+              "15": {
+                "slot": 15,
+                "name": "Leather Greaves",
+                "quantity": 1,
+                "stackable": false,
+                "sprite": 238
+              },
+              "16": {
+                "slot": 16,
+                "name": "Wine",
+                "quantity": 5,
+                "stackable": true,
+                "sprite": 39
+              },
+              "17": {
+                "slot": 17,
+                "name": "Loures Saber",
+                "quantity": 1,
+                "stackable": false,
+                "sprite": 88
+              },
+              "18": {
+                "slot": 18,
+                "name": "Baguette",
+                "quantity": 1,
+                "stackable": true,
+                "sprite": 68
+              }
+            },
+            "equipment": {
+              "1": "Loures Saber"
+            }
+          },
+          "error": null
+        },
+        "observedMap": {
+          "id": 346,
+          "name": "Chief Rogue Hall",
+          "width": 12,
+          "height": 12,
+          "portals": [],
+          "npcTransfers": [],
+          "internalTransfers": []
+        }
+      }
+    },
+    {
+      "Sequence": 10,
+      "Request": {
+        "Kind": "choose",
+        "Text": "I seek answers from Fiosachd."
+      },
+      "Result": {
+        "discovery": {
+          "stopReason": "choice",
+          "pages": [
+            {
+              "generation": 1,
+              "revision": 4255,
+              "entityId": 6517,
+              "entityType": 1,
+              "name": "Keefe",
+              "text": "What kind of answers?",
+              "isPursuit": true,
+              "pursuit": 1101,
+              "step": 3,
+              "type": 2,
+              "choices": [
+                {
+                  "text": "I seek answers from Fiosachd.",
+                  "pursuit": 1101,
+                  "option": 1
+                }
+              ],
+              "prompt": null,
+              "hasNext": true,
+              "observedAt": "2026-10-15T01:18:27.0273215+00:00",
+              "items": []
+            },
+            {
+              "generation": 1,
+              "revision": 4256,
+              "entityId": 6517,
+              "entityType": 1,
+              "name": "Keefe",
+              "text": "You address your questions to a god directly? What got into your mind, Aisling? The doubt-solving god is Luathas, not me.",
+              "isPursuit": true,
+              "pursuit": 1101,
+              "step": 7,
+              "type": 2,
+              "choices": [
+                {
+                  "text": "So you will not tell me of the cap?",
+                  "pursuit": 1101,
+                  "option": 1
+                }
+              ],
+              "prompt": null,
+              "hasNext": true,
+              "observedAt": "2026-10-15T01:18:30.0326576+00:00",
+              "items": []
+            }
+          ],
+          "before": {
+            "generation": 1,
+            "revision": 4255,
+            "name": "ReplayBlanche",
+            "connected": true,
+            "map": 346,
+            "position": {
+              "x": 6,
+              "y": 9
+            },
+            "gold": 13456855,
+            "experience": 864703409,
+            "weight": 47,
+            "inventoryKnown": true,
+            "bagSlots": 37,
+            "inventory": {
+              "11": {
+                "slot": 11,
+                "name": "Viper's Gland",
+                "quantity": 1,
+                "stackable": true,
+                "sprite": 327
+              },
+              "12": {
+                "slot": 12,
+                "name": "Mold",
+                "quantity": 1,
+                "stackable": true,
+                "sprite": 338
+              },
+              "13": {
+                "slot": 13,
+                "name": "Cherry",
+                "quantity": 2,
+                "stackable": true,
+                "sprite": 42
+              },
+              "14": {
+                "slot": 14,
+                "name": "Grapes",
+                "quantity": 11,
+                "stackable": true,
+                "sprite": 2238
+              },
+              "15": {
+                "slot": 15,
+                "name": "Leather Greaves",
+                "quantity": 1,
+                "stackable": false,
+                "sprite": 238
+              },
+              "16": {
+                "slot": 16,
+                "name": "Wine",
+                "quantity": 5,
+                "stackable": true,
+                "sprite": 39
+              },
+              "17": {
+                "slot": 17,
+                "name": "Loures Saber",
+                "quantity": 1,
+                "stackable": false,
+                "sprite": 88
+              },
+              "18": {
+                "slot": 18,
+                "name": "Baguette",
+                "quantity": 1,
+                "stackable": true,
+                "sprite": 68
+              }
+            },
+            "equipment": {
+              "1": "Loures Saber"
+            }
+          },
+          "after": {
+            "generation": 1,
+            "revision": 4256,
+            "name": "ReplayBlanche",
+            "connected": true,
+            "map": 346,
+            "position": {
+              "x": 6,
+              "y": 9
+            },
+            "gold": 13456855,
+            "experience": 864703409,
+            "weight": 47,
+            "inventoryKnown": true,
+            "bagSlots": 37,
+            "inventory": {
+              "11": {
+                "slot": 11,
+                "name": "Viper's Gland",
+                "quantity": 1,
+                "stackable": true,
+                "sprite": 327
+              },
+              "12": {
+                "slot": 12,
+                "name": "Mold",
+                "quantity": 1,
+                "stackable": true,
+                "sprite": 338
+              },
+              "13": {
+                "slot": 13,
+                "name": "Cherry",
+                "quantity": 2,
+                "stackable": true,
+                "sprite": 42
+              },
+              "14": {
+                "slot": 14,
+                "name": "Grapes",
+                "quantity": 11,
+                "stackable": true,
+                "sprite": 2238
+              },
+              "15": {
+                "slot": 15,
+                "name": "Leather Greaves",
+                "quantity": 1,
+                "stackable": false,
+                "sprite": 238
+              },
+              "16": {
+                "slot": 16,
+                "name": "Wine",
+                "quantity": 5,
+                "stackable": true,
+                "sprite": 39
+              },
+              "17": {
+                "slot": 17,
+                "name": "Loures Saber",
+                "quantity": 1,
+                "stackable": false,
+                "sprite": 88
+              },
+              "18": {
+                "slot": 18,
+                "name": "Baguette",
+                "quantity": 1,
+                "stackable": true,
+                "sprite": 68
+              }
+            },
+            "equipment": {
+              "1": "Loures Saber"
+            }
+          },
+          "error": null
+        },
+        "observedMap": {
+          "id": 346,
+          "name": "Chief Rogue Hall",
+          "width": 12,
+          "height": 12,
+          "portals": [],
+          "npcTransfers": [],
+          "internalTransfers": []
+        }
+      }
+    },
+    {
+      "Sequence": 11,
+      "Request": {
+        "Kind": "choose",
+        "Text": "So you will not tell me of the cap?"
+      },
+      "Result": {
+        "discovery": {
+          "stopReason": "closed",
+          "pages": [
+            {
+              "generation": 1,
+              "revision": 4256,
+              "entityId": 6517,
+              "entityType": 1,
+              "name": "Keefe",
+              "text": "You address your questions to a god directly? What got into your mind, Aisling? The doubt-solving god is Luathas, not me.",
+              "isPursuit": true,
+              "pursuit": 1101,
+              "step": 7,
+              "type": 2,
+              "choices": [
+                {
+                  "text": "So you will not tell me of the cap?",
+                  "pursuit": 1101,
+                  "option": 1
+                }
+              ],
+              "prompt": null,
+              "hasNext": true,
+              "observedAt": "2026-10-15T01:18:30.0326576+00:00",
+              "items": []
+            },
+            {
+              "generation": 1,
+              "revision": 4257,
+              "entityId": 6517,
+              "entityType": 1,
+              "name": "Keefe",
+              "text": "Tell you? That is not my problem. I make sure what is supposed to remain hidden, remains. Sometimes I am a bit late, but I can always take it back and hide it somewhere else. I am the God of Chance, things usually work out for me, one way or the other. But I am saying too much. Leave Aisling, I have no further business with you.",
+              "isPursuit": true,
+              "pursuit": 1101,
+              "step": 11,
+              "type": 0,
+              "choices": [],
+              "prompt": null,
+              "hasNext": true,
+              "observedAt": "2026-10-15T01:18:32.531577+00:00",
+              "items": []
+            }
+          ],
+          "before": {
+            "generation": 1,
+            "revision": 4256,
+            "name": "ReplayBlanche",
+            "connected": true,
+            "map": 346,
+            "position": {
+              "x": 6,
+              "y": 9
+            },
+            "gold": 13456855,
+            "experience": 864703409,
+            "weight": 47,
+            "inventoryKnown": true,
+            "bagSlots": 37,
+            "inventory": {
+              "11": {
+                "slot": 11,
+                "name": "Viper's Gland",
+                "quantity": 1,
+                "stackable": true,
+                "sprite": 327
+              },
+              "12": {
+                "slot": 12,
+                "name": "Mold",
+                "quantity": 1,
+                "stackable": true,
+                "sprite": 338
+              },
+              "13": {
+                "slot": 13,
+                "name": "Cherry",
+                "quantity": 2,
+                "stackable": true,
+                "sprite": 42
+              },
+              "14": {
+                "slot": 14,
+                "name": "Grapes",
+                "quantity": 11,
+                "stackable": true,
+                "sprite": 2238
+              },
+              "15": {
+                "slot": 15,
+                "name": "Leather Greaves",
+                "quantity": 1,
+                "stackable": false,
+                "sprite": 238
+              },
+              "16": {
+                "slot": 16,
+                "name": "Wine",
+                "quantity": 5,
+                "stackable": true,
+                "sprite": 39
+              },
+              "17": {
+                "slot": 17,
+                "name": "Loures Saber",
+                "quantity": 1,
+                "stackable": false,
+                "sprite": 88
+              },
+              "18": {
+                "slot": 18,
+                "name": "Baguette",
+                "quantity": 1,
+                "stackable": true,
+                "sprite": 68
+              }
+            },
+            "equipment": {
+              "1": "Loures Saber"
+            }
+          },
+          "after": {
+            "generation": 1,
+            "revision": 4258,
+            "name": "ReplayBlanche",
+            "connected": true,
+            "map": 346,
+            "position": {
+              "x": 6,
+              "y": 9
+            },
+            "gold": 13456855,
+            "experience": 864703409,
+            "weight": 47,
+            "inventoryKnown": true,
+            "bagSlots": 37,
+            "inventory": {
+              "11": {
+                "slot": 11,
+                "name": "Viper's Gland",
+                "quantity": 1,
+                "stackable": true,
+                "sprite": 327
+              },
+              "12": {
+                "slot": 12,
+                "name": "Mold",
+                "quantity": 1,
+                "stackable": true,
+                "sprite": 338
+              },
+              "13": {
+                "slot": 13,
+                "name": "Cherry",
+                "quantity": 2,
+                "stackable": true,
+                "sprite": 42
+              },
+              "14": {
+                "slot": 14,
+                "name": "Grapes",
+                "quantity": 11,
+                "stackable": true,
+                "sprite": 2238
+              },
+              "15": {
+                "slot": 15,
+                "name": "Leather Greaves",
+                "quantity": 1,
+                "stackable": false,
+                "sprite": 238
+              },
+              "16": {
+                "slot": 16,
+                "name": "Wine",
+                "quantity": 5,
+                "stackable": true,
+                "sprite": 39
+              },
+              "17": {
+                "slot": 17,
+                "name": "Loures Saber",
+                "quantity": 1,
+                "stackable": false,
+                "sprite": 88
+              },
+              "18": {
+                "slot": 18,
+                "name": "Baguette",
+                "quantity": 1,
+                "stackable": true,
+                "sprite": 68
+              }
+            },
+            "equipment": {
+              "1": "Loures Saber"
+            }
+          },
+          "error": null
+        },
+        "observedMap": {
+          "id": 346,
+          "name": "Chief Rogue Hall",
+          "width": 12,
+          "height": 12,
+          "portals": [],
+          "npcTransfers": [],
+          "internalTransfers": []
+        }
+      }
+    },
+    {
+      "Sequence": 12,
+      "Request": {
+        "Kind": "interact",
+        "Map": 398,
+        "Npc": "Logan"
+      },
+      "Result": {
+        "discovery": {
+          "stopReason": "choice",
+          "pages": [
+            {
+              "generation": 1,
+              "revision": 4436,
+              "entityId": 6519,
+              "entityType": 1,
+              "name": "Logan",
+              "text": "Hello.  What can I do for you?",
+              "isPursuit": false,
+              "pursuit": 0,
+              "step": 0,
+              "type": 0,
+              "choices": [
+                {
+                  "text": "Wizard",
+                  "pursuit": 1186,
+                  "option": 1
+                },
+                {
+                  "text": "Guide",
+                  "pursuit": 1189,
+                  "option": 2
+                },
+                {
+                  "text": "Luathas, the Cap",
+                  "pursuit": 2128,
+                  "option": 3
+                }
+              ],
+              "prompt": null,
+              "hasNext": false,
+              "observedAt": "2026-10-15T01:18:59.0540375+00:00",
+              "items": []
+            }
+          ],
+          "before": {
+            "generation": 1,
+            "revision": 4262,
+            "name": "ReplayBlanche",
+            "connected": true,
+            "map": 344,
+            "position": {
+              "x": 6,
+              "y": 2
+            },
+            "gold": 13456855,
+            "experience": 864703409,
+            "weight": 47,
+            "inventoryKnown": true,
+            "bagSlots": 37,
+            "inventory": {
+              "11": {
+                "slot": 11,
+                "name": "Viper's Gland",
+                "quantity": 1,
+                "stackable": true,
+                "sprite": 327
+              },
+              "12": {
+                "slot": 12,
+                "name": "Mold",
+                "quantity": 1,
+                "stackable": true,
+                "sprite": 338
+              },
+              "13": {
+                "slot": 13,
+                "name": "Cherry",
+                "quantity": 2,
+                "stackable": true,
+                "sprite": 42
+              },
+              "14": {
+                "slot": 14,
+                "name": "Grapes",
+                "quantity": 11,
+                "stackable": true,
+                "sprite": 2238
+              },
+              "15": {
+                "slot": 15,
+                "name": "Leather Greaves",
+                "quantity": 1,
+                "stackable": false,
+                "sprite": 238
+              },
+              "16": {
+                "slot": 16,
+                "name": "Wine",
+                "quantity": 5,
+                "stackable": true,
+                "sprite": 39
+              },
+              "17": {
+                "slot": 17,
+                "name": "Loures Saber",
+                "quantity": 1,
+                "stackable": false,
+                "sprite": 88
+              },
+              "18": {
+                "slot": 18,
+                "name": "Baguette",
+                "quantity": 1,
+                "stackable": true,
+                "sprite": 68
+              }
+            },
+            "equipment": {
+              "1": "Loures Saber"
+            }
+          },
+          "after": {
+            "generation": 1,
+            "revision": 4436,
+            "name": "ReplayBlanche",
+            "connected": true,
+            "map": 398,
+            "position": {
+              "x": 6,
+              "y": 9
+            },
+            "gold": 13456855,
+            "experience": 864703409,
+            "weight": 47,
+            "inventoryKnown": true,
+            "bagSlots": 37,
+            "inventory": {
+              "11": {
+                "slot": 11,
+                "name": "Viper's Gland",
+                "quantity": 1,
+                "stackable": true,
+                "sprite": 327
+              },
+              "12": {
+                "slot": 12,
+                "name": "Mold",
+                "quantity": 1,
+                "stackable": true,
+                "sprite": 338
+              },
+              "13": {
+                "slot": 13,
+                "name": "Cherry",
+                "quantity": 2,
+                "stackable": true,
+                "sprite": 42
+              },
+              "14": {
+                "slot": 14,
+                "name": "Grapes",
+                "quantity": 11,
+                "stackable": true,
+                "sprite": 2238
+              },
+              "15": {
+                "slot": 15,
+                "name": "Leather Greaves",
+                "quantity": 1,
+                "stackable": false,
+                "sprite": 238
+              },
+              "16": {
+                "slot": 16,
+                "name": "Wine",
+                "quantity": 5,
+                "stackable": true,
+                "sprite": 39
+              },
+              "17": {
+                "slot": 17,
+                "name": "Loures Saber",
+                "quantity": 1,
+                "stackable": false,
+                "sprite": 88
+              },
+              "18": {
+                "slot": 18,
+                "name": "Baguette",
+                "quantity": 1,
+                "stackable": true,
+                "sprite": 68
+              }
+            },
+            "equipment": {
+              "1": "Loures Saber"
+            }
+          },
+          "error": null
+        },
+        "observedMap": {
+          "id": 398,
+          "name": "Chief Wizard Hall",
+          "width": 12,
+          "height": 12,
+          "portals": [],
+          "npcTransfers": [],
+          "internalTransfers": []
+        }
+      }
+    },
+    {
+      "Sequence": 13,
+      "Request": {
+        "Kind": "reconcile-wizard-hall-pullback"
+      },
+      "Result": {
+        "generation": 1,
+        "revision": 4443,
+        "name": "ReplayBlanche",
+        "connected": true,
+        "map": 397,
+        "position": {
+          "x": 7,
+          "y": 2
+        },
+        "gold": 13456855,
+        "experience": 864703409,
+        "weight": 47,
+        "inventoryKnown": true,
+        "bagSlots": 37,
+        "inventory": {
+          "11": {
+            "slot": 11,
+            "name": "Viper's Gland",
+            "quantity": 1,
+            "stackable": true,
+            "sprite": 327
+          },
+          "12": {
+            "slot": 12,
+            "name": "Mold",
+            "quantity": 1,
+            "stackable": true,
+            "sprite": 338
+          },
+          "13": {
+            "slot": 13,
+            "name": "Cherry",
+            "quantity": 2,
+            "stackable": true,
+            "sprite": 42
+          },
+          "14": {
+            "slot": 14,
+            "name": "Grapes",
+            "quantity": 11,
+            "stackable": true,
+            "sprite": 2238
+          },
+          "15": {
+            "slot": 15,
+            "name": "Leather Greaves",
+            "quantity": 1,
+            "stackable": false,
+            "sprite": 238
+          },
+          "16": {
+            "slot": 16,
+            "name": "Wine",
+            "quantity": 5,
+            "stackable": true,
+            "sprite": 39
+          },
+          "17": {
+            "slot": 17,
+            "name": "Loures Saber",
+            "quantity": 1,
+            "stackable": false,
+            "sprite": 88
+          },
+          "18": {
+            "slot": 18,
+            "name": "Baguette",
+            "quantity": 1,
+            "stackable": true,
+            "sprite": 68
+          }
+        },
+        "equipment": {
+          "1": "Loures Saber"
+        },
+        "dialog": null,
+        "activeStatus": {
+          "generation": 1,
+          "revision": 4424,
+          "type": 3,
+          "text": "You shudder in realization of what may be below",
+          "observedAt": "2026-10-15T01:18:57.0573813+00:00"
+        },
+        "legendsKnown": true,
+        "legends": []
+      }
+    },
+    {
+      "Sequence": 14,
+      "Request": {
+        "Kind": "navigate",
+        "Map": 398,
+        "Target": {
+          "x": 6,
+          "y": 8
+        }
+      },
+      "Result": {
+        "snapshot": {
+          "generation": 1,
+          "revision": 4451,
+          "name": "ReplayBlanche",
+          "connected": true,
+          "map": 398,
+          "position": {
+            "x": 6,
+            "y": 8
+          },
+          "gold": 13456855,
+          "experience": 864703409,
+          "weight": 47,
+          "inventoryKnown": true,
+          "bagSlots": 37,
+          "inventory": {
+            "11": {
+              "slot": 11,
+              "name": "Viper's Gland",
+              "quantity": 1,
+              "stackable": true,
+              "sprite": 327
+            },
+            "12": {
+              "slot": 12,
+              "name": "Mold",
+              "quantity": 1,
+              "stackable": true,
+              "sprite": 338
+            },
+            "13": {
+              "slot": 13,
+              "name": "Cherry",
+              "quantity": 2,
+              "stackable": true,
+              "sprite": 42
+            },
+            "14": {
+              "slot": 14,
+              "name": "Grapes",
+              "quantity": 11,
+              "stackable": true,
+              "sprite": 2238
+            },
+            "15": {
+              "slot": 15,
+              "name": "Leather Greaves",
+              "quantity": 1,
+              "stackable": false,
+              "sprite": 238
+            },
+            "16": {
+              "slot": 16,
+              "name": "Wine",
+              "quantity": 5,
+              "stackable": true,
+              "sprite": 39
+            },
+            "17": {
+              "slot": 17,
+              "name": "Loures Saber",
+              "quantity": 1,
+              "stackable": false,
+              "sprite": 88
+            },
+            "18": {
+              "slot": 18,
+              "name": "Baguette",
+              "quantity": 1,
+              "stackable": true,
+              "sprite": 68
+            }
+          },
+          "equipment": {
+            "1": "Loures Saber"
+          },
+          "dialog": null,
+          "activeStatus": {
+            "generation": 1,
+            "revision": 4424,
+            "type": 3,
+            "text": "You shudder in realization of what may be below",
+            "observedAt": "2026-10-15T01:18:57.0573813+00:00"
+          },
+          "legendsKnown": true,
+          "legends": []
+        },
+        "observedMap": {
+          "id": 398,
+          "name": "Chief Wizard Hall",
+          "width": 12,
+          "height": 12,
+          "portals": [],
+          "npcTransfers": [],
+          "internalTransfers": []
+        }
+      }
+    },
+    {
+      "Sequence": 15,
+      "Request": {
+        "Kind": "open",
+        "Text": "Logan"
+      },
+      "Result": {
+        "discovery": {
+          "stopReason": "choice",
+          "pages": [
+            {
+              "generation": 1,
+              "revision": 4454,
+              "entityId": 6519,
+              "entityType": 1,
+              "name": "Logan",
+              "text": "Hello.  What can I do for you?",
+              "isPursuit": false,
+              "pursuit": 0,
+              "step": 0,
+              "type": 0,
+              "choices": [
+                {
+                  "text": "Wizard",
+                  "pursuit": 1186,
+                  "option": 1
+                },
+                {
+                  "text": "Guide",
+                  "pursuit": 1189,
+                  "option": 2
+                },
+                {
+                  "text": "Luathas, the Cap",
+                  "pursuit": 2128,
+                  "option": 3
+                }
+              ],
+              "prompt": null,
+              "hasNext": false,
+              "observedAt": "2026-10-15T01:20:52.6512677+00:00",
+              "items": []
+            }
+          ],
+          "before": {
+            "generation": 1,
+            "revision": 4453,
+            "name": "ReplayBlanche",
+            "connected": true,
+            "map": 398,
+            "position": {
+              "x": 6,
+              "y": 8
+            },
+            "gold": 13456855,
+            "experience": 864703409,
+            "weight": 47,
+            "inventoryKnown": true,
+            "bagSlots": 37,
+            "inventory": {
+              "11": {
+                "slot": 11,
+                "name": "Viper's Gland",
+                "quantity": 1,
+                "stackable": true,
+                "sprite": 327
+              },
+              "12": {
+                "slot": 12,
+                "name": "Mold",
+                "quantity": 1,
+                "stackable": true,
+                "sprite": 338
+              },
+              "13": {
+                "slot": 13,
+                "name": "Cherry",
+                "quantity": 2,
+                "stackable": true,
+                "sprite": 42
+              },
+              "14": {
+                "slot": 14,
+                "name": "Grapes",
+                "quantity": 11,
+                "stackable": true,
+                "sprite": 2238
+              },
+              "15": {
+                "slot": 15,
+                "name": "Leather Greaves",
+                "quantity": 1,
+                "stackable": false,
+                "sprite": 238
+              },
+              "16": {
+                "slot": 16,
+                "name": "Wine",
+                "quantity": 5,
+                "stackable": true,
+                "sprite": 39
+              },
+              "17": {
+                "slot": 17,
+                "name": "Loures Saber",
+                "quantity": 1,
+                "stackable": false,
+                "sprite": 88
+              },
+              "18": {
+                "slot": 18,
+                "name": "Baguette",
+                "quantity": 1,
+                "stackable": true,
+                "sprite": 68
+              }
+            },
+            "equipment": {
+              "1": "Loures Saber"
+            }
+          },
+          "after": {
+            "generation": 1,
+            "revision": 4454,
+            "name": "ReplayBlanche",
+            "connected": true,
+            "map": 398,
+            "position": {
+              "x": 6,
+              "y": 8
+            },
+            "gold": 13456855,
+            "experience": 864703409,
+            "weight": 47,
+            "inventoryKnown": true,
+            "bagSlots": 37,
+            "inventory": {
+              "11": {
+                "slot": 11,
+                "name": "Viper's Gland",
+                "quantity": 1,
+                "stackable": true,
+                "sprite": 327
+              },
+              "12": {
+                "slot": 12,
+                "name": "Mold",
+                "quantity": 1,
+                "stackable": true,
+                "sprite": 338
+              },
+              "13": {
+                "slot": 13,
+                "name": "Cherry",
+                "quantity": 2,
+                "stackable": true,
+                "sprite": 42
+              },
+              "14": {
+                "slot": 14,
+                "name": "Grapes",
+                "quantity": 11,
+                "stackable": true,
+                "sprite": 2238
+              },
+              "15": {
+                "slot": 15,
+                "name": "Leather Greaves",
+                "quantity": 1,
+                "stackable": false,
+                "sprite": 238
+              },
+              "16": {
+                "slot": 16,
+                "name": "Wine",
+                "quantity": 5,
+                "stackable": true,
+                "sprite": 39
+              },
+              "17": {
+                "slot": 17,
+                "name": "Loures Saber",
+                "quantity": 1,
+                "stackable": false,
+                "sprite": 88
+              },
+              "18": {
+                "slot": 18,
+                "name": "Baguette",
+                "quantity": 1,
+                "stackable": true,
+                "sprite": 68
+              }
+            },
+            "equipment": {
+              "1": "Loures Saber"
+            }
+          },
+          "error": null
+        },
+        "observedMap": {
+          "id": 398,
+          "name": "Chief Wizard Hall",
+          "width": 12,
+          "height": 12,
+          "portals": [],
+          "npcTransfers": [],
+          "internalTransfers": []
+        }
+      }
+    },
+    {
+      "Sequence": 16,
+      "Request": {
+        "Kind": "choose",
+        "Text": "Luathas, the Cap"
+      },
+      "Result": {
+        "discovery": {
+          "stopReason": "choice",
+          "pages": [
+            {
+              "generation": 1,
+              "revision": 4454,
+              "entityId": 6519,
+              "entityType": 1,
+              "name": "Logan",
+              "text": "Hello.  What can I do for you?",
+              "isPursuit": false,
+              "pursuit": 0,
+              "step": 0,
+              "type": 0,
+              "choices": [
+                {
+                  "text": "Wizard",
+                  "pursuit": 1186,
+                  "option": 1
+                },
+                {
+                  "text": "Guide",
+                  "pursuit": 1189,
+                  "option": 2
+                },
+                {
+                  "text": "Luathas, the Cap",
+                  "pursuit": 2128,
+                  "option": 3
+                }
+              ],
+              "prompt": null,
+              "hasNext": false,
+              "observedAt": "2026-10-15T01:20:52.6512677+00:00",
+              "items": []
+            },
+            {
+              "generation": 1,
+              "revision": 4455,
+              "entityId": 6519,
+              "entityType": 1,
+              "name": "Logan",
+              "text": "You have come far in your search, have you not? But more awaits ahead of you.",
+              "isPursuit": true,
+              "pursuit": 1104,
+              "step": 3,
+              "type": 2,
+              "choices": [
+                {
+                  "text": "I am eager to continue, I wish to help the boy.",
+                  "pursuit": 1104,
+                  "option": 1
+                },
+                {
+                  "text": "More!? But I have been to all corners of Temuair already!",
+                  "pursuit": 1104,
+                  "option": 2
+                }
+              ],
+              "prompt": null,
+              "hasNext": true,
+              "observedAt": "2026-10-15T01:20:54.6436703+00:00",
+              "items": []
+            }
+          ],
+          "before": {
+            "generation": 1,
+            "revision": 4454,
+            "name": "ReplayBlanche",
+            "connected": true,
+            "map": 398,
+            "position": {
+              "x": 6,
+              "y": 8
+            },
+            "gold": 13456855,
+            "experience": 864703409,
+            "weight": 47,
+            "inventoryKnown": true,
+            "bagSlots": 37,
+            "inventory": {
+              "11": {
+                "slot": 11,
+                "name": "Viper's Gland",
+                "quantity": 1,
+                "stackable": true,
+                "sprite": 327
+              },
+              "12": {
+                "slot": 12,
+                "name": "Mold",
+                "quantity": 1,
+                "stackable": true,
+                "sprite": 338
+              },
+              "13": {
+                "slot": 13,
+                "name": "Cherry",
+                "quantity": 2,
+                "stackable": true,
+                "sprite": 42
+              },
+              "14": {
+                "slot": 14,
+                "name": "Grapes",
+                "quantity": 11,
+                "stackable": true,
+                "sprite": 2238
+              },
+              "15": {
+                "slot": 15,
+                "name": "Leather Greaves",
+                "quantity": 1,
+                "stackable": false,
+                "sprite": 238
+              },
+              "16": {
+                "slot": 16,
+                "name": "Wine",
+                "quantity": 5,
+                "stackable": true,
+                "sprite": 39
+              },
+              "17": {
+                "slot": 17,
+                "name": "Loures Saber",
+                "quantity": 1,
+                "stackable": false,
+                "sprite": 88
+              },
+              "18": {
+                "slot": 18,
+                "name": "Baguette",
+                "quantity": 1,
+                "stackable": true,
+                "sprite": 68
+              }
+            },
+            "equipment": {
+              "1": "Loures Saber"
+            }
+          },
+          "after": {
+            "generation": 1,
+            "revision": 4455,
+            "name": "ReplayBlanche",
+            "connected": true,
+            "map": 398,
+            "position": {
+              "x": 6,
+              "y": 8
+            },
+            "gold": 13456855,
+            "experience": 864703409,
+            "weight": 47,
+            "inventoryKnown": true,
+            "bagSlots": 37,
+            "inventory": {
+              "11": {
+                "slot": 11,
+                "name": "Viper's Gland",
+                "quantity": 1,
+                "stackable": true,
+                "sprite": 327
+              },
+              "12": {
+                "slot": 12,
+                "name": "Mold",
+                "quantity": 1,
+                "stackable": true,
+                "sprite": 338
+              },
+              "13": {
+                "slot": 13,
+                "name": "Cherry",
+                "quantity": 2,
+                "stackable": true,
+                "sprite": 42
+              },
+              "14": {
+                "slot": 14,
+                "name": "Grapes",
+                "quantity": 11,
+                "stackable": true,
+                "sprite": 2238
+              },
+              "15": {
+                "slot": 15,
+                "name": "Leather Greaves",
+                "quantity": 1,
+                "stackable": false,
+                "sprite": 238
+              },
+              "16": {
+                "slot": 16,
+                "name": "Wine",
+                "quantity": 5,
+                "stackable": true,
+                "sprite": 39
+              },
+              "17": {
+                "slot": 17,
+                "name": "Loures Saber",
+                "quantity": 1,
+                "stackable": false,
+                "sprite": 88
+              },
+              "18": {
+                "slot": 18,
+                "name": "Baguette",
+                "quantity": 1,
+                "stackable": true,
+                "sprite": 68
+              }
+            },
+            "equipment": {
+              "1": "Loures Saber"
+            }
+          },
+          "error": null
+        },
+        "observedMap": {
+          "id": 398,
+          "name": "Chief Wizard Hall",
+          "width": 12,
+          "height": 12,
+          "portals": [],
+          "npcTransfers": [],
+          "internalTransfers": []
+        }
+      }
+    },
+    {
+      "Sequence": 17,
+      "Request": {
+        "Kind": "choose",
+        "Text": "I am eager to continue, I wish to help the boy."
+      },
+      "Result": {
+        "discovery": {
+          "stopReason": "choice",
+          "pages": [
+            {
+              "generation": 1,
+              "revision": 4455,
+              "entityId": 6519,
+              "entityType": 1,
+              "name": "Logan",
+              "text": "You have come far in your search, have you not? But more awaits ahead of you.",
+              "isPursuit": true,
+              "pursuit": 1104,
+              "step": 3,
+              "type": 2,
+              "choices": [
+                {
+                  "text": "I am eager to continue, I wish to help the boy.",
+                  "pursuit": 1104,
+                  "option": 1
+                },
+                {
+                  "text": "More!? But I have been to all corners of Temuair already!",
+                  "pursuit": 1104,
+                  "option": 2
+                }
+              ],
+              "prompt": null,
+              "hasNext": true,
+              "observedAt": "2026-10-15T01:20:54.6436703+00:00",
+              "items": []
+            },
+            {
+              "generation": 1,
+              "revision": 4456,
+              "entityId": 6519,
+              "entityType": 1,
+              "name": "Logan",
+              "text": "Yes, the boy in Abel. I am surprised you still remember he was the first step of this endless walk. Helping the boy is the largest of the tasks. ",
+              "isPursuit": true,
+              "pursuit": 1104,
+              "step": 8,
+              "type": 0,
+              "choices": [],
+              "prompt": null,
+              "hasNext": true,
+              "observedAt": "2026-10-15T01:20:56.6489752+00:00",
+              "items": []
+            },
+            {
+              "generation": 1,
+              "revision": 4457,
+              "entityId": 6519,
+              "entityType": 1,
+              "name": "Logan",
+              "text": "There are many others.",
+              "isPursuit": true,
+              "pursuit": 1104,
+              "step": 9,
+              "type": 2,
+              "choices": [
+                {
+                  "text": "What will I gain in the end?",
+                  "pursuit": 1104,
+                  "option": 1
+                },
+                {
+                  "text": "What must I do next?",
+                  "pursuit": 1104,
+                  "option": 2
+                }
+              ],
+              "prompt": null,
+              "hasNext": true,
+              "observedAt": "2026-10-15T01:20:57.1486738+00:00",
+              "items": []
+            }
+          ],
+          "before": {
+            "generation": 1,
+            "revision": 4455,
+            "name": "ReplayBlanche",
+            "connected": true,
+            "map": 398,
+            "position": {
+              "x": 6,
+              "y": 8
+            },
+            "gold": 13456855,
+            "experience": 864703409,
+            "weight": 47,
+            "inventoryKnown": true,
+            "bagSlots": 37,
+            "inventory": {
+              "11": {
+                "slot": 11,
+                "name": "Viper's Gland",
+                "quantity": 1,
+                "stackable": true,
+                "sprite": 327
+              },
+              "12": {
+                "slot": 12,
+                "name": "Mold",
+                "quantity": 1,
+                "stackable": true,
+                "sprite": 338
+              },
+              "13": {
+                "slot": 13,
+                "name": "Cherry",
+                "quantity": 2,
+                "stackable": true,
+                "sprite": 42
+              },
+              "14": {
+                "slot": 14,
+                "name": "Grapes",
+                "quantity": 11,
+                "stackable": true,
+                "sprite": 2238
+              },
+              "15": {
+                "slot": 15,
+                "name": "Leather Greaves",
+                "quantity": 1,
+                "stackable": false,
+                "sprite": 238
+              },
+              "16": {
+                "slot": 16,
+                "name": "Wine",
+                "quantity": 5,
+                "stackable": true,
+                "sprite": 39
+              },
+              "17": {
+                "slot": 17,
+                "name": "Loures Saber",
+                "quantity": 1,
+                "stackable": false,
+                "sprite": 88
+              },
+              "18": {
+                "slot": 18,
+                "name": "Baguette",
+                "quantity": 1,
+                "stackable": true,
+                "sprite": 68
+              }
+            },
+            "equipment": {
+              "1": "Loures Saber"
+            }
+          },
+          "after": {
+            "generation": 1,
+            "revision": 4457,
+            "name": "ReplayBlanche",
+            "connected": true,
+            "map": 398,
+            "position": {
+              "x": 6,
+              "y": 8
+            },
+            "gold": 13456855,
+            "experience": 864703409,
+            "weight": 47,
+            "inventoryKnown": true,
+            "bagSlots": 37,
+            "inventory": {
+              "11": {
+                "slot": 11,
+                "name": "Viper's Gland",
+                "quantity": 1,
+                "stackable": true,
+                "sprite": 327
+              },
+              "12": {
+                "slot": 12,
+                "name": "Mold",
+                "quantity": 1,
+                "stackable": true,
+                "sprite": 338
+              },
+              "13": {
+                "slot": 13,
+                "name": "Cherry",
+                "quantity": 2,
+                "stackable": true,
+                "sprite": 42
+              },
+              "14": {
+                "slot": 14,
+                "name": "Grapes",
+                "quantity": 11,
+                "stackable": true,
+                "sprite": 2238
+              },
+              "15": {
+                "slot": 15,
+                "name": "Leather Greaves",
+                "quantity": 1,
+                "stackable": false,
+                "sprite": 238
+              },
+              "16": {
+                "slot": 16,
+                "name": "Wine",
+                "quantity": 5,
+                "stackable": true,
+                "sprite": 39
+              },
+              "17": {
+                "slot": 17,
+                "name": "Loures Saber",
+                "quantity": 1,
+                "stackable": false,
+                "sprite": 88
+              },
+              "18": {
+                "slot": 18,
+                "name": "Baguette",
+                "quantity": 1,
+                "stackable": true,
+                "sprite": 68
+              }
+            },
+            "equipment": {
+              "1": "Loures Saber"
+            }
+          },
+          "error": null
+        },
+        "observedMap": {
+          "id": 398,
+          "name": "Chief Wizard Hall",
+          "width": 12,
+          "height": 12,
+          "portals": [],
+          "npcTransfers": [],
+          "internalTransfers": []
+        }
+      }
+    },
+    {
+      "Sequence": 18,
+      "Request": {
+        "Kind": "choose",
+        "Text": "What must I do next?"
+      },
+      "Result": {
+        "discovery": {
+          "stopReason": "closed",
+          "pages": [
+            {
+              "generation": 1,
+              "revision": 4457,
+              "entityId": 6519,
+              "entityType": 1,
+              "name": "Logan",
+              "text": "There are many others.",
+              "isPursuit": true,
+              "pursuit": 1104,
+              "step": 9,
+              "type": 2,
+              "choices": [
+                {
+                  "text": "What will I gain in the end?",
+                  "pursuit": 1104,
+                  "option": 1
+                },
+                {
+                  "text": "What must I do next?",
+                  "pursuit": 1104,
+                  "option": 2
+                }
+              ],
+              "prompt": null,
+              "hasNext": true,
+              "observedAt": "2026-10-15T01:20:57.1486738+00:00",
+              "items": []
+            },
+            {
+              "generation": 1,
+              "revision": 4458,
+              "entityId": 6519,
+              "entityType": 1,
+              "name": "Logan",
+              "text": "You must first track your prize's origins. You are close. The tortuous path that you seek lies in damp marshes beyond these mountains. Look for information there, but remember, as Deoch has great goodness behind his dark figure, important information may be hidden behind what seems ignorant.",
+              "isPursuit": true,
+              "pursuit": 1104,
+              "step": 21,
+              "type": 0,
+              "choices": [],
+              "prompt": null,
+              "hasNext": true,
+              "observedAt": "2026-10-15T01:20:59.1565289+00:00",
+              "items": []
+            },
+            {
+              "generation": 1,
+              "revision": 4459,
+              "entityId": 6519,
+              "entityType": 1,
+              "name": "Logan",
+              "text": "My role in your epic pursuit is done. Go now, may the Light of Danaan guide you.",
+              "isPursuit": true,
+              "pursuit": 1104,
+              "step": 22,
+              "type": 0,
+              "choices": [],
+              "prompt": null,
+              "hasNext": true,
+              "observedAt": "2026-10-15T01:20:59.6578123+00:00",
+              "items": []
+            }
+          ],
+          "before": {
+            "generation": 1,
+            "revision": 4457,
+            "name": "ReplayBlanche",
+            "connected": true,
+            "map": 398,
+            "position": {
+              "x": 6,
+              "y": 8
+            },
+            "gold": 13456855,
+            "experience": 864703409,
+            "weight": 47,
+            "inventoryKnown": true,
+            "bagSlots": 37,
+            "inventory": {
+              "11": {
+                "slot": 11,
+                "name": "Viper's Gland",
+                "quantity": 1,
+                "stackable": true,
+                "sprite": 327
+              },
+              "12": {
+                "slot": 12,
+                "name": "Mold",
+                "quantity": 1,
+                "stackable": true,
+                "sprite": 338
+              },
+              "13": {
+                "slot": 13,
+                "name": "Cherry",
+                "quantity": 2,
+                "stackable": true,
+                "sprite": 42
+              },
+              "14": {
+                "slot": 14,
+                "name": "Grapes",
+                "quantity": 11,
+                "stackable": true,
+                "sprite": 2238
+              },
+              "15": {
+                "slot": 15,
+                "name": "Leather Greaves",
+                "quantity": 1,
+                "stackable": false,
+                "sprite": 238
+              },
+              "16": {
+                "slot": 16,
+                "name": "Wine",
+                "quantity": 5,
+                "stackable": true,
+                "sprite": 39
+              },
+              "17": {
+                "slot": 17,
+                "name": "Loures Saber",
+                "quantity": 1,
+                "stackable": false,
+                "sprite": 88
+              },
+              "18": {
+                "slot": 18,
+                "name": "Baguette",
+                "quantity": 1,
+                "stackable": true,
+                "sprite": 68
+              }
+            },
+            "equipment": {
+              "1": "Loures Saber"
+            }
+          },
+          "after": {
+            "generation": 1,
+            "revision": 4460,
+            "name": "ReplayBlanche",
+            "connected": true,
+            "map": 398,
+            "position": {
+              "x": 6,
+              "y": 8
+            },
+            "gold": 13456855,
+            "experience": 864703409,
+            "weight": 47,
+            "inventoryKnown": true,
+            "bagSlots": 37,
+            "inventory": {
+              "11": {
+                "slot": 11,
+                "name": "Viper's Gland",
+                "quantity": 1,
+                "stackable": true,
+                "sprite": 327
+              },
+              "12": {
+                "slot": 12,
+                "name": "Mold",
+                "quantity": 1,
+                "stackable": true,
+                "sprite": 338
+              },
+              "13": {
+                "slot": 13,
+                "name": "Cherry",
+                "quantity": 2,
+                "stackable": true,
+                "sprite": 42
+              },
+              "14": {
+                "slot": 14,
+                "name": "Grapes",
+                "quantity": 11,
+                "stackable": true,
+                "sprite": 2238
+              },
+              "15": {
+                "slot": 15,
+                "name": "Leather Greaves",
+                "quantity": 1,
+                "stackable": false,
+                "sprite": 238
+              },
+              "16": {
+                "slot": 16,
+                "name": "Wine",
+                "quantity": 5,
+                "stackable": true,
+                "sprite": 39
+              },
+              "17": {
+                "slot": 17,
+                "name": "Loures Saber",
+                "quantity": 1,
+                "stackable": false,
+                "sprite": 88
+              },
+              "18": {
+                "slot": 18,
+                "name": "Baguette",
+                "quantity": 1,
+                "stackable": true,
+                "sprite": 68
+              }
+            },
+            "equipment": {
+              "1": "Loures Saber"
+            }
+          },
+          "error": null
+        },
+        "observedMap": {
+          "id": 398,
+          "name": "Chief Wizard Hall",
+          "width": 12,
+          "height": 12,
+          "portals": [],
+          "npcTransfers": [],
+          "internalTransfers": []
+        }
+      }
+    },
+    {
+      "Sequence": 19,
+      "Request": {
+        "Kind": "navigate",
+        "Map": 3071,
+        "Target": {
+          "x": 3,
+          "y": 2
+        }
+      },
+      "Result": {
+        "snapshot": {
+          "generation": 1,
+          "revision": 4816,
+          "name": "ReplayBlanche",
+          "connected": true,
+          "map": 3071,
+          "position": {
+            "x": 3,
+            "y": 2
+          },
+          "gold": 13456855,
+          "experience": 864703409,
+          "weight": 47,
+          "inventoryKnown": true,
+          "bagSlots": 37,
+          "inventory": {
+            "11": {
+              "slot": 11,
+              "name": "Viper's Gland",
+              "quantity": 1,
+              "stackable": true,
+              "sprite": 327
+            },
+            "12": {
+              "slot": 12,
+              "name": "Mold",
+              "quantity": 1,
+              "stackable": true,
+              "sprite": 338
+            },
+            "13": {
+              "slot": 13,
+              "name": "Cherry",
+              "quantity": 2,
+              "stackable": true,
+              "sprite": 42
+            },
+            "14": {
+              "slot": 14,
+              "name": "Grapes",
+              "quantity": 11,
+              "stackable": true,
+              "sprite": 2238
+            },
+            "15": {
+              "slot": 15,
+              "name": "Leather Greaves",
+              "quantity": 1,
+              "stackable": false,
+              "sprite": 238
+            },
+            "16": {
+              "slot": 16,
+              "name": "Wine",
+              "quantity": 5,
+              "stackable": true,
+              "sprite": 39
+            },
+            "17": {
+              "slot": 17,
+              "name": "Loures Saber",
+              "quantity": 1,
+              "stackable": false,
+              "sprite": 88
+            },
+            "18": {
+              "slot": 18,
+              "name": "Baguette",
+              "quantity": 1,
+              "stackable": true,
+              "sprite": 68
+            }
+          },
+          "equipment": {
+            "1": "Loures Saber"
+          },
+          "dialog": null,
+          "activeStatus": {
+            "generation": 1,
+            "revision": 4622,
+            "type": 3,
+            "text": "The circles glow almost like the smile of a fed child",
+            "observedAt": "2026-10-15T01:22:30.2174154+00:00"
+          },
+          "legendsKnown": true,
+          "legends": []
+        },
+        "observedMap": {
+          "id": 3071,
+          "name": "Mehadi Entrance",
+          "width": 8,
+          "height": 16,
+          "portals": [],
+          "npcTransfers": [],
+          "internalTransfers": []
+        }
+      }
+    },
+    {
+      "Sequence": 20,
+      "Request": {
+        "Kind": "say",
+        "Text": "Cousin",
+        "Npc": "Beggar"
+      },
+      "Result": {
+        "snapshot": {
+          "generation": 1,
+          "revision": 4829,
+          "name": "ReplayBlanche",
+          "connected": true,
+          "map": 3071,
+          "position": {
+            "x": 3,
+            "y": 2
+          },
+          "gold": 13456855,
+          "experience": 864703409,
+          "weight": 47,
+          "inventoryKnown": true,
+          "bagSlots": 37,
+          "inventory": {
+            "11": {
+              "slot": 11,
+              "name": "Viper's Gland",
+              "quantity": 1,
+              "stackable": true,
+              "sprite": 327
+            },
+            "12": {
+              "slot": 12,
+              "name": "Mold",
+              "quantity": 1,
+              "stackable": true,
+              "sprite": 338
+            },
+            "13": {
+              "slot": 13,
+              "name": "Cherry",
+              "quantity": 2,
+              "stackable": true,
+              "sprite": 42
+            },
+            "14": {
+              "slot": 14,
+              "name": "Grapes",
+              "quantity": 11,
+              "stackable": true,
+              "sprite": 2238
+            },
+            "15": {
+              "slot": 15,
+              "name": "Leather Greaves",
+              "quantity": 1,
+              "stackable": false,
+              "sprite": 238
+            },
+            "16": {
+              "slot": 16,
+              "name": "Wine",
+              "quantity": 5,
+              "stackable": true,
+              "sprite": 39
+            },
+            "17": {
+              "slot": 17,
+              "name": "Loures Saber",
+              "quantity": 1,
+              "stackable": false,
+              "sprite": 88
+            },
+            "18": {
+              "slot": 18,
+              "name": "Baguette",
+              "quantity": 1,
+              "stackable": true,
+              "sprite": 68
+            }
+          },
+          "equipment": {
+            "1": "Loures Saber"
+          },
+          "dialog": {
+            "generation": 1,
+            "revision": 4829,
+            "entityId": 7081,
+            "entityType": 1,
+            "name": "Beggar",
+            "text": "I'm a busy man, how much is my time worth to you?",
+            "isPursuit": true,
+            "pursuit": 1105,
+            "step": 3,
+            "type": 2,
+            "choices": [
+              {
+                "text": "Nevermind",
+                "pursuit": 1105,
+                "option": 1
+              },
+              {
+                "text": "How about 1,000 gold coins?",
+                "pursuit": 1105,
+                "option": 2
+              }
+            ],
+            "prompt": null,
+            "hasNext": true,
+            "observedAt": "2026-10-15T01:23:04.243524+00:00",
+            "items": []
+          },
+          "activeStatus": {
+            "generation": 1,
+            "revision": 4622,
+            "type": 3,
+            "text": "The circles glow almost like the smile of a fed child",
+            "observedAt": "2026-10-15T01:22:30.2174154+00:00"
+          },
+          "legendsKnown": true,
+          "legends": []
+        },
+        "observedMap": {
+          "id": 3071,
+          "name": "Mehadi Entrance",
+          "width": 8,
+          "height": 16,
+          "portals": [],
+          "npcTransfers": [],
+          "internalTransfers": []
+        }
+      }
+    },
+    {
+      "Sequence": 21,
+      "Request": {
+        "Kind": "close",
+        "Page": "I'm a busy man, how much is my time worth to you?"
+      },
+      "Result": {
+        "snapshot": {
+          "generation": 1,
+          "revision": 5703,
+          "name": "ReplayBlanche",
+          "connected": true,
+          "map": 3071,
+          "position": {
+            "x": 3,
+            "y": 2
+          },
+          "gold": 13456855,
+          "experience": 864703409,
+          "weight": 47,
+          "inventoryKnown": true,
+          "bagSlots": 37,
+          "inventory": {
+            "11": {
+              "slot": 11,
+              "name": "Viper's Gland",
+              "quantity": 1,
+              "stackable": true,
+              "sprite": 327
+            },
+            "12": {
+              "slot": 12,
+              "name": "Mold",
+              "quantity": 1,
+              "stackable": true,
+              "sprite": 338
+            },
+            "13": {
+              "slot": 13,
+              "name": "Cherry",
+              "quantity": 2,
+              "stackable": true,
+              "sprite": 42
+            },
+            "14": {
+              "slot": 14,
+              "name": "Grapes",
+              "quantity": 11,
+              "stackable": true,
+              "sprite": 2238
+            },
+            "15": {
+              "slot": 15,
+              "name": "Leather Greaves",
+              "quantity": 1,
+              "stackable": false,
+              "sprite": 238
+            },
+            "16": {
+              "slot": 16,
+              "name": "Wine",
+              "quantity": 5,
+              "stackable": true,
+              "sprite": 39
+            },
+            "17": {
+              "slot": 17,
+              "name": "Loures Saber",
+              "quantity": 1,
+              "stackable": false,
+              "sprite": 88
+            },
+            "18": {
+              "slot": 18,
+              "name": "Baguette",
+              "quantity": 1,
+              "stackable": true,
+              "sprite": 68
+            }
+          },
+          "equipment": {
+            "1": "Loures Saber"
+          },
+          "dialog": null,
+          "activeStatus": {
+            "generation": 1,
+            "revision": 5431,
+            "type": 3,
+            "text": "[Shnarbette]: B> Eggs 150 Missives 50 and thunderfuries! ",
+            "observedAt": "2026-10-15T01:25:14.3706689+00:00"
+          },
+          "legendsKnown": true,
+          "legends": []
+        },
+        "observedMap": {
+          "id": 3071,
+          "name": "Mehadi Entrance",
+          "width": 8,
+          "height": 16,
+          "portals": [],
+          "npcTransfers": [],
+          "internalTransfers": []
+        }
+      }
+    }
+  ]
+}

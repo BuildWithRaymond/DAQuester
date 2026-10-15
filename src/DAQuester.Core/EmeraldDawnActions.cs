@@ -261,8 +261,8 @@ public sealed class EmeraldDawnActions : IQuestAction
             await Discovery(c, ct);
         if (c.Session.Snapshot.Dialog is { } open)
             await c.Session.ExecuteAsync(new("close", Dialog: open), ct);
-        // The approach tile only needs to bring the NPC into view; Visit picks the exact free tile beside them.
-        await c.Session.ExecuteAsync(new("navigate", flow.Map, flow.Approach, Tolerance: 4), ct);
+        // The recorded approach is a fallback; stop when the mundane is visible.
+        await c.Session.ExecuteAsync(new("navigate", flow.Map, flow.Approach, Tolerance: 4, StopAtVisibleNpc: flow.Npc), ct);
         await c.Session.ExecuteAsync(new("visit", flow.Map, Text: flow.Npc), ct);
         var s = c.Session.Snapshot;
         if (s.Map != flow.Map || !s.Connected)

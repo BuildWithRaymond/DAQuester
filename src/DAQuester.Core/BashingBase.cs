@@ -546,9 +546,8 @@ public abstract class BashingBase(IGameSession session, ICombatMap map, BashOpti
         return false;
     }
 
-    // Talos BotEngine.EnsureWeaponEquipped: without a melee weapon or bow in hand, equip the best melee weapon
-    // in the bag once. Talos reset its attempt flag on every call, so it retried forever; here a second
-    // failure stops the fight.
+    // Prefer an owned usable melee weapon, but bare hands can bash too. Only
+    // an actual equip submission needs confirmation before another attempt.
     bool equipAttempted;
     async Task EnsureWeaponEquipped(CancellationToken ct)
     {
@@ -559,12 +558,12 @@ public abstract class BashingBase(IGameSession session, ICombatMap map, BashOpti
         }
 
         if (equipAttempted)
-            throw new QuestBlockedException("No usable melee weapon is equipped or in the bag, so the fight stopped.");
-        equipAttempted = true;
+            throw new QuestBlockedException("Weapon equip is not confirmed, so the fight stopped.");
         if (WeaponRegistry.BestMelee(S) is not { } weapon)
             return;
         Options.Note?.Invoke("Equipping " + weapon.Name);
         long before = S.Revision;
+        equipAttempted = true;
         await Session.ExecuteAsync(new("equip", Slot: weapon.Slot), ct);
         try
         {

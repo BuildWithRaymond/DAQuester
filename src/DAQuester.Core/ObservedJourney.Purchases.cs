@@ -40,13 +40,16 @@ static partial class ObservedJourney
             throw new QuestBlockedException("Fresh stock from " + task.Npc + " is required before purchase.");
         var offer = shop.Items.SingleOrDefault(x => x.Name.Equals(name, StringComparison.OrdinalIgnoreCase)) ?? throw new QuestBlockedException(task.Npc + " does not currently offer " + name + ".");
         uint cost = checked(offer.Price * (uint)missing);
-        if (session.Snapshot.Gold < cost)
-            throw new ResourceUnavailableException("Carry " + cost.ToString("N0") + " gold for " + missing + " " + name + " at the actual quoted price.");
+        if (session.Snapshot.Gold is not { } gold || gold < cost || (ulong)gold - cost < c.SupplyGoldReserve)
+            throw new ResourceUnavailableException("Carry " + cost.ToString("N0") + " gold for " + missing + " " + name +
+                " at the actual quoted price" + (c.SupplyGoldReserve > 0 ? ", plus " + c.SupplyGoldReserve.ToString("N0") + " gold for remaining quest payments." : "."));
         // Persist quantity and quote before sending. Both inventory gain and the
         // exact quoted debit must arrive before this purchase is considered settled.
         var route = c.Job.Route! with
         {
-            Baseline = Baseline(session.Snapshot),
+            // Purchase proof uses the quoted gold debit and named item gain.
+            // The unused XP field need not delay a purchase-only quest.
+            Baseline = Baseline(session.Snapshot, requireExperience: false),
             Resource = name,
             Quantity = missing,
             QuotedGold = cost

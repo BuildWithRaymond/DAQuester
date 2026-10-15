@@ -46521,7 +46521,13 @@
     "name": "Chief Priest Hall",
     "width": 12,
     "height": 12,
-    "portals": []
+    "portals": [
+      {
+        "from": { "X": 6, "Y": 11 },
+        "map": 342,
+        "to": { "X": 6, "Y": 2 }
+      }
+    ]
   },
   {
     "id": 346,

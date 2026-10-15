@@ -47,6 +47,14 @@ static partial class ObservedJourney
             await c.Session.ExecuteAsync(new("inspect-self"), ct);
         if (Mark(c) is not { } mark || c.Job.Route?.CleanupPending == true)
             return false;
+        // A separately inspected mark must not bypass an in-progress reward
+        // popup. Its stage verifies the original receipts and closes it once.
+        if (c.Job.Route is { Baseline: not null } active && c.Session.Snapshot.Dialog is not null)
+        {
+            var journey = JourneyFor(c, recipe);
+            if (active.Task >= 0 && active.Task < journey.Length && journey[active.Task].Experience > 0)
+                return false;
+        }
         if (c.Job.Pending is not null && !CompletedReadOnlyIntro(c, recipe))
             return false;
         await c.SaveAsync(c.Job with
@@ -90,6 +98,8 @@ static partial class ObservedJourney
             throw new QuestBlockedException("Observed quest journey is missing.");
         while ((c.Job.Route?.Task ?? 0) < JourneyFor(c, recipe).Length)
         {
+            await DismissDonnanReportAsync(c, recipe, ct);
+            await QuestItemPreparation.EnsureAsync(c, recipe, ct);
             // Persist the current stage before acting. Advance only after its
             // handler verifies the receipt; interruption resumes this same stage.
             ct.ThrowIfCancellationRequested();

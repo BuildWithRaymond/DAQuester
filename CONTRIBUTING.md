@@ -10,6 +10,11 @@ Use Windows and .NET 10. Follow the build commands in [README](README.md).
 Run focused tests while working, then both complete xUnit projects before
 submitting. `DAQuester.Tests` covers quest rules, persistence, protocol and travel;
 `DAQuester.AppTests` covers account editing, planning, ownership and shutdown.
+App builds also prepare pinned DAWindower X from its public GitHub source.
+The first build needs Git, Python 3.9+, Visual Studio 2022 C++ x86 tools and
+CMake; later builds reuse the verified native artifact cache. App tests build
+an upstream synthetic DirectDraw fixture to check early DLL loading without
+launching game clients. Generated native binaries stay in `artifacts/`.
 Neither suite operates real characters. Packaging changes also require `./tools/Build-Release.ps1` and
 `./tools/Verify-Release.ps1`. Include the relevant results in the PR.
 

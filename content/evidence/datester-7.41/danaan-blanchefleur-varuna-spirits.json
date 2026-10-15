@@ -1,0 +1,1022 @@
+{
+  "SchemaVersion": 1,
+  "ServerProfile": "datester-7.41",
+  "Sanitized": true,
+  "Evidence": "Actual Blanchefleur-opening automatic Gland handoff, Varuna spirit-summoner ending, paused checkpoint and authorized final informational Next/actual closure on 2026-10-14. Actor/generation normalized; exact pages, submissions, identity/revisions, gold, XP and relevant Gland/Mold counts retained. No later Greim action or final completion inferred.",
+  "Checkpoint": {
+    "Character": "ReplayVarunaBlanche",
+    "Quest": "cap-band-of-danaan",
+    "Version": 1,
+    "Step": "run",
+    "Status": "Paused",
+    "JourneyVariant": "blanchefleur-fiosachd",
+    "DanaanOptions": {
+      "Avatar": "cail",
+      "SuppliedMoldRiteAccepted": true
+    },
+    "Route": {
+      "Task": 10,
+      "Page": 9,
+      "Baseline": {
+        "Kind": "observed-stage",
+        "Generation": 1,
+        "Revision": 476,
+        "Gold": 13455855,
+        "Branches": 0,
+        "Experience": 864703409,
+        "Started": "2026-10-15T01:55:45.9027016+00:00",
+        "TerminalSeen": false,
+        "TerminalRevision": null,
+        "InventoryCounts": {
+          "Viper's Gland": 1,
+          "Mold": 1
+        },
+        "InventoryBaselineKnown": true,
+        "EntityId": null,
+        "EntityType": null,
+        "Legends": [],
+        "Spells": [],
+        "SpellsBaselineKnown": false
+      },
+      "LastReply": {
+        "Generation": 1,
+        "Revision": 488,
+        "EntityId": 6806,
+        "EntityType": 1,
+        "Name": "Varuna",
+        "Text": "Many spirits roam in a dark land. Some can be called back. Find the one who wields such power: the power to summon those who already crossed the line of life. But be warned: he lets no mistake go unpunished, and for big issues there are big penalties.",
+        "IsPursuit": true,
+        "Pursuit": 1106,
+        "Step": 36,
+        "Type": 0,
+        "Choices": [],
+        "Prompt": null,
+        "HasNext": true,
+        "ObservedAt": "2026-10-15T01:55:50.8960844+00:00",
+        "Items": []
+      },
+      "SubmittedPage": {
+        "Generation": 1,
+        "Revision": 487,
+        "EntityId": 6806,
+        "EntityType": 1,
+        "Name": "Varuna",
+        "Text": "I do not know who you speak of, but if you think it is him you must seek, then find him.",
+        "IsPursuit": true,
+        "Pursuit": 1106,
+        "Step": 27,
+        "Type": 0,
+        "Choices": [],
+        "Prompt": null,
+        "HasNext": true,
+        "ObservedAt": "2026-10-15T01:55:50.4652305+00:00",
+        "Items": []
+      },
+      "BoundGeneration": 1,
+      "BoundEntity": 6806,
+      "RewardMessages": [],
+      "CleanupPending": false,
+      "Resource": null,
+      "Quantity": 0,
+      "QuotedGold": 0,
+      "EquipmentSlot": null,
+      "RedirectObservedAt": null,
+      "TravelRedirect": null,
+      "UnconfirmedTravel": null
+    },
+    "Pending": {
+      "Kind": "observed-page:varuna-dreamer",
+      "Generation": 1,
+      "Revision": 486,
+      "Gold": 13455855,
+      "Branches": 0,
+      "Experience": 864703409,
+      "Started": "2026-10-15T01:55:50.6227705+00:00",
+      "TerminalSeen": false,
+      "TerminalRevision": null,
+      "InventoryCounts": {
+        "Mold": 1
+      },
+      "InventoryBaselineKnown": true,
+      "EntityId": 6806,
+      "EntityType": 1,
+      "Legends": [],
+      "Spells": [],
+      "SpellsBaselineKnown": true
+    }
+  },
+  "Snapshots": [
+    {
+      "Generation": 1,
+      "Revision": 476,
+      "Name": "ReplayVarunaBlanche",
+      "Connected": true,
+      "Map": 3075,
+      "Gold": 13455855,
+      "Experience": 864703409,
+      "InventoryKnown": true,
+      "Inventory": {
+        "11": {
+          "Slot": 11,
+          "Name": "Viper's Gland",
+          "Quantity": 1,
+          "Stackable": true,
+          "Sprite": 327
+        },
+        "12": {
+          "Slot": 12,
+          "Name": "Mold",
+          "Quantity": 1,
+          "Stackable": true,
+          "Sprite": 338
+        }
+      },
+      "Dialog": {
+        "Generation": 1,
+        "Revision": 476,
+        "EntityId": 6806,
+        "EntityType": 1,
+        "Name": "Varuna",
+        "Text": "You are making too much noise. I will help you if it will make you stop. But I want something in return. ",
+        "IsPursuit": true,
+        "Pursuit": 1106,
+        "Step": 3,
+        "Type": 0,
+        "Choices": [],
+        "Prompt": null,
+        "HasNext": true,
+        "ObservedAt": "2026-10-15T01:55:45.8982096+00:00",
+        "Items": []
+      }
+    },
+    {
+      "Generation": 1,
+      "Revision": 477,
+      "Name": "ReplayVarunaBlanche",
+      "Connected": true,
+      "Map": 3075,
+      "Gold": 13455855,
+      "Experience": 864703409,
+      "InventoryKnown": true,
+      "Inventory": {
+        "11": {
+          "Slot": 11,
+          "Name": "Viper's Gland",
+          "Quantity": 1,
+          "Stackable": true,
+          "Sprite": 327
+        },
+        "12": {
+          "Slot": 12,
+          "Name": "Mold",
+          "Quantity": 1,
+          "Stackable": true,
+          "Sprite": 338
+        }
+      },
+      "Dialog": {
+        "Generation": 1,
+        "Revision": 477,
+        "EntityId": 6806,
+        "EntityType": 1,
+        "Name": "Varuna",
+        "Text": "I hope you know what it is.",
+        "IsPursuit": true,
+        "Pursuit": 1106,
+        "Step": 4,
+        "Type": 2,
+        "Choices": [
+          {
+            "Text": "I'll return with what you want.",
+            "Pursuit": 1106,
+            "Option": 1
+          },
+          {
+            "Text": "I have what you need.",
+            "Pursuit": 1106,
+            "Option": 2
+          }
+        ],
+        "Prompt": null,
+        "HasNext": true,
+        "ObservedAt": "2026-10-15T01:55:46.3935357+00:00",
+        "Items": []
+      }
+    },
+    {
+      "Generation": 1,
+      "Revision": 478,
+      "Name": "ReplayVarunaBlanche",
+      "Connected": true,
+      "Map": 3075,
+      "Gold": 13455855,
+      "Experience": 864703409,
+      "InventoryKnown": true,
+      "Inventory": {
+        "12": {
+          "Slot": 12,
+          "Name": "Mold",
+          "Quantity": 1,
+          "Stackable": true,
+          "Sprite": 338
+        }
+      },
+      "Dialog": {
+        "Generation": 1,
+        "Revision": 477,
+        "EntityId": 6806,
+        "EntityType": 1,
+        "Name": "Varuna",
+        "Text": "I hope you know what it is.",
+        "IsPursuit": true,
+        "Pursuit": 1106,
+        "Step": 4,
+        "Type": 2,
+        "Choices": [
+          {
+            "Text": "I'll return with what you want.",
+            "Pursuit": 1106,
+            "Option": 1
+          },
+          {
+            "Text": "I have what you need.",
+            "Pursuit": 1106,
+            "Option": 2
+          }
+        ],
+        "Prompt": null,
+        "HasNext": true,
+        "ObservedAt": "2026-10-15T01:55:46.3935357+00:00",
+        "Items": []
+      }
+    },
+    {
+      "Generation": 1,
+      "Revision": 479,
+      "Name": "ReplayVarunaBlanche",
+      "Connected": true,
+      "Map": 3075,
+      "Gold": 13455855,
+      "Experience": 864703409,
+      "InventoryKnown": true,
+      "Inventory": {
+        "12": {
+          "Slot": 12,
+          "Name": "Mold",
+          "Quantity": 1,
+          "Stackable": true,
+          "Sprite": 338
+        }
+      },
+      "Dialog": {
+        "Generation": 1,
+        "Revision": 477,
+        "EntityId": 6806,
+        "EntityType": 1,
+        "Name": "Varuna",
+        "Text": "I hope you know what it is.",
+        "IsPursuit": true,
+        "Pursuit": 1106,
+        "Step": 4,
+        "Type": 2,
+        "Choices": [
+          {
+            "Text": "I'll return with what you want.",
+            "Pursuit": 1106,
+            "Option": 1
+          },
+          {
+            "Text": "I have what you need.",
+            "Pursuit": 1106,
+            "Option": 2
+          }
+        ],
+        "Prompt": null,
+        "HasNext": true,
+        "ObservedAt": "2026-10-15T01:55:46.3935357+00:00",
+        "Items": []
+      }
+    },
+    {
+      "Generation": 1,
+      "Revision": 480,
+      "Name": "ReplayVarunaBlanche",
+      "Connected": true,
+      "Map": 3075,
+      "Gold": 13455855,
+      "Experience": 864703409,
+      "InventoryKnown": true,
+      "Inventory": {
+        "12": {
+          "Slot": 12,
+          "Name": "Mold",
+          "Quantity": 1,
+          "Stackable": true,
+          "Sprite": 338
+        }
+      },
+      "Dialog": {
+        "Generation": 1,
+        "Revision": 480,
+        "EntityId": 6806,
+        "EntityType": 1,
+        "Name": "Varuna",
+        "Text": "Good, I know what it is you seek. We saw it when the river brought it, and when it was taken away by your kind. ",
+        "IsPursuit": true,
+        "Pursuit": 1106,
+        "Step": 16,
+        "Type": 0,
+        "Choices": [],
+        "Prompt": null,
+        "HasNext": true,
+        "ObservedAt": "2026-10-15T01:55:46.9024627+00:00",
+        "Items": []
+      }
+    },
+    {
+      "Generation": 1,
+      "Revision": 481,
+      "Name": "ReplayVarunaBlanche",
+      "Connected": true,
+      "Map": 3075,
+      "Gold": 13455855,
+      "Experience": 864703409,
+      "InventoryKnown": true,
+      "Inventory": {
+        "12": {
+          "Slot": 12,
+          "Name": "Mold",
+          "Quantity": 1,
+          "Stackable": true,
+          "Sprite": 338
+        }
+      },
+      "Dialog": {
+        "Generation": 1,
+        "Revision": 481,
+        "EntityId": 6806,
+        "EntityType": 1,
+        "Name": "Varuna",
+        "Text": "Then I dreamed of Matrika, she told me one of your kind would come after it, and told me what to do. No deity, yours or ours, will guide you to what you pursue. ",
+        "IsPursuit": true,
+        "Pursuit": 1106,
+        "Step": 17,
+        "Type": 0,
+        "Choices": [],
+        "Prompt": null,
+        "HasNext": true,
+        "ObservedAt": "2026-10-15T01:55:47.3938528+00:00",
+        "Items": []
+      }
+    },
+    {
+      "Generation": 1,
+      "Revision": 482,
+      "Name": "ReplayVarunaBlanche",
+      "Connected": true,
+      "Map": 3075,
+      "Gold": 13455855,
+      "Experience": 864703409,
+      "InventoryKnown": true,
+      "Inventory": {
+        "12": {
+          "Slot": 12,
+          "Name": "Mold",
+          "Quantity": 1,
+          "Stackable": true,
+          "Sprite": 338
+        }
+      },
+      "Dialog": {
+        "Generation": 1,
+        "Revision": 482,
+        "EntityId": 6806,
+        "EntityType": 1,
+        "Name": "Varuna",
+        "Text": "You must hear the voice of the gods when they speak in one's dream.",
+        "IsPursuit": true,
+        "Pursuit": 1106,
+        "Step": 18,
+        "Type": 2,
+        "Choices": [
+          {
+            "Text": "But the boy could not understand the gods.",
+            "Pursuit": 1106,
+            "Option": 1
+          },
+          {
+            "Text": "I see...the old man who wrote the book Blaise spoke about.",
+            "Pursuit": 1106,
+            "Option": 2
+          }
+        ],
+        "Prompt": null,
+        "HasNext": true,
+        "ObservedAt": "2026-10-15T01:55:47.8951669+00:00",
+        "Items": []
+      }
+    },
+    {
+      "Generation": 1,
+      "Revision": 483,
+      "Name": "ReplayVarunaBlanche",
+      "Connected": true,
+      "Map": 3075,
+      "Gold": 13455855,
+      "Experience": 864703409,
+      "InventoryKnown": true,
+      "Inventory": {
+        "12": {
+          "Slot": 12,
+          "Name": "Mold",
+          "Quantity": 1,
+          "Stackable": true,
+          "Sprite": 338
+        }
+      },
+      "Dialog": {
+        "Generation": 1,
+        "Revision": 483,
+        "EntityId": 6806,
+        "EntityType": 1,
+        "Name": "Varuna",
+        "Text": "Then you must seek one who can, or could.",
+        "IsPursuit": true,
+        "Pursuit": 1106,
+        "Step": 23,
+        "Type": 0,
+        "Choices": [],
+        "Prompt": null,
+        "HasNext": true,
+        "ObservedAt": "2026-10-15T01:55:48.395748+00:00",
+        "Items": []
+      }
+    },
+    {
+      "Generation": 1,
+      "Revision": 484,
+      "Name": "ReplayVarunaBlanche",
+      "Connected": true,
+      "Map": 3075,
+      "Gold": 13455855,
+      "Experience": 864703409,
+      "InventoryKnown": true,
+      "Inventory": {
+        "12": {
+          "Slot": 12,
+          "Name": "Mold",
+          "Quantity": 1,
+          "Stackable": true,
+          "Sprite": 338
+        }
+      },
+      "Dialog": {
+        "Generation": 1,
+        "Revision": 484,
+        "EntityId": 6806,
+        "EntityType": 1,
+        "Name": "Varuna",
+        "Text": "Good, I know what it is you seek. We saw it when the river brought it, and when it was taken away by your kind. ",
+        "IsPursuit": true,
+        "Pursuit": 1106,
+        "Step": 16,
+        "Type": 0,
+        "Choices": [],
+        "Prompt": null,
+        "HasNext": true,
+        "ObservedAt": "2026-10-15T01:55:48.8964318+00:00",
+        "Items": []
+      }
+    },
+    {
+      "Generation": 1,
+      "Revision": 485,
+      "Name": "ReplayVarunaBlanche",
+      "Connected": true,
+      "Map": 3075,
+      "Gold": 13455855,
+      "Experience": 864703409,
+      "InventoryKnown": true,
+      "Inventory": {
+        "12": {
+          "Slot": 12,
+          "Name": "Mold",
+          "Quantity": 1,
+          "Stackable": true,
+          "Sprite": 338
+        }
+      },
+      "Dialog": {
+        "Generation": 1,
+        "Revision": 485,
+        "EntityId": 6806,
+        "EntityType": 1,
+        "Name": "Varuna",
+        "Text": "Then I dreamed of Matrika, she told me one of your kind would come after it, and told me what to do. No deity, yours or ours, will guide you to what you pursue. ",
+        "IsPursuit": true,
+        "Pursuit": 1106,
+        "Step": 17,
+        "Type": 0,
+        "Choices": [],
+        "Prompt": null,
+        "HasNext": true,
+        "ObservedAt": "2026-10-15T01:55:49.3948478+00:00",
+        "Items": []
+      }
+    },
+    {
+      "Generation": 1,
+      "Revision": 486,
+      "Name": "ReplayVarunaBlanche",
+      "Connected": true,
+      "Map": 3075,
+      "Gold": 13455855,
+      "Experience": 864703409,
+      "InventoryKnown": true,
+      "Inventory": {
+        "12": {
+          "Slot": 12,
+          "Name": "Mold",
+          "Quantity": 1,
+          "Stackable": true,
+          "Sprite": 338
+        }
+      },
+      "Dialog": {
+        "Generation": 1,
+        "Revision": 486,
+        "EntityId": 6806,
+        "EntityType": 1,
+        "Name": "Varuna",
+        "Text": "You must hear the voice of the gods when they speak in one's dream.",
+        "IsPursuit": true,
+        "Pursuit": 1106,
+        "Step": 18,
+        "Type": 2,
+        "Choices": [
+          {
+            "Text": "But the boy could not understand the gods.",
+            "Pursuit": 1106,
+            "Option": 1
+          },
+          {
+            "Text": "I see...the old man who wrote the book Blaise spoke about.",
+            "Pursuit": 1106,
+            "Option": 2
+          }
+        ],
+        "Prompt": null,
+        "HasNext": true,
+        "ObservedAt": "2026-10-15T01:55:49.8952495+00:00",
+        "Items": []
+      }
+    },
+    {
+      "Generation": 1,
+      "Revision": 487,
+      "Name": "ReplayVarunaBlanche",
+      "Connected": true,
+      "Map": 3075,
+      "Gold": 13455855,
+      "Experience": 864703409,
+      "InventoryKnown": true,
+      "Inventory": {
+        "12": {
+          "Slot": 12,
+          "Name": "Mold",
+          "Quantity": 1,
+          "Stackable": true,
+          "Sprite": 338
+        }
+      },
+      "Dialog": {
+        "Generation": 1,
+        "Revision": 487,
+        "EntityId": 6806,
+        "EntityType": 1,
+        "Name": "Varuna",
+        "Text": "I do not know who you speak of, but if you think it is him you must seek, then find him.",
+        "IsPursuit": true,
+        "Pursuit": 1106,
+        "Step": 27,
+        "Type": 0,
+        "Choices": [],
+        "Prompt": null,
+        "HasNext": true,
+        "ObservedAt": "2026-10-15T01:55:50.4652305+00:00",
+        "Items": []
+      }
+    },
+    {
+      "Generation": 1,
+      "Revision": 488,
+      "Name": "ReplayVarunaBlanche",
+      "Connected": true,
+      "Map": 3075,
+      "Gold": 13455855,
+      "Experience": 864703409,
+      "InventoryKnown": true,
+      "Inventory": {
+        "12": {
+          "Slot": 12,
+          "Name": "Mold",
+          "Quantity": 1,
+          "Stackable": true,
+          "Sprite": 338
+        }
+      },
+      "Dialog": {
+        "Generation": 1,
+        "Revision": 488,
+        "EntityId": 6806,
+        "EntityType": 1,
+        "Name": "Varuna",
+        "Text": "Many spirits roam in a dark land. Some can be called back. Find the one who wields such power: the power to summon those who already crossed the line of life. But be warned: he lets no mistake go unpunished, and for big issues there are big penalties.",
+        "IsPursuit": true,
+        "Pursuit": 1106,
+        "Step": 36,
+        "Type": 0,
+        "Choices": [],
+        "Prompt": null,
+        "HasNext": true,
+        "ObservedAt": "2026-10-15T01:55:50.8960844+00:00",
+        "Items": []
+      }
+    },
+    {
+      "Generation": 1,
+      "Revision": 489,
+      "Name": "ReplayVarunaBlanche",
+      "Connected": true,
+      "Map": 3075,
+      "Gold": 13455855,
+      "Experience": 864703409,
+      "InventoryKnown": true,
+      "Inventory": {
+        "12": {
+          "Slot": 12,
+          "Name": "Mold",
+          "Quantity": 1,
+          "Stackable": true,
+          "Sprite": 338
+        }
+      },
+      "Dialog": {
+        "Generation": 1,
+        "Revision": 488,
+        "EntityId": 6806,
+        "EntityType": 1,
+        "Name": "Varuna",
+        "Text": "Many spirits roam in a dark land. Some can be called back. Find the one who wields such power: the power to summon those who already crossed the line of life. But be warned: he lets no mistake go unpunished, and for big issues there are big penalties.",
+        "IsPursuit": true,
+        "Pursuit": 1106,
+        "Step": 36,
+        "Type": 0,
+        "Choices": [],
+        "Prompt": null,
+        "HasNext": true,
+        "ObservedAt": "2026-10-15T01:55:50.8960844+00:00",
+        "Items": []
+      }
+    },
+    {
+      "Generation": 1,
+      "Revision": 491,
+      "Name": "ReplayVarunaBlanche",
+      "Connected": true,
+      "Map": 3075,
+      "Gold": 13455855,
+      "Experience": 864703409,
+      "InventoryKnown": true,
+      "Inventory": {
+        "12": {
+          "Slot": 12,
+          "Name": "Mold",
+          "Quantity": 1,
+          "Stackable": true,
+          "Sprite": 338
+        }
+      },
+      "Dialog": null
+    },
+    {
+      "Generation": 1,
+      "Revision": 491,
+      "Name": "ReplayVarunaBlanche",
+      "Connected": true,
+      "Map": 3075,
+      "Gold": 13455855,
+      "Experience": 864703409,
+      "InventoryKnown": true,
+      "Inventory": {
+        "12": {
+          "Slot": 12,
+          "Name": "Mold",
+          "Quantity": 1,
+          "Stackable": true,
+          "Sprite": 338
+        }
+      },
+      "Dialog": null
+    }
+  ],
+  "Actions": [
+    {
+      "Character": "ReplayVarunaBlanche",
+      "Generation": 1,
+      "Revision": 476,
+      "Kind": "next",
+      "Selection": null,
+      "Dialog": {
+        "Generation": 1,
+        "Revision": 476,
+        "EntityId": 6806,
+        "EntityType": 1,
+        "Name": "Varuna",
+        "Text": "You are making too much noise. I will help you if it will make you stop. But I want something in return. ",
+        "IsPursuit": true,
+        "Pursuit": 1106,
+        "Step": 3,
+        "Type": 0,
+        "Choices": [],
+        "Prompt": null,
+        "HasNext": true,
+        "ObservedAt": "2026-10-15T01:55:45.8982096+00:00",
+        "Items": []
+      }
+    },
+    {
+      "Character": "ReplayVarunaBlanche",
+      "Generation": 1,
+      "Revision": 477,
+      "Kind": "choose",
+      "Selection": "I have what you need.",
+      "Dialog": {
+        "Generation": 1,
+        "Revision": 477,
+        "EntityId": 6806,
+        "EntityType": 1,
+        "Name": "Varuna",
+        "Text": "I hope you know what it is.",
+        "IsPursuit": true,
+        "Pursuit": 1106,
+        "Step": 4,
+        "Type": 2,
+        "Choices": [
+          {
+            "Text": "I'll return with what you want.",
+            "Pursuit": 1106,
+            "Option": 1
+          },
+          {
+            "Text": "I have what you need.",
+            "Pursuit": 1106,
+            "Option": 2
+          }
+        ],
+        "Prompt": null,
+        "HasNext": true,
+        "ObservedAt": "2026-10-15T01:55:46.3935357+00:00",
+        "Items": []
+      }
+    },
+    {
+      "Character": "ReplayVarunaBlanche",
+      "Generation": 1,
+      "Revision": 480,
+      "Kind": "next",
+      "Selection": null,
+      "Dialog": {
+        "Generation": 1,
+        "Revision": 480,
+        "EntityId": 6806,
+        "EntityType": 1,
+        "Name": "Varuna",
+        "Text": "Good, I know what it is you seek. We saw it when the river brought it, and when it was taken away by your kind. ",
+        "IsPursuit": true,
+        "Pursuit": 1106,
+        "Step": 16,
+        "Type": 0,
+        "Choices": [],
+        "Prompt": null,
+        "HasNext": true,
+        "ObservedAt": "2026-10-15T01:55:46.9024627+00:00",
+        "Items": []
+      }
+    },
+    {
+      "Character": "ReplayVarunaBlanche",
+      "Generation": 1,
+      "Revision": 481,
+      "Kind": "next",
+      "Selection": null,
+      "Dialog": {
+        "Generation": 1,
+        "Revision": 481,
+        "EntityId": 6806,
+        "EntityType": 1,
+        "Name": "Varuna",
+        "Text": "Then I dreamed of Matrika, she told me one of your kind would come after it, and told me what to do. No deity, yours or ours, will guide you to what you pursue. ",
+        "IsPursuit": true,
+        "Pursuit": 1106,
+        "Step": 17,
+        "Type": 0,
+        "Choices": [],
+        "Prompt": null,
+        "HasNext": true,
+        "ObservedAt": "2026-10-15T01:55:47.3938528+00:00",
+        "Items": []
+      }
+    },
+    {
+      "Character": "ReplayVarunaBlanche",
+      "Generation": 1,
+      "Revision": 482,
+      "Kind": "choose",
+      "Selection": "But the boy could not understand the gods.",
+      "Dialog": {
+        "Generation": 1,
+        "Revision": 482,
+        "EntityId": 6806,
+        "EntityType": 1,
+        "Name": "Varuna",
+        "Text": "You must hear the voice of the gods when they speak in one's dream.",
+        "IsPursuit": true,
+        "Pursuit": 1106,
+        "Step": 18,
+        "Type": 2,
+        "Choices": [
+          {
+            "Text": "But the boy could not understand the gods.",
+            "Pursuit": 1106,
+            "Option": 1
+          },
+          {
+            "Text": "I see...the old man who wrote the book Blaise spoke about.",
+            "Pursuit": 1106,
+            "Option": 2
+          }
+        ],
+        "Prompt": null,
+        "HasNext": true,
+        "ObservedAt": "2026-10-15T01:55:47.8951669+00:00",
+        "Items": []
+      }
+    },
+    {
+      "Character": "ReplayVarunaBlanche",
+      "Generation": 1,
+      "Revision": 483,
+      "Kind": "next",
+      "Selection": null,
+      "Dialog": {
+        "Generation": 1,
+        "Revision": 483,
+        "EntityId": 6806,
+        "EntityType": 1,
+        "Name": "Varuna",
+        "Text": "Then you must seek one who can, or could.",
+        "IsPursuit": true,
+        "Pursuit": 1106,
+        "Step": 23,
+        "Type": 0,
+        "Choices": [],
+        "Prompt": null,
+        "HasNext": true,
+        "ObservedAt": "2026-10-15T01:55:48.395748+00:00",
+        "Items": []
+      }
+    },
+    {
+      "Character": "ReplayVarunaBlanche",
+      "Generation": 1,
+      "Revision": 484,
+      "Kind": "next",
+      "Selection": null,
+      "Dialog": {
+        "Generation": 1,
+        "Revision": 484,
+        "EntityId": 6806,
+        "EntityType": 1,
+        "Name": "Varuna",
+        "Text": "Good, I know what it is you seek. We saw it when the river brought it, and when it was taken away by your kind. ",
+        "IsPursuit": true,
+        "Pursuit": 1106,
+        "Step": 16,
+        "Type": 0,
+        "Choices": [],
+        "Prompt": null,
+        "HasNext": true,
+        "ObservedAt": "2026-10-15T01:55:48.8964318+00:00",
+        "Items": []
+      }
+    },
+    {
+      "Character": "ReplayVarunaBlanche",
+      "Generation": 1,
+      "Revision": 485,
+      "Kind": "next",
+      "Selection": null,
+      "Dialog": {
+        "Generation": 1,
+        "Revision": 485,
+        "EntityId": 6806,
+        "EntityType": 1,
+        "Name": "Varuna",
+        "Text": "Then I dreamed of Matrika, she told me one of your kind would come after it, and told me what to do. No deity, yours or ours, will guide you to what you pursue. ",
+        "IsPursuit": true,
+        "Pursuit": 1106,
+        "Step": 17,
+        "Type": 0,
+        "Choices": [],
+        "Prompt": null,
+        "HasNext": true,
+        "ObservedAt": "2026-10-15T01:55:49.3948478+00:00",
+        "Items": []
+      }
+    },
+    {
+      "Character": "ReplayVarunaBlanche",
+      "Generation": 1,
+      "Revision": 486,
+      "Kind": "choose",
+      "Selection": "I see...the old man who wrote the book Blaise spoke about.",
+      "Dialog": {
+        "Generation": 1,
+        "Revision": 486,
+        "EntityId": 6806,
+        "EntityType": 1,
+        "Name": "Varuna",
+        "Text": "You must hear the voice of the gods when they speak in one's dream.",
+        "IsPursuit": true,
+        "Pursuit": 1106,
+        "Step": 18,
+        "Type": 2,
+        "Choices": [
+          {
+            "Text": "But the boy could not understand the gods.",
+            "Pursuit": 1106,
+            "Option": 1
+          },
+          {
+            "Text": "I see...the old man who wrote the book Blaise spoke about.",
+            "Pursuit": 1106,
+            "Option": 2
+          }
+        ],
+        "Prompt": null,
+        "HasNext": true,
+        "ObservedAt": "2026-10-15T01:55:49.8952495+00:00",
+        "Items": []
+      }
+    },
+    {
+      "Character": "ReplayVarunaBlanche",
+      "Generation": 1,
+      "Revision": 487,
+      "Kind": "next",
+      "Selection": null,
+      "Dialog": {
+        "Generation": 1,
+        "Revision": 487,
+        "EntityId": 6806,
+        "EntityType": 1,
+        "Name": "Varuna",
+        "Text": "I do not know who you speak of, but if you think it is him you must seek, then find him.",
+        "IsPursuit": true,
+        "Pursuit": 1106,
+        "Step": 27,
+        "Type": 0,
+        "Choices": [],
+        "Prompt": null,
+        "HasNext": true,
+        "ObservedAt": "2026-10-15T01:55:50.4652305+00:00",
+        "Items": []
+      }
+    },
+    {
+      "Character": "ReplayVarunaBlanche",
+      "Generation": 1,
+      "Revision": 490,
+      "Kind": "next",
+      "Selection": null,
+      "Dialog": {
+        "Generation": 1,
+        "Revision": 488,
+        "EntityId": 6806,
+        "EntityType": 1,
+        "Name": "Varuna",
+        "Text": "Many spirits roam in a dark land. Some can be called back. Find the one who wields such power: the power to summon those who already crossed the line of life. But be warned: he lets no mistake go unpunished, and for big issues there are big penalties.",
+        "IsPursuit": true,
+        "Pursuit": 1106,
+        "Step": 36,
+        "Type": 0,
+        "Choices": [],
+        "Prompt": null,
+        "HasNext": true,
+        "ObservedAt": "2026-10-15T01:55:50.8960844+00:00",
+        "Items": []
+      }
+    }
+  ]
+}

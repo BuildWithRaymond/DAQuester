@@ -127,6 +127,7 @@ foreach($archiveName in @('DAQuester-win-Portable.zip',$package)) {
         Write-Output "$archiveName functional walkability: $($coverage.covered)/$($coverage.recorded) maps."
         foreach($required in @(
             'DAQuester.exe',
+            'DAWindowerX.dll',
             'Avalonia.Base.dll',
             'Avalonia.Controls.dll',
             'Avalonia.Desktop.dll',
@@ -153,6 +154,8 @@ foreach($archiveName in @('DAQuester-win-Portable.zip',$package)) {
             'content/recipes/aided-pact-of-anaman.v1.json',
             'content/recipes/altar-worship.v1.json',
             'licenses/Lucide/LICENSE.txt',
+            'licenses/DAWindowerX/LICENSE.txt',
+            'licenses/DAWindowerX/source.json',
             'licenses/DALib/LICENSE.txt',
             'licenses/Velopack/LICENSE.txt',
             'licenses/Avalonia/LICENSE.txt',
@@ -173,6 +176,24 @@ foreach($archiveName in @('DAQuester-win-Portable.zip',$package)) {
                 throw "Missing $required in $archiveName"
             }
         }
+        $windowing=@($archive.Entries | Where-Object { $_.FullName.Replace('\','/').Split('/')[-1] -eq 'DAWindowerX.dll' })
+        $windowingSource=@($archive.Entries | Where-Object { $_.FullName.Replace('\','/').EndsWith('licenses/DAWindowerX/source.json',[StringComparison]::OrdinalIgnoreCase) })
+        if($windowing.Count -ne 1 -or $windowingSource.Count -ne 1){ throw "Expected one DAWindower X DLL and source record in $archiveName" }
+        $reader=[IO.StreamReader]::new($windowingSource[0].Open())
+        try { $origin=$reader.ReadToEnd() | ConvertFrom-Json } finally { $reader.Dispose() }
+        $pin=Get-Content -LiteralPath (Join-Path $repoRoot 'native/DAWindowerX.json') -Raw | ConvertFrom-Json
+        $patch=Join-Path $repoRoot 'native/DAWindowerX-daquester.patch'
+        if($pin.Patch -cne 'DAWindowerX-daquester.patch' -or $pin.PatchSHA256 -notmatch '^[a-f0-9]{64}$' -or
+            (Get-FileHash -LiteralPath $patch -Algorithm SHA256).Hash.ToLowerInvariant() -cne $pin.PatchSHA256 -or
+            $origin.PatchSHA256 -cne $pin.PatchSHA256 -or
+            $origin.Commit -ne $pin.Commit -or $origin.Repository -ne $pin.Repository -or $origin.Version -ne $pin.Version -or $origin.Library -ne 'DAWindowerX.dll'){
+            throw "DAWindower X source pin differs in $archiveName"
+        }
+        $stream=$windowing[0].Open()
+        $hash=[Security.Cryptography.SHA256]::Create()
+        try { $actual=[BitConverter]::ToString($hash.ComputeHash($stream)).Replace('-','').ToLowerInvariant() }
+        finally { $hash.Dispose(); $stream.Dispose() }
+        if($origin.SHA256 -notmatch '^[a-f0-9]{64}$' -or $actual -ne $origin.SHA256){ throw "DAWindower X fingerprint mismatch in $archiveName" }
         foreach($entry in $archive.Entries | Where-Object Length -gt 0) {
             $stream=$entry.Open()
             $buffer=[IO.MemoryStream]::new()

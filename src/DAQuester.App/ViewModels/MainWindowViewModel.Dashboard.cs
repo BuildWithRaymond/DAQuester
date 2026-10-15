@@ -49,7 +49,7 @@ public sealed partial class MainWindowViewModel
     public bool DashboardEmpty => DashboardCharacters.Count == 0;
     public string DashboardEmptyTitle => DashboardCount == 0 ? "Your characters start here" : "No matching characters";
     public string DashboardEmptyMessage => DashboardCount == 0 ? "Add a character in Characters. Their queue and progress stay with them." : "Clear your search or choose All to see more characters.";
-    public IReadOnlyList<HistoryItemVM> DashboardActivity => History.Take(5).ToArray();
+    public IReadOnlyList<HistoryItemVM> DashboardActivity => History;
     public bool DashboardHasActivity => History.Count > 0;
     public DashboardCharacterVM? SelectedDashboardCharacter
     {

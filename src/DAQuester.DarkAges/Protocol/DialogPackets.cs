@@ -88,7 +88,9 @@ public static class DialogPackets
         {
             EntityType = (EntityTypeFlags)d.EntityType,
             EntityId = d.EntityId,
-            PursuitId = choice.Pursuit
+            PursuitId = choice.Pursuit,
+            Arguments = d.Type == 6 ? [choice.Text] : d.Type == 1
+                ? [d.Prompt ?? throw new QuestBlockedException("Current merchant choice is missing its argument.")] : []
         };
         var builder = new NetworkPacketBuilder(d.IsPursuit ? ClientCommand.Pursuit : ClientCommand.Merchant);
         try

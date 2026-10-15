@@ -156,7 +156,8 @@ public class QuestTests
         var c = new QuestContext(s, new FileQuestJournal(dir), calibrated, new()
         {
             Character = "Nuclear",
-            Accepted = true
+            Accepted = true,
+            AcceptedGeneration = s.Snapshot.Generation
         });
         await new StickActions().ExecuteAsync(c, new("gather", "gather", null), default);
         Assert.Equal(start == 6 ? 0 : 1, s.Commands.Count);

@@ -1,0 +1,8 @@
+{
+  "Repository": "https://github.com/BuildWithRaymond/DAWindower.git",
+  "Commit": "ef70a98275444ffa0c1b306995c5bb579ae4e08a",
+  "Version": "0.2.3-candidate",
+  "Library": "DAWindowerX.dll",
+  "Patch": "DAWindowerX-daquester.patch",
+  "PatchSHA256": "28a638011b33f779f41b1f90eb1cfe566b3c1b04db983662761db5bc5abef235"
+}

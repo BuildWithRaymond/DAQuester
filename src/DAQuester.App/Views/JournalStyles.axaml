@@ -1,4 +1,20 @@
 <Styles xmlns="https://github.com/avaloniaui" xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml" xmlns:controls="using:DAQuester.App.Controls">
+  <!-- Templated lists and editors pass this setting into their scroll viewers. -->
+  <Style Selector=":is(Control)">
+    <Setter Property="ScrollViewer.AllowAutoHide" Value="False"/>
+  </Style>
+  <Style Selector="ScrollViewer /template/ ScrollBar#PART_VerticalScrollBar">
+    <Setter Property="Margin" Value="8,2,2,2"/>
+  </Style>
+  <Style Selector="ScrollViewer /template/ ScrollBar#PART_HorizontalScrollBar">
+    <Setter Property="Margin" Value="2,8,2,2"/>
+  </Style>
+  <Style Selector="ScrollBar /template/ Thumb">
+    <Setter Property="CornerRadius" Value="3"/>
+  </Style>
+  <Style Selector="ScrollBar /template/ Thumb /template/ Border">
+    <Setter Property="Margin" Value="2"/>
+  </Style>
   <Style Selector="Window">
     <Setter Property="Background" Value="{DynamicResource Ink}"/>
     <Setter Property="Foreground" Value="{DynamicResource Text}"/>
@@ -258,14 +274,15 @@
   <Style Selector="ListBox.library">
     <Setter Property="Background" Value="Transparent"/>
     <Setter Property="BorderThickness" Value="0"/>
-    <Setter Property="Padding" Value="0"/>
+    <Setter Property="Padding" Value="12,0"/>
+    <Setter Property="Margin" Value="0,4"/>
   </Style>
   <Style Selector="ListBox.filePicker ListBoxItem">
     <Setter Property="HorizontalContentAlignment" Value="Stretch"/>
   </Style>
   <Style Selector="ListBox.library ListBoxItem">
     <Setter Property="Padding" Value="0"/>
-    <Setter Property="Margin" Value="0"/>
+    <Setter Property="Margin" Value="0,2"/>
     <Setter Property="HorizontalContentAlignment" Value="Stretch"/>
   </Style>
   <Style Selector="ListBox.library ListBoxItem:selected /template/ ContentPresenter">
@@ -331,8 +348,9 @@
   </Style>
   <Style Selector="ListBoxItem:selected Border.questRow">
     <Setter Property="BorderBrush" Value="{DynamicResource Gold}"/>
-    <Setter Property="BorderThickness" Value="3,0,0,1"/>
-    <Setter Property="Padding" Value="11,9,14,9"/>
+    <Setter Property="BorderThickness" Value="1"/>
+    <Setter Property="CornerRadius" Value="7"/>
+    <Setter Property="Padding" Value="13,8,13,9"/>
   </Style>
   <Style Selector="Border.questRow.muted TextBlock.questName">
     <Setter Property="Foreground" Value="{DynamicResource Muted}"/>

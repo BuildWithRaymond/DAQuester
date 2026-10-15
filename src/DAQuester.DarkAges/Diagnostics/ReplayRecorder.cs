@@ -106,6 +106,15 @@ public class ReplayRecorder
             return QuestEvidenceAnalyzer.Analyze(ServerEvents(events).ToArray(), actions.ToArray());
     }
 
+    public (CharacterSnapshot[] Snapshots, RecordedJourneyAction[] Actions) JourneyReceipts(string character, long generation, long after)
+    {
+        lock (gate)
+            return (ServerEvents(events).Where(e => e.Character.Equals(character, StringComparison.OrdinalIgnoreCase) &&
+                    e.Generation == generation && e.Revision >= after).Select(e => e.Snapshot).ToArray(),
+                actions.Where(a => a.Character.Equals(character, StringComparison.OrdinalIgnoreCase) && a.Generation == generation && a.Revision >= after)
+                    .Select(a => new RecordedJourneyAction(a.Character, a.Generation, a.Revision, a.Kind, a.Selection, a.Dialog)).ToArray());
+    }
+
     public Tile[] ObservedPatrol(string character, long generation, long after, IEnumerable<Tile> dropPositions)
     {
         var drops = dropPositions.ToArray();

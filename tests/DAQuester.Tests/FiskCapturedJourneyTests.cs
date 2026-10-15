@@ -11,6 +11,8 @@ namespace DAQuester.Tests;
 
 // Synthetic execution stitched from independently retained MCP snapshots. Actor,
 // connection/revisions and timer clock are normalized; no live game is operated.
+// Early Wine/Grapes purchase timing and carried balances are synthetic. Captured
+// dialogue, stage resource deltas, and actual parsed reward notices remain the proof.
 public class FiskCapturedJourneyTests
 {
     static readonly JsonSerializerOptions Json = new() { PropertyNameCaseInsensitive = true };
@@ -22,7 +24,7 @@ public class FiskCapturedJourneyTests
         throw new InvalidOperationException("Repository not found.");
     }
     [Fact]
-    public async Task Complete_secrecy_journey_matches_actual_dialogue_and_resource_snapshots()
+    public async Task Complete_secrecy_journey_preserves_captured_dialogue_and_resource_deltas_with_early_supplies()
     {
         string root = Repository();
         var recipe = JsonSerializer.Deserialize<QuestDefinition>(File.ReadAllText(Path.Combine(root, "content/recipes/fisk-secret.v1.json")), Json)!;
@@ -64,6 +66,8 @@ public class FiskCapturedJourneyTests
             LegendsRevision = 1,
             MaxWeight = 127
         });
+        long goldShift = 0;
+        var supplyShift = new Dictionary<string, int>(StringComparer.OrdinalIgnoreCase);
         void Apply(int number, bool legendOnly = false)
         {
             if (number == 183)
@@ -90,6 +94,18 @@ public class FiskCapturedJourneyTests
                 }
             }
             var observed = Snapshot(number).Deserialize<CharacterSnapshot>(Json)!;
+            var inventory = observed.Inventory;
+            foreach (var name in new[] { "Wine", "Grapes" })
+            {
+                int quantity = observed.Count(name) + supplyShift.GetValueOrDefault(name);
+                var existing = inventory.Values.FirstOrDefault(i => i.Name == name);
+                foreach (var item in inventory.Values.Where(i => i.Name == name).ToArray()) inventory = inventory.Remove(item.Slot);
+                if (quantity > 0)
+                {
+                    byte slot = existing?.Slot ?? Enumerable.Range(1, 59).Select(i => (byte)i).First(i => !inventory.ContainsKey(i));
+                    inventory = inventory.SetItem(slot, new(slot, name, (uint)quantity) { Stackable = true });
+                }
+            }
             long rev = s.Snapshot.Revision + 1;
             var d = observed.Dialog;
             if (d is not null)
@@ -121,7 +137,8 @@ public class FiskCapturedJourneyTests
                 Id = 42,
                 Generation = 1,
                 MaxHp = 4108,
-                Gold = observed.Gold == 0 ? s.Snapshot.Gold : observed.Gold,
+                Gold = observed.Gold == 0 ? s.Snapshot.Gold : checked((uint)((long)observed.Gold!.Value + goldShift)),
+                Inventory = inventory,
                 Dialog = d,
                 Notice = notice,
                 LegendsRevision = rev
@@ -133,18 +150,25 @@ public class FiskCapturedJourneyTests
         Queue<int> frames = new();
         s.OnCommand = command =>
         {
-            string task = recipe.Journey[runner!.Job.Route!.Task].Id;
+            string task = runner!.Job.Preparation is { } preparing
+                ? preparing.Supplies[preparing.Index].Task.Id : recipe.Journey[runner.Job.Route!.Task].Id;
             if (active != task)
             {
                 active = task;
                 frames = ranges.TryGetValue(task, out var range) ? new(Enumerable.Range(range.First, range.Last - range.First + 1)) : new();
+                if (frames.Count > 0)
+                {
+                    var baseline = Snapshot(frames.Peek()).Deserialize<CharacterSnapshot>(Json)!;
+                    goldShift = baseline.Gold is null or 0 ? 0 : (long)s.Snapshot.Gold!.Value - baseline.Gold.Value;
+                    supplyShift = new[] { "Wine", "Grapes" }.ToDictionary(n => n, n => s.Snapshot.Count(n) - baseline.Count(n));
+                }
             }
             if (command.Kind == "navigate")
             {
                 s.Set(s.Snapshot with
                 {
                     Map = command.Map,
-                    Position = command.Target
+                    Position = command.Target ?? s.Snapshot.Position
                 });
                 return;
             }
@@ -181,7 +205,12 @@ public class FiskCapturedJourneyTests
                 }
                 if (command.Kind == "buy")
                 {
-                    Apply(task == "wine" ? 62 : 106);
+                    string item = task == "wine" ? "Wine" : "Grapes";
+                    var receipt = Snapshot(task == "wine" ? 62 : 106).Deserialize<CharacterSnapshot>(Json)!.Inventory.Values.First(i => i.Name == item);
+                    byte slot = s.Snapshot.Inventory.Values.FirstOrDefault(i => i.Name == item)?.Slot ??
+                        Enumerable.Range(1, 59).Select(i => (byte)i).First(i => !s.Snapshot.Inventory.ContainsKey(i));
+                    s.Set(s.Snapshot with { Gold = s.Snapshot.Gold - (uint)command.Quantity!.Value * (task == "wine" ? 500u : 10u),
+                        Inventory = s.Snapshot.Inventory.SetItem(slot, receipt with { Slot = slot, Quantity = (uint)(s.Snapshot.Count(item) + command.Quantity.Value) }) });
                     return;
                 }
                 if (command.Kind == "close")

@@ -88,6 +88,7 @@ public sealed partial class GameSession : INpcConnectionHandoff
     async Task ExecuteNpcTravel(TravelStep step, CancellationToken ct)
     {
         var transfer = step.NpcTransfer!;
+        if (!NpcPositionStable(Snapshot)) await DepartNpcLanding(ct);
         var entry = Snapshot;
         CheckTravelGold(entry, transfer);
         Entity? FindNpc(CharacterSnapshot state)
@@ -104,8 +105,11 @@ public sealed partial class GameSession : INpcConnectionHandoff
                 .Concat(record.ExitTiles).Concat(record.InternalTransfers.Select(t => t.From)).ToHashSet();
         }
         var npc = FindNpc(entry);
-        var approach = NpcApproach.Find(maps.Load(step.SourceMap), entry.Position!, npc?.Position ?? transfer.Anchor, Obstacles(entry));
-        await WalkTo(approach, ct, step.SourceMap, replanWhen: () => Snapshot.Dialog is not null);
+        if (!VisibleNpc(step.SourceMap, transfer.Npc))
+        {
+            var approach = NpcApproach.Find(maps.Load(step.SourceMap), entry.Position!, npc?.Position ?? transfer.Anchor, Obstacles(entry));
+            await WalkTo(approach, ct, step.SourceMap, replanWhen: () => Snapshot.Dialog is not null || VisibleNpc(step.SourceMap, transfer.Npc));
+        }
         if (Snapshot.Dialog is not null)
             throw new QuestBlockedException("Popup appeared during travel approach. It is preserved for review.");
         if (Snapshot.Map != step.SourceMap)
@@ -124,13 +128,11 @@ public sealed partial class GameSession : INpcConnectionHandoff
         if (Snapshot.Map != step.SourceMap)
             return;
         npc = FindNpc(Snapshot) ?? throw new QuestBlockedException(transfer.Npc + " is unavailable. Travel has been paused.");
-        approach = NpcApproach.Find(maps.Load(step.SourceMap), Snapshot.Position!, npc.Position, Obstacles(Snapshot));
-        await WalkTo(approach, ct, step.SourceMap, replanWhen: () => Snapshot.Dialog is not null);
         var observed = Snapshot;
         if (observed.Generation != entry.Generation || observed.Id != entry.Id || observed.Name != entry.Name
             || observed.Map != step.SourceMap || observed.Dialog is not null
             || FindNpc(observed)?.Id != npc.Id || observed.Position is null
-            || Math.Abs(observed.Position.X - npc.Position.X) + Math.Abs(observed.Position.Y - npc.Position.Y) > 3)
+            || !VisibleNpc(step.SourceMap, transfer.Npc))
             throw new QuestBlockedException("Travel NPC or approach changed. Review location and popup before resuming.");
         CheckTravelGold(observed, transfer);
         npcTravel = new(observed.Generation, observed.Id, observed.Name, step.SourceMap, npc.Id, observed.Revision, transfer);

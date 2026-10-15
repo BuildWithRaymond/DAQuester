@@ -32,6 +32,21 @@ public class SpriteAccentLayoutTests
     }
 
     [Fact]
+    public void LoweringAccentKeepsNativeScaleAndStableBodyAnchorAcrossFrames()
+    {
+        var original = new SpriteAccentLayout();
+        var lowered = new SpriteAccentLayout();
+        var bodyPixel = new Point(55, 60);
+        foreach (var content in new[] { new Rect(40, 25, 30, 55), new Rect(20, 20, 75, 65) })
+        {
+            var before = original.Destination(content, Bitmap, Foreground, Preview, Area);
+            var after = lowered.Destination(content, Bitmap, Foreground, Preview, Area, verticalOffset: 150);
+            Assert.Equal(Project(bodyPixel, content, before) + new Vector(0, 150), Project(bodyPixel, content, after));
+            Assert.Equal(before.Size, after.Size);
+        }
+    }
+
+    [Fact]
     public void CanvasCenterStaysBehindSmallSpriteDespiteAnAsymmetricWeapon()
     {
         var layout = new SpriteAccentLayout();

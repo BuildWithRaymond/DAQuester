@@ -1,0 +1,74 @@
+{
+  "SchemaVersion": 1,
+  "Sanitized": true,
+  "ServerProfile": "datester-7.41",
+  "Evidence": "Read-only capture of Agent's actual paused journal and connected state on 2026-10-14. Character is normalized to ReplayAgent and old/current generations to 1/2. Original task index, page, NPC identity, revisions and dialogue are retained. Unrelated inventory and legends are omitted. Synthetic tests rebind the fresh NPC and never operate the character.",
+  "Checkpoint": {
+    "Character": "ReplayAgent",
+    "Quest": "cap-band-of-danaan",
+    "Version": 1,
+    "Step": "run",
+    "Status": "Paused",
+    "Reason": "Conversation connection changed; reconcile its saved receipt before reopening or spending again.",
+    "DanaanOptions": { "Avatar": "cail", "SuppliedMoldRiteAccepted": true },
+    "Pending": {
+      "Kind": "observed-page:donnan-next-task",
+      "Generation": 1,
+      "Revision": 2575,
+      "Gold": 44800235,
+      "Branches": 0,
+      "Experience": 18248523,
+      "Started": "2026-10-14T22:59:51.0114054Z",
+      "EntityId": 6516,
+      "EntityType": 1,
+      "InventoryBaselineKnown": true
+    },
+    "Route": {
+      "Task": 26,
+      "Page": 1,
+      "Baseline": {
+        "Kind": "observed-stage",
+        "Generation": 1,
+        "Revision": 2575,
+        "Gold": 44800235,
+        "Branches": 0,
+        "Experience": 18248523,
+        "Started": "2026-10-14T22:59:50.4954526Z",
+        "InventoryBaselineKnown": true
+      },
+      "BoundGeneration": 1,
+      "BoundEntity": 6516,
+      "SubmittedPage": {
+        "Generation": 1,
+        "Revision": 2576,
+        "EntityId": 6516,
+        "EntityType": 1,
+        "Name": "Donnan",
+        "Text": "You have completed it. Good! So, for the final task...",
+        "IsPursuit": true,
+        "Pursuit": 1110,
+        "Step": 46,
+        "Type": 0,
+        "Choices": [],
+        "HasNext": true,
+        "ObservedAt": "2026-10-14T22:59:50.9968201Z"
+      },
+      "LastReply": {
+        "Generation": 1,
+        "Revision": 2577,
+        "EntityId": 6516,
+        "EntityType": 1,
+        "Name": "Donnan",
+        "Text": "A meditative master of colorful martial arts trained too much for his equipment's good.",
+        "IsPursuit": true,
+        "Pursuit": 1110,
+        "Step": 65,
+        "Type": 0,
+        "Choices": [],
+        "HasNext": true,
+        "ObservedAt": "2026-10-14T22:59:51.4945573Z"
+      }
+    }
+  },
+  "Current": { "Character": "ReplayAgent", "Generation": 2, "Map": 348, "Position": { "X": 8, "Y": 5 } }
+}

@@ -8,6 +8,7 @@ public class QuestRunner(IGameSession session, IQuestJournal journal, QuestDefin
     private volatile CancellationTokenSource? active;
     private readonly EvidenceHistory completionHistory = new();
     public bool IsRunning => active is not null;
+    public Func<IReadOnlyList<(QuestDefinition Recipe, QuestJob Job)>>? PreparationBatch { get; set; }
 
     private string pauseReason = "Paused by player";
     public event Action<QuestJob>? Changed;
@@ -116,7 +117,7 @@ public class QuestRunner(IGameSession session, IQuestJournal journal, QuestDefin
         {
             Job = value;
             Changed?.Invoke(value);
-        }, helpers, hunting) { YieldScheduledWaits = yieldScheduledWaits, DeferTimedWaits = deferTimedWaits, HasReadyQueuedWork = hasReadyQueuedWork, WaitingArea = waitingArea ?? new() };
+        }, helpers, hunting) { YieldScheduledWaits = yieldScheduledWaits, DeferTimedWaits = deferTimedWaits, HasReadyQueuedWork = hasReadyQueuedWork, WaitingArea = waitingArea ?? new(), PreparationBatch = PreparationBatch };
         var priorHairAttempt = c.Job.LastAttemptAt;
         Task Save(QuestJob value) => c.SaveAsync(value);
         try
@@ -291,6 +292,8 @@ public class QuestRunner(IGameSession session, IQuestJournal journal, QuestDefin
                     Status = "Running",
                     Reason = ""
                 });
+                if (c.Job.Step == "preflight" || c.Job.Pending?.Kind == DachaidhPreparation.PaymentKind)
+                    await DachaidhPreparation.EnsureAsync(c, token.Token);
                 while (c.Job.Step != "complete")
                 {
                     token.Token.ThrowIfCancellationRequested();
@@ -307,6 +310,8 @@ public class QuestRunner(IGameSession session, IQuestJournal journal, QuestDefin
 
                     if (!Actions.TryGetValue(step.Action, out var action))
                         throw new QuestBlockedException("Unsupported action: " + step.Action);
+                    if (c.Job.Preparation is not null || !step.Action.EndsWith("preflight", StringComparison.Ordinal))
+                        await QuestItemPreparation.EnsureAsync(c, recipe, token.Token);
                     await action.ExecuteAsync(c, step, token.Token);
                     if (c.Job.Step == "complete")
                         break;
@@ -472,6 +477,41 @@ public class QuestRunner(IGameSession session, IQuestJournal journal, QuestDefin
 
         if (changed)
             Changed?.Invoke(Job);
+    }
+
+    public async Task<bool> ReconcileDanaanCourtAsync(IEnumerable<CharacterSnapshot> snapshots,
+        IEnumerable<RecordedJourneyAction> actions, CancellationToken cancellation = default)
+    {
+        if (recipe.Id != DanaanEvidence.Id || !await owner.WaitAsync(0, cancellation))
+            return false;
+        bool changed = false;
+        try
+        {
+            if (!session.Snapshot.Connected || !string.Equals(session.Snapshot.Name, Job.Character, StringComparison.OrdinalIgnoreCase))
+                return false;
+            var recovered = DanaanCourtRecovery.Reconcile(Job, recipe, snapshots, actions);
+            if (ReferenceEquals(recovered, Job))
+                recovered = DanaanBlanchefleurRecovery.Reconcile(Job, recipe, snapshots, actions);
+            if (ReferenceEquals(recovered, Job))
+                recovered = DanaanVarunaRecovery.Reconcile(Job, recipe, snapshots, actions);
+            if (ReferenceEquals(recovered, Job))
+                recovered = DanaanDonnanRecovery.Reconcile(Job, recipe, snapshots, actions);
+            if (ReferenceEquals(recovered, Job))
+                recovered = DanaanDreamerReturn.Reconcile(Job, recipe, snapshots, actions);
+            if (ReferenceEquals(recovered, Job))
+                return false;
+            cancellation.ThrowIfCancellationRequested();
+            await journal.SaveAsync(recovered);
+            Job = recovered;
+            changed = true;
+        }
+        finally
+        {
+            owner.Release();
+        }
+        if (changed)
+            Changed?.Invoke(Job);
+        return changed;
     }
 
     public async Task PauseAsync(string reason = "Paused by player")

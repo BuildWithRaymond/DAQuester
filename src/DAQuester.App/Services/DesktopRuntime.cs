@@ -624,6 +624,8 @@ public sealed partial class DesktopRuntime
             AutoExport("closing");
             closing = true;
             characterMemoryLifetime.Cancel();
+            if (windowingHost is not null)
+                await windowingHost.DisposeAsync();
             await host.DisposeAsync();
             if (controlServer is not null)
                 await controlServer.DisposeAsync();

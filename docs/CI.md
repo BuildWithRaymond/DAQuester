@@ -1,6 +1,10 @@
 # Verification
 
-Use Windows and .NET 10. The branch and tagged-release workflows build once,
+Use Windows and .NET 10, plus the pinned native dependency prerequisites in
+[Contributing](../CONTRIBUTING.md). CI uses Windows 2022 for its Visual Studio
+2022 x86 toolchain. The first app build prepares DAWindower X from the pinned
+GitHub revision; subsequent builds validate and reuse the artifact cache.
+The branch and tagged-release workflows build once,
 run both xUnit projects, package that tested build, and verify the release assets
 and compatibility with the pinned previous updater. There is no automated UI
 render matrix or pixel test gate.
@@ -16,6 +20,10 @@ dotnet test tests/DAQuester.AppTests -c Release --no-build -m:1
 isolation, checkpoint recovery, movement and travel. `DAQuester.AppTests`
 protects account editing, planning, exclusive ownership, cancellation and exit
 safety. All game interactions are synthetic. No real character is operated.
+The x86 app suite additionally loads the actual bundled DAWindower X into
+upstream's synthetic DirectDraw fixture before its entry point, then verifies
+its first wrapped device/window. Both ordinary and Unicode paths are covered.
+That fixture is never included in application packages.
 
 For packaging changes:
 
@@ -29,6 +37,9 @@ Local packaging makes a clean isolated compilation. CI uses
 `Build-Release.ps1 -NoBuild` after a clean solution build with `DebugType=None`,
 `DebugSymbols=false` and `CopyOutputSymbolsToPublishDirectory=false`. Payload
 validation still rejects symbols, private paths, user Data and raw game assets.
+When reusing local build outputs, add `--no-incremental` to that symbol-free
+solution build before testing. Changing debug flags alone can leave unchanged
+project-reference assemblies with their previous debug-path metadata.
 Use `-Output artifacts/candidate/release` for a separate candidate; its payload
 and isolated build stay beside that output without replacing earlier artifacts.
 

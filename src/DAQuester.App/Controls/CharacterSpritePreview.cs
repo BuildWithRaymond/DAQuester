@@ -114,7 +114,7 @@ public sealed partial class CharacterSpritePreview : Control
         long version = requestVersion;
         try
         {
-            var pixels = await Task.Run(() =>
+            var pixels = portrait ? await CharacterArtworkProvider.LoadPortraitAsync(look, directory) : await Task.Run(() =>
             {
                 if (renderer is null || loadedDirectory != directory)
                 {
@@ -122,7 +122,7 @@ public sealed partial class CharacterSpritePreview : Control
                     loadedDirectory = directory;
                 }
 
-                return portrait ? renderer.RenderPortrait(look) : renderer.Render(look, pose, preview.Motion);
+                return renderer.Render(look, pose, preview.Motion);
             });
             if (version != requestVersion || Snapshot?.Generation != snapshot?.Generation || Snapshot?.Id != snapshot?.Id || this.GetVisualRoot()is null)
                 return;
@@ -145,6 +145,8 @@ public sealed partial class CharacterSpritePreview : Control
         }
         catch (Exception e)when (e is IOException or UnauthorizedAccessException or InvalidDataException or OverflowException or ArgumentException)
         {
+            if (version != requestVersion)
+                return;
             failedDirectory = directory;
             Clear();
             ToolTip.SetTip(this, "Game artwork unavailable. Check the client path in Settings.");

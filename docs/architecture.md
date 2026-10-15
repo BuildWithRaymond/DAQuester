@@ -50,6 +50,25 @@ and character, once, retaining client login metadata. Cancellation immediately
 revokes the ticket. Redirects retain this launch association; other connections
 cannot consume it. Login packets and passwords never enter replay exports.
 
+New supported clients start suspended. The launcher preserves its loopback,
+multi-instance and agreement patches, then loads bundled DAWindower X through
+the same-bitness Windows loader before resuming the main thread. It awaits the
+loader result and verifies the actual module path. Missing/invalid native files,
+failed loading and Stop abort only that newly created suspended process. A live
+loader's argument stays allocated until process exit on timeout or cancellation.
+No extra DAWindower initializer is called. The source pin, MIT notice and actual
+DLL hash ship with the app; native builds and synthetic fixtures live in ignored
+artifacts. A pinned upstream-source patch hands X's + action back to DAQuester
+through a per-instance, current-user-only pipe. Windows supplies the caller PID;
+only live process handles registered before primary-thread resume are accepted,
+with ownership checked again on the app dispatch thread. Each accepted action
+uses a distinct blank launch slot and the same proxy/windowing transaction,
+without a saved-login ticket. Named Launch keeps its existing focus behavior.
+The child receives the endpoint through its own Unicode environment block;
+the parent environment is unchanged. Failed or uncertain requests never fall
+back to a standalone launch. Shutdown cancels launches and closes the endpoint;
+clients belonging to an older app instance are not adopted.
+
 Recipes select their own action handlers. Mundane Birth uses `MundaneBirthActions`
 and immutable per-character `BirthOptions`; Spare a Stick retains its existing
 handler and calibration. Callough's permanent-outcome check applies only to the

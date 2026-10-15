@@ -1,0 +1,173 @@
+diff --git a/src/x/frame.cpp b/src/x/frame.cpp
+index d95f63a..ab390d5 100644
+--- a/src/x/frame.cpp
++++ b/src/x/frame.cpp
+@@ -23,16 +23,100 @@ enum class Button { none = -1, newClient, native, minimize, maximize, close };
+ struct LaunchStatus {
+     std::atomic<bool> complete{false};
+     LaunchResult result;
++    bool managed = false;
+ };
+ 
+ struct LaunchWork {
+-    std::wstring executable, dll;
++    std::wstring executable, dll, hostPipe;
+     std::shared_ptr<LaunchStatus> status;
+ };
+ 
++std::wstring inheritedHostPipe() {
++    SetLastError(ERROR_SUCCESS);
++    const auto size = GetEnvironmentVariableW(L"DAQUESTER_LAUNCH_PIPE", nullptr, 0);
++    if (!size && GetLastError() == ERROR_ENVVAR_NOT_FOUND)
++        return {};
++    if (!size || size > 128)
++        return L"invalid";
++    std::wstring value(size, L'\0');
++    const auto copied = GetEnvironmentVariableW(L"DAQUESTER_LAUNCH_PIPE", value.data(), size);
++    if (!copied || copied >= size)
++        return L"invalid";
++    value.resize(copied);
++    return value;
++}
++
++DWORD transferHostWord(HANDLE pipe, HANDLE event, bool writing, DWORD& value) noexcept {
++    ResetEvent(event);
++    OVERLAPPED operation{};
++    operation.hEvent = event;
++    DWORD count = 0;
++    const auto started = writing ? WriteFile(pipe, &value, sizeof(value), &count, &operation)
++                                 : ReadFile(pipe, &value, sizeof(value), &count, &operation);
++    if (!started && GetLastError() != ERROR_IO_PENDING)
++        return GetLastError();
++    const auto wait = WaitForSingleObject(event, 25000);
++    if (wait != WAIT_OBJECT_0) {
++        const auto error = wait == WAIT_TIMEOUT ? ERROR_TIMEOUT : GetLastError();
++        CancelIoEx(pipe, &operation);
++        // Keep the OVERLAPPED buffer alive until cancellation is acknowledged.
++        GetOverlappedResult(pipe, &operation, &count, TRUE);
++        return error;
++    }
++    if (!GetOverlappedResult(pipe, &operation, &count, FALSE))
++        return GetLastError();
++    return count == sizeof(value) ? ERROR_SUCCESS : ERROR_BAD_LENGTH;
++}
++
++LaunchResult requestHostLaunch(const std::wstring& name) noexcept {
++    LaunchResult result{ERROR_INVALID_NAME, LaunchStage::createProcess};
++    constexpr wchar_t prefix[] = L"DAQuester.NewClient.";
++    constexpr auto prefixSize = (sizeof(prefix) / sizeof(wchar_t)) - 1;
++    if (name.size() != prefixSize + 32 || name.compare(0, prefixSize, prefix) != 0 ||
++        name.find_first_not_of(L"0123456789abcdef", prefixSize) != std::wstring::npos)
++        return result;
++    try {
++        const auto path = std::wstring(L"\\\\.\\pipe\\") + name;
++        auto open = [&]() {
++            return CreateFileW(path.c_str(), GENERIC_READ | GENERIC_WRITE, 0, nullptr,
++                               OPEN_EXISTING, FILE_FLAG_OVERLAPPED | SECURITY_SQOS_PRESENT |
++                                                  SECURITY_IDENTIFICATION, nullptr);
++        };
++        auto pipe = open();
++        if (pipe == INVALID_HANDLE_VALUE && GetLastError() == ERROR_PIPE_BUSY &&
++            WaitNamedPipeW(path.c_str(), 1500))
++            pipe = open(); // Connection only; a submitted request is never replayed.
++        if (pipe == INVALID_HANDLE_VALUE) {
++            result.error = GetLastError();
++            return result;
++        }
++        auto event = CreateEventW(nullptr, TRUE, FALSE, nullptr);
++        if (!event) {
++            result.error = GetLastError();
++            CloseHandle(pipe);
++            return result;
++        }
++        DWORD word = 0x31585144; // DQX1: request one blank managed login window.
++        result.error = transferHostWord(pipe, event, true, word);
++        if (!result.error) {
++            result.error = transferHostWord(pipe, event, false, word);
++            if (!result.error)
++                result.error = word;
++        }
++        CloseHandle(event);
++        CloseHandle(pipe);
++        return result;
++    } catch (const std::bad_alloc&) {
++        result.error = ERROR_NOT_ENOUGH_MEMORY;
++        return result;
++    }
++}
++
+ unsigned __stdcall launchWorker(void* parameter) {
+     std::unique_ptr<LaunchWork> work(static_cast<LaunchWork*>(parameter));
+-    work->status->result = launchClient(work->executable.c_str(), work->dll.c_str());
++    work->status->result = work->hostPipe.empty()
++                               ? launchClient(work->executable.c_str(), work->dll.c_str())
++                               : requestHostLaunch(work->hostPipe);
+     work->status->complete.store(true, std::memory_order_release);
+     return 0;
+ }
+@@ -169,9 +253,14 @@ class Frame {
+     void updateTitle() {
+         if (launch && launch->complete.load(std::memory_order_acquire)) {
+             const auto result = launch->result;
++            const auto managed = launch->managed;
+             launch.reset();
+             if (result.error) {
+-                swprintf_s(launchError,
++                if (managed)
++                    swprintf_s(launchError,
++                               L"DAQuester launch not confirmed (Windows %lu). Check DAQuester.",
++                               result.error);
++                else swprintf_s(launchError,
+                            L"New client failed: %s (Windows %lu). Click to retry.",
+                            stageName(result.stage),
+                            result.error);
+@@ -410,13 +499,15 @@ class Frame {
+         launchError[0] = 0;
+         try {
+             auto work = std::make_unique<LaunchWork>();
+-            if (!currentClientPaths(work->executable, work->dll)) {
++            work->hostPipe = inheritedHostPipe();
++            if (work->hostPipe.empty() && !currentClientPaths(work->executable, work->dll)) {
+                 wcscpy_s(launchError,
+                          L"New client unavailable: this executable is not Darkages.exe.");
+                 paint();
+                 return;
+             }
+             launch = std::make_shared<LaunchStatus>();
++            launch->managed = !work->hostPipe.empty();
+             work->status = launch;
+             const auto thread = _beginthreadex(nullptr, 0, launchWorker, work.get(), 0, nullptr);
+             if (!thread) {
+diff --git a/tests/x_launch_fixture.cpp b/tests/x_launch_fixture.cpp
+index 9c0e9d3..bc9288e 100644
+--- a/tests/x_launch_fixture.cpp
++++ b/tests/x_launch_fixture.cpp
+@@ -25,7 +25,8 @@ bool clickNew(HWND w) {
+ 
+ int main(int argc, char**) {
+     SetErrorMode(SEM_FAILCRITICALERRORS | SEM_NOGPFAULTERRORBOX);
+-    const bool parent = argc > 1;
++    const bool managed = GetEnvironmentVariableW(L"DAQUESTER_LAUNCH_PIPE", nullptr, 0) > 0;
++    const bool parent = argc > 1 || managed;
+     auto module = parent ? LoadLibraryA("DAWindowerX.dll") : GetModuleHandleW(L"DAWindowerX.dll");
+     if (!module)
+         return 20;
+@@ -63,7 +64,8 @@ int main(int argc, char**) {
+         if (!clickNew(window) || !clickNew(window))
+             return 27;
+         const auto deadline = GetTickCount64() + 30000;
+-        while (GetFileAttributesW(L"x-fixture-result.bin") == INVALID_FILE_ATTRIBUTES &&
++        while ((GetFileAttributesW(L"x-fixture-result.bin") == INVALID_FILE_ATTRIBUTES ||
++                (managed && (GetMenuState(GetSystemMenu(window, FALSE), 0xe810, MF_BYCOMMAND) & MF_GRAYED))) &&
+                GetTickCount64() < deadline) {
+             MSG message{};
+             while (PeekMessageW(&message, nullptr, 0, 0, PM_REMOVE))
+@@ -72,6 +74,8 @@ int main(int argc, char**) {
+         }
+         if (GetFileAttributesW(L"x-fixture-result.bin") == INVALID_FILE_ATTRIBUTES)
+             return 28;
++        if (managed && (GetMenuState(GetSystemMenu(window, FALSE), 0xe810, MF_BYCOMMAND) & MF_GRAYED))
++            return 29;
+     }
+     auto file = CreateFileW(parent ? L"x-ui-parent-result.bin" : L"x-fixture-result.bin",
+                             GENERIC_WRITE,

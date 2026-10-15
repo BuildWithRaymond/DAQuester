@@ -1,0 +1,634 @@
+{
+  "SchemaVersion": 1,
+  "ServerProfile": "datester-7.41",
+  "Sanitized": true,
+  "Evidence": "Actual resumed Blanchefleur/Fiosachd run after exact Varuna spirits continuation and Dreamer threshold-return recovery. Erin reward and terminal close ran automatically. Actor and generation normalized; original action/dialog revisions, own gold/XP, Danaan item and fresh Danaan legend retained. Inventory and legends are explicit Danaan-only projections; all packet payloads, unrelated own fields and other characters omitted. This is resumed completion, not a fresh full automatic run or Band reward.",
+  "Receipts": [
+    {
+      "Character": "ReplayBlanchefleurCompletion",
+      "Generation": 1,
+      "Revision": 2502,
+      "Opcode": 47,
+      "Map": 345,
+      "Position": {
+        "X": 6,
+        "Y": 9
+      },
+      "Gold": 13455855,
+      "Experience": 864703409,
+      "Dialog": {
+        "Generation": 1,
+        "Revision": 2502,
+        "EntityId": 6518,
+        "EntityType": 1,
+        "Name": "Erin",
+        "Text": "Hello.  What can I do for you?",
+        "IsPursuit": false,
+        "Pursuit": 0,
+        "Step": 0,
+        "Type": 0,
+        "Choices": [
+          {
+            "Text": "Priest",
+            "Pursuit": 1187,
+            "Option": 1
+          },
+          {
+            "Text": "Guide",
+            "Pursuit": 1189,
+            "Option": 2
+          },
+          {
+            "Text": "I completed the tasks",
+            "Pursuit": 2142,
+            "Option": 3
+          },
+          {
+            "Text": "Original Cap or Band of Danaan",
+            "Pursuit": 2151,
+            "Option": 4
+          }
+        ],
+        "Prompt": null,
+        "HasNext": false,
+        "ObservedAt": "2026-10-15T02:50:47.9202003+00:00",
+        "Items": []
+      },
+      "ActiveStatus": {
+        "Generation": 1,
+        "Revision": 2474,
+        "Type": 3,
+        "Text": "You shudder in realization of what may be below",
+        "ObservedAt": "2026-10-15T02:50:43.8986352+00:00"
+      },
+      "OwnDanaanInventory": [],
+      "OwnDanaanLegends": [],
+      "LegendsKnown": true,
+      "LegendsRevision": 155
+    },
+    {
+      "Character": "ReplayBlanchefleurCompletion",
+      "Generation": 1,
+      "Revision": 2503,
+      "Opcode": 8,
+      "Map": 345,
+      "Position": {
+        "X": 6,
+        "Y": 9
+      },
+      "Gold": 13455855,
+      "Experience": 865703409,
+      "Dialog": {
+        "Generation": 1,
+        "Revision": 2502,
+        "EntityId": 6518,
+        "EntityType": 1,
+        "Name": "Erin",
+        "Text": "Hello.  What can I do for you?",
+        "IsPursuit": false,
+        "Pursuit": 0,
+        "Step": 0,
+        "Type": 0,
+        "Choices": [
+          {
+            "Text": "Priest",
+            "Pursuit": 1187,
+            "Option": 1
+          },
+          {
+            "Text": "Guide",
+            "Pursuit": 1189,
+            "Option": 2
+          },
+          {
+            "Text": "I completed the tasks",
+            "Pursuit": 2142,
+            "Option": 3
+          },
+          {
+            "Text": "Original Cap or Band of Danaan",
+            "Pursuit": 2151,
+            "Option": 4
+          }
+        ],
+        "Prompt": null,
+        "HasNext": false,
+        "ObservedAt": "2026-10-15T02:50:47.9202003+00:00",
+        "Items": []
+      },
+      "ActiveStatus": {
+        "Generation": 1,
+        "Revision": 2474,
+        "Type": 3,
+        "Text": "You shudder in realization of what may be below",
+        "ObservedAt": "2026-10-15T02:50:43.8986352+00:00"
+      },
+      "OwnDanaanInventory": [],
+      "OwnDanaanLegends": [],
+      "LegendsKnown": true,
+      "LegendsRevision": 155
+    },
+    {
+      "Character": "ReplayBlanchefleurCompletion",
+      "Generation": 1,
+      "Revision": 2504,
+      "Opcode": 10,
+      "Map": 345,
+      "Position": {
+        "X": 6,
+        "Y": 9
+      },
+      "Gold": 13455855,
+      "Experience": 865703409,
+      "Dialog": {
+        "Generation": 1,
+        "Revision": 2502,
+        "EntityId": 6518,
+        "EntityType": 1,
+        "Name": "Erin",
+        "Text": "Hello.  What can I do for you?",
+        "IsPursuit": false,
+        "Pursuit": 0,
+        "Step": 0,
+        "Type": 0,
+        "Choices": [
+          {
+            "Text": "Priest",
+            "Pursuit": 1187,
+            "Option": 1
+          },
+          {
+            "Text": "Guide",
+            "Pursuit": 1189,
+            "Option": 2
+          },
+          {
+            "Text": "I completed the tasks",
+            "Pursuit": 2142,
+            "Option": 3
+          },
+          {
+            "Text": "Original Cap or Band of Danaan",
+            "Pursuit": 2151,
+            "Option": 4
+          }
+        ],
+        "Prompt": null,
+        "HasNext": false,
+        "ObservedAt": "2026-10-15T02:50:47.9202003+00:00",
+        "Items": []
+      },
+      "ActiveStatus": {
+        "Generation": 1,
+        "Revision": 2504,
+        "Type": 3,
+        "Text": "1000000 experience!",
+        "ObservedAt": "2026-10-15T02:50:48.404048+00:00"
+      },
+      "OwnDanaanInventory": [],
+      "OwnDanaanLegends": [],
+      "LegendsKnown": true,
+      "LegendsRevision": 155
+    },
+    {
+      "Character": "ReplayBlanchefleurCompletion",
+      "Generation": 1,
+      "Revision": 2505,
+      "Opcode": 8,
+      "Map": 345,
+      "Position": {
+        "X": 6,
+        "Y": 9
+      },
+      "Gold": 13455855,
+      "Experience": 865703409,
+      "Dialog": {
+        "Generation": 1,
+        "Revision": 2502,
+        "EntityId": 6518,
+        "EntityType": 1,
+        "Name": "Erin",
+        "Text": "Hello.  What can I do for you?",
+        "IsPursuit": false,
+        "Pursuit": 0,
+        "Step": 0,
+        "Type": 0,
+        "Choices": [
+          {
+            "Text": "Priest",
+            "Pursuit": 1187,
+            "Option": 1
+          },
+          {
+            "Text": "Guide",
+            "Pursuit": 1189,
+            "Option": 2
+          },
+          {
+            "Text": "I completed the tasks",
+            "Pursuit": 2142,
+            "Option": 3
+          },
+          {
+            "Text": "Original Cap or Band of Danaan",
+            "Pursuit": 2151,
+            "Option": 4
+          }
+        ],
+        "Prompt": null,
+        "HasNext": false,
+        "ObservedAt": "2026-10-15T02:50:47.9202003+00:00",
+        "Items": []
+      },
+      "ActiveStatus": {
+        "Generation": 1,
+        "Revision": 2504,
+        "Type": 3,
+        "Text": "1000000 experience!",
+        "ObservedAt": "2026-10-15T02:50:48.404048+00:00"
+      },
+      "OwnDanaanInventory": [],
+      "OwnDanaanLegends": [],
+      "LegendsKnown": true,
+      "LegendsRevision": 155
+    },
+    {
+      "Character": "ReplayBlanchefleurCompletion",
+      "Generation": 1,
+      "Revision": 2506,
+      "Opcode": 48,
+      "Map": 345,
+      "Position": {
+        "X": 6,
+        "Y": 9
+      },
+      "Gold": 13455855,
+      "Experience": 865703409,
+      "Dialog": {
+        "Generation": 1,
+        "Revision": 2506,
+        "EntityId": 6518,
+        "EntityType": 1,
+        "Name": "Erin",
+        "Text": "So I see. Very well done, Aisling. The journey has been long, but it is finally over. You have proven yourself worthy of this boon, and increased once again our hope in those who carry Deoch's Spark. This Cap goes to a very worthy Aisling. Congratulations!",
+        "IsPursuit": true,
+        "Pursuit": 1118,
+        "Step": 14,
+        "Type": 0,
+        "Choices": [],
+        "Prompt": null,
+        "HasNext": true,
+        "ObservedAt": "2026-10-15T02:50:48.4066062+00:00",
+        "Items": []
+      },
+      "ActiveStatus": {
+        "Generation": 1,
+        "Revision": 2504,
+        "Type": 3,
+        "Text": "1000000 experience!",
+        "ObservedAt": "2026-10-15T02:50:48.404048+00:00"
+      },
+      "OwnDanaanInventory": [],
+      "OwnDanaanLegends": [],
+      "LegendsKnown": true,
+      "LegendsRevision": 155
+    },
+    {
+      "Character": "ReplayBlanchefleurCompletion",
+      "Generation": 1,
+      "Revision": 2507,
+      "Opcode": 15,
+      "Map": 345,
+      "Position": {
+        "X": 6,
+        "Y": 9
+      },
+      "Gold": 13455855,
+      "Experience": 865703409,
+      "Dialog": {
+        "Generation": 1,
+        "Revision": 2506,
+        "EntityId": 6518,
+        "EntityType": 1,
+        "Name": "Erin",
+        "Text": "So I see. Very well done, Aisling. The journey has been long, but it is finally over. You have proven yourself worthy of this boon, and increased once again our hope in those who carry Deoch's Spark. This Cap goes to a very worthy Aisling. Congratulations!",
+        "IsPursuit": true,
+        "Pursuit": 1118,
+        "Step": 14,
+        "Type": 0,
+        "Choices": [],
+        "Prompt": null,
+        "HasNext": true,
+        "ObservedAt": "2026-10-15T02:50:48.4066062+00:00",
+        "Items": []
+      },
+      "ActiveStatus": {
+        "Generation": 1,
+        "Revision": 2504,
+        "Type": 3,
+        "Text": "1000000 experience!",
+        "ObservedAt": "2026-10-15T02:50:48.404048+00:00"
+      },
+      "OwnDanaanInventory": [
+        {
+          "Slot": 12,
+          "Name": "Cap of Danaan",
+          "Quantity": 1,
+          "Stackable": false,
+          "Sprite": 1059
+        }
+      ],
+      "OwnDanaanLegends": [],
+      "LegendsKnown": true,
+      "LegendsRevision": 155
+    },
+    {
+      "Character": "ReplayBlanchefleurCompletion",
+      "Generation": 1,
+      "Revision": 2508,
+      "Opcode": 8,
+      "Map": 345,
+      "Position": {
+        "X": 6,
+        "Y": 9
+      },
+      "Gold": 13455855,
+      "Experience": 865703409,
+      "Dialog": {
+        "Generation": 1,
+        "Revision": 2506,
+        "EntityId": 6518,
+        "EntityType": 1,
+        "Name": "Erin",
+        "Text": "So I see. Very well done, Aisling. The journey has been long, but it is finally over. You have proven yourself worthy of this boon, and increased once again our hope in those who carry Deoch's Spark. This Cap goes to a very worthy Aisling. Congratulations!",
+        "IsPursuit": true,
+        "Pursuit": 1118,
+        "Step": 14,
+        "Type": 0,
+        "Choices": [],
+        "Prompt": null,
+        "HasNext": true,
+        "ObservedAt": "2026-10-15T02:50:48.4066062+00:00",
+        "Items": []
+      },
+      "ActiveStatus": {
+        "Generation": 1,
+        "Revision": 2504,
+        "Type": 3,
+        "Text": "1000000 experience!",
+        "ObservedAt": "2026-10-15T02:50:48.404048+00:00"
+      },
+      "OwnDanaanInventory": [
+        {
+          "Slot": 12,
+          "Name": "Cap of Danaan",
+          "Quantity": 1,
+          "Stackable": false,
+          "Sprite": 1059
+        }
+      ],
+      "OwnDanaanLegends": [],
+      "LegendsKnown": true,
+      "LegendsRevision": 155
+    },
+    {
+      "Character": "ReplayBlanchefleurCompletion",
+      "Generation": 1,
+      "Revision": 2509,
+      "Opcode": 48,
+      "Map": 345,
+      "Position": {
+        "X": 6,
+        "Y": 9
+      },
+      "Gold": 13455855,
+      "Experience": 865703409,
+      "Dialog": {
+        "Generation": 1,
+        "Revision": 2509,
+        "EntityId": 6518,
+        "EntityType": 1,
+        "Name": "Erin",
+        "Text": "To have this consecrated to one of the eight deities, ask their Apostles for it. 'Please consecrate my Cap of Danaan' sounds polite enough for them to answer.",
+        "IsPursuit": true,
+        "Pursuit": 1118,
+        "Step": 27,
+        "Type": 0,
+        "Choices": [],
+        "Prompt": null,
+        "HasNext": false,
+        "ObservedAt": "2026-10-15T02:50:48.9027346+00:00",
+        "Items": []
+      },
+      "ActiveStatus": {
+        "Generation": 1,
+        "Revision": 2504,
+        "Type": 3,
+        "Text": "1000000 experience!",
+        "ObservedAt": "2026-10-15T02:50:48.404048+00:00"
+      },
+      "OwnDanaanInventory": [
+        {
+          "Slot": 12,
+          "Name": "Cap of Danaan",
+          "Quantity": 1,
+          "Stackable": false,
+          "Sprite": 1059
+        }
+      ],
+      "OwnDanaanLegends": [],
+      "LegendsKnown": true,
+      "LegendsRevision": 155
+    },
+    {
+      "Character": "ReplayBlanchefleurCompletion",
+      "Generation": 1,
+      "Revision": 2510,
+      "Opcode": 57,
+      "Map": 345,
+      "Position": {
+        "X": 6,
+        "Y": 9
+      },
+      "Gold": 13455855,
+      "Experience": 865703409,
+      "Dialog": {
+        "Generation": 1,
+        "Revision": 2509,
+        "EntityId": 6518,
+        "EntityType": 1,
+        "Name": "Erin",
+        "Text": "To have this consecrated to one of the eight deities, ask their Apostles for it. 'Please consecrate my Cap of Danaan' sounds polite enough for them to answer.",
+        "IsPursuit": true,
+        "Pursuit": 1118,
+        "Step": 27,
+        "Type": 0,
+        "Choices": [],
+        "Prompt": null,
+        "HasNext": false,
+        "ObservedAt": "2026-10-15T02:50:48.9027346+00:00",
+        "Items": []
+      },
+      "ActiveStatus": {
+        "Generation": 1,
+        "Revision": 2504,
+        "Type": 3,
+        "Text": "1000000 experience!",
+        "ObservedAt": "2026-10-15T02:50:48.404048+00:00"
+      },
+      "OwnDanaanInventory": [
+        {
+          "Slot": 12,
+          "Name": "Cap of Danaan",
+          "Quantity": 1,
+          "Stackable": false,
+          "Sprite": 1059
+        }
+      ],
+      "OwnDanaanLegends": [
+        "Worthy of the Cap of Danaan, Deoch 223, Summer"
+      ],
+      "LegendsKnown": true,
+      "LegendsRevision": 2510
+    },
+    {
+      "Character": "ReplayBlanchefleurCompletion",
+      "Generation": 1,
+      "Revision": 2511,
+      "Opcode": 48,
+      "Map": 345,
+      "Position": {
+        "X": 6,
+        "Y": 9
+      },
+      "Gold": 13455855,
+      "Experience": 865703409,
+      "Dialog": null,
+      "ActiveStatus": {
+        "Generation": 1,
+        "Revision": 2504,
+        "Type": 3,
+        "Text": "1000000 experience!",
+        "ObservedAt": "2026-10-15T02:50:48.404048+00:00"
+      },
+      "OwnDanaanInventory": [
+        {
+          "Slot": 12,
+          "Name": "Cap of Danaan",
+          "Quantity": 1,
+          "Stackable": false,
+          "Sprite": 1059
+        }
+      ],
+      "OwnDanaanLegends": [
+        "Worthy of the Cap of Danaan, Deoch 223, Summer"
+      ],
+      "LegendsKnown": true,
+      "LegendsRevision": 2510
+    }
+  ],
+  "Actions": [
+    {
+      "Time": "2026-10-15T02:50:47.951358+00:00",
+      "Character": "ReplayBlanchefleurCompletion",
+      "Generation": 1,
+      "Revision": 2502,
+      "Kind": "choose",
+      "Selection": "I completed the tasks",
+      "Dialog": {
+        "Generation": 1,
+        "Revision": 2502,
+        "EntityId": 6518,
+        "EntityType": 1,
+        "Name": "Erin",
+        "Text": "Hello.  What can I do for you?",
+        "IsPursuit": false,
+        "Pursuit": 0,
+        "Step": 0,
+        "Type": 0,
+        "Choices": [
+          {
+            "Text": "Priest",
+            "Pursuit": 1187,
+            "Option": 1
+          },
+          {
+            "Text": "Guide",
+            "Pursuit": 1189,
+            "Option": 2
+          },
+          {
+            "Text": "I completed the tasks",
+            "Pursuit": 2142,
+            "Option": 3
+          },
+          {
+            "Text": "Original Cap or Band of Danaan",
+            "Pursuit": 2151,
+            "Option": 4
+          }
+        ],
+        "Prompt": null,
+        "HasNext": false,
+        "ObservedAt": "2026-10-15T02:50:47.9202003+00:00",
+        "Items": []
+      },
+      "Branches": 0,
+      "Experience": 864703409
+    },
+    {
+      "Time": "2026-10-15T02:50:48.4492173+00:00",
+      "Character": "ReplayBlanchefleurCompletion",
+      "Generation": 1,
+      "Revision": 2506,
+      "Kind": "next",
+      "Selection": null,
+      "Dialog": {
+        "Generation": 1,
+        "Revision": 2506,
+        "EntityId": 6518,
+        "EntityType": 1,
+        "Name": "Erin",
+        "Text": "So I see. Very well done, Aisling. The journey has been long, but it is finally over. You have proven yourself worthy of this boon, and increased once again our hope in those who carry Deoch's Spark. This Cap goes to a very worthy Aisling. Congratulations!",
+        "IsPursuit": true,
+        "Pursuit": 1118,
+        "Step": 14,
+        "Type": 0,
+        "Choices": [],
+        "Prompt": null,
+        "HasNext": true,
+        "ObservedAt": "2026-10-15T02:50:48.4066062+00:00",
+        "Items": []
+      },
+      "Branches": 0,
+      "Experience": 865703409
+    },
+    {
+      "Time": "2026-10-15T02:50:49.4853979+00:00",
+      "Character": "ReplayBlanchefleurCompletion",
+      "Generation": 1,
+      "Revision": 2510,
+      "Kind": "close",
+      "Selection": null,
+      "Dialog": {
+        "Generation": 1,
+        "Revision": 2509,
+        "EntityId": 6518,
+        "EntityType": 1,
+        "Name": "Erin",
+        "Text": "To have this consecrated to one of the eight deities, ask their Apostles for it. 'Please consecrate my Cap of Danaan' sounds polite enough for them to answer.",
+        "IsPursuit": true,
+        "Pursuit": 1118,
+        "Step": 27,
+        "Type": 0,
+        "Choices": [],
+        "Prompt": null,
+        "HasNext": false,
+        "ObservedAt": "2026-10-15T02:50:48.9027346+00:00",
+        "Items": []
+      },
+      "Branches": 0,
+      "Experience": 865703409
+    }
+  ]
+}

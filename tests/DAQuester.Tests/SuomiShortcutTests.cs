@@ -31,9 +31,9 @@ public class SuomiShortcutTests
 
     static byte[] Menu(string greeting, bool available = true) => Payload(new ServerPursuitMessage { DialogType = DialogType.Menu, EntityType = EntityTypeFlags.Creature, EntityId = 77, PursuitId = 654, StepId = 9, Name = "Keane", Content = greeting, MenuChoices = available ? ["About Suomi", "Renounce Abel Citizenship", "Take me to Abel", "Other"] : ["About Suomi", "Renounce Abel Citizenship"] });
     static byte[] Next() => Payload(new ServerPursuitMessage { DialogType = DialogType.Popup, EntityType = EntityTypeFlags.Creature, EntityId = 77, PursuitId = 654, StepId = 10, Name = "Keane", Content = "Synthetic: I will take you to Abel.", HasNextButton = true });
-    static async Task<MovingObstacleTests.Fixture> Create(bool npc = true)
+    static async Task<MovingObstacleTests.Fixture> Create(bool npc = true, Tile? origin = null)
     {
-        var f = await MovingObstacleTests.Fixture.Create(record: new MapRecord(503, "Suomi", 100, 100, [new(new(40, 0), 3014, new(1, 1))]), origin: new(40, 56), additional: [new(3014, "Abel Way", 5, 5, [new(new(2, 1), 502, new(1, 1))]), new(502, "Abel", 5, 5, [])]);
+        var f = await MovingObstacleTests.Fixture.Create(record: new MapRecord(503, "Suomi", 100, 100, [new(new(40, 0), 3014, new(1, 1))]), origin: origin ?? new(40, 56), additional: [new(3014, "Abel Way", 5, 5, [new(new(2, 1), 502, new(1, 1))]), new(502, "Abel", 5, 5, [])]);
         if (npc)
             f.Connection.Tracker.Observe(7, Payload(new ServerDrawObjectsMessage { Entities = [new ServerCreatureEntity { Id = 77, X = 40, Y = 59, Sprite = 1, CreatureType = CreatureType.Mundane, Name = "Keane" }] }));
         return f;
@@ -92,12 +92,13 @@ public class SuomiShortcutTests
     [InlineData("Good day, Aisling. Can I be of some assistance to you?")]
     public async Task Departure_selects_observed_Abel_choice_then_next_and_replans_from_actual_landing(string greeting)
     {
-        await using var f = await Create();
+        await using var f = await Create(origin: new(40, 50));
         int choices = 0, nexts = 0;
         await Run(f, async p =>
         {
             if ((byte)p.Command == 0x43)
             {
+                Assert.Equal(new Tile(40, 50), f.Session.Snapshot.Position);
                 var open = new ClientRequestObjectInfoMessage();
                 open.Deserialize(new NetworkPacketReader(p));
                 Assert.Equal(77u, open.TargetId);

@@ -6,9 +6,9 @@ static partial class ObservedJourney
     static readonly TimeSpan ProofTimeout = TimeSpan.FromSeconds(10);
     // Capture pre-action resources in the same connection. Reconnect balances
     // cannot tell whether an earlier payment or delivery committed.
-    static Transaction Baseline(CharacterSnapshot s) => new("observed-stage", s.Generation, s.Revision,
+    static Transaction Baseline(CharacterSnapshot s, bool requireExperience = true) => new("observed-stage", s.Generation, s.Revision,
         s.Gold ?? throw new QuestBlockedException("Known gold required."), 0,
-        s.Experience ?? throw new QuestBlockedException("Known XP required."), DateTimeOffset.UtcNow)
+        s.Experience ?? (requireExperience ? throw new QuestBlockedException("Known XP required.") : 0u), DateTimeOffset.UtcNow)
     {
         InventoryBaselineKnown = s.InventoryKnown,
         InventoryCounts = s.Inventory.Values.GroupBy(i => i.Name, StringComparer.OrdinalIgnoreCase).ToDictionary(g => g.Key, g => checked((int)g.Sum(i => (long)i.Quantity)), StringComparer.OrdinalIgnoreCase),
@@ -18,9 +18,18 @@ static partial class ObservedJourney
     static bool Matches(QuestContext c, Dialog d, ObservedQuestPage page, uint entity, long generation) =>
         d.Generation == generation && d.EntityId == entity && d.EntityType == 1 &&
         d.Name.Equals(page.Speaker == "$character" ? c.Job.Character : page.Speaker, StringComparison.OrdinalIgnoreCase) &&
-        (page.Root && !d.IsPursuit || d.Text == page.Text) &&
-        (page.Kind != "choose" || d.Choices.Any(x => x.Text == page.Choice)) &&
+        (page.Root && !d.IsPursuit || d.Text == page.Text || page.TextAlternatives.Contains(d.Text, StringComparer.Ordinal)) &&
+        (page.Kind != "choose" || ObservedChoice(d, page) is not null) &&
         (page.Kind != "next" || d.IsPursuit && d.HasNext && d.Choices.Length == 0 && d.Prompt is null);
+
+    static string? ObservedChoice(Dialog d, ObservedQuestPage page)
+    {
+        if (page.Choice is null)
+            return null;
+        var offered = d.Choices.Where(choice => choice.Text == page.Choice ||
+            page.ChoiceAlternatives.Contains(choice.Text, StringComparer.Ordinal)).ToArray();
+        return offered.Length == 1 ? offered[0].Text : null;
+    }
 
     static bool ResourcesMatch(CharacterSnapshot s, Transaction baseline, ObservedQuestTask task)
     {
@@ -71,7 +80,7 @@ static partial class ObservedJourney
             // This is a recorded read-only transport, never a balance-based
             // inference about an earlier connection's payment or handoff.
             var arrived = c.Session.Snapshot;
-            await AwayAsync(c, task.ArrivalAway.GetValueOrDefault(arrived.Map!.Value) ?? task.Away, arrived.Map.Value, ct);
+            await AwayAsync(c, ArrivalAway(task, arrived.Map!.Value), arrived.Map.Value, ct);
             await c.SaveAsync(c.Job with
             {
                 Pending = null,
@@ -90,6 +99,21 @@ static partial class ObservedJourney
             return;
         }
         var route = c.Job.Route ?? new();
+        var capturedAssignment = DanaanDonnanRecovery.Capture(c.Job, task);
+        if (capturedAssignment != c.Job) await c.SaveAsync(capturedAssignment);
+        if (DanaanDonnanRecovery.Continuation(c.Job, task) is { } assignment &&
+            c.Session.Snapshot is { Connected: true } currentAssignment && currentAssignment.Generation != assignment.Referral.Generation &&
+            string.Equals(currentAssignment.Name, c.Job.Character, StringComparison.OrdinalIgnoreCase))
+        {
+            if (currentAssignment.Dialog is not null)
+                throw new QuestBlockedException("Another popup is open; Donnan's recorded assignment stays preserved.");
+            // The referral already assigned Kyros. Asking again would check the
+            // unfinished Kyros task, not reproduce the original confirmation.
+            await c.SaveAsync(c.Job with { Pending = null, DonnanAssignment = assignment,
+                Route = route with { Page = task.Pages.Length, SubmittedPage = null },
+                Reason = "Recorded Donnan assignment reconciled; continue with Kyros" });
+            return;
+        }
         if (c.Job.Pending?.Kind == "observed-wait-close")
         {
             if (c.Session.Snapshot.Dialog is not null)
@@ -120,7 +144,7 @@ static partial class ObservedJourney
             current = c.Session.Snapshot;
             if (task.Speech is not null)
             {
-                await c.Session.ExecuteAsync(new("navigate", task.Map, task.Approach, ExpectedGeneration: current.Generation), ct);
+                await c.Session.ExecuteAsync(new("navigate", task.Map, task.Approach, ExpectedGeneration: current.Generation, StopAtVisibleNpc: task.Npc), ct);
                 await c.Session.ExecuteAsync(new("say", Text: task.Speech, ReplyFrom: task.Npc, ExpectedGeneration: current.Generation), ct);
             }
             else if (current.Map != task.Map || current.Dialog is not { } existing || !existing.Name.Equals(task.Npc, StringComparison.OrdinalIgnoreCase) ||
@@ -157,10 +181,10 @@ static partial class ObservedJourney
             route = c.Job.Route!;
             var page = task.Pages[route.Page];
             var s = c.Session.Snapshot;
-            if (IsArrival(task, s))
+            if (IsArrival(task, s, c.Job))
             {
                 await RequireResourcesAsync(c, baseline, task, ct);
-                await AwayAsync(c, task.ArrivalAway.GetValueOrDefault(s.Map!.Value) ?? task.Away, s.Map.Value, ct);
+                await AwayAsync(c, ArrivalAway(task, s.Map!.Value), s.Map.Value, ct);
                 return;
             }
             var d = s.Dialog ?? throw new QuestBlockedException("The expected " + task.Npc + " page closed before its next captured action; no submission repeated.");
@@ -208,6 +232,8 @@ static partial class ObservedJourney
 
     static async Task SendPageAsync(QuestContext c, QuestDefinition recipe, ObservedQuestTask task, ObservedQuestPage page, Dialog d, CancellationToken ct)
     {
+        string? choice = page.Kind == "choose" ? ObservedChoice(d, page) ??
+            throw new QuestBlockedException("The captured choice is missing or ambiguous; no selection sent.") : page.Choice;
         // Observe asynchronous replies during submission, including reward notices
         // that precede the final item packet. The pending action remains durable.
         var route = c.Job.Route!;
@@ -225,7 +251,7 @@ static partial class ObservedJourney
                 return;
             if (s.Dialog is { } seen && seen.EntityId == d.EntityId && seen.Revision > d.Revision)
                 reply = seen;
-            if (s.Notice is { Type: 3 } n && n.Generation == d.Generation && n.Revision > d.Revision && task.Experience > 0 && IsRewardMessage(n.Text, task.Experience))
+            if ((s.ActiveStatus ?? s.Notice) is { Type: 3 } n && n.Generation == d.Generation && n.Revision > d.Revision && task.Experience > 0 && IsRewardMessage(n.Text, task.Experience))
                 notices.Enqueue(n.Text);
         }
         c.Session.Changed += Observe;
@@ -240,7 +266,10 @@ static partial class ObservedJourney
                 }
             });
             await c.BeginAsync("observed-page:" + task.Id, d.EntityId, observedDialog: d);
-            await c.Session.ExecuteAsync(new(page.Kind, Text: page.Choice, Dialog: d, ExpectedGeneration: d.Generation, ExpectedDialogRevision: d.Revision, ExpectedPageText: d.Text), ct);
+            // Next can advance server quest state and is sent once. Temporary
+            // latency can keep its receipt wait running until Pause/Stop.
+            await c.Session.ExecuteAsync(new(page.Kind, Text: choice, Dialog: d, ExpectedGeneration: d.Generation, ExpectedDialogRevision: d.Revision, ExpectedPageText: d.Text,
+                ReplyTimeout: page.Kind == "next" ? Timeout.InfiniteTimeSpan : null), ct);
             Observe(c.Session.Snapshot);
             await c.SaveAsync(c.Job with
             {
@@ -251,7 +280,14 @@ static partial class ObservedJourney
                     RewardMessages = c.Job.Route.RewardMessages.Concat(notices).Distinct().ToArray()
                 }
             });
+            var captured = DanaanDonnanRecovery.Capture(c.Job, task);
+            if (captured != c.Job) await c.SaveAsync(captured);
             await ReconcilePageAsync(c, recipe, task, ct);
+            // Plain choose returns before its server reply. Keep the observer
+            // alive through reconciliation and persist messages received there.
+            var reconciledMessages = c.Job.Route!.RewardMessages.Concat(notices).Distinct().ToArray();
+            if (reconciledMessages.Length != c.Job.Route.RewardMessages.Length)
+                await c.SaveAsync(c.Job with { Route = c.Job.Route with { RewardMessages = reconciledMessages } });
         }
         catch
         {
@@ -264,6 +300,8 @@ static partial class ObservedJourney
                     RewardMessages = c.Job.Route.RewardMessages.Concat(notices).Distinct().ToArray()
                 }
             });
+            var captured = DanaanDonnanRecovery.Capture(c.Job, task);
+            if (captured != c.Job) await c.SaveAsync(captured);
             throw;
         }
         finally { c.Session.Changed -= Observe; c.Session.Interrupted -= Interrupted; }
@@ -279,6 +317,23 @@ static partial class ObservedJourney
         bool cleanup = route.CleanupPending && task.Pages[route.Page].Kind == "close";
         if (!s.Connected || pending.Generation != s.Generation && !cleanup)
             throw new QuestBlockedException("Pending page belongs to an earlier connection; no item or payment is inferred from new-session balances.");
+        if ((task.ArrivalMap is not null || task.ArrivalMaps.Length > 0) && route.Page == task.Pages.Length - 1 &&
+            !IsArrival(task, s, c.Job) && (s.Dialog is null || s.Dialog.Revision <= submitted.Revision))
+        {
+            bool UnexpectedArrival(CharacterSnapshot observed) => !DanaanDreamerReturn.IsSubmitted(task, c.Job) && observed.Map is { } actual &&
+                actual != task.Map && task.ArrivalMap != actual && !task.ArrivalMaps.Contains(actual);
+            if (UnexpectedArrival(s))
+                throw new QuestBlockedException("Transport arrived somewhere unexpected. Inspect the landing before continuing.");
+            // A popup close and map header can precede the landing coordinates.
+            // Keep the submitted transport pending until its real arrival; do
+            // not advance the quest or choose an inward step from stale state.
+            await c.Session.WaitAsync(observed => !observed.Connected || observed.Generation != pending.Generation ||
+                IsArrival(task, observed, c.Job) || UnexpectedArrival(observed) ||
+                observed.Dialog is { } unexpected && unexpected.Revision > submitted.Revision,
+                pending.Revision, Timeout.InfiniteTimeSpan, ct);
+            await ReconcilePageAsync(c, recipe, task, ct);
+            return;
+        }
         // Plain choose sends once without awaiting the server. Wait for its
         // first actual reply while preserving the write-ahead transaction;
         // unrelated state updates cannot authorize the next page or a retry.
@@ -321,16 +376,19 @@ static partial class ObservedJourney
             await WaitAsync(c, ct);
             throw new CollectionCheckAgainException();
         }
-        bool transported = IsArrival(task, s);
+        bool transported = IsArrival(task, s, c.Job);
         int next = route.Page + 1;
         bool receipt = cleanup && s.Dialog is null || transported ||
             next == task.Pages.Length && s.Dialog is null ||
             next < task.Pages.Length && s.Dialog is { } d && d.Revision > submitted.Revision && Matches(c, d, task.Pages[next], submitted.EntityId, submitted.Generation);
         if (!receipt)
             throw new QuestBlockedException("The submitted " + task.Npc + " page has no matching later receipt. Inspect it; never repeat its choice or handoff.");
+        var witnessed = c.Job with { Route = route with { LastReply = s.Dialog ?? route.LastReply } };
+        var assignment = DanaanDonnanRecovery.FromCheckpoint(witnessed, task) ?? c.Job.DonnanAssignment;
         await c.SaveAsync(c.Job with
         {
             Pending = null,
+            DonnanAssignment = assignment,
             Route = route with
             {
                 Page = transported ? task.Pages.Length : next,
@@ -341,7 +399,7 @@ static partial class ObservedJourney
         if (transported)
         {
             await RequireResourcesAsync(c, route.Baseline!, task, ct);
-            await AwayAsync(c, task.ArrivalAway.GetValueOrDefault(s.Map!.Value) ?? task.Away, s.Map.Value, ct);
+            await AwayAsync(c, ArrivalAway(task, s.Map!.Value), s.Map.Value, ct);
         }
     }
 
@@ -350,6 +408,11 @@ static partial class ObservedJourney
         // Numeric XP is insufficient: correlate the active notice, actual item
         // delta and a newly inspected own legend before saving completion proof.
         await RequireResourcesAsync(c, baseline, task, ct);
+        var retained = c.Session.Snapshot;
+        if ((retained.ActiveStatus ?? retained.Notice) is { Type: 3 } notice && retained.Map == task.Map &&
+            notice.Generation == baseline.Generation && notice.Revision > baseline.Revision && notice.Revision <= retained.Revision &&
+            IsRewardMessage(notice.Text, task.Experience) && !c.Job.Route!.RewardMessages.Contains(notice.Text))
+            await c.SaveAsync(c.Job with { Route = c.Job.Route with { RewardMessages = c.Job.Route.RewardMessages.Append(notice.Text).ToArray() } });
         if (!c.Job.Route!.RewardMessages.Any(m => IsRewardMessage(m, task.Experience)))
             throw new QuestBlockedException("Numeric XP changed but its correlated active reward message is missing; no claim repeated.");
         await c.Session.ExecuteAsync(new("inspect-self", ExpectedGeneration: baseline.Generation), ct);

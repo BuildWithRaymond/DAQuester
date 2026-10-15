@@ -97,6 +97,34 @@ bonus variants still need live captures.
 
 ## Components and validation
 
+The approved [item preparation design](../superpowers/specs/2026-10-14-quest-item-preparation-design.md)
+adds a separate `QuestJob.Preparation` checkpoint. The ready queue's known
+consumable demand is combined before NPC visits, with current inventory and
+remaining handoffs determining the shortfall. Recorded prices help choose an
+affordable queue prefix; actual quotes still gate spending and current mandatory
+payment funds are reserved. It preserves saved dialogue task
+indexes, paid waits, consent, and uncertain submissions. Danaan's common supplies
+can be acquired before the opening; branch-only purchases wait for the captured
+opening to identify their branch. Existing Branch and Mushroom collectors also
+participate where their verified eligibility and source gates permit it. Timed
+flowers and stage-produced items retain their existing unlock rules.
+
+Gland source candidates include Mehadi Hema, Ellama, Shashi, Heart West, and
+Heart East. [Vorlof's drop list](https://vorlof.com/items.php?id=327_Viper%27s+Gland)
+uses monster sprite 49 for their Anala and Malini Vipers. Selection favors the
+current map or the lowest available recorded travel cost. This is guide metadata,
+not a new datester capture or proof of guaranteed drops. Inventory still proves
+the exact item name. Unknown routes are not invented.
+
+Shared mundane approaches, including travel services, stop on visibility after
+safe entry departure. Room 7 and the Monk Hall corridor retain their deeper
+stable approaches. Undine popup/status handling uses guarded removal and requires
+the named weapon's bag receipt; unknown outcomes cannot send another removal.
+
+The full Fisk regression preserves captured dialogue and resource deltas while
+rebasing the synthetic carried balance for early Wine and Grapes. That normalized
+purchase timing is synthetic coverage, not evidence of a new live runner.
+
 The two recipes use `ObservedJourney` for bounded dialogue, current-stock
 purchases, guarded equipment, token acquisition and known travel. Existing
 `QuestRunner`, `QuestContext.BeginAsync`, atomic journals, queue coordinator,
@@ -161,3 +189,50 @@ running host. The player requested wrap-up and no further MCP work. A fresh
 full automatic live run, live Band outcome and other openings remain unverified.
 Lancelot's old read-only intro checkpoint has tested reconciliation support but
 has not been reconciled live. His completed reward must never be claimed again.
+
+[Loures court discovery](danaan-loures-court.md) adds the player-approved
+`loures-court` child path for the exact new Ase soldiers reply. Courtney's request,
+75-gold Oren Brandy purchase and item handoff join the existing route at Logan.
+Complete own replay receipts can recover that manually observed prefix from its
+saved Ase checkpoint to the Cousin. This does not certify a full automatic run,
+change the supplied-Mold consent or infer any final reward.
+
+[Varuna's gatekeeper finale](danaan-varuna-gatekeeper.md) corrects a missed
+paragraph already retained in Lancelot observation 67 for both Loures routes.
+Pixel's authorized MCP final Next closed it without another Gland handoff.
+Full original-stage replay receipts can recover this manual cleanup to Mold
+collection; incomplete proof retains the saved pending informational Next.
+
+[Travel recovery](danaan-travel-recovery.md) addresses Pixel's later repeated
+pauses: read-only position refresh retries, single-submission Next waits through
+latency, and transport reconciliation waits for actual landing coordinates.
+The exact Monk Nightmare status on Path Temple 395 remains recorded but no
+longer blocks the unrelated Danaan approach. Synthetic checks and the player's
+message identification are separate from the retained read-only MCP evidence;
+this change does not certify final reward or a full automatic live run.
+
+[Reward cleanup, hub routing and dachaidh preparation](quest-reward-route-dachaidh.md)
+documents the later final-reply timing fault and Pixel's actual Danaan/Fisk
+completion reconciliation. Automatic cleanup retains the original resource,
+active-message and own-legend proofs. Known world hubs can bridge incomplete
+route data; the observed map-345 exit and upper Coliseum recovery are scoped
+to their receipts. Dachaidh preparation checks own prerequisites and the actual
+trainer quote, requires a player-supplied Wizard Skull, and preserves paid waits
+and uncertain payments. Live Priest requirements/acquisition and a fresh full
+automatic run remain unverified.
+
+The later original-opening [Varuna successor](danaan-varuna-gatekeeper.md)
+retains both captured final paragraphs. Agent's full recorded Gland handoff and
+player final Next can reconcile to Greim's warning without repeating delivery.
+Loures recovery still continues at Mold; the original warning is not skipped.
+
+The [captured-run audit](danaan-captured-run-audit.md) adds Lancelot's exact
+meditative-master Donnan referral alongside the original jail-keeper wording,
+checks recorded transcript/packet successors, and exercises Cail continuation
+through reward closure. NPC-cache membership is bounded by actual screen range.
+
+[Blanchefleur's Fiosachd referral](danaan-blanchefleur-fiosachd.md) adds the
+captured sailor opening, its informational loop, Keefe and Logan, then rejoins
+at Cousin. Complete original replay receipts recover the manually finished
+prefix without repeating the saved origin choice. Cousin payment and every
+later handoff remain separate guarded stages.

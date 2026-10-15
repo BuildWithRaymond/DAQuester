@@ -280,6 +280,126 @@ public class MovingObstacleTests
         }
     }
 
+    [Fact]
+    public async Task Unanswered_refresh_is_retried_without_sending_a_step_before_real_position()
+    {
+        await using var f = await Fixture.Create();
+        int refreshes = 0;
+        bool waiting = false;
+        await f.Walk(new(4, 1), (moves, _) =>
+        {
+            Assert.False(waiting, "A step preceded the authoritative position refresh.");
+            if (moves == 1)
+            {
+                waiting = true;
+                return Task.FromResult(true);
+            }
+            return Task.FromResult(false);
+        }, refresh: async () =>
+        {
+            if (++refreshes == 1)
+                await f.Send(8, Packet(new ServerStatusMessage { Fields = Arbiter.Net.Types.StatsFieldFlags.Vitals, Health = 100 }).Data);
+            else
+            {
+                waiting = false;
+                await f.Position(new(1, 1));
+            }
+        });
+        Assert.Equal(2, refreshes);
+        Assert.Equal(new Tile(4, 1), f.Session.Snapshot.Position);
+        Assert.DoesNotContain((byte)0x09, f.Commands);
+    }
+
+    [Fact]
+    public async Task Next_accepts_a_map_transition_without_waiting_for_the_old_map()
+    {
+        await using var f = await Fixture.Create(additional: [new(720, "Synthetic destination", 5, 5, [])]);
+        f.Connection.Tracker.Observe(48, Packet(new ServerPursuitMessage
+        {
+            EntityType = Arbiter.Net.Types.EntityTypeFlags.Creature, EntityId = 77,
+            PursuitId = 1100, StepId = 1, Name = "Synthetic guide", Content = "Synthetic transport",
+            DialogType = Arbiter.Net.Types.DialogType.Popup, HasNextButton = true
+        }).Data);
+        await f.Walk(new(1, 1), (_, _) => throw new Xunit.Sdk.XunitException("Next sent an unexpected movement."),
+            new("next", Dialog: f.Session.Snapshot.Dialog), dialog: async _ =>
+            {
+                await Task.Delay(50);
+                await f.Map(720, 5, 5);
+                await f.Position(new(2, 2));
+            });
+        Assert.Equal(720, f.Session.Snapshot.Map);
+        Assert.Single(f.Commands, c => c == 0x3A);
+    }
+
+    [Fact]
+    public async Task Submitted_next_can_wait_past_the_normal_timeout_without_being_resent()
+    {
+        await using var f = await Fixture.Create();
+        ServerPursuitMessage Page(string text, ushort step) => new()
+        {
+            EntityType = Arbiter.Net.Types.EntityTypeFlags.Creature, EntityId = 77,
+            PursuitId = 1100, StepId = step, Name = "Synthetic guide", Content = text,
+            DialogType = Arbiter.Net.Types.DialogType.Popup, HasNextButton = true
+        };
+        f.Connection.Tracker.Observe(48, Packet(Page("Synthetic initial",1)).Data);
+        await f.Walk(new(1,1), (_, _) => throw new Xunit.Sdk.XunitException("Next sent movement."),
+            new("next", Dialog: f.Session.Snapshot.Dialog, ReplyTimeout: Timeout.InfiniteTimeSpan), dialog: async _ =>
+            {
+                await Task.Delay(5250);
+                await f.Send(48, Packet(Page("Synthetic delayed reply",2)).Data);
+            });
+        Assert.Single(f.Commands, c => c == 0x3A);
+        Assert.Equal("Synthetic delayed reply", f.Session.Snapshot.Dialog?.Text);
+    }
+
+    [Fact]
+    public async Task Stop_cancels_refresh_retries_without_another_movement()
+    {
+        await using var f = await Fixture.Create();
+        using var stop = new CancellationTokenSource();
+        int refreshes = 0;
+        await Assert.ThrowsAnyAsync<OperationCanceledException>(() => f.Walk(new(4,1), (_, _) => Task.FromResult(true),
+            refresh: () =>
+            {
+                if (++refreshes == 2)
+                    stop.Cancel();
+                return Task.CompletedTask;
+            }, cancellation: stop.Token));
+        Assert.Equal(2, refreshes);
+        Assert.Single(f.Commands, c => c == 6);
+    }
+
+    [Fact]
+    public async Task Actual_disconnect_during_refresh_never_sends_again_in_the_old_connection()
+    {
+        await using var f = await Fixture.Create();
+        await Assert.ThrowsAsync<IOException>(() => f.Walk(new(4,1), (_, _) => Task.FromResult(true),
+            refresh: () =>
+            {
+                f.Connection.Tracker.Disconnect();
+                return Task.CompletedTask;
+            }));
+        Assert.Single(f.Commands, c => c == 0x38);
+        Assert.Single(f.Commands, c => c == 6);
+    }
+
+    [Fact]
+    public async Task Stop_cancels_a_submitted_next_reply_wait_without_resending()
+    {
+        await using var f = await Fixture.Create();
+        using var stop = new CancellationTokenSource();
+        f.Connection.Tracker.Observe(48, Packet(new ServerPursuitMessage
+        {
+            EntityType = Arbiter.Net.Types.EntityTypeFlags.Creature, EntityId = 77,
+            PursuitId = 1100, StepId = 1, Name = "Synthetic guide", Content = "Synthetic initial",
+            DialogType = Arbiter.Net.Types.DialogType.Popup, HasNextButton = true
+        }).Data);
+        await Assert.ThrowsAnyAsync<OperationCanceledException>(() => f.Walk(new(1,1), (_, _) => Task.FromResult(false),
+            new("next", Dialog: f.Session.Snapshot.Dialog, ReplyTimeout: Timeout.InfiniteTimeSpan), cancellation: stop.Token,
+            dialog: _ => { stop.Cancel(); return Task.CompletedTask; }));
+        Assert.Single(f.Commands, c => c == 0x3A);
+    }
+
     [Theory]
     [InlineData(3079, 14, false)]
     [InlineData(3080, 7, false)]
@@ -453,7 +573,7 @@ public class MovingObstacleTests
         }
 
         public Task Map(int map, int width, int height) => Send(21, [(byte)(map >> 8), (byte)map, (byte)width, (byte)height, 0, 0, 0, 0, 0, 0]);
-        public async Task Walk(Tile target, Func<int, Tile, Task<bool>> intercept, GameCommand? command = null, Func<ClientPacket, Task>? pickup = null, Func<Task>? refresh = null, CancellationToken cancellation = default, bool projectedServer = false)
+        public async Task Walk(Tile target, Func<int, Tile, Task<bool>> intercept, GameCommand? command = null, Func<ClientPacket, Task>? pickup = null, Func<Task>? refresh = null, CancellationToken cancellation = default, bool projectedServer = false, Func<ClientPacket, Task>? dialog = null, Func<ClientPacket, Task>? fieldMap = null)
         {
             using var limit = CancellationTokenSource.CreateLinkedTokenSource(cancellation);
             limit.CancelAfter(TimeSpan.FromSeconds(12));
@@ -474,6 +594,16 @@ public class MovingObstacleTests
                     var packet = (ClientPacket)decrypt.Decrypt(new ClientPacket(frame[3], frame[4..]));
                     byte opcode = (byte)packet.Command;
                     Commands.Add(opcode);
+                    if (opcode == 0x3A && dialog is not null)
+                    {
+                        await dialog(packet);
+                        continue;
+                    }
+                    if (opcode == 0x3F && fieldMap is not null)
+                    {
+                        await fieldMap(packet);
+                        continue;
+                    }
                     if (opcode == 7 && pickup is not null)
                     {
                         await pickup(packet);

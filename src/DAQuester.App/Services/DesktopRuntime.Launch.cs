@@ -13,6 +13,7 @@ public sealed partial class DesktopRuntime
     public string LaunchState(string name) => launchStates.GetValueOrDefault(name, Snapshot(name).Connected ? "Connected" : "Offline");
     public bool LaunchPending(string name) => pendingLaunches.ContainsKey(LaunchKey(name));
     (string Path, DateTime Written, string? Error) clientCheck;
+    (DateTime Written, string? Error) windowingCheck;
     static string LaunchKey(string name) => name.Length > 0 ? name : "(manual)";
     // Hashing the client on every presentation refresh is expensive. Launch still validates it again.
     string? ClientBlocker()
@@ -40,7 +41,23 @@ public sealed partial class DesktopRuntime
             clientCheck = (path, written, error);
         }
 
-        return clientCheck.Error;
+        if (clientCheck.Error is not null) return clientCheck.Error;
+        string windowing = ClientLauncher.WindowingPath;
+        if (!File.Exists(windowing))
+            return "DAWindower X is missing. Restore the application files before launching clients.";
+        var libraryWritten = File.GetLastWriteTimeUtc(windowing);
+        if (windowingCheck.Written != libraryWritten)
+        {
+            string? error = null;
+            try { ClientLauncher.ValidateWindowing(windowing); }
+            catch (InvalidOperationException e) { error = e.Message; }
+            catch (Exception e) when (e is IOException or UnauthorizedAccessException)
+            {
+                error = "DAWindower X could not be read. Restore the application files before launching clients.";
+            }
+            windowingCheck = (libraryWritten, error);
+        }
+        return windowingCheck.Error;
     }
 
     bool OwnsLiveClient(string name)
@@ -93,6 +110,34 @@ public sealed partial class DesktopRuntime
     readonly Dictionary<string, CancellationTokenSource> pendingLaunches = new(StringComparer.OrdinalIgnoreCase);
     readonly Dictionary<string, string> launchStates = new(StringComparer.OrdinalIgnoreCase);
     readonly Dictionary<string, Task<int>> launchTasks = new(StringComparer.OrdinalIgnoreCase);
+    WindowingLaunchHost? windowingHost;
+
+    WindowingLaunchHost WindowingHost()
+    {
+        if (windowingHost is not null) return windowingHost;
+        var host = new WindowingLaunchHost(pid => OnUiAsync(async () =>
+        {
+            if (windowingHost?.Owns(pid) != true)
+                throw new InvalidOperationException("The requesting game client is no longer owned by this DAQuester instance.");
+            return await LaunchBlankClientAsync();
+        }), Log);
+        host.Start();
+        return windowingHost = host;
+    }
+
+    public async Task<int> LaunchBlankClientAsync()
+    {
+        RequireOpen();
+        if (Preview) throw new InvalidOperationException("Preview cannot launch game clients.");
+        if (!Ready) throw new InvalidOperationException("The game connection isn't ready. Check the connection profile in profiles.json, then restart DAQuester.");
+        if (ClientBlocker() is { } blocker) throw new InvalidOperationException(blocker);
+        // A + action always creates another blank login; it has no saved character.
+        string key = "(manual:" + Guid.NewGuid().ToString("N") + ")";
+        var task = LaunchOwnedCharacterAsync("", manualOnly: true, instanceKey: key);
+        launchTasks[key] = task;
+        try { return await task; }
+        finally { launchTasks.Remove(key); }
+    }
     public Task<int> LaunchAsync(string name, bool manualOnly = false)
     {
         RequireNoScheduler(name);
@@ -103,7 +148,7 @@ public sealed partial class DesktopRuntime
         return task;
     }
 
-    async Task<int> LaunchOwnedCharacterAsync(string name, bool manualOnly, bool scheduled = false)
+    async Task<int> LaunchOwnedCharacterAsync(string name, bool manualOnly, bool scheduled = false, string? instanceKey = null)
     {
         RequireOpen();
         if (Preview)
@@ -112,7 +157,7 @@ public sealed partial class DesktopRuntime
             throw new InvalidOperationException("Enter a character name using letters only.");
         if (!Ready)
             throw new InvalidOperationException("The game connection isn't ready. Check the connection profile in profiles.json, then restart DAQuester.");
-        string key = LaunchKey(name);
+        string key = instanceKey ?? LaunchKey(name);
         if (pendingLaunches.ContainsKey(key))
             throw new InvalidOperationException("This character's client is already launching.");
         if (ownedClients.TryGetValue(key, out var existing) && !existing.HasExited)
@@ -155,11 +200,13 @@ public sealed partial class DesktopRuntime
                         authenticated.TrySetException(new ScheduledLoginException(name, response.Message.Length > 0 ? response.Message : "Login was rejected. Review the game account before trying again."));
                 };
             }, cancellation.Token);
-            Progress("Launching Dark Ages…");
+            Progress("Launching Dark Ages with DAWindower X…");
+            var windowing = WindowingHost();
             int pid = await Task.Run(() =>
             {
                 cancellation.Token.ThrowIfCancellationRequested();
-                return ClientLauncher.Launch(Settings.ClientPath, port);
+                return ClientLauncher.Launch(Settings.ClientPath, port, cancellation: cancellation.Token,
+                    launchPipe: windowing.Name, beforeResume: windowing.Register);
             }, cancellation.Token);
             var process = Process.GetProcessById(pid);
             launchedClients.Add(process);

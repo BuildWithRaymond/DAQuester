@@ -9,6 +9,16 @@
     <ApplicationIcon>Assets\daquester.ico</ApplicationIcon>
   </PropertyGroup>
   <ItemGroup>
+    <Content Include="..\..\artifacts\native\DAWindowerX\output\DAWindowerX.dll">
+      <Link>DAWindowerX.dll</Link>
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+      <CopyToPublishDirectory>PreserveNewest</CopyToPublishDirectory>
+    </Content>
+    <Content Include="..\..\artifacts\native\DAWindowerX\output\source.json">
+      <Link>licenses\DAWindowerX\source.json</Link>
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+      <CopyToPublishDirectory>PreserveNewest</CopyToPublishDirectory>
+    </Content>
     <AvaloniaResource Include="Assets\daquester.ico;Assets\daquester.png"/>
     <ProjectReference Include="..\DAQuester.DarkAges\DAQuester.DarkAges.csproj"/>
     <PackageReference Include="Avalonia.Desktop" Version="11.3.12"/>
@@ -45,4 +55,7 @@
       <CopyToPublishDirectory>PreserveNewest</CopyToPublishDirectory>
     </Content>
   </ItemGroup>
+  <Target Name="PrepareDAWindowerX" BeforeTargets="PrepareForBuild" Condition="'$(DesignTimeBuild)' != 'true'">
+    <Exec Command="powershell.exe -NoProfile -ExecutionPolicy Bypass -File &quot;$(MSBuildThisFileDirectory)..\..\tools\Build-DAWindowerX.ps1&quot;" />
+  </Target>
 </Project>

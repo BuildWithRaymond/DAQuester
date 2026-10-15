@@ -1,0 +1,499 @@
+{
+  "SchemaVersion": 1,
+  "ServerProfile": "datester-7.41",
+  "Sanitized": true,
+  "Evidence": "Actual 2026-10-14 Shinewood successful bond: exact 250hp/250mp offer, player-selected Yes, own Pet Faerie receipt and server dialogue closure, followed by Rucesion Song arrival. Actor/generation normalized; source revisions and exact NPC pages/actions retained. Resource fields are explicit projections; unrelated inventory, players and payloads omitted. This capture proves acquisition and closure, not a fresh automatic bond-choice run.",
+  "Pages": [
+    {
+      "Generation": 1,
+      "Revision": 5255,
+      "EntityId": 9687,
+      "EntityType": 4,
+      "Name": "",
+      "Text": "Greetings Aisling. I am the princess fae of Shinewood Forest. Many faeries inhabit Shinewood, so be kind and do not hurt them.",
+      "IsPursuit": true,
+      "Pursuit": 1173,
+      "Step": 0,
+      "Type": 0,
+      "Choices": [],
+      "Prompt": null,
+      "HasNext": true,
+      "ObservedAt": "2026-10-15T02:58:14.7535765+00:00",
+      "Items": []
+    },
+    {
+      "Generation": 1,
+      "Revision": 5261,
+      "EntityId": 9687,
+      "EntityType": 4,
+      "Name": "",
+      "Text": "What can I do for you today?",
+      "IsPursuit": true,
+      "Pursuit": 1173,
+      "Step": 1,
+      "Type": 2,
+      "Choices": [
+        {
+          "Text": "I want a Faerie as a pet.",
+          "Pursuit": 1173,
+          "Option": 1
+        },
+        {
+          "Text": "Do you know any spells you can teach me?",
+          "Pursuit": 1173,
+          "Option": 2
+        }
+      ],
+      "Prompt": null,
+      "HasNext": true,
+      "ObservedAt": "2026-10-15T02:58:15.2509027+00:00",
+      "Items": []
+    },
+    {
+      "Generation": 1,
+      "Revision": 5262,
+      "EntityId": 9687,
+      "EntityType": 4,
+      "Name": "",
+      "Text": "Only the kind and gentle can befriend a faerie.",
+      "IsPursuit": true,
+      "Pursuit": 1173,
+      "Step": 28,
+      "Type": 0,
+      "Choices": [],
+      "Prompt": null,
+      "HasNext": true,
+      "ObservedAt": "2026-10-15T02:58:15.7527944+00:00",
+      "Items": []
+    },
+    {
+      "Generation": 1,
+      "Revision": 5263,
+      "EntityId": 9687,
+      "EntityType": 4,
+      "Name": "",
+      "Text": "I see you have not harmed any faeries recently. You have the potential.",
+      "IsPursuit": true,
+      "Pursuit": 1173,
+      "Step": 32,
+      "Type": 0,
+      "Choices": [],
+      "Prompt": null,
+      "HasNext": true,
+      "ObservedAt": "2026-10-15T02:58:16.2519474+00:00",
+      "Items": []
+    },
+    {
+      "Generation": 1,
+      "Revision": 5265,
+      "EntityId": 9687,
+      "EntityType": 4,
+      "Name": "",
+      "Text": "I will now see if you have any connection with a faerie.",
+      "IsPursuit": true,
+      "Pursuit": 1173,
+      "Step": 51,
+      "Type": 0,
+      "Choices": [],
+      "Prompt": null,
+      "HasNext": true,
+      "ObservedAt": "2026-10-15T02:58:16.7589745+00:00",
+      "Items": []
+    },
+    {
+      "Generation": 1,
+      "Revision": 5273,
+      "EntityId": 9687,
+      "EntityType": 4,
+      "Name": "",
+      "Text": "You have a connection with a faerie. To make it bond with you, you must give up 250hp and 250mp.",
+      "IsPursuit": true,
+      "Pursuit": 1173,
+      "Step": 72,
+      "Type": 0,
+      "Choices": [],
+      "Prompt": null,
+      "HasNext": true,
+      "ObservedAt": "2026-10-15T02:58:19.2679431+00:00",
+      "Items": []
+    },
+    {
+      "Generation": 1,
+      "Revision": 5274,
+      "EntityId": 9687,
+      "EntityType": 4,
+      "Name": "",
+      "Text": "Are you willing?",
+      "IsPursuit": true,
+      "Pursuit": 1173,
+      "Step": 73,
+      "Type": 2,
+      "Choices": [
+        {
+          "Text": "Yes",
+          "Pursuit": 1173,
+          "Option": 1
+        },
+        {
+          "Text": "No",
+          "Pursuit": 1173,
+          "Option": 2
+        }
+      ],
+      "Prompt": null,
+      "HasNext": true,
+      "ObservedAt": "2026-10-15T02:58:19.7602348+00:00",
+      "Items": []
+    }
+  ],
+  "Actions": [
+    {
+      "Time": "2026-10-15T02:58:14.8108648+00:00",
+      "Character": "ReplayFaerieBond",
+      "Generation": 1,
+      "Revision": 5255,
+      "Kind": "next",
+      "Selection": null,
+      "Dialog": {
+        "Generation": 1,
+        "Revision": 5255,
+        "EntityId": 9687,
+        "EntityType": 4,
+        "Name": "",
+        "Text": "Greetings Aisling. I am the princess fae of Shinewood Forest. Many faeries inhabit Shinewood, so be kind and do not hurt them.",
+        "IsPursuit": true,
+        "Pursuit": 1173,
+        "Step": 0,
+        "Type": 0,
+        "Choices": [],
+        "Prompt": null,
+        "HasNext": true,
+        "ObservedAt": "2026-10-15T02:58:14.7535765+00:00",
+        "Items": []
+      },
+      "Branches": 0,
+      "Experience": 865703409
+    },
+    {
+      "Time": "2026-10-15T02:58:15.2749589+00:00",
+      "Character": "ReplayFaerieBond",
+      "Generation": 1,
+      "Revision": 5261,
+      "Kind": "choose",
+      "Selection": "I want a Faerie as a pet.",
+      "Dialog": {
+        "Generation": 1,
+        "Revision": 5261,
+        "EntityId": 9687,
+        "EntityType": 4,
+        "Name": "",
+        "Text": "What can I do for you today?",
+        "IsPursuit": true,
+        "Pursuit": 1173,
+        "Step": 1,
+        "Type": 2,
+        "Choices": [
+          {
+            "Text": "I want a Faerie as a pet.",
+            "Pursuit": 1173,
+            "Option": 1
+          },
+          {
+            "Text": "Do you know any spells you can teach me?",
+            "Pursuit": 1173,
+            "Option": 2
+          }
+        ],
+        "Prompt": null,
+        "HasNext": true,
+        "ObservedAt": "2026-10-15T02:58:15.2509027+00:00",
+        "Items": []
+      },
+      "Branches": 0,
+      "Experience": 865703409
+    },
+    {
+      "Time": "2026-10-15T02:58:15.7651345+00:00",
+      "Character": "ReplayFaerieBond",
+      "Generation": 1,
+      "Revision": 5262,
+      "Kind": "next",
+      "Selection": null,
+      "Dialog": {
+        "Generation": 1,
+        "Revision": 5262,
+        "EntityId": 9687,
+        "EntityType": 4,
+        "Name": "",
+        "Text": "Only the kind and gentle can befriend a faerie.",
+        "IsPursuit": true,
+        "Pursuit": 1173,
+        "Step": 28,
+        "Type": 0,
+        "Choices": [],
+        "Prompt": null,
+        "HasNext": true,
+        "ObservedAt": "2026-10-15T02:58:15.7527944+00:00",
+        "Items": []
+      },
+      "Branches": 0,
+      "Experience": 865703409
+    },
+    {
+      "Time": "2026-10-15T02:58:16.2700067+00:00",
+      "Character": "ReplayFaerieBond",
+      "Generation": 1,
+      "Revision": 5263,
+      "Kind": "next",
+      "Selection": null,
+      "Dialog": {
+        "Generation": 1,
+        "Revision": 5263,
+        "EntityId": 9687,
+        "EntityType": 4,
+        "Name": "",
+        "Text": "I see you have not harmed any faeries recently. You have the potential.",
+        "IsPursuit": true,
+        "Pursuit": 1173,
+        "Step": 32,
+        "Type": 0,
+        "Choices": [],
+        "Prompt": null,
+        "HasNext": true,
+        "ObservedAt": "2026-10-15T02:58:16.2519474+00:00",
+        "Items": []
+      },
+      "Branches": 0,
+      "Experience": 865703409
+    },
+    {
+      "Time": "2026-10-15T02:58:16.7761064+00:00",
+      "Character": "ReplayFaerieBond",
+      "Generation": 1,
+      "Revision": 5265,
+      "Kind": "next",
+      "Selection": null,
+      "Dialog": {
+        "Generation": 1,
+        "Revision": 5265,
+        "EntityId": 9687,
+        "EntityType": 4,
+        "Name": "",
+        "Text": "I will now see if you have any connection with a faerie.",
+        "IsPursuit": true,
+        "Pursuit": 1173,
+        "Step": 51,
+        "Type": 0,
+        "Choices": [],
+        "Prompt": null,
+        "HasNext": true,
+        "ObservedAt": "2026-10-15T02:58:16.7589745+00:00",
+        "Items": []
+      },
+      "Branches": 0,
+      "Experience": 865703409
+    },
+    {
+      "Time": "2026-10-15T02:58:19.2774888+00:00",
+      "Character": "ReplayFaerieBond",
+      "Generation": 1,
+      "Revision": 5273,
+      "Kind": "next",
+      "Selection": null,
+      "Dialog": {
+        "Generation": 1,
+        "Revision": 5273,
+        "EntityId": 9687,
+        "EntityType": 4,
+        "Name": "",
+        "Text": "You have a connection with a faerie. To make it bond with you, you must give up 250hp and 250mp.",
+        "IsPursuit": true,
+        "Pursuit": 1173,
+        "Step": 72,
+        "Type": 0,
+        "Choices": [],
+        "Prompt": null,
+        "HasNext": true,
+        "ObservedAt": "2026-10-15T02:58:19.2679431+00:00",
+        "Items": []
+      },
+      "Branches": 0,
+      "Experience": 865703409
+    },
+    {
+      "Time": "2026-10-15T02:58:31.8462021+00:00",
+      "Character": "ReplayFaerieBond",
+      "Generation": 1,
+      "Revision": 5298,
+      "Kind": "choose",
+      "Selection": "Yes",
+      "Dialog": {
+        "Generation": 1,
+        "Revision": 5274,
+        "EntityId": 9687,
+        "EntityType": 4,
+        "Name": "",
+        "Text": "Are you willing?",
+        "IsPursuit": true,
+        "Pursuit": 1173,
+        "Step": 73,
+        "Type": 2,
+        "Choices": [
+          {
+            "Text": "Yes",
+            "Pursuit": 1173,
+            "Option": 1
+          },
+          {
+            "Text": "No",
+            "Pursuit": 1173,
+            "Option": 2
+          }
+        ],
+        "Prompt": null,
+        "HasNext": true,
+        "ObservedAt": "2026-10-15T02:58:19.7602348+00:00",
+        "Items": []
+      },
+      "Branches": 0,
+      "Experience": 865703409
+    }
+  ],
+  "Receipts": [
+    {
+      "Generation": 1,
+      "Revision": 5299,
+      "Opcode": 8,
+      "Map": 992,
+      "Position": {
+        "X": 73,
+        "Y": 38
+      },
+      "Hp": 1130,
+      "MaxHp": 3950,
+      "Mana": 4139,
+      "Dialog": {
+        "Generation": 1,
+        "Revision": 5274,
+        "EntityId": 9687,
+        "EntityType": 4,
+        "Name": "",
+        "Text": "Are you willing?",
+        "IsPursuit": true,
+        "Pursuit": 1173,
+        "Step": 73,
+        "Type": 2,
+        "Choices": [
+          {
+            "Text": "Yes",
+            "Pursuit": 1173,
+            "Option": 1
+          },
+          {
+            "Text": "No",
+            "Pursuit": 1173,
+            "Option": 2
+          }
+        ],
+        "Prompt": null,
+        "HasNext": true,
+        "ObservedAt": "2026-10-15T02:58:19.7602348+00:00",
+        "Items": []
+      },
+      "OwnPetInventory": []
+    },
+    {
+      "Generation": 1,
+      "Revision": 5301,
+      "Opcode": 15,
+      "Map": 992,
+      "Position": {
+        "X": 73,
+        "Y": 38
+      },
+      "Hp": 1130,
+      "MaxHp": 3950,
+      "Mana": 4139,
+      "Dialog": {
+        "Generation": 1,
+        "Revision": 5274,
+        "EntityId": 9687,
+        "EntityType": 4,
+        "Name": "",
+        "Text": "Are you willing?",
+        "IsPursuit": true,
+        "Pursuit": 1173,
+        "Step": 73,
+        "Type": 2,
+        "Choices": [
+          {
+            "Text": "Yes",
+            "Pursuit": 1173,
+            "Option": 1
+          },
+          {
+            "Text": "No",
+            "Pursuit": 1173,
+            "Option": 2
+          }
+        ],
+        "Prompt": null,
+        "HasNext": true,
+        "ObservedAt": "2026-10-15T02:58:19.7602348+00:00",
+        "Items": []
+      },
+      "OwnPetInventory": [
+        {
+          "Slot": 13,
+          "Name": "Pet Faerie",
+          "Quantity": 1,
+          "Stackable": false,
+          "Sprite": 1015
+        }
+      ]
+    },
+    {
+      "Generation": 1,
+      "Revision": 5303,
+      "Opcode": 48,
+      "Map": 992,
+      "Position": {
+        "X": 73,
+        "Y": 38
+      },
+      "Hp": 1130,
+      "MaxHp": 3950,
+      "Mana": 4139,
+      "Dialog": null,
+      "OwnPetInventory": [
+        {
+          "Slot": 13,
+          "Name": "Pet Faerie",
+          "Quantity": 1,
+          "Stackable": false,
+          "Sprite": 1015
+        }
+      ]
+    },
+    {
+      "Generation": 1,
+      "Revision": 5339,
+      "Opcode": 21,
+      "Map": 3082,
+      "Position": null,
+      "Hp": 642,
+      "MaxHp": 3950,
+      "Mana": 4139,
+      "Dialog": null,
+      "OwnPetInventory": [
+        {
+          "Slot": 13,
+          "Name": "Pet Faerie",
+          "Quantity": 1,
+          "Stackable": false,
+          "Sprite": 1015
+        }
+      ]
+    }
+  ]
+}

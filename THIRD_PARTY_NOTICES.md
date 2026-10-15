@@ -1,5 +1,18 @@
 # Third-party notices
 
+## DAWindower X
+
+New client windows use [DAWindower X](https://github.com/BuildWithRaymond/DAWindower),
+0.2.3 candidate, pinned to `ef70a98275444ffa0c1b306995c5bb579ae4e08a`.
+Its complete MIT notice is retained in
+[DAWindowerX/LICENSE.txt](src/DAQuester.App/Licenses/DAWindowerX/LICENSE.txt).
+DAQuester applies the retained `native/DAWindowerX-daquester.patch` to hand X's
+new-client button back to its managed blank-login flow. Standalone X without
+that host endpoint keeps upstream behavior. The native x86 DLL is built into
+ignored artifacts and included with the app, together with its upstream source
+revision, integration-patch SHA-256 and actual DLL SHA-256 under
+`licenses/DAWindowerX/source.json`. No game executable or assets are distributed.
+
 ## Avalonia and rendering dependencies
 
 The desktop presentation uses [Avalonia](https://github.com/AvaloniaUI/Avalonia)

@@ -26,8 +26,17 @@ single movement packet. Sitting/resting forms, monster transformations and emote
 use their installed SPF, MPF and EPF artwork. Missing artwork leaves a neutral
 placeholder with a short explanation; parser details go to diagnostics.log.
 
-Rendering runs away from the UI thread. The preview owns its decoder/cache and
-bitmap. Character changes, disconnect and window removal invalidate in-flight
+Rendering runs away from the UI thread. Static character portraits and quest icons
+share rendered pixel caches in memory and under `Data/artwork/v1`. All saved
+character faces and catalog quest icons preload when the client directory is
+selected, so scrolling and filtering reuse ready images. Cache keys include the
+artwork source, archive size/timestamps, and exact appearance or sprite/dye variant;
+restarting after an archive update rebuilds affected images. Only rendered pixels
+are saved; original game files are read-only and remain outside the package.
+Corrupt cache files rebuild, and cache write errors go to diagnostics.log while
+the rendered image stays usable. Each control owns its display bitmap; animated
+full-body previews retain their own decoder and observed motion. Character changes,
+disconnect and window removal invalidate in-flight
 results before they can appear. Original frame offsets and nearest-neighbor
 display keep the sprite aligned and sharp.
 
@@ -44,6 +53,10 @@ A decorative copy behind the journey sprite uses the same published bitmap,
 enlarged 5.5 times with nearest-neighbor sampling at 12% opacity. It cannot drift
 to another animation frame and stays clipped to the journey side of the card.
 The foreground keeps its original frame offsets.
+Dashboard cards keep a 112-by-112 preview canvas so ordinary character frames
+render at native pixel size while the cards stay compact. Their enlarged background
+copy spans the card and sits 150 pixels lower; this offset does not change its
+scale or stable frame anchor.
 The accent stays centered on the foreground's canvas with a foot reference fixed
 from its first visible frame. Animated limbs and weapons can change the cropped
 outline without recentering the whole character. Changing characters or outfits

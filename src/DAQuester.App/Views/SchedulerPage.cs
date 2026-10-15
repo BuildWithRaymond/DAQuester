@@ -25,8 +25,9 @@ public sealed class SchedulerPage : UserControl
     readonly TextBlock feedback = new() { Name = "schedulerFeedback", TextWrapping = TextWrapping.Wrap, Classes = { "error" } };
     readonly StackPanel rows = new() { Spacing = 0 };
     readonly List<(string Character, CharacterSpritePreview Portrait)> portraits = [];
+    readonly List<Control> consentActions = [];
     readonly Button save = new() { Name = "saveSchedule", Content = "Save schedule", Classes = { "primary" } };
-    readonly Button enable = new() { Name = "enableScheduler", Content = "Enable scheduler", Classes = { "danger" } };
+    readonly Button enable = new() { Name = "enableScheduler", Content = "Turn on saved schedules", Classes = { "danger" } };
     readonly Button choices = new() { Name = "scheduleChoices", Content = "Quest choices", Classes = { "quiet" } };
     readonly Grid workspace = new() { ColumnDefinitions = new("350,*"), RowDefinitions = new("Auto,Auto"), ColumnSpacing = 18, RowSpacing = 18 };
     readonly Border schedulePane = new() { Classes = { "card" }, Padding = new Thickness(18), VerticalAlignment = VerticalAlignment.Top };
@@ -65,6 +66,7 @@ public sealed class SchedulerPage : UserControl
         body.Children.Add(new Expander { Header = "Full warnings and how it works", Content = details, IsExpanded = false, HorizontalAlignment = HorizontalAlignment.Stretch });
         var editor = new StackPanel { Spacing = 10 };
         editor.Children.Add(editorTitle);
+        editor.Children.Add(Copy("Save stores the schedule. Turn on saved schedules allows automatic logins. To resume a stopped schedule, use Resume schedule on its saved row."));
         void Field(string label, Control input)
         {
             var field = new StackPanel { Spacing = 6 };
@@ -91,7 +93,10 @@ public sealed class SchedulerPage : UserControl
         var scroll = new ScrollViewer { Name = "schedulerBody", Content = body, HorizontalScrollBarVisibility = Avalonia.Controls.Primitives.ScrollBarVisibility.Disabled };
         layout.Children.Add(scroll);
         var footer = new Grid { ColumnDefinitions = new("Auto,Auto"), ColumnSpacing = 16, HorizontalAlignment = HorizontalAlignment.Right, Margin = new Thickness(0, 16, 0, 0) };
-        footer.Children.Add(new Border { Classes = { "schedulerConsent" }, Padding = new Thickness(12, 8), Child = acknowledgement });
+        var consent = new StackPanel { Spacing = 4 };
+        consent.Children.Add(acknowledgement);
+        consent.Children.Add(new TextBlock { Text = "Check once here for Save, Resume and Turn on.", Classes = { "caption" }, TextWrapping = TextWrapping.Wrap });
+        footer.Children.Add(new Border { Classes = { "schedulerConsent" }, Padding = new Thickness(12, 8), Child = consent });
         var controls = new StackPanel { Orientation = Orientation.Horizontal, Spacing = 10, VerticalAlignment = VerticalAlignment.Center };
         Grid.SetColumn(controls, 1);
         footer.Children.Add(controls);
@@ -105,14 +110,18 @@ public sealed class SchedulerPage : UserControl
         quest.ItemsSource = runtime.Recipes.Values.OrderBy(q => q.Name).ToArray();
         quest.ItemTemplate = new Avalonia.Controls.Templates.FuncDataTemplate<QuestDefinition>((q, _) => new TextBlock { Text = q?.Name, TextTrimming = TextTrimming.CharacterEllipsis });
         quest.SelectedItem = runtime.Recipes.GetValueOrDefault(runtime.SelectedQuestId) ?? runtime.Recipes.Values.FirstOrDefault();
-        character.SelectionChanged += (_, _) => UpdateControls();
-        quest.SelectionChanged += (_, _) => { recurring.IsChecked = false; UpdateControls(); };
+        character.SelectionChanged += (_, _) => { acknowledgement.IsChecked = false; UpdateControls(); };
+        quest.SelectionChanged += (_, _) => { acknowledgement.IsChecked = false; recurring.IsChecked = false; UpdateControls(); };
         earliest.IsCheckedChanged += (_, _) => UpdateControls();
         recurring.IsCheckedChanged += (_, _) => UpdateControls();
         acknowledgement.IsCheckedChanged += (_, _) => UpdateControls();
         save.Click += async (_, _) => await PerformAsync(SaveAsync);
         choices.Click += async (_, _) => await PerformAsync(ChooseAsync);
-        enable.Click += async (_, _) => await PerformAsync(async () => { await runtime.SetSchedulerEnabledAsync(true, acknowledgement.IsChecked == true); acknowledgement.IsChecked = false; });
+        enable.Click += async (_, _) => await PerformAsync(async () =>
+        {
+            await runtime.SetSchedulerEnabledAsync(true, acknowledgement.IsChecked == true);
+            feedback.Text = "Scheduler is ON. Stopped entries still need Resume schedule on their saved row.";
+        });
         Content = layout;
         AttachedToVisualTree += (_, _) => { runtime.Changed += Refresh; AdaptLayout(); Refresh(); };
         DetachedFromVisualTree += (_, _) => runtime.Changed -= Refresh;
@@ -132,6 +141,9 @@ public sealed class SchedulerPage : UserControl
         save.Content = editing is null ? "Save schedule" : "Save schedule changes";
         editorTitle.Text = editing is null ? "Schedule a quest" : "Edit schedule";
         enable.IsEnabled = !busy && !runtime.SchedulerEnabled && acknowledgement.IsChecked == true;
+        enable.Content = runtime.SchedulerEnabled ? "Scheduler is on" : "Turn on saved schedules";
+        foreach (var action in consentActions)
+            action.IsEnabled = !busy && acknowledgement.IsChecked == true;
         choices.IsEnabled = !busy && Character.Length > 0 && Quest is { } q && HasScheduleChoices(q.Id);
         choices.IsVisible = Quest is { } choiceQuest && HasScheduleChoices(choiceQuest.Id);
         policy.Text = Quest?.Id switch
@@ -189,17 +201,21 @@ public sealed class SchedulerPage : UserControl
                 throw new QuestBlockedException("Choose a future time, or select as soon as eligible.");
         }
         await runtime.SaveScheduleAsync(Character, selected.Id, requested, recurring.IsChecked == true, acknowledgement.IsChecked == true, editing);
-        acknowledgement.IsChecked = false;
-        feedback.Text = runtime.SchedulerEnabled ? "Schedule saved." : "Schedule saved. Scheduler is OFF; acknowledge the warning again and enable it when ready.";
+        var saved = runtime.SchedulerState.Entries.Single(e => editing is { } key ? e.Id == key :
+            e.Character == Character && e.Quest == selected.Id && e.Profile == runtime.Settings.ServerProfile && e.Status != "Completed");
+        feedback.Text = saved.Status is "Needs attention" or "Paused"
+            ? "Changes saved. This schedule is still stopped; use Resume schedule on its saved row."
+            : runtime.SchedulerEnabled ? "Schedule saved. Scheduler is ON; it will run when due."
+            : "Schedule saved. Next: Turn on saved schedules. Your agreement remains checked.";
     }
 
     async Task PerformAsync(Func<Task> action)
     {
         if (busy)
             return;
-        busy = true; feedback.Text = ""; UpdateControls();
+        busy = true; feedback.Text = ""; feedback.Classes.Set("error", false); UpdateControls();
         try { await action(); }
-        catch (Exception error) { feedback.Text = error.Message; }
+        catch (Exception error) { feedback.Text = error.Message; feedback.Classes.Set("error", true); }
         finally { busy = false; Refresh(); }
     }
 
@@ -228,6 +244,7 @@ public sealed class SchedulerPage : UserControl
         stateSignature = signature;
         rows.Children.Clear();
         portraits.Clear();
+        consentActions.Clear();
         if (runtime.SchedulerState.Entries.Length == 0)
             rows.Children.Add(Copy("No schedules yet.\nChoose a character and quest to add your first one."));
         foreach (string name in launching)
@@ -241,14 +258,20 @@ public sealed class SchedulerPage : UserControl
             blocked.Children.Add(new TextBlock { Text = block.Character + " · scheduled logins blocked", FontWeight = FontWeight.SemiBold, Classes = { "error" }, TextWrapping = TextWrapping.Wrap });
             blocked.Children.Add(Copy(block.Reason));
             var review = new Button { Content = "Review login block", Classes = { "quiet" }, HorizontalAlignment = HorizontalAlignment.Left };
-            review.Click += async (_, _) => await PerformAsync(async () => { await runtime.ReviewSchedulerLoginAsync(block.Character, acknowledgement.IsChecked == true); acknowledgement.IsChecked = false; });
+            review.IsEnabled = !busy && acknowledgement.IsChecked == true;
+            consentActions.Add(review);
+            review.Click += async (_, _) => await PerformAsync(async () =>
+            {
+                await runtime.ReviewSchedulerLoginAsync(block.Character, acknowledgement.IsChecked == true);
+                feedback.Text = "Login block cleared. Use Resume schedule on the saved entry to allow another attempt.";
+            });
             blocked.Children.Add(review);
-            blocked.Children.Add(Copy("Accept the warning beside Enable scheduler before allowing logins again."));
+            blocked.Children.Add(Copy("Check the agreement below, then review this login block and resume the saved schedule."));
             rows.Children.Add(new Border { Classes = { "schedulerWarning" }, Padding = new Thickness(14), Child = blocked });
         }
         foreach (var entry in runtime.SchedulerState.Entries.OrderBy(e => e.Due))
         {
-            var card = new Grid { ColumnDefinitions = new("36,*,134,30"), RowDefinitions = new("Auto,Auto"), ColumnSpacing = 10, RowSpacing = 6 };
+            var card = new Grid { ColumnDefinitions = new("36,*,134,30"), RowDefinitions = new("Auto,Auto,Auto"), ColumnSpacing = 10, RowSpacing = 6 };
             var portrait = new CharacterSpritePreview { IsPortrait = true, Width = 36, Height = 36,
                 Snapshot = runtime.Snapshot(entry.Character), RememberedAppearance = runtime.Memory(entry.Character).Appearance,
                 GameDirectory = Path.GetDirectoryName(runtime.Settings.ClientPath) ?? "", VerticalAlignment = VerticalAlignment.Center };
@@ -288,8 +311,28 @@ public sealed class SchedulerPage : UserControl
                 acknowledgement.IsChecked = false; UpdateControls(); return Task.CompletedTask;
             }).IsVisible = entry.Status != "Running";
             Action("Pause", () => runtime.PauseScheduleAsync(entry.Id)).IsVisible = entry.Status is "Armed" or "Running";
-            var reenable = Action("Review and re-enable", async () => { await runtime.RearmScheduleAsync(entry.Id, acknowledgement.IsChecked == true); acknowledgement.IsChecked = false; });
+            async Task ResumeAsync()
+            {
+                await runtime.RearmScheduleAsync(entry.Id, acknowledgement.IsChecked == true);
+                feedback.Text = entry.Character + " schedule resumed. " + (runtime.SchedulerEnabled
+                    ? "It will run at the next eligible time." : "Next: Turn on saved schedules.");
+            }
+            var reenable = Action("Resume schedule", ResumeAsync);
             reenable.IsVisible = entry.Status is "Needs attention" or "Paused";
+            reenable.IsEnabled = !busy && acknowledgement.IsChecked == true;
+            consentActions.Add(reenable);
+            if (reenable.IsVisible)
+            {
+                var resume = new Button { Content = "Resume schedule", Classes = { "quiet" },
+                    HorizontalAlignment = HorizontalAlignment.Left, IsEnabled = !busy && acknowledgement.IsChecked == true };
+                AutomationProperties.SetName(resume, "Resume schedule for " + entry.Character + ": " + runtime.QuestName(entry.Quest));
+                resume.Click += async (_, _) => await PerformAsync(ResumeAsync);
+                consentActions.Add(resume);
+                var next = new StackPanel { Spacing = 4 };
+                next.Children.Add(Copy("Check the agreement below, then resume this entry. Saving changes or turning Scheduler on leaves it stopped."));
+                next.Children.Add(resume);
+                Grid.SetRow(next, 2); Grid.SetColumn(next, 1); Grid.SetColumnSpan(next, 3); card.Children.Add(next);
+            }
             Action("Remove", () => runtime.RemoveScheduleAsync(entry.Id)).IsVisible = entry.Status != "Running";
             var menu = new ContextMenu { ItemsSource = menuItems };
             var more = new Button { Classes = { "icon" }, Width = 30, Height = 30, VerticalAlignment = VerticalAlignment.Center,

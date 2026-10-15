@@ -1,0 +1,2646 @@
+{
+  "SchemaVersion": 1,
+  "ServerProfile": "datester-7.41",
+  "Sanitized": true,
+  "Evidence": "Actual owned server snapshot and submitted-action projections from 2026-10-14 Blanchefleur Fiosachd referral, Keefe and Logan. Character and generation normalized; payloads, entities, bag contents and unrelated player state omitted. Gold, XP, inventory-known, exact dialog identities, revisions, choices and actual closures retained. Cousin quote closed without selecting payment. No later quest progress inferred.",
+  "Checkpoint": {
+    "Quest": "cap-band-of-danaan",
+    "Version": 1,
+    "Step": "run",
+    "Status": "Paused",
+    "Reason": "The submitted Blanchefleur page has no matching later receipt. Inspect it; never repeat its choice or handoff.",
+    "JourneyVariant": null,
+    "DanaanOptions": {
+      "Avatar": "cail",
+      "SuppliedMoldRiteAccepted": true
+    },
+    "Character": "ReplayBlanche",
+    "Route": {
+      "Task": 4,
+      "Page": 2,
+      "Baseline": {
+        "Kind": "observed-stage",
+        "Generation": 1,
+        "Revision": 3739,
+        "Gold": 13456855,
+        "Branches": 0,
+        "Experience": 864703409,
+        "Started": "2026-10-15T01:04:03.8792353+00:00",
+        "InventoryBaselineKnown": true
+      },
+      "LastReply": {
+        "Generation": 1,
+        "Revision": 3743,
+        "EntityId": 8002,
+        "EntityType": 1,
+        "Name": "Blanchefleur",
+        "Text": "It was a gift, but I do not remember from whom. I do remember a sailor that came to visit me the other day. He said it looked like something they have a tale about over in Abel. Something involving Fiosachd. But it sounded too much like a silly big city legend, and he was such a bad storyteller...Besides, he brought no gifts from the outside world. ",
+        "IsPursuit": true,
+        "Pursuit": 1096,
+        "Step": 73,
+        "Type": 0,
+        "Choices": [],
+        "Prompt": null,
+        "HasNext": true,
+        "ObservedAt": "2026-10-15T01:04:05.3729252+00:00",
+        "Items": []
+      },
+      "SubmittedPage": {
+        "Generation": 1,
+        "Revision": 3741,
+        "EntityId": 8002,
+        "EntityType": 1,
+        "Name": "Blanchefleur",
+        "Text": "The burden of these cold walls seems lighter when I put it on.",
+        "IsPursuit": true,
+        "Pursuit": 1096,
+        "Step": 48,
+        "Type": 2,
+        "Choices": [
+          {
+            "Text": "Give me the cap.",
+            "Pursuit": 1096,
+            "Option": 1
+          },
+          {
+            "Text": "Where did you get it?",
+            "Pursuit": 1096,
+            "Option": 2
+          }
+        ],
+        "Prompt": null,
+        "HasNext": true,
+        "ObservedAt": "2026-10-15T01:04:04.882589+00:00",
+        "Items": []
+      },
+      "BoundGeneration": 1,
+      "BoundEntity": 8002,
+      "RewardMessages": [],
+      "CleanupPending": false
+    },
+    "Pending": {
+      "Kind": "observed-page:blanchefleur-origin",
+      "Generation": 1,
+      "Revision": 3740,
+      "Gold": 13456855,
+      "Branches": 0,
+      "Experience": 864703409,
+      "Started": "2026-10-15T01:04:05.0553457+00:00",
+      "EntityId": 8002,
+      "EntityType": 1,
+      "InventoryBaselineKnown": true
+    }
+  },
+  "Snapshots": [
+    {
+      "Name": "ReplayBlanche",
+      "Generation": 1,
+      "Revision": 3741,
+      "Connected": true,
+      "Map": 117,
+      "Gold": 13456855,
+      "Experience": 864703409,
+      "InventoryKnown": true,
+      "Dialog": {
+        "Generation": 1,
+        "Revision": 3741,
+        "EntityId": 8002,
+        "EntityType": 1,
+        "Name": "Blanchefleur",
+        "Text": "The burden of these cold walls seems lighter when I put it on.",
+        "IsPursuit": true,
+        "Pursuit": 1096,
+        "Step": 48,
+        "Type": 2,
+        "Choices": [
+          {
+            "Text": "Give me the cap.",
+            "Pursuit": 1096,
+            "Option": 1
+          },
+          {
+            "Text": "Where did you get it?",
+            "Pursuit": 1096,
+            "Option": 2
+          }
+        ],
+        "Prompt": null,
+        "HasNext": true,
+        "ObservedAt": "2026-10-15T01:04:04.882589+00:00",
+        "Items": []
+      }
+    },
+    {
+      "Name": "ReplayBlanche",
+      "Generation": 1,
+      "Revision": 3743,
+      "Connected": true,
+      "Map": 117,
+      "Gold": 13456855,
+      "Experience": 864703409,
+      "InventoryKnown": true,
+      "Dialog": {
+        "Generation": 1,
+        "Revision": 3743,
+        "EntityId": 8002,
+        "EntityType": 1,
+        "Name": "Blanchefleur",
+        "Text": "It was a gift, but I do not remember from whom. I do remember a sailor that came to visit me the other day. He said it looked like something they have a tale about over in Abel. Something involving Fiosachd. But it sounded too much like a silly big city legend, and he was such a bad storyteller...Besides, he brought no gifts from the outside world. ",
+        "IsPursuit": true,
+        "Pursuit": 1096,
+        "Step": 73,
+        "Type": 0,
+        "Choices": [],
+        "Prompt": null,
+        "HasNext": true,
+        "ObservedAt": "2026-10-15T01:04:05.3729252+00:00",
+        "Items": []
+      }
+    },
+    {
+      "Name": "ReplayBlanche",
+      "Generation": 1,
+      "Revision": 3795,
+      "Connected": true,
+      "Map": 117,
+      "Gold": 13456855,
+      "Experience": 864703409,
+      "InventoryKnown": true,
+      "Dialog": {
+        "Generation": 1,
+        "Revision": 3743,
+        "EntityId": 8002,
+        "EntityType": 1,
+        "Name": "Blanchefleur",
+        "Text": "It was a gift, but I do not remember from whom. I do remember a sailor that came to visit me the other day. He said it looked like something they have a tale about over in Abel. Something involving Fiosachd. But it sounded too much like a silly big city legend, and he was such a bad storyteller...Besides, he brought no gifts from the outside world. ",
+        "IsPursuit": true,
+        "Pursuit": 1096,
+        "Step": 73,
+        "Type": 0,
+        "Choices": [],
+        "Prompt": null,
+        "HasNext": true,
+        "ObservedAt": "2026-10-15T01:04:05.3729252+00:00",
+        "Items": []
+      }
+    },
+    {
+      "Name": "ReplayBlanche",
+      "Generation": 1,
+      "Revision": 3796,
+      "Connected": true,
+      "Map": 117,
+      "Gold": 13456855,
+      "Experience": 864703409,
+      "InventoryKnown": true,
+      "Dialog": {
+        "Generation": 1,
+        "Revision": 3796,
+        "EntityId": 8002,
+        "EntityType": 1,
+        "Name": "Blanchefleur",
+        "Text": "I paid little attention to him.",
+        "IsPursuit": true,
+        "Pursuit": 1096,
+        "Step": 74,
+        "Type": 2,
+        "Choices": [
+          {
+            "Text": "Something involving Fiosachd?",
+            "Pursuit": 1096,
+            "Option": 1
+          },
+          {
+            "Text": "Gifts from the outside world?",
+            "Pursuit": 1096,
+            "Option": 2
+          }
+        ],
+        "Prompt": null,
+        "HasNext": true,
+        "ObservedAt": "2026-10-15T01:10:56.1746252+00:00",
+        "Items": []
+      }
+    },
+    {
+      "Name": "ReplayBlanche",
+      "Generation": 1,
+      "Revision": 3831,
+      "Connected": true,
+      "Map": 117,
+      "Gold": 13456855,
+      "Experience": 864703409,
+      "InventoryKnown": true,
+      "Dialog": {
+        "Generation": 1,
+        "Revision": 3796,
+        "EntityId": 8002,
+        "EntityType": 1,
+        "Name": "Blanchefleur",
+        "Text": "I paid little attention to him.",
+        "IsPursuit": true,
+        "Pursuit": 1096,
+        "Step": 74,
+        "Type": 2,
+        "Choices": [
+          {
+            "Text": "Something involving Fiosachd?",
+            "Pursuit": 1096,
+            "Option": 1
+          },
+          {
+            "Text": "Gifts from the outside world?",
+            "Pursuit": 1096,
+            "Option": 2
+          }
+        ],
+        "Prompt": null,
+        "HasNext": true,
+        "ObservedAt": "2026-10-15T01:10:56.1746252+00:00",
+        "Items": []
+      }
+    },
+    {
+      "Name": "ReplayBlanche",
+      "Generation": 1,
+      "Revision": 3832,
+      "Connected": true,
+      "Map": 117,
+      "Gold": 13456855,
+      "Experience": 864703409,
+      "InventoryKnown": true,
+      "Dialog": {
+        "Generation": 1,
+        "Revision": 3832,
+        "EntityId": 8002,
+        "EntityType": 1,
+        "Name": "Blanchefleur",
+        "Text": "Yes, I just told you that. But that is all there is to it. Just to let you know, sometimes my friend Aundy comes from the temple she lives in, in Abel, and tells me stories fo the big city. I asked her about that, out of curiosity, and she did not know anything. If Fiosachd has any ties to this pretty cap of mine, and not even his Acolyte knows it, who would, other than himself? Oh well...You are an Aisling, free to travel across the world. Maybe you can find a way to ask the patron of Rogues himself.",
+        "IsPursuit": true,
+        "Pursuit": 1096,
+        "Step": 79,
+        "Type": 0,
+        "Choices": [],
+        "Prompt": null,
+        "HasNext": true,
+        "ObservedAt": "2026-10-15T01:15:44.8989509+00:00",
+        "Items": []
+      }
+    },
+    {
+      "Name": "ReplayBlanche",
+      "Generation": 1,
+      "Revision": 3833,
+      "Connected": true,
+      "Map": 117,
+      "Gold": 13456855,
+      "Experience": 864703409,
+      "InventoryKnown": true,
+      "Dialog": {
+        "Generation": 1,
+        "Revision": 3833,
+        "EntityId": 8002,
+        "EntityType": 1,
+        "Name": "Blanchefleur",
+        "Text": "It was a gift, but I do not remember from whom. I do remember a sailor that came to visit me the other day. He said it looked like something they have a tale about over in Abel. Something involving Fiosachd. But it sounded too much like a silly big city legend, and he was such a bad storyteller...Besides, he brought no gifts from the outside world. ",
+        "IsPursuit": true,
+        "Pursuit": 1096,
+        "Step": 73,
+        "Type": 0,
+        "Choices": [],
+        "Prompt": null,
+        "HasNext": true,
+        "ObservedAt": "2026-10-15T01:15:45.4021527+00:00",
+        "Items": []
+      }
+    },
+    {
+      "Name": "ReplayBlanche",
+      "Generation": 1,
+      "Revision": 3834,
+      "Connected": true,
+      "Map": 117,
+      "Gold": 13456855,
+      "Experience": 864703409,
+      "InventoryKnown": true,
+      "Dialog": {
+        "Generation": 1,
+        "Revision": 3834,
+        "EntityId": 8002,
+        "EntityType": 1,
+        "Name": "Blanchefleur",
+        "Text": "I paid little attention to him.",
+        "IsPursuit": true,
+        "Pursuit": 1096,
+        "Step": 74,
+        "Type": 2,
+        "Choices": [
+          {
+            "Text": "Something involving Fiosachd?",
+            "Pursuit": 1096,
+            "Option": 1
+          },
+          {
+            "Text": "Gifts from the outside world?",
+            "Pursuit": 1096,
+            "Option": 2
+          }
+        ],
+        "Prompt": null,
+        "HasNext": true,
+        "ObservedAt": "2026-10-15T01:15:47.8999922+00:00",
+        "Items": []
+      }
+    },
+    {
+      "Name": "ReplayBlanche",
+      "Generation": 1,
+      "Revision": 3836,
+      "Connected": true,
+      "Map": 117,
+      "Gold": 13456855,
+      "Experience": 864703409,
+      "InventoryKnown": true,
+      "Dialog": {
+        "Generation": 1,
+        "Revision": 3834,
+        "EntityId": 8002,
+        "EntityType": 1,
+        "Name": "Blanchefleur",
+        "Text": "I paid little attention to him.",
+        "IsPursuit": true,
+        "Pursuit": 1096,
+        "Step": 74,
+        "Type": 2,
+        "Choices": [
+          {
+            "Text": "Something involving Fiosachd?",
+            "Pursuit": 1096,
+            "Option": 1
+          },
+          {
+            "Text": "Gifts from the outside world?",
+            "Pursuit": 1096,
+            "Option": 2
+          }
+        ],
+        "Prompt": null,
+        "HasNext": true,
+        "ObservedAt": "2026-10-15T01:15:47.8999922+00:00",
+        "Items": []
+      }
+    },
+    {
+      "Name": "ReplayBlanche",
+      "Generation": 1,
+      "Revision": 3837,
+      "Connected": true,
+      "Map": 117,
+      "Gold": 13456855,
+      "Experience": 864703409,
+      "InventoryKnown": true,
+      "Dialog": null
+    },
+    {
+      "Name": "ReplayBlanche",
+      "Generation": 1,
+      "Revision": 3839,
+      "Connected": true,
+      "Map": 117,
+      "Gold": 13456855,
+      "Experience": 864703409,
+      "InventoryKnown": true,
+      "Dialog": null
+    },
+    {
+      "Name": "ReplayBlanche",
+      "Generation": 1,
+      "Revision": 3840,
+      "Connected": true,
+      "Map": 126,
+      "Gold": 13456855,
+      "Experience": 864703409,
+      "InventoryKnown": true,
+      "Dialog": null
+    },
+    {
+      "Name": "ReplayBlanche",
+      "Generation": 1,
+      "Revision": 3871,
+      "Connected": true,
+      "Map": 126,
+      "Gold": 13456855,
+      "Experience": 864703409,
+      "InventoryKnown": true,
+      "Dialog": null
+    },
+    {
+      "Name": "ReplayBlanche",
+      "Generation": 1,
+      "Revision": 3872,
+      "Connected": true,
+      "Map": 109,
+      "Gold": 13456855,
+      "Experience": 864703409,
+      "InventoryKnown": true,
+      "Dialog": null
+    },
+    {
+      "Name": "ReplayBlanche",
+      "Generation": 1,
+      "Revision": 3891,
+      "Connected": true,
+      "Map": 109,
+      "Gold": 13456855,
+      "Experience": 864703409,
+      "InventoryKnown": true,
+      "Dialog": null
+    },
+    {
+      "Name": "ReplayBlanche",
+      "Generation": 1,
+      "Revision": 3892,
+      "Connected": true,
+      "Map": 3271,
+      "Gold": 13456855,
+      "Experience": 864703409,
+      "InventoryKnown": true,
+      "Dialog": null
+    },
+    {
+      "Name": "ReplayBlanche",
+      "Generation": 1,
+      "Revision": 3953,
+      "Connected": true,
+      "Map": 3271,
+      "Gold": 13456855,
+      "Experience": 864703409,
+      "InventoryKnown": true,
+      "Dialog": null
+    },
+    {
+      "Name": "ReplayBlanche",
+      "Generation": 1,
+      "Revision": 3954,
+      "Connected": true,
+      "Map": 3052,
+      "Gold": 13456855,
+      "Experience": 864703409,
+      "InventoryKnown": true,
+      "Dialog": null
+    },
+    {
+      "Name": "ReplayBlanche",
+      "Generation": 1,
+      "Revision": 4023,
+      "Connected": true,
+      "Map": 3052,
+      "Gold": 13456855,
+      "Experience": 864703409,
+      "InventoryKnown": true,
+      "Dialog": null
+    },
+    {
+      "Name": "ReplayBlanche",
+      "Generation": 1,
+      "Revision": 4024,
+      "Connected": true,
+      "Map": 3079,
+      "Gold": 13456855,
+      "Experience": 864703409,
+      "InventoryKnown": true,
+      "Dialog": null
+    },
+    {
+      "Name": "ReplayBlanche",
+      "Generation": 1,
+      "Revision": 4040,
+      "Connected": true,
+      "Map": 3079,
+      "Gold": 13456855,
+      "Experience": 864703409,
+      "InventoryKnown": true,
+      "Dialog": null
+    },
+    {
+      "Name": "ReplayBlanche",
+      "Generation": 1,
+      "Revision": 4041,
+      "Connected": true,
+      "Map": 3006,
+      "Gold": 13456855,
+      "Experience": 864703409,
+      "InventoryKnown": true,
+      "Dialog": null
+    },
+    {
+      "Name": "ReplayBlanche",
+      "Generation": 1,
+      "Revision": 4070,
+      "Connected": true,
+      "Map": 3006,
+      "Gold": 13456855,
+      "Experience": 864703409,
+      "InventoryKnown": true,
+      "Dialog": null
+    },
+    {
+      "Name": "ReplayBlanche",
+      "Generation": 1,
+      "Revision": 4071,
+      "Connected": true,
+      "Map": 500,
+      "Gold": 13456855,
+      "Experience": 864703409,
+      "InventoryKnown": true,
+      "Dialog": null
+    },
+    {
+      "Name": "ReplayBlanche",
+      "Generation": 1,
+      "Revision": 4101,
+      "Connected": true,
+      "Map": 500,
+      "Gold": 13456855,
+      "Experience": 864703409,
+      "InventoryKnown": true,
+      "Dialog": null
+    },
+    {
+      "Name": "ReplayBlanche",
+      "Generation": 1,
+      "Revision": 4102,
+      "Connected": true,
+      "Map": 393,
+      "Gold": 13456855,
+      "Experience": 864703409,
+      "InventoryKnown": true,
+      "Dialog": null
+    },
+    {
+      "Name": "ReplayBlanche",
+      "Generation": 1,
+      "Revision": 4109,
+      "Connected": true,
+      "Map": 393,
+      "Gold": 13456855,
+      "Experience": 864703409,
+      "InventoryKnown": true,
+      "Dialog": null
+    },
+    {
+      "Name": "ReplayBlanche",
+      "Generation": 1,
+      "Revision": 4110,
+      "Connected": true,
+      "Map": 393,
+      "Gold": 13456855,
+      "Experience": 864703409,
+      "InventoryKnown": true,
+      "Dialog": {
+        "Generation": 1,
+        "Revision": 4110,
+        "EntityId": 6312,
+        "EntityType": 1,
+        "Name": "Aoife",
+        "Text": "Hello.  What can I do for you?",
+        "IsPursuit": false,
+        "Pursuit": 0,
+        "Step": 0,
+        "Type": 0,
+        "Choices": [
+          {
+            "Text": "Buy",
+            "Pursuit": 64,
+            "Option": 1
+          },
+          {
+            "Text": "Sell",
+            "Pursuit": 65,
+            "Option": 2
+          },
+          {
+            "Text": "Danaan Consecration",
+            "Pursuit": 3664,
+            "Option": 3
+          },
+          {
+            "Text": "Legendary Aisling",
+            "Pursuit": 2999,
+            "Option": 4
+          },
+          {
+            "Text": "Class Dedication",
+            "Pursuit": 1948,
+            "Option": 5
+          },
+          {
+            "Text": "Guide Reception",
+            "Pursuit": 1170,
+            "Option": 6
+          },
+          {
+            "Text": "Wizard Master",
+            "Pursuit": 1690,
+            "Option": 7
+          },
+          {
+            "Text": "Master Stats",
+            "Pursuit": 1693,
+            "Option": 8
+          },
+          {
+            "Text": "((Stat Reallocation))",
+            "Pursuit": 1720,
+            "Option": 9
+          }
+        ],
+        "Prompt": null,
+        "HasNext": false,
+        "ObservedAt": "2026-10-15T01:17:22.4824929+00:00",
+        "Items": []
+      }
+    },
+    {
+      "Name": "ReplayBlanche",
+      "Generation": 1,
+      "Revision": 4111,
+      "Connected": true,
+      "Map": 393,
+      "Gold": 13456855,
+      "Experience": 864703409,
+      "InventoryKnown": true,
+      "Dialog": {
+        "Generation": 1,
+        "Revision": 4111,
+        "EntityId": 6312,
+        "EntityType": 1,
+        "Name": "Aoife",
+        "Text": "Come to give guidance to a new Aisling who is choosing his or her Craft?",
+        "IsPursuit": true,
+        "Pursuit": 146,
+        "Step": 9,
+        "Type": 2,
+        "Choices": [
+          {
+            "Text": "No",
+            "Pursuit": 146,
+            "Option": 1
+          },
+          {
+            "Text": "Yes",
+            "Pursuit": 146,
+            "Option": 2
+          }
+        ],
+        "Prompt": null,
+        "HasNext": true,
+        "ObservedAt": "2026-10-15T01:17:31.9871957+00:00",
+        "Items": []
+      }
+    },
+    {
+      "Name": "ReplayBlanche",
+      "Generation": 1,
+      "Revision": 4113,
+      "Connected": true,
+      "Map": 393,
+      "Gold": 13456855,
+      "Experience": 864703409,
+      "InventoryKnown": true,
+      "Dialog": {
+        "Generation": 1,
+        "Revision": 4111,
+        "EntityId": 6312,
+        "EntityType": 1,
+        "Name": "Aoife",
+        "Text": "Come to give guidance to a new Aisling who is choosing his or her Craft?",
+        "IsPursuit": true,
+        "Pursuit": 146,
+        "Step": 9,
+        "Type": 2,
+        "Choices": [
+          {
+            "Text": "No",
+            "Pursuit": 146,
+            "Option": 1
+          },
+          {
+            "Text": "Yes",
+            "Pursuit": 146,
+            "Option": 2
+          }
+        ],
+        "Prompt": null,
+        "HasNext": true,
+        "ObservedAt": "2026-10-15T01:17:31.9871957+00:00",
+        "Items": []
+      }
+    },
+    {
+      "Name": "ReplayBlanche",
+      "Generation": 1,
+      "Revision": 4114,
+      "Connected": true,
+      "Map": 394,
+      "Gold": 13456855,
+      "Experience": 864703409,
+      "InventoryKnown": true,
+      "Dialog": null
+    },
+    {
+      "Name": "ReplayBlanche",
+      "Generation": 1,
+      "Revision": 4124,
+      "Connected": true,
+      "Map": 394,
+      "Gold": 13456855,
+      "Experience": 864703409,
+      "InventoryKnown": true,
+      "Dialog": null
+    },
+    {
+      "Name": "ReplayBlanche",
+      "Generation": 1,
+      "Revision": 4125,
+      "Connected": true,
+      "Map": 395,
+      "Gold": 13456855,
+      "Experience": 864703409,
+      "InventoryKnown": true,
+      "Dialog": null
+    },
+    {
+      "Name": "ReplayBlanche",
+      "Generation": 1,
+      "Revision": 4159,
+      "Connected": true,
+      "Map": 395,
+      "Gold": 13456855,
+      "Experience": 864703409,
+      "InventoryKnown": true,
+      "Dialog": null
+    },
+    {
+      "Name": "ReplayBlanche",
+      "Generation": 1,
+      "Revision": 4160,
+      "Connected": true,
+      "Map": 399,
+      "Gold": 13456855,
+      "Experience": 864703409,
+      "InventoryKnown": true,
+      "Dialog": null
+    },
+    {
+      "Name": "ReplayBlanche",
+      "Generation": 1,
+      "Revision": 4196,
+      "Connected": true,
+      "Map": 399,
+      "Gold": 13456855,
+      "Experience": 864703409,
+      "InventoryKnown": true,
+      "Dialog": null
+    },
+    {
+      "Name": "ReplayBlanche",
+      "Generation": 1,
+      "Revision": 4197,
+      "Connected": true,
+      "Map": 343,
+      "Gold": 13456855,
+      "Experience": 864703409,
+      "InventoryKnown": true,
+      "Dialog": null
+    },
+    {
+      "Name": "ReplayBlanche",
+      "Generation": 1,
+      "Revision": 4211,
+      "Connected": true,
+      "Map": 343,
+      "Gold": 13456855,
+      "Experience": 864703409,
+      "InventoryKnown": true,
+      "Dialog": null
+    },
+    {
+      "Name": "ReplayBlanche",
+      "Generation": 1,
+      "Revision": 4212,
+      "Connected": true,
+      "Map": 344,
+      "Gold": 13456855,
+      "Experience": 864703409,
+      "InventoryKnown": true,
+      "Dialog": null
+    },
+    {
+      "Name": "ReplayBlanche",
+      "Generation": 1,
+      "Revision": 4245,
+      "Connected": true,
+      "Map": 344,
+      "Gold": 13456855,
+      "Experience": 864703409,
+      "InventoryKnown": true,
+      "Dialog": null
+    },
+    {
+      "Name": "ReplayBlanche",
+      "Generation": 1,
+      "Revision": 4246,
+      "Connected": true,
+      "Map": 346,
+      "Gold": 13456855,
+      "Experience": 864703409,
+      "InventoryKnown": true,
+      "Dialog": null
+    },
+    {
+      "Name": "ReplayBlanche",
+      "Generation": 1,
+      "Revision": 4251,
+      "Connected": true,
+      "Map": 346,
+      "Gold": 13456855,
+      "Experience": 864703409,
+      "InventoryKnown": true,
+      "Dialog": null
+    },
+    {
+      "Name": "ReplayBlanche",
+      "Generation": 1,
+      "Revision": 4252,
+      "Connected": true,
+      "Map": 346,
+      "Gold": 13456855,
+      "Experience": 864703409,
+      "InventoryKnown": true,
+      "Dialog": {
+        "Generation": 1,
+        "Revision": 4252,
+        "EntityId": 6517,
+        "EntityType": 1,
+        "Name": "Keefe",
+        "Text": "Hello.  What can I do for you?",
+        "IsPursuit": false,
+        "Pursuit": 0,
+        "Step": 0,
+        "Type": 0,
+        "Choices": [
+          {
+            "Text": "Rogue",
+            "Pursuit": 1185,
+            "Option": 1
+          },
+          {
+            "Text": "Guide",
+            "Pursuit": 1189,
+            "Option": 2
+          },
+          {
+            "Text": "I seek answers...",
+            "Pursuit": 2125,
+            "Option": 3
+          }
+        ],
+        "Prompt": null,
+        "HasNext": false,
+        "ObservedAt": "2026-10-15T01:18:10.5193672+00:00",
+        "Items": []
+      }
+    },
+    {
+      "Name": "ReplayBlanche",
+      "Generation": 1,
+      "Revision": 4254,
+      "Connected": true,
+      "Map": 346,
+      "Gold": 13456855,
+      "Experience": 864703409,
+      "InventoryKnown": true,
+      "Dialog": {
+        "Generation": 1,
+        "Revision": 4252,
+        "EntityId": 6517,
+        "EntityType": 1,
+        "Name": "Keefe",
+        "Text": "Hello.  What can I do for you?",
+        "IsPursuit": false,
+        "Pursuit": 0,
+        "Step": 0,
+        "Type": 0,
+        "Choices": [
+          {
+            "Text": "Rogue",
+            "Pursuit": 1185,
+            "Option": 1
+          },
+          {
+            "Text": "Guide",
+            "Pursuit": 1189,
+            "Option": 2
+          },
+          {
+            "Text": "I seek answers...",
+            "Pursuit": 2125,
+            "Option": 3
+          }
+        ],
+        "Prompt": null,
+        "HasNext": false,
+        "ObservedAt": "2026-10-15T01:18:10.5193672+00:00",
+        "Items": []
+      }
+    },
+    {
+      "Name": "ReplayBlanche",
+      "Generation": 1,
+      "Revision": 4255,
+      "Connected": true,
+      "Map": 346,
+      "Gold": 13456855,
+      "Experience": 864703409,
+      "InventoryKnown": true,
+      "Dialog": {
+        "Generation": 1,
+        "Revision": 4255,
+        "EntityId": 6517,
+        "EntityType": 1,
+        "Name": "Keefe",
+        "Text": "What kind of answers?",
+        "IsPursuit": true,
+        "Pursuit": 1101,
+        "Step": 3,
+        "Type": 2,
+        "Choices": [
+          {
+            "Text": "I seek answers from Fiosachd.",
+            "Pursuit": 1101,
+            "Option": 1
+          }
+        ],
+        "Prompt": null,
+        "HasNext": true,
+        "ObservedAt": "2026-10-15T01:18:27.0273215+00:00",
+        "Items": []
+      }
+    },
+    {
+      "Name": "ReplayBlanche",
+      "Generation": 1,
+      "Revision": 4256,
+      "Connected": true,
+      "Map": 346,
+      "Gold": 13456855,
+      "Experience": 864703409,
+      "InventoryKnown": true,
+      "Dialog": {
+        "Generation": 1,
+        "Revision": 4256,
+        "EntityId": 6517,
+        "EntityType": 1,
+        "Name": "Keefe",
+        "Text": "You address your questions to a god directly? What got into your mind, Aisling? The doubt-solving god is Luathas, not me.",
+        "IsPursuit": true,
+        "Pursuit": 1101,
+        "Step": 7,
+        "Type": 2,
+        "Choices": [
+          {
+            "Text": "So you will not tell me of the cap?",
+            "Pursuit": 1101,
+            "Option": 1
+          }
+        ],
+        "Prompt": null,
+        "HasNext": true,
+        "ObservedAt": "2026-10-15T01:18:30.0326576+00:00",
+        "Items": []
+      }
+    },
+    {
+      "Name": "ReplayBlanche",
+      "Generation": 1,
+      "Revision": 4257,
+      "Connected": true,
+      "Map": 346,
+      "Gold": 13456855,
+      "Experience": 864703409,
+      "InventoryKnown": true,
+      "Dialog": {
+        "Generation": 1,
+        "Revision": 4257,
+        "EntityId": 6517,
+        "EntityType": 1,
+        "Name": "Keefe",
+        "Text": "Tell you? That is not my problem. I make sure what is supposed to remain hidden, remains. Sometimes I am a bit late, but I can always take it back and hide it somewhere else. I am the God of Chance, things usually work out for me, one way or the other. But I am saying too much. Leave Aisling, I have no further business with you.",
+        "IsPursuit": true,
+        "Pursuit": 1101,
+        "Step": 11,
+        "Type": 0,
+        "Choices": [],
+        "Prompt": null,
+        "HasNext": true,
+        "ObservedAt": "2026-10-15T01:18:32.531577+00:00",
+        "Items": []
+      }
+    },
+    {
+      "Name": "ReplayBlanche",
+      "Generation": 1,
+      "Revision": 4258,
+      "Connected": true,
+      "Map": 346,
+      "Gold": 13456855,
+      "Experience": 864703409,
+      "InventoryKnown": true,
+      "Dialog": null
+    },
+    {
+      "Name": "ReplayBlanche",
+      "Generation": 1,
+      "Revision": 4258,
+      "Connected": true,
+      "Map": 346,
+      "Gold": 13456855,
+      "Experience": 864703409,
+      "InventoryKnown": true,
+      "Dialog": null
+    },
+    {
+      "Name": "ReplayBlanche",
+      "Generation": 1,
+      "Revision": 4259,
+      "Connected": true,
+      "Map": 344,
+      "Gold": 13456855,
+      "Experience": 864703409,
+      "InventoryKnown": true,
+      "Dialog": null
+    },
+    {
+      "Name": "ReplayBlanche",
+      "Generation": 1,
+      "Revision": 4292,
+      "Connected": true,
+      "Map": 344,
+      "Gold": 13456855,
+      "Experience": 864703409,
+      "InventoryKnown": true,
+      "Dialog": null
+    },
+    {
+      "Name": "ReplayBlanche",
+      "Generation": 1,
+      "Revision": 4293,
+      "Connected": true,
+      "Map": 343,
+      "Gold": 13456855,
+      "Experience": 864703409,
+      "InventoryKnown": true,
+      "Dialog": null
+    },
+    {
+      "Name": "ReplayBlanche",
+      "Generation": 1,
+      "Revision": 4306,
+      "Connected": true,
+      "Map": 343,
+      "Gold": 13456855,
+      "Experience": 864703409,
+      "InventoryKnown": true,
+      "Dialog": null
+    },
+    {
+      "Name": "ReplayBlanche",
+      "Generation": 1,
+      "Revision": 4307,
+      "Connected": true,
+      "Map": 399,
+      "Gold": 13456855,
+      "Experience": 864703409,
+      "InventoryKnown": true,
+      "Dialog": null
+    },
+    {
+      "Name": "ReplayBlanche",
+      "Generation": 1,
+      "Revision": 4343,
+      "Connected": true,
+      "Map": 399,
+      "Gold": 13456855,
+      "Experience": 864703409,
+      "InventoryKnown": true,
+      "Dialog": null
+    },
+    {
+      "Name": "ReplayBlanche",
+      "Generation": 1,
+      "Revision": 4344,
+      "Connected": true,
+      "Map": 395,
+      "Gold": 13456855,
+      "Experience": 864703409,
+      "InventoryKnown": true,
+      "Dialog": null
+    },
+    {
+      "Name": "ReplayBlanche",
+      "Generation": 1,
+      "Revision": 4360,
+      "Connected": true,
+      "Map": 395,
+      "Gold": 13456855,
+      "Experience": 864703409,
+      "InventoryKnown": true,
+      "Dialog": null
+    },
+    {
+      "Name": "ReplayBlanche",
+      "Generation": 1,
+      "Revision": 4361,
+      "Connected": true,
+      "Map": 396,
+      "Gold": 13456855,
+      "Experience": 864703409,
+      "InventoryKnown": true,
+      "Dialog": null
+    },
+    {
+      "Name": "ReplayBlanche",
+      "Generation": 1,
+      "Revision": 4393,
+      "Connected": true,
+      "Map": 396,
+      "Gold": 13456855,
+      "Experience": 864703409,
+      "InventoryKnown": true,
+      "Dialog": null
+    },
+    {
+      "Name": "ReplayBlanche",
+      "Generation": 1,
+      "Revision": 4394,
+      "Connected": true,
+      "Map": 397,
+      "Gold": 13456855,
+      "Experience": 864703409,
+      "InventoryKnown": true,
+      "Dialog": null
+    },
+    {
+      "Name": "ReplayBlanche",
+      "Generation": 1,
+      "Revision": 4429,
+      "Connected": true,
+      "Map": 397,
+      "Gold": 13456855,
+      "Experience": 864703409,
+      "InventoryKnown": true,
+      "Dialog": null
+    },
+    {
+      "Name": "ReplayBlanche",
+      "Generation": 1,
+      "Revision": 4430,
+      "Connected": true,
+      "Map": 398,
+      "Gold": 13456855,
+      "Experience": 864703409,
+      "InventoryKnown": true,
+      "Dialog": null
+    },
+    {
+      "Name": "ReplayBlanche",
+      "Generation": 1,
+      "Revision": 4435,
+      "Connected": true,
+      "Map": 398,
+      "Gold": 13456855,
+      "Experience": 864703409,
+      "InventoryKnown": true,
+      "Dialog": null
+    },
+    {
+      "Name": "ReplayBlanche",
+      "Generation": 1,
+      "Revision": 4436,
+      "Connected": true,
+      "Map": 398,
+      "Gold": 13456855,
+      "Experience": 864703409,
+      "InventoryKnown": true,
+      "Dialog": {
+        "Generation": 1,
+        "Revision": 4436,
+        "EntityId": 6519,
+        "EntityType": 1,
+        "Name": "Logan",
+        "Text": "Hello.  What can I do for you?",
+        "IsPursuit": false,
+        "Pursuit": 0,
+        "Step": 0,
+        "Type": 0,
+        "Choices": [
+          {
+            "Text": "Wizard",
+            "Pursuit": 1186,
+            "Option": 1
+          },
+          {
+            "Text": "Guide",
+            "Pursuit": 1189,
+            "Option": 2
+          },
+          {
+            "Text": "Luathas, the Cap",
+            "Pursuit": 2128,
+            "Option": 3
+          }
+        ],
+        "Prompt": null,
+        "HasNext": false,
+        "ObservedAt": "2026-10-15T01:18:59.0540375+00:00",
+        "Items": []
+      }
+    },
+    {
+      "Name": "ReplayBlanche",
+      "Generation": 1,
+      "Revision": 4439,
+      "Connected": true,
+      "Map": 398,
+      "Gold": 13456855,
+      "Experience": 864703409,
+      "InventoryKnown": true,
+      "Dialog": {
+        "Generation": 1,
+        "Revision": 4436,
+        "EntityId": 6519,
+        "EntityType": 1,
+        "Name": "Logan",
+        "Text": "Hello.  What can I do for you?",
+        "IsPursuit": false,
+        "Pursuit": 0,
+        "Step": 0,
+        "Type": 0,
+        "Choices": [
+          {
+            "Text": "Wizard",
+            "Pursuit": 1186,
+            "Option": 1
+          },
+          {
+            "Text": "Guide",
+            "Pursuit": 1189,
+            "Option": 2
+          },
+          {
+            "Text": "Luathas, the Cap",
+            "Pursuit": 2128,
+            "Option": 3
+          }
+        ],
+        "Prompt": null,
+        "HasNext": false,
+        "ObservedAt": "2026-10-15T01:18:59.0540375+00:00",
+        "Items": []
+      }
+    },
+    {
+      "Name": "ReplayBlanche",
+      "Generation": 1,
+      "Revision": 4440,
+      "Connected": true,
+      "Map": 397,
+      "Gold": 13456855,
+      "Experience": 864703409,
+      "InventoryKnown": true,
+      "Dialog": null
+    },
+    {
+      "Name": "ReplayBlanche",
+      "Generation": 1,
+      "Revision": 4443,
+      "Connected": true,
+      "Map": 397,
+      "Gold": 13456855,
+      "Experience": 864703409,
+      "InventoryKnown": true,
+      "Dialog": null
+    },
+    {
+      "Name": "ReplayBlanche",
+      "Generation": 1,
+      "Revision": 4444,
+      "Connected": true,
+      "Map": 398,
+      "Gold": 13456855,
+      "Experience": 864703409,
+      "InventoryKnown": true,
+      "Dialog": null
+    },
+    {
+      "Name": "ReplayBlanche",
+      "Generation": 1,
+      "Revision": 4451,
+      "Connected": true,
+      "Map": 398,
+      "Gold": 13456855,
+      "Experience": 864703409,
+      "InventoryKnown": true,
+      "Dialog": null
+    },
+    {
+      "Name": "ReplayBlanche",
+      "Generation": 1,
+      "Revision": 4454,
+      "Connected": true,
+      "Map": 398,
+      "Gold": 13456855,
+      "Experience": 864703409,
+      "InventoryKnown": true,
+      "Dialog": {
+        "Generation": 1,
+        "Revision": 4454,
+        "EntityId": 6519,
+        "EntityType": 1,
+        "Name": "Logan",
+        "Text": "Hello.  What can I do for you?",
+        "IsPursuit": false,
+        "Pursuit": 0,
+        "Step": 0,
+        "Type": 0,
+        "Choices": [
+          {
+            "Text": "Wizard",
+            "Pursuit": 1186,
+            "Option": 1
+          },
+          {
+            "Text": "Guide",
+            "Pursuit": 1189,
+            "Option": 2
+          },
+          {
+            "Text": "Luathas, the Cap",
+            "Pursuit": 2128,
+            "Option": 3
+          }
+        ],
+        "Prompt": null,
+        "HasNext": false,
+        "ObservedAt": "2026-10-15T01:20:52.6512677+00:00",
+        "Items": []
+      }
+    },
+    {
+      "Name": "ReplayBlanche",
+      "Generation": 1,
+      "Revision": 4455,
+      "Connected": true,
+      "Map": 398,
+      "Gold": 13456855,
+      "Experience": 864703409,
+      "InventoryKnown": true,
+      "Dialog": {
+        "Generation": 1,
+        "Revision": 4455,
+        "EntityId": 6519,
+        "EntityType": 1,
+        "Name": "Logan",
+        "Text": "You have come far in your search, have you not? But more awaits ahead of you.",
+        "IsPursuit": true,
+        "Pursuit": 1104,
+        "Step": 3,
+        "Type": 2,
+        "Choices": [
+          {
+            "Text": "I am eager to continue, I wish to help the boy.",
+            "Pursuit": 1104,
+            "Option": 1
+          },
+          {
+            "Text": "More!? But I have been to all corners of Temuair already!",
+            "Pursuit": 1104,
+            "Option": 2
+          }
+        ],
+        "Prompt": null,
+        "HasNext": true,
+        "ObservedAt": "2026-10-15T01:20:54.6436703+00:00",
+        "Items": []
+      }
+    },
+    {
+      "Name": "ReplayBlanche",
+      "Generation": 1,
+      "Revision": 4456,
+      "Connected": true,
+      "Map": 398,
+      "Gold": 13456855,
+      "Experience": 864703409,
+      "InventoryKnown": true,
+      "Dialog": {
+        "Generation": 1,
+        "Revision": 4456,
+        "EntityId": 6519,
+        "EntityType": 1,
+        "Name": "Logan",
+        "Text": "Yes, the boy in Abel. I am surprised you still remember he was the first step of this endless walk. Helping the boy is the largest of the tasks. ",
+        "IsPursuit": true,
+        "Pursuit": 1104,
+        "Step": 8,
+        "Type": 0,
+        "Choices": [],
+        "Prompt": null,
+        "HasNext": true,
+        "ObservedAt": "2026-10-15T01:20:56.6489752+00:00",
+        "Items": []
+      }
+    },
+    {
+      "Name": "ReplayBlanche",
+      "Generation": 1,
+      "Revision": 4457,
+      "Connected": true,
+      "Map": 398,
+      "Gold": 13456855,
+      "Experience": 864703409,
+      "InventoryKnown": true,
+      "Dialog": {
+        "Generation": 1,
+        "Revision": 4457,
+        "EntityId": 6519,
+        "EntityType": 1,
+        "Name": "Logan",
+        "Text": "There are many others.",
+        "IsPursuit": true,
+        "Pursuit": 1104,
+        "Step": 9,
+        "Type": 2,
+        "Choices": [
+          {
+            "Text": "What will I gain in the end?",
+            "Pursuit": 1104,
+            "Option": 1
+          },
+          {
+            "Text": "What must I do next?",
+            "Pursuit": 1104,
+            "Option": 2
+          }
+        ],
+        "Prompt": null,
+        "HasNext": true,
+        "ObservedAt": "2026-10-15T01:20:57.1486738+00:00",
+        "Items": []
+      }
+    },
+    {
+      "Name": "ReplayBlanche",
+      "Generation": 1,
+      "Revision": 4458,
+      "Connected": true,
+      "Map": 398,
+      "Gold": 13456855,
+      "Experience": 864703409,
+      "InventoryKnown": true,
+      "Dialog": {
+        "Generation": 1,
+        "Revision": 4458,
+        "EntityId": 6519,
+        "EntityType": 1,
+        "Name": "Logan",
+        "Text": "You must first track your prize's origins. You are close. The tortuous path that you seek lies in damp marshes beyond these mountains. Look for information there, but remember, as Deoch has great goodness behind his dark figure, important information may be hidden behind what seems ignorant.",
+        "IsPursuit": true,
+        "Pursuit": 1104,
+        "Step": 21,
+        "Type": 0,
+        "Choices": [],
+        "Prompt": null,
+        "HasNext": true,
+        "ObservedAt": "2026-10-15T01:20:59.1565289+00:00",
+        "Items": []
+      }
+    },
+    {
+      "Name": "ReplayBlanche",
+      "Generation": 1,
+      "Revision": 4459,
+      "Connected": true,
+      "Map": 398,
+      "Gold": 13456855,
+      "Experience": 864703409,
+      "InventoryKnown": true,
+      "Dialog": {
+        "Generation": 1,
+        "Revision": 4459,
+        "EntityId": 6519,
+        "EntityType": 1,
+        "Name": "Logan",
+        "Text": "My role in your epic pursuit is done. Go now, may the Light of Danaan guide you.",
+        "IsPursuit": true,
+        "Pursuit": 1104,
+        "Step": 22,
+        "Type": 0,
+        "Choices": [],
+        "Prompt": null,
+        "HasNext": true,
+        "ObservedAt": "2026-10-15T01:20:59.6578123+00:00",
+        "Items": []
+      }
+    },
+    {
+      "Name": "ReplayBlanche",
+      "Generation": 1,
+      "Revision": 4460,
+      "Connected": true,
+      "Map": 398,
+      "Gold": 13456855,
+      "Experience": 864703409,
+      "InventoryKnown": true,
+      "Dialog": null
+    },
+    {
+      "Name": "ReplayBlanche",
+      "Generation": 1,
+      "Revision": 4466,
+      "Connected": true,
+      "Map": 398,
+      "Gold": 13456855,
+      "Experience": 864703409,
+      "InventoryKnown": true,
+      "Dialog": null
+    },
+    {
+      "Name": "ReplayBlanche",
+      "Generation": 1,
+      "Revision": 4467,
+      "Connected": true,
+      "Map": 397,
+      "Gold": 13456855,
+      "Experience": 864703409,
+      "InventoryKnown": true,
+      "Dialog": null
+    },
+    {
+      "Name": "ReplayBlanche",
+      "Generation": 1,
+      "Revision": 4495,
+      "Connected": true,
+      "Map": 397,
+      "Gold": 13456855,
+      "Experience": 864703409,
+      "InventoryKnown": true,
+      "Dialog": null
+    },
+    {
+      "Name": "ReplayBlanche",
+      "Generation": 1,
+      "Revision": 4496,
+      "Connected": true,
+      "Map": 342,
+      "Gold": 13456855,
+      "Experience": 864703409,
+      "InventoryKnown": true,
+      "Dialog": null
+    },
+    {
+      "Name": "ReplayBlanche",
+      "Generation": 1,
+      "Revision": 4527,
+      "Connected": true,
+      "Map": 342,
+      "Gold": 13456855,
+      "Experience": 864703409,
+      "InventoryKnown": true,
+      "Dialog": null
+    },
+    {
+      "Name": "ReplayBlanche",
+      "Generation": 1,
+      "Revision": 4528,
+      "Connected": true,
+      "Map": 346,
+      "Gold": 13456855,
+      "Experience": 864703409,
+      "InventoryKnown": true,
+      "Dialog": null
+    },
+    {
+      "Name": "ReplayBlanche",
+      "Generation": 1,
+      "Revision": 4541,
+      "Connected": true,
+      "Map": 346,
+      "Gold": 13456855,
+      "Experience": 864703409,
+      "InventoryKnown": true,
+      "Dialog": null
+    },
+    {
+      "Name": "ReplayBlanche",
+      "Generation": 1,
+      "Revision": 4542,
+      "Connected": true,
+      "Map": 344,
+      "Gold": 13456855,
+      "Experience": 864703409,
+      "InventoryKnown": true,
+      "Dialog": null
+    },
+    {
+      "Name": "ReplayBlanche",
+      "Generation": 1,
+      "Revision": 4575,
+      "Connected": true,
+      "Map": 344,
+      "Gold": 13456855,
+      "Experience": 864703409,
+      "InventoryKnown": true,
+      "Dialog": null
+    },
+    {
+      "Name": "ReplayBlanche",
+      "Generation": 1,
+      "Revision": 4576,
+      "Connected": true,
+      "Map": 343,
+      "Gold": 13456855,
+      "Experience": 864703409,
+      "InventoryKnown": true,
+      "Dialog": null
+    },
+    {
+      "Name": "ReplayBlanche",
+      "Generation": 1,
+      "Revision": 4589,
+      "Connected": true,
+      "Map": 343,
+      "Gold": 13456855,
+      "Experience": 864703409,
+      "InventoryKnown": true,
+      "Dialog": null
+    },
+    {
+      "Name": "ReplayBlanche",
+      "Generation": 1,
+      "Revision": 4590,
+      "Connected": true,
+      "Map": 399,
+      "Gold": 13456855,
+      "Experience": 864703409,
+      "InventoryKnown": true,
+      "Dialog": null
+    },
+    {
+      "Name": "ReplayBlanche",
+      "Generation": 1,
+      "Revision": 4626,
+      "Connected": true,
+      "Map": 399,
+      "Gold": 13456855,
+      "Experience": 864703409,
+      "InventoryKnown": true,
+      "Dialog": null
+    },
+    {
+      "Name": "ReplayBlanche",
+      "Generation": 1,
+      "Revision": 4627,
+      "Connected": true,
+      "Map": 395,
+      "Gold": 13456855,
+      "Experience": 864703409,
+      "InventoryKnown": true,
+      "Dialog": null
+    },
+    {
+      "Name": "ReplayBlanche",
+      "Generation": 1,
+      "Revision": 4664,
+      "Connected": true,
+      "Map": 395,
+      "Gold": 13456855,
+      "Experience": 864703409,
+      "InventoryKnown": true,
+      "Dialog": null
+    },
+    {
+      "Name": "ReplayBlanche",
+      "Generation": 1,
+      "Revision": 4665,
+      "Connected": true,
+      "Map": 394,
+      "Gold": 13456855,
+      "Experience": 864703409,
+      "InventoryKnown": true,
+      "Dialog": null
+    },
+    {
+      "Name": "ReplayBlanche",
+      "Generation": 1,
+      "Revision": 4678,
+      "Connected": true,
+      "Map": 394,
+      "Gold": 13456855,
+      "Experience": 864703409,
+      "InventoryKnown": true,
+      "Dialog": null
+    },
+    {
+      "Name": "ReplayBlanche",
+      "Generation": 1,
+      "Revision": 4679,
+      "Connected": true,
+      "Map": 393,
+      "Gold": 13456855,
+      "Experience": 864703409,
+      "InventoryKnown": true,
+      "Dialog": null
+    },
+    {
+      "Name": "ReplayBlanche",
+      "Generation": 1,
+      "Revision": 4697,
+      "Connected": true,
+      "Map": 393,
+      "Gold": 13456855,
+      "Experience": 864703409,
+      "InventoryKnown": true,
+      "Dialog": null
+    },
+    {
+      "Name": "ReplayBlanche",
+      "Generation": 1,
+      "Revision": 4698,
+      "Connected": true,
+      "Map": 500,
+      "Gold": 13456855,
+      "Experience": 864703409,
+      "InventoryKnown": true,
+      "Dialog": null
+    },
+    {
+      "Name": "ReplayBlanche",
+      "Generation": 1,
+      "Revision": 4722,
+      "Connected": true,
+      "Map": 500,
+      "Gold": 13456855,
+      "Experience": 864703409,
+      "InventoryKnown": true,
+      "Dialog": null
+    },
+    {
+      "Name": "ReplayBlanche",
+      "Generation": 1,
+      "Revision": 4723,
+      "Connected": true,
+      "Map": 3006,
+      "Gold": 13456855,
+      "Experience": 864703409,
+      "InventoryKnown": true,
+      "Dialog": null
+    },
+    {
+      "Name": "ReplayBlanche",
+      "Generation": 1,
+      "Revision": 4771,
+      "Connected": true,
+      "Map": 3006,
+      "Gold": 13456855,
+      "Experience": 864703409,
+      "InventoryKnown": true,
+      "Dialog": null
+    },
+    {
+      "Name": "ReplayBlanche",
+      "Generation": 1,
+      "Revision": 4772,
+      "Connected": true,
+      "Map": 3037,
+      "Gold": 13456855,
+      "Experience": 864703409,
+      "InventoryKnown": true,
+      "Dialog": null
+    },
+    {
+      "Name": "ReplayBlanche",
+      "Generation": 1,
+      "Revision": 4785,
+      "Connected": true,
+      "Map": 3037,
+      "Gold": 13456855,
+      "Experience": 864703409,
+      "InventoryKnown": true,
+      "Dialog": null
+    },
+    {
+      "Name": "ReplayBlanche",
+      "Generation": 1,
+      "Revision": 4786,
+      "Connected": true,
+      "Map": 3071,
+      "Gold": 13456855,
+      "Experience": 864703409,
+      "InventoryKnown": true,
+      "Dialog": null
+    },
+    {
+      "Name": "ReplayBlanche",
+      "Generation": 1,
+      "Revision": 4828,
+      "Connected": true,
+      "Map": 3071,
+      "Gold": 13456855,
+      "Experience": 864703409,
+      "InventoryKnown": true,
+      "Dialog": null
+    },
+    {
+      "Name": "ReplayBlanche",
+      "Generation": 1,
+      "Revision": 4829,
+      "Connected": true,
+      "Map": 3071,
+      "Gold": 13456855,
+      "Experience": 864703409,
+      "InventoryKnown": true,
+      "Dialog": {
+        "Generation": 1,
+        "Revision": 4829,
+        "EntityId": 7081,
+        "EntityType": 1,
+        "Name": "Beggar",
+        "Text": "I'm a busy man, how much is my time worth to you?",
+        "IsPursuit": true,
+        "Pursuit": 1105,
+        "Step": 3,
+        "Type": 2,
+        "Choices": [
+          {
+            "Text": "Nevermind",
+            "Pursuit": 1105,
+            "Option": 1
+          },
+          {
+            "Text": "How about 1,000 gold coins?",
+            "Pursuit": 1105,
+            "Option": 2
+          }
+        ],
+        "Prompt": null,
+        "HasNext": true,
+        "ObservedAt": "2026-10-15T01:23:04.243524+00:00",
+        "Items": []
+      }
+    },
+    {
+      "Name": "ReplayBlanche",
+      "Generation": 1,
+      "Revision": 5702,
+      "Connected": true,
+      "Map": 3071,
+      "Gold": 13456855,
+      "Experience": 864703409,
+      "InventoryKnown": true,
+      "Dialog": {
+        "Generation": 1,
+        "Revision": 4829,
+        "EntityId": 7081,
+        "EntityType": 1,
+        "Name": "Beggar",
+        "Text": "I'm a busy man, how much is my time worth to you?",
+        "IsPursuit": true,
+        "Pursuit": 1105,
+        "Step": 3,
+        "Type": 2,
+        "Choices": [
+          {
+            "Text": "Nevermind",
+            "Pursuit": 1105,
+            "Option": 1
+          },
+          {
+            "Text": "How about 1,000 gold coins?",
+            "Pursuit": 1105,
+            "Option": 2
+          }
+        ],
+        "Prompt": null,
+        "HasNext": true,
+        "ObservedAt": "2026-10-15T01:23:04.243524+00:00",
+        "Items": []
+      }
+    },
+    {
+      "Name": "ReplayBlanche",
+      "Generation": 1,
+      "Revision": 5703,
+      "Connected": true,
+      "Map": 3071,
+      "Gold": 13456855,
+      "Experience": 864703409,
+      "InventoryKnown": true,
+      "Dialog": null
+    },
+    {
+      "Name": "ReplayBlanche",
+      "Generation": 1,
+      "Revision": 6255,
+      "Connected": true,
+      "Map": 3071,
+      "Gold": 13456855,
+      "Experience": 864703409,
+      "InventoryKnown": true,
+      "Dialog": null
+    }
+  ],
+  "Actions": [
+    {
+      "Time": "2026-10-15T01:04:05.0908067+00:00",
+      "Character": "ReplayBlanche",
+      "Generation": 1,
+      "Revision": 3741,
+      "Kind": "choose",
+      "Selection": "Where did you get it?",
+      "Dialog": {
+        "Generation": 1,
+        "Revision": 3741,
+        "EntityId": 8002,
+        "EntityType": 1,
+        "Name": "Blanchefleur",
+        "Text": "The burden of these cold walls seems lighter when I put it on.",
+        "IsPursuit": true,
+        "Pursuit": 1096,
+        "Step": 48,
+        "Type": 2,
+        "Choices": [
+          {
+            "Text": "Give me the cap.",
+            "Pursuit": 1096,
+            "Option": 1
+          },
+          {
+            "Text": "Where did you get it?",
+            "Pursuit": 1096,
+            "Option": 2
+          }
+        ],
+        "Prompt": null,
+        "HasNext": true,
+        "ObservedAt": "2026-10-15T01:04:04.882589+00:00",
+        "Items": []
+      },
+      "Branches": 0,
+      "Experience": 864703409
+    },
+    {
+      "Time": "2026-10-15T01:10:55.8479128+00:00",
+      "Character": "ReplayBlanche",
+      "Generation": 1,
+      "Revision": 3795,
+      "Kind": "next",
+      "Selection": null,
+      "Dialog": {
+        "Generation": 1,
+        "Revision": 3743,
+        "EntityId": 8002,
+        "EntityType": 1,
+        "Name": "Blanchefleur",
+        "Text": "It was a gift, but I do not remember from whom. I do remember a sailor that came to visit me the other day. He said it looked like something they have a tale about over in Abel. Something involving Fiosachd. But it sounded too much like a silly big city legend, and he was such a bad storyteller...Besides, he brought no gifts from the outside world. ",
+        "IsPursuit": true,
+        "Pursuit": 1096,
+        "Step": 73,
+        "Type": 0,
+        "Choices": [],
+        "Prompt": null,
+        "HasNext": true,
+        "ObservedAt": "2026-10-15T01:04:05.3729252+00:00",
+        "Items": []
+      },
+      "Branches": 0,
+      "Experience": 864703409
+    },
+    {
+      "Time": "2026-10-15T01:15:44.7650231+00:00",
+      "Character": "ReplayBlanche",
+      "Generation": 1,
+      "Revision": 3830,
+      "Kind": "choose",
+      "Selection": "Something involving Fiosachd?",
+      "Dialog": {
+        "Generation": 1,
+        "Revision": 3796,
+        "EntityId": 8002,
+        "EntityType": 1,
+        "Name": "Blanchefleur",
+        "Text": "I paid little attention to him.",
+        "IsPursuit": true,
+        "Pursuit": 1096,
+        "Step": 74,
+        "Type": 2,
+        "Choices": [
+          {
+            "Text": "Something involving Fiosachd?",
+            "Pursuit": 1096,
+            "Option": 1
+          },
+          {
+            "Text": "Gifts from the outside world?",
+            "Pursuit": 1096,
+            "Option": 2
+          }
+        ],
+        "Prompt": null,
+        "HasNext": true,
+        "ObservedAt": "2026-10-15T01:10:56.1746252+00:00",
+        "Items": []
+      },
+      "Branches": 0,
+      "Experience": 864703409
+    },
+    {
+      "Time": "2026-10-15T01:15:44.8994018+00:00",
+      "Character": "ReplayBlanche",
+      "Generation": 1,
+      "Revision": 3832,
+      "Kind": "next",
+      "Selection": null,
+      "Dialog": {
+        "Generation": 1,
+        "Revision": 3832,
+        "EntityId": 8002,
+        "EntityType": 1,
+        "Name": "Blanchefleur",
+        "Text": "Yes, I just told you that. But that is all there is to it. Just to let you know, sometimes my friend Aundy comes from the temple she lives in, in Abel, and tells me stories fo the big city. I asked her about that, out of curiosity, and she did not know anything. If Fiosachd has any ties to this pretty cap of mine, and not even his Acolyte knows it, who would, other than himself? Oh well...You are an Aisling, free to travel across the world. Maybe you can find a way to ask the patron of Rogues himself.",
+        "IsPursuit": true,
+        "Pursuit": 1096,
+        "Step": 79,
+        "Type": 0,
+        "Choices": [],
+        "Prompt": null,
+        "HasNext": true,
+        "ObservedAt": "2026-10-15T01:15:44.8989509+00:00",
+        "Items": []
+      },
+      "Branches": 0,
+      "Experience": 864703409
+    },
+    {
+      "Time": "2026-10-15T01:15:45.4023553+00:00",
+      "Character": "ReplayBlanche",
+      "Generation": 1,
+      "Revision": 3833,
+      "Kind": "next",
+      "Selection": null,
+      "Dialog": {
+        "Generation": 1,
+        "Revision": 3833,
+        "EntityId": 8002,
+        "EntityType": 1,
+        "Name": "Blanchefleur",
+        "Text": "It was a gift, but I do not remember from whom. I do remember a sailor that came to visit me the other day. He said it looked like something they have a tale about over in Abel. Something involving Fiosachd. But it sounded too much like a silly big city legend, and he was such a bad storyteller...Besides, he brought no gifts from the outside world. ",
+        "IsPursuit": true,
+        "Pursuit": 1096,
+        "Step": 73,
+        "Type": 0,
+        "Choices": [],
+        "Prompt": null,
+        "HasNext": true,
+        "ObservedAt": "2026-10-15T01:15:45.4021527+00:00",
+        "Items": []
+      },
+      "Branches": 0,
+      "Experience": 864703409
+    },
+    {
+      "Time": "2026-10-15T01:16:19.3256358+00:00",
+      "Character": "ReplayBlanche",
+      "Generation": 1,
+      "Revision": 3836,
+      "Kind": "close",
+      "Selection": null,
+      "Dialog": {
+        "Generation": 1,
+        "Revision": 3834,
+        "EntityId": 8002,
+        "EntityType": 1,
+        "Name": "Blanchefleur",
+        "Text": "I paid little attention to him.",
+        "IsPursuit": true,
+        "Pursuit": 1096,
+        "Step": 74,
+        "Type": 2,
+        "Choices": [
+          {
+            "Text": "Something involving Fiosachd?",
+            "Pursuit": 1096,
+            "Option": 1
+          },
+          {
+            "Text": "Gifts from the outside world?",
+            "Pursuit": 1096,
+            "Option": 2
+          }
+        ],
+        "Prompt": null,
+        "HasNext": true,
+        "ObservedAt": "2026-10-15T01:15:47.8999922+00:00",
+        "Items": []
+      },
+      "Branches": 0,
+      "Experience": 864703409
+    },
+    {
+      "Time": "2026-10-15T01:17:31.7967681+00:00",
+      "Character": "ReplayBlanche",
+      "Generation": 1,
+      "Revision": 4110,
+      "Kind": "choose",
+      "Selection": "Guide Reception",
+      "Dialog": {
+        "Generation": 1,
+        "Revision": 4110,
+        "EntityId": 6312,
+        "EntityType": 1,
+        "Name": "Aoife",
+        "Text": "Hello.  What can I do for you?",
+        "IsPursuit": false,
+        "Pursuit": 0,
+        "Step": 0,
+        "Type": 0,
+        "Choices": [
+          {
+            "Text": "Buy",
+            "Pursuit": 64,
+            "Option": 1
+          },
+          {
+            "Text": "Sell",
+            "Pursuit": 65,
+            "Option": 2
+          },
+          {
+            "Text": "Danaan Consecration",
+            "Pursuit": 3664,
+            "Option": 3
+          },
+          {
+            "Text": "Legendary Aisling",
+            "Pursuit": 2999,
+            "Option": 4
+          },
+          {
+            "Text": "Class Dedication",
+            "Pursuit": 1948,
+            "Option": 5
+          },
+          {
+            "Text": "Guide Reception",
+            "Pursuit": 1170,
+            "Option": 6
+          },
+          {
+            "Text": "Wizard Master",
+            "Pursuit": 1690,
+            "Option": 7
+          },
+          {
+            "Text": "Master Stats",
+            "Pursuit": 1693,
+            "Option": 8
+          },
+          {
+            "Text": "((Stat Reallocation))",
+            "Pursuit": 1720,
+            "Option": 9
+          }
+        ],
+        "Prompt": null,
+        "HasNext": false,
+        "ObservedAt": "2026-10-15T01:17:22.4824929+00:00",
+        "Items": []
+      },
+      "Branches": 0,
+      "Experience": 864703409
+    },
+    {
+      "Time": "2026-10-15T01:17:48.7869611+00:00",
+      "Character": "ReplayBlanche",
+      "Generation": 1,
+      "Revision": 4111,
+      "Kind": "choose",
+      "Selection": "Yes",
+      "Dialog": {
+        "Generation": 1,
+        "Revision": 4111,
+        "EntityId": 6312,
+        "EntityType": 1,
+        "Name": "Aoife",
+        "Text": "Come to give guidance to a new Aisling who is choosing his or her Craft?",
+        "IsPursuit": true,
+        "Pursuit": 146,
+        "Step": 9,
+        "Type": 2,
+        "Choices": [
+          {
+            "Text": "No",
+            "Pursuit": 146,
+            "Option": 1
+          },
+          {
+            "Text": "Yes",
+            "Pursuit": 146,
+            "Option": 2
+          }
+        ],
+        "Prompt": null,
+        "HasNext": true,
+        "ObservedAt": "2026-10-15T01:17:31.9871957+00:00",
+        "Items": []
+      },
+      "Branches": 0,
+      "Experience": 864703409
+    },
+    {
+      "Time": "2026-10-15T01:18:26.5045601+00:00",
+      "Character": "ReplayBlanche",
+      "Generation": 1,
+      "Revision": 4254,
+      "Kind": "choose",
+      "Selection": "I seek answers...",
+      "Dialog": {
+        "Generation": 1,
+        "Revision": 4252,
+        "EntityId": 6517,
+        "EntityType": 1,
+        "Name": "Keefe",
+        "Text": "Hello.  What can I do for you?",
+        "IsPursuit": false,
+        "Pursuit": 0,
+        "Step": 0,
+        "Type": 0,
+        "Choices": [
+          {
+            "Text": "Rogue",
+            "Pursuit": 1185,
+            "Option": 1
+          },
+          {
+            "Text": "Guide",
+            "Pursuit": 1189,
+            "Option": 2
+          },
+          {
+            "Text": "I seek answers...",
+            "Pursuit": 2125,
+            "Option": 3
+          }
+        ],
+        "Prompt": null,
+        "HasNext": false,
+        "ObservedAt": "2026-10-15T01:18:10.5193672+00:00",
+        "Items": []
+      },
+      "Branches": 0,
+      "Experience": 864703409
+    },
+    {
+      "Time": "2026-10-15T01:18:29.6877859+00:00",
+      "Character": "ReplayBlanche",
+      "Generation": 1,
+      "Revision": 4255,
+      "Kind": "choose",
+      "Selection": "I seek answers from Fiosachd.",
+      "Dialog": {
+        "Generation": 1,
+        "Revision": 4255,
+        "EntityId": 6517,
+        "EntityType": 1,
+        "Name": "Keefe",
+        "Text": "What kind of answers?",
+        "IsPursuit": true,
+        "Pursuit": 1101,
+        "Step": 3,
+        "Type": 2,
+        "Choices": [
+          {
+            "Text": "I seek answers from Fiosachd.",
+            "Pursuit": 1101,
+            "Option": 1
+          }
+        ],
+        "Prompt": null,
+        "HasNext": true,
+        "ObservedAt": "2026-10-15T01:18:27.0273215+00:00",
+        "Items": []
+      },
+      "Branches": 0,
+      "Experience": 864703409
+    },
+    {
+      "Time": "2026-10-15T01:18:31.9737264+00:00",
+      "Character": "ReplayBlanche",
+      "Generation": 1,
+      "Revision": 4256,
+      "Kind": "choose",
+      "Selection": "So you will not tell me of the cap?",
+      "Dialog": {
+        "Generation": 1,
+        "Revision": 4256,
+        "EntityId": 6517,
+        "EntityType": 1,
+        "Name": "Keefe",
+        "Text": "You address your questions to a god directly? What got into your mind, Aisling? The doubt-solving god is Luathas, not me.",
+        "IsPursuit": true,
+        "Pursuit": 1101,
+        "Step": 7,
+        "Type": 2,
+        "Choices": [
+          {
+            "Text": "So you will not tell me of the cap?",
+            "Pursuit": 1101,
+            "Option": 1
+          }
+        ],
+        "Prompt": null,
+        "HasNext": true,
+        "ObservedAt": "2026-10-15T01:18:30.0326576+00:00",
+        "Items": []
+      },
+      "Branches": 0,
+      "Experience": 864703409
+    },
+    {
+      "Time": "2026-10-15T01:18:32.5323546+00:00",
+      "Character": "ReplayBlanche",
+      "Generation": 1,
+      "Revision": 4257,
+      "Kind": "next",
+      "Selection": null,
+      "Dialog": {
+        "Generation": 1,
+        "Revision": 4257,
+        "EntityId": 6517,
+        "EntityType": 1,
+        "Name": "Keefe",
+        "Text": "Tell you? That is not my problem. I make sure what is supposed to remain hidden, remains. Sometimes I am a bit late, but I can always take it back and hide it somewhere else. I am the God of Chance, things usually work out for me, one way or the other. But I am saying too much. Leave Aisling, I have no further business with you.",
+        "IsPursuit": true,
+        "Pursuit": 1101,
+        "Step": 11,
+        "Type": 0,
+        "Choices": [],
+        "Prompt": null,
+        "HasNext": true,
+        "ObservedAt": "2026-10-15T01:18:32.531577+00:00",
+        "Items": []
+      },
+      "Branches": 0,
+      "Experience": 864703409
+    },
+    {
+      "Time": "2026-10-15T01:20:54.5657594+00:00",
+      "Character": "ReplayBlanche",
+      "Generation": 1,
+      "Revision": 4454,
+      "Kind": "choose",
+      "Selection": "Luathas, the Cap",
+      "Dialog": {
+        "Generation": 1,
+        "Revision": 4454,
+        "EntityId": 6519,
+        "EntityType": 1,
+        "Name": "Logan",
+        "Text": "Hello.  What can I do for you?",
+        "IsPursuit": false,
+        "Pursuit": 0,
+        "Step": 0,
+        "Type": 0,
+        "Choices": [
+          {
+            "Text": "Wizard",
+            "Pursuit": 1186,
+            "Option": 1
+          },
+          {
+            "Text": "Guide",
+            "Pursuit": 1189,
+            "Option": 2
+          },
+          {
+            "Text": "Luathas, the Cap",
+            "Pursuit": 2128,
+            "Option": 3
+          }
+        ],
+        "Prompt": null,
+        "HasNext": false,
+        "ObservedAt": "2026-10-15T01:20:52.6512677+00:00",
+        "Items": []
+      },
+      "Branches": 0,
+      "Experience": 864703409
+    },
+    {
+      "Time": "2026-10-15T01:20:56.4149552+00:00",
+      "Character": "ReplayBlanche",
+      "Generation": 1,
+      "Revision": 4455,
+      "Kind": "choose",
+      "Selection": "I am eager to continue, I wish to help the boy.",
+      "Dialog": {
+        "Generation": 1,
+        "Revision": 4455,
+        "EntityId": 6519,
+        "EntityType": 1,
+        "Name": "Logan",
+        "Text": "You have come far in your search, have you not? But more awaits ahead of you.",
+        "IsPursuit": true,
+        "Pursuit": 1104,
+        "Step": 3,
+        "Type": 2,
+        "Choices": [
+          {
+            "Text": "I am eager to continue, I wish to help the boy.",
+            "Pursuit": 1104,
+            "Option": 1
+          },
+          {
+            "Text": "More!? But I have been to all corners of Temuair already!",
+            "Pursuit": 1104,
+            "Option": 2
+          }
+        ],
+        "Prompt": null,
+        "HasNext": true,
+        "ObservedAt": "2026-10-15T01:20:54.6436703+00:00",
+        "Items": []
+      },
+      "Branches": 0,
+      "Experience": 864703409
+    },
+    {
+      "Time": "2026-10-15T01:20:56.649402+00:00",
+      "Character": "ReplayBlanche",
+      "Generation": 1,
+      "Revision": 4456,
+      "Kind": "next",
+      "Selection": null,
+      "Dialog": {
+        "Generation": 1,
+        "Revision": 4456,
+        "EntityId": 6519,
+        "EntityType": 1,
+        "Name": "Logan",
+        "Text": "Yes, the boy in Abel. I am surprised you still remember he was the first step of this endless walk. Helping the boy is the largest of the tasks. ",
+        "IsPursuit": true,
+        "Pursuit": 1104,
+        "Step": 8,
+        "Type": 0,
+        "Choices": [],
+        "Prompt": null,
+        "HasNext": true,
+        "ObservedAt": "2026-10-15T01:20:56.6489752+00:00",
+        "Items": []
+      },
+      "Branches": 0,
+      "Experience": 864703409
+    },
+    {
+      "Time": "2026-10-15T01:20:58.934074+00:00",
+      "Character": "ReplayBlanche",
+      "Generation": 1,
+      "Revision": 4457,
+      "Kind": "choose",
+      "Selection": "What must I do next?",
+      "Dialog": {
+        "Generation": 1,
+        "Revision": 4457,
+        "EntityId": 6519,
+        "EntityType": 1,
+        "Name": "Logan",
+        "Text": "There are many others.",
+        "IsPursuit": true,
+        "Pursuit": 1104,
+        "Step": 9,
+        "Type": 2,
+        "Choices": [
+          {
+            "Text": "What will I gain in the end?",
+            "Pursuit": 1104,
+            "Option": 1
+          },
+          {
+            "Text": "What must I do next?",
+            "Pursuit": 1104,
+            "Option": 2
+          }
+        ],
+        "Prompt": null,
+        "HasNext": true,
+        "ObservedAt": "2026-10-15T01:20:57.1486738+00:00",
+        "Items": []
+      },
+      "Branches": 0,
+      "Experience": 864703409
+    },
+    {
+      "Time": "2026-10-15T01:20:59.1578545+00:00",
+      "Character": "ReplayBlanche",
+      "Generation": 1,
+      "Revision": 4458,
+      "Kind": "next",
+      "Selection": null,
+      "Dialog": {
+        "Generation": 1,
+        "Revision": 4458,
+        "EntityId": 6519,
+        "EntityType": 1,
+        "Name": "Logan",
+        "Text": "You must first track your prize's origins. You are close. The tortuous path that you seek lies in damp marshes beyond these mountains. Look for information there, but remember, as Deoch has great goodness behind his dark figure, important information may be hidden behind what seems ignorant.",
+        "IsPursuit": true,
+        "Pursuit": 1104,
+        "Step": 21,
+        "Type": 0,
+        "Choices": [],
+        "Prompt": null,
+        "HasNext": true,
+        "ObservedAt": "2026-10-15T01:20:59.1565289+00:00",
+        "Items": []
+      },
+      "Branches": 0,
+      "Experience": 864703409
+    },
+    {
+      "Time": "2026-10-15T01:20:59.6581915+00:00",
+      "Character": "ReplayBlanche",
+      "Generation": 1,
+      "Revision": 4459,
+      "Kind": "next",
+      "Selection": null,
+      "Dialog": {
+        "Generation": 1,
+        "Revision": 4459,
+        "EntityId": 6519,
+        "EntityType": 1,
+        "Name": "Logan",
+        "Text": "My role in your epic pursuit is done. Go now, may the Light of Danaan guide you.",
+        "IsPursuit": true,
+        "Pursuit": 1104,
+        "Step": 22,
+        "Type": 0,
+        "Choices": [],
+        "Prompt": null,
+        "HasNext": true,
+        "ObservedAt": "2026-10-15T01:20:59.6578123+00:00",
+        "Items": []
+      },
+      "Branches": 0,
+      "Experience": 864703409
+    },
+    {
+      "Time": "2026-10-15T01:26:12.8067956+00:00",
+      "Character": "ReplayBlanche",
+      "Generation": 1,
+      "Revision": 5698,
+      "Kind": "close",
+      "Selection": null,
+      "Dialog": {
+        "Generation": 1,
+        "Revision": 4829,
+        "EntityId": 7081,
+        "EntityType": 1,
+        "Name": "Beggar",
+        "Text": "I'm a busy man, how much is my time worth to you?",
+        "IsPursuit": true,
+        "Pursuit": 1105,
+        "Step": 3,
+        "Type": 2,
+        "Choices": [
+          {
+            "Text": "Nevermind",
+            "Pursuit": 1105,
+            "Option": 1
+          },
+          {
+            "Text": "How about 1,000 gold coins?",
+            "Pursuit": 1105,
+            "Option": 2
+          }
+        ],
+        "Prompt": null,
+        "HasNext": true,
+        "ObservedAt": "2026-10-15T01:23:04.243524+00:00",
+        "Items": []
+      },
+      "Branches": 0,
+      "Experience": 864703409
+    }
+  ]
+}

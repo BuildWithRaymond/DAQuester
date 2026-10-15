@@ -8,7 +8,7 @@ internal sealed class SpriteAccentLayout
 
     public void Reset() => anchor = null;
 
-    public Rect Destination(Rect content, Size bitmap, Rect foreground, Size preview, Size area)
+    public Rect Destination(Rect content, Size bitmap, Rect foreground, Size preview, Size area, double verticalOffset = 0)
     {
         const double enlargement = 5.5;
         // Keep the canvas center and the first frame's foot reference fixed. A
@@ -20,6 +20,6 @@ internal sealed class SpriteAccentLayout
         double baseline = area.Height - preview.Height + foreground.Top + origin.Y * scale;
         var size = content.Size * enlargement;
         return new(center + (content.Left - origin.X) * enlargement,
-            baseline + (content.Top - origin.Y) * enlargement, size.Width, size.Height);
+            baseline + (content.Top - origin.Y) * enlargement + verticalOffset, size.Width, size.Height);
     }
 }

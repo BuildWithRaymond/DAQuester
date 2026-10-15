@@ -1,0 +1,121 @@
+{
+  "SchemaVersion": 1,
+  "ServerProfile": "datester-7.41",
+  "Sanitized": true,
+  "Evidence": "Actual paused Blanchefleur origin selection and received Abel/Fiosachd sailor referral, read through owned state and saved checkpoint on 2026-10-14. Character normalized to ReplayBlanche and generation to 1; exact page text, choices, identity and revisions retained. Unrelated bag, legends and spells omitted. No following Next, route join or transaction inferred.",
+  "Checkpoint": {
+    "Quest": "cap-band-of-danaan",
+    "Version": 1,
+    "Step": "run",
+    "Status": "Paused",
+    "Reason": "The submitted Blanchefleur page has no matching later receipt. Inspect it; never repeat its choice or handoff.",
+    "JourneyVariant": null,
+    "DanaanOptions": {
+      "Avatar": "cail",
+      "SuppliedMoldRiteAccepted": true
+    },
+    "Character": "ReplayBlanche",
+    "Route": {
+      "Task": 4,
+      "Page": 2,
+      "Baseline": {
+        "Kind": "observed-stage",
+        "Generation": 1,
+        "Revision": 3739,
+        "Gold": 13456855,
+        "Branches": 0,
+        "Experience": 864703409,
+        "Started": "2026-10-15T01:04:03.8792353+00:00",
+        "InventoryBaselineKnown": true
+      },
+      "LastReply": {
+        "Generation": 1,
+        "Revision": 3743,
+        "EntityId": 8002,
+        "EntityType": 1,
+        "Name": "Blanchefleur",
+        "Text": "It was a gift, but I do not remember from whom. I do remember a sailor that came to visit me the other day. He said it looked like something they have a tale about over in Abel. Something involving Fiosachd. But it sounded too much like a silly big city legend, and he was such a bad storyteller...Besides, he brought no gifts from the outside world. ",
+        "IsPursuit": true,
+        "Pursuit": 1096,
+        "Step": 73,
+        "Type": 0,
+        "Choices": [],
+        "Prompt": null,
+        "HasNext": true,
+        "ObservedAt": "2026-10-15T01:04:05.3729252+00:00",
+        "Items": []
+      },
+      "SubmittedPage": {
+        "Generation": 1,
+        "Revision": 3741,
+        "EntityId": 8002,
+        "EntityType": 1,
+        "Name": "Blanchefleur",
+        "Text": "The burden of these cold walls seems lighter when I put it on.",
+        "IsPursuit": true,
+        "Pursuit": 1096,
+        "Step": 48,
+        "Type": 2,
+        "Choices": [
+          {
+            "Text": "Give me the cap.",
+            "Pursuit": 1096,
+            "Option": 1
+          },
+          {
+            "Text": "Where did you get it?",
+            "Pursuit": 1096,
+            "Option": 2
+          }
+        ],
+        "Prompt": null,
+        "HasNext": true,
+        "ObservedAt": "2026-10-15T01:04:04.882589+00:00",
+        "Items": []
+      },
+      "BoundGeneration": 1,
+      "BoundEntity": 8002,
+      "RewardMessages": [],
+      "CleanupPending": false
+    },
+    "Pending": {
+      "Kind": "observed-page:blanchefleur-origin",
+      "Generation": 1,
+      "Revision": 3740,
+      "Gold": 13456855,
+      "Branches": 0,
+      "Experience": 864703409,
+      "Started": "2026-10-15T01:04:05.0553457+00:00",
+      "EntityId": 8002,
+      "EntityType": 1,
+      "InventoryBaselineKnown": true
+    }
+  },
+  "Current": {
+    "Generation": 1,
+    "Revision": 3744,
+    "Name": "ReplayBlanche",
+    "Map": 117,
+    "Position": {
+      "X": 7,
+      "Y": 5
+    },
+    "Dialog": {
+      "Generation": 1,
+      "Revision": 3743,
+      "EntityId": 8002,
+      "EntityType": 1,
+      "Name": "Blanchefleur",
+      "Text": "It was a gift, but I do not remember from whom. I do remember a sailor that came to visit me the other day. He said it looked like something they have a tale about over in Abel. Something involving Fiosachd. But it sounded too much like a silly big city legend, and he was such a bad storyteller...Besides, he brought no gifts from the outside world. ",
+      "IsPursuit": true,
+      "Pursuit": 1096,
+      "Step": 73,
+      "Type": 0,
+      "Choices": [],
+      "Prompt": null,
+      "HasNext": true,
+      "ObservedAt": "2026-10-15T01:04:05.3729252+00:00",
+      "Items": []
+    }
+  }
+}

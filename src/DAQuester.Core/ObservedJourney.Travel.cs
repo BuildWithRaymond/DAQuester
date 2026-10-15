@@ -4,14 +4,16 @@ static partial class ObservedJourney
 {
     const string GuideQuestion = "Come to give guidance to a new Aisling who is choosing his or her Craft?";
     const string RespectQuestion = "Will you be respectful of the monastery?";
-    static bool IsArrival(ObservedQuestTask task, CharacterSnapshot s) => s.Map is { } map && map != task.Map && s.Position is not null &&
-        (task.ArrivalMap == map || task.ArrivalMaps.Contains(map));
+    static bool IsArrival(ObservedQuestTask task, CharacterSnapshot s, QuestJob job) => DanaanDreamerReturn.Arrived(task, job, s) ||
+        s.Map is { } map && map != task.Map && s.Position is not null && (task.ArrivalMap == map || task.ArrivalMaps.Contains(map));
+    static Tile? ArrivalAway(ObservedQuestTask task, int map) => task.ArrivalAway.GetValueOrDefault(map) ??
+        (task.Id == "dreamer" && task.ArrivalMap != map && !task.ArrivalMaps.Contains(map) ? null : task.Away);
     static bool InPath(int? map) => map is 394 or 395 or 396 or 397 or 399 or 342 or 343 or 344 or 345 or 346 or 347 or 348;
     static bool IsAccessDialog(CharacterSnapshot s, ObservedQuestTask task) =>
         task.ApproachStrategy == "cedar-grove" && s.Map == 5220 && s.Dialog is { EntityType: 4, Text: RespectQuestion } ||
         task.ApproachStrategy == "path-hall" && s.Map == 393 && s.Dialog is { Name: "Aoife", Text: GuideQuestion };
 
-    static async Task MoveAsync(QuestContext c, int map, Tile tile, CancellationToken ct)
+    static async Task MoveAsync(QuestContext c, int map, Tile? tile, CancellationToken ct, string? npc = null)
     {
         var s = c.Session.Snapshot;
         if (s.Map == map && s.Position == tile)
@@ -19,7 +21,7 @@ static partial class ObservedJourney
         NpcTravelCheckpoint? redirect = null;
         void Interrupted(string reason)
         {
-            if (c.Job.Quest == DanaanEvidence.Id && c.Job.Pending is null && c.Job.Route?.Baseline is null && reason == DanaanTransport.RedirectReason &&
+            if (c.Job.Pending is null && c.Job.Route?.Baseline is null && reason == DanaanTransport.RedirectReason &&
                 c.Session is INpcConnectionHandoff handoff && handoff.SubmittedNpcTravel is { } submitted &&
                 string.Equals(submitted.Character, c.Job.Character, StringComparison.OrdinalIgnoreCase))
                 redirect = submitted;
@@ -27,11 +29,11 @@ static partial class ObservedJourney
         c.Session.Interrupted += Interrupted;
         try
         {
-            await c.Session.ExecuteAsync(new("navigate", map, tile, ExpectedGeneration: s.Generation), ct);
+            await c.Session.ExecuteAsync(new("navigate", map, tile, ExpectedGeneration: s.Generation, StopAtVisibleNpc: npc), ct);
         }
         catch
         {
-            if (c.Job.Quest == DanaanEvidence.Id && c.Job.Pending is null && c.Job.Route?.Baseline is null &&
+            if (c.Job.Pending is null && c.Job.Route?.Baseline is null &&
                 (redirect ?? (c.Session as INpcConnectionHandoff)?.SubmittedNpcTravel) is { } submitted)
                 await c.SaveAsync(c.Job with
                 {
@@ -44,7 +46,8 @@ static partial class ObservedJourney
             throw;
         }
         finally { c.Session.Interrupted -= Interrupted; }
-        if (c.Session.Snapshot.Map != map || c.Session.Snapshot.Position != tile)
+        bool visible = npc is not null && NpcVisibility.Find(c.Session.Snapshot, map, npc) is not null;
+        if (c.Session.Snapshot.Map != map || c.Session.Snapshot.Position is null || tile is not null && c.Session.Snapshot.Position != tile && !visible)
             throw new QuestBlockedException("Travel did not establish its actual destination; inspect the landing before continuing.");
     }
     static async Task EnterAsync(QuestContext c, int source, Tile approach, Tile door, int destination, Tile inward, CancellationToken ct)
@@ -140,16 +143,18 @@ static partial class ObservedJourney
         {
             try
             {
-                await MoveAsync(c, task.Map, target, ct);
+                await MoveAsync(c, task.Map, target, ct, task.Npc.Length > 0 ? task.Npc : null);
             }
             catch (QuestBlockedException) when (task.Map == 345 && c.Session.Snapshot.Map == 395 && c.Session.Snapshot.Dialog is null)
             {
                 // Actual 395 stairs bypass the recorded approach failure. No
                 // Pattern Walker dialogue is selected, read or advanced here.
                 await EnterAsync(c, 395, new(6, 2), new(6, 1), 396, new(6, 9), ct);
-                await MoveAsync(c, 345, target, ct);
+                await MoveAsync(c, 345, target, ct, task.Npc.Length > 0 ? task.Npc : null);
             }
         }
+        else if (task.Map != 0)
+            await MoveAsync(c, task.Map, null, ct);
     }
     static async Task Room7Async(QuestContext c, CancellationToken ct)
     {
@@ -191,13 +196,16 @@ static partial class ObservedJourney
             return;
         if (c.Session.Snapshot.Map != 5231)
         {
+            long generation = c.Session.Snapshot.Generation;
             // Recorded world arrivals point into the lower component; this live
             // route actually arrived upstairs. Reconcile that precise mismatch.
             try
             {
                 await MoveAsync(c, 5231, new(2, 5), ct);
             }
-            catch (QuestBlockedException) when (c.Session.Snapshot.Map == 5231 && c.Session.Snapshot.Position is { Y: <= 1 }) { }
+            catch (Exception e) when (e is QuestBlockedException or InvalidOperationException &&
+                c.Session.Snapshot.Connected && c.Session.Snapshot.Generation == generation &&
+                c.Session.Snapshot.Map == 5231 && c.Session.Snapshot.Position is { Y: <= 1 }) { }
         }
         if (c.Session.Snapshot.Position is not { Y: <= 1 })
             throw new QuestBlockedException("Coliseum Threshold lower component has no observed safe link upstairs. Inspect the actual arrival; no portal is invented.");

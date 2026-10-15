@@ -53,6 +53,13 @@ returns. The journal reports the wait without claiming a pet reward or guessing
 a real-world retry date. A saved refusal also reconciles after a manual close or
 return without repeating adoption or consuming another song.
 
+The successful bond offers **250hp and 250mp**, followed by **Are you willing?**
+The runner selects the offered Yes only after that exact fresh Faerie offer.
+It saves this separate bond submission before sending, verifies the new Pet
+Faerie, and finishes dialogue before returning. The observed success delivers
+the item and closes dialogue without a final text page. A remaining submitted
+popup can be closed after the item receipt; an uncertain bond never repeats Yes.
+
 After rewards or a definitive refusal, the runner uses a town song first, dachaidh with at least 30 mana
 second, and walking exits last. Item/spell slots are resolved again at send time.
 Walking follows documented doors and actual server landings back to Mileth.
@@ -259,6 +266,36 @@ live-tested, so the 3-hour waits, the 10th offering and the reward check are
 proven by tests only.
 
 ## Current operational limits
+
+Known obtainable supplies are prepared before quest NPC visits. A queue combines
+the next ready quests' consumable needs, subtracts the actual carried inventory,
+and prepares a fitting prefix while reserving space for equipment and rewards.
+Recorded costs limit optional future purchases; fresh shop quotes authorize
+payment, and the current quest's known mandatory payment funds stay reserved.
+Shared consumables add together, including handoffs whose purchase stage was
+already completed. Dialogue-selected branches retain their own requirements;
+unknown branches, timed pickups, acceptance gates, and stage-produced items do
+not authorize speculative collection or spending.
+
+Danaan prepares its shared Gland, Mold, fruit, and Leather Greaves bundle early.
+Gland hunting can use reachable Mehadi sources instead of a fixed Enchanted
+Garden trip. The Mehadi locations are guide claims; actual named inventory
+receipts still prove each pickup. Mundane approaches stop when the intended NPC
+is within ten tile steps and visible, after validated doorway departure. Cached
+identity alone is insufficient. Both captured Donnan referrals are supported;
+the [captured-run audit](research/danaan-captured-run-audit.md) records coverage.
+Undine's known popup or active
+status weapon warning stops travel until both equipment and bag receipts confirm
+removal. The shrine armament rules remain separate.
+
+Hunting can bash with bare hands; no equipped or carried melee weapon is
+required. An owned usable melee weapon is still equipped when available. Only
+an actual equip submission without confirmation pauses combat for inspection.
+Ceannlaidir's equipped-weapon entry requirement remains separate.
+
+Preparation, including an uncertain purchase or pickup, has its own durable
+checkpoint and preserves the quest's original dialogue position. These changes
+have synthetic regression coverage; no new live automatic run is certified.
 
 Three characters completed Spare a Stick in game. Nuclear received Stick,
 Wooden Shield and 3,500 XP; Clock received Oak Stick, Wooden Shield and 3,500 XP,

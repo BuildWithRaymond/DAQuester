@@ -6,5 +6,6 @@
   <ItemGroup>
     <ProjectReference Include="..\DAQuester.Core\DAQuester.Core.csproj" />
     <InternalsVisibleTo Include="DAQuester.Tests" />
+    <InternalsVisibleTo Include="DAQuester.AppTests" />
   </ItemGroup>
 </Project>

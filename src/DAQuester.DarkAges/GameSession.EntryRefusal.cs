@@ -14,6 +14,9 @@ public sealed partial class GameSession
         if (!s.Connected || entryBlock is { } previous && (previous.Notice.Generation != s.Generation || previous.Map != s.Map))
             entryBlock = null;
         if (s.ActiveStatus is { Type: 3 } notice && notice.Generation == s.Generation && notice.Revision == s.Revision &&
+            // Path Temple's Monk Nightmare tile reports class eligibility. It
+            // does not refuse ordinary travel to Donnan or Erin.
+            !(s.Map == 395 && notice.Text == "You are not a Monk.") &&
             (notice.Text is "Your armaments are repelled from here." or "Your must be armed to enter here." ||
                 notice.Text.StartsWith("You are not a ", StringComparison.Ordinal) && notice.Text.EndsWith(".", StringComparison.Ordinal)))
             entryBlock = new(notice, s.Map, s.Equipment.ContainsKey(1), s.Equipment.ContainsKey(3));

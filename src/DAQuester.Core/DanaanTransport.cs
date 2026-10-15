@@ -6,8 +6,8 @@ public static class DanaanTransport
     // Resume only the recorded read-only route after fresh own destination evidence.
     public const string RedirectReason = "Server redirect. Resume on replacement connection.";
 
-    public static ObservedQuestTask[] Journey(QuestDefinition recipe, QuestJob job) => job.JourneyVariant is { } key
-        ? recipe.JourneyVariants.GetValueOrDefault(key)?.Journey ?? [] : recipe.Journey;
+    public static ObservedQuestTask[] Journey(QuestDefinition recipe, QuestJob job) => DanaanReplyContinuation.Apply(recipe, job,
+        job.JourneyVariant is { } key ? recipe.JourneyVariants.GetValueOrDefault(key)?.Journey ?? [] : recipe.Journey);
 
     public static bool IsReturn(ObservedQuestTask task, Dialog page) => task.Id == "dreamer" &&
         task.Inputs.Length == 0 && task.Outputs.Length == 0 && task.Cost == 0 && task.Experience == 0 &&
@@ -39,6 +39,6 @@ public static class DanaanTransport
             return false;
         var task = journey[route.Task];
         return page.Generation == pending.Generation && route.BoundGeneration == pending.Generation &&
-            IsReturn(task, page) && (task.ArrivalMap == s.Map || task.ArrivalMaps.Contains(s.Map ?? -1));
+            IsReturn(task, page) && s.Map is { } map && map != task.Map;
     }
 }

@@ -3,6 +3,7 @@ $ErrorActionPreference='Stop'
 $repoRoot=Split-Path $PSScriptRoot -Parent
 Push-Location $repoRoot
 try {
+    & (Join-Path $PSScriptRoot 'Build-DAWindowerX.ps1')
     . (Join-Path $PSScriptRoot 'Assert-WalkabilityAsset.ps1')
     [xml]$props=Get-Content -LiteralPath Directory.Build.props
     $version=[string]$props.Project.PropertyGroup.Version

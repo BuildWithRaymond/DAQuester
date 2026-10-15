@@ -10,8 +10,7 @@ public sealed record QuestProgress(int Total, int Completed, int Current, string
     {
         if (quest?.Journey.Length > 0)
         {
-            int count = job.JourneyVariant is null ? quest.Journey.Length :
-                quest.JourneyVariants.GetValueOrDefault(job.JourneyVariant)?.Journey.Length ?? 0;
+            int count = DanaanTransport.Journey(quest, job).Length;
             if (count == 0) return new(0,0,0,"Saved quest path unavailable");
             bool done = job.Step == "complete" && job.Pending is null && job.Route?.CleanupPending != true;
             int made = done ? count : Math.Clamp(job.Route?.Task ?? 0, 0, count - 1);

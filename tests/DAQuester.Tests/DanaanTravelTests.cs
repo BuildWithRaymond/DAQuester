@@ -14,7 +14,8 @@ public class DanaanTravelTests
         public bool IsWalkable(Tile t) => t.X >= 0 && t.Y >= 0;
         public int PathLength(Tile a, Tile b) => Math.Abs(a.X - b.X) + Math.Abs(a.Y - b.Y);
     }
-    static async Task<Session> Probe(int source, Tile position, string strategy, int target, Tile approach, bool pending = false)
+    static async Task<Session> Probe(int source, Tile position, string strategy, int target, Tile approach, bool pending = false,
+        Tile? coliseumLanding = null, int coliseumMap = 5231, bool expectClose = true)
     {
         var s = new Session();
         s.Set(s.Snapshot with
@@ -33,6 +34,12 @@ public class DanaanTravelTests
             choice is null ? [] : [new(choice, 3, 1)]);
         s.OnCommand = c =>
         {
+            if (c.Kind == "navigate" && c.Map == 5231 && coliseumLanding is { } landing)
+            {
+                coliseumLanding = null;
+                s.Set(s.Snapshot with { Map = coliseumMap, Position = landing });
+                throw new InvalidOperationException($"No recorded walkable route from {coliseumMap} to 5231");
+            }
             if (c.Kind == "navigate")
                 s.Set(s.Snapshot with
                 {
@@ -103,8 +110,26 @@ public class DanaanTravelTests
         };
         var runner = new QuestRunner(s, journal, recipe, new());
         await runner.RunAsync();
-        Assert.Single(s.Commands, c => c.Kind == "close");
+        Assert.Equal(expectClose ? 1 : 0, s.Commands.Count(c => c.Kind == "close"));
         return s;
+    }
+    [Fact]
+    public async Task Upper_coliseum_arrival_continues_through_the_known_door_after_same_map_planner_failure()
+    {
+        var s = await Probe(500, new(50, 50), "coliseum", 5232, new(4, 9), coliseumLanding: new(0, 1));
+        var entry = Assert.Single(s.Commands, c => c.Kind == "enter");
+        Assert.Equal(5232, entry.Map);
+        Assert.Equal(new Tile(0, 0), entry.Target);
+        Assert.Equal(new Tile(4, 11), entry.InwardTarget);
+    }
+    [Theory]
+    [InlineData(5231, 5)]
+    [InlineData(5230, 1)]
+    public async Task Other_coliseum_landings_keep_the_route_failure_without_guessing_an_entry(int actualMap, int y)
+    {
+        var s = await Probe(500, new(50, 50), "coliseum", 5232, new(4, 9),
+            coliseumLanding: new(0, y), coliseumMap: actualMap, expectClose: false);
+        Assert.DoesNotContain(s.Commands, c => c.Kind is "enter" or "interact");
     }
     [Fact]
     public async Task Room_seven_entry_moves_inward_then_to_the_stable_interior()

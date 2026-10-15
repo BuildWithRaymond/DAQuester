@@ -147,7 +147,7 @@
                   <ListBox Name="questLibrary" Classes="library" ItemsSource="{Binding Quests}" SelectedItem="{Binding SelectedQuest,Mode=TwoWay}" ScrollViewer.HorizontalScrollBarVisibility="Disabled" AutomationProperties.Name="Quest library">
                     <ListBox.ItemTemplate>
                       <DataTemplate>
-                          <Border Classes="questRow" Width="{Binding $parent[ListBox].Bounds.Width}" HorizontalAlignment="Left" Classes.ready="{Binding RowReady}" Classes.muted="{Binding IsMuted}" Classes.completed="{Binding IsCompleted}" ToolTip.Tip="{Binding QueueTooltip}">
+                          <Border Classes="questRow" HorizontalAlignment="Stretch" Classes.ready="{Binding RowReady}" Classes.muted="{Binding IsMuted}" Classes.completed="{Binding IsCompleted}" ToolTip.Tip="{Binding QueueTooltip}">
                           <Grid ColumnDefinitions="22,36,*,148" ColumnSpacing="10">
                             <Grid VerticalAlignment="Center">
                               <CheckBox IsChecked="{Binding IsQueued,Mode=TwoWay}" IsEnabled="{Binding CanQueue}" IsVisible="{Binding ShowQueueCheckbox}" MinHeight="28" Padding="0" ToolTip.Tip="{Binding QueueTooltip}" ToolTip.ShowOnDisabled="True" AutomationProperties.Name="{Binding QueueActionName}" AutomationProperties.HelpText="{Binding QueueTooltip}"/>

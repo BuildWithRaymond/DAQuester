@@ -25,7 +25,9 @@ public record GameCommand(
     Tile? InwardTarget = null,
     bool ReadNext = false,
     int MaxPages = 12,
-    string? ExpectedPageText = null);
+    string? ExpectedPageText = null,
+    TimeSpan? ReplyTimeout = null,
+    string? StopAtVisibleNpc = null);
 public interface IGameSession
 {
     CharacterSnapshot Snapshot
@@ -211,6 +213,13 @@ public record QuestJob
     public ObservedQuestProgress? Route { get; init; }
     public string? JourneyVariant { get; init; }
     public DanaanOptions? DanaanOptions { get; init; }
+    public DanaanCourtReceipt? CourtRecovery { get; init; }
+    public DanaanVarunaReceipt? VarunaRecovery { get; init; }
+    public DanaanBlanchefleurReceipt? BlanchefleurRecovery { get; init; }
+    public DanaanReplyReceipt[] DanaanReplies { get; init; } = [];
+    public DanaanDreamerReceipt? DreamerReturnRecovery { get; init; }
+    public DanaanDonnanAssignment? DonnanAssignment { get; init; }
+    public DachaidhPayment? DachaidhPayment { get; init; }
     public FiskBouquetWait? FiskWait { get; init; }
     public string Character
     {
@@ -277,6 +286,7 @@ public record QuestJob
         get;
         init;
     }
+    public QuestPreparationState? Preparation { get; init; }
     public Dictionary<string, int> Rewards
     {
         get;
@@ -455,6 +465,8 @@ public class QuestContext(IGameSession session, IQuestJournal journal, Calibrati
     public bool DeferTimedWaits { get; init; }
     public Func<bool>? HasReadyQueuedWork { get; init; }
     public FiskWaitingArea WaitingArea { get; init; } = new();
+    public Func<IReadOnlyList<(QuestDefinition Recipe, QuestJob Job)>>? PreparationBatch { get; init; }
+    public uint SupplyGoldReserve { get; init; }
     public IGameSession Session { get; } = session;
     public HuntingServices? Hunting { get; } = hunting;
     public Calibration Calibration { get; } = calibration;

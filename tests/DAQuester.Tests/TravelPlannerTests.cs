@@ -11,6 +11,30 @@ namespace DAQuester.Tests;
 public class TravelPlannerTests
 {
     [Fact]
+    public void Unknown_world_hub_route_does_not_invent_an_exit()
+    {
+        using var f = new Assets([new(345, "Interior", 5, 5, [])]);
+        var error = Assert.Throws<InvalidOperationException>(() => f.Maps.PlanToWorldMap(345, new(1, 1)));
+        Assert.Contains("world-map entrance", error.Message);
+    }
+    [Fact]
+    public void World_hub_planning_honors_cancellation()
+    {
+        using var f = new Assets([new(500, "Hub", 5, 5, [new(new(2, 1), 992, new(1, 1), true)]), new(992, "End", 5, 5, [])]);
+        using var stop = new CancellationTokenSource();
+        stop.Cancel();
+        Assert.Throws<OperationCanceledException>(() => f.Maps.PlanToWorldMap(500, new(1, 1), ct: stop.Token));
+    }
+    [Fact]
+    public void Live_world_map_can_use_an_offered_hub_missing_from_this_entrances_saved_destinations()
+    {
+        using var f = new Assets([new(3082, "Rucesion Threshold", 7, 7, [new(new(3,0),3095,new(1,1),true)]),
+            new(3095,"Recorded but isolated hub",5,5,[]),
+            new(3006,"Mileth hub",5,5,[new(new(2,1),992,new(1,1))]),new(992,"Destination",5,5,[])]);
+        var mileth = new ServerWorldMapNode { MapId=3006, MapX=90, MapY=80, Checksum=1234 };
+        Assert.Same(mileth, f.Maps.WorldDestination(992,[new() { MapId=3095 },mileth],3082,new(3,0),new(2,2)));
+    }
+    [Fact]
     public void Packaged_collision_preserves_walls_portal_overrides_and_shortest_walk_with_no_raw_assets()
     {
         MapRecord[] records = [new(1, "Start", 9, 9, [new(new(3, 1), 2, new(1, 1)), new(new(1, 4), 2, new(1, 1))]), new(2, "End", 5, 5, [])];

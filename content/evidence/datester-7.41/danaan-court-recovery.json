@@ -1,0 +1,2388 @@
+{
+  "Title": "Observed own Danaan Loures court prefix receipts",
+  "ServerProfile": "datester-7.41",
+  "EvidenceType": "Sanitized server snapshots and decoded submitted actions; inventory restricted to Oren Brandy; research actor alias; no synthetic outcomes",
+  "Actions": [
+    {
+      "Character": "ResearchPixel",
+      "Generation": 1834958910837763,
+      "Revision": 48,
+      "Kind": "choose",
+      "Selection": "Seen anything unusual lately?",
+      "Dialog": {
+        "Generation": 1834958910837763,
+        "Revision": 48,
+        "EntityId": 7464,
+        "EntityType": 1,
+        "Name": "Ase",
+        "Text": "Hello.",
+        "IsPursuit": true,
+        "Pursuit": 1100,
+        "Step": 48,
+        "Type": 2,
+        "Choices": [
+          {
+            "Text": "Nice weather is it not?",
+            "Pursuit": 1100,
+            "Option": 1
+          },
+          {
+            "Text": "Many warriors fighting lately?",
+            "Pursuit": 1100,
+            "Option": 2
+          },
+          {
+            "Text": "Seen anything unusual lately?",
+            "Pursuit": 1100,
+            "Option": 3
+          }
+        ],
+        "Prompt": null,
+        "HasNext": true,
+        "ObservedAt": "2026-10-14T04:27:58.6748136+00:00",
+        "Items": []
+      }
+    },
+    {
+      "Character": "ResearchPixel",
+      "Generation": 1834958910837763,
+      "Revision": 53,
+      "Kind": "choose",
+      "Selection": "Any idea what they came to do here?",
+      "Dialog": {
+        "Generation": 1834958910837763,
+        "Revision": 49,
+        "EntityId": 7464,
+        "EntityType": 1,
+        "Name": "Ase",
+        "Text": "If you call a handful of soldiers from Loures taking a stroll along the beach unusual, then I have.",
+        "IsPursuit": true,
+        "Pursuit": 1100,
+        "Step": 62,
+        "Type": 2,
+        "Choices": [
+          {
+            "Text": "Any idea what they came to do here?",
+            "Pursuit": 1100,
+            "Option": 1
+          }
+        ],
+        "Prompt": null,
+        "HasNext": true,
+        "ObservedAt": "2026-10-14T04:27:59.1765289+00:00",
+        "Items": []
+      }
+    },
+    {
+      "Character": "ResearchPixel",
+      "Generation": 1834958910837763,
+      "Revision": 54,
+      "Kind": "next",
+      "Selection": null,
+      "Dialog": {
+        "Generation": 1834958910837763,
+        "Revision": 54,
+        "EntityId": 7464,
+        "EntityType": 1,
+        "Name": "Ase",
+        "Text": "I do not know for sure. They were looking for something, even brought an Acolyte to help them. ",
+        "IsPursuit": true,
+        "Pursuit": 1100,
+        "Step": 66,
+        "Type": 0,
+        "Choices": [],
+        "Prompt": null,
+        "HasNext": true,
+        "ObservedAt": "2026-10-14T04:29:39.7494531+00:00",
+        "Items": []
+      }
+    },
+    {
+      "Character": "ResearchPixel",
+      "Generation": 1834958910837763,
+      "Revision": 55,
+      "Kind": "choose",
+      "Selection": "Did you see anything else?",
+      "Dialog": {
+        "Generation": 1834958910837763,
+        "Revision": 55,
+        "EntityId": 7464,
+        "EntityType": 1,
+        "Name": "Ase",
+        "Text": "The waves bring a lot of strange things, I could not figure out what they wanted.",
+        "IsPursuit": true,
+        "Pursuit": 1100,
+        "Step": 67,
+        "Type": 2,
+        "Choices": [
+          {
+            "Text": "Did you see anything else?",
+            "Pursuit": 1100,
+            "Option": 1
+          },
+          {
+            "Text": "Could they have been looking for a cap of some sort?",
+            "Pursuit": 1100,
+            "Option": 2
+          }
+        ],
+        "Prompt": null,
+        "HasNext": true,
+        "ObservedAt": "2026-10-14T04:29:40.2565505+00:00",
+        "Items": []
+      }
+    },
+    {
+      "Character": "ResearchPixel",
+      "Generation": 1834958910837763,
+      "Revision": 56,
+      "Kind": "next",
+      "Selection": null,
+      "Dialog": {
+        "Generation": 1834958910837763,
+        "Revision": 56,
+        "EntityId": 7464,
+        "EntityType": 1,
+        "Name": "Ase",
+        "Text": "I am afraid not. If you are so interested, though, perhaps you could go for a walk in the capital. Someone there might be willing to share a secret or two, if you loosen them up enough...",
+        "IsPursuit": true,
+        "Pursuit": 1100,
+        "Step": 72,
+        "Type": 0,
+        "Choices": [],
+        "Prompt": null,
+        "HasNext": true,
+        "ObservedAt": "2026-10-14T04:29:50.2532306+00:00",
+        "Items": []
+      }
+    },
+    {
+      "Character": "ResearchPixel",
+      "Generation": 1834958910837763,
+      "Revision": 544,
+      "Kind": "choose",
+      "Selection": "I need to know something.",
+      "Dialog": {
+        "Generation": 1834958910837763,
+        "Revision": 543,
+        "EntityId": 8000,
+        "EntityType": 1,
+        "Name": "Courtney",
+        "Text": "Hey there, Sparky! You look pretty tired, been running around too much lately?",
+        "IsPursuit": true,
+        "Pursuit": 1102,
+        "Step": 3,
+        "Type": 2,
+        "Choices": [
+          {
+            "Text": "I need to know something.",
+            "Pursuit": 1102,
+            "Option": 1
+          },
+          {
+            "Text": "Yes, traveling a lot these last few days.",
+            "Pursuit": 1102,
+            "Option": 2
+          }
+        ],
+        "Prompt": null,
+        "HasNext": true,
+        "ObservedAt": "2026-10-14T04:39:57.7403329+00:00",
+        "Items": []
+      }
+    },
+    {
+      "Character": "ResearchPixel",
+      "Generation": 1834958910837763,
+      "Revision": 545,
+      "Kind": "next",
+      "Selection": null,
+      "Dialog": {
+        "Generation": 1834958910837763,
+        "Revision": 545,
+        "EntityId": 8000,
+        "EntityType": 1,
+        "Name": "Courtney",
+        "Text": "I needed that once, too. So I went around asking people all sorts of questions I could think of, like why it never rains in Southern Abel and how many times must the surigams fly before they poke someone's eye. ",
+        "IsPursuit": true,
+        "Pursuit": 1102,
+        "Step": 8,
+        "Type": 0,
+        "Choices": [],
+        "Prompt": null,
+        "HasNext": true,
+        "ObservedAt": "2026-10-14T04:40:07.2472797+00:00",
+        "Items": []
+      }
+    },
+    {
+      "Character": "ResearchPixel",
+      "Generation": 1834958910837763,
+      "Revision": 546,
+      "Kind": "choose",
+      "Selection": "And what is that solution?",
+      "Dialog": {
+        "Generation": 1834958910837763,
+        "Revision": 546,
+        "EntityId": 8000,
+        "EntityType": 1,
+        "Name": "Courtney",
+        "Text": "Finally, one rainy night, someone gave me the Ultimate Solution to all my questions.",
+        "IsPursuit": true,
+        "Pursuit": 1102,
+        "Step": 9,
+        "Type": 2,
+        "Choices": [
+          {
+            "Text": "Would you just answer my questions, please?",
+            "Pursuit": 1102,
+            "Option": 1
+          },
+          {
+            "Text": "And what is that solution?",
+            "Pursuit": 1102,
+            "Option": 2
+          }
+        ],
+        "Prompt": null,
+        "HasNext": true,
+        "ObservedAt": "2026-10-14T04:40:07.7455701+00:00",
+        "Items": []
+      }
+    },
+    {
+      "Character": "ResearchPixel",
+      "Generation": 1834958910837763,
+      "Revision": 547,
+      "Kind": "next",
+      "Selection": null,
+      "Dialog": {
+        "Generation": 1834958910837763,
+        "Revision": 547,
+        "EntityId": 8000,
+        "EntityType": 1,
+        "Name": "Courtney",
+        "Text": "The Solution is very simple really, the answer is floating in the drink! Even jesters need a stiff one every now and then, you know! ",
+        "IsPursuit": true,
+        "Pursuit": 1102,
+        "Step": 21,
+        "Type": 0,
+        "Choices": [],
+        "Prompt": null,
+        "HasNext": true,
+        "ObservedAt": "2026-10-14T04:40:15.7500717+00:00",
+        "Items": []
+      }
+    },
+    {
+      "Character": "ResearchPixel",
+      "Generation": 1834958910837763,
+      "Revision": 548,
+      "Kind": "choose",
+      "Selection": "Excuse me, I have to go.",
+      "Dialog": {
+        "Generation": 1834958910837763,
+        "Revision": 548,
+        "EntityId": 8000,
+        "EntityType": 1,
+        "Name": "Courtney",
+        "Text": "Something from Oren would be nice.",
+        "IsPursuit": true,
+        "Pursuit": 1102,
+        "Step": 22,
+        "Type": 2,
+        "Choices": [
+          {
+            "Text": "Excuse me, I have to go.",
+            "Pursuit": 1102,
+            "Option": 1
+          },
+          {
+            "Text": "Here, have a drink.",
+            "Pursuit": 1102,
+            "Option": 2
+          }
+        ],
+        "Prompt": null,
+        "HasNext": true,
+        "ObservedAt": "2026-10-14T04:40:16.2512545+00:00",
+        "Items": []
+      }
+    },
+    {
+      "Character": "ResearchPixel",
+      "Generation": 1834958910837763,
+      "Revision": 550,
+      "Kind": "close",
+      "Selection": null,
+      "Dialog": {
+        "Generation": 1834958910837763,
+        "Revision": 549,
+        "EntityId": 8000,
+        "EntityType": 1,
+        "Name": "Courtney",
+        "Text": "So soon? Well, be seeing ya!",
+        "IsPursuit": true,
+        "Pursuit": 1102,
+        "Step": 27,
+        "Type": 0,
+        "Choices": [],
+        "Prompt": null,
+        "HasNext": false,
+        "ObservedAt": "2026-10-14T04:40:57.2799762+00:00",
+        "Items": []
+      }
+    },
+    {
+      "Character": "ResearchPixel",
+      "Generation": 1834958910837763,
+      "Revision": 892,
+      "Kind": "choose",
+      "Selection": "Oren Bistro",
+      "Dialog": {
+        "Generation": 1834958910837763,
+        "Revision": 892,
+        "EntityId": 7047,
+        "EntityType": 1,
+        "Name": "Franchesco",
+        "Text": "Hello.  What can I do for you?",
+        "IsPursuit": false,
+        "Pursuit": 0,
+        "Step": 0,
+        "Type": 0,
+        "Choices": [
+          {
+            "Text": "Oren Bistro",
+            "Pursuit": 2021,
+            "Option": 1
+          },
+          {
+            "Text": "Octopus Rumor",
+            "Pursuit": 2337,
+            "Option": 2
+          }
+        ],
+        "Prompt": null,
+        "HasNext": false,
+        "ObservedAt": "2026-10-14T04:44:12.9603683+00:00",
+        "Items": []
+      }
+    },
+    {
+      "Character": "ResearchPixel",
+      "Generation": 1834958910837763,
+      "Revision": 893,
+      "Kind": "choose",
+      "Selection": "Oren Brandy - 75 gold",
+      "Dialog": {
+        "Generation": 1834958910837763,
+        "Revision": 893,
+        "EntityId": 7047,
+        "EntityType": 1,
+        "Name": "Franchesco",
+        "Text": "Hello Welcome to my Tavern, care for some refreshments?",
+        "IsPursuit": true,
+        "Pursuit": 997,
+        "Step": 0,
+        "Type": 2,
+        "Choices": [
+          {
+            "Text": "Franchesco's Wine - 100 Gold",
+            "Pursuit": 997,
+            "Option": 1
+          },
+          {
+            "Text": "Oren Ale - 50 Gold",
+            "Pursuit": 997,
+            "Option": 2
+          },
+          {
+            "Text": "Oren Brandy - 75 gold",
+            "Pursuit": 997,
+            "Option": 3
+          }
+        ],
+        "Prompt": null,
+        "HasNext": true,
+        "ObservedAt": "2026-10-14T04:44:21.9365413+00:00",
+        "Items": []
+      }
+    },
+    {
+      "Character": "ResearchPixel",
+      "Generation": 1834958910837763,
+      "Revision": 898,
+      "Kind": "close",
+      "Selection": null,
+      "Dialog": {
+        "Generation": 1834958910837763,
+        "Revision": 897,
+        "EntityId": 7047,
+        "EntityType": 1,
+        "Name": "Franchesco",
+        "Text": "Enjoy!",
+        "IsPursuit": true,
+        "Pursuit": 997,
+        "Step": 29,
+        "Type": 0,
+        "Choices": [],
+        "Prompt": null,
+        "HasNext": false,
+        "ObservedAt": "2026-10-14T04:44:42.4539498+00:00",
+        "Items": []
+      }
+    },
+    {
+      "Character": "ResearchPixel",
+      "Generation": 1834958910837763,
+      "Revision": 1192,
+      "Kind": "choose",
+      "Selection": "I need to know something.",
+      "Dialog": {
+        "Generation": 1834958910837763,
+        "Revision": 1192,
+        "EntityId": 8000,
+        "EntityType": 1,
+        "Name": "Courtney",
+        "Text": "Hey there, Sparky! You look pretty tired, been running around too much lately?",
+        "IsPursuit": true,
+        "Pursuit": 1102,
+        "Step": 3,
+        "Type": 2,
+        "Choices": [
+          {
+            "Text": "I need to know something.",
+            "Pursuit": 1102,
+            "Option": 1
+          },
+          {
+            "Text": "Yes, traveling a lot these last few days.",
+            "Pursuit": 1102,
+            "Option": 2
+          }
+        ],
+        "Prompt": null,
+        "HasNext": true,
+        "ObservedAt": "2026-10-14T04:47:15.581791+00:00",
+        "Items": []
+      }
+    },
+    {
+      "Character": "ResearchPixel",
+      "Generation": 1834958910837763,
+      "Revision": 1193,
+      "Kind": "next",
+      "Selection": null,
+      "Dialog": {
+        "Generation": 1834958910837763,
+        "Revision": 1193,
+        "EntityId": 8000,
+        "EntityType": 1,
+        "Name": "Courtney",
+        "Text": "I needed that once, too. So I went around asking people all sorts of questions I could think of, like why it never rains in Southern Abel and how many times must the surigams fly before they poke someone's eye. ",
+        "IsPursuit": true,
+        "Pursuit": 1102,
+        "Step": 8,
+        "Type": 0,
+        "Choices": [],
+        "Prompt": null,
+        "HasNext": true,
+        "ObservedAt": "2026-10-14T04:47:18.0778258+00:00",
+        "Items": []
+      }
+    },
+    {
+      "Character": "ResearchPixel",
+      "Generation": 1834958910837763,
+      "Revision": 1194,
+      "Kind": "choose",
+      "Selection": "And what is that solution?",
+      "Dialog": {
+        "Generation": 1834958910837763,
+        "Revision": 1194,
+        "EntityId": 8000,
+        "EntityType": 1,
+        "Name": "Courtney",
+        "Text": "Finally, one rainy night, someone gave me the Ultimate Solution to all my questions.",
+        "IsPursuit": true,
+        "Pursuit": 1102,
+        "Step": 9,
+        "Type": 2,
+        "Choices": [
+          {
+            "Text": "Would you just answer my questions, please?",
+            "Pursuit": 1102,
+            "Option": 1
+          },
+          {
+            "Text": "And what is that solution?",
+            "Pursuit": 1102,
+            "Option": 2
+          }
+        ],
+        "Prompt": null,
+        "HasNext": true,
+        "ObservedAt": "2026-10-14T04:47:18.5807365+00:00",
+        "Items": []
+      }
+    },
+    {
+      "Character": "ResearchPixel",
+      "Generation": 1834958910837763,
+      "Revision": 1195,
+      "Kind": "next",
+      "Selection": null,
+      "Dialog": {
+        "Generation": 1834958910837763,
+        "Revision": 1195,
+        "EntityId": 8000,
+        "EntityType": 1,
+        "Name": "Courtney",
+        "Text": "The Solution is very simple really, the answer is floating in the drink! Even jesters need a stiff one every now and then, you know! ",
+        "IsPursuit": true,
+        "Pursuit": 1102,
+        "Step": 21,
+        "Type": 0,
+        "Choices": [],
+        "Prompt": null,
+        "HasNext": true,
+        "ObservedAt": "2026-10-14T04:47:20.5834887+00:00",
+        "Items": []
+      }
+    },
+    {
+      "Character": "ResearchPixel",
+      "Generation": 1834958910837763,
+      "Revision": 1196,
+      "Kind": "choose",
+      "Selection": "Here, have a drink.",
+      "Dialog": {
+        "Generation": 1834958910837763,
+        "Revision": 1196,
+        "EntityId": 8000,
+        "EntityType": 1,
+        "Name": "Courtney",
+        "Text": "Something from Oren would be nice.",
+        "IsPursuit": true,
+        "Pursuit": 1102,
+        "Step": 22,
+        "Type": 2,
+        "Choices": [
+          {
+            "Text": "Excuse me, I have to go.",
+            "Pursuit": 1102,
+            "Option": 1
+          },
+          {
+            "Text": "Here, have a drink.",
+            "Pursuit": 1102,
+            "Option": 2
+          }
+        ],
+        "Prompt": null,
+        "HasNext": true,
+        "ObservedAt": "2026-10-14T04:47:21.080278+00:00",
+        "Items": []
+      }
+    },
+    {
+      "Character": "ResearchPixel",
+      "Generation": 1834958910837763,
+      "Revision": 1199,
+      "Kind": "choose",
+      "Selection": "Do you know anything about a special cap?",
+      "Dialog": {
+        "Generation": 1834958910837763,
+        "Revision": 1199,
+        "EntityId": 8000,
+        "EntityType": 1,
+        "Name": "Courtney",
+        "Text": "That's good! Fior for a jester. Now, you got any questions?",
+        "IsPursuit": true,
+        "Pursuit": 1102,
+        "Step": 39,
+        "Type": 2,
+        "Choices": [
+          {
+            "Text": "No, none.",
+            "Pursuit": 1102,
+            "Option": 1
+          },
+          {
+            "Text": "Do you know anything about a special cap?",
+            "Pursuit": 1102,
+            "Option": 2
+          }
+        ],
+        "Prompt": null,
+        "HasNext": true,
+        "ObservedAt": "2026-10-14T04:47:23.5902356+00:00",
+        "Items": []
+      }
+    },
+    {
+      "Character": "ResearchPixel",
+      "Generation": 1834958910837763,
+      "Revision": 1200,
+      "Kind": "choose",
+      "Selection": "What do you know about it?",
+      "Dialog": {
+        "Generation": 1834958910837763,
+        "Revision": 1200,
+        "EntityId": 8000,
+        "EntityType": 1,
+        "Name": "Courtney",
+        "Text": "Ah, so that was your interest all this time. Don't talk too loud, the King and Sir Thibault might hear you.",
+        "IsPursuit": true,
+        "Pursuit": 1102,
+        "Step": 48,
+        "Type": 2,
+        "Choices": [
+          {
+            "Text": "What do you know about it?",
+            "Pursuit": 1102,
+            "Option": 1
+          },
+          {
+            "Text": "Is it in Loures?",
+            "Pursuit": 1102,
+            "Option": 2
+          }
+        ],
+        "Prompt": null,
+        "HasNext": true,
+        "ObservedAt": "2026-10-14T04:47:32.5920242+00:00",
+        "Items": []
+      }
+    },
+    {
+      "Character": "ResearchPixel",
+      "Generation": 1834958910837763,
+      "Revision": 1201,
+      "Kind": "next",
+      "Selection": null,
+      "Dialog": {
+        "Generation": 1834958910837763,
+        "Revision": 1201,
+        "EntityId": 8000,
+        "EntityType": 1,
+        "Name": "Courtney",
+        "Text": "Not much. I overheard Jean telling the King about it. It has something to do with the deities, but not even the Apostles know much about it. I guess you'd have to ask one of the gods themselves - whichever is more prone to sharing knowledge. All in Loures are forbidden to talk about it.",
+        "IsPursuit": true,
+        "Pursuit": 1102,
+        "Step": 53,
+        "Type": 0,
+        "Choices": [],
+        "Prompt": null,
+        "HasNext": true,
+        "ObservedAt": "2026-10-14T04:47:43.6313213+00:00",
+        "Items": []
+      }
+    },
+    {
+      "Character": "ResearchPixel",
+      "Generation": 1834958910837763,
+      "Revision": 1202,
+      "Kind": "choose",
+      "Selection": "Is it in Loures?",
+      "Dialog": {
+        "Generation": 1834958910837763,
+        "Revision": 1202,
+        "EntityId": 8000,
+        "EntityType": 1,
+        "Name": "Courtney",
+        "Text": "Ah, so that was your interest all this time. Don't talk too loud, the King and Sir Thibault might hear you.",
+        "IsPursuit": true,
+        "Pursuit": 1102,
+        "Step": 48,
+        "Type": 2,
+        "Choices": [
+          {
+            "Text": "What do you know about it?",
+            "Pursuit": 1102,
+            "Option": 1
+          },
+          {
+            "Text": "Is it in Loures?",
+            "Pursuit": 1102,
+            "Option": 2
+          }
+        ],
+        "Prompt": null,
+        "HasNext": true,
+        "ObservedAt": "2026-10-14T04:47:44.0984146+00:00",
+        "Items": []
+      }
+    },
+    {
+      "Character": "ResearchPixel",
+      "Generation": 1834958910837763,
+      "Revision": 1203,
+      "Kind": "next",
+      "Selection": null,
+      "Dialog": {
+        "Generation": 1834958910837763,
+        "Revision": 1203,
+        "EntityId": 8000,
+        "EntityType": 1,
+        "Name": "Courtney",
+        "Text": "It's believed so. It seems Jean found a way to locate its general position, some magical stuff he's been dealing with in the basements. One night he screamed \"I found it!\" and the next morning a bunch of soldiers went off on a \"special mission\" to Abel, then we got the weird orders. Suspicious, isn't it? Well, since then I saw no more special missions, so I assume it's still here in the castle.",
+        "IsPursuit": true,
+        "Pursuit": 1102,
+        "Step": 61,
+        "Type": 0,
+        "Choices": [],
+        "Prompt": null,
+        "HasNext": true,
+        "ObservedAt": "2026-10-14T04:47:50.6089205+00:00",
+        "Items": []
+      }
+    },
+    {
+      "Character": "ResearchPixel",
+      "Generation": 1834958910837763,
+      "Revision": 1606,
+      "Kind": "choose",
+      "Selection": "Luathas, the Cap",
+      "Dialog": {
+        "Generation": 1834958910837763,
+        "Revision": 1601,
+        "EntityId": 6519,
+        "EntityType": 1,
+        "Name": "Logan",
+        "Text": "Hello.  What can I do for you?",
+        "IsPursuit": false,
+        "Pursuit": 0,
+        "Step": 0,
+        "Type": 0,
+        "Choices": [
+          {
+            "Text": "Wizard",
+            "Pursuit": 1186,
+            "Option": 1
+          },
+          {
+            "Text": "Guide",
+            "Pursuit": 1189,
+            "Option": 2
+          },
+          {
+            "Text": "Luathas, the Cap",
+            "Pursuit": 2128,
+            "Option": 3
+          }
+        ],
+        "Prompt": null,
+        "HasNext": false,
+        "ObservedAt": "2026-10-14T04:52:40.8508263+00:00",
+        "Items": []
+      }
+    },
+    {
+      "Character": "ResearchPixel",
+      "Generation": 1834958910837763,
+      "Revision": 1607,
+      "Kind": "choose",
+      "Selection": "I am eager to continue, I wish to help the boy.",
+      "Dialog": {
+        "Generation": 1834958910837763,
+        "Revision": 1607,
+        "EntityId": 6519,
+        "EntityType": 1,
+        "Name": "Logan",
+        "Text": "You have come far in your search, have you not? But more awaits ahead of you.",
+        "IsPursuit": true,
+        "Pursuit": 1104,
+        "Step": 3,
+        "Type": 2,
+        "Choices": [
+          {
+            "Text": "I am eager to continue, I wish to help the boy.",
+            "Pursuit": 1104,
+            "Option": 1
+          },
+          {
+            "Text": "More!? But I have been to all corners of Temuair already!",
+            "Pursuit": 1104,
+            "Option": 2
+          }
+        ],
+        "Prompt": null,
+        "HasNext": true,
+        "ObservedAt": "2026-10-14T04:53:43.8926642+00:00",
+        "Items": []
+      }
+    },
+    {
+      "Character": "ResearchPixel",
+      "Generation": 1834958910837763,
+      "Revision": 1608,
+      "Kind": "next",
+      "Selection": null,
+      "Dialog": {
+        "Generation": 1834958910837763,
+        "Revision": 1608,
+        "EntityId": 6519,
+        "EntityType": 1,
+        "Name": "Logan",
+        "Text": "Yes, the boy in Abel. I am surprised you still remember he was the first step of this endless walk. Helping the boy is the largest of the tasks. ",
+        "IsPursuit": true,
+        "Pursuit": 1104,
+        "Step": 8,
+        "Type": 0,
+        "Choices": [],
+        "Prompt": null,
+        "HasNext": true,
+        "ObservedAt": "2026-10-14T04:53:46.8934675+00:00",
+        "Items": []
+      }
+    },
+    {
+      "Character": "ResearchPixel",
+      "Generation": 1834958910837763,
+      "Revision": 1609,
+      "Kind": "choose",
+      "Selection": "What must I do next?",
+      "Dialog": {
+        "Generation": 1834958910837763,
+        "Revision": 1609,
+        "EntityId": 6519,
+        "EntityType": 1,
+        "Name": "Logan",
+        "Text": "There are many others.",
+        "IsPursuit": true,
+        "Pursuit": 1104,
+        "Step": 9,
+        "Type": 2,
+        "Choices": [
+          {
+            "Text": "What will I gain in the end?",
+            "Pursuit": 1104,
+            "Option": 1
+          },
+          {
+            "Text": "What must I do next?",
+            "Pursuit": 1104,
+            "Option": 2
+          }
+        ],
+        "Prompt": null,
+        "HasNext": true,
+        "ObservedAt": "2026-10-14T04:53:47.3931189+00:00",
+        "Items": []
+      }
+    },
+    {
+      "Character": "ResearchPixel",
+      "Generation": 1834958910837763,
+      "Revision": 1610,
+      "Kind": "next",
+      "Selection": null,
+      "Dialog": {
+        "Generation": 1834958910837763,
+        "Revision": 1610,
+        "EntityId": 6519,
+        "EntityType": 1,
+        "Name": "Logan",
+        "Text": "You must first track your prize's origins. You are close. The tortuous path that you seek lies in damp marshes beyond these mountains. Look for information there, but remember, as Deoch has great goodness behind his dark figure, important information may be hidden behind what seems ignorant.",
+        "IsPursuit": true,
+        "Pursuit": 1104,
+        "Step": 21,
+        "Type": 0,
+        "Choices": [],
+        "Prompt": null,
+        "HasNext": true,
+        "ObservedAt": "2026-10-14T04:53:49.3933781+00:00",
+        "Items": []
+      }
+    },
+    {
+      "Character": "ResearchPixel",
+      "Generation": 1834958910837763,
+      "Revision": 1611,
+      "Kind": "next",
+      "Selection": null,
+      "Dialog": {
+        "Generation": 1834958910837763,
+        "Revision": 1611,
+        "EntityId": 6519,
+        "EntityType": 1,
+        "Name": "Logan",
+        "Text": "My role in your epic pursuit is done. Go now, may the Light of Danaan guide you.",
+        "IsPursuit": true,
+        "Pursuit": 1104,
+        "Step": 22,
+        "Type": 0,
+        "Choices": [],
+        "Prompt": null,
+        "HasNext": true,
+        "ObservedAt": "2026-10-14T04:53:49.9116588+00:00",
+        "Items": []
+      }
+    }
+  ],
+  "Snapshots": [
+    {
+      "Generation": 1834958910837763,
+      "Revision": 47,
+      "Name": "ResearchPixel",
+      "Connected": true,
+      "Map": 195,
+      "Gold": 967001,
+      "Experience": 193264281,
+      "InventoryKnown": true,
+      "Inventory": {},
+      "Dialog": null
+    },
+    {
+      "Generation": 1834958910837763,
+      "Revision": 48,
+      "Name": "ResearchPixel",
+      "Connected": true,
+      "Map": 195,
+      "Gold": 967001,
+      "Experience": 193264281,
+      "InventoryKnown": true,
+      "Inventory": {},
+      "Dialog": {
+        "Generation": 1834958910837763,
+        "Revision": 48,
+        "EntityId": 7464,
+        "EntityType": 1,
+        "Name": "Ase",
+        "Text": "Hello.",
+        "IsPursuit": true,
+        "Pursuit": 1100,
+        "Step": 48,
+        "Type": 2,
+        "Choices": [
+          {
+            "Text": "Nice weather is it not?",
+            "Pursuit": 1100,
+            "Option": 1
+          },
+          {
+            "Text": "Many warriors fighting lately?",
+            "Pursuit": 1100,
+            "Option": 2
+          },
+          {
+            "Text": "Seen anything unusual lately?",
+            "Pursuit": 1100,
+            "Option": 3
+          }
+        ],
+        "Prompt": null,
+        "HasNext": true,
+        "ObservedAt": "2026-10-14T04:27:58.6748136+00:00",
+        "Items": []
+      }
+    },
+    {
+      "Generation": 1834958910837763,
+      "Revision": 49,
+      "Name": "ResearchPixel",
+      "Connected": true,
+      "Map": 195,
+      "Gold": 967001,
+      "Experience": 193264281,
+      "InventoryKnown": true,
+      "Inventory": {},
+      "Dialog": {
+        "Generation": 1834958910837763,
+        "Revision": 49,
+        "EntityId": 7464,
+        "EntityType": 1,
+        "Name": "Ase",
+        "Text": "If you call a handful of soldiers from Loures taking a stroll along the beach unusual, then I have.",
+        "IsPursuit": true,
+        "Pursuit": 1100,
+        "Step": 62,
+        "Type": 2,
+        "Choices": [
+          {
+            "Text": "Any idea what they came to do here?",
+            "Pursuit": 1100,
+            "Option": 1
+          }
+        ],
+        "Prompt": null,
+        "HasNext": true,
+        "ObservedAt": "2026-10-14T04:27:59.1765289+00:00",
+        "Items": []
+      }
+    },
+    {
+      "Generation": 1834958910837763,
+      "Revision": 53,
+      "Name": "ResearchPixel",
+      "Connected": true,
+      "Map": 195,
+      "Gold": 967001,
+      "Experience": 193264281,
+      "InventoryKnown": true,
+      "Inventory": {},
+      "Dialog": {
+        "Generation": 1834958910837763,
+        "Revision": 49,
+        "EntityId": 7464,
+        "EntityType": 1,
+        "Name": "Ase",
+        "Text": "If you call a handful of soldiers from Loures taking a stroll along the beach unusual, then I have.",
+        "IsPursuit": true,
+        "Pursuit": 1100,
+        "Step": 62,
+        "Type": 2,
+        "Choices": [
+          {
+            "Text": "Any idea what they came to do here?",
+            "Pursuit": 1100,
+            "Option": 1
+          }
+        ],
+        "Prompt": null,
+        "HasNext": true,
+        "ObservedAt": "2026-10-14T04:27:59.1765289+00:00",
+        "Items": []
+      }
+    },
+    {
+      "Generation": 1834958910837763,
+      "Revision": 54,
+      "Name": "ResearchPixel",
+      "Connected": true,
+      "Map": 195,
+      "Gold": 967001,
+      "Experience": 193264281,
+      "InventoryKnown": true,
+      "Inventory": {},
+      "Dialog": {
+        "Generation": 1834958910837763,
+        "Revision": 54,
+        "EntityId": 7464,
+        "EntityType": 1,
+        "Name": "Ase",
+        "Text": "I do not know for sure. They were looking for something, even brought an Acolyte to help them. ",
+        "IsPursuit": true,
+        "Pursuit": 1100,
+        "Step": 66,
+        "Type": 0,
+        "Choices": [],
+        "Prompt": null,
+        "HasNext": true,
+        "ObservedAt": "2026-10-14T04:29:39.7494531+00:00",
+        "Items": []
+      }
+    },
+    {
+      "Generation": 1834958910837763,
+      "Revision": 55,
+      "Name": "ResearchPixel",
+      "Connected": true,
+      "Map": 195,
+      "Gold": 967001,
+      "Experience": 193264281,
+      "InventoryKnown": true,
+      "Inventory": {},
+      "Dialog": {
+        "Generation": 1834958910837763,
+        "Revision": 55,
+        "EntityId": 7464,
+        "EntityType": 1,
+        "Name": "Ase",
+        "Text": "The waves bring a lot of strange things, I could not figure out what they wanted.",
+        "IsPursuit": true,
+        "Pursuit": 1100,
+        "Step": 67,
+        "Type": 2,
+        "Choices": [
+          {
+            "Text": "Did you see anything else?",
+            "Pursuit": 1100,
+            "Option": 1
+          },
+          {
+            "Text": "Could they have been looking for a cap of some sort?",
+            "Pursuit": 1100,
+            "Option": 2
+          }
+        ],
+        "Prompt": null,
+        "HasNext": true,
+        "ObservedAt": "2026-10-14T04:29:40.2565505+00:00",
+        "Items": []
+      }
+    },
+    {
+      "Generation": 1834958910837763,
+      "Revision": 56,
+      "Name": "ResearchPixel",
+      "Connected": true,
+      "Map": 195,
+      "Gold": 967001,
+      "Experience": 193264281,
+      "InventoryKnown": true,
+      "Inventory": {},
+      "Dialog": {
+        "Generation": 1834958910837763,
+        "Revision": 56,
+        "EntityId": 7464,
+        "EntityType": 1,
+        "Name": "Ase",
+        "Text": "I am afraid not. If you are so interested, though, perhaps you could go for a walk in the capital. Someone there might be willing to share a secret or two, if you loosen them up enough...",
+        "IsPursuit": true,
+        "Pursuit": 1100,
+        "Step": 72,
+        "Type": 0,
+        "Choices": [],
+        "Prompt": null,
+        "HasNext": true,
+        "ObservedAt": "2026-10-14T04:29:50.2532306+00:00",
+        "Items": []
+      }
+    },
+    {
+      "Generation": 1834958910837763,
+      "Revision": 57,
+      "Name": "ResearchPixel",
+      "Connected": true,
+      "Map": 195,
+      "Gold": 967001,
+      "Experience": 193264281,
+      "InventoryKnown": true,
+      "Inventory": {},
+      "Dialog": null
+    },
+    {
+      "Generation": 1834958910837763,
+      "Revision": 517,
+      "Name": "ResearchPixel",
+      "Connected": true,
+      "Map": 115,
+      "Gold": 967001,
+      "Experience": 193264281,
+      "InventoryKnown": true,
+      "Inventory": {},
+      "Dialog": null
+    },
+    {
+      "Generation": 1834958910837763,
+      "Revision": 543,
+      "Name": "ResearchPixel",
+      "Connected": true,
+      "Map": 115,
+      "Gold": 967001,
+      "Experience": 193264281,
+      "InventoryKnown": true,
+      "Inventory": {},
+      "Dialog": {
+        "Generation": 1834958910837763,
+        "Revision": 543,
+        "EntityId": 8000,
+        "EntityType": 1,
+        "Name": "Courtney",
+        "Text": "Hey there, Sparky! You look pretty tired, been running around too much lately?",
+        "IsPursuit": true,
+        "Pursuit": 1102,
+        "Step": 3,
+        "Type": 2,
+        "Choices": [
+          {
+            "Text": "I need to know something.",
+            "Pursuit": 1102,
+            "Option": 1
+          },
+          {
+            "Text": "Yes, traveling a lot these last few days.",
+            "Pursuit": 1102,
+            "Option": 2
+          }
+        ],
+        "Prompt": null,
+        "HasNext": true,
+        "ObservedAt": "2026-10-14T04:39:57.7403329+00:00",
+        "Items": []
+      }
+    },
+    {
+      "Generation": 1834958910837763,
+      "Revision": 545,
+      "Name": "ResearchPixel",
+      "Connected": true,
+      "Map": 115,
+      "Gold": 967001,
+      "Experience": 193264281,
+      "InventoryKnown": true,
+      "Inventory": {},
+      "Dialog": {
+        "Generation": 1834958910837763,
+        "Revision": 545,
+        "EntityId": 8000,
+        "EntityType": 1,
+        "Name": "Courtney",
+        "Text": "I needed that once, too. So I went around asking people all sorts of questions I could think of, like why it never rains in Southern Abel and how many times must the surigams fly before they poke someone's eye. ",
+        "IsPursuit": true,
+        "Pursuit": 1102,
+        "Step": 8,
+        "Type": 0,
+        "Choices": [],
+        "Prompt": null,
+        "HasNext": true,
+        "ObservedAt": "2026-10-14T04:40:07.2472797+00:00",
+        "Items": []
+      }
+    },
+    {
+      "Generation": 1834958910837763,
+      "Revision": 546,
+      "Name": "ResearchPixel",
+      "Connected": true,
+      "Map": 115,
+      "Gold": 967001,
+      "Experience": 193264281,
+      "InventoryKnown": true,
+      "Inventory": {},
+      "Dialog": {
+        "Generation": 1834958910837763,
+        "Revision": 546,
+        "EntityId": 8000,
+        "EntityType": 1,
+        "Name": "Courtney",
+        "Text": "Finally, one rainy night, someone gave me the Ultimate Solution to all my questions.",
+        "IsPursuit": true,
+        "Pursuit": 1102,
+        "Step": 9,
+        "Type": 2,
+        "Choices": [
+          {
+            "Text": "Would you just answer my questions, please?",
+            "Pursuit": 1102,
+            "Option": 1
+          },
+          {
+            "Text": "And what is that solution?",
+            "Pursuit": 1102,
+            "Option": 2
+          }
+        ],
+        "Prompt": null,
+        "HasNext": true,
+        "ObservedAt": "2026-10-14T04:40:07.7455701+00:00",
+        "Items": []
+      }
+    },
+    {
+      "Generation": 1834958910837763,
+      "Revision": 547,
+      "Name": "ResearchPixel",
+      "Connected": true,
+      "Map": 115,
+      "Gold": 967001,
+      "Experience": 193264281,
+      "InventoryKnown": true,
+      "Inventory": {},
+      "Dialog": {
+        "Generation": 1834958910837763,
+        "Revision": 547,
+        "EntityId": 8000,
+        "EntityType": 1,
+        "Name": "Courtney",
+        "Text": "The Solution is very simple really, the answer is floating in the drink! Even jesters need a stiff one every now and then, you know! ",
+        "IsPursuit": true,
+        "Pursuit": 1102,
+        "Step": 21,
+        "Type": 0,
+        "Choices": [],
+        "Prompt": null,
+        "HasNext": true,
+        "ObservedAt": "2026-10-14T04:40:15.7500717+00:00",
+        "Items": []
+      }
+    },
+    {
+      "Generation": 1834958910837763,
+      "Revision": 548,
+      "Name": "ResearchPixel",
+      "Connected": true,
+      "Map": 115,
+      "Gold": 967001,
+      "Experience": 193264281,
+      "InventoryKnown": true,
+      "Inventory": {},
+      "Dialog": {
+        "Generation": 1834958910837763,
+        "Revision": 548,
+        "EntityId": 8000,
+        "EntityType": 1,
+        "Name": "Courtney",
+        "Text": "Something from Oren would be nice.",
+        "IsPursuit": true,
+        "Pursuit": 1102,
+        "Step": 22,
+        "Type": 2,
+        "Choices": [
+          {
+            "Text": "Excuse me, I have to go.",
+            "Pursuit": 1102,
+            "Option": 1
+          },
+          {
+            "Text": "Here, have a drink.",
+            "Pursuit": 1102,
+            "Option": 2
+          }
+        ],
+        "Prompt": null,
+        "HasNext": true,
+        "ObservedAt": "2026-10-14T04:40:16.2512545+00:00",
+        "Items": []
+      }
+    },
+    {
+      "Generation": 1834958910837763,
+      "Revision": 549,
+      "Name": "ResearchPixel",
+      "Connected": true,
+      "Map": 115,
+      "Gold": 967001,
+      "Experience": 193264281,
+      "InventoryKnown": true,
+      "Inventory": {},
+      "Dialog": {
+        "Generation": 1834958910837763,
+        "Revision": 549,
+        "EntityId": 8000,
+        "EntityType": 1,
+        "Name": "Courtney",
+        "Text": "So soon? Well, be seeing ya!",
+        "IsPursuit": true,
+        "Pursuit": 1102,
+        "Step": 27,
+        "Type": 0,
+        "Choices": [],
+        "Prompt": null,
+        "HasNext": false,
+        "ObservedAt": "2026-10-14T04:40:57.2799762+00:00",
+        "Items": []
+      }
+    },
+    {
+      "Generation": 1834958910837763,
+      "Revision": 550,
+      "Name": "ResearchPixel",
+      "Connected": true,
+      "Map": 115,
+      "Gold": 967001,
+      "Experience": 193264281,
+      "InventoryKnown": true,
+      "Inventory": {},
+      "Dialog": {
+        "Generation": 1834958910837763,
+        "Revision": 549,
+        "EntityId": 8000,
+        "EntityType": 1,
+        "Name": "Courtney",
+        "Text": "So soon? Well, be seeing ya!",
+        "IsPursuit": true,
+        "Pursuit": 1102,
+        "Step": 27,
+        "Type": 0,
+        "Choices": [],
+        "Prompt": null,
+        "HasNext": false,
+        "ObservedAt": "2026-10-14T04:40:57.2799762+00:00",
+        "Items": []
+      }
+    },
+    {
+      "Generation": 1834958910837763,
+      "Revision": 551,
+      "Name": "ResearchPixel",
+      "Connected": true,
+      "Map": 115,
+      "Gold": 967001,
+      "Experience": 193264281,
+      "InventoryKnown": true,
+      "Inventory": {},
+      "Dialog": null
+    },
+    {
+      "Generation": 1834958910837763,
+      "Revision": 867,
+      "Name": "ResearchPixel",
+      "Connected": true,
+      "Map": 6524,
+      "Gold": 967001,
+      "Experience": 193264281,
+      "InventoryKnown": true,
+      "Inventory": {},
+      "Dialog": null
+    },
+    {
+      "Generation": 1834958910837763,
+      "Revision": 892,
+      "Name": "ResearchPixel",
+      "Connected": true,
+      "Map": 6524,
+      "Gold": 967001,
+      "Experience": 193264281,
+      "InventoryKnown": true,
+      "Inventory": {},
+      "Dialog": {
+        "Generation": 1834958910837763,
+        "Revision": 892,
+        "EntityId": 7047,
+        "EntityType": 1,
+        "Name": "Franchesco",
+        "Text": "Hello.  What can I do for you?",
+        "IsPursuit": false,
+        "Pursuit": 0,
+        "Step": 0,
+        "Type": 0,
+        "Choices": [
+          {
+            "Text": "Oren Bistro",
+            "Pursuit": 2021,
+            "Option": 1
+          },
+          {
+            "Text": "Octopus Rumor",
+            "Pursuit": 2337,
+            "Option": 2
+          }
+        ],
+        "Prompt": null,
+        "HasNext": false,
+        "ObservedAt": "2026-10-14T04:44:12.9603683+00:00",
+        "Items": []
+      }
+    },
+    {
+      "Generation": 1834958910837763,
+      "Revision": 893,
+      "Name": "ResearchPixel",
+      "Connected": true,
+      "Map": 6524,
+      "Gold": 967001,
+      "Experience": 193264281,
+      "InventoryKnown": true,
+      "Inventory": {},
+      "Dialog": {
+        "Generation": 1834958910837763,
+        "Revision": 893,
+        "EntityId": 7047,
+        "EntityType": 1,
+        "Name": "Franchesco",
+        "Text": "Hello Welcome to my Tavern, care for some refreshments?",
+        "IsPursuit": true,
+        "Pursuit": 997,
+        "Step": 0,
+        "Type": 2,
+        "Choices": [
+          {
+            "Text": "Franchesco's Wine - 100 Gold",
+            "Pursuit": 997,
+            "Option": 1
+          },
+          {
+            "Text": "Oren Ale - 50 Gold",
+            "Pursuit": 997,
+            "Option": 2
+          },
+          {
+            "Text": "Oren Brandy - 75 gold",
+            "Pursuit": 997,
+            "Option": 3
+          }
+        ],
+        "Prompt": null,
+        "HasNext": true,
+        "ObservedAt": "2026-10-14T04:44:21.9365413+00:00",
+        "Items": []
+      }
+    },
+    {
+      "Generation": 1834958910837763,
+      "Revision": 894,
+      "Name": "ResearchPixel",
+      "Connected": true,
+      "Map": 6524,
+      "Gold": 966926,
+      "Experience": 193264281,
+      "InventoryKnown": true,
+      "Inventory": {},
+      "Dialog": {
+        "Generation": 1834958910837763,
+        "Revision": 893,
+        "EntityId": 7047,
+        "EntityType": 1,
+        "Name": "Franchesco",
+        "Text": "Hello Welcome to my Tavern, care for some refreshments?",
+        "IsPursuit": true,
+        "Pursuit": 997,
+        "Step": 0,
+        "Type": 2,
+        "Choices": [
+          {
+            "Text": "Franchesco's Wine - 100 Gold",
+            "Pursuit": 997,
+            "Option": 1
+          },
+          {
+            "Text": "Oren Ale - 50 Gold",
+            "Pursuit": 997,
+            "Option": 2
+          },
+          {
+            "Text": "Oren Brandy - 75 gold",
+            "Pursuit": 997,
+            "Option": 3
+          }
+        ],
+        "Prompt": null,
+        "HasNext": true,
+        "ObservedAt": "2026-10-14T04:44:21.9365413+00:00",
+        "Items": []
+      }
+    },
+    {
+      "Generation": 1834958910837763,
+      "Revision": 895,
+      "Name": "ResearchPixel",
+      "Connected": true,
+      "Map": 6524,
+      "Gold": 966926,
+      "Experience": 193264281,
+      "InventoryKnown": true,
+      "Inventory": {
+        "6": {
+          "Slot": 6,
+          "Name": "Oren Brandy",
+          "Quantity": 1,
+          "Stackable": true,
+          "Sprite": 38
+        }
+      },
+      "Dialog": {
+        "Generation": 1834958910837763,
+        "Revision": 893,
+        "EntityId": 7047,
+        "EntityType": 1,
+        "Name": "Franchesco",
+        "Text": "Hello Welcome to my Tavern, care for some refreshments?",
+        "IsPursuit": true,
+        "Pursuit": 997,
+        "Step": 0,
+        "Type": 2,
+        "Choices": [
+          {
+            "Text": "Franchesco's Wine - 100 Gold",
+            "Pursuit": 997,
+            "Option": 1
+          },
+          {
+            "Text": "Oren Ale - 50 Gold",
+            "Pursuit": 997,
+            "Option": 2
+          },
+          {
+            "Text": "Oren Brandy - 75 gold",
+            "Pursuit": 997,
+            "Option": 3
+          }
+        ],
+        "Prompt": null,
+        "HasNext": true,
+        "ObservedAt": "2026-10-14T04:44:21.9365413+00:00",
+        "Items": []
+      }
+    },
+    {
+      "Generation": 1834958910837763,
+      "Revision": 897,
+      "Name": "ResearchPixel",
+      "Connected": true,
+      "Map": 6524,
+      "Gold": 966926,
+      "Experience": 193264281,
+      "InventoryKnown": true,
+      "Inventory": {
+        "6": {
+          "Slot": 6,
+          "Name": "Oren Brandy",
+          "Quantity": 1,
+          "Stackable": true,
+          "Sprite": 38
+        }
+      },
+      "Dialog": {
+        "Generation": 1834958910837763,
+        "Revision": 897,
+        "EntityId": 7047,
+        "EntityType": 1,
+        "Name": "Franchesco",
+        "Text": "Enjoy!",
+        "IsPursuit": true,
+        "Pursuit": 997,
+        "Step": 29,
+        "Type": 0,
+        "Choices": [],
+        "Prompt": null,
+        "HasNext": false,
+        "ObservedAt": "2026-10-14T04:44:42.4539498+00:00",
+        "Items": []
+      }
+    },
+    {
+      "Generation": 1834958910837763,
+      "Revision": 899,
+      "Name": "ResearchPixel",
+      "Connected": true,
+      "Map": 6524,
+      "Gold": 966926,
+      "Experience": 193264281,
+      "InventoryKnown": true,
+      "Inventory": {
+        "6": {
+          "Slot": 6,
+          "Name": "Oren Brandy",
+          "Quantity": 1,
+          "Stackable": true,
+          "Sprite": 38
+        }
+      },
+      "Dialog": null
+    },
+    {
+      "Generation": 1834958910837763,
+      "Revision": 1171,
+      "Name": "ResearchPixel",
+      "Connected": true,
+      "Map": 115,
+      "Gold": 966926,
+      "Experience": 193264281,
+      "InventoryKnown": true,
+      "Inventory": {
+        "6": {
+          "Slot": 6,
+          "Name": "Oren Brandy",
+          "Quantity": 1,
+          "Stackable": true,
+          "Sprite": 38
+        }
+      },
+      "Dialog": null
+    },
+    {
+      "Generation": 1834958910837763,
+      "Revision": 1192,
+      "Name": "ResearchPixel",
+      "Connected": true,
+      "Map": 115,
+      "Gold": 966926,
+      "Experience": 193264281,
+      "InventoryKnown": true,
+      "Inventory": {
+        "6": {
+          "Slot": 6,
+          "Name": "Oren Brandy",
+          "Quantity": 1,
+          "Stackable": true,
+          "Sprite": 38
+        }
+      },
+      "Dialog": {
+        "Generation": 1834958910837763,
+        "Revision": 1192,
+        "EntityId": 8000,
+        "EntityType": 1,
+        "Name": "Courtney",
+        "Text": "Hey there, Sparky! You look pretty tired, been running around too much lately?",
+        "IsPursuit": true,
+        "Pursuit": 1102,
+        "Step": 3,
+        "Type": 2,
+        "Choices": [
+          {
+            "Text": "I need to know something.",
+            "Pursuit": 1102,
+            "Option": 1
+          },
+          {
+            "Text": "Yes, traveling a lot these last few days.",
+            "Pursuit": 1102,
+            "Option": 2
+          }
+        ],
+        "Prompt": null,
+        "HasNext": true,
+        "ObservedAt": "2026-10-14T04:47:15.581791+00:00",
+        "Items": []
+      }
+    },
+    {
+      "Generation": 1834958910837763,
+      "Revision": 1193,
+      "Name": "ResearchPixel",
+      "Connected": true,
+      "Map": 115,
+      "Gold": 966926,
+      "Experience": 193264281,
+      "InventoryKnown": true,
+      "Inventory": {
+        "6": {
+          "Slot": 6,
+          "Name": "Oren Brandy",
+          "Quantity": 1,
+          "Stackable": true,
+          "Sprite": 38
+        }
+      },
+      "Dialog": {
+        "Generation": 1834958910837763,
+        "Revision": 1193,
+        "EntityId": 8000,
+        "EntityType": 1,
+        "Name": "Courtney",
+        "Text": "I needed that once, too. So I went around asking people all sorts of questions I could think of, like why it never rains in Southern Abel and how many times must the surigams fly before they poke someone's eye. ",
+        "IsPursuit": true,
+        "Pursuit": 1102,
+        "Step": 8,
+        "Type": 0,
+        "Choices": [],
+        "Prompt": null,
+        "HasNext": true,
+        "ObservedAt": "2026-10-14T04:47:18.0778258+00:00",
+        "Items": []
+      }
+    },
+    {
+      "Generation": 1834958910837763,
+      "Revision": 1194,
+      "Name": "ResearchPixel",
+      "Connected": true,
+      "Map": 115,
+      "Gold": 966926,
+      "Experience": 193264281,
+      "InventoryKnown": true,
+      "Inventory": {
+        "6": {
+          "Slot": 6,
+          "Name": "Oren Brandy",
+          "Quantity": 1,
+          "Stackable": true,
+          "Sprite": 38
+        }
+      },
+      "Dialog": {
+        "Generation": 1834958910837763,
+        "Revision": 1194,
+        "EntityId": 8000,
+        "EntityType": 1,
+        "Name": "Courtney",
+        "Text": "Finally, one rainy night, someone gave me the Ultimate Solution to all my questions.",
+        "IsPursuit": true,
+        "Pursuit": 1102,
+        "Step": 9,
+        "Type": 2,
+        "Choices": [
+          {
+            "Text": "Would you just answer my questions, please?",
+            "Pursuit": 1102,
+            "Option": 1
+          },
+          {
+            "Text": "And what is that solution?",
+            "Pursuit": 1102,
+            "Option": 2
+          }
+        ],
+        "Prompt": null,
+        "HasNext": true,
+        "ObservedAt": "2026-10-14T04:47:18.5807365+00:00",
+        "Items": []
+      }
+    },
+    {
+      "Generation": 1834958910837763,
+      "Revision": 1195,
+      "Name": "ResearchPixel",
+      "Connected": true,
+      "Map": 115,
+      "Gold": 966926,
+      "Experience": 193264281,
+      "InventoryKnown": true,
+      "Inventory": {
+        "6": {
+          "Slot": 6,
+          "Name": "Oren Brandy",
+          "Quantity": 1,
+          "Stackable": true,
+          "Sprite": 38
+        }
+      },
+      "Dialog": {
+        "Generation": 1834958910837763,
+        "Revision": 1195,
+        "EntityId": 8000,
+        "EntityType": 1,
+        "Name": "Courtney",
+        "Text": "The Solution is very simple really, the answer is floating in the drink! Even jesters need a stiff one every now and then, you know! ",
+        "IsPursuit": true,
+        "Pursuit": 1102,
+        "Step": 21,
+        "Type": 0,
+        "Choices": [],
+        "Prompt": null,
+        "HasNext": true,
+        "ObservedAt": "2026-10-14T04:47:20.5834887+00:00",
+        "Items": []
+      }
+    },
+    {
+      "Generation": 1834958910837763,
+      "Revision": 1196,
+      "Name": "ResearchPixel",
+      "Connected": true,
+      "Map": 115,
+      "Gold": 966926,
+      "Experience": 193264281,
+      "InventoryKnown": true,
+      "Inventory": {
+        "6": {
+          "Slot": 6,
+          "Name": "Oren Brandy",
+          "Quantity": 1,
+          "Stackable": true,
+          "Sprite": 38
+        }
+      },
+      "Dialog": {
+        "Generation": 1834958910837763,
+        "Revision": 1196,
+        "EntityId": 8000,
+        "EntityType": 1,
+        "Name": "Courtney",
+        "Text": "Something from Oren would be nice.",
+        "IsPursuit": true,
+        "Pursuit": 1102,
+        "Step": 22,
+        "Type": 2,
+        "Choices": [
+          {
+            "Text": "Excuse me, I have to go.",
+            "Pursuit": 1102,
+            "Option": 1
+          },
+          {
+            "Text": "Here, have a drink.",
+            "Pursuit": 1102,
+            "Option": 2
+          }
+        ],
+        "Prompt": null,
+        "HasNext": true,
+        "ObservedAt": "2026-10-14T04:47:21.080278+00:00",
+        "Items": []
+      }
+    },
+    {
+      "Generation": 1834958910837763,
+      "Revision": 1197,
+      "Name": "ResearchPixel",
+      "Connected": true,
+      "Map": 115,
+      "Gold": 966926,
+      "Experience": 193264281,
+      "InventoryKnown": true,
+      "Inventory": {},
+      "Dialog": {
+        "Generation": 1834958910837763,
+        "Revision": 1196,
+        "EntityId": 8000,
+        "EntityType": 1,
+        "Name": "Courtney",
+        "Text": "Something from Oren would be nice.",
+        "IsPursuit": true,
+        "Pursuit": 1102,
+        "Step": 22,
+        "Type": 2,
+        "Choices": [
+          {
+            "Text": "Excuse me, I have to go.",
+            "Pursuit": 1102,
+            "Option": 1
+          },
+          {
+            "Text": "Here, have a drink.",
+            "Pursuit": 1102,
+            "Option": 2
+          }
+        ],
+        "Prompt": null,
+        "HasNext": true,
+        "ObservedAt": "2026-10-14T04:47:21.080278+00:00",
+        "Items": []
+      }
+    },
+    {
+      "Generation": 1834958910837763,
+      "Revision": 1199,
+      "Name": "ResearchPixel",
+      "Connected": true,
+      "Map": 115,
+      "Gold": 966926,
+      "Experience": 193264281,
+      "InventoryKnown": true,
+      "Inventory": {},
+      "Dialog": {
+        "Generation": 1834958910837763,
+        "Revision": 1199,
+        "EntityId": 8000,
+        "EntityType": 1,
+        "Name": "Courtney",
+        "Text": "That's good! Fior for a jester. Now, you got any questions?",
+        "IsPursuit": true,
+        "Pursuit": 1102,
+        "Step": 39,
+        "Type": 2,
+        "Choices": [
+          {
+            "Text": "No, none.",
+            "Pursuit": 1102,
+            "Option": 1
+          },
+          {
+            "Text": "Do you know anything about a special cap?",
+            "Pursuit": 1102,
+            "Option": 2
+          }
+        ],
+        "Prompt": null,
+        "HasNext": true,
+        "ObservedAt": "2026-10-14T04:47:23.5902356+00:00",
+        "Items": []
+      }
+    },
+    {
+      "Generation": 1834958910837763,
+      "Revision": 1200,
+      "Name": "ResearchPixel",
+      "Connected": true,
+      "Map": 115,
+      "Gold": 966926,
+      "Experience": 193264281,
+      "InventoryKnown": true,
+      "Inventory": {},
+      "Dialog": {
+        "Generation": 1834958910837763,
+        "Revision": 1200,
+        "EntityId": 8000,
+        "EntityType": 1,
+        "Name": "Courtney",
+        "Text": "Ah, so that was your interest all this time. Don't talk too loud, the King and Sir Thibault might hear you.",
+        "IsPursuit": true,
+        "Pursuit": 1102,
+        "Step": 48,
+        "Type": 2,
+        "Choices": [
+          {
+            "Text": "What do you know about it?",
+            "Pursuit": 1102,
+            "Option": 1
+          },
+          {
+            "Text": "Is it in Loures?",
+            "Pursuit": 1102,
+            "Option": 2
+          }
+        ],
+        "Prompt": null,
+        "HasNext": true,
+        "ObservedAt": "2026-10-14T04:47:32.5920242+00:00",
+        "Items": []
+      }
+    },
+    {
+      "Generation": 1834958910837763,
+      "Revision": 1201,
+      "Name": "ResearchPixel",
+      "Connected": true,
+      "Map": 115,
+      "Gold": 966926,
+      "Experience": 193264281,
+      "InventoryKnown": true,
+      "Inventory": {},
+      "Dialog": {
+        "Generation": 1834958910837763,
+        "Revision": 1201,
+        "EntityId": 8000,
+        "EntityType": 1,
+        "Name": "Courtney",
+        "Text": "Not much. I overheard Jean telling the King about it. It has something to do with the deities, but not even the Apostles know much about it. I guess you'd have to ask one of the gods themselves - whichever is more prone to sharing knowledge. All in Loures are forbidden to talk about it.",
+        "IsPursuit": true,
+        "Pursuit": 1102,
+        "Step": 53,
+        "Type": 0,
+        "Choices": [],
+        "Prompt": null,
+        "HasNext": true,
+        "ObservedAt": "2026-10-14T04:47:43.6313213+00:00",
+        "Items": []
+      }
+    },
+    {
+      "Generation": 1834958910837763,
+      "Revision": 1202,
+      "Name": "ResearchPixel",
+      "Connected": true,
+      "Map": 115,
+      "Gold": 966926,
+      "Experience": 193264281,
+      "InventoryKnown": true,
+      "Inventory": {},
+      "Dialog": {
+        "Generation": 1834958910837763,
+        "Revision": 1202,
+        "EntityId": 8000,
+        "EntityType": 1,
+        "Name": "Courtney",
+        "Text": "Ah, so that was your interest all this time. Don't talk too loud, the King and Sir Thibault might hear you.",
+        "IsPursuit": true,
+        "Pursuit": 1102,
+        "Step": 48,
+        "Type": 2,
+        "Choices": [
+          {
+            "Text": "What do you know about it?",
+            "Pursuit": 1102,
+            "Option": 1
+          },
+          {
+            "Text": "Is it in Loures?",
+            "Pursuit": 1102,
+            "Option": 2
+          }
+        ],
+        "Prompt": null,
+        "HasNext": true,
+        "ObservedAt": "2026-10-14T04:47:44.0984146+00:00",
+        "Items": []
+      }
+    },
+    {
+      "Generation": 1834958910837763,
+      "Revision": 1203,
+      "Name": "ResearchPixel",
+      "Connected": true,
+      "Map": 115,
+      "Gold": 966926,
+      "Experience": 193264281,
+      "InventoryKnown": true,
+      "Inventory": {},
+      "Dialog": {
+        "Generation": 1834958910837763,
+        "Revision": 1203,
+        "EntityId": 8000,
+        "EntityType": 1,
+        "Name": "Courtney",
+        "Text": "It's believed so. It seems Jean found a way to locate its general position, some magical stuff he's been dealing with in the basements. One night he screamed \"I found it!\" and the next morning a bunch of soldiers went off on a \"special mission\" to Abel, then we got the weird orders. Suspicious, isn't it? Well, since then I saw no more special missions, so I assume it's still here in the castle.",
+        "IsPursuit": true,
+        "Pursuit": 1102,
+        "Step": 61,
+        "Type": 0,
+        "Choices": [],
+        "Prompt": null,
+        "HasNext": true,
+        "ObservedAt": "2026-10-14T04:47:50.6089205+00:00",
+        "Items": []
+      }
+    },
+    {
+      "Generation": 1834958910837763,
+      "Revision": 1204,
+      "Name": "ResearchPixel",
+      "Connected": true,
+      "Map": 115,
+      "Gold": 966926,
+      "Experience": 193264281,
+      "InventoryKnown": true,
+      "Inventory": {},
+      "Dialog": null
+    },
+    {
+      "Generation": 1834958910837763,
+      "Revision": 1590,
+      "Name": "ResearchPixel",
+      "Connected": true,
+      "Map": 398,
+      "Gold": 966926,
+      "Experience": 193264281,
+      "InventoryKnown": true,
+      "Inventory": {},
+      "Dialog": null
+    },
+    {
+      "Generation": 1834958910837763,
+      "Revision": 1601,
+      "Name": "ResearchPixel",
+      "Connected": true,
+      "Map": 398,
+      "Gold": 966926,
+      "Experience": 193264281,
+      "InventoryKnown": true,
+      "Inventory": {},
+      "Dialog": {
+        "Generation": 1834958910837763,
+        "Revision": 1601,
+        "EntityId": 6519,
+        "EntityType": 1,
+        "Name": "Logan",
+        "Text": "Hello.  What can I do for you?",
+        "IsPursuit": false,
+        "Pursuit": 0,
+        "Step": 0,
+        "Type": 0,
+        "Choices": [
+          {
+            "Text": "Wizard",
+            "Pursuit": 1186,
+            "Option": 1
+          },
+          {
+            "Text": "Guide",
+            "Pursuit": 1189,
+            "Option": 2
+          },
+          {
+            "Text": "Luathas, the Cap",
+            "Pursuit": 2128,
+            "Option": 3
+          }
+        ],
+        "Prompt": null,
+        "HasNext": false,
+        "ObservedAt": "2026-10-14T04:52:40.8508263+00:00",
+        "Items": []
+      }
+    },
+    {
+      "Generation": 1834958910837763,
+      "Revision": 1606,
+      "Name": "ResearchPixel",
+      "Connected": true,
+      "Map": 398,
+      "Gold": 966926,
+      "Experience": 193264281,
+      "InventoryKnown": true,
+      "Inventory": {},
+      "Dialog": {
+        "Generation": 1834958910837763,
+        "Revision": 1601,
+        "EntityId": 6519,
+        "EntityType": 1,
+        "Name": "Logan",
+        "Text": "Hello.  What can I do for you?",
+        "IsPursuit": false,
+        "Pursuit": 0,
+        "Step": 0,
+        "Type": 0,
+        "Choices": [
+          {
+            "Text": "Wizard",
+            "Pursuit": 1186,
+            "Option": 1
+          },
+          {
+            "Text": "Guide",
+            "Pursuit": 1189,
+            "Option": 2
+          },
+          {
+            "Text": "Luathas, the Cap",
+            "Pursuit": 2128,
+            "Option": 3
+          }
+        ],
+        "Prompt": null,
+        "HasNext": false,
+        "ObservedAt": "2026-10-14T04:52:40.8508263+00:00",
+        "Items": []
+      }
+    },
+    {
+      "Generation": 1834958910837763,
+      "Revision": 1607,
+      "Name": "ResearchPixel",
+      "Connected": true,
+      "Map": 398,
+      "Gold": 966926,
+      "Experience": 193264281,
+      "InventoryKnown": true,
+      "Inventory": {},
+      "Dialog": {
+        "Generation": 1834958910837763,
+        "Revision": 1607,
+        "EntityId": 6519,
+        "EntityType": 1,
+        "Name": "Logan",
+        "Text": "You have come far in your search, have you not? But more awaits ahead of you.",
+        "IsPursuit": true,
+        "Pursuit": 1104,
+        "Step": 3,
+        "Type": 2,
+        "Choices": [
+          {
+            "Text": "I am eager to continue, I wish to help the boy.",
+            "Pursuit": 1104,
+            "Option": 1
+          },
+          {
+            "Text": "More!? But I have been to all corners of Temuair already!",
+            "Pursuit": 1104,
+            "Option": 2
+          }
+        ],
+        "Prompt": null,
+        "HasNext": true,
+        "ObservedAt": "2026-10-14T04:53:43.8926642+00:00",
+        "Items": []
+      }
+    },
+    {
+      "Generation": 1834958910837763,
+      "Revision": 1608,
+      "Name": "ResearchPixel",
+      "Connected": true,
+      "Map": 398,
+      "Gold": 966926,
+      "Experience": 193264281,
+      "InventoryKnown": true,
+      "Inventory": {},
+      "Dialog": {
+        "Generation": 1834958910837763,
+        "Revision": 1608,
+        "EntityId": 6519,
+        "EntityType": 1,
+        "Name": "Logan",
+        "Text": "Yes, the boy in Abel. I am surprised you still remember he was the first step of this endless walk. Helping the boy is the largest of the tasks. ",
+        "IsPursuit": true,
+        "Pursuit": 1104,
+        "Step": 8,
+        "Type": 0,
+        "Choices": [],
+        "Prompt": null,
+        "HasNext": true,
+        "ObservedAt": "2026-10-14T04:53:46.8934675+00:00",
+        "Items": []
+      }
+    },
+    {
+      "Generation": 1834958910837763,
+      "Revision": 1609,
+      "Name": "ResearchPixel",
+      "Connected": true,
+      "Map": 398,
+      "Gold": 966926,
+      "Experience": 193264281,
+      "InventoryKnown": true,
+      "Inventory": {},
+      "Dialog": {
+        "Generation": 1834958910837763,
+        "Revision": 1609,
+        "EntityId": 6519,
+        "EntityType": 1,
+        "Name": "Logan",
+        "Text": "There are many others.",
+        "IsPursuit": true,
+        "Pursuit": 1104,
+        "Step": 9,
+        "Type": 2,
+        "Choices": [
+          {
+            "Text": "What will I gain in the end?",
+            "Pursuit": 1104,
+            "Option": 1
+          },
+          {
+            "Text": "What must I do next?",
+            "Pursuit": 1104,
+            "Option": 2
+          }
+        ],
+        "Prompt": null,
+        "HasNext": true,
+        "ObservedAt": "2026-10-14T04:53:47.3931189+00:00",
+        "Items": []
+      }
+    },
+    {
+      "Generation": 1834958910837763,
+      "Revision": 1610,
+      "Name": "ResearchPixel",
+      "Connected": true,
+      "Map": 398,
+      "Gold": 966926,
+      "Experience": 193264281,
+      "InventoryKnown": true,
+      "Inventory": {},
+      "Dialog": {
+        "Generation": 1834958910837763,
+        "Revision": 1610,
+        "EntityId": 6519,
+        "EntityType": 1,
+        "Name": "Logan",
+        "Text": "You must first track your prize's origins. You are close. The tortuous path that you seek lies in damp marshes beyond these mountains. Look for information there, but remember, as Deoch has great goodness behind his dark figure, important information may be hidden behind what seems ignorant.",
+        "IsPursuit": true,
+        "Pursuit": 1104,
+        "Step": 21,
+        "Type": 0,
+        "Choices": [],
+        "Prompt": null,
+        "HasNext": true,
+        "ObservedAt": "2026-10-14T04:53:49.3933781+00:00",
+        "Items": []
+      }
+    },
+    {
+      "Generation": 1834958910837763,
+      "Revision": 1611,
+      "Name": "ResearchPixel",
+      "Connected": true,
+      "Map": 398,
+      "Gold": 966926,
+      "Experience": 193264281,
+      "InventoryKnown": true,
+      "Inventory": {},
+      "Dialog": {
+        "Generation": 1834958910837763,
+        "Revision": 1611,
+        "EntityId": 6519,
+        "EntityType": 1,
+        "Name": "Logan",
+        "Text": "My role in your epic pursuit is done. Go now, may the Light of Danaan guide you.",
+        "IsPursuit": true,
+        "Pursuit": 1104,
+        "Step": 22,
+        "Type": 0,
+        "Choices": [],
+        "Prompt": null,
+        "HasNext": true,
+        "ObservedAt": "2026-10-14T04:53:49.9116588+00:00",
+        "Items": []
+      }
+    },
+    {
+      "Generation": 1834958910837763,
+      "Revision": 1612,
+      "Name": "ResearchPixel",
+      "Connected": true,
+      "Map": 398,
+      "Gold": 966926,
+      "Experience": 193264281,
+      "InventoryKnown": true,
+      "Inventory": {},
+      "Dialog": null
+    }
+  ]
+}

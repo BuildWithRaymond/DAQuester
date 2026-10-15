@@ -516,6 +516,7 @@ public sealed partial class DesktopRuntime
                 if (runners.GetValueOrDefault(name) != old)
                     throw new QuestBlockedException("Another quest now owns this character.");
                 await RestoreStickCompletionAsync(old, preparation.Token);
+                await RestoreDanaanReplayAsync(old, preparation.Token);
                 RequireOpen();
                 preparation.Token.ThrowIfCancellationRequested();
                 if (sessions.GetValueOrDefault(name) != session || !session.Snapshot.Connected || session.Snapshot.Generation != generation || runners.GetValueOrDefault(name) != old)
@@ -555,9 +556,14 @@ public sealed partial class DesktopRuntime
                 (character, activity) => RecordHuntingActivity(character, selected.Id, generation, activity));
             var runner = new QuestRunner(session, journal, selected, Calibration, SickChildEvidence.For(selected.Id) is not null ? new QuestHelperHub(this, name) : null, hunting,
                 () => HasReadyWorkDuringBouquet(name), bouquetWaitingArea);
+            runner.PreparationBatch = () => QueueReserves(name)
+                ? Queue(name).Quests.Where(id => id != selected.Id && Availability(name, id).Ready)
+                    .Select(id => (recipes[id], journal.Load(name, recipes[id].Id))).ToArray()
+                : [];
             runners[name] = runner;
             ObserveRunner(name, runner);
             await RestoreStickCompletionAsync(runner, preparation.Token);
+            await RestoreDanaanReplayAsync(runner, preparation.Token);
             RequireOpen();
             preparation.Token.ThrowIfCancellationRequested();
             if (sessions.GetValueOrDefault(name) != session || !session.Snapshot.Connected || session.Snapshot.Generation != generation || runners.GetValueOrDefault(name) != runner)

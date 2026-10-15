@@ -10,6 +10,7 @@ namespace DAQuester.App.Controls;
 public sealed class CharacterSpriteAccent : Control
 {
     public static readonly StyledProperty<CharacterSpritePreview?> SourceProperty = AvaloniaProperty.Register<CharacterSpriteAccent, CharacterSpritePreview?>(nameof(Source));
+    public static readonly StyledProperty<double> VerticalOffsetProperty = AvaloniaProperty.Register<CharacterSpriteAccent, double>(nameof(VerticalOffset));
     CharacterSpritePreview? subscribedSource;
 
     public CharacterSpritePreview? Source
@@ -17,6 +18,14 @@ public sealed class CharacterSpriteAccent : Control
         get => GetValue(SourceProperty);
         set => SetValue(SourceProperty, value);
     }
+
+    public double VerticalOffset
+    {
+        get => GetValue(VerticalOffsetProperty);
+        set => SetValue(VerticalOffsetProperty, value);
+    }
+
+    static CharacterSpriteAccent() => AffectsRender<CharacterSpriteAccent>(VerticalOffsetProperty);
 
     protected override void OnAttachedToVisualTree(VisualTreeAttachmentEventArgs e)
     {
@@ -61,6 +70,6 @@ public sealed class CharacterSpriteAccent : Control
     public override void Render(DrawingContext context)
     {
         RenderOptions.SetBitmapInterpolationMode(this, BitmapInterpolationMode.None);
-        Source?.DrawAccent(context, Bounds.Size);
+        Source?.DrawAccent(context, Bounds.Size, VerticalOffset);
     }
 }

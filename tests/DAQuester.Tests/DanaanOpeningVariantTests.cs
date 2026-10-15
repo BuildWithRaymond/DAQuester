@@ -90,8 +90,10 @@ public class DanaanOpeningVariantTests
     [InlineData("orders", "Camille")]
     [InlineData("original", "Erika")]
     [InlineData("unknown", null)]
+    [InlineData("changed-prefix", null)]
     public async Task Exact_new_reply_selects_only_its_observed_branch(string response, string? destination)
     {
+        bool orders = response is "orders" or "changed-prefix";
         var s = new SimulatedSession();
         s.Set(s.Snapshot with
         {
@@ -125,7 +127,7 @@ public class DanaanOpeningVariantTests
             if (c.Kind == "choose" && c.Text == "Yes!")
                 s.Set(s.Snapshot with
                 {
-                    Dialog = Page("Blaise", response == "orders" ? Orders : response == "original" ? Default : "Unobserved branch", response == "orders" ? "Why is the subject forbidden?" : null)
+                    Dialog = Page("Blaise", orders ? Orders : response == "original" ? Default : "Unobserved branch", orders ? "Why is the subject forbidden?" : null)
                 });
             if (c.Kind == "choose" && c.Text == "Why is the subject forbidden?")
                 s.Set(s.Snapshot with
@@ -150,7 +152,17 @@ public class DanaanOpeningVariantTests
             Quest = DanaanEvidence.Id,
             DanaanOptions = new("cail", true)
         });
-        var runner = new QuestRunner(s, journal, Recipe(), new());
+        var recipe = Recipe();
+        if (response == "changed-prefix")
+        {
+            var variant = recipe.JourneyVariants["loures-orders"];
+            var prefix = variant.Journey[0];
+            recipe.JourneyVariants["loures-orders"] = variant with
+            {
+                Journey = [prefix with { Pages = [prefix.Pages[0], prefix.Pages[1] with { TextAlternatives = ["Unobserved submitted body"] }, ..prefix.Pages[2..]] }, ..variant.Journey[1..]]
+            };
+        }
+        var runner = new QuestRunner(s, journal, recipe, new());
         await runner.RunAsync();
         Assert.Single(s.Commands, c => c.Kind == "choose" && c.Text == "Yes!");
         if (destination is null)

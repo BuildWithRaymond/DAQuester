@@ -98,6 +98,14 @@ public static class ShinewoodFaerieEvidence
     }
 
     public static bool PetWaitPage(Dialog d) => d is { IsPursuit: true, EntityType: 4, HasNext: false, Prompt: null } && d.Choices.Length == 0 && d.Text.Trim().Equals("Sorry, no faeries are willing to bond with you. Come back in one deoch.", StringComparison.OrdinalIgnoreCase);
+    public static bool PetBondConsent(Dialog? offer, Dialog question) =>
+        offer is { IsPursuit: true, EntityType: 4, HasNext: true, Prompt: null, Choices.Length: 0 } &&
+        offer.Text == "You have a connection with a faerie. To make it bond with you, you must give up 250hp and 250mp." &&
+        question is { IsPursuit: true, EntityType: 4, Type: 2, HasNext: true, Prompt: null, Choices.Length: 2 } &&
+        question.Text == "Are you willing?" && question.Generation == offer.Generation &&
+        question.EntityId == offer.EntityId && question.Pursuit == offer.Pursuit &&
+        question.Revision > offer.Revision && question.Choices.Count(c => c.Text == "Yes") == 1 &&
+        question.Choices.Count(c => c.Text == "No") == 1;
     public static bool NoncasterPage(Dialog d) => d is { IsPursuit: true, EntityType: 4, HasNext: false, Prompt: null } && d.Choices.Length == 0 && d.Text.Trim().Equals("I only know spells for the Priest or Wizard.", StringComparison.OrdinalIgnoreCase);
     public static bool SpellMenu(string text) => new[]
     {

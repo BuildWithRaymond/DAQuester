@@ -160,6 +160,14 @@ public sealed partial class DesktopRuntime
 
         if (!sessions.TryGetValue(name, out var session) || !session.Snapshot.Connected)
             throw new QuestBlockedException("Connected character required: " + name);
+        if (r.Method == "queue-start")
+        {
+            // Unlike the window's Start/Pause toggle, a repeated control request
+            // must never pause an already running queue or replace its order.
+            if (!QueueRunning(name))
+                await StartQueueAsync(name);
+            return new { queue = Queue(name) };
+        }
         if (r.Method == "calibrate")
             return await StartAutomaticCalibration(name);
         if (r.Method == "start")

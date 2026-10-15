@@ -30,6 +30,18 @@ public class TravelNoticeTests
         Assert.Equal(0,moves);
     }
 
+    [Fact]
+    public async Task Monk_nightmare_status_in_path_temple_does_not_block_unrelated_travel()
+    {
+        await using var f = await MovingObstacleTests.Fixture.Create(record: new(395, "Synthetic Path Temple", 5, 5, []));
+        const string text = "You are not a Monk.";
+        f.Connection.Tracker.Observe(0x0A, [3,0,(byte)text.Length,..System.Text.Encoding.ASCII.GetBytes(text)]);
+        await f.Walk(new(3,1), (_, _) => Task.FromResult(false), new("navigate",395,new(3,1)));
+        Assert.Equal(new Tile(3,1), f.Session.Snapshot.Position);
+        Assert.Equal(text, f.Session.Snapshot.ActiveStatus?.Text);
+        Assert.DoesNotContain((byte)0x3A, f.Commands);
+    }
+
     static byte[] Payload(ServerMessage message)
     {
         var b = new NetworkPacketBuilder(ServerMessageFactory.Default.GetMessageCommand(message.GetType())!.Value);
@@ -52,7 +64,60 @@ public class TravelNoticeTests
         f.Connection.Tracker.Observe((byte)ServerCommand.UserReady, [0]);
     }
 
-    static async Task Run(MovingObstacleTests.Fixture f, Func<ClientPacket, Task> response, GameCommand? command = null)
+    [Fact]
+    public async Task Undine_active_status_removes_weapon_before_any_move()
+    {
+        await using var f = await MovingObstacleTests.Fixture.Create(record: new(504, "Undine Village", 5, 5, []));
+        Equip(f);
+        const string text = "You can't bring weapons here!";
+        f.Connection.Tracker.Observe(0x0A, [3, 0, (byte)text.Length, ..System.Text.Encoding.ASCII.GetBytes(text)]);
+        int removals = 0;
+        await Run(f, async packet =>
+        {
+            if ((byte)packet.Command == 0x44)
+            {
+                removals++;
+                await f.Send((byte)ServerCommand.RemoveEquip, Payload(new ServerRemoveEquipMessage { Slot = EquipmentSlot.Weapon }));
+                await f.Send((byte)ServerCommand.AddInventory, Payload(new ServerAddInventoryMessage { Slot = 2, Name = "Stick", Quantity = 1 }));
+            }
+            else
+            {
+                Assert.Equal(1, removals);
+                Assert.Equal((byte)6, (byte)packet.Command);
+                await Ack(f, packet);
+            }
+        });
+        Assert.Equal(1, removals);
+        Assert.Equal(1, f.Session.Snapshot.Count("Stick"));
+    }
+
+    [Fact]
+    public async Task Town_warning_removal_needs_matching_inventory_receipt()
+    {
+        await using var f = await MovingObstacleTests.Fixture.Create(record: new(504, "Undine Village", 5, 5, []));
+        Equip(f);
+        f.Connection.Tracker.Observe(0x30, Warning());
+        using var stop = new CancellationTokenSource();
+        int moves = 0;
+        await Assert.ThrowsAnyAsync<OperationCanceledException>(() => Run(f, async packet =>
+        {
+            if ((byte)packet.Command == 0x3A) await f.Send(0x30, [10, 0]);
+            else if ((byte)packet.Command == 0x44)
+            {
+                await f.Send((byte)ServerCommand.RemoveEquip, Payload(new ServerRemoveEquipMessage { Slot = EquipmentSlot.Weapon }));
+                await f.Session.WaitAsync(s => !s.Equipment.ContainsKey(1), 0, TimeSpan.FromSeconds(2), default);
+                stop.CancelAfter(100);
+            }
+            else if ((byte)packet.Command == 6)
+            {
+                moves++;
+                await Ack(f, packet);
+            }
+        }, new("navigate", 504, new(3, 1)), stop.Token));
+        Assert.Equal(0, moves);
+    }
+
+    static async Task Run(MovingObstacleTests.Fixture f, Func<ClientPacket, Task> response, GameCommand? command = null, CancellationToken cancellation = default)
     {
         using var limit = new CancellationTokenSource(TimeSpan.FromSeconds(8));
         var decrypt = new ClientPacketEncryptor();
@@ -67,7 +132,8 @@ public class TravelNoticeTests
                 await response((ClientPacket)decrypt.Decrypt(new ClientPacket(data[0], data[1..])));
             }
         });
-        var travel = f.Session.ExecuteAsync(command ?? new("navigate", f.Session.Snapshot.Map, new(3, 1)), limit.Token);
+        using var linked = CancellationTokenSource.CreateLinkedTokenSource(limit.Token, cancellation);
+        var travel = f.Session.ExecuteAsync(command ?? new("navigate", f.Session.Snapshot.Map, new(3, 1)), linked.Token);
         try
         {
             await Task.WhenAny(server, travel);
@@ -189,6 +255,7 @@ public class TravelNoticeTests
                     await Task.Delay(180);
                     removed = true;
                     await f.Send((byte)ServerCommand.RemoveEquip, Payload(new ServerRemoveEquipMessage { Slot = EquipmentSlot.Weapon }));
+                await f.Send((byte)ServerCommand.AddInventory, Payload(new ServerAddInventoryMessage { Slot = 2, Name = "Stick", Quantity = 1 }));
                     break;
                 case 0x38:
                     Assert.True(removed);
@@ -310,6 +377,7 @@ public class TravelNoticeTests
             {
                 removed = true;
                 await f.Send((byte)ServerCommand.RemoveEquip, Payload(new ServerRemoveEquipMessage { Slot = EquipmentSlot.Weapon }));
+                await f.Send((byte)ServerCommand.AddInventory, Payload(new ServerAddInventoryMessage { Slot = 2, Name = "Stick", Quantity = 1 }));
                 return;
             }
 
@@ -343,6 +411,7 @@ public class TravelNoticeTests
                 Assert.False(removed);
                 removed = true;
                 await f.Send((byte)ServerCommand.RemoveEquip, Payload(new ServerRemoveEquipMessage { Slot = EquipmentSlot.Weapon }));
+                await f.Send((byte)ServerCommand.AddInventory, Payload(new ServerAddInventoryMessage { Slot = 2, Name = "Stick", Quantity = 1 }));
                 return;
             }
             Assert.True(removed, "Map transfer lost the weapon restriction before walking resumed");

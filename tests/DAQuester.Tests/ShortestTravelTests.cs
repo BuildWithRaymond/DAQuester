@@ -1,12 +1,58 @@
 using DAQuester.Core;
 using DAQuester.DarkAges.Navigation;
 using Xunit;
+using Arbiter.Net.Client.Messages;
+using Arbiter.Net.Serialization;
+using Arbiter.Net.Server;
+using Arbiter.Net.Server.Messages;
 
 namespace DAQuester.Tests;
 
 [Collection("Walking cadence")]
 public class ShortestTravelTests
 {
+    [Fact]
+    public async Task Missing_complete_route_reaches_a_known_world_map_hub_then_uses_actual_offered_destination()
+    {
+        await using var f = await MovingObstacleTests.Fixture.Create(record: new(345,"Interior",5,5,[new(new(2,1),500,new(1,1))]),
+            additional: [new(500,"Known hub",5,5,[new(new(3,1),3006,new(1,1),true)]),new(3006,"Saved isolated landing",5,5,[]),new(992,"Destination",5,5,[])]);
+        await f.Walk(new(2,2), async (_, next) =>
+        {
+            if (f.Session.Snapshot.Map == 345 && next == new Tile(2,1))
+            {
+                await f.Map(500,5,5);
+                await f.Position(new(1,1));
+                return true;
+            }
+            if (f.Session.Snapshot.Map == 500 && next == new Tile(3,1))
+            {
+                await f.Send((byte)ServerCommand.FieldMap, OfferedWorld());
+                return true;
+            }
+            return false;
+        }, new("navigate",992,new(2,2)), fieldMap: async packet =>
+        {
+            var selection = new ClientFieldMapMessage();
+            selection.Deserialize(new NetworkPacketReader(packet));
+            Assert.Equal(992,selection.MapId);
+            Assert.Equal(1234,selection.Checksum);
+            await f.Map(992,5,5);
+            await f.Position(new(1,1));
+        });
+        Assert.Equal(992,f.Session.Snapshot.Map);
+        Assert.Equal(new Tile(2,2),f.Session.Snapshot.Position);
+        Assert.Single(f.Commands,c=>c==0x3F);
+    }
+    static byte[] OfferedWorld()
+    {
+        var builder = new NetworkPacketBuilder(ServerCommand.FieldMap);
+        try
+        {
+            new ServerFieldMapMessage { FieldName="Synthetic field", Locations=[new() { Name="Actual offered destination", MapId=992,MapX=90,MapY=80,Checksum=1234 }] }.Serialize(ref builder);
+            return builder.ToPacket().Data;
+        }
+        finally { builder.Dispose(); }
+    }
     [Fact]
     public async Task Same_map_reload_during_cadence_waits_for_authoritative_position()
     {

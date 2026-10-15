@@ -412,7 +412,10 @@ public class StateTracker(long generation)
                     };
                 s = s with
                 {
-                    Dialog = new(generation, rev, p.EntityId ?? 0, (byte)p.EntityType, p.Name ?? "", p.Content ?? "", false, p.PursuitId ?? 0, 0, (byte)p.MenuType, p.MenuChoices.Select((x, i) => new DialogChoice(x.Text, x.PursuitId, (byte)(i + 1))).ToImmutableArray(), p.Prompt)
+                    Dialog = new(generation, rev, p.EntityId ?? 0, (byte)p.EntityType, p.Name ?? "", p.Content ?? "", false, p.PursuitId ?? 0, 0, (byte)p.MenuType,
+                        p.MenuType == DialogMenuType.SpellChoices
+                            ? p.SpellChoices.Select(x => new DialogChoice(x.Name, p.PursuitId ?? 0, 0)).ToImmutableArray()
+                            : p.MenuChoices.Select((x, i) => new DialogChoice(x.Text, x.PursuitId, (byte)(i + 1))).ToImmutableArray(), p.Prompt)
                     {
                         ObservedAt = DateTimeOffset.UtcNow,
                         Items = p.ItemChoices.Select(x => new ShopItem(x.Name, x.Price)).ToImmutableArray()

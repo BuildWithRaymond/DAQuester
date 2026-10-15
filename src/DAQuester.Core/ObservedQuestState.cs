@@ -3,6 +3,10 @@ namespace DAQuester.Core;
 // Text comes from retained server captures; IDs and menu selections are resolved live.
 public sealed record ObservedQuestPage(string Speaker, string Text, string Kind, string? Choice = null)
 {
+    // Alternatives are exact captured labels for this page, never global aliases.
+    public string[] ChoiceAlternatives { get; init; } = [];
+    // Exact captured successors scoped to this stage and page, never substrings.
+    public string[] TextAlternatives { get; init; } = [];
     public bool Root
     {
         get; init;
@@ -130,6 +134,7 @@ public sealed record ObservedQuestProgress
 
 public sealed record ObservedJourneyVariant(string TaskId, int Page, string Speaker, string Text)
 {
+    public string? ParentVariant { get; init; }
     public string[] Choices { get; init; } = [];
     public ObservedQuestTask[] Journey { get; init; } = [];
 }

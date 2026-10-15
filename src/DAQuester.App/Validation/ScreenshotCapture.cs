@@ -516,7 +516,8 @@ internal static partial class ScreenshotCapture
         runtime.SetPreviewQueue(originalQueue with
         {
             State = "Running",
-            ActiveQuest = "perfect-hairstyle"
+            ActiveQuest = "perfect-hairstyle",
+            History = [..originalQueue.History, ..Enumerable.Range(0, 12).Select(index => new QueueOutcome("perfect-hairstyle", "Completed", DateTimeOffset.UtcNow.AddMinutes(-index), "Synthetic outcome for layout review"))]
         });
         runtime.SetPreviewRunning("Agent", true);
         runtime.SetPreviewQueue(new()
@@ -568,6 +569,32 @@ internal static partial class ScreenshotCapture
         window.Width = 1450;
         window.Height = 930;
         vm.DashboardListView = false;
+        var outcomes = window.GetVisualDescendants().OfType<Expander>().Single(e => e.Name == "dashboardOutcomes");
+        outcomes.IsExpanded = true;
+        await Task.Delay(150);
+        Dispatcher.UIThread.RunJobs();
+        window.UpdateLayout();
+        using (var outcomeBitmap = new RenderTargetBitmap(new PixelSize((int)window.ClientSize.Width, (int)window.ClientSize.Height), new Vector(96, 96)))
+        {
+            outcomeBitmap.Render(window);
+            outcomeBitmap.Save("artifacts/screenshots/dashboard-outcomes.png");
+            renders.Add("artifacts/screenshots/dashboard-outcomes.png");
+        }
+        outcomes.IsExpanded = false;
+        var outcomeScroll = window.GetVisualDescendants().OfType<ScrollViewer>().Single(s => s.Name == "dashboardOutcomesScroll");
+        outcomes.IsExpanded = true;
+        outcomeScroll.Offset = new Vector(0, 10000);
+        await Task.Delay(100);
+        Dispatcher.UIThread.RunJobs();
+        window.UpdateLayout();
+        using (var scrolledBitmap = new RenderTargetBitmap(new PixelSize((int)window.ClientSize.Width, (int)window.ClientSize.Height), new Vector(96, 96)))
+        {
+            scrolledBitmap.Render(window);
+            scrolledBitmap.Save("artifacts/screenshots/dashboard-outcomes-scrolled.png");
+            renders.Add("artifacts/screenshots/dashboard-outcomes-scrolled.png");
+        }
+        outcomes.IsExpanded = false;
+        outcomeScroll.Offset = default;
         await Task.Delay(250);
         var levelFeedback = new CharacterFeedback(1, 13, "Level", 12, DateTimeOffset.UtcNow);
         runtime.SetPreviewSnapshot(originalElara with
@@ -650,7 +677,7 @@ internal static partial class ScreenshotCapture
     private static async Task SeedWorkspaceAsync(MainWindowViewModel viewModel)
     {
         var runtime = viewModel.Runtime;
-        runtime.Settings.Characters = ["Agent", "Elara", "Wren"];
+        runtime.Settings.Characters = ["Agent", "Elara", "Wren", "Rowan"];
         runtime.Settings.Save();
         viewModel.JourneyCollapsed = false;
         var sample = new CharacterSnapshot
@@ -700,6 +727,13 @@ internal static partial class ScreenshotCapture
                 Name = "Wren",
                 Id = 44,
                 Level = 10,
+                Legends = []
+            },
+            sample with
+            {
+                Name = "Rowan",
+                Id = 45,
+                Level = 25,
                 Legends = []
             }
         }

@@ -16,6 +16,11 @@ public sealed class QuestGlyph : Control
     public static readonly StyledProperty<string> GameDirectoryProperty = AvaloniaProperty.Register<QuestGlyph, string>(nameof(GameDirectory), "");
     public static readonly StyledProperty<IBrush?> ForegroundProperty = TextBlock.ForegroundProperty.AddOwner<QuestGlyph>();
     public static readonly StyledProperty<IBrush?> BackgroundProperty = Border.BackgroundProperty.AddOwner<QuestGlyph>();
+    static readonly Lazy<Bitmap> appArtwork = new(() =>
+    {
+        using var stream = AssetLoader.Open(new Uri("avares://DAQuester/Assets/daquester.png"));
+        return new Bitmap(stream);
+    });
     WriteableBitmap? bitmap;
     Bitmap? customBitmap;
     Rect source;
@@ -60,7 +65,6 @@ public sealed class QuestGlyph : Control
     void Clear()
     {
         request++;
-        customBitmap?.Dispose();
         customBitmap = null;
         bitmap?.Dispose();
         bitmap = null;
@@ -74,7 +78,7 @@ public sealed class QuestGlyph : Control
             return;
         if (QuestId is "awakening" or "peasantsfirststeps" or "peasants-first-steps" or "cryptclimb" or "crypt-climb")
         {
-            customBitmap = new Bitmap(AssetLoader.Open(new Uri("avares://DAQuester/Assets/daquester.png")));
+            customBitmap = appArtwork.Value;
             ToolTip.SetTip(this, "Custom DAQuester journey");
             InvalidateVisual();
             return;

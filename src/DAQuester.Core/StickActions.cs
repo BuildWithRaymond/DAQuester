@@ -83,7 +83,7 @@ public class StickActions : IQuestAction
                     throw new QuestBlockedException("Acceptance uncertain. Check quest dialog manually before resuming.");
                 }
 
-                await session.ExecuteAsync(new("visit", 132, Text: "Callough"), cancellation);
+                await session.ExecuteAsync(new("visit", 132, new(6, 10), "Callough"), cancellation);
                 await session.ExecuteAsync(new("open", Text: "Callough"), cancellation);
                 await Choose(c, "Spare a Stick", cancellation);
                 await Choose(c, "I'll gather them now", cancellation, "accept");
@@ -102,29 +102,7 @@ public class StickActions : IQuestAction
                 c.Gate();
                 if (!c.Job.Accepted)
                     throw new QuestBlockedException("Quest acceptance unconfirmed.");
-                if (session.Snapshot.Dialog is { } gatherDialog)
-                    await session.ExecuteAsync(new("close", Dialog: gatherDialog), cancellation);
-                int count = session.Snapshot.Count(cal.BranchName);
-                while (count < 6)
-                {
-                    foreach (var waypoint in cal.Patrol.Select(tile => new PatrolWaypoint(500, tile)).Concat(cal.AdditionalPatrol))
-                    {
-                        c.Gate();
-                        cancellation.ThrowIfCancellationRequested();
-                        await session.ExecuteAsync(new("navigate", waypoint.Map, waypoint.Position, StopWhen: new(cal.BranchName, 6)), cancellation);
-                        int next = session.Snapshot.Count(cal.BranchName);
-                        if (next > count)
-                        {
-                            count = next;
-                            await c.SaveAsync(c.Job);
-                        }
-
-                        if (count >= 6)
-                            break;
-                    }
-
-                    await Task.Delay(250, cancellation);
-                }
+                await GatherBranchesAsync(c, cancellation);
 
                 break;
             case "turn-in":
@@ -133,7 +111,7 @@ public class StickActions : IQuestAction
                     break;
                 if (session.Snapshot.Count(cal.BranchName) < 6)
                     throw new QuestBlockedException("Six branches required.");
-                await session.ExecuteAsync(new("visit", 132, Text: "Callough"), cancellation);
+                await session.ExecuteAsync(new("visit", 132, new(6, 10), "Callough"), cancellation);
                 await session.ExecuteAsync(new("open", Text: "Callough"), cancellation);
                 await Choose(c, "Spare a Stick", cancellation);
                 await Choose(c, "I have those branches, here", cancellation, "turn-in");
@@ -167,6 +145,28 @@ public class StickActions : IQuestAction
                 break;
             default:
                 throw new QuestBlockedException("Unsupported action: " + step.Action);
+        }
+    }
+
+    internal static async Task GatherBranchesAsync(QuestContext c, CancellationToken ct)
+    {
+        if (!c.Calibration.Ready || c.Calibration.Patrol.Length + c.Calibration.AdditionalPatrol.Length == 0)
+            throw new QuestBlockedException("Validated branch patrol required before gathering quest supplies.");
+        c.Gate();
+        var session = c.Session; var cal = c.Calibration;
+        if (!c.Job.Accepted || c.Job.AcceptedGeneration != session.Snapshot.Generation)
+            throw new QuestBlockedException("Callough's acceptance on the current connection is required before gathering branches.");
+        if (session.Snapshot.Dialog is { } dialog) await session.ExecuteAsync(new("close", Dialog: dialog), ct);
+        while (session.Snapshot.Count(cal.BranchName) < 6)
+        {
+            foreach (var point in cal.Patrol.Select(t => new PatrolWaypoint(500, t)).Concat(cal.AdditionalPatrol))
+            {
+                c.Gate(); ct.ThrowIfCancellationRequested();
+                await session.ExecuteAsync(new("navigate", point.Map, point.Position, StopWhen: new(cal.BranchName, 6)), ct);
+                await c.SaveAsync(c.Job);
+                if (session.Snapshot.Count(cal.BranchName) >= 6) return;
+            }
+            await Task.Delay(250, ct);
         }
     }
 

@@ -89,11 +89,16 @@ public sealed class ShinewoodFaerieActions : IQuestAction
     }
 
     static bool FreshPage(CharacterSnapshot s, Transaction t) => s.Generation == t.Generation && s.Map == ShinewoodFaerieEvidence.Map && s.Dialog is { } d && d.Generation == s.Generation && d.Revision > t.Revision && d.Revision <= s.Revision && (d.EntityId == t.EntityId || t.Kind == "faerie-hello" && d.EntityType == 4 && ShinewoodFaerieEvidence.RecognizedFaeriePage(d)) && d.EntityType is 1 or 4 && (t.EntityType is null || t.EntityType == d.EntityType) && d.Prompt is null && (d.Name.Equals("Faerie", StringComparison.OrdinalIgnoreCase) || d.Name.Equals(s.Name, StringComparison.OrdinalIgnoreCase) || d.Name.Length == 0);
+    static bool SubmittedBondPage(QuestContext c, Transaction t, string goal, CharacterSnapshot s) =>
+        goal == ShinewoodFaerieEvidence.Pet && t.Kind == "faerie-bond" && s.Generation == t.Generation &&
+        s.Map == ShinewoodFaerieEvidence.Map && s.Dialog is { } d && d == c.Job.CompletionDialog &&
+        d.Generation == t.Generation && d.EntityId == t.EntityId && d.EntityType == t.EntityType && d.Revision <= t.Revision;
     static Task Reply(QuestContext c, CancellationToken ct)
     {
         var t = c.Job.Pending!;
         var goal = c.Job.FaerieCurrentGoal;
-        return c.Session.WaitAsync(s => FreshPage(s, t) || t.Kind == "faerie-goal" && goal is not null && s.Dialog is null && Reward(c, t, goal, s), t.Revision, Timeout, ct);
+        return c.Session.WaitAsync(s => FreshPage(s, t) || (t.Kind is "faerie-goal" or "faerie-bond") && goal is not null &&
+            (s.Dialog is null || SubmittedBondPage(c, t, goal, s)) && Reward(c, t, goal, s), t.Revision, Timeout, ct);
     }
 
     static bool Reward(QuestContext c, Transaction t, string goal, CharacterSnapshot? observed = null)
@@ -190,6 +195,14 @@ public sealed class ShinewoodFaerieActions : IQuestAction
                 return;
             }
 
+            // A pet can arrive before the server clears the submitted Yes page.
+            // Only that exact bound page may be closed using the new item receipt.
+            if (acquired && SubmittedBondPage(c, t, goal, s))
+            {
+                await CloseTerminal(c, s.Dialog!, ct);
+                return;
+            }
+
             if (!FreshPage(s, t))
                 throw new QuestBlockedException("Faerie reply or reward is unconfirmed. Saved submission will not be repeated; reconcile fresh inventory/spells.");
             var d = s.Dialog!;
@@ -264,6 +277,19 @@ public sealed class ShinewoodFaerieActions : IQuestAction
                     return;
                 }
 
+                if (goal == ShinewoodFaerieEvidence.Pet && t.Kind == "faerie-goal" &&
+                    ShinewoodFaerieEvidence.PetBondConsent(c.Job.CompletionDialog, d))
+                {
+                    Gate(c);
+                    // This is a second consequential selection, separate from
+                    // asking for a pet. Save it before sending and never repeat it.
+                    await c.BeginAsync("faerie-bond", d.EntityId, "Bonding with the Faerie for 250hp and 250mp", d);
+                    await c.SaveAsync(c.Job with { Pending = c.Job.Pending! with { Revision = s.Revision } });
+                    await c.Session.ExecuteAsync(new("choose", Text: d.Choices.Single(x => x.Text == "Yes").Text, Dialog: d), ct);
+                    await Reply(c, ct);
+                    continue;
+                }
+
                 var choices = d.Choices.Where(x => goal == ShinewoodFaerieEvidence.Pet ? ShinewoodFaerieEvidence.PetChoice(x.Text) : ShinewoodFaerieEvidence.SpellChoice(x.Text, goal)).ToArray();
                 bool branch = false;
                 if (choices.Length == 0 && goal != ShinewoodFaerieEvidence.Pet)
@@ -289,7 +315,7 @@ public sealed class ShinewoodFaerieActions : IQuestAction
                 }
 
                 // Never select another reward from a pending consequential submission.
-                if (t.Kind == "faerie-goal")
+                if (t.Kind is "faerie-goal" or "faerie-bond")
                     throw new QuestBlockedException("Submitted Faerie reward is still missing; its choice will not be repeated.");
                 await c.BeginAsync(branch ? "faerie-spell-menu" : "faerie-goal", d.EntityId, "Requesting " + goal, d);
                 // The saved page identifies the request; only a newer page can be its reply.

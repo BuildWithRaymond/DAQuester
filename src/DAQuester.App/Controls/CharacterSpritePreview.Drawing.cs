@@ -44,11 +44,11 @@ public sealed partial class CharacterSpritePreview
         }
     }
 
-    internal void DrawAccent(DrawingContext context, Size area)
+    internal void DrawAccent(DrawingContext context, Size area, double verticalOffset = 0)
     {
         if (bitmap is null || contentBounds.Width <= 0 || contentBounds.Height <= 0)
             return;
-        var destination = accentLayout.Destination(contentBounds, bitmap.Size, SpriteDestination(), Bounds.Size, area);
+        var destination = accentLayout.Destination(contentBounds, bitmap.Size, SpriteDestination(), Bounds.Size, area, verticalOffset);
         context.DrawImage(bitmap, contentBounds, destination);
     }
 

@@ -1,0 +1,347 @@
+{
+  "Title": "Varuna gatekeeper finale on the Loures court route",
+  "ServerProfile": "datester-7.41",
+  "Status": "Final offered Next read; actual server closure; safely paused at Varuna approach",
+  "EvidenceType": "Parsed native MCP observations, not a synthetic test or final quest completion",
+  "KnownPriorSource": "danaan-lancelot-variation.json observation 67",
+  "Resources": {
+    "Generation": 1835002936941592,
+    "Gold": 965926,
+    "Experience": 193264283,
+    "GlandAtStageBaseline": 1,
+    "GlandBeforeTakeover": 0,
+    "GlandAfterFinalNext": 0,
+    "FinalCloseRevision": 1692
+  },
+  "Observations": [
+    {
+      "Method": "state",
+      "Purpose": "Fresh pre-Next after runner's Varuna mismatch; queued quest stopped only for authorized ResearchPixel takeover",
+      "Result": {
+        "snapshot": {
+          "activeStatus": {
+            "generation": 1835002936941592,
+            "revision": 1266,
+            "type": 3,
+            "text": "1 experience!",
+            "observedAt": "2026-10-14T16:34:27.1995856+00:00"
+          },
+          "generation": 1835002936941592,
+          "revision": 1674,
+          "name": "ResearchPixel",
+          "id": 748307,
+          "connected": true,
+          "level": 98,
+          "gold": 965926,
+          "experience": 193264283,
+          "abilityLevel": 0,
+          "toNextLevel": 3598993,
+          "hp": 5194,
+          "maxHp": 5194,
+          "weight": 25,
+          "maxWeight": 75,
+          "mana": 5169,
+          "class": "Wizard",
+          "displayClass": "Wizard",
+          "isMaster": false,
+          "isPure": null,
+          "spellsKnown": true,
+          "mapName": "Rishi Mukul Gathering",
+          "map": 3075,
+          "position": {
+            "x": 30,
+            "y": 21
+          },
+          "inventoryKnown": true,
+          "inventory": {
+            "2": {
+              "slot": 2,
+              "name": "Billed Cap",
+              "quantity": 1,
+              "stackable": false,
+              "sprite": 13302
+            },
+            "3": {
+              "slot": 3,
+              "name": "Emerald Ring",
+              "quantity": 1,
+              "stackable": false,
+              "sprite": 213
+            },
+            "4": {
+              "slot": 4,
+              "name": "Sun Block Lotion",
+              "quantity": 1,
+              "stackable": false,
+              "sprite": 13688
+            },
+            "5": {
+              "slot": 5,
+              "name": "Shrinking Potion",
+              "quantity": 4,
+              "stackable": true,
+              "sprite": 2286
+            },
+            "8": {
+              "slot": 8,
+              "name": "Hy-brasyl Boots",
+              "quantity": 1,
+              "stackable": false,
+              "sprite": 913
+            },
+            "11": {
+              "slot": 11,
+              "name": "Brittle Blade",
+              "quantity": 1,
+              "stackable": false,
+              "sprite": 504
+            },
+            "12": {
+              "slot": 12,
+              "name": "Fiery Greaves",
+              "quantity": 1,
+              "stackable": false,
+              "sprite": 1850
+            }
+          },
+          "groundItems": {},
+          "equipment": {
+            "1": "Oak Stick",
+            "2": "Ragged Shirt",
+            "6": "Deoch Prayer Necklace",
+            "11": "Light Belt",
+            "16": "Pumpkin Head"
+          },
+          "legends": [],
+          "legendsKnown": true,
+          "legendsRevision": 46,
+          "dialog": {
+            "generation": 1835002936941592,
+            "revision": 1586,
+            "entityId": 6806,
+            "entityType": 1,
+            "name": "Varuna",
+            "text": "The Underworld has a gatekeeper. He may let you speak to one who is beyond it. But you must have your flesh, or you too will be dragged in. Visit a place where he is worshipped, you might find a channel to him there.",
+            "isPursuit": true,
+            "pursuit": 1106,
+            "step": 42,
+            "type": 0,
+            "choices": [],
+            "prompt": null,
+            "hasNext": true,
+            "observedAt": "2026-10-14T16:35:17.7435416+00:00",
+            "items": []
+          },
+          "notice": null,
+          "exchange": null,
+          "skillCooldowns": {
+            "Assail": {
+              "started": "2026-10-14T16:34:26.7217815+00:00",
+              "seconds": 0
+            }
+          },
+          "effects": {},
+          "skillsBlockedOnMap": false,
+          "cantAttackRevision": 0,
+          "skillRefusedRevision": 0,
+          "asgallReflectRevision": 0,
+          "goldCapAt": null,
+          "bagFullRevision": 0,
+          "entranceRefusedRevision": 0,
+          "entranceRefusedText": null,
+          "durability": {},
+          "worstDurability": null
+        }
+      }
+    },
+    {
+      "Method": "command",
+      "Arguments": {
+        "character": "ResearchPixel",
+        "kind": "read-dialog",
+        "maxPages": 16,
+        "expectedGeneration": 1835002936941592,
+        "expectedDialogRevision": 1586,
+        "expectedPageText": "The Underworld has a gatekeeper. He may let you speak to one who is beyond it. But you must have your flesh, or you too will be dragged in. Visit a place where he is worshipped, you might find a channel to him there."
+      },
+      "Result": {
+        "discovery": {
+          "stopReason": "closed",
+          "pages": [
+            {
+              "generation": 1835002936941592,
+              "revision": 1586,
+              "entityId": 6806,
+              "entityType": 1,
+              "name": "Varuna",
+              "text": "The Underworld has a gatekeeper. He may let you speak to one who is beyond it. But you must have your flesh, or you too will be dragged in. Visit a place where he is worshipped, you might find a channel to him there.",
+              "isPursuit": true,
+              "pursuit": 1106,
+              "step": 42,
+              "type": 0,
+              "choices": [],
+              "prompt": null,
+              "hasNext": true,
+              "observedAt": "2026-10-14T16:35:17.7435416+00:00",
+              "items": []
+            }
+          ],
+          "before": {
+            "generation": 1835002936941592,
+            "revision": 1691,
+            "connected": true,
+            "map": 3075,
+            "position": {
+              "x": 30,
+              "y": 21
+            },
+            "gold": 965926,
+            "experience": 193264283,
+            "weight": 25,
+            "inventoryKnown": true,
+            "inventory": {
+              "2": {
+                "slot": 2,
+                "name": "Billed Cap",
+                "quantity": 1,
+                "stackable": false,
+                "sprite": 13302
+              },
+              "3": {
+                "slot": 3,
+                "name": "Emerald Ring",
+                "quantity": 1,
+                "stackable": false,
+                "sprite": 213
+              },
+              "4": {
+                "slot": 4,
+                "name": "Sun Block Lotion",
+                "quantity": 1,
+                "stackable": false,
+                "sprite": 13688
+              },
+              "5": {
+                "slot": 5,
+                "name": "Shrinking Potion",
+                "quantity": 4,
+                "stackable": true,
+                "sprite": 2286
+              },
+              "8": {
+                "slot": 8,
+                "name": "Hy-brasyl Boots",
+                "quantity": 1,
+                "stackable": false,
+                "sprite": 913
+              },
+              "11": {
+                "slot": 11,
+                "name": "Brittle Blade",
+                "quantity": 1,
+                "stackable": false,
+                "sprite": 504
+              },
+              "12": {
+                "slot": 12,
+                "name": "Fiery Greaves",
+                "quantity": 1,
+                "stackable": false,
+                "sprite": 1850
+              }
+            },
+            "equipment": {
+              "1": "Oak Stick",
+              "2": "Ragged Shirt",
+              "6": "Deoch Prayer Necklace",
+              "11": "Light Belt",
+              "16": "Pumpkin Head"
+            }
+          },
+          "after": {
+            "generation": 1835002936941592,
+            "revision": 1692,
+            "connected": true,
+            "map": 3075,
+            "position": {
+              "x": 30,
+              "y": 21
+            },
+            "gold": 965926,
+            "experience": 193264283,
+            "weight": 25,
+            "inventoryKnown": true,
+            "inventory": {
+              "2": {
+                "slot": 2,
+                "name": "Billed Cap",
+                "quantity": 1,
+                "stackable": false,
+                "sprite": 13302
+              },
+              "3": {
+                "slot": 3,
+                "name": "Emerald Ring",
+                "quantity": 1,
+                "stackable": false,
+                "sprite": 213
+              },
+              "4": {
+                "slot": 4,
+                "name": "Sun Block Lotion",
+                "quantity": 1,
+                "stackable": false,
+                "sprite": 13688
+              },
+              "5": {
+                "slot": 5,
+                "name": "Shrinking Potion",
+                "quantity": 4,
+                "stackable": true,
+                "sprite": 2286
+              },
+              "8": {
+                "slot": 8,
+                "name": "Hy-brasyl Boots",
+                "quantity": 1,
+                "stackable": false,
+                "sprite": 913
+              },
+              "11": {
+                "slot": 11,
+                "name": "Brittle Blade",
+                "quantity": 1,
+                "stackable": false,
+                "sprite": 504
+              },
+              "12": {
+                "slot": 12,
+                "name": "Fiery Greaves",
+                "quantity": 1,
+                "stackable": false,
+                "sprite": 1850
+              }
+            },
+            "equipment": {
+              "1": "Oak Stick",
+              "2": "Ragged Shirt",
+              "6": "Deoch Prayer Necklace",
+              "11": "Light Belt",
+              "16": "Pumpkin Head"
+            }
+          },
+          "error": null
+        },
+        "observedMap": {
+          "id": 3075,
+          "name": "Rishi Mukul Gathering",
+          "width": 32,
+          "height": 32,
+          "portals": [],
+          "npcTransfers": [],
+          "internalTransfers": []
+        }
+      }
+    }
+  ]
+}
