@@ -20,6 +20,10 @@ unsupported builds. Raw game files are not included.
 2. Use the **Launch** action beside a saved character. Its saved password signs
    into that character; without one, sign in manually. Only clients opened
    through DAQuester connect through its proxy. Existing owned clients are focused.
+   These new clients use the bundled **DAWindower X** automatically. Keep its
+   DLL with the application. X's **+** opens a fresh blank login through
+   DAQuester's proxy. Sign in manually, then select that character in DAQuester
+   for quests. Use a saved character's Launch action for saved login.
    Before saving any characters, the header's **Launch** opens a blank client
    without filling in or submitting a login.
 3. Use the header's character switcher, search the library, and select automatic
@@ -67,7 +71,9 @@ the windows it opened when work ends. Use **Pause all** or **Stop all quests**
 to stop scheduled automation.
 
 Saving a schedule does **not** enable Scheduler. Read and acknowledge the page's
-warning, then explicitly choose **Enable scheduler**. DAQuester must remain open
+warning, then explicitly choose **Turn on saved schedules**. A stopped entry
+also needs **Resume schedule**; saving edits preserves its stopped state.
+DAQuester must remain open
 (minimized is fine). Switching pages keeps schedules running. Enabled schedules
 resume after restarting DAQuester; overdue work runs once rather than replaying
 all missed intervals. **Pause all** or the main **Stop all quests** keeps scheduling

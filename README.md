@@ -3,17 +3,29 @@
 DAQuester is a quest companion for your Dark Ages characters. Plan a journey,
 put quests in your preferred order, and keep each character's progress together.
 The Avalonia desktop app pairs a quiet, fully dark journal with clear quest
-details, remembered character facts, and a queue you can pause and return to.
+details, original character sprites, and a queue you can pause and return to.
 
 [Download for Windows](https://github.com/BuildWithRaymond/DAQuester/releases/latest)
 · [Setup guide](docs/GETTING_STARTED.md)
-· [What's new in 1.4.0](docs/releases/v1.4.0.md)
+· [1.4.0 release notes](docs/releases/v1.4.0.md)
 · [Report a bug](https://github.com/BuildWithRaymond/DAQuester/issues/new/choose)
 
-![Quest planner with three ordered quests, completed legends, and character selection](docs/screenshots/planner.png)
+This README describes current source. See the release notes for changes included
+in a particular download, and [validation](docs/validation.md) for current checks
+and remaining live-run limits.
+
+![Paused quest journey with original character sprite, ordered quests, and Emerald Dawn details](docs/screenshots/planner-journey.png)
 
 ## What you can do
 
+- **Watch all your characters.** Dashboard offers cards and a compact list with
+  connection state, current journeys, queues, recent outcomes, and pauses needing
+  attention. Open a character's planner to review or resume its saved progress.
+- **See original game sprites.** Character portraits, animated journey sprites,
+  and quest artwork come from your selected game installation. Observed outfits
+  stay remembered after logout; characters without an observed outfit use a
+  clothed default drawn from the same original artwork. Artwork caches keep
+  scrolling and filtering responsive. Game assets are not included in downloads.
 - **Build a queue for each character.** Search the quest library, check the
   quests you want, then drag them into order. Move buttons and keyboard shortcuts
   work too. Each queue entry runs one attempt; cooldowns still apply.
@@ -29,19 +41,36 @@ details, remembered character facts, and a queue you can pause and return to.
 - **Launch from your character list.** Each saved character has a Launch button.
   Save a password for automatic sign-in, or leave it blank and sign in yourself.
   Saved passwords are encrypted by Windows. You can launch another character
-  while one logs in; saved logins are entered one at a time.
+  while one logs in; saved logins are entered one at a time. New clients use
+  bundled DAWindower X automatically. Its **+** opens a fresh blank login through
+  DAQuester; use a saved character's Launch action for saved login.
+- **Prepare supplies before the journey.** Buy or gather known missing supplies
+  for ready queued quests, within available gold, bag space, and reward reserves.
+  Already carried items count. Quest acceptance gates still apply, and uncertain
+  purchases keep a saved checkpoint before dialogue continues. Eligible Wizards
+  and Priests can also prepare dachaidh after their known prerequisites and the
+  trainer's current quote are checked; Wizards must supply their own Skull.
 - **Bring flowers with your other characters.** For either Paulin flower quest,
   pick one flower a day yourself or choose saved helpers to pick and trade flowers
   to the quester. Helpers DAQuester logs in are logged out after their trade;
   helpers already online stay online.
 - **Travel in fast mode.** Fast mode defaults on for each character and can be
-  switched off in the planner. Your own connected characters do not slow each
+  switched off in Settings. Your own connected characters do not slow each
   other's walking; other nearby players still do.
 - **Keep your progress.** Quest checkpoints, queue order, rewards, and run history
   stay with the character. Each queue finishes after its last verified quest attempt.
   Saved Spare a Stick turn-ins can recover from matching recorded evidence without
   handing in again. Newly verified outcomes play a brief blue spiral over the
   character; a small notice shows completions for characters you aren't viewing.
+- **Schedule eligible quests.** Optional Scheduler saves one-time or supported
+  recurring attempts. Save entries, acknowledge the login warning, then choose
+  **Turn on saved schedules**. Stopped entries have a separate **Resume schedule**
+  action. Scheduler is off by default; DAQuester must stay open for it to run.
+
+![Dashboard cards with original character sprites, running progress, and a paused journey](docs/screenshots/dashboard.png)
+
+See the [Dashboard list](docs/screenshots/dashboard-list.png) and
+[optional Scheduler](docs/screenshots/scheduler.png) for their alternate views.
 
 ![Characters page with saved accounts and Launch actions](docs/screenshots/characters.png)
 
@@ -63,7 +92,7 @@ DAQuester supports Windows and the exact **DATester 7.41** client documented in
 [client provenance](docs/provenance.md). Launch clients through DAQuester; it
 doesn't attach to clients that are already open. The game itself isn't included.
 
-The supported profile includes walkability data for **1,417 recorded maps**.
+The supported profile includes walkability data for **1,420 recorded maps**.
 Travel uses it automatically when the client has no cached map data, so moving
 DAQuester to another PC does not require copying a populated map cache. Fifteen
 recorded maps remain uncovered; movement pauses if neither source has usable
@@ -75,17 +104,20 @@ The quest library includes guides and automatic recipes:
 
 | Quest | What to expect |
 | --- | --- |
-| Spare a Stick | Levels **1–11** only. Collects six branches and verifies Callough's rewards. Ordinary attempts have an eight-hour cooldown; a permanent outcome ends repeats. |
+| Awakening | Follows the starter tutorial through Raghnall and Bartley, then verifies the wake-up in Mileth Inn Room 0 and its rewards. |
+| Peasant's First Steps | Needs **50,000 gold**. Buys and equips starter gear, trains in the first two Mileth Crypt floors to level 7, and finishes with a Loures Saber equipped. Allocates stat points to CON and WIS. |
+| Crypt Climb | Uses the First Steps gear to reach level 11 in the first two Crypt floors, then returns to the Vestibule. Allocates CON and WIS. Characters below level 10 without a Terror mark must accept losing that quest window. |
+| Spare a Stick | Levels **1–11** only. Accepts Callough's task before gathering six branches, then verifies his rewards. Ordinary attempts have an eight-hour cooldown; a permanent outcome ends repeats. |
 | Mundane Birth | Choose your season, age, and town before starting. Runs once; an existing birth legend prevents another selection. |
 | Perfect Hairstyle | Follows Eeva's Ponytail conversation. Weekly attempts can continue until your own Suomi legend is recorded. |
 | Entered Muisir Village | Collects five Undine Mushrooms and verifies the legend and four Shrinking Potions. An existing Muisir legend shows Completed. |
 | Emerald Dawn | Find an insignia, hear Berg's story, then choose Knights, Necromancer, or sale. The choice can change until the hand-over. All three outcomes are live-verified. |
-| Shinewood Faerie | Level **11+** to pass Forest 7. Try for a pet and learn eligible missing Priest/Wizard spells. Handles the observed failed-bond wait and the return trip. Successful rewards still need live validation. |
+| Shinewood Faerie | Level **11+** to pass Forest 7. Try for a pet and learn eligible missing Priest/Wizard spells. The known successful bond asks for **250 HP and 250 MP**; the runner accepts that exact offer and verifies the Pet Faerie. Handles the failed-bond wait and return trip. A fresh automatic bond run remains unverified. |
 | Cured the Sick Child | Level **11+**. Give Paulin five Sevti Blossoms with **5,000 gold per flower**. Pick daily or use helpers; completion requires your own sick-child legend. |
 | Aided the Pact of Anaman | Give Paulin five Tulsi (Golden) Blossoms **without gold**. Uses the same daily/helper options; its brown legend mark is hidden from other players. |
 | Altar Worship | Offers a Leather Shield at the Mileth Altar every three hours, buying one for **750 gold** if needed. Stops after ten offerings. Only Priests can earn the legend; other classes must confirm they want the experience and ring instead. |
 | Fisk's Secret | Preserves the secret, buys missing supplies and saves the paid bouquet wait. Runs other ready queued work meanwhile, or waits at a free Tavern spot facing down. Collection requires the actual Bouquet. |
-| Cap / Band of Danaan | One family journey through the observed Donnan/Cail route. Each character must select Cail and accept the supplied-Mold rite risk. Unknown dialogue variants pause; Erin's final popup closes after verified rewards. |
+| Cap / Band of Danaan | One family journey through Donnan/Cail, including captured original, Loures orders, court, and Fiosachd referrals. Each character must select Cail and accept the supplied-Mold rite risk. Saved reply and reward cleanup recover without repeating handoffs; unknown dialogue pauses. |
 
 Each character can pick one flower a day across both flower quests. With enough
 eligible helpers, all five turn-ins can finish in one day. The two legend marks
@@ -106,9 +138,10 @@ automated live validation. Band-specific dialogue and other Avatar routes remain
 unverified. See the [automation handoff](docs/research/fisk-danaan-automation.md).
 
 Altar Worship's first automated offering is live-verified; the full ten-offering
-run and final rewards have synthetic coverage only. Melee combat support is also
-included for future combat quests. It currently runs through the
-[local control bridge](docs/control.md#melee-combat), rather than a library quest.
+run and final rewards have synthetic coverage only. Starter training uses the
+shared melee system, which also supports the
+[local control bridge](docs/control.md#melee-combat). Hunting can fight bare-handed
+when no usable melee weapon is owned; shrine entry requirements still apply.
 
 ## Updating
 
@@ -125,6 +158,10 @@ are covered in [releasing](docs/RELEASING.md).
 
 Use Windows and the [.NET 10 SDK](https://dotnet.microsoft.com/download/dotnet/10.0).
 You don't need a game installation to build or run the synthetic checks.
+The first app build also needs Git, Python 3.9+, Visual Studio 2022 C++ x86 tools,
+and CMake to build pinned DAWindower X from public source. Later builds reuse its
+verified native artifact cache. See [Contributing](CONTRIBUTING.md) and
+[CI](docs/CI.md) for details.
 
 ```powershell
 git clone https://github.com/BuildWithRaymond/DAQuester.git
@@ -142,6 +179,7 @@ dotnet test tests/DAQuester.AppTests -c Release --no-build -m:1
 | `src/DAQuester.DarkAges` | Game protocol, proxy, client launch, and navigation |
 | `tests` | Core/protocol and app behavior regressions; no real character actions |
 | `content` | Recipes, catalog, routes, functional walkability, calibration, and sanitized evidence |
+| `native` | Pinned DAWindower X source metadata and DAQuester integration patch |
 | `docs` | Player guides, contributor references, release notes, and screenshots |
 | `tools` | Optional screenshots, content tools, and release packaging |
 
@@ -149,7 +187,17 @@ Start with [Contributing](CONTRIBUTING.md) or browse the [documentation index](d
 Calibration, connection profile, diagnostics and replay export are reachable through
 the [control bridge and MCP](docs/control.md) and the Data folder, not the window.
 Documentation screenshots are optional: run `./tools/Capture-Screenshots.ps1`
-after a Release build to capture four pages with isolated sample data.
+after a Release build with isolated sample data. To show original sprites and
+quest icons, set the artwork source before capture:
+
+```powershell
+$env:DAQUESTER_SCREENSHOT_CLIENT = 'C:\path\to\Darkages.exe'
+./tools/Capture-Screenshots.ps1
+```
+
+Capture reads installed artwork without launching a game client. Four main pages
+are copied to `docs/screenshots`; additional dashboard, scheduler, and journey
+captures stay under `artifacts/screenshots/native` for manual selection and review.
 
 ## Related projects and credits
 
@@ -160,9 +208,12 @@ and banks; its saved-login approach is also used here.
 
 DAQuester is [MIT licensed](LICENSE). It uses .NET, [Avalonia](https://avaloniaui.net),
 [Arbiter](https://github.com/ewrogers/Arbiter), and
-[Velopack](https://github.com/velopack/velopack). Quest references come from
+[Velopack](https://github.com/velopack/velopack). Windowed clients use
+[DAWindower X](https://github.com/BuildWithRaymond/DAWindower), built from pinned
+source with DAQuester's managed-launch integration. Quest references come from
 [Vorlof](https://vorlof.com/quests.html). See [third-party notices](THIRD_PARTY_NOTICES.md)
 for upstream licenses.
 
-Screenshots show the actual app with isolated sample characters. Dark Ages belongs
+Screenshots show the actual app with isolated sample characters and original
+sprites rendered from installed game artwork. Dark Ages belongs
 to its owners; DAQuester is an independent community project.

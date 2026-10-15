@@ -1,5 +1,46 @@
 # Validation status
 
+## Current-source integration and README — October 15, 2026
+
+The README now covers all 14 automatic journeys, queue supply preparation,
+captured Danaan branches and recovery, the successful Faerie bond offer,
+Callough acceptance before gathering, original artwork caches, dashboard views,
+scheduler actions, and DAWindower X managed launches. It distinguishes current
+source from published release notes and retains the existing live-evidence limits.
+The documentation index links the newer research and the current screenshots.
+
+A clean, symbol-free Release solution build passed with zero errors and the
+existing `NU1900` warning for the unavailable NuGet vulnerability-data endpoint.
+Focused regressions passed **61 Core/protocol cases** and **26 app cases**;
+the complete app suite passed **271/271**, with no skips. Sandbox current-user
+pipe access initially failed; the same pipe and windowing fixtures passed with
+normal local permissions. No production code or test assertions were changed
+during this documentation refresh.
+
+The complete Core/protocol suite passed **1,397/1,397** with serial collections
+and no skips. A preceding parallel run had one timing-sensitive fast-walking
+failure; that case passed in the focused run before the complete serial pass.
+Reports are retained under `artifacts/readme-validation`, including
+`readme-core-full-serial.trx` and `readme-app-full-local.trx`.
+
+The optional native capture produced **65 isolated sample states** using
+read-only installed artwork. Eight documentation images were selected: planner,
+paused journey, dashboard cards/list, characters, scheduler, history, and settings.
+Manual review also covered compact dashboard/scheduler and long-text states.
+Sprites and quest icons are original game artwork; character identities and
+progress are synthetic. Physical keyboard delivery and live quest execution were
+not exercised. No real game character, player Data, or Excalibur was modified.
+
+`Build-Release.ps1 -NoBuild` passed to
+`artifacts/readme-release-20261014/release`, followed by an independent
+`Verify-Release.ps1` pass. An initial packaging attempt exhausted disk space;
+verified unused generated build outputs were removed after checking their
+resolved paths, running executable paths, and absence of Data/game files.
+The three packaged application assemblies and native DLL match the tested build.
+Verification covers assets, checksums, feed, licenses, private-data exclusion,
+and functional walkability for **1,420 of 1,435** maps. These local packages were
+not published as a release.
+
 ## Readable journey markers — October 14, 2026
 
 Long recipes previously shrank every step into a single narrow line beside the
@@ -1089,3 +1130,478 @@ commit or merge was performed. The running app and game session remain open.
 Fresh automatic live validation and live review of variant progress remain
 outstanding. The player requested wrap-up and no further MCP work; no additional
 live actions were taken to reconcile the old read-only research checkpoint.
+
+## Danaan Loures court validation — October 14, 2026
+
+The player-approved `loures-court` child branch retains the original and
+`loures-orders` journeys. Its new Ase/Courtney/Franchesco prefix uses retained
+server pages and separate purchase/handoff receipts, then joins Logan. See
+[the court handoff](research/danaan-loures-court.md) for observations and gaps.
+
+The isolated Release solution build under ignored `artifacts/danaan-court`
+succeeded with zero warnings and errors. All 40 focused core checks and seven
+focused app checks passed, including recovery from the sanitized actual action
+and resource excerpt, projection through replay schema 3, reconnect persistence,
+wrong identity/generation/profile, missing or stale pages, incomplete closure,
+and missing quote/debit/item receipts. Automatic-flow resource outcomes remain
+explicitly synthetic. Both complete xUnit projects passed: 1,173 core tests and
+244 app tests. Normal Windows test-process access was used for named-pipe tests.
+`git diff --check` passed; source and built quest recipe hashes matched.
+
+The new executable is ready for the player's next DAQuester restart at
+`artifacts/danaan-court/bin/DAQuester.App/release_win-x86/DAQuester.exe`.
+Existing player Data was not edited manually. On resume, the runner can recover
+the complete recorded prefix to the Cousin through its journal gate, without
+another Oren Brandy purchase, Courtney handoff or Logan conversation. Missing
+proof retains the old pending checkpoint. No game commands were sent during
+implementation validation, no Excalibur process was changed, and the separate
+paid Fisk wait remains intact. This build has not yet had a fresh full automatic
+live court run or a new final quest reward.
+
+## Varuna gatekeeper validation — October 14, 2026
+
+Native MCP completed Pixel's one offered final Next at Varuna and confirmed
+actual closure with unchanged gold/XP and the already-consumed Gland. The
+paragraph was already present in Lancelot observation 67 but omitted from both
+Loures recipes. [The research handoff](research/danaan-varuna-gatekeeper.md)
+separates these observed facts from simulated execution and replay recovery.
+
+The isolated Release solution build under ignored `artifacts/danaan-varuna`
+succeeded with zero warnings and errors. All 59 focused core and nine focused
+app checks passed. Both complete xUnit projects passed: 1,192 core tests and
+246 app tests. Tests cover the corrected pages, unknown replies, pending Next
+without another handoff, full original-generation replay receipts, missing or
+contradictory proof, later progress, reconnect persistence and baseline-aware
+replay projection. Source and built recipe hashes matched; `git diff --check`
+passed. No game commands were sent during implementation validation.
+
+The executable is ready at
+`artifacts/danaan-varuna/bin/DAQuester.App/release_win-x86/DAQuester.exe`.
+On resume it can recover the recorded Varuna stage to Mold collection through
+the normal journal gate. Actual live recovery in that new build remains pending
+the player's restart. No player Data was edited manually, no Excalibur process
+was changed, and no final Danaan reward was claimed or certified.
+
+## Travel recovery validation — October 14, 2026
+
+Read-only native MCP inspection confirmed Pixel's repeated refresh/transport
+pauses and the Path Temple queue block for the exact `You are not a Monk.`
+active status. The player identifies the Monk Nightmare response. The
+[research handoff](research/danaan-travel-recovery.md) and sanitized capture
+separate that observation from code analysis and synthetic validation.
+
+The isolated Release solution build under ignored `artifacts/travel-recovery`
+succeeded with zero warnings and errors. The broad focused set passed 131
+checks. Seven final targeted checks passed after adding the delayed unexpected
+destination guard: six landing cases and the existing melee timing recheck.
+Both complete xUnit projects passed against the final build: 1,205 core tests
+and 246 app tests, with no skipped tests. Normal Windows access was used for
+named-pipe tests. Source and built recipe hashes matched; `git diff --check`
+passed.
+
+The first complete core run, overlapping compilation, passed 1,202 checks and
+failed one existing melee test with a 300 ms cancellation timer. That test
+passed individually and in the final complete run after compilation finished.
+An initial asynchronous landing fixture also hit its simulation's 100 ms
+deadline under load; it now delivers the landing explicitly after proving that
+the runner is waiting with its submission retained. The delayed unexpected-map
+test failed before the wait predicate was corrected and passed afterward.
+
+Refresh retries are read-only F5, retain the original connection baseline and
+keep movement blocked until actual position/world-map evidence. Captured Next
+is sent once and waits through latency; transport retains its pending receipt
+until actual landing. Cancellation, disconnect, unknown landings/popups and
+actual entry requirements retain their guards. The exact Monk message on map
+395 remains recorded while unrelated Danaan travel continues.
+
+The executable is ready for the player's DAQuester restart at
+`artifacts/travel-recovery/bin/DAQuester.App/release_win-x86/DAQuester.exe`.
+No game commands were sent during implementation or tests, no player Data was
+edited manually, and no Excalibur process was changed. Pixel's final automatic
+reward and queue completion remain unverified until the new build is resumed.
+
+## Reward, hub routing and dachaidh validation — October 14, 2026
+
+[The research handoff](research/quest-reward-route-dachaidh.md) separates Pixel's
+actual final XP/item/own-legend receipts and normal completion reconciliation
+from the new automatic runner tests. The original-opening Varuna capture proves
+Agent's complete Gland handoff and player final Next; recovery keeps Greim's
+warning. No final Agent reward or fresh full automatic quest is certified.
+
+Regressions first reproduced the late reward-message loss, retained active-status
+recovery, missing world-hub path, merchant spell argument, upper Coliseum planner
+exception, original-route Varuna successor and pre-inspected terminal-popup
+bypass. The new exact page alternatives also preserve variant prefix equality.
+The broad focused set passed 260 checks; 36 final branch/Varuna checks passed
+after that last guard was added. Dachaidh cases cover Wizard and provisional
+Priest preparation, missing prerequisites, unknown quotes, partial receipts,
+replacement generations, parent receipt preservation and no repeated payment.
+
+Concurrent artwork-cache changes appeared during the working-tree build. That
+app run passed the established 246 checks and failed six new artwork-cache
+tests. Those edits were preserved. An ignored source snapshot at
+`artifacts/quest-fixes-source` contains the quest changes and the established
+interface, excluding the unfinished concurrent artwork changes. Its quest source
+and content hashes match the working-tree fixes. Final validation and delivery
+use this isolated snapshot.
+
+The isolated Release solution build succeeded with zero warnings and errors.
+Both complete xUnit projects passed with no skips: 1,245 core tests and
+246 app tests. All 349 Core/DarkAges source files
+match the working-tree fixes, and the copied application has zero file-hash
+mismatches against its isolated build. Recipe and route hashes match the source;
+`git diff --check` passes. The executable is copied to
+`artifacts/quest-fixes-final/DAQuester.exe` for the player's DAQuester restart.
+No game commands were sent during these builds or tests, no player Data was
+edited manually, and no Excalibur process was changed.
+
+## 2026-10-14: queue supplies, mundane visibility, and Undine recovery
+
+Known obtainable supplies are prepared before quest NPCs, with ready queued
+consumables combined and current inventory, remaining handoffs, capacity, and
+known payment funds respected. Independent acquisition checkpoints preserve
+dialogue indexes and prevent repeated uncertain purchases or pickups. Mehadi
+Gland sources use guide provenance and recorded travel costs; named inventory
+receipts remain the proof. Mundane and travel-service approaches stop when the
+intended NPC becomes visible, after safe doorway departure. Undine's known popup
+and active status warning use guarded weapon removal with both receipt sides.
+
+Test-first regressions reproduced late gathering, extra proximity walks, missing
+status handling, incomplete removal proof, shared-consumable undercounting,
+unknown-branch spending, inherited parent cooldowns, and future purchases spending
+current payment funds. Captured Fisk dialogue and resource deltas remain checked;
+its rebased early-purchase timing is explicitly synthetic. No fresh live runner
+or Mehadi drop capture is claimed.
+
+Final complete suites passed without skips: **1,265 core/protocol tests** and
+**254 app tests**. The last focused purchase/travel set passed 25 checks. The
+Release desktop build succeeded with zero errors and one cached `NU1900` warning
+because NuGet's vulnerability-data endpoint was unavailable. The build resides
+in `artifacts/quest-preparation-build/DAQuester.exe`; its recipe and route hashes
+match the working tree. `git diff --check` passes. No interface layout or packaging
+change was made, so no render review or release-packaging gate was required.
+
+Existing working-tree edits were preserved. All sessions used by tests were
+synthetic. No real characters were operated, player Data was not modified, and
+Excalibur was not stopped, restarted, relaunched, or changed.
+
+## Captured-run correction — 2026-10-14
+
+The subsequent Glioca failure reproduced an off-screen cached NPC being treated
+as visible. Shared approach, direct open and core arrival checks now require a
+unique non-player NPC within ten tile steps on the actual map, after validated
+doorway departure. Native synthetic movement checks cover both walking modes,
+speech approaches and unanchored visits.
+
+The Donnan failure matched Lancelot observation 140 exactly. Its meditative-master
+referral is now a scoped alternative to the original jail-keeper referral in
+all three journeys. Pending replies retain their original identity, revision
+and generation checks. This build initially reopened Donnan's topic on a new
+connection. The later assignment correction below supersedes that behavior;
+the referral has already advanced server state and must continue to Kyros.
+
+The [captured-run audit](research/danaan-captured-run-audit.md) accounts for 138
+distinct NPC pursuit pages, 207 Danaan/Fisk transcript transitions and 50 Next
+transitions across five raw Danaan captures. Its independent Cail continuation
+requires the fruit and greaves handoffs, Cap/XP/own legend and terminal close.
+All 20 focused audit/recovery checks passed, including negative receipt cases.
+
+Both complete xUnit projects passed with no skips: **1,292 core/protocol tests**
+and **254 app tests**. The broader Danaan/Fisk, preparation and travel set passed
+202 focused checks before the final omission/reconnect coverage was added.
+
+The corrected Release build is `artifacts/quest-preparation-fixes/DAQuester.exe`.
+It was built separately because the previous output is running. Its recipe and
+route hashes match the working tree. Build result: zero errors, one cached
+`NU1900` warning for the unavailable vulnerability-data endpoint. No running
+application, player Data or real character was changed by the build or tests.
+
+## Donnan persisted-receipt boundary — 2026-10-14
+
+The player's running corrected build still paused after reconnect. Read-only
+inspection found pending revision 2575, submitted page 2576 and saved reply
+2577. The recovery comparison was inverted relative to `BeginAsync`, which
+deliberately stores `observedDialog.Revision - 1`. Earlier synthetic fixtures
+had incorrectly fabricated an equal revision and therefore missed this bug.
+
+The recovery now requires that exact writer boundary and a reply strictly
+newer than the submitted page. A sanitized capture of the actual checkpoint
+and tests using the real journal writer reproduced the failure before the
+correction. All **64 focused recovery/audit checks passed** afterward. The
+actual checkpoint simulation advances from task 26 to 27 with a fresh actor
+and generation, without submitting an action from the old connection. No
+player Data was edited and no real character was operated.
+
+Both complete projects then passed with no skips: **1,295 core/protocol tests**
+and **254 app tests**. The replacement build is
+`artifacts/quest-receipt-fix/DAQuester.exe`; its recipe and route hashes match
+the working tree. Release build succeeded with zero errors and the same single
+cached NuGet vulnerability-data warning. The running application and Excalibur
+were left untouched.
+
+## Donnan assignment continuation — 2026-10-14
+
+The next reported failure was a progression error in the reconnect recovery,
+not missing fruit. Read-only inspection of the owned saved run confirmed
+Meaveen's fruit acceptance, Donnan's completion confirmation and the exact Kyros
+referral. Kyros had not been visited. The previous recovery reopened Donnan's
+topic, which now checked the unfinished Kyros task and correctly returned
+`You have not finished your task`.
+
+The runner now persists the assignment independently of referral presentation
+and continues it after reconnect without reopening Donnan. For the already
+damaged checkpoint, automatic replay recovery requires the original owned root
+selection, confirmation Next action and later exact referral, with matching
+generation/entity/revision receipts. Missing proof or later Kyros/Erin progress
+retains the pending checkpoint. Refusal popup cleanup is separate and submitted
+once. The refusal and carried greaves alone never prove a completed task.
+
+All **40 focused audit/recovery checks passed**, including complete captured Cail
+continuations interrupted after assignment, before referral acknowledgement and
+after popup closure. They still require the fruit and greaves handoffs once,
+Erin's reward once, Cap/XP/fresh own legend and terminal closure. A standalone
+x86 process also read the original 77 MB saved replay with the production
+projection: 189 relevant snapshots and seven actions restored the assignment,
+without inferring quest completion. Adding the newer saved replay also passed.
+
+Both complete xUnit projects passed with no skips: **1,312 core/protocol tests**
+and **259 app tests**. The Release build is
+`artifacts/donnan-assignment-fix/DAQuester.exe`. Build result: zero errors and one
+cached `NU1900` vulnerability-data endpoint warning. Recipe, route and recovery
+fixture SHA-256 hashes match source; `git diff --check` passes.
+
+All quest execution was synthetic. Saved player Data was read, not edited.
+No real character was operated and no running application or Excalibur process
+was stopped, restarted, relaunched or changed. Load the new DAQuester build to
+use the fix; this is not a new live automatic quest completion.
+
+## Bare-hand bashing correction — 2026-10-14
+
+The player reported that characters can bash with their hands. The melee
+basher incorrectly set its equip-attempt flag before finding an eligible owned
+weapon, then stopped on the next tick with `No usable melee weapon is equipped
+or in the bag, so the fight stopped.` No equip command had been sent.
+
+The flag is now set only immediately before an actual equip submission. With
+no eligible weapon, normal assails and skills continue. Owned usable weapons
+remain preferred, and a submitted equip without confirmation still cannot be
+resent. Ceannlaidir's equipped-weapon entry requirement is unchanged.
+
+Test-first regressions reproduced the false stop for all six base classes and
+for a bag containing only an ineligible melee weapon. The tests verify actual
+assail commands with an empty weapon slot and no learned skills, continued
+rotation, one owned-weapon equip and no retry of an uncertain equip. Existing
+Donnan cleanup test snapshots were also corrected to supply required known XP
+and a snapshot revision at least as new as the captured popup. All **27 final
+focused combat/recovery checks passed**; the broader combat, travel and supply
+checks passed apart from those fixture omissions before their correction.
+
+Both complete xUnit projects then passed with no skips: **1,324 core/protocol
+tests** and **259 app tests**. Release output:
+`artifacts/unarmed-bashing-fix/DAQuester.exe`; zero build errors and the existing
+single cached NuGet vulnerability-data warning. Its recipe, route and Donnan
+recovery fixture hashes match source. `git diff --check` passes. All execution
+was synthetic; no player Data or running application was changed.
+
+## Blanchefleur Fiosachd branch — 2026-10-14
+
+The captured sailor referral reproduced the missing later receipt. Test-first
+checks failed for the missing branch, original-checkpoint recovery and Wizard
+Hall's too-shallow visible-NPC approach. The new exact-reply branch preserves
+the submitted prefix, reads the approved Fiosachd clue and returned menu loop,
+then follows captured Keefe and Logan pages to Cousin. Recovery requires owned
+original source actions and actual closures; missing choices, wrong identities,
+changed balances and later Cousin/later-stage progress preserve the pending
+submission. New-generation later payments also prevent rewind.
+
+The full synthetic suites pass with no skips: **1,340 core/protocol tests** and
+**262 app tests**. The core suite required execution outside the filesystem
+sandbox because its private Windows named pipes were denied there. The final
+run passed every test. The dialogue fixture supplies synthetic travel; native
+fixtures separately check Wizard Hall departure and first-visible stopping.
+Varuna and Donnan continuation checks include the new branch. Queue control
+uses existing queue gates and a repeated start cannot toggle a running queue.
+
+Release output: `artifacts/blanchefleur-fiosachd-fix/DAQuester.exe`. Clean Release
+build and publish succeeded, with the existing cached `NU1900` endpoint warning.
+Packaged recipe, routes and recovery-fixture SHA-256 hashes match source;
+`git diff --check` passes. Live discovery is documented separately in
+[the branch research](research/danaan-blanchefleur-fiosachd.md); synthetic tests
+do not establish a new full automatic completion or an observed Band reward.
+
+## Independent NPC reply continuation — 2026-10-14
+
+The first resumed run reconciled Blanchefleur, paid Cousin once and handed one
+Gland to Varuna. It then exposed the original spirits ending on the new opening.
+This reproduced an incorrect assumption that the opening fixed every later NPC
+reply. The player authorized finishing Varuna's final informational Next; its
+actual closure and complete original handoff are retained in the new spirits
+capture. No Gland delivery or payment was repeated.
+
+Fresh informational replies now select a unique captured continuation for the
+same NPC task, independently of the opening. They must preserve the map,
+resource contract and every submitted page. The durable reply proof is checked
+again after reload; stale/foreign/unknown replies, new choices, conflicting
+handoffs and ambiguous future paths retain the pending submission. Recovery of
+the actual stopped run continues at Greim's warning. Stage progress uses the
+same resolved path, including that warning.
+
+Final complete suites pass with no skips: **1,354 core/protocol tests** and
+**263 app tests**. The progress regression first reported 26 instead of 27;
+the corrected count passes. Release output is
+`artifacts/danaan-npc-replies-fix/DAQuester.exe`. Build/publish succeeded; the
+cached `NU1900` endpoint warning remains. All three application assembly hashes,
+recipe, routes and the spirits fixture match source, and `git diff --check`
+passes. Synthetic execution remained separate from the live segment.
+
+## Dreamer actual return map — 2026-10-14
+
+The resumed run finished Greim and every Dreamer page, then returned to Mileth
+Threshold instead of a whitelisted inn. The player supplied the no-citizenship
+threshold behavior and corrected departure to Up. The bounded up step was
+accepted; the capture retains the original final Next, map header, actual
+position and later world travel. Return now follows the submitted final prompt
+and an actual different map, with coordinates awaited before movement. Normal
+navigation handles the threshold exit. Other quest transports retain their
+own destination checks.
+
+Tests first reproduced rejection of both threshold and synthetic other-map
+returns. Original-action replay recovery is tested across reconnect, including
+delayed action headers, missing receipts, foreign actors and later handoffs.
+The old recorded-redirect test was updated to accept the actual changed map;
+unchanged-map and unrecorded-redirect cases still preserve the submission.
+The app replay projection retains actual landing coordinates without bag data.
+
+Final complete suites pass with no skips: **1,365 core/protocol tests** and
+**264 app tests**. Release output: `artifacts/dreamer-return-fix/DAQuester.exe`.
+Build/publish succeeded with the existing cached `NU1900` endpoint warning.
+All three assembly hashes match the build; source recipe, routes and return
+fixture are included. `git diff --check` passes. These checks do not establish
+final live quest completion.
+
+The later live continuation completed the resumed Cap journey automatically,
+including Donnan's actual acceptance, Kyros's handoff, Erin's +1,000,000 XP
+active message, Cap inventory receipt, fresh own legend and server-confirmed
+terminal popup close. The sanitized final receipts are in
+`danaan-blanchefleur-resumed-completion.json`; see
+[the completion account](research/danaan-blanchefleur-fiosachd.md#resumed-automatic-completion).
+The queue then accepted Fisk's paid bouquet wait, completed the queued Pet
+Faerie visit and Rucesion Song return, and parked facing down at Tavern 413
+(10,1). Fisk's wait remains running until its 2026-10-15 03:55:04 UTC check.
+Earlier manual discovery/recovery means this is resumed completion, not a new
+uninterrupted automatic run; Band and this run's final Fisk reward remain
+unverified. No implementation changed after the complete suites above.
+
+## Successful Faerie bond, Callough activation and scheduler clarity — 2026-10-14
+
+The captured successful Faerie branch first failed its new automatic regression
+at the missing Yes choice. The runner now binds that choice to the exact prior
+250hp/250mp offer, writes a separate bond checkpoint, verifies Pet Faerie receipt,
+and completes actual dialogue closure before return. Captured server-close and
+remaining-popup timings pass, along with late delivery and uncertain Yes/close
+recovery without another bond. Stale, foreign, changed and ambiguous offers are
+rejected. The earlier player-selected live Yes remains distinct from these
+synthetic automatic-choice checks; see [the bond evidence](research/shinewood-faerie-pet-bond.md).
+
+Five new/updated regressions reproduced pre-acceptance branch preparation,
+legacy preparation and missing Callough approach targets. Preparation now waits
+for current-connection acceptance, including queued branches, while preserving
+other early supplies. The normal collection helper enforces the same activation.
+Both Callough visits supply his recorded reachable public-side approach; a
+native synthetic fixture walks from a distant entry and stops at first actual
+visibility. Existing reconnect, pending turn-in, cooldown, permanent-completion,
+random-drought and patrol-extension coverage passes.
+
+Scheduler keeps its runtime consent, ownership and per-entry resume gates.
+The interface explains Save versus global enable, retains the page agreement
+across those actions, shows Resume schedule on stopped rows, and distinguishes
+successful feedback from errors. Native isolated preview screenshots were
+reviewed at desktop and compact sizes, including the scrolled saved rows and
+agreement/footer. No real character was operated by builds or synthetic checks.
+[The investigation](research/stick-activation-and-scheduler.md) separates the
+player's report, observed entry/timeout and saved scheduler state from code facts.
+
+Final complete suites: **1,385 core/protocol tests** and **264 app tests**, all
+passing with no skips. Focused quest/recovery coverage passed 227 tests before
+the additional native approach case, which passed in the full suite. Windows
+IPC fixtures ran with the same required local permissions as prior suites.
+Build/publish succeeded to `artifacts/pet-stick-scheduler-fix/DAQuester.exe`;
+the cached `NU1900` vulnerability-data endpoint warning remains. All three
+application assembly hashes match the tested build, the bond evidence matches
+source, and `git diff --check` passes. Running player sessions were not restarted
+to load this build.
+
+## DAWindower X integration — 2026-10-14
+
+New DAQuester-owned clients load the pinned native x86 DAWindower X DLL while
+their primary thread is suspended. Synthetic launcher regressions cover the
+existing proxy, multi-instance and agreement patches, load-before-resume order,
+failed/null/timed-out loading, cancellation and cleanup of only the newly created
+process. Wrong-architecture, executable and missing-library inputs are rejected.
+The actual bundled DLL also passes upstream's synthetic first-DirectDraw fixture
+through the real Windows loader in ordinary and Unicode paths, without an extra
+initializer. These checks do not establish a live game renderer or login result.
+
+Release validation exposed three recorded maps missing from collision metadata.
+The new coverage regression first failed on maps 3029, 3000 and 195. Their grids
+were derived from installed files through the existing exporter, with all 2,664
+tile bits audited and the established collision-table digest verified. Previous
+grids and unavailable-map entries are unchanged; coverage is now 1,420 of 1,435
+recorded maps. See [provenance](provenance.md) for the resulting asset digest.
+
+The packaging guard also caught a stale Core assembly's embedded PDB path after
+an incremental build. A forced symbol-free solution compilation removed it;
+the complete suites then passed on those exact binaries: **1,396 core/protocol
+tests** and **266 app tests**, with no failures or skips. The final reports are
+`core-windower-clean.trx` and `app-windower-clean.trx` under
+`artifacts/windower-tests`. No real character was operated during this work.
+
+`Build-Release.ps1 -NoBuild` succeeds to
+`artifacts/dawindower-x-release/release`, including its release verification.
+An independent `Verify-Release.ps1` pass also succeeds against that output.
+Installer, portable archive and update package retain the pinned DLL, MIT notice
+and actual source/hash record. Test fixtures, symbols, checkout paths, player
+Data and raw game assets are excluded. Application and native-library hashes
+match the tested assemblies. Compression initially exhausted local disk space;
+unused expanded generated packages were removed after process/path checks,
+preserving release archives, source, research captures and Data. The cached
+`NU1900` vulnerability-endpoint warning remains. Existing game windows and
+Excalibur were not restarted or modified.
+
+## X + button through DAQuester — 2026-10-14
+
+The player selected a blank managed login window for X's + action. Each accepted
+request now uses a fresh ownership slot and the normal proxy, supported-image
+validation and suspended-X launch transaction, without credentials or character
+selection. Named Launch retains its existing focus and saved-login behavior.
+The per-app pipe authenticates the actual Windows caller PID against live process
+handles registered before primary-thread resume, then checks ownership again on
+the app dispatch thread. Failed or uncertain handoffs never launch a standalone
+fallback; shutdown closes the endpoint and preserves existing game processes.
+
+Three host tests first failed before the pipe existed. The before-resume
+regression reported registered PID 0 instead of 42; the native + regression
+timed out without a host call, and the fresh blank-launch regression failed on
+its unimplemented path. Focused coverage now passes 11 launcher and seven app
+cases, including the actual X caption double-click producing one request from
+the synthetic client's Windows PID, failed callback without retry, malformed
+requests, unregistered origins and shutdown with an incomplete caller.
+
+Final full suites pass with no skips: **1,397 core/protocol tests** and **271 app
+tests**. Reports are `plus-core-full.trx` and `plus-app-full.trx` under
+`artifacts/windower-tests`. Build and native x86/package checks pass; the existing
+cached `NU1900` endpoint warning remains. `Build-Release.ps1 -NoBuild` succeeds to
+`artifacts/dawindower-x-plus/release`, and an independent `Verify-Release.ps1`
+pass verifies both archives, source/patch/DLL fingerprints, licenses, checksums,
+feed and private-data exclusions. All application/native hashes match the tested
+assemblies. Synthetic fixtures remain outside the distribution.
+
+Native caption review uses a separate isolated fixture harness, not a real game
+client. The first preview failed its module-path comparison because the harness
+used mixed path separators; canonicalizing that harness path resolved it without
+changing production code. No player Data, queues, game files or Excalibur working
+copies were modified. Existing clients need relaunch to receive the new endpoint.
+The final caption-only capture was reviewed manually: dark chrome and controls
+remain readable, with + disabled during the pending handoff. The separate fixture
+completed one request and exited successfully. This is synthetic interface
+evidence; no live game renderer or login outcome is certified.
