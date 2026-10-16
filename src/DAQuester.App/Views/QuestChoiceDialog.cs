@@ -8,7 +8,7 @@ using DAQuester.Core;
 
 namespace DAQuester.App.Views;
 
-public sealed class QuestChoiceDialog : Window
+public sealed partial class QuestChoiceDialog : Window
 {
     readonly StackPanel body = new()
     {
@@ -40,7 +40,13 @@ public sealed class QuestChoiceDialog : Window
             "error"
         }
     };
-    public QuestChoiceDialog(string character, QuestDefinition quest, QuestJob job, string? routeError, SickChildChoiceInfo? sickChild = null, string? characterClass = null)
+    public QuestChoiceDialog(
+        string character,
+        QuestDefinition quest,
+        QuestJob job,
+        string? routeError,
+        SickChildChoiceInfo? sickChild = null,
+        string? characterClass = null)
     {
         Title = quest.Name + " · " + character;
         Width = 600;
@@ -104,9 +110,6 @@ public sealed class QuestChoiceDialog : Window
             case "emerald-dawn":
                 BuildEmerald(job);
                 break;
-            case DanaanEvidence.Id:
-                BuildDanaan(job);
-                break;
             case "shinewood-faerie":
                 BuildFaerie(routeError);
                 break;
@@ -133,32 +136,6 @@ public sealed class QuestChoiceDialog : Window
         Content = layout;
     }
 
-    void BuildDanaan(QuestJob job)
-    {
-        body.Children.Add(Copy("Follow the Donnan / Cail route to Danaan's gift. Other offered routes pause for review. Consecration and reversion are separate choices and are not part of this run."));
-        var avatar = new ComboBox { Name = "danaanAvatar", ItemsSource = new[] { "Donnan / Cail" }, PlaceholderText = "Choose the Avatar route", HorizontalAlignment = HorizontalAlignment.Stretch };
-        Field("Avatar", avatar);
-        body.Children.Add(Copy("Greim warns that an improperly closed rift can permanently lose a soul. This route brings one Mold for his rite; it does not attempt the rite without it."));
-        var rite = new CheckBox { Name = "danaanRiteAccepted", Content = "I accept the supplied-Mold rite and its stated risk", IsChecked = job.DanaanOptions?.SuppliedMoldRiteAccepted == true };
-        body.Children.Add(rite);
-        body.Children.Add(Copy("Reserve 6,620 gold for the observed Cail purchases and donation, plus carrying space for the current task. An owned usable weapon is required for the armed shrine."));
-        if (job.DanaanOptions?.Avatar == "cail") avatar.SelectedIndex = 0;
-        bool locked = DanaanEvidence.ChoicesLocked(job);
-        avatar.IsEnabled = !locked;
-        rite.IsEnabled = !locked;
-        void Validate() => confirm.IsEnabled = avatar.SelectedItem is string && rite.IsChecked == true;
-        avatar.SelectionChanged += (_, _) => Validate();
-        rite.IsCheckedChanged += (_, _) => Validate();
-        confirm.Content = "Confirm Cail route";
-        Validate();
-        confirm.Click += (_, _) =>
-        {
-            var options = new DanaanOptions("cail", rite.IsChecked == true);
-            options.Validate();
-            Close(new QuestChoiceResult(DanaanOptions: options));
-        };
-    }
-
     static TextBlock Copy(string value) => new()
     {
         Text = value,
@@ -178,175 +155,6 @@ public sealed class QuestChoiceDialog : Window
         field.Children.Add(new TextBlock { Text = label, Classes = { "caption" } });
         field.Children.Add(control);
         body.Children.Add(field);
-    }
-
-    void BuildBirth(QuestJob job)
-    {
-        body.Children.Add(Copy("Choose what Riona will record in this character’s legend. These choices are saved before the journey begins."));
-        var season = new ComboBox
-        {
-            Name = "birthSeason",
-            ItemsSource = MundaneBirthOptions.Seasons,
-            PlaceholderText = "Choose a season",
-            HorizontalAlignment = HorizontalAlignment.Stretch
-        };
-        var town = new ComboBox
-        {
-            Name = "birthTown",
-            ItemsSource = MundaneBirthOptions.Towns,
-            PlaceholderText = "Choose a town",
-            HorizontalAlignment = HorizontalAlignment.Stretch
-        };
-        var age = new NumericUpDown
-        {
-            Name = "birthAge",
-            Minimum = 12,
-            Maximum = 40,
-            Increment = 1,
-            Value = 12,
-            FormatString = "0",
-            HorizontalAlignment = HorizontalAlignment.Stretch
-        };
-        Field("Season", season);
-        Field("Age · 12–40", age);
-        Field("Town", town);
-        body.Children.Add(Copy("Birth is a lasting legend choice. Changing an existing birth can cost up to 100,000 XP. DAQuester stops if Riona says your birth is already recorded."));
-        if (job.BirthOptions is { } saved)
-        {
-            season.SelectedItem = saved.Season;
-            town.SelectedItem = saved.Town;
-            age.Value = saved.Age;
-        }
-
-        bool locked = job.Pending is not null || job.CompletedAt is not null;
-        if (locked)
-        {
-            season.IsEnabled = false;
-            town.IsEnabled = false;
-            age.IsEnabled = false;
-        }
-
-        void Validate()
-        {
-            confirm.IsEnabled = season.SelectedItem is string && town.SelectedItem is string && age.Value is >= 12 and <= 40 && decimal.Truncate(age.Value.Value) == age.Value;
-        }
-
-        season.SelectionChanged += (_, _) => Validate();
-        town.SelectionChanged += (_, _) => Validate();
-        age.ValueChanged += (_, _) => Validate();
-        confirm.Content = "Confirm birth choices";
-        confirm.IsDefault = true;
-        Validate();
-        confirm.Click += (_, _) =>
-        {
-            try
-            {
-                var value = new MundaneBirthOptions((string)season.SelectedItem!, decimal.ToInt32(age.Value!.Value), (string)town.SelectedItem!);
-                value.Validate();
-                if (locked && value != job.BirthOptions)
-                    throw new QuestBlockedException("Saved birth choices cannot change. Resume to check the existing submission.");
-                Close(new QuestChoiceResult(BirthOptions: value));
-            }
-            catch (Exception error)
-            {
-                validation.Text = error.Message;
-            }
-        };
-    }
-
-    // Rewards below were measured live on 2026-10-11 (one character per outcome).
-    static readonly (string Title, string SecondMark, string Gold, string Experience, string Where)[] emeraldOutcomes = [("Emerald Knights", "Aided the Emerald Knights", "None", "300,000 – 5,000,000 (depending on level)", "Dislaidir · Road to House Macabre"), ("Necromancer Order", "Aided the Necromancer Order", "20,000", "300,000 – 5,000,000 (depending on level)", "Sennaan · Mine Entrance"), ("Rogue Order", "", "1,000,000", "None", "Skan · Crypt Vestibule")];
-    void BuildEmerald(QuestJob job)
-    {
-        body.Children.Add(Copy("Who receives the Emerald Knight Insignia? Every path first earns Berg's legend mark. The second reward depends on the recipient and stays with this character once the insignia is given away."));
-        bool locked = EmeraldDawnEvidence.ChoicesLocked(job);
-        var options = new List<RadioButton>();
-        for (int i = 0; i < emeraldOutcomes.Length; i++)
-        {
-            var (title, secondMark, gold, experience, where) = emeraldOutcomes[i];
-            var details = new Grid
-            {
-                ColumnDefinitions = new("128,*"),
-                RowDefinitions = new("Auto,Auto,Auto,Auto"),
-                RowSpacing = 2
-            };
-            void Row(int row, string label, string value, string? valueClass = null)
-            {
-                var l = new TextBlock
-                {
-                    Text = label,
-                    Classes =
-                    {
-                        "caption"
-                    }
-                };
-                Grid.SetRow(l, row);
-                details.Children.Add(l);
-                var v = new TextBlock
-                {
-                    Text = value,
-                    TextWrapping = TextWrapping.Wrap
-                };
-                if (valueClass is not null)
-                    v.Classes.Add(valueClass);
-                Grid.SetRow(v, row);
-                Grid.SetColumn(v, 1);
-                details.Children.Add(v);
-            }
-
-            Row(0, "1st legend mark", EmeraldDawnEvidence.Recovered);
-            if (secondMark.Length > 0)
-                Row(1, "2nd legend mark", secondMark, "ready");
-            else
-                Row(1, "2nd legend mark", "None", "error");
-            Row(2, "Gold", gold, gold == "1,000,000" ? "gold" : gold == "None" ? "muted" : null);
-            Row(3, "Experience", experience, experience == "None" ? "muted" : null);
-            var card = new StackPanel
-            {
-                Spacing = 8
-            };
-            card.Children.Add(new TextBlock { Text = title, FontWeight = FontWeight.SemiBold });
-            card.Children.Add(details);
-            card.Children.Add(new TextBlock { Text = where, Classes = { "caption" } });
-            var option = new RadioButton
-            {
-                Name = "emeraldOutcome" + i,
-                GroupName = "emeraldOutcome",
-                Content = card,
-                IsEnabled = !locked,
-                VerticalContentAlignment = VerticalAlignment.Top,
-                Padding = new Thickness(8, 4, 0, 4)
-            };
-            options.Add(option);
-            body.Children.Add(new Border { Classes = { "card" }, Padding = new Thickness(14, 12), Child = option });
-        }
-
-        if (job.EmeraldOptions is { } saved && Array.IndexOf(EmeraldDawnOptions.Outcomes, saved.Outcome) is >= 0 and var index)
-            options[index].IsChecked = true;
-        if (locked)
-            body.Children.Add(Copy("The insignia has already been handed over, so the recipient can no longer change."));
-        int Selected() => options.FindIndex(o => o.IsChecked == true);
-        void Validate() => confirm.IsEnabled = Selected() >= 0;
-        foreach (var option in options)
-            option.IsCheckedChanged += (_, _) => Validate();
-        confirm.Content = "Confirm outcome";
-        confirm.IsDefault = true;
-        Validate();
-        confirm.Click += (_, _) =>
-        {
-            try
-            {
-                var value = new EmeraldDawnOptions(EmeraldDawnOptions.Outcomes[Selected()]);
-                value.Validate();
-                if (locked && value != job.EmeraldOptions)
-                    throw new QuestBlockedException("The insignia has already been handed over. Resume to check the saved outcome.");
-                Close(new QuestChoiceResult(EmeraldOptions: value));
-            }
-            catch (Exception error)
-            {
-                validation.Text = error.Message;
-            }
-        };
     }
 
     void BuildFaerie(string? routeError)
@@ -376,8 +184,13 @@ public sealed class QuestChoiceDialog : Window
     {
         Height = 400;
         MinHeight = 340;
-        body.Children.Add(new TextBlock { Text = character + " won't get the legend mark", Classes = { "section", "gold" }, TextWrapping = TextWrapping.Wrap });
-        var warning = Copy((characterClass is null ? "" : character + " is a " + characterClass + ". ") + "Only Priests earn \"" + AltarWorshipEvidence.Legend + "\".");
+        body.Children.Add(new TextBlock
+        {
+            Text = character + " won't get the legend mark",
+            Classes = { "section", "gold" },
+            TextWrapping = TextWrapping.Wrap
+        });
+        var warning = Copy((characterClass is null ? "" : character + " is a " + characterClass + ". ") + "Only " + AltarWorshipEvidence.LegendClasses + " earn \"" + AltarWorshipEvidence.Legend + "\".");
         warning.Name = "altarNoMarkWarning";
         body.Children.Add(warning);
         body.Children.Add(Copy("After 10 offerings, 3 hours apart, " + character + " gets " + AltarWorshipEvidence.Rewards(characterClass) + ". Each offering costs 750 gold for a Leather Shield, 7,500 in total."));
@@ -429,7 +242,13 @@ public sealed class QuestChoiceDialog : Window
         MinHeight = 400;
         var step = new TextBlock { Text = "STEP 1 OF 2", Classes = { "eyebrow" } };
         body.Children.Add(step);
-        var title = new TextBlock { Name = "climbWarning", Text = character + " will reach level 11 and can never do Terror of the Alley / Garden", Classes = { "section", "error" }, TextWrapping = TextWrapping.Wrap };
+        var title = new TextBlock
+        {
+            Name = "climbWarning",
+            Text = character + " will reach level 11 and can never do Terror of the Alley / Garden",
+            Classes = { "section", "error" },
+            TextWrapping = TextWrapping.Wrap
+        };
         body.Children.Add(title);
         body.Children.Add(Copy("Crypt Climb fights until level 11. Terror of the Alley / Garden can only be done up to level 9, and " + character + " hasn't done it."));
         var typed = new TextBox { Name = "climbTyped", Watermark = "ALLEY", IsVisible = false };
@@ -463,108 +282,16 @@ public sealed class QuestChoiceDialog : Window
         };
     }
 
-    void BuildSickChild(string character, QuestJob job, SickChildChoiceInfo info, PaulinFlower flower)
-    {
-        Height = 640;
-        MinHeight = 480;
-        body.Children.Add(Copy("Paulin needs five " + flower.Name + " Blossoms, one per visit. Each character can pick one flower a day, of any kind."));
-        var given = new NumericUpDown { Name = "sickGiven", Minimum = info.Recorded, Maximum = 4, Increment = 1, FormatString = "0", Value = Math.Clamp(SickChildEvidence.Given(job), info.Recorded, 4), HorizontalAlignment = HorizontalAlignment.Stretch };
-        Field("Flowers already given to Paulin", given);
-        int Remaining() => SickChildEvidence.Goal - decimal.ToInt32(given.Value ?? info.Recorded);
-        int Needed() => Math.Max(0, Remaining() - (info.QuesterCanPick ? 1 : 0));
-
-        var dailyText = Copy("");
-        var daily = new RadioButton { Name = "sickDaily", GroupName = "sickMode", VerticalContentAlignment = VerticalAlignment.Top, Padding = new Thickness(8, 4, 0, 4) };
-        var dailyCard = new StackPanel { Spacing = 6 };
-        dailyCard.Children.Add(new TextBlock { Text = "One flower a day", FontWeight = FontWeight.SemiBold });
-        dailyCard.Children.Add(dailyText);
-        daily.Content = dailyCard;
-        body.Children.Add(new Border { Classes = { "card" }, Padding = new Thickness(14, 12), Child = daily });
-
-        var helpersMode = new RadioButton { Name = "sickHelpers", GroupName = "sickMode", VerticalContentAlignment = VerticalAlignment.Top, Padding = new Thickness(8, 4, 0, 4) };
-        var helperCard = new StackPanel { Spacing = 6 };
-        helperCard.Children.Add(new TextBlock { Text = "Bring flowers from my other characters", FontWeight = FontWeight.SemiBold });
-        var boxes = new List<(CheckBox Box, HelperRow Row)>();
-        bool anyEligible = info.Helpers.Any(r => r.Eligible);
-        helperCard.Children.Add(Copy(anyEligible
-            ? "Helpers pick at Mehadi and trade the flower to " + character + " at Paulin. Helpers DAQuester logs in are logged out after their trade." + (info.QuesterCanPick ? "" : " " + character + " already picked today.")
-            : "No other characters can log in. Add them on the Characters page."));
-        foreach (var row in info.Helpers)
-        {
-            var line = new Grid { ColumnDefinitions = new("Auto,*,Auto"), Margin = new Thickness(0, 2) };
-            var box = new CheckBox { Name = "sickHelper" + row.Name, IsEnabled = row.Eligible, IsChecked = row.Eligible && job.SickChildOptions?.Helpers.Contains(row.Name, StringComparer.OrdinalIgnoreCase) == true, VerticalAlignment = VerticalAlignment.Top };
-            var name = new StackPanel { Spacing = 1, Margin = new Thickness(4, 0, 8, 0) };
-            var title = new TextBlock { Text = row.Name };
-            if (!row.Eligible)
-                title.Classes.Add("muted");
-            name.Children.Add(title);
-            if (row.PickLine is { } pick)
-                name.Children.Add(new TextBlock { Text = pick, Classes = { "caption" } });
-            var login = new TextBlock { Text = row.Login, Classes = { row.Login == "Online" ? "ready" : "caption" }, VerticalAlignment = VerticalAlignment.Top };
-            Grid.SetColumn(name, 1);
-            Grid.SetColumn(login, 2);
-            line.Children.Add(box);
-            line.Children.Add(name);
-            line.Children.Add(login);
-            if (anyEligible)
-                helperCard.Children.Add(line);
-            boxes.Add((box, row));
-        }
-        var counter = new TextBlock { Classes = { "caption" }, TextWrapping = TextWrapping.Wrap };
-        var addCharacters = new Button { Name = "sickAddCharacters", Content = "Add characters", Classes = { "quiet" }, HorizontalAlignment = HorizontalAlignment.Left };
-        addCharacters.Click += (_, _) => Close(new QuestChoiceResult(OpenCharacters: true));
-        if (anyEligible)
-            helperCard.Children.Add(counter);
-        helperCard.Children.Add(addCharacters);
-        helpersMode.Content = helperCard;
-        helpersMode.IsEnabled = anyEligible;
-        body.Children.Add(new Border { Classes = { "card" }, Padding = new Thickness(14, 12), Child = helpersMode });
-
-        var gold = Copy("");
-        if (flower.Cost > 0)
-            body.Children.Add(gold);
-        if (flower == SickChildEvidence.Tulsi)
-            body.Children.Add(Copy("\"" + flower.Legend + "\" is a brown legend mark, and other players can't see it."));
-        body.Children.Add(Copy("This mark locks out \"" + flower.OtherLegend + "\". A character can earn only one of the two."));
-        string[] Chosen() => boxes.Where(b => b.Box.IsChecked == true).Select(b => b.Row.Name).ToArray();
-        int Planned() => helpersMode.IsChecked == true ? Math.Min(Remaining(), Chosen().Length + (info.QuesterCanPick ? 1 : 0)) : Math.Min(Remaining(), 1);
-        void Validate()
-        {
-            int remaining = Remaining(), needed = Needed(), chosen = Chosen().Length, left = Math.Max(0, needed - chosen);
-            dailyText.Text = "Only " + character + " picks. " + (remaining == 0 ? "All five flowers are given." : "Finishes in " + remaining + " more day" + (remaining == 1 ? "" : "s") + ". DAQuester runs again when the next flower can be picked.");
-            counter.Text = "Choose " + needed + " helper" + (needed == 1 ? "" : "s") + " · " + chosen + " chosen" + (left > 0 ? " · " + left + " flower" + (left == 1 ? "" : "s") + " left for later days" : " · finishes today");
-            addCharacters.IsVisible = info.Helpers.Count(r => r.Eligible) < needed || !anyEligible;
-            uint cost = (uint)Planned() * flower.Cost;
-            gold.Text = "Each flower costs 5,000 gold at Paulin. " + character + " has " + (info.Gold is { } g ? g.ToString("N0") : "an unknown amount") + ".";
-            bool affordable = info.Gold is null || info.Gold >= cost;
-            confirm.IsEnabled = remaining > 0 && affordable && (daily.IsChecked == true || helpersMode.IsChecked == true && chosen > 0);
-            validation.Text = affordable ? "" : "Carry at least " + cost.ToString("N0") + " gold for the flowers planned in this run.";
-        }
-        if (job.SickChildOptions?.Mode == SickChildOptions.WithHelpers && anyEligible)
-            helpersMode.IsChecked = true;
-        else if (job.SickChildOptions is not null || !anyEligible)
-            daily.IsChecked = true;
-        daily.IsCheckedChanged += (_, _) => Validate();
-        helpersMode.IsCheckedChanged += (_, _) => Validate();
-        given.ValueChanged += (_, _) => Validate();
-        foreach (var (box, _) in boxes)
-            box.IsCheckedChanged += (_, _) => { if (box.IsChecked == true) helpersMode.IsChecked = true; Validate(); };
-        confirm.Content = "Confirm flowers";
-        confirm.IsDefault = true;
-        Validate();
-        confirm.Click += (_, _) =>
-        {
-            try
-            {
-                var value = new SickChildOptions(helpersMode.IsChecked == true ? SickChildOptions.WithHelpers : SickChildOptions.Daily, helpersMode.IsChecked == true ? Chosen() : [], decimal.ToInt32(given.Value ?? info.Recorded) - info.Recorded);
-                value.Validate();
-                Close(new QuestChoiceResult(SickChildOptions: value));
-            }
-            catch (Exception error) { validation.Text = error.Message; }
-        };
-    }
-
-    public static Task<QuestChoiceResult?> ShowChoiceAsync(Window owner, string character, QuestDefinition quest, QuestJob job, string? routeError, SickChildChoiceInfo? sickChild = null, string? characterClass = null) => new QuestChoiceDialog(character, quest, job, routeError, sickChild, characterClass).ShowDialog<QuestChoiceResult?>(owner);
+    public static Task<QuestChoiceResult?> ShowChoiceAsync(
+        Window owner,
+        string character,
+        QuestDefinition quest,
+        QuestJob job,
+        string? routeError,
+        SickChildChoiceInfo? sickChild = null,
+        string? characterClass = null) =>
+        new QuestChoiceDialog(character, quest, job, routeError, sickChild, characterClass)
+            .ShowDialog<QuestChoiceResult?>(owner);
     public static async Task ShowErrorAsync(Window owner, string message, string title = "DAQuester")
     {
         var close = new Button

@@ -2,6 +2,28 @@
 
 ## Unreleased
 
+## 1.5.0 — 2026-10-15
+
+- Add Auto Tasks with search, category and status filters, task details, and
+  controls for the selected character. Scheduling remains optional and off until
+  explicitly enabled.
+- Add Wizardy research with alone or owned-assistant setup, one-parchment
+  purchases, observed research receipts, Song banking and interrupted recovery.
+  Unknown replies and uncertain submissions pause for reconciliation.
+- Place Altar Worship in Tasks for all classes and retain its quest entry for
+  Priest, Bard and MasterPriest characters, with explicit reward expectations.
+- Add a character legend viewer with original mark icons, full text and dates,
+  and remembered offline marks.
+- Use the fixed Cail and supplied-Mold choices for desktop Danaan starts, recover
+  the observed Rotten Apple rite receipt, and finish Faerie returns at the
+  verified safe destination.
+- Include the accumulated quest preparation, recovery, journey planning and
+  managed DAWindower X launch improvements since 1.4.0, plus Awakening, Peasant's
+  First Steps, Crypt Climb, the hunting engine and optional character scheduling.
+- Organize runtime, protocol and quest contracts into focused files, expand
+  regression coverage and contributor documentation, and fix native dependency
+  builds when Windows PowerShell inherits another host's module search path.
+
 ## 1.4.0 — 2026-10-12
 
 - Make **Run queue** the main action with a play icon and a stronger ready state.

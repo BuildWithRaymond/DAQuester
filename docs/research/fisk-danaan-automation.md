@@ -44,8 +44,10 @@ was 1,000,000 XP plus the matching own worthy legend. Carrying capacity is check
 at each acquisition and delivery. An owned usable weapon is required for the
 armed shrine; unarmed destinations use guarded removal and bag receipts.
 
-Every character must explicitly select **Donnan / Cail** and accept the
-**supplied-Mold rite risk**. Choices are saved before running and lock once
+Following the player's October 15 request, desktop and scheduler starts use the
+fixed **Donnan / Cail** route and accept the **supplied-Mold rite risk** without
+a choice popup. Control/MCP callers retain their explicit option validation.
+Options are saved before running and lock once
 progress starts. The rite cannot run without the actual Mold. Consecration,
 reversion, Neal/Ceannlaidir and unknown alternate menus are excluded. Erin's
 reward claim, final Next item, matching XP notice, fresh own legend and terminal
@@ -210,6 +212,14 @@ The exact Monk Nightmare status on Path Temple 395 remains recorded but no
 longer blocks the unrelated Danaan approach. Synthetic checks and the player's
 message identification are separate from the retained read-only MCP evidence;
 this change does not certify final reward or a full automatic live run.
+
+[Greim's carried Rotten Apple receipt](danaan-greim-decay.md) records a later
+automatic rite that consumed one Rotten Apple while leaving its supplied Mold
+and Rotten Grapes unchanged. The reader accepts that exact debit with fresh
+trance and Hall of Souls arrival proof. Mold remains the normal required supply.
+Original-stage replay receipts recover the saved final page after restart
+without another rite; incomplete or contradictory receipts preserve it. Rotten
+Grapes consumption and item-selection priority remain unverified.
 
 [Reward cleanup, hub routing and dachaidh preparation](quest-reward-route-dachaidh.md)
 documents the later final-reply timing fault and Pixel's actual Danaan/Fisk

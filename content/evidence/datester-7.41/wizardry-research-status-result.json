@@ -1,0 +1,37 @@
+{
+  "Title": "One parchment consumed and three Piet Songs received without a result popup",
+  "ServerProfile": "datester-7.41",
+  "EvidenceType": "Restricted own saved submission and read-only current resource/status observations; actor, generation and entity identity normalized; not a packet replay",
+  "Limits": [
+    "Inventory is restricted to parchment and Songs; unrelated items and character metadata are omitted.",
+    "This proves one successful submission only; later attempts, poor outcomes and cooldown were not observed here.",
+    "No game action was submitted during inspection."
+  ],
+  "SubmittedAt": "2026-10-15T09:52:59.8737392+00:00",
+  "Gold": 9500,
+  "ParchmentBefore": 1,
+  "SongsBefore": {},
+  "Source": {
+    "Generation": 1, "Revision": 53, "EntityId": 77, "EntityType": 4, "Name": "",
+    "Text": "Will you be researching with an assistant or alone? An assistant must also be a wizard.\n  Researching alone is difficult and might kill you!",
+    "IsPursuit": true, "Pursuit": 315, "Step": 56, "Type": 2,
+    "Choices": [
+      { "Text": "Assistant", "Pursuit": 315, "Option": 1 },
+      { "Text": "Alone", "Pursuit": 315, "Option": 2 }
+    ],
+    "Prompt": null, "HasNext": true,
+    "ObservedAt": "2026-10-15T09:52:59.8589497+00:00", "Items": []
+  },
+  "After": {
+    "Name": "ResearchActor", "Generation": 1, "Revision": 77, "Connected": true,
+    "Map": 401, "Position": { "X": 6, "Y": 9 }, "Gold": 9500,
+    "InventoryKnown": true,
+    "Inventory": { "2": { "Slot": 2, "Name": "Piet Song", "Quantity": 3, "Stackable": true } },
+    "Dialog": null,
+    "ActiveStatus": {
+      "Generation": 1, "Revision": 73, "Type": 3,
+      "Text": "You have no more available Parchment Scrolls",
+      "ObservedAt": "2026-10-15T09:53:00.3684909+00:00"
+    }
+  }
+}

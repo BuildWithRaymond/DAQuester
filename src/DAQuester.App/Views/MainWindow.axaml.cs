@@ -60,6 +60,13 @@ public partial class MainWindow : Window
         };
     }
 
+    public async void ShowLegendMarks(object? sender, RoutedEventArgs e)
+    {
+        if (sender is not Button { DataContext: CharacterItemVM character } button || !character.CanViewLegends) return;
+        await new LegendMarksDialog(character).ShowDialog(this);
+        button.Focus();
+    }
+
     // The new card is laid out after this pass; scroll to it and put the cursor in its name box.
     void ShowNewCharacter(CharacterItemVM item) => Dispatcher.UIThread.Post(() =>
     {
@@ -117,6 +124,7 @@ public partial class MainWindow : Window
         foreach (string name in new[]
         {
             "navDashboard",
+            "navTasks",
             "navPlanner",
             "navCharacters",
             "navScheduler",

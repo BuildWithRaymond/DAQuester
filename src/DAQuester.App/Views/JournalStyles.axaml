@@ -444,11 +444,4 @@
   <Style Selector="Border.schedulerDot.warning">
     <Setter Property="Background" Value="{DynamicResource Gold}"/>
   </Style>
-  <Style Selector="Border.legendMark">
-    <Setter Property="Background" Value="{DynamicResource Raised}"/>
-    <Setter Property="BorderBrush" Value="{DynamicResource Line}"/>
-    <Setter Property="BorderThickness" Value="1"/>
-    <Setter Property="CornerRadius" Value="4"/>
-    <Setter Property="Padding" Value="9,5"/>
-  </Style>
 </Styles>

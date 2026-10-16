@@ -10,6 +10,7 @@ public sealed class CharacterItemVM : ObservableObject
     string name, password = "";
     bool expanded;
     string[] legendMarks = [];
+    LegendMarkVM[] legendRows = [];
     public bool IsExpanded
     {
         get => expanded; set => Set(ref expanded, value);
@@ -69,6 +70,8 @@ public sealed class CharacterItemVM : ObservableObject
 
     bool HasCurrentLegends => PortraitCharacter.Connected && PortraitCharacter.Id is not null && PortraitCharacter.LegendsKnown;
     public IReadOnlyList<string> LegendMarks => legendMarks;
+    public IReadOnlyList<LegendMarkVM> LegendRows => legendRows;
+    public bool CanViewLegends => OriginalName.Length > 0;
     public bool HasLegendMarks => legendMarks.Length > 0;
     public string LegendSummary => HasCurrentLegends ? $"{legendMarks.Length} · observed"
         : owner.Runtime.Memory(OriginalName).LegendsObservedAt is not null ? $"{legendMarks.Length} · last observed" : "Not observed";
@@ -81,6 +84,11 @@ public sealed class CharacterItemVM : ObservableObject
         var marks = HasCurrentLegends ? PortraitCharacter.Legends.ToArray() : owner.Runtime.Memory(OriginalName).Legends;
         if (!legendMarks.SequenceEqual(marks))
             legendMarks = marks.ToArray();
+        var entries = HasCurrentLegends ? PortraitCharacter.LegendEntries.ToArray() : owner.Runtime.Memory(OriginalName).LegendEntries;
+        bool aligned = entries.Select(e => e.Text).SequenceEqual(legendMarks);
+        var rows = legendMarks.Select((text, index) => new LegendMarkVM(text,
+            aligned && entries[index].Icon <= 8 ? entries[index].Icon : -1, PortraitGameDirectory)).ToArray();
+        if (!legendRows.SequenceEqual(rows)) legendRows = rows;
     }
 
     public string LoginText => Password.Length > 0 ? "New password · unsaved" : Name != OriginalName ? "Unsaved character edits" : OriginalName.Length > 0 && CredentialVault.Exists(OriginalName) ? "Password saved securely" : "Manual sign-in";
@@ -136,4 +144,9 @@ public sealed class CharacterItemVM : ObservableObject
         LaunchCommand.Notify();
         SelectCommand.Notify();
     }
+}
+
+public sealed record LegendMarkVM(string Text, int Icon, string GameDirectory)
+{
+    public bool HasIcon => Icon != 8;
 }

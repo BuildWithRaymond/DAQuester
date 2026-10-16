@@ -475,8 +475,61 @@ public class ShinewoodFaerieTests
         await r.RunAsync();
         Assert.Equal("Completed", r.Job.Status);
         Assert.Equal(8, s.Commands.Count(c => c.Kind == "walk-exit"));
-        Assert.Equal(500, s.Snapshot.Map);
+        Assert.Equal(542, s.Snapshot.Map);
+        Assert.Equal(542, r.Job.FaerieReturn!.Map);
+        Assert.DoesNotContain(s.Commands, c => c.Kind == "navigate" && c.Map == 500);
         Assert.DoesNotContain(s.Commands, c => c.Kind is "use-item" or "spell");
+    }
+
+    [Theory]
+    [InlineData(false)]
+    [InlineData(true)]
+    public async Task Saved_return_finishes_in_shinewood_one_without_travelling_to_Mileth(bool pendingEscape)
+    {
+        var s = Session(State() with
+        {
+            Map = 542,
+            Position = new(17, 11),
+            Inventory = ImmutableDictionary<byte, Item>.Empty.Add(8, new(8, Pet, 1))
+        });
+        var j = Journal();
+        var job = new QuestJob { Character = "Nuclear", Quest = Id, Step = "return", FaerieWalkAcknowledgedGeneration = 1 };
+        if (pendingEscape)
+        {
+            // Preserve the original submission through a new connection; never use another song.
+            var context = new QuestContext(s, j, new(), job);
+            await context.BeginAsync("faerie-return:Mileth Song");
+            job = context.Job;
+            s.Set(s.Snapshot with { Generation = 2 });
+        }
+        await j.SaveAsync(job);
+        s.OnCommand = c =>
+        {
+            if (c.Kind is "navigate" or "walk-exit" or "use-item" or "spell")
+                throw new InvalidOperationException("A safely returned visit must not travel again.");
+        };
+        var runner = new QuestRunner(s, j, Recipe(), new());
+        await runner.RunAsync();
+        Assert.Equal("Completed", runner.Job.Status);
+        Assert.Equal(542, runner.Job.FaerieReturn!.Map);
+        Assert.Null(runner.Job.Pending);
+        Assert.DoesNotContain(s.Commands, c => c.Kind is "navigate" or "walk-exit" or "use-item" or "spell");
+    }
+
+    [Fact]
+    public async Task Satisfied_goals_in_shinewood_one_need_no_new_escape_or_walking_acknowledgment()
+    {
+        var s = Session(State() with
+        {
+            Map = 542,
+            Position = new(17, 11),
+            Inventory = ImmutableDictionary<byte, Item>.Empty.Add(8, new(8, Pet, 1))
+        });
+        var runner = new QuestRunner(s, Journal(), Recipe(), new());
+        await runner.RunAsync();
+        Assert.Equal("Completed", runner.Job.Status);
+        Assert.Equal(542, runner.Job.FaerieReturn!.Map);
+        Assert.DoesNotContain(s.Commands, c => c.Kind is "visit" or "navigate" or "walk-exit" or "use-item" or "spell");
     }
 
     [Fact]

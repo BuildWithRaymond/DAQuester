@@ -20,6 +20,10 @@ Neither suite operates real characters. Packaging changes also require `./tools/
 
 ## Finding the code
 
+Use the [codebase guide](docs/codebase-guide.md) for a project-wide map of source,
+test fixtures, content, and ownership boundaries. The [tool guide](tools/README.md)
+lists authoring commands and the files they write.
+
 Start at `src/DAQuester.App/Program.cs` for startup, then `App.axaml.cs` for the
 desktop window and runtime. `MainWindowViewModel` presents state and commands;
 `Services/DesktopRuntime.*` owns launches, quest runs, queues and local control.

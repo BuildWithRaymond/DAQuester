@@ -1,5 +1,117 @@
 # Validation status
 
+## Character legend popup — October 15, 2026
+
+Each saved character now has a Legend marks button beside Remove inside its
+expanded details, following the player's placement correction. It opens that
+character's compact ordered icon/text list without changing the selected
+character. The inline chips were removed. Full dates and long text
+remain visible through wrapping and scrolling; Close and Escape return to the
+card. Existing dark theme resources, fonts and chrome are preserved.
+
+Own self-look packets retain actual legend icon IDs alongside the existing quest
+text array. The same character-memory identity, revision and generation guards
+persist these presentation entries. Old text-only or mismatched metadata uses a
+neutral fallback, never an icon guessed from wording. Known empty, unobserved
+and remembered marks remain distinct. Six new regressions failed before these
+fields and view-model rows existed, then passed after implementation.
+
+Focused checks passed **56 Core** packet/memory cases and **20 app** presentation
+cases. Both complete xUnit projects passed with no failures or skips:
+**1,431/1,431 Core** with serial collections and **285/285 app**, using normal
+local Windows pipe access. The Release solution build succeeded with zero errors
+and the existing `NU1900` warning for unavailable NuGet vulnerability data.
+
+The placement follow-up passed six focused character/legend checks and repeated
+both complete suites (**1,431 Core**, **285 app**, no failures or skips). Native
+review confirmed the button beside Remove in expanded details and absent from
+collapsed headers at minimum width; the popup remains unchanged.
+
+The isolated native preview produced **69 synthetic captures**. Manual review
+covered six legend popup states (observed, narrow, scrolled, remembered, empty and
+unobserved), collapsed and expanded cards at minimum width, original installed
+mark sprites, full long-row dates, Close and Escape. Updated documentation images
+are `docs/screenshots/characters.png` and `docs/screenshots/legend-marks.png`.
+
+The self-contained x86 app is `artifacts/legend-button-placement-fix/DAQuester.exe`;
+its three managed assemblies and native DLL match the tested build. Reports are retained
+under `artifacts/legend-popup-validation`, with placement verification under
+`artifacts/legend-button-placement-validation`. Tests and previews use isolated
+sample data. No real characters, existing sessions or Excalibur working copies were
+operated or changed.
+
+## Greim's carried Rotten Apple receipt — October 15, 2026
+
+Read-only native MCP diagnosis and the restricted original replay showed the
+successful rite consumed one Rotten Apple while leaving Mold intact, then
+delivered the active trance message and actual Hall of Souls arrival. The old
+resource contract required Mold consumption and repeatedly timed out at the
+already submitted final page. No live gameplay, queue or session commands were
+issued during diagnosis; the paid Fisk wait was preserved.
+
+The exact Greim stage now accepts the proven apple alternative while retaining
+normal Mold supply and consumption. Original-generation inventory, unchanged
+gold/XP, fresh trance message and authoritative arrival are required. The saved
+landing resumes its inward step; a character already farther into the hall is
+not returned to the landing. Replay recovery requires the complete original
+nine-action stage and receipts, preserves conflicting or incomplete checkpoints,
+and advances only to Dreamer without repeating the rite. Rotten Grapes remains
+an unverified player suggestion. See [research](research/danaan-greim-decay.md).
+
+The regression suite was also run against an isolated copy of the previous Core
+assembly: five cases failed, including the actual resource timeout, missing
+restart recovery and acceptance of conflicting double consumption. All **27/27**
+rite cases pass with the fix. Focused app checks passed **48/48**, including saved
+page recovery without a pending submission, missing final Next, newer conflicting
+replay data and preservation of actual landing/status fields in replay reads.
+
+The Release solution build passed with zero errors and the existing `NU1900`
+warning for the unavailable NuGet vulnerability-data endpoint. Both complete
+xUnit projects passed using normal local Windows pipe access: **1,429/1,429 Core**
+with serial collections and **281/281 app**, with no failures or skips. Reports
+are retained under `artifacts/danaan-rite-validation`.
+
+The self-contained x86 app is `artifacts/danaan-rite-fix/DAQuester.exe`. Its three
+managed assemblies and native DAWindower X DLL match the tested build. It also
+includes the preceding Faerie return and Danaan default-route changes. No live
+application was restarted, no Excalibur working copy was modified, and these
+synthetic checks do not certify a new full automatic Danaan run.
+
+## Faerie return boundary and fixed Danaan route — October 15, 2026
+
+The player reported an unnecessary Mileth trip after the Faerie visit and asked
+to remove the single-route Danaan questions. The walking regression reproduced
+map 500 where map 542 was expected; two saved-return cases paused in Shinewood 1.
+Native departure tests initially rejected the missing settle command. Desktop
+and scheduler regressions reproduced the Danaan popup, missing default options,
+Choices status, and visible Change choices action. These nine cases failed before
+the first fix. Two further regressions reproduced the redundant walking warning
+after an already safe Faerie return, then passed with the shared escape check.
+
+Faerie completion now records a safe Shinewood Forest 1 return or supported town
+escape, after leaving the actual landing on a validated non-trigger tile. The
+walking route validator ends at Shinewood 1. Pet/refusal and spell receipts still
+prove the outcome; an uncertain escape reconciles without another submission.
+Desktop and scheduler starts save Cail and supplied-Mold acceptance without a
+choice popup. Existing locked or unsupported options remain guarded, and direct
+MCP option validation is retained. No new automatic live run is certified.
+
+The Release solution build passed with zero errors and the existing `NU1900`
+warning for the unavailable NuGet vulnerability-data endpoint. Focused tests
+passed **98 Faerie cases** and **13 app cases**. The complete app suite passed
+**277/277**, with no failures or skips, using normal local Windows pipe access.
+The complete Core/protocol suite passed **1,402/1,402** with serial collections
+and no skips. Final reports are `core-full.trx` and `app-full.trx` in the retained
+validation folder.
+
+The isolated native preview captured **63 sample states**. Manual review of Cap
+and Band confirmed Ready status and removal of Change choices. The removed
+Danaan question is absent from capture flow; original game artwork is read-only.
+The published app is `artifacts/faerie-danaan-fix/DAQuester.exe`; all three managed
+assemblies and the native DLL match the tested build. Reports are retained under
+`artifacts/faerie-danaan-validation`. Tests and preview use synthetic characters;
+player Data, existing sessions and Excalibur were not operated or modified.
+
 ## Current-source integration and README — October 15, 2026
 
 The README now covers all 14 automatic journeys, queue supply preparation,
@@ -1605,3 +1717,31 @@ The final caption-only capture was reviewed manually: dark chrome and controls
 remain readable, with + disabled during the pending handoff. The separate fixture
 completed one request and exited successfully. This is synthetic interface
 evidence; no live game renderer or login outcome is certified.
+
+## Release 1.5.0 qualification — 2026-10-15
+
+The clean symbol-free Release solution build passes. Both complete xUnit
+projects pass with no failures or skips: **1,487 Core tests** and **322 App
+tests**. Reports are `core-complete.trx` and `app-complete.trx` under
+`artifacts/release-1.5.0-checks/results`. The test copies use the normal fixture
+directory depth and installed test runtimes, separate from the self-contained
+application runtime. Initial host-launch failures were test-layout errors;
+no product behavior was changed to resolve them.
+
+`Build-Release.ps1` passes with a clean isolated application compilation to
+`artifacts/release-1.5.0/release`. An independent `Verify-Release.ps1` pass checks
+both archives, checksums, feeds, native provenance, licenses, walkability and
+private-data exclusions. All three packaged application assembly hashes match
+the tested solution build. `Test-UpdateCompatibility.ps1` verifies the pinned
+public 1.0.7 updater against 1.5.0 with unchanged identity and a verified local
+download, without installing or applying the update. The existing cached
+`NU1900` vulnerability-feed warning appears in the solution build; the isolated
+package compilation has zero warnings and errors.
+
+The existing GitHub build failure was reproduced with Windows PowerShell's
+hash function unavailable to command discovery. Loading the host's utility
+module explicitly makes that same native-build regression pass, including
+cached patch/library fingerprint checks and the synthetic fixture. Earlier
+native interface review at 1420 × 900 and 900 × 560 remains applicable: release
+preparation changes only version metadata, release documentation and this build
+host fix. No real character, player schedule or Excalibur process was operated.

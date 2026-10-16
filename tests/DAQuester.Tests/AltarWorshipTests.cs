@@ -180,10 +180,16 @@ public class AltarWorshipTests
         Assert.Single(c.Job.AltarOfferings);
     }
 
-    [Fact]
-    public async Task Tenth_offering_completes_a_priest_with_the_legend_mark()
+    [Theory]
+    [InlineData("Priest")]
+    [InlineData("Bard")]
+    [InlineData("Master Priest")]
+    public async Task Tenth_offering_completes_a_priest_with_the_legend_mark(string characterClass)
     {
-        var q = new Scripted("Elara", "Priest") { Reward = "Mileth Altar Worshipper (1) - Deoch 223" };
+        Assert.True(IsPriest(characterClass));
+        Assert.Null(NoMark("Elara", characterClass));
+        Assert.Contains(Legend, Rewards(characterClass));
+        var q = new Scripted("Elara", characterClass) { Reward = "Mileth Altar Worshipper (1) - Deoch 223" };
         var c = Context(q, new QuestJob { Character = "Elara", Quest = Id, AltarOfferings = Made(9, DateTimeOffset.UtcNow.AddHours(-3)) });
         q.Drops = 9;
         await new AltarWorshipActions().ExecuteAsync(c, new("run", "altar-run", "complete"), default);
@@ -205,10 +211,13 @@ public class AltarWorshipTests
         Assert.Contains("Red Jade Ring", c.Job.CompletionText);
     }
 
-    [Fact]
-    public async Task Tenth_offering_without_a_reward_stops_instead_of_offering_again()
+    [Theory]
+    [InlineData("Priest")]
+    [InlineData("Bard")]
+    [InlineData("Master Priest")]
+    public async Task Tenth_offering_without_a_reward_stops_instead_of_offering_again(string characterClass)
     {
-        var q = new Scripted("Elara", "Priest");
+        var q = new Scripted("Elara", characterClass);
         var c = Context(q, new QuestJob { Character = "Elara", Quest = Id, AltarOfferings = Made(9, DateTimeOffset.UtcNow.AddHours(-3)) });
         var e = await Assert.ThrowsAsync<QuestBlockedException>(() => new AltarWorshipActions().ExecuteAsync(c, new("run", "altar-run", "complete"), default));
         Assert.StartsWith("10 offerings made, no reward seen.", e.Message);

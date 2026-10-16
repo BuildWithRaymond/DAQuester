@@ -1,5 +1,8 @@
 param([switch]$IncludeTestFixture)
 $ErrorActionPreference='Stop'
+# MSBuild can inherit PowerShell 7's module search path when launching Windows
+# PowerShell. Load this host's utility module, including its hash function.
+Import-Module (Join-Path $PSHOME 'Modules/Microsoft.PowerShell.Utility/Microsoft.PowerShell.Utility.psd1') -Force
 $repoRoot=Split-Path $PSScriptRoot -Parent
 $pin=Get-Content -LiteralPath (Join-Path $repoRoot 'native/DAWindowerX.json') -Raw | ConvertFrom-Json
 if($pin.Commit -notmatch '^[a-f0-9]{40}$' -or $pin.Library -ne 'DAWindowerX.dll' -or $pin.Repository -ne 'https://github.com/BuildWithRaymond/DAWindower.git'){

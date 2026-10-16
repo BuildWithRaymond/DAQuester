@@ -10,8 +10,9 @@ An hour allows a check; only a new Special Bouquet proves collection. A not-read
 reply schedules another check without paying again.
 
 **Cap / Band of Danaan** share one queue and journal identity. The available
-route is **Donnan/Cail**, with an explicit per-character acceptance of Greim's
-**supplied-Mold rite risk**. The guide lists level 50+ provisionally. Observed
+route is **Donnan/Cail**. Desktop and scheduler starts save that fixed route and
+accept Greim's **supplied-Mold rite risk** without a choice popup, as requested
+by the player. Mold is still required. The guide lists level 50+ provisionally. Observed
 spending was **6,620 gold**, followed by **1,000,000 XP**, one Cap and its own
 worthy legend. Current equipment and bag receipts handle armed/unarmed shrine
 access; actual menu consent handles Path Reception and monastery entry. Final
@@ -62,7 +63,10 @@ popup can be closed after the item receipt; an uncertain bond never repeats Yes.
 
 After rewards or a definitive refusal, the runner uses a town song first, dachaidh with at least 30 mana
 second, and walking exits last. Item/spell slots are resolved again at send time.
-Walking follows documented doors and actual server landings back to Mileth.
+Walking follows documented doors and actual server landings back to **Shinewood
+Forest 1**, where the visit ends after leaving the landing on a validated free
+non-trigger tile. A town song/scroll or dachaidh likewise finishes after its actual
+safe landing and doorway departure. There is no further trip into Mileth.
 A missing teleport reply preserves the return checkpoint without consuming a
 second song or casting again. Reward receipts remain saved if departure fails.
 Resume reconciles them before continuing. Explicit later visits check newly
@@ -318,3 +322,29 @@ Mundane Birth, Perfect Hairstyle, Entered Muisir Village, Emerald Dawn,
 Shinewood Faerie, Cured the Sick Child, Aided the Pact of Anaman and Altar Worship.
 The other entries are guides for manual play, with inferred
 capability/dependency/cooldown notes marked for review.
+
+## Tasks: Wizardy research
+
+Tasks contains Wizardy research for wizards at Mileth Black Magic Master. The
+reported route is Ready to begin / Specific / sorcery / Alone. Setup also offers
+a saved registered wizard as assistant; DAQuester brings the selected assistant
+to the room and submits its name only to the offered name prompt.
+
+Use carried Parchment Scrolls first, otherwise buy one from Dar at the reported
+500-gold price. Each purchase requires both parchment and exact payment receipts.
+Research repeats one parchment at a time. When any exact Song type reaches 25
+across the bag, bank all carried stacks of that type through Dar's direct deposit
+service, without leaving the room. Inventory loss and a correlated confirmation
+prove deposits; uncertain submissions are not resent.
+
+The exact four-Temuairan-day refusal records the player's specified 12-hour rest.
+Setup offers recurring scheduling with explicit notice that scheduled logins can
+disconnect a character being used in another program. Saving a schedule does not
+turn on Scheduler. Manual runs and resumes retain normal Pause/Stop controls.
+Forced grouping and exkuranum buying/healing are outside the selected scope.
+
+This task has synthetic coverage, not a certified live automatic run. Success
+requires consumed parchment, a new named Song and a fresh correlated research
+reply. Unrecognized poor outcomes remain pending for review. A brief zero-HP
+reading is not treated as proof of death; unresolved zero health pauses. See
+[protocol references and open evidence gaps](research/wizardy-research-protocol.md).

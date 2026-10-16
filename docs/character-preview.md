@@ -115,3 +115,18 @@ Weekly Hairstyle reward receipts celebrate as attempts without claiming a Suomi
 legend. The overlay changes neither game snapshots nor replayed observations,
 checkpoint state, four quest policies or queue ownership. It does not block
 input, serializes simultaneous fallback notices, and respects reduced motion.
+
+Expand a saved character on the Characters page to find **Legend marks** beside
+**Remove**. It opens that character's complete ordered marks in
+a resizable dark popup with an aligned original-icon column. Text and dates
+remain intact; long rows wrap and the list scrolls. Close and Escape return to
+the card without switching the selected character.
+
+Own self-look observations retain each server-provided mark icon alongside the
+existing quest-evidence text array. Character memory saves these presentation
+entries with the existing identity, freshness and generation guards. Current
+marks override remembered marks, including a known empty list. Older text-only
+memory uses a neutral fallback symbol until another own profile is observed;
+icons are never guessed from mark wording. Game text colors do not replace the
+shared application palette. Legend glyphs read installed `legends.epf` and
+`legend.pal` through the existing read-only renderer; no artwork is distributed.

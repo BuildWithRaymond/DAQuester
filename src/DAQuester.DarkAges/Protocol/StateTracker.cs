@@ -228,6 +228,7 @@ public class StateTracker(long generation)
                 s = s with
                 {
                     Legends = p.LegendMarks.Select(x => x.Text).ToImmutableArray(),
+                    LegendEntries = p.LegendMarks.Select(x => new LegendMarkEntry(x.Text, (byte)x.Icon)).ToImmutableArray(),
                     LegendsKnown = true,
                     LegendsRevision = rev,
                     Class = p.Class == CharacterClass.None ? null : p.Class.ToString(),

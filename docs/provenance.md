@@ -574,6 +574,16 @@ checkpoint. Replay-based recovery advances to Mold only with the full handoff
 and closure proof; replacement-session balances and synthetic tests cannot
 establish a live quest completion.
 
+[Greim decay research](research/danaan-greim-decay.md) on October 15 retains
+nine actual submitted actions and 18 restricted own snapshots from a later
+automatic rite. It consumed one carried Rotten Apple, left Mold and Rotten
+Grapes unchanged, delivered the exact type-3 trance message and transported the
+character to Hall of Souls (14,27). Actor and generation are normalized; only
+the three relevant decay items remain. This proves the apple alternative while
+Mold was supplied. The player's suggestion that Rotten Grapes also works and
+the server's item-selection priority remain unverified. Receipt and replay
+recovery tests do not certify a new full automatic quest or final reward.
+
 [Travel recovery research](research/danaan-travel-recovery.md) retains a later
 read-only native MCP capture of Pixel's Path Temple state and exact active
 `You are not a Monk.` message. The player identifies the Monk Nightmare cause;

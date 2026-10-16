@@ -17,6 +17,10 @@ behalf. Saved choices resume unchanged after progress starts. The observed Cail
 route is available; unknown variant dialogue stops, and consecration/reversion
 are separate unimplemented choices.
 
+The desktop and Scheduler use the fixed Cail route without a choice popup,
+following the player's October 15 request. They save the supplied-Mold acceptance
+before running. Direct MCP starts retain the explicit arguments above.
+
 ```json
 {"method":"start","character":"YourCharacter","arguments":{"quest":"cap-band-of-danaan","avatar":"cail","acceptSuppliedMoldRite":true}}
 ```

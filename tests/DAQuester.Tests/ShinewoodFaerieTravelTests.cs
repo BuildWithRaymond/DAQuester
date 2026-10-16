@@ -40,6 +40,30 @@ public class ShinewoodFaerieTravelTests
     }
 
     static GameCommand Command(string kind) => JsonSerializer.Deserialize<GameCommand>(JsonSerializer.Serialize(new { Kind = kind, Amount = 3, Slot = 3, ExpectedResource = kind == "spell" ? "dachaidh" : "Mileth Song" }))!;
+
+    [Theory]
+    [InlineData(false)]
+    [InlineData(true)]
+    public async Task Safe_return_departs_actual_shinewood_one_landing_before_settling(bool fast)
+    {
+        var landing = new Tile(2, 2);
+        await using var f = await MovingObstacleTests.Fixture.Create(
+            additional: [new(542, "Synthetic Shinewood 1", 5, 5, [])]);
+        long before = f.Session.Snapshot.Revision;
+        await f.Map(542, 5, 5);
+        await f.Position(landing);
+        await f.Session.WaitAsync(s => s.Map == 542 && s.Position == landing, before, TimeSpan.FromSeconds(3), default);
+        f.Session.FastMode = fast;
+        await f.Walk(new(2, 1), (_, next) =>
+        {
+            Assert.Equal(1, Math.Abs(next.X - landing.X) + Math.Abs(next.Y - landing.Y));
+            return Task.FromResult(false);
+        }, new("settle-faerie-return"));
+        Assert.Equal(542, f.Session.Snapshot.Map);
+        Assert.NotEqual(landing, f.Session.Snapshot.Position);
+        Assert.Single(f.Commands, c => c == 6);
+    }
+
     [Fact]
     public async Task Item_use_resolves_current_named_slot_after_inventory_reordering()
     {

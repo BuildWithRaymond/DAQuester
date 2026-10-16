@@ -1,0 +1,117 @@
+<UserControl xmlns="https://github.com/avaloniaui" xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml" xmlns:controls="using:DAQuester.App.Controls" x:Class="DAQuester.App.Views.TasksPage" x:CompileBindings="False">
+  <UserControl.Styles>
+    <Style Selector="ListBox.taskCatalog"><Setter Property="Background" Value="Transparent"/><Setter Property="BorderThickness" Value="0"/></Style>
+    <Style Selector="ListBox.taskCatalog ListBoxItem"><Setter Property="Padding" Value="0"/><Setter Property="Margin" Value="0,0,0,6"/><Setter Property="HorizontalContentAlignment" Value="Stretch"/></Style>
+    <Style Selector="ListBox.taskCatalog ListBoxItem:selected /template/ ContentPresenter"><Setter Property="Background" Value="Transparent"/></Style>
+    <Style Selector="Border.taskRow"><Setter Property="Background" Value="{DynamicResource Ink}"/><Setter Property="Padding" Value="16,15"/><Setter Property="BorderThickness" Value="3,0,0,0"/><Setter Property="BorderBrush" Value="Transparent"/><Setter Property="CornerRadius" Value="4"/></Style>
+    <Style Selector="Border.taskRow:pointerover"><Setter Property="Background" Value="{DynamicResource Raised}"/></Style>
+    <Style Selector="ListBoxItem:selected Border.taskRow"><Setter Property="BorderBrush" Value="{DynamicResource Gold}"/><Setter Property="Background" Value="{DynamicResource Raised}"/></Style>
+    <Style Selector="TextBlock.taskLabel"><Setter Property="Foreground" Value="{DynamicResource Muted}"/><Setter Property="FontSize" Value="11"/><Setter Property="LetterSpacing" Value="1"/></Style>
+  </UserControl.Styles>
+  <Grid RowDefinitions="Auto,*" Margin="0,0,0,8" RowSpacing="12">
+    <Border Grid.Row="0" IsVisible="{Binding ShowRunningTask}" Background="{DynamicResource Raised}" BorderBrush="{DynamicResource GoldLine}" BorderThickness="3,0,0,0" Padding="16,10">
+      <Grid ColumnDefinitions="*,Auto" ColumnSpacing="12">
+        <StackPanel VerticalAlignment="Center" Spacing="4"><TextBlock Text="TASK RUNNING" Classes="eyebrow"/><TextBlock Text="{Binding RunningTaskText}" TextWrapping="Wrap"/></StackPanel>
+        <WrapPanel Grid.Column="1" Orientation="Horizontal" VerticalAlignment="Center">
+          <Button Content="View task" Classes="quiet" Command="{Binding OpenRunningTaskCommand}" Margin="0,0,8,0"/>
+          <Button Content="Pause" Classes="quiet" Command="{Binding TaskPrimaryCommand}" CommandParameter="{Binding RunningTask}" Margin="0,0,8,0"/>
+          <Button Content="Stop" Classes="danger" Command="{Binding TaskStopCommand}" CommandParameter="{Binding RunningTask}"/>
+        </WrapPanel>
+      </Grid>
+    </Border>
+    <Grid Grid.Row="1" Name="taskPanes" ColumnDefinitions="5*,18,7*">
+      <Border Name="taskCatalogPane" Grid.Column="0" Classes="card" IsVisible="{Binding ShowTaskCatalog}" Padding="18">
+        <Grid RowDefinitions="Auto,Auto,Auto,*" RowSpacing="14">
+          <Grid ColumnDefinitions="*,Auto"><TextBlock Text="TASK CATALOG" Classes="eyebrow" VerticalAlignment="Center"/><TextBlock Grid.Column="1" Text="{Binding TaskCount}" Classes="caption"/></Grid>
+          <TextBox Grid.Row="1" Name="taskSearch" Watermark="Search tasks or places" Text="{Binding TaskSearch}" AutomationProperties.Name="Search tasks"/>
+          <Grid Grid.Row="2" ColumnDefinitions="*,12,*">
+            <StackPanel Spacing="6"><TextBlock Text="Category" Classes="caption"/><ComboBox ItemsSource="{Binding TaskCategories}" SelectedItem="{Binding TaskCategory}" HorizontalAlignment="Stretch" AutomationProperties.Name="Task category"/></StackPanel>
+            <StackPanel Grid.Column="2" Spacing="6"><TextBlock Text="Status" Classes="caption"/><ComboBox ItemsSource="{Binding TaskFilters}" SelectedItem="{Binding TaskFilter}" HorizontalAlignment="Stretch" AutomationProperties.Name="Task status"/></StackPanel>
+          </Grid>
+          <Grid Grid.Row="3">
+            <ListBox Name="taskList" Classes="taskCatalog" ItemsSource="{Binding Tasks}" SelectedItem="{Binding SelectedTask}" PointerReleased="OpenTaskFromPointer" KeyDown="TaskListKeyDown" ScrollViewer.HorizontalScrollBarVisibility="Disabled" AutomationProperties.Name="Task catalog">
+              <ListBox.ItemTemplate>
+                <DataTemplate>
+                  <Border Classes="taskRow">
+                    <Grid ColumnDefinitions="36,12,*">
+                      <controls:QuestGlyph QuestId="{Binding Id}" GameDirectory="{Binding GameDirectory}" Width="36" Height="36" Foreground="{DynamicResource Gold}" VerticalAlignment="Top" Margin="0,2,0,0"/>
+                      <StackPanel Grid.Column="2" Spacing="7">
+                        <TextBlock Text="{Binding Name}" FontSize="16" FontWeight="SemiBold" TextWrapping="Wrap"/>
+                        <TextBlock Text="{Binding Location}" Classes="caption" TextWrapping="Wrap"/>
+                        <TextBlock Text="{Binding Status}" Foreground="{DynamicResource Gold}" FontSize="12" FontWeight="SemiBold"/>
+                        <TextBlock Text="{Binding Reason}" Classes="muted" FontSize="12" TextWrapping="Wrap" MaxLines="2" TextTrimming="CharacterEllipsis"/>
+                        <TextBlock Text="{Binding ScheduleHint}" Classes="caption" TextWrapping="Wrap"/>
+                        <TextBlock Text="{Binding NextCheck}" IsVisible="{Binding HasNextCheck}" Classes="caption" TextWrapping="Wrap"/>
+                      </StackPanel>
+                    </Grid>
+                  </Border>
+                </DataTemplate>
+              </ListBox.ItemTemplate>
+            </ListBox>
+            <StackPanel IsVisible="{Binding TasksEmpty}" Spacing="12" Margin="16,26" VerticalAlignment="Top">
+              <TextBlock Text="No matching tasks" FontSize="17" FontWeight="SemiBold"/>
+              <TextBlock Text="Try another search, category or status." Classes="muted" TextWrapping="Wrap"/>
+              <Button Content="Clear filters" Classes="quiet" Command="{Binding ClearTaskFiltersCommand}" HorizontalAlignment="Left"/>
+            </StackPanel>
+          </Grid>
+        </Grid>
+      </Border>
+      <Border Name="taskDetailsPane" Grid.Column="2" Classes="card" IsVisible="{Binding ShowTaskDetails}">
+        <Grid RowDefinitions="Auto,*,Auto">
+          <Button Grid.Row="0" Content="← Back to tasks" Name="backToTasks" Classes="quiet" IsVisible="{Binding TasksCompact}" Command="{Binding BackToTasksCommand}" HorizontalAlignment="Left" Margin="18,12,18,0"/>
+          <ScrollViewer Grid.Row="1" Name="taskDetailsScroll" HorizontalScrollBarVisibility="Disabled">
+            <StackPanel Spacing="18" Margin="24,22,24,20">
+              <StackPanel Spacing="9">
+                <TextBlock Text="{Binding SelectedTask.Category}" Classes="eyebrow"/>
+                <Grid ColumnDefinitions="48,12,*">
+                  <controls:QuestGlyph QuestId="{Binding SelectedTask.Id}" GameDirectory="{Binding SelectedTask.GameDirectory}" Width="48" Height="48" Foreground="{DynamicResource Gold}" VerticalAlignment="Center"/>
+                  <StackPanel Grid.Column="2" Spacing="6">
+                    <TextBlock Text="{Binding SelectedTask.Name}" FontSize="25" FontWeight="SemiBold" TextWrapping="Wrap"/>
+                    <TextBlock Text="{Binding SelectedTask.Location}" Classes="muted" TextWrapping="Wrap"/>
+                  </StackPanel>
+                </Grid>
+                <TextBlock Text="{Binding SelectedTask.Summary}" TextWrapping="Wrap" LineHeight="21"/>
+              </StackPanel>
+              <Border Background="{DynamicResource Ink}" Padding="15,13" CornerRadius="4">
+                <StackPanel Spacing="7">
+                  <TextBlock Text="{Binding TaskCharacter}" Classes="caption"/>
+                  <TextBlock Text="{Binding SelectedTask.Status}" Foreground="{DynamicResource Gold}" FontSize="17" FontWeight="SemiBold"/>
+                  <TextBlock Text="{Binding SelectedTask.Reason}" Classes="muted" TextWrapping="Wrap" LineHeight="20"/>
+                </StackPanel>
+              </Border>
+              <StackPanel Spacing="7"><TextBlock Text="REQUIREMENTS" Classes="taskLabel"/><TextBlock Text="{Binding SelectedTask.Requirements}" Classes="muted" TextWrapping="Wrap" LineHeight="20"/></StackPanel>
+              <StackPanel IsVisible="{Binding SelectedTask.IsResearch}" Spacing="7">
+                <TextBlock Text="CURRENT RESEARCH" Classes="taskLabel"/>
+                <TextBlock Text="{Binding ResearchSupplies}" TextWrapping="Wrap"/>
+                <TextBlock Text="{Binding ResearchAssistant}" Classes="muted" TextWrapping="Wrap"/>
+                <TextBlock Text="{Binding ResearchProgress}" Classes="caption" TextWrapping="Wrap"/>
+              </StackPanel>
+              <StackPanel IsVisible="{Binding SelectedTask.IsAltar}" Spacing="7">
+                <TextBlock Text="OFFERINGS AND REWARDS" Classes="taskLabel"/>
+                <TextBlock Text="{Binding SelectedTask.Progress}" TextWrapping="Wrap"/>
+                <TextBlock Text="{Binding SelectedTask.Rewards}" Classes="muted" TextWrapping="Wrap" LineHeight="20"/>
+              </StackPanel>
+              <Border Classes="rule"/>
+              <StackPanel Spacing="9">
+                <TextBlock Text="{Binding SelectedTask.RepeatLabel}" FontWeight="SemiBold"/>
+                <TextBlock Text="{Binding SelectedTask.NextCheck}" IsVisible="{Binding SelectedTask.HasNextCheck}" Classes="caption" TextWrapping="Wrap"/>
+                <TextBlock Text="{Binding SelectedTask.Schedule}" Name="taskScheduleStatus" Classes="muted" TextWrapping="Wrap" LineHeight="20"/>
+                <Button Name="taskSchedules" Content="Manage schedules" Classes="quiet" HorizontalAlignment="Left" Command="{Binding NavigateCommand}" CommandParameter="Scheduler"/>
+              </StackPanel>
+              <Expander Name="taskInstructions" Header="How it works" IsVisible="{Binding SelectedTask.HasInstructions}" HorizontalAlignment="Stretch">
+                <TextBlock Text="{Binding SelectedTask.HowItWorks}" Classes="muted" TextWrapping="Wrap" LineHeight="21" Margin="0,12,0,0"/>
+              </Expander>
+            </StackPanel>
+          </ScrollViewer>
+          <Border Grid.Row="2" BorderBrush="{DynamicResource Line}" BorderThickness="0,1,0,0" Padding="18,12,10,4">
+            <WrapPanel Orientation="Horizontal">
+              <Button Name="runTask" Content="{Binding SelectedTask.PrimaryAction}" Classes="primary" Command="{Binding TaskPrimaryCommand}" CommandParameter="{Binding SelectedTask}" ToolTip.Tip="{Binding SelectedTask.Reason}" ToolTip.ShowOnDisabled="True" Margin="0,0,8,8"/>
+              <Button Name="stopTask" Content="Stop" Classes="danger" IsVisible="{Binding SelectedTask.IsRunning}" Command="{Binding TaskStopCommand}" CommandParameter="{Binding SelectedTask}" Margin="0,0,8,8"/>
+              <Button Name="taskChoices" Content="{Binding SelectedTask.SettingsLabel}" Classes="quiet" IsVisible="{Binding SelectedTask.HasSettings}" IsEnabled="{Binding SelectedTask.CanChangeSettings}" Click="ChooseTaskOptions" Margin="0,0,8,8"/>
+            </WrapPanel>
+          </Border>
+        </Grid>
+      </Border>
+    </Grid>
+  </Grid>
+</UserControl>

@@ -8,14 +8,14 @@ public record FaerieExit(int SourceMap, Tile From, int Map, string Source);
 public static class ShinewoodFaerieEvidence
 {
     public const string Id = "shinewood-faerie", Pet = "Pet Faerie";
-    public const int Map = 992, MinimumLevel = 20;
+    public const int Map = 992, SafeForestMap = 542, MinimumLevel = 20;
     public const string LevelRequirement = "Requires level 20+ for the Faerie route; provisional until the Shinewood Forest 7 limit is confirmed.";
     public static readonly Tile Anchor = new(71, 37);
     public static readonly Tile Approach = new(73, 38); // Archived map 992 WalkSpot, read only.
     public static readonly FaerieSpell[] SpellRules = [new("deo lamh", "Priest", 11), new("creag neart", "Priest", 20), new("deo searg gar", "Priest", Master: true), new("deo searg", "Priest", Master: true, Pure: true), new("fas spiorad", "Wizard", Master: true), new("Wings of Protection", "Wizard", Master: true, Pure: true)];
     // Exact town items only. Recall/Teleport/dungeon songs require different targets.
     public static readonly string[] TownSongs = ["Mileth Song", "Abel Song", "Piet Song", "Rucesion Song", "Suomi Song", "Undine Song", "Loures Song", "Tagor Song", "Nation Song"];
-    public static readonly int[] SafeMaps = [136, 150, 498, 500, 501, 502, 503, 504, 505, 950, 3008, 3010, 3012, 3014, 3020, 3082]; // Observed Rucesion Song landing.
+    public static readonly int[] SafeMaps = [136, 150, 498, 500, 501, 502, 503, 504, 505, SafeForestMap, 950, 3008, 3010, 3012, 3014, 3020, 3082]; // Shinewood 1 and supported town escape landings.
     public static readonly FaerieExit[] ReturnExits = [new(992, new(38, 99), 547, "normalized WorldLogs"), new(547, new(29, 49), 546, "https://vorlof.com/map.php?map=547"), new(546, new(0, 9), 545, "https://vorlof.com/map.php?map=546"), new(545, new(0, 35), 544, "https://vorlof.com/map.php?map=545"), new(544, new(88, 99), 543, "normalized WorldLogs"), new(543, new(57, 99), 564, "normalized WorldLogs"), new(564, new(44, 99), 565, "normalized WorldLogs"), new(565, new(40, 99), 542, "normalized WorldLogs")];
     public static bool InForest(int? map) => map is >= 542 and <= 568 or >= 989 and <= 999;
     public static bool SafeArrival(CharacterSnapshot s) => s.Connected && s.Map is { } map && s.Position is not null && (SafeMaps.Contains(map) || s.MapName is { } name && new[]
@@ -29,6 +29,9 @@ public static class ShinewoodFaerieEvidence
         "Loures",
         "Tagor"
     }.Any(t => name.Equals(t + " Inn", StringComparison.OrdinalIgnoreCase)));
+    public static bool NeedsEscape(CharacterSnapshot s, QuestJob job) => job.Step == "return"
+        ? !SafeArrival(s)
+        : Goals(s, job).Length > 0 || InForest(s.Map) && !SafeArrival(s);
     public static bool HasPet(CharacterSnapshot s) => s.InventoryKnown && s.Count(Pet) > 0 || s.Equipment.Values.Any(x => x.Equals(Pet, StringComparison.OrdinalIgnoreCase));
     public static bool SpellNameEquals(string observed, string name) => observed.Equals(name, StringComparison.OrdinalIgnoreCase) || observed.StartsWith(name, StringComparison.OrdinalIgnoreCase) && System.Text.RegularExpressions.Regex.IsMatch(observed[name.Length..], @"^ \(Lev:[0-9]+/[0-9]+\)\z", System.Text.RegularExpressions.RegexOptions.IgnoreCase | System.Text.RegularExpressions.RegexOptions.CultureInvariant);
     public static bool HasSpell(CharacterSnapshot s, string name) => s.SpellsKnown && s.Spells.Values.Any(x => SpellNameEquals(x, name));

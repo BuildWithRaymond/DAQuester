@@ -66,7 +66,7 @@ public sealed partial class DesktopRuntime
         var job = Job(name, id);
         return id == "mundane-birth" && job.BirthOptions is null
             || id == "emerald-dawn" && job.EmeraldOptions is null
-            || id == DanaanEvidence.Id && job.DanaanOptions is null
+            || id == WizardyResearchEvidence.Id && job.ResearchOptions is null
             || SickChildEvidence.For(id) is not null && job.SickChildOptions is null
             || id == AltarWorshipEvidence.Id && !job.AltarNoMarkAccepted && !AltarWorshipEvidence.IsPriest(CharacterClass(name))
             || id == NewCharacterPath.FirstStepsId && !job.FirstStepsBriefed
@@ -84,6 +84,16 @@ public sealed partial class DesktopRuntime
             throw new QuestBlockedException("Saved submission owns its choices. Review it before changing them.");
         if (choice.BirthOptions is { } birth) { birth.Validate(); job = job with { BirthOptions = birth }; }
         if (choice.EmeraldOptions is { } emerald) { emerald.Validate(); job = job with { EmeraldOptions = emerald }; }
+        if (choice.ResearchOptions is { } research)
+        {
+            if (id != WizardyResearchEvidence.Id) throw new QuestBlockedException("Research choices belong to the research task.");
+            research.Validate(name);
+            if (job.Research?.Stage > 0 || job.Research?.Cleanup is not null)
+                throw new QuestBlockedException("Saved research progress owns its assistant choice; resume it first.");
+            if (research.Assistant is { } helper && (!Settings.Characters.Contains(helper, StringComparer.OrdinalIgnoreCase) || !Preview && !Snapshot(helper).Connected && !CredentialVault.Exists(helper)))
+                throw new QuestBlockedException("The research assistant needs a saved character and saved login.");
+            job = job with { ResearchOptions = research };
+        }
         if (choice.DanaanOptions is { } danaan)
         {
             danaan.Validate();
@@ -122,6 +132,8 @@ public sealed partial class DesktopRuntime
             throw new QuestBlockedException("Schedule this quest once; timed progress resumes automatically.");
         if (SchedulerNeedsChoices(name, id))
             throw new QuestBlockedException("Save the quest's choices before arming its schedule.");
+        if (id == WizardyResearchEvidence.Id && Job(name, id).ResearchOptions?.Assistant is { } assistant && !Preview && !CredentialVault.Exists(assistant))
+            throw new QuestBlockedException("Save the research assistant's login before scheduling it.");
         if (QuestRunPolicy.Finished(quest, Job(name, id)) || Memory(name).CompletedLegend(id, Snapshot(name)) is not null)
             throw new QuestBlockedException("This quest's goal is already completed.");
     }
@@ -205,6 +217,8 @@ public sealed partial class DesktopRuntime
             await runner.RunAsync(false, cancellation, startNewAttempt: !entry.Resume, singleAttempt: true, yieldScheduledWaits: true);
             cancellation.ThrowIfCancellationRequested();
             var job = runner.Job;
+            if (entry.Quest == WizardyResearchEvidence.Id && job.Pending is null && job.Research?.Cleanup is null && job.Research?.RestAt is not null && job.NextRun is { } rest)
+                return entry.Recurring ? new(rest, false) : new();
             if (job.Status == "Scheduled" && job.Pending is null && job.NextRun is { } next)
                 return new(next, true);
             if (QueueAttemptOutcome.Evaluate(job) is null)

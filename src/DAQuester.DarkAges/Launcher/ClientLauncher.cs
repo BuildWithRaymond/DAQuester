@@ -70,9 +70,15 @@ public partial class ClientLauncher
         patch(0x4B8ACF, [0xEB, 0x6D]);
     }
 
-    public static readonly string[] SupportedHashes = [// Single instance: stock 7.41.
-    "054A5D6ADC56099C6BFD9D2A58675AFF62DC788B63209A3D906492F5B89E96C6", // Multi instance: stock 7.41 with jnz->jmp (75->EB) at 0x57A7D9; the 0x57A7CE patch below has the same effect.
-    "B168856A22A5315D2EB0FC942CA1CB6EF38E81035A445BC2CC9710D3D1A5715F", ];
+    public static readonly string[] SupportedHashes =
+    [
+        // Single instance: stock 7.41.
+        "054A5D6ADC56099C6BFD9D2A58675AFF62DC788B63209A3D906492F5B89E96C6",
+        // Multi instance: stock 7.41 with jnz->jmp (75->EB) at 0x57A7D9.
+        // The 0x57A7CE patch in Start has the same effect.
+        "B168856A22A5315D2EB0FC942CA1CB6EF38E81035A445BC2CC9710D3D1A5715F",
+    ];
+
     public static void Validate(string file)
     {
         if (!File.Exists(file))

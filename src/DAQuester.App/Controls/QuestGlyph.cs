@@ -9,7 +9,7 @@ using Avalonia.VisualTree;
 
 namespace DAQuester.App.Controls;
 
-// Each quest uses original artwork inside the same circle, independent of native sprite size.
+// Quests and tasks share original artwork inside the same circle, independent of native sprite size.
 public sealed class QuestGlyph : Control
 {
     public static readonly StyledProperty<string?> QuestIdProperty = AvaloniaProperty.Register<QuestGlyph, string?>(nameof(QuestId));
@@ -101,7 +101,7 @@ public sealed class QuestGlyph : Control
                     Marshal.Copy(pixels.Rgba, y * pixels.Width * 4, locked.Address + y * locked.RowBytes, pixels.Width * 4);
             }
             ToolTip.SetTip(this, pixels is not null ? artwork!.Label
-                : "Select the game client in Settings to load quest artwork.");
+                : "Select the game client in Settings to load game artwork.");
             InvalidateVisual();
         }
         catch (Exception error) when (error is IOException or UnauthorizedAccessException or InvalidDataException
@@ -110,11 +110,12 @@ public sealed class QuestGlyph : Control
             if (version != request)
                 return;
             Clear();
-            ToolTip.SetTip(this, "Quest artwork unavailable. Check the client path in Settings.");
+            ToolTip.SetTip(this, "Game artwork unavailable. Check the client path in Settings.");
             var runtime = DataContext switch
             {
                 ViewModels.MainWindowViewModel window => window.Runtime,
                 ViewModels.QuestItemVM quest => quest.Runtime,
+                ViewModels.TaskItemVM task => task.Runtime,
                 _ => null
             };
             runtime?.Log("Quest artwork: " + error);

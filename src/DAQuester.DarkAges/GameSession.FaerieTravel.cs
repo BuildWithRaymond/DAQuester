@@ -36,10 +36,23 @@ public sealed partial class GameSession
             previous = exit.SourceMap;
         }
 
-        var entrance = maps.Record(542);
+        var entrance = maps.Record(ShinewoodFaerieEvidence.SafeForestMap);
         var entry = entrance.Portals.First(p => p.Map == 565);
-        var start = Grid.Neighbors(entry.From).First(t => !maps.Load(542).Blocked(t) && !entrance.ExitTiles.Contains(t));
-        maps.Plan(542, start, 500, new(20, 20));
+        var entranceGrid = maps.Load(entrance.Id);
+        var entranceTriggers = entrance.ExitTiles.Concat(entrance.InternalTransfers.Select(t => t.From)).ToHashSet();
+        if (!Grid.Neighbors(entry.From).Any(t => !entranceGrid.Blocked(t) && !entranceTriggers.Contains(t)))
+            throw new QuestBlockedException("Shinewood Forest 1 has no validated free return approach.");
+    }
+
+    async Task SettleFaerieReturn(CancellationToken ct)
+    {
+        if (!ShinewoodFaerieEvidence.SafeArrival(Snapshot))
+            throw new QuestBlockedException("Actual safe Faerie return landing required.");
+        PreserveTravelPopup();
+        await DepartNpcLanding(ct);
+        PreserveTravelPopup();
+        if (!ShinewoodFaerieEvidence.SafeArrival(Snapshot) || !NpcPositionStable(Snapshot))
+            throw new QuestBlockedException("Faerie return landing departure remains unconfirmed.");
     }
 
     async Task WalkDocumentedExit(GameCommand command, CancellationToken ct)

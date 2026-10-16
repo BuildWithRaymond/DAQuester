@@ -70,6 +70,7 @@ public class QuestRunner(IGameSession session, IQuestJournal journal, QuestDefin
         AwakeningEvidence.Id => new[] { "awakening-preflight", "awakening-run" }.ToDictionary(x => x, x => (IQuestAction)new AwakeningActions()),
         NewCharacterPath.FirstStepsId => new[] { "first-steps-preflight", "first-steps-run" }.ToDictionary(x => x, x => (IQuestAction)new NewCharacterActions()),
         NewCharacterPath.ClimbId => new[] { "climb-preflight", "climb-run" }.ToDictionary(x => x, x => (IQuestAction)new NewCharacterActions()),
+        WizardyResearchEvidence.Id => new[] { "research-run" }.ToDictionary(x => x, x => (IQuestAction)new WizardyResearchActions()),
         _ => []
     };
     public Dictionary<string, Func<QuestContext, bool?>> Conditions { get; } = [];
@@ -103,7 +104,7 @@ public class QuestRunner(IGameSession session, IQuestJournal journal, QuestDefin
             completionHistory.Record(s);
             if (!s.Connected)
                 Interrupt("Disconnected. Resume after fresh state.");
-            else if ((recipe.Id is ShinewoodFaerieEvidence.Id or FiskEvidence.Id or DanaanEvidence.Id || singleAttempt) && (s.Generation != runGeneration || !string.Equals(s.Name, captureCharacter, StringComparison.OrdinalIgnoreCase)))
+            else if ((recipe.Id is ShinewoodFaerieEvidence.Id or FiskEvidence.Id or DanaanEvidence.Id or WizardyResearchEvidence.Id || singleAttempt) && (s.Generation != runGeneration || !string.Equals(s.Name, captureCharacter, StringComparison.OrdinalIgnoreCase)))
                 Interrupt("Character connection changed. Resume to reconcile fresh state.");
         }
 
@@ -240,6 +241,8 @@ public class QuestRunner(IGameSession session, IQuestJournal journal, QuestDefin
                 });
             if (nextAttempt is { } next && next > DateTimeOffset.UtcNow)
             {
+                if (recipe.Id == WizardyResearchEvidence.Id && c.Job.Pending is null)
+                    throw new QuestScheduledWaitException(next);
                 if (yieldScheduledWaits)
                     throw new QuestScheduledWaitException(next);
                 if (singleAttempt)
@@ -292,7 +295,7 @@ public class QuestRunner(IGameSession session, IQuestJournal journal, QuestDefin
                     Status = "Running",
                     Reason = ""
                 });
-                if (c.Job.Step == "preflight" || c.Job.Pending?.Kind == DachaidhPreparation.PaymentKind)
+                if (recipe.Id != WizardyResearchEvidence.Id && (c.Job.Step == "preflight" || c.Job.Pending?.Kind == DachaidhPreparation.PaymentKind))
                     await DachaidhPreparation.EnsureAsync(c, token.Token);
                 while (c.Job.Step != "complete")
                 {
@@ -455,15 +458,18 @@ public class QuestRunner(IGameSession session, IQuestJournal journal, QuestDefin
 
     public async Task ReconcileAsync(CharacterSnapshot snapshot)
     {
-        if (recipe.Id != "spare-a-stick")
+        bool research = recipe.Id == WizardyResearchEvidence.Id;
+        if (recipe.Id != "spare-a-stick" && !research)
             return;
-        completionHistory.Record(snapshot);
+        if (!research) completionHistory.Record(snapshot);
         if (!await owner.WaitAsync(0))
             return;
         bool changed = false;
         try
         {
-            var reconciled = StickCompletionEvidence.Observe(Job, calibration, completionHistory);
+            if (research && (!session.Snapshot.Connected || !string.Equals(session.Snapshot.Name, Job.Character, StringComparison.OrdinalIgnoreCase)))
+                return;
+            var reconciled = research ? WizardyResearchEvidence.ObserveStatus(Job, snapshot) : StickCompletionEvidence.Observe(Job, calibration, completionHistory);
             if (ReferenceEquals(reconciled, Job))
                 return;
             await journal.SaveAsync(reconciled);
@@ -494,6 +500,8 @@ public class QuestRunner(IGameSession session, IQuestJournal journal, QuestDefin
                 recovered = DanaanBlanchefleurRecovery.Reconcile(Job, recipe, snapshots, actions);
             if (ReferenceEquals(recovered, Job))
                 recovered = DanaanVarunaRecovery.Reconcile(Job, recipe, snapshots, actions);
+            if (ReferenceEquals(recovered, Job))
+                recovered = DanaanRiteEvidence.Reconcile(Job, recipe, snapshots, actions);
             if (ReferenceEquals(recovered, Job))
                 recovered = DanaanDonnanRecovery.Reconcile(Job, recipe, snapshots, actions);
             if (ReferenceEquals(recovered, Job))

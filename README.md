@@ -72,7 +72,12 @@ and remaining live-run limits.
 See the [Dashboard list](docs/screenshots/dashboard-list.png) and
 [optional Scheduler](docs/screenshots/scheduler.png) for their alternate views.
 
-![Characters page with saved accounts and Launch actions](docs/screenshots/characters.png)
+![Characters page with saved accounts, Legend marks, and Launch actions](docs/screenshots/characters.png)
+
+Expand a character and choose **Legend marks** beside **Remove** to open a compact
+list with original mark icons and full text and dates. The popup keeps the dark
+theme and labels offline marks as last observed. See the
+[legend popup](docs/screenshots/legend-marks.png).
 
 ## Get started
 
@@ -115,9 +120,9 @@ The quest library includes guides and automatic recipes:
 | Shinewood Faerie | Level **11+** to pass Forest 7. Try for a pet and learn eligible missing Priest/Wizard spells. The known successful bond asks for **250 HP and 250 MP**; the runner accepts that exact offer and verifies the Pet Faerie. Handles the failed-bond wait and return trip. A fresh automatic bond run remains unverified. |
 | Cured the Sick Child | Level **11+**. Give Paulin five Sevti Blossoms with **5,000 gold per flower**. Pick daily or use helpers; completion requires your own sick-child legend. |
 | Aided the Pact of Anaman | Give Paulin five Tulsi (Golden) Blossoms **without gold**. Uses the same daily/helper options; its brown legend mark is hidden from other players. |
-| Altar Worship | Offers a Leather Shield at the Mileth Altar every three hours, buying one for **750 gold** if needed. Stops after ten offerings. Only Priests can earn the legend; other classes must confirm they want the experience and ring instead. |
+| Altar Worship | Offers a Leather Shield at the Mileth Altar every three hours, buying one for **750 gold** if needed. Stops after ten offerings. Priests, Bards and Master Priests can earn the legend; other classes must confirm they want the experience and ring instead. |
 | Fisk's Secret | Preserves the secret, buys missing supplies and saves the paid bouquet wait. Runs other ready queued work meanwhile, or waits at a free Tavern spot facing down. Collection requires the actual Bouquet. |
-| Cap / Band of Danaan | One family journey through Donnan/Cail, including captured original, Loures orders, court, and Fiosachd referrals. Each character must select Cail and accept the supplied-Mold rite risk. Saved reply and reward cleanup recover without repeating handoffs; unknown dialogue pauses. |
+| Cap / Band of Danaan | One family journey through Donnan/Cail, including captured original, Loures orders, court, and Fiosachd referrals. Desktop uses the fixed Cail route and supplied-Mold rite without a choice popup. Mold remains required. Saved reply and reward cleanup recover without repeating handoffs; unknown dialogue pauses. |
 
 Each character can pick one flower a day across both flower quests. With enough
 eligible helpers, all five turn-ins can finish in one day. The two legend marks
@@ -136,6 +141,9 @@ Fisk's secrecy path and the Cail/Cap outcome have observed MCP completions.
 Their new full automatic runners have synthetic coverage and still require fresh
 automated live validation. Band-specific dialogue and other Avatar routes remain
 unverified. See the [automation handoff](docs/research/fisk-danaan-automation.md).
+
+Shinewood Faerie ends after safe return to **Shinewood Forest 1**, or a verified
+town song/scroll or dachaidh escape. It does not require walking farther into Mileth.
 
 Altar Worship's first automated offering is live-verified; the full ten-offering
 run and final rewards have synthetic coverage only. Starter training uses the

@@ -114,9 +114,11 @@
 - Yield Fisk's wait only to ready quests already queued. Do not preempt another
   active unresolved checkpoint. With no ready work, use free Tavern 413 tiles
   (10–14,1), verify facing down, and preserve the wait if the row is occupied.
-- Cap and Band share `cap-band-of-danaan`. Each character explicitly chooses
-  Cail and accepts the supplied-Mold rite risk. Other routes and unknown variant
-  pages pause. Consecration/reversion are separate unselected choices.
+- Cap and Band share `cap-band-of-danaan`. Desktop and scheduler starts save
+  the fixed Cail route and supplied-Mold rite acceptance without a choice popup,
+  as requested by the player. Control/MCP supplied options still validate.
+  Other routes and unknown variant pages pause. Consecration/reversion remain
+  separate unselected choices.
 - Keep final item/XP/active-message/own-legend proof separate from terminal popup
   closure. A saved cleanup resumes without another claim, including reconnects.
 - Live discovery completion does not certify a new full automatic runner. Keep

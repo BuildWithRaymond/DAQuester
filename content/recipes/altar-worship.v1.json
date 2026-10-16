@@ -3,6 +3,15 @@
   "Version": 1,
   "Name": "Altar Worship",
   "Source": "https://vorlof.com/quests/altarworship.html",
+  "IsTask": true,
+  "QuestClasses": ["Priest", "Bard", "Master Priest"],
+  "TaskPresentation": {
+    "Category": "Worship",
+    "Location": "Mileth · Altar",
+    "Summary": "Make ten offerings at the Mileth Altar, three hours apart. Your class determines the final reward.",
+    "Requirements": "750 gold per Leather Shield · 7,500 gold for ten purchased shields · room in your inventory",
+    "HowItWorks": "Use a Leather Shield from your bag, or buy one from Torrance in the Mileth Armor Shop for 750 gold. Offer one shield at the Mileth Altar.\n\nEach confirmed offering is saved. Wait three hours before the next; resume the same task to continue. A saved schedule can check at the next offering time.\n\nPriests, Bards and Master Priests earn the Mileth Altar Worshipper legend, a Jade or Amethyst Ring and 100,000 experience. Other classes receive a Red Jade Ring and 50,000 experience after the tenth offering, with an acknowledgement before starting.\n\nThe quest and task share the same progress and schedules. Completion requires a verified reward after the tenth offering."
+  },
   "Capabilities": [
     "navigate",
     "dialog",

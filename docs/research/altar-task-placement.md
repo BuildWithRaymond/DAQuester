@@ -1,0 +1,11 @@
+# Altar Worship task and quest placement
+
+The player's October 15, 2026 clarification places Altar Worship under Auto Tasks for every character and also under Quest planner for Priest, Bard and Master Priest characters. Unknown class stays out of the quest library; a known saved class supports offline placement. This class-family clarification is player supplied, not a new live protocol capture.
+
+The recipe now uses `IsTask` and optional `QuestClasses` visibility metadata. Task-only recipes keep an empty class list; ordinary quests keep their existing placement. Altar retains its approved quest artwork. The library updates on character/class changes and clears a newly hidden Altar selection while preserving the existing queue.
+
+Both surfaces use the same recipe ID, journal and schedules. Task details show the ten offerings, three-hour spacing, next offering time and class-specific rewards. A verified paid offering wait remains a continuation; it is neither a repeat cooldown nor proof of completion. The shared Altar priest-family check now recognizes all three class names for acknowledgement, reward descriptions and actual legend verification. Other classes still require the existing no-mark acknowledgement and item receipt.
+
+Regression tests reproduced the missing task entry, unfiltered non-priest quest entry and failed Bard/Master Priest recognition before implementation. Focused checks passed 32 App tests and 19 Altar tests. Native review at 1420 × 900 and 900 × 560 covered the task, offering wait, compact navigation, all three eligible quest variants and a hidden non-priest quest. Review caught the old generic Priests-only reward caption on Bard's quest row; a failing rendering regression was added and the row now uses the selected character's reward text.
+
+Both complete xUnit projects pass without failures or skips: **1,487 Core tests** and **322 App tests**. The App suite and native captures were repeated after correcting the stale reward caption. The Release build under `artifacts/altar-tasks-release` has zero warnings and errors, and `git diff --check` passes. Validation reports are `core-tests-altar-tasks.trx` and `app-tests-altar-tasks.trx` under `artifacts/altar-tasks-validation`. All checks use isolated synthetic data; real characters, player schedules and Excalibur processes were not operated.

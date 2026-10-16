@@ -21,6 +21,7 @@
               <TextBlock Classes="navLabel" Text="Quest planner"/>
             </StackPanel>
           </Button>
+          <Button Name="navTasks" Classes="nav" Classes.active="{Binding IsTasks}" Command="{Binding NavigateCommand}" CommandParameter="Tasks" ToolTip.Tip="Auto Tasks"><StackPanel Orientation="Horizontal" Spacing="10"><controls:LineIcon Icon="ScrollText" Width="17" Height="17"/><TextBlock Classes="navLabel" Text="Auto Tasks"/></StackPanel></Button>
           <Button Name="navCharacters" Classes="nav" Classes.active="{Binding IsCharacters}" Command="{Binding NavigateCommand}" CommandParameter="Characters" ToolTip.Tip="Characters">
             <StackPanel Orientation="Horizontal" Spacing="10">
               <controls:LineIcon Width="17" Height="17" Icon="Users"/>
@@ -99,6 +100,7 @@
         </Border>
       </StackPanel>
       <views:DashboardPage Grid.Row="2" Name="dashboardPage" IsVisible="{Binding IsDashboard}"/>
+      <views:TasksPage Grid.Row="2" Name="tasksPage" IsVisible="{Binding IsTasks}"/>
       <Grid Grid.Row="2" Name="plannerPage" IsVisible="{Binding IsPlanner}">
         <Grid Name="plannerLayout" ColumnDefinitions="*,Auto" ColumnSpacing="12">
           <Border Name="libraryCard" Classes="card">
@@ -377,7 +379,15 @@
                               <TextBlock Name="cardLaunchStatus" Text="{Binding LaunchStatus}" Classes="caption" TextWrapping="Wrap"/>
                               <TextBlock Text="{Binding LoginText}" Classes="caption"/>
                             </StackPanel>
-                            <Button Grid.Column="1" Classes="quiet danger" Content="Remove" Command="{Binding RemoveCommand}"/>
+                            <StackPanel Grid.Column="1" Orientation="Horizontal" Spacing="8" VerticalAlignment="Center">
+                              <Button Name="legendMarks" Classes="quiet" Click="ShowLegendMarks" IsEnabled="{Binding CanViewLegends}" AutomationProperties.Name="{Binding DisplayName,StringFormat='Legend marks for {0}'}">
+                                <StackPanel Orientation="Horizontal" Spacing="7">
+                                  <controls:LegendMarkGlyph Icon="0" GameDirectory="{Binding PortraitGameDirectory}" Width="17" Height="16"/>
+                                  <TextBlock Text="Legend marks"/>
+                                </StackPanel>
+                              </Button>
+                              <Button Classes="quiet danger" Content="Remove" Command="{Binding RemoveCommand}"/>
+                            </StackPanel>
                           </Grid>
                           <Grid ColumnDefinitions="*,*" RowDefinitions="Auto,Auto" ColumnSpacing="16" RowSpacing="7">
                             <TextBlock Text="Character name" Classes="caption"/>
@@ -385,28 +395,6 @@
                             <TextBox Grid.Row="1" Name="characterName" Text="{Binding Name,Mode=TwoWay}" Watermark="Character name" AutomationProperties.Name="Character name"/>
                             <TextBox Grid.Row="1" Grid.Column="1" Text="{Binding Password,Mode=TwoWay}" PasswordChar="●" Watermark="Leave blank to keep saved password" AutomationProperties.Name="New password"/>
                           </Grid>
-                          <Border BorderBrush="{DynamicResource Line}" BorderThickness="0,1,0,0" Padding="0,12,0,0">
-                            <StackPanel Spacing="8">
-                              <StackPanel Orientation="Horizontal" Spacing="7">
-                                <controls:LegendMarkGlyph Icon="0" GameDirectory="{Binding PortraitGameDirectory}" Width="17" Height="16"/>
-                                <TextBlock Text="Legend marks" FontWeight="SemiBold" FontSize="12"/>
-                                <TextBlock Text="{Binding LegendSummary}" Classes="caption"/>
-                              </StackPanel>
-                              <TextBlock Text="{Binding LegendEmptyText}" Classes="caption" IsVisible="{Binding !HasLegendMarks}"/>
-                              <ScrollViewer MaxHeight="108" HorizontalScrollBarVisibility="Disabled" VerticalScrollBarVisibility="Auto" IsVisible="{Binding HasLegendMarks}">
-                                <ItemsControl ItemsSource="{Binding LegendMarks}">
-                                  <ItemsControl.ItemsPanel><ItemsPanelTemplate><WrapPanel/></ItemsPanelTemplate></ItemsControl.ItemsPanel>
-                                  <ItemsControl.ItemTemplate>
-                                    <DataTemplate>
-                                      <Border Classes="legendMark" MaxWidth="360" Margin="0,0,6,6" ToolTip.Tip="{Binding}">
-                                        <TextBlock Text="{Binding}" FontSize="12" TextTrimming="CharacterEllipsis"/>
-                                      </Border>
-                                    </DataTemplate>
-                                  </ItemsControl.ItemTemplate>
-                                </ItemsControl>
-                              </ScrollViewer>
-                            </StackPanel>
-                          </Border>
                         </StackPanel>
                       </Border>
                     </Grid>

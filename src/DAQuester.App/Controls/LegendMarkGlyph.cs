@@ -97,6 +97,8 @@ public sealed class LegendMarkGlyph : Control
             {
                 ViewModels.MainWindowViewModel window => window.Runtime,
                 ViewModels.QuestItemVM quest => quest.Runtime,
+                ViewModels.CharacterItemVM character => character.Runtime,
+                _ when this.GetVisualRoot() is Window { DataContext: ViewModels.CharacterItemVM character } => character.Runtime,
                 _ => null
             };
             runtime?.Log("Legend artwork: " + error);

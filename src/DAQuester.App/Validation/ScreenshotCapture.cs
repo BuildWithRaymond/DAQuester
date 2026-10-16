@@ -23,15 +23,27 @@ internal static partial class ScreenshotCapture
             if (!Program.IsScreenshots || !viewModel.Runtime.Preview)
                 throw new InvalidOperationException("Screenshots require an isolated preview runtime.");
             await SeedWorkspaceAsync(viewModel);
+            if (Program.Arguments.Contains("--altar-review"))
+            {
+                await CaptureAltarTasksAsync(window, viewModel);
+                File.WriteAllText("artifacts/screenshots.txt", "Altar task and priest-family quest placement captured with isolated synthetic data.");
+                return;
+            }
+            if (Program.Arguments.Contains("--tasks-review"))
+            {
+                await CaptureResearchAsync(window, viewModel);
+                File.WriteAllText("artifacts/screenshots.txt", "Tasks and setup dialog captured with isolated synthetic data.");
+                return;
+            }
             window.Width = 1450;
             window.Height = 930;
             var renders = new List<string>();
-            await CaptureDanaanChoiceAsync(window, viewModel, renders);
             await CaptureDanaanLibraryAsync(window, viewModel, renders);
             await CaptureLongTrailAsync(window, viewModel, renders);
             await CaptureFiskWaitAsync(window, viewModel, renders);
             await CaptureDashboardAsync(window, viewModel, renders);
             await CaptureCharacterDisclosuresAsync(window, viewModel, renders);
+            await CaptureLegendMarksAsync(window, viewModel, renders);
             foreach (string page in new[]
             {
                 "Planner",
@@ -472,42 +484,6 @@ internal static partial class ScreenshotCapture
         window.FindControl<Expander>("questDetails")!.IsExpanded = false;
     }
 
-    static async Task CaptureDanaanChoiceAsync(Window owner, MainWindowViewModel vm, List<string> renders)
-    {
-        if (!vm.Runtime.Preview)
-            throw new InvalidOperationException("Choice capture requires isolated preview data.");
-        var dialog = new Views.QuestChoiceDialog("Elara", vm.Runtime.Recipes[DanaanEvidence.Id], new()
-        {
-            Character = "Elara",
-            Quest = DanaanEvidence.Id
-        }, null);
-        var closed = dialog.ShowDialog<Services.QuestChoiceResult?>(owner);
-        await Task.Delay(200);
-        Dispatcher.UIThread.RunJobs();
-        dialog.UpdateLayout();
-        using (var bitmap = new RenderTargetBitmap(new PixelSize((int)dialog.ClientSize.Width, (int)dialog.ClientSize.Height), new Vector(96, 96)))
-        {
-            bitmap.Render(dialog);
-            string path = "artifacts/screenshots/danaan-choices.png";
-            bitmap.Save(path);
-            renders.Add(path);
-        }
-        dialog.GetVisualDescendants().OfType<ComboBox>().Single(c => c.Name == "danaanAvatar").SelectedIndex = 0;
-        dialog.GetVisualDescendants().OfType<CheckBox>().Single(c => c.Name == "danaanRiteAccepted").IsChecked = true;
-        await Task.Delay(100);
-        Dispatcher.UIThread.RunJobs();
-        dialog.UpdateLayout();
-        using (var bitmap = new RenderTargetBitmap(new PixelSize((int)dialog.ClientSize.Width, (int)dialog.ClientSize.Height), new Vector(96, 96)))
-        {
-            bitmap.Render(dialog);
-            string path = "artifacts/screenshots/danaan-choices-selected.png";
-            bitmap.Save(path);
-            renders.Add(path);
-        }
-        dialog.Close();
-        await closed;
-    }
-
     static async Task CaptureDashboardAsync(Window window, MainWindowViewModel vm, List<string> renders)
     {
         var runtime = vm.Runtime;
@@ -712,6 +688,8 @@ internal static partial class ScreenshotCapture
                 "Completed a very long remembered journey with friends from across the kingdom - Deoch 217, Spring"]
         };
         var memory = new FileCharacterMemory(Path.Combine(AppSettings.DataPath, "characters"), runtime.Settings.ServerProfile);
+        // Synthetic icon choices exercise the display; they are not quest evidence.
+        sample = sample with { LegendEntries = sample.Legends.Select((text, index) => new LegendMarkEntry(text, (byte)(index % 8))).ToImmutableArray() };
         foreach (var snapshot in new[]
         {
             sample,
@@ -720,21 +698,21 @@ internal static partial class ScreenshotCapture
                 Name = "Elara",
                 Id = 43,
                 Level = 11,
-                Legends = []
+                Legends = [], LegendEntries = []
             },
             sample with
             {
                 Name = "Wren",
                 Id = 44,
                 Level = 10,
-                Legends = []
+                Legends = [], LegendEntries = []
             },
             sample with
             {
                 Name = "Rowan",
                 Id = 45,
                 Level = 25,
-                Legends = []
+                Legends = [], LegendEntries = []
             }
         }
 

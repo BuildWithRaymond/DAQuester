@@ -9,7 +9,14 @@ public enum WeaponType
 }
 
 // Class is the Temuair base class as the profile names it ("Peasant" = any class).
-public sealed record WeaponData(string Name, WeaponType Type, string Class, string? Medenia = null, int Ability = 0, int Insight = 0, bool Master = false)
+public sealed record WeaponData(
+    string Name,
+    WeaponType Type,
+    string Class,
+    string? Medenia = null,
+    int Ability = 0,
+    int Insight = 0,
+    bool Master = false)
 {
     public bool IsMelee => Type == WeaponType.Melee;
     public bool IsBow => Type == WeaponType.Bow;

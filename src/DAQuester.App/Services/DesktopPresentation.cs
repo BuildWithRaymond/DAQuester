@@ -10,6 +10,7 @@ internal sealed class DesktopPresentation(DesktopRuntime runtime, Func<string, s
     readonly Dictionary<(string Character, string Quest), QuestJob> jobs = [];
     readonly Dictionary<(string Character, QuestQueueState Queue), JourneyPlan> plans = [];
     readonly Dictionary<(string Character, string Quest), QuestAvailability> availability = [];
+    readonly Dictionary<(string Character, string Quest), QuestAvailability> taskAvailability = [];
 
     QuestJob SavedJob(string character, string quest)
     {
@@ -20,6 +21,13 @@ internal sealed class DesktopPresentation(DesktopRuntime runtime, Func<string, s
     }
 
     internal QuestJob Job(string character, string quest) => runtime.Job(character, quest, SavedJob);
+    internal QuestAvailability TaskAvailability(string character, string quest)
+    {
+        var key = (character.ToUpperInvariant(), quest);
+        if (!taskAvailability.TryGetValue(key, out var value))
+            taskAvailability[key] = value = runtime.Availability(character, quest, runtime.Snapshot(character), SavedJob);
+        return value;
+    }
     internal JourneyPlan PlanQueue(string character) => PlanQueue(character, runtime.Queue(character));
 
     JourneyPlan PlanQueue(string character, QuestQueueState queue)

@@ -9,7 +9,8 @@ internal static class DanaanCourtReplay
     // Project only the fields this prefix can prove. Payloads, entities, legends,
     // appearance and analysis would inflate large replay reads in the x86 app.
     sealed record Snapshot(long Generation, long Revision, string? Name, bool Connected, int? Map,
-        uint? Gold, uint? Experience, bool InventoryKnown, ImmutableDictionary<byte, Item>? Inventory, Dialog? Dialog);
+        uint? Gold, uint? Experience, bool InventoryKnown, ImmutableDictionary<byte, Item>? Inventory, Dialog? Dialog,
+        Tile? Position, ServerNotice? ActiveStatus);
     sealed record Event(string Character, long Generation, long Revision, string Direction, Snapshot Snapshot);
     sealed record Replay(int SchemaVersion, string ServerProfile, bool Sanitized, Event[]? Events, RecordedJourneyAction[]? Actions);
     sealed record AssignmentSnapshot(long Generation, long Revision, string? Name, bool Connected, int? Map, Dialog? Dialog);
@@ -89,7 +90,8 @@ internal static class DanaanCourtReplay
             snapshots.Add(new()
             {
                 Generation = s.Generation, Revision = s.Revision, Name = s.Name, Connected = s.Connected, Map = s.Map,
-                Gold = s.Gold, Experience = s.Experience, InventoryKnown = s.InventoryKnown, Inventory = s.Inventory ?? [], Dialog = s.Dialog
+                Gold = s.Gold, Experience = s.Experience, InventoryKnown = s.InventoryKnown, Inventory = s.Inventory ?? [], Dialog = s.Dialog,
+                Position = s.Position, ActiveStatus = s.ActiveStatus
             });
         }
         return (snapshots.ToArray(), replay.Actions.Where(a => a is not null && a.Generation == generation && a.Revision >= after &&

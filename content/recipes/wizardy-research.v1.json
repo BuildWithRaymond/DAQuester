@@ -1,0 +1,19 @@
+{
+  "Id": "wizardy-research",
+  "Version": 1,
+  "Name": "Wizardy research",
+  "Source": "Player-reported DATester research; docs/research/wizardy-research-protocol.md",
+  "IsTask": true,
+  "TaskPresentation": {
+    "Category": "Research",
+    "Location": "Mileth · Black Magic Master",
+    "Summary": "Create sorcery Songs with wizardy research. Continue until the game requires rest.",
+    "Requirements": "Wizard · 500 gold per Parchment Scroll · room in your inventory",
+    "HowItWorks": "Buy one Parchment Scroll from Dar, research, then buy the next.\n\nReady to begin → Specific → sorcery → Alone or Assistant. A saved assistant must be a registered wizard; the task walks them to the shop.\n\nStep away from the research tiles and return between attempts. When any Song reaches 25, bank it remotely through Dar.\n\nThe game's rest refusal starts a 12-hour wait before the next check. Unknown results pause for review. Submitted purchases, research and deposits are checked before continuing."
+  },
+  "Capabilities": ["navigate", "dialog", "inventory"],
+  "CooldownHours": 12,
+  "Repeatable": true,
+  "OutcomeConditions": ["fresh-research-result", "parchment-consumed", "named-song-increase", "exact-rest-refusal"],
+  "Steps": [{"Id": "preflight", "Action": "research-run", "Next": null}]
+}

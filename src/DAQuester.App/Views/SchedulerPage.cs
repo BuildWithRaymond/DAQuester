@@ -17,7 +17,11 @@ public sealed class SchedulerPage : UserControl
     readonly ComboBox quest = new() { Name = "scheduleQuest", HorizontalAlignment = HorizontalAlignment.Stretch };
     readonly CheckBox earliest = new() { Name = "scheduleEarliest", Content = "Run as soon as eligible", IsChecked = true };
     readonly CheckBox recurring = new() { Name = "scheduleRecurring", Content = "Repeat at each cooldown", IsChecked = false };
-    readonly CheckBox acknowledgement = new() { Name = "schedulerAcknowledgement", Content = new TextBlock { Text = "I accept the boot risk and closing windows Scheduler opens.", TextWrapping = TextWrapping.Wrap, FontSize = 12, LineHeight = 18, MaxWidth = 420 } };
+    readonly CheckBox acknowledgement = new()
+    {
+        Name = "schedulerAcknowledgement",
+        Content = new TextBlock { Text = "I accept the boot risk and closing windows Scheduler opens.", TextWrapping = TextWrapping.Wrap, FontSize = 12, LineHeight = 18, MaxWidth = 420 }
+    };
     readonly DatePicker date = new() { Name = "scheduleDate", SelectedDate = DateTimeOffset.Now, HorizontalAlignment = HorizontalAlignment.Left };
     readonly TimePicker time = new() { Name = "scheduleTime", SelectedTime = DateTime.Now.AddMinutes(5).TimeOfDay, ClockIdentifier = "12HourClock" };
     readonly TextBlock policy = Copy("");
@@ -50,20 +54,45 @@ public sealed class SchedulerPage : UserControl
         heading.Children.Add(new TextBlock { Text = "Optional automatic logins", Classes = { "section" }, VerticalAlignment = VerticalAlignment.Center });
         status.VerticalAlignment = VerticalAlignment.Center;
         status.FontSize = 12;
-        Grid.SetColumn(status, 1); heading.Children.Add(status); header.Children.Add(heading);
+        Grid.SetColumn(status, 1);
+        heading.Children.Add(status);
+        header.Children.Add(heading);
         var warning = new StackPanel { Spacing = 7 };
-        warning.Children.Add(new TextBlock { Name = "schedulerWarning", Text = "Scheduled logins can boot you", FontSize = 17, FontWeight = FontWeight.SemiBold, Classes = { "error" } });
+        warning.Children.Add(new TextBlock
+        {
+            Name = "schedulerWarning",
+            Text = "Scheduled logins can boot you",
+            FontSize = 17,
+            FontWeight = FontWeight.SemiBold,
+            Classes = { "error" }
+        });
         warning.Children.Add(Copy("Playing this character elsewhere? A scheduled login can disconnect that session. This includes flower helpers."));
-        warning.Children.Add(new TextBlock { Text = "Already logged in → stops until you review. No automatic retry.", TextWrapping = TextWrapping.Wrap, FontWeight = FontWeight.SemiBold });
+        warning.Children.Add(new TextBlock
+        {
+            Text = "Already logged in → stops until you review. No automatic retry.",
+            TextWrapping = TextWrapping.Wrap,
+            FontWeight = FontWeight.SemiBold
+        });
         header.Children.Add(new Border { Classes = { "schedulerWarning" }, Padding = new Thickness(16, 12), Child = warning });
-        header.Children.Add(new TextBlock { Text = "Keep DAQuester open. Enabled schedules resume after restart; Pause all keeps them off.", Classes = { "caption" }, TextWrapping = TextWrapping.Wrap });
+        header.Children.Add(new TextBlock
+        {
+            Text = "Keep DAQuester open. Enabled schedules resume after restart; Pause all keeps them off.",
+            Classes = { "caption" },
+            TextWrapping = TextWrapping.Wrap
+        });
         var body = new StackPanel { Spacing = 16, Margin = new Thickness(0, 0, 12, 0) };
         body.Children.Add(header);
         var details = new StackPanel { Spacing = 8, Margin = new Thickness(12, 4, 12, 12) };
         details.Children.Add(Copy(Warning));
         details.Children.Add(Copy("Off by default. Saving a schedule does not enable Scheduler. It runs only while DAQuester is open. Switching pages keeps it running. Enabled schedules resume after restarting DAQuester; Pause all keeps them off."));
         details.Children.Add(Copy("Only automatic quests can be scheduled. Quest cooldowns and requirements still apply. Existing windows known to DAQuester stay open. Manual input does not pause scheduled work; use Pause all or Stop all quests."));
-        body.Children.Add(new Expander { Header = "Full warnings and how it works", Content = details, IsExpanded = false, HorizontalAlignment = HorizontalAlignment.Stretch });
+        body.Children.Add(new Expander
+        {
+            Header = "Full warnings and how it works",
+            Content = details,
+            IsExpanded = false,
+            HorizontalAlignment = HorizontalAlignment.Stretch
+        });
         var editor = new StackPanel { Spacing = 10 };
         editor.Children.Add(editorTitle);
         editor.Children.Add(Copy("Save stores the schedule. Turn on saved schedules allows automatic logins. To resume a stopped schedule, use Resume schedule on its saved row."));
@@ -71,31 +100,72 @@ public sealed class SchedulerPage : UserControl
         {
             var field = new StackPanel { Spacing = 6 };
             field.Children.Add(new TextBlock { Text = label, Classes = { "caption" } });
-            field.Children.Add(input); editor.Children.Add(field);
+            field.Children.Add(input);
+            editor.Children.Add(field);
         }
         Field("Character · saved login required", character);
         Field("Automatic quest", quest);
         editor.Children.Add(earliest);
-        date.Margin = new Thickness(0, 0, 10, 8); time.Margin = new Thickness(0, 0, 0, 8);
-        timingFields.Children.Add(date); timingFields.Children.Add(time); editor.Children.Add(timingFields);
-        editor.Children.Add(recurring); editor.Children.Add(policy); editor.Children.Add(choices);
+        date.Margin = new Thickness(0, 0, 10, 8);
+        time.Margin = new Thickness(0, 0, 0, 8);
+        timingFields.Children.Add(date);
+        timingFields.Children.Add(time);
+        editor.Children.Add(timingFields);
+        editor.Children.Add(recurring);
+        editor.Children.Add(policy);
+        editor.Children.Add(choices);
         var actions = new StackPanel { Orientation = Orientation.Horizontal, Spacing = 10 };
         actions.Children.Add(save);
         var fresh = new Button { Content = "New schedule", Classes = { "quiet" } };
-        fresh.Click += (_, _) => { editing = null; character.IsEnabled = true; quest.IsEnabled = true; earliest.IsChecked = true; recurring.IsChecked = false; acknowledgement.IsChecked = false; UpdateControls(); };
-        actions.Children.Add(fresh); editor.Children.Add(actions); editor.Children.Add(feedback);
-        workspace.Children.Add(new Border { Classes = { "card" }, Padding = new Thickness(18), Child = editor, VerticalAlignment = VerticalAlignment.Top });
+        fresh.Click += (_, _) =>
+        {
+            editing = null;
+            character.IsEnabled = true;
+            quest.IsEnabled = true;
+            earliest.IsChecked = true;
+            recurring.IsChecked = false;
+            acknowledgement.IsChecked = false;
+            UpdateControls();
+        };
+        actions.Children.Add(fresh);
+        editor.Children.Add(actions);
+        editor.Children.Add(feedback);
+        workspace.Children.Add(new Border
+        {
+            Classes = { "card" },
+            Padding = new Thickness(18),
+            Child = editor,
+            VerticalAlignment = VerticalAlignment.Top
+        });
         var saved = new StackPanel { Spacing = 14 };
         saved.Children.Add(new TextBlock { Text = "Saved schedules", Classes = { "section" } });
         saved.Children.Add(rows);
-        schedulePane.Child = saved; Grid.SetColumn(schedulePane, 1); workspace.Children.Add(schedulePane);
+        schedulePane.Child = saved;
+        Grid.SetColumn(schedulePane, 1);
+        workspace.Children.Add(schedulePane);
         body.Children.Add(workspace);
-        var scroll = new ScrollViewer { Name = "schedulerBody", Content = body, HorizontalScrollBarVisibility = Avalonia.Controls.Primitives.ScrollBarVisibility.Disabled };
+        var scroll = new ScrollViewer
+        {
+            Name = "schedulerBody",
+            Content = body,
+            HorizontalScrollBarVisibility = Avalonia.Controls.Primitives.ScrollBarVisibility.Disabled
+        };
         layout.Children.Add(scroll);
-        var footer = new Grid { ColumnDefinitions = new("Auto,Auto"), ColumnSpacing = 16, HorizontalAlignment = HorizontalAlignment.Right, Margin = new Thickness(0, 16, 0, 0) };
+        var footer = new Grid
+        {
+            ColumnDefinitions = new("Auto,Auto"),
+            ColumnSpacing = 16,
+            HorizontalAlignment = HorizontalAlignment.Right,
+            Margin = new Thickness(0, 16, 0, 0)
+        };
         var consent = new StackPanel { Spacing = 4 };
         consent.Children.Add(acknowledgement);
-        consent.Children.Add(new TextBlock { Text = "Check once here for Save, Resume and Turn on.", Classes = { "caption" }, TextWrapping = TextWrapping.Wrap });
+        consent.Children.Add(new TextBlock
+        {
+            Text = "Check once here for Save, Resume and Turn on.",
+            Classes = { "caption" },
+            TextWrapping = TextWrapping.Wrap
+        });
         footer.Children.Add(new Border { Classes = { "schedulerConsent" }, Padding = new Thickness(12, 8), Child = consent });
         var controls = new StackPanel { Orientation = Orientation.Horizontal, Spacing = 10, VerticalAlignment = VerticalAlignment.Center };
         Grid.SetColumn(controls, 1);
@@ -104,14 +174,28 @@ public sealed class SchedulerPage : UserControl
         var pause = new Button { Name = "pauseScheduler", Content = "Pause all", Classes = { "quiet" } };
         pause.Click += async (_, _) => await PerformAsync(() => runtime.SetSchedulerEnabledAsync(false, false));
         controls.Children.Add(pause);
-        Grid.SetRow(footer, 1); layout.Children.Add(footer);
+        Grid.SetRow(footer, 1);
+        layout.Children.Add(footer);
         character.ItemsSource = runtime.Settings.Characters;
         character.SelectedItem = runtime.Settings.Characters.FirstOrDefault(n => n.Equals(selectedCharacter, StringComparison.OrdinalIgnoreCase)) ?? runtime.Settings.Characters.FirstOrDefault();
         quest.ItemsSource = runtime.Recipes.Values.OrderBy(q => q.Name).ToArray();
-        quest.ItemTemplate = new Avalonia.Controls.Templates.FuncDataTemplate<QuestDefinition>((q, _) => new TextBlock { Text = q?.Name, TextTrimming = TextTrimming.CharacterEllipsis });
+        quest.ItemTemplate = new Avalonia.Controls.Templates.FuncDataTemplate<QuestDefinition>((q, _) => new TextBlock
+        {
+            Text = q?.Name,
+            TextTrimming = TextTrimming.CharacterEllipsis
+        });
         quest.SelectedItem = runtime.Recipes.GetValueOrDefault(runtime.SelectedQuestId) ?? runtime.Recipes.Values.FirstOrDefault();
-        character.SelectionChanged += (_, _) => { acknowledgement.IsChecked = false; UpdateControls(); };
-        quest.SelectionChanged += (_, _) => { acknowledgement.IsChecked = false; recurring.IsChecked = false; UpdateControls(); };
+        character.SelectionChanged += (_, _) =>
+        {
+            acknowledgement.IsChecked = false;
+            UpdateControls();
+        };
+        quest.SelectionChanged += (_, _) =>
+        {
+            acknowledgement.IsChecked = false;
+            recurring.IsChecked = false;
+            UpdateControls();
+        };
         earliest.IsCheckedChanged += (_, _) => UpdateControls();
         recurring.IsCheckedChanged += (_, _) => UpdateControls();
         acknowledgement.IsCheckedChanged += (_, _) => UpdateControls();
@@ -123,7 +207,12 @@ public sealed class SchedulerPage : UserControl
             feedback.Text = "Scheduler is ON. Stopped entries still need Resume schedule on their saved row.";
         });
         Content = layout;
-        AttachedToVisualTree += (_, _) => { runtime.Changed += Refresh; AdaptLayout(); Refresh(); };
+        AttachedToVisualTree += (_, _) =>
+        {
+            runtime.Changed += Refresh;
+            AdaptLayout();
+            Refresh();
+        };
         DetachedFromVisualTree += (_, _) => runtime.Changed -= Refresh;
         SizeChanged += (_, _) => AdaptLayout();
         Refresh();
@@ -172,7 +261,21 @@ public sealed class SchedulerPage : UserControl
     {
         if (Quest is not { } selected || TopLevel.GetTopLevel(this) is not Window owner)
             return;
-        var result = await QuestChoiceDialog.ShowChoiceAsync(owner, Character, selected, runtime.Job(Character, selected.Id), null, SickChildEvidence.For(selected.Id) is not null ? runtime.SickChildChoice(Character, selected.Id) : null, runtime.CharacterClass(Character));
+        if (selected.Id == WizardyResearchEvidence.Id)
+        {
+            var research = await ActivityRunDialog.ShowAsync(owner, runtime, Character, selected, runtime.Job(Character, selected.Id), true);
+            if (research?.ResearchOptions is { } options)
+                await runtime.SaveSchedulerChoicesAsync(Character, selected.Id, new(ResearchOptions: options));
+            return;
+        }
+        var result = await QuestChoiceDialog.ShowChoiceAsync(
+            owner,
+            Character,
+            selected,
+            runtime.Job(Character, selected.Id),
+            null,
+            SickChildEvidence.For(selected.Id) is not null ? runtime.SickChildChoice(Character, selected.Id) : null,
+            runtime.CharacterClass(Character));
         if (result is null || result.OpenCharacters)
             return;
         await runtime.SaveSchedulerChoicesAsync(Character, selected.Id, result);
@@ -213,10 +316,24 @@ public sealed class SchedulerPage : UserControl
     {
         if (busy)
             return;
-        busy = true; feedback.Text = ""; feedback.Classes.Set("error", false); UpdateControls();
-        try { await action(); }
-        catch (Exception error) { feedback.Text = error.Message; feedback.Classes.Set("error", true); }
-        finally { busy = false; Refresh(); }
+        busy = true;
+        feedback.Text = "";
+        feedback.Classes.Set("error", false);
+        UpdateControls();
+        try
+        {
+            await action();
+        }
+        catch (Exception error)
+        {
+            feedback.Text = error.Message;
+            feedback.Classes.Set("error", true);
+        }
+        finally
+        {
+            busy = false;
+            Refresh();
+        }
     }
 
     void Refresh()
@@ -248,14 +365,25 @@ public sealed class SchedulerPage : UserControl
         if (runtime.SchedulerState.Entries.Length == 0)
             rows.Children.Add(Copy("No schedules yet.\nChoose a character and quest to add your first one."));
         foreach (string name in launching)
-            rows.Children.Add(new Border { Classes = { "schedulerConsent" }, Padding = new Thickness(14), Child = Copy(name + " · Launch in progress. Signing in for scheduled quest work.") });
+            rows.Children.Add(new Border
+            {
+                Classes = { "schedulerConsent" },
+                Padding = new Thickness(14),
+                Child = Copy(name + " · Launch in progress. Signing in for scheduled quest work.")
+            });
         var loginBlocks = runtime.SchedulerState.LoginBlocks.Concat(runtime.SchedulerState.PendingLogins
             .Where(n => !runtime.SchedulerLaunchInProgress(n) && !runtime.SchedulerState.LoginBlocks.Any(b => b.Character.Equals(n, StringComparison.OrdinalIgnoreCase)))
             .Select(n => new SchedulerLoginBlock(n, "Scheduled login was interrupted. Review before trying again.")));
         foreach (var block in loginBlocks)
         {
             var blocked = new StackPanel { Spacing = 6 };
-            blocked.Children.Add(new TextBlock { Text = block.Character + " · scheduled logins blocked", FontWeight = FontWeight.SemiBold, Classes = { "error" }, TextWrapping = TextWrapping.Wrap });
+            blocked.Children.Add(new TextBlock
+            {
+                Text = block.Character + " · scheduled logins blocked",
+                FontWeight = FontWeight.SemiBold,
+                Classes = { "error" },
+                TextWrapping = TextWrapping.Wrap
+            });
             blocked.Children.Add(Copy(block.Reason));
             var review = new Button { Content = "Review login block", Classes = { "quiet" }, HorizontalAlignment = HorizontalAlignment.Left };
             review.IsEnabled = !busy && acknowledgement.IsChecked == true;
@@ -279,10 +407,24 @@ public sealed class SchedulerPage : UserControl
             portraits.Add((entry.Character, portrait));
             card.Children.Add(portrait);
             var identity = new StackPanel { Spacing = 3, VerticalAlignment = VerticalAlignment.Center };
-            identity.Children.Add(new TextBlock { Text = entry.Character, FontWeight = FontWeight.SemiBold, FontSize = 14, TextTrimming = TextTrimming.CharacterEllipsis });
-            var questName = new TextBlock { Text = runtime.QuestName(entry.Quest), FontSize = 12, Classes = { "muted" }, TextTrimming = TextTrimming.CharacterEllipsis };
+            identity.Children.Add(new TextBlock
+            {
+                Text = entry.Character,
+                FontWeight = FontWeight.SemiBold,
+                FontSize = 14,
+                TextTrimming = TextTrimming.CharacterEllipsis
+            });
+            var questName = new TextBlock
+            {
+                Text = runtime.QuestName(entry.Quest),
+                FontSize = 12,
+                Classes = { "muted" },
+                TextTrimming = TextTrimming.CharacterEllipsis
+            };
             ToolTip.SetTip(questName, runtime.QuestName(entry.Quest));
-            identity.Children.Add(questName); Grid.SetColumn(identity, 1); card.Children.Add(identity);
+            identity.Children.Add(questName);
+            Grid.SetColumn(identity, 1);
+            card.Children.Add(identity);
             var timing = new StackPanel { Spacing = 3, VerticalAlignment = VerticalAlignment.Center };
             var due = new TextBlock { Text = $"{entry.Due.ToLocalTime():MMM d · h:mm tt}", FontSize = 12 };
             ToolTip.SetTip(due, entry.Due.ToLocalTime().ToString("f zzz"));
@@ -290,25 +432,39 @@ public sealed class SchedulerPage : UserControl
             string stateClass = entry.Status == "Needs attention" ? "error" : entry.Status == "Paused" ? "gold"
                 : runtime.SchedulerEnabled && entry.Status is "Armed" or "Running" ? "ready" : "muted";
             timing.Children.Add(new TextBlock { Text = $"{(entry.Recurring ? "Repeat" : "Once")} · {entry.Status}", FontSize = 11, Classes = { stateClass }, TextTrimming = TextTrimming.CharacterEllipsis });
-            Grid.SetColumn(timing, 2); card.Children.Add(timing);
+            Grid.SetColumn(timing, 2);
+            card.Children.Add(timing);
             if (entry.Reason.Length > 0)
             {
                 var reason = Copy(entry.Reason);
-                reason.FontSize = 12; reason.LineHeight = 18;
-                Grid.SetRow(reason, 1); Grid.SetColumn(reason, 1); Grid.SetColumnSpan(reason, 3); card.Children.Add(reason);
+                reason.FontSize = 12;
+                reason.LineHeight = 18;
+                Grid.SetRow(reason, 1);
+                Grid.SetColumn(reason, 1);
+                Grid.SetColumnSpan(reason, 3);
+                card.Children.Add(reason);
             }
             var menuItems = new List<MenuItem>();
             MenuItem Action(string label, Func<Task> action)
             {
                 var item = new MenuItem { Header = label };
                 item.Click += async (_, _) => await PerformAsync(action);
-                menuItems.Add(item); return item;
+                menuItems.Add(item);
+                return item;
             }
             Action("Edit", () =>
             {
-                editing = entry.Id; character.SelectedItem = entry.Character; quest.SelectedItem = runtime.Recipes.GetValueOrDefault(entry.Quest);
-                character.IsEnabled = quest.IsEnabled = false; earliest.IsChecked = false; date.SelectedDate = entry.Due.ToLocalTime(); time.SelectedTime = entry.Due.ToLocalTime().TimeOfDay; recurring.IsChecked = entry.Recurring;
-                acknowledgement.IsChecked = false; UpdateControls(); return Task.CompletedTask;
+                editing = entry.Id;
+                character.SelectedItem = entry.Character;
+                quest.SelectedItem = runtime.Recipes.GetValueOrDefault(entry.Quest);
+                character.IsEnabled = quest.IsEnabled = false;
+                earliest.IsChecked = false;
+                date.SelectedDate = entry.Due.ToLocalTime();
+                time.SelectedTime = entry.Due.ToLocalTime().TimeOfDay;
+                recurring.IsChecked = entry.Recurring;
+                acknowledgement.IsChecked = false;
+                UpdateControls();
+                return Task.CompletedTask;
             }).IsVisible = entry.Status != "Running";
             Action("Pause", () => runtime.PauseScheduleAsync(entry.Id)).IsVisible = entry.Status is "Armed" or "Running";
             async Task ResumeAsync()
@@ -331,7 +487,10 @@ public sealed class SchedulerPage : UserControl
                 var next = new StackPanel { Spacing = 4 };
                 next.Children.Add(Copy("Check the agreement below, then resume this entry. Saving changes or turning Scheduler on leaves it stopped."));
                 next.Children.Add(resume);
-                Grid.SetRow(next, 2); Grid.SetColumn(next, 1); Grid.SetColumnSpan(next, 3); card.Children.Add(next);
+                Grid.SetRow(next, 2);
+                Grid.SetColumn(next, 1);
+                Grid.SetColumnSpan(next, 3);
+                card.Children.Add(next);
             }
             Action("Remove", () => runtime.RemoveScheduleAsync(entry.Id)).IsVisible = entry.Status != "Running";
             var menu = new ContextMenu { ItemsSource = menuItems };
@@ -340,7 +499,8 @@ public sealed class SchedulerPage : UserControl
             ToolTip.SetTip(more, "Schedule actions");
             AutomationProperties.SetName(more, "Schedule actions for " + entry.Character + ": " + runtime.QuestName(entry.Quest));
             more.Click += (_, _) => menu.Open(more);
-            Grid.SetColumn(more, 3); card.Children.Add(more);
+            Grid.SetColumn(more, 3);
+            card.Children.Add(more);
             rows.Children.Add(new Border { Classes = { "schedulerRow" }, Padding = new Thickness(0, 10), Child = card });
         }
     }

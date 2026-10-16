@@ -39,6 +39,8 @@ static partial class ObservedJourney
             baseline.Gold < task.Cost || s.Gold != baseline.Gold - task.Cost ||
             (long)(s.Experience ?? 0) - baseline.Experience != task.Experience)
             return false;
+        if (DanaanRiteEvidence.IsTask(task))
+            return DanaanRiteEvidence.ResourcesMatch(s, baseline);
         var outputs = RewardOutputs(s, baseline, task);
         if (outputs is null)
             return false;
@@ -208,6 +210,11 @@ static partial class ObservedJourney
             await SendPageAsync(c, recipe, task, page, d, ct);
         }
         await RequireResourcesAsync(c, baseline, task, ct);
+        // Resource timeout may have saved the final page before leaving this
+        // observed landing. Resume its inward step without returning an actor
+        // who already walked farther into the hall to the original landing.
+        if (DanaanRiteEvidence.IsTask(task) && c.Session.Snapshot is { Map: 720, Position: { X: 14, Y: 27 } } && task.Away == new Tile(14, 26))
+            await AwayAsync(c, task.Away, 720, ct);
         if (task.Experience > 0)
         {
             if (c.Job.CompletedAt is null)

@@ -2,6 +2,17 @@
   "schemaVersion": 1,
   "entries": [
     {
+      "id": "wizardy-research",
+      "label": "Parchment Scroll",
+      "creature": false,
+      "sprite": 3,
+      "dye": 0,
+      "variant": "",
+      "bottomCrop": false,
+      "aliases": [],
+      "source": "https://vorlof.com/general/searchdisplay.html"
+    },
+    {
       "id": "shinewoodfaerie",
       "label": "Shinewood Faerie",
       "creature": true,

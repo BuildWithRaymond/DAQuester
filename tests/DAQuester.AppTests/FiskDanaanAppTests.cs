@@ -125,7 +125,9 @@ public class FiskDanaanAppTests
                 }
             });
             Assert.Equal(DanaanEvidence.Id, vm.Quests.Single(q => q.Id == "bandofdanaan").RecipeId);
-            Assert.True(DesktopRuntime.HasChoices(DanaanEvidence.Id));
+            Assert.False(DesktopRuntime.HasChoices(DanaanEvidence.Id));
+            vm.SelectedQuest = vm.Quests.Single(q => q.Id == "bandofdanaan");
+            Assert.False(vm.ChangeChoicesVisible);
         }
         finally { await runtime.ShutdownAsync(); }
     }
@@ -154,7 +156,8 @@ public class FiskDanaanAppTests
                 LegendsRevision = 5
             });
             Assert.True(runtime.Availability("Elara", FiskEvidence.Id).Ready);
-            Assert.Equal("Choices", runtime.Availability("Elara", DanaanEvidence.Id).Status);
+            Assert.Equal("Ready", runtime.Availability("Elara", DanaanEvidence.Id).Status);
+            Assert.False(runtime.SchedulerNeedsChoices("Elara", DanaanEvidence.Id));
         }
         finally { await runtime.ShutdownAsync(); }
     }

@@ -7,6 +7,7 @@ public sealed class QuestItemVM : ObservableObject
 {
     readonly MainWindowViewModel owner;
     readonly string recipeId;
+    readonly string catalogRewards;
     QuestAvailability availability = new("Not checked", "Choose a character", false);
     bool queued;
     internal DesktopRuntime Runtime => owner.Runtime;
@@ -29,10 +30,8 @@ public sealed class QuestItemVM : ObservableObject
     {
         get;
     }
-    public string Rewards
-    {
-        get;
-    }
+    public string Rewards => recipeId == AltarWorshipEvidence.Id && Runtime.CharacterClass(owner.CharacterName) is { } characterClass
+        ? AltarWorshipEvidence.Rewards(characterClass) : catalogRewards;
     public string Requirements
     {
         get;
@@ -115,7 +114,7 @@ public sealed class QuestItemVM : ObservableObject
         Id = id;
         this.recipeId = recipeId;
         Name = name;
-        Rewards = rewards;
+        catalogRewards = rewards;
         Requirements = requirements;
         Level = level;
         Source = source;
@@ -139,10 +138,10 @@ public sealed class QuestItemVM : ObservableObject
     {
         string? characterClass = owner.Runtime.CharacterClass(character);
         noticeAlert = characterClass is not null && !AltarWorshipEvidence.IsPriest(characterClass);
-        noticeTitle = noticeAlert ? character + " is a " + characterClass + " and won't get the legend mark" : "Legend mark for Priests only";
+        noticeTitle = noticeAlert ? character + " is a " + characterClass + " and won't get the legend mark" : "Legend mark for " + AltarWorshipEvidence.LegendClasses;
         noticeText = noticeAlert
-            ? "Only Priests earn \"" + AltarWorshipEvidence.Legend + "\". " + character + " will get a Red Jade Ring and 50,000 experience after the 10th offering."
-            : "Priests earn \"" + AltarWorshipEvidence.Legend + "\" and a Jade or Amethyst Ring with 100,000 experience. Other classes get a Red Jade Ring and 50,000 experience.";
+            ? "Only " + AltarWorshipEvidence.LegendClasses + " earn \"" + AltarWorshipEvidence.Legend + "\". " + character + " will get a Red Jade Ring and 50,000 experience after the 10th offering."
+            : AltarWorshipEvidence.LegendClasses + " earn \"" + AltarWorshipEvidence.Legend + "\" and a Jade or Amethyst Ring with 100,000 experience. Other classes get a Red Jade Ring and 50,000 experience.";
         var made = character.Length == 0 ? [] : owner.Presentation.Job(character, recipeId).AltarOfferings;
         offerings = string.Join("\n", made.Select((o, i) => (i + 1) + ". " + o.At.ToLocalTime().ToString("MMM d, h:mm tt") + " · " + (o.Paid > 0 ? "bought for " + o.Paid.ToString("N0") : "shield from the bag") + (o.Experience.Length > 0 ? " · " + o.Experience : "")));
     }

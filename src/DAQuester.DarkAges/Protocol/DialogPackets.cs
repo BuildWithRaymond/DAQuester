@@ -6,7 +6,7 @@ using DAQuester.Core;
 
 namespace DAQuester.DarkAges.Protocol;
 
-public static class DialogPackets
+public static partial class DialogPackets
 {
     public static ClientPacket Close(CharacterSnapshot s, Dialog d)
     {

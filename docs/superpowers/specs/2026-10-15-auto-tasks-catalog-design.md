@@ -22,7 +22,7 @@ Add optional task presentation metadata to recipes: category, location, summary,
 
 Use a refresh-owned presentation cache for journal reads and actual availability. Commands still use the existing runtime and real journal, with fresh ownership checks. Pending actions offer Resume even when a new attempt would be ineligible. Cooldown means a later check, never proof of completion.
 
-Scope selected-task schedule details explicitly to the selected character. Display saved status, due time, recurrence, reason and global scheduler state. Distinguish completed schedule history from no schedule. When schedules exist for other characters, show their names and a Manage schedules action; do not attribute those schedules to the selected character. Merely viewing Auto Tasks must never enable schedules or modify them.
+Scope selected-task schedule details explicitly to the selected character. Display saved status, due time, recurrence, reason and global scheduler state. Distinguish completed schedule history from no schedule. When the selected character has no schedule but other characters do, show their names and a Manage schedules action; do not attribute those schedules to the selected character. Merely viewing Auto Tasks must never enable schedules or modify them.
 
 ## Verification and limits
 

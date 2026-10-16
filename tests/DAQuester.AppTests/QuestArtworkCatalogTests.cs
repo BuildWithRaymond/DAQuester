@@ -13,6 +13,7 @@ public sealed class QuestArtworkCatalogTests
         var catalog = new QuestArtworkCatalog(Path.Combine(AppSettings.Content, "quest-artwork.json"));
         // Custom journeys use the app medallion, so they need no installed sprite selection.
         string[] custom = ["awakening", "peasantsfirststeps", "cryptclimb", "peasants-first-steps", "crypt-climb"];
+        string[] approvedTaskArtwork = ["wizardy-research"];
         void Check(string id)
         {
             if (custom.Contains(id)) Assert.Null(catalog.Find(id));
@@ -25,9 +26,12 @@ public sealed class QuestArtworkCatalogTests
         {
             using var recipe = JsonDocument.Parse(File.ReadAllText(path));
             string id = recipe.RootElement.EnumerateObject().Single(p => p.Name.Equals("id", StringComparison.OrdinalIgnoreCase)).Value.GetString()!;
-            Check(id);
+            // Tasks without approved game artwork keep the scroll fallback.
+            bool questEntry = recipe.RootElement.TryGetProperty("QuestClasses", out var classes) && classes.GetArrayLength() > 0;
+            if (recipe.RootElement.TryGetProperty("IsTask", out var task) && task.GetBoolean() && !questEntry && !approvedTaskArtwork.Contains(id)) Assert.Null(catalog.Find(id));
+            else Check(id);
         }
-        Assert.Equal(71, catalog.Entries.Count);
+        Assert.Equal(72, catalog.Entries.Count);
         Assert.Null(catalog.Find("unknown-quest"));
         Assert.Equal(70, catalog.Find("emerald-dawn")!.Sprite);
         Assert.Equal(2, catalog.Find("wolfofwestwoodlands")!.Sprite);

@@ -40,6 +40,7 @@ public sealed record CharacterMemory
         get;
         init;
     } = [];
+    public LegendMarkEntry[] LegendEntries { get; init; } = [];
     public DateTimeOffset? LegendsObservedAt
     {
         get;
@@ -157,6 +158,7 @@ public sealed class FileCharacterMemory(string directory, string serverProfile)
                 next = next with
                 {
                     Legends = snapshot.Legends.ToArray(),
+                    LegendEntries = snapshot.LegendEntries.Select(e => e.Text).SequenceEqual(snapshot.Legends) ? snapshot.LegendEntries.ToArray() : [],
                     LegendsObservedAt = DateTimeOffset.UtcNow
                 };
             if (next != saved)

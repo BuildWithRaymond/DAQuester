@@ -428,7 +428,7 @@ The bridge supplies its own observed dialog for `choose`, `next`, `close`,
 prices or identifiers.
 
 Sources: [DesktopRuntime.Control.cs](../src/DAQuester.App/Services/DesktopRuntime.Control.cs),
-[Contracts.cs](../src/DAQuester.Core/Contracts.cs),
+[GameContracts.cs](../src/DAQuester.Core/GameContracts.cs),
 [GameSession.Discovery.cs](../src/DAQuester.DarkAges/GameSession.Discovery.cs).
 
 ## 8. Dialog identity and bounded reading
@@ -530,7 +530,7 @@ committed before further transactions.
 
 Sources: [GameSession.Discovery.cs](../src/DAQuester.DarkAges/GameSession.Discovery.cs),
 [GameSession.EquipmentRemoval.cs](../src/DAQuester.DarkAges/GameSession.EquipmentRemoval.cs),
-[GameSession.cs](../src/DAQuester.DarkAges/GameSession.cs).
+[GameSession.Interaction.cs](../src/DAQuester.DarkAges/GameSession.Interaction.cs).
 
 ## 10. Maps, travel, and movement
 
@@ -1059,7 +1059,7 @@ No build, real-character test, or packaging change was needed for this document.
 | Owned launch/login | [DesktopRuntime.Launch.cs](../src/DAQuester.App/Services/DesktopRuntime.Launch.cs), [Launcher](../src/DAQuester.DarkAges/Launcher/) |
 | Game transport | [ProxyHost.cs](../src/DAQuester.DarkAges/Transport/ProxyHost.cs), [ProxyConnection.cs](../src/DAQuester.DarkAges/Transport/ProxyConnection.cs) |
 | State/message parsing | [StateTracker.cs](../src/DAQuester.DarkAges/Protocol/StateTracker.cs), [Protocol](../src/DAQuester.DarkAges/Protocol/) |
-| Commands/waits | [GameSession.cs](../src/DAQuester.DarkAges/GameSession.cs), [GameSession.Discovery.cs](../src/DAQuester.DarkAges/GameSession.Discovery.cs) |
+| Commands/waits | [GameSession.Commands.cs](../src/DAQuester.DarkAges/GameSession.Commands.cs), [GameSession.cs](../src/DAQuester.DarkAges/GameSession.cs), [GameSession.Discovery.cs](../src/DAQuester.DarkAges/GameSession.Discovery.cs) |
 | Dialog batch reader | [GameSession.DialogueDiscovery.cs](../src/DAQuester.DarkAges/GameSession.DialogueDiscovery.cs) |
 | Guarded removal | [GameSession.EquipmentRemoval.cs](../src/DAQuester.DarkAges/GameSession.EquipmentRemoval.cs) |
 | Maps and route planning | [Navigation](../src/DAQuester.DarkAges/Navigation/), [routes.json](../content/routes.json) |

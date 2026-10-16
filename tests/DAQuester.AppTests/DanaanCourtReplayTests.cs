@@ -8,6 +8,33 @@ namespace DAQuester.AppTests;
 public class DanaanCourtReplayTests
 {
     [Fact]
+    public async Task Greim_projection_preserves_decay_debit_trance_and_actual_landing()
+    {
+        var root = new DirectoryInfo(AppContext.BaseDirectory);
+        while (root is not null && !Directory.Exists(Path.Combine(root.FullName, "content", "evidence"))) root = root.Parent;
+        Assert.NotNull(root);
+        using var capture = JsonDocument.Parse(await File.ReadAllTextAsync(Path.Combine(root.FullName,
+            "content/evidence/datester-7.41/danaan-greim-rotten-apple.json")));
+        var job = capture.RootElement.GetProperty("Checkpoint").Deserialize<QuestJob>()!;
+        var states = capture.RootElement.GetProperty("Snapshots").Deserialize<CharacterSnapshot[]>()!;
+        var actions = capture.RootElement.GetProperty("Actions").Deserialize<RecordedJourneyAction[]>()!;
+        var path = Path.Combine(Path.GetTempPath(), "DAQuester-AppTests", Guid.NewGuid().ToString("N") + ".json");
+        Directory.CreateDirectory(Path.GetDirectoryName(path)!);
+        await File.WriteAllTextAsync(path, JsonSerializer.Serialize(new
+        {
+            SchemaVersion = 3, ServerProfile = "datester-7.41", Sanitized = true,
+            Events = states.Select(s => new { Character = s.Name, s.Generation, s.Revision, Direction = "S", Snapshot = s }), Actions = actions
+        }));
+        var receipts = await DanaanCourtReplay.ReadAsync(path, job.Character, job.Route!.Baseline!.Generation,
+            job.Route.Baseline.Revision, "datester-7.41", CancellationToken.None);
+        var landing = receipts.Snapshots.Single(s => s.Revision == 14430);
+        Assert.Equal(new Tile(14, 27), landing.Position);
+        Assert.Equal("Your mind swirls and you enter a trance", landing.ActiveStatus?.Text);
+        Assert.Equal(1, landing.Count("Rotten Apple"));
+        Assert.Equal(1, landing.Count("Mold"));
+    }
+
+    [Fact]
     public async Task Dreamer_return_projection_keeps_actual_map_and_landing_without_loading_bag_payloads()
     {
         var root = new DirectoryInfo(AppContext.BaseDirectory);

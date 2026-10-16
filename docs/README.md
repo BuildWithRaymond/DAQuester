@@ -13,6 +13,8 @@
 
 ## Working on DAQuester
 
+- [Codebase guide](codebase-guide.md): source ownership, execution paths, test fixtures, and content boundaries.
+- [Repository tools](../tools/README.md): build helpers and content authoring inputs/outputs.
 - [Architecture](architecture.md): application, quest engine, and game integration.
 - [Journey planning](journey-planning.md): ordered dependencies and execution boundaries.
 - [Journey forecasts](journey-forecast.md): resource fields, wait bounds, UI integration and examples.

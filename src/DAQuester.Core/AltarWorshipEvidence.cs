@@ -7,6 +7,7 @@ public static class AltarWorshipEvidence
 {
     public const string Id = "altar-worship", CatalogId = "altarworship", QuestName = "Altar Worship";
     public const string Legend = "Mileth Altar Worshipper", Torrance = "Torrance", Buy = "Buy", Shield = "Leather Shield";
+    public const string LegendClasses = "Priests, Bards and Master Priests";
     // Every offering is answered with this exact line (live 2026-10-12, Ferda).
     public const string Touch = "You feel a touch of light around you";
     public const int Goal = 10, ShopMap = 133, Map = 500, Reach = 3;
@@ -16,14 +17,15 @@ public static class AltarWorshipEvidence
     public static readonly TimeSpan Interval = TimeSpan.FromHours(3);
     public static readonly string[] Rings = ["Red Jade Ring", "Jade Ring", "Amethyst Ring"];
 
-    public static bool IsPriest(string? characterClass) => string.Equals(characterClass, "Priest", StringComparison.OrdinalIgnoreCase);
+    public static bool IsPriest(string? characterClass) => characterClass?.Trim() is { } name &&
+        (name.Equals("Priest", StringComparison.OrdinalIgnoreCase) || name.Equals("Bard", StringComparison.OrdinalIgnoreCase) || name.Equals("Master Priest", StringComparison.OrdinalIgnoreCase));
     public static int Made(QuestJob job) => job.AltarOfferings.Length;
     public static int RingCount(CharacterSnapshot s) => Rings.Sum(s.Count);
     public static DateTimeOffset? NextOffering(QuestJob job) => Made(job) is > 0 and < Goal ? job.AltarOfferings[^1].At + Interval : null;
     public static string? Mark(IEnumerable<string> legends) => legends.FirstOrDefault(l => l.Contains(Legend, StringComparison.OrdinalIgnoreCase));
     public static bool IsNotice(ServerNotice notice, int? map) => notice.Type == 3 && map == Map && (notice.Text == Touch || SickChildEvidence.Experience(notice.Text) is not null);
     public static bool InReach(Tile? position) => position is not null && Math.Abs(position.X - Altar.X) + Math.Abs(position.Y - Altar.Y) <= Reach;
-    public static string? NoMark(string character, string? characterClass) => characterClass is null || IsPriest(characterClass) ? null : character + " is a " + characterClass + " and won't get the legend mark. Only Priests earn \"" + Legend + "\".";
+    public static string? NoMark(string character, string? characterClass) => characterClass is null || IsPriest(characterClass) ? null : character + " is a " + characterClass + " and won't get the legend mark. Only " + LegendClasses + " earn \"" + Legend + "\".";
     public static string Rewards(string? characterClass) => IsPriest(characterClass) ? "\"" + Legend + "\", a Jade or Amethyst Ring and 100,000 experience" : "a Red Jade Ring and 50,000 experience";
 
     public static string Progress(QuestJob job)

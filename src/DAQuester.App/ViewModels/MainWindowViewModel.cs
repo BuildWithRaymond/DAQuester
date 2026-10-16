@@ -111,10 +111,12 @@ public sealed partial class MainWindowViewModel : ObservableObject
     public bool IsCharacters => Page == "Characters";
     public bool IsHistory => Page == "History";
     public bool IsScheduler => Page == "Scheduler";
+    public bool IsTasks => Page == "Tasks";
     public bool IsSettings => Page == "Settings";
     public string PageTitle => Page switch
     {
         "History" => "Run history",
+        "Tasks" => "Auto Tasks",
         _ => Page == "Planner" ? "Quest planner" : Page
     };
     public string PageSubtitle => Page switch
@@ -123,6 +125,7 @@ public sealed partial class MainWindowViewModel : ObservableObject
         "Characters" => "Every character. Their own journey.",
         "History" => "Verified outcomes and saved attempts.",
         "Scheduler" => "Log in, run a quest, log out. Completely optional.",
+        "Tasks" => "Useful work for your characters. Repeat on your terms.",
         "Settings" => "A companion that works your way.",
         _ => "Your quests. Your order. Your next adventure."
     };
@@ -169,14 +172,14 @@ public sealed partial class MainWindowViewModel : ObservableObject
                 && string.Equals(snapshot.Name, CharacterName, StringComparison.OrdinalIgnoreCase)
                 ? snapshot.Appearance : Runtime.Memory(CharacterName).Appearance;
             BodySprite? body = appearance is null ? null : (BodySprite)appearance.Body;
-            return library.Where(q => q.Id switch
+            return library.Where(q => (!Runtime.Recipes.TryGetValue(q.RecipeId, out var recipe) || QuestVisibleForCharacter(recipe)) && (q.Id switch
             {
                 "capofdanaan" => body is BodySprite.Male or BodySprite.MaleGhost or BodySprite.MaleInvisible
                     or BodySprite.MaleJester or BodySprite.MaleHead or BodySprite.MaleBlank,
                 "bandofdanaan" => body is BodySprite.Female or BodySprite.FemaleGhost or BodySprite.FemaleInvisible
                     or BodySprite.FemaleHead or BodySprite.FemaleBlank,
                 _ => true
-            });
+            }));
         }
     }
     IEnumerable<QuestItemVM> LegendFilteredLibrary => CharacterFilteredLibrary.Where(q => !LegendMarksOnly || q.HasLegendReward);
@@ -184,7 +187,9 @@ public sealed partial class MainWindowViewModel : ObservableObject
     public int AvailableCount => LegendFilteredLibrary.Count(q => q.QueueEligible);
     public int CompletedCount => LegendFilteredLibrary.Count(q => q.IsCompleted);
     public int GuidesCount => LegendFilteredLibrary.Count(q => q.IsGuideOnly);
-    public string LibrarySummary => $"{Quests.Count} of {AllCount} quests{(LegendMarksOnly ? " with legend marks" : "")} · {Runtime.Recipes.Count} automatic journeys";
+    bool QuestVisibleForCharacter(QuestDefinition recipe) => !recipe.IsTask || recipe.QuestClasses.Any(c =>
+        string.Equals(c, Runtime.CharacterClass(CharacterName)?.Trim(), StringComparison.OrdinalIgnoreCase));
+    public string LibrarySummary => $"{Quests.Count} of {AllCount} quests{(LegendMarksOnly ? " with legend marks" : "")} · {Runtime.Recipes.Values.Count(QuestVisibleForCharacter)} automatic journeys";
     public string LibrarySelectionHint => QueueLocked ? "Stop this run before editing the queue. Select any row to read its details."
         : CharacterName.Length == 0 ? "Add a character to plan a queue. Select any row to read its details."
         : "Check a box to add or remove a quest. Select a row to read its details.";
@@ -311,6 +316,7 @@ public sealed partial class MainWindowViewModel : ObservableObject
         Runtime = runtime;
         Presentation = runtime.CapturePresentation();
         this.forecastClock = forecastClock ?? (() => DateTimeOffset.UtcNow);
+        InitializeTasks();
         InitializeDashboard();
         clientPath = runtime.Settings.ClientPath;
         automaticUpdateChecks = runtime.Settings.AutomaticUpdateChecks;
@@ -429,6 +435,7 @@ public sealed partial class MainWindowViewModel : ObservableObject
             var recipe = Get("id") is "capofdanaan" or "bandofdanaan" ? Runtime.Recipes.GetValueOrDefault(DanaanEvidence.Id)
                 : Runtime.Recipes.Values.FirstOrDefault(r => r.Name.Equals(name, StringComparison.OrdinalIgnoreCase));
             var (description, region) = Details(recipe?.Id);
+            if (recipe?.IsTask == true && recipe.QuestClasses.Length == 0) continue;
             bool givesLegend = q.TryGetProperty("givesLegend", out var legend) && legend.ValueKind == JsonValueKind.True;
             library.Add(new(this, Get("id"), recipe?.Id ?? "", name, Get("rewards"), Get("requiredItems"), Get("level"), Get("source"), description, region, givesLegend, Get("legendEvidence")));
         }
@@ -483,6 +490,8 @@ public sealed partial class MainWindowViewModel : ObservableObject
                 quest.Refresh(CharacterName, queue);
             if (selectedQuest is { Id: "capofdanaan" or "bandofdanaan" } && !CharacterFilteredLibrary.Contains(selectedQuest))
                 SelectedQuest = CharacterFilteredLibrary.FirstOrDefault(q => q.RecipeId == DanaanEvidence.Id);
+            if (selectedQuest?.RecipeId == AltarWorshipEvidence.Id && !CharacterFilteredLibrary.Contains(selectedQuest))
+                SelectedQuest = CharacterFilteredLibrary.FirstOrDefault();
             var visible = LegendFilteredLibrary.Where(q => (Search.Length == 0 || string.Join(' ', q.Name, q.Rewards, q.Requirements, q.Level, q.Reason).Contains(Search, StringComparison.OrdinalIgnoreCase)) && (Filter switch
             {
                 "Available" => q.QueueEligible,
@@ -500,6 +509,7 @@ public sealed partial class MainWindowViewModel : ObservableObject
             Sync(QueueItems, rows);
             RefreshHistory();
             RefreshDashboard();
+            RefreshTasks();
             WarmArtwork();
             RaiseAll();
             foreach (var command in commands)

@@ -1,0 +1,31 @@
+<Window xmlns="https://github.com/avaloniaui" xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:controls="using:DAQuester.App.Controls" x:Class="DAQuester.App.Views.LegendMarksDialog" x:CompileBindings="False"
+        Title="{Binding DisplayName,StringFormat='Legend marks · {0}'}" Width="680" Height="480" MinWidth="480" MinHeight="300" WindowStartupLocation="CenterOwner">
+  <Grid Margin="24" RowDefinitions="Auto,*,Auto" RowSpacing="18">
+    <Grid ColumnDefinitions="*,Auto" ColumnSpacing="16">
+      <StackPanel Spacing="5">
+        <TextBlock Text="Legend marks" Classes="heading"/>
+        <TextBlock Name="legendCharacter" Text="{Binding DisplayName}" Classes="gold" FontWeight="SemiBold"/>
+      </StackPanel>
+      <TextBlock Grid.Column="1" Text="{Binding LegendSummary}" Classes="caption" VerticalAlignment="Bottom"/>
+    </Grid>
+    <Border Grid.Row="1" Background="{DynamicResource Surface}" BorderBrush="{DynamicResource Line}" BorderThickness="1" CornerRadius="6" Padding="12">
+      <Grid>
+        <TextBlock Name="legendEmpty" Text="{Binding LegendEmptyText}" Classes="muted" TextWrapping="Wrap" Margin="4" IsVisible="{Binding !HasLegendMarks}"/>
+        <ScrollViewer Name="legendScroll" HorizontalScrollBarVisibility="Disabled" VerticalScrollBarVisibility="Auto" IsVisible="{Binding HasLegendMarks}">
+          <ItemsControl Name="legendRows" ItemsSource="{Binding LegendRows}" Margin="0,0,8,0">
+            <ItemsControl.ItemTemplate>
+              <DataTemplate>
+                <Grid ColumnDefinitions="17,*" ColumnSpacing="8" Margin="0,2">
+                  <controls:LegendMarkGlyph Icon="{Binding Icon}" GameDirectory="{Binding GameDirectory}" IsVisible="{Binding HasIcon}" VerticalAlignment="Top" Margin="0,1,0,0"/>
+                  <TextBlock Grid.Column="1" Text="{Binding Text}" FontSize="13" LineHeight="18" TextWrapping="Wrap"/>
+                </Grid>
+              </DataTemplate>
+            </ItemsControl.ItemTemplate>
+          </ItemsControl>
+        </ScrollViewer>
+      </Grid>
+    </Border>
+    <Button Grid.Row="2" Name="legendClose" Content="Close" Click="CloseClick" IsCancel="True" IsDefault="True" MinWidth="95" HorizontalAlignment="Right"/>
+  </Grid>
+</Window>

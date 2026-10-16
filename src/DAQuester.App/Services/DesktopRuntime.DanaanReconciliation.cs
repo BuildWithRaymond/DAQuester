@@ -7,8 +7,14 @@ public sealed partial class DesktopRuntime
 {
     async Task RestoreDanaanReplayAsync(QuestRunner runner, CancellationToken cancellation)
     {
-        if (runner.Job.Quest != DanaanEvidence.Id || runner.Job.Pending is not { } pending)
+        if (runner.Job.Quest != DanaanEvidence.Id)
             return;
+        if (DanaanRiteEvidence.IsCheckpoint(recipes[DanaanEvidence.Id], runner.Job))
+        {
+            await RestoreDanaanRiteAsync(runner, cancellation);
+            return;
+        }
+        if (runner.Job.Pending is not { } pending) return;
         if (pending.Kind == "observed-page:donnan-next-task" && runner.Job.Route is { Page: 0, LastReply.Text: DanaanDonnanRecovery.NotFinished })
         {
             await RestoreDonnanAssignmentAsync(runner, cancellation);
@@ -93,6 +99,52 @@ public sealed partial class DesktopRuntime
             }
         if (recovered)
             Log(character + ": " + runner.Job.Reason + "; no submission resent.");
+    }
+
+    async Task RestoreDanaanRiteAsync(QuestRunner runner, CancellationToken cancellation)
+    {
+        var baseline = runner.Job.Route!.Baseline!;
+        string character = runner.Job.Character;
+        var memory = recorder.JourneyReceipts(character, baseline.Generation, baseline.Revision);
+        var newerStates = memory.Snapshots.ToList();
+        var newerActions = memory.Actions.ToList();
+        if (Snapshot(character).Generation is var current && current > baseline.Generation)
+        {
+            var fresh = recorder.JourneyReceipts(character, current, 0);
+            newerStates.AddRange(fresh.Snapshots);
+            newerActions.AddRange(fresh.Actions);
+        }
+        if (await runner.ReconcileDanaanCourtAsync(newerStates, newerActions, cancellation)) return;
+        string directory = Path.Combine(AppSettings.DataPath, "replays");
+        if (!Directory.Exists(directory)) return;
+        foreach (var file in Directory.EnumerateFiles(directory, "*.json").OrderByDescending(File.GetLastWriteTimeUtc))
+        {
+            cancellation.ThrowIfCancellationRequested();
+            (CharacterSnapshot[] Snapshots, RecordedJourneyAction[] Actions) receipts;
+            try
+            {
+                receipts = await DanaanCourtReplay.ReadAsync(file, character, baseline.Generation,
+                    baseline.Revision, Settings.ServerProfile, cancellation);
+            }
+            catch (Exception e) when (e is IOException or UnauthorizedAccessException or JsonException)
+            {
+                Log("Saved Greim replay could not be read: " + Path.GetFileName(file) + " (" + e.Message + ")");
+                continue;
+            }
+            var preview = DanaanRiteEvidence.Reconcile(runner.Job, recipes[DanaanEvidence.Id], receipts.Snapshots, receipts.Actions);
+            if (preview.RiteRecovery is { } proof && DanaanRiteEvidence.ConflictsWithLaterProgress(runner.Job, proof, newerStates, newerActions))
+            {
+                Log(character + ": newer replay progress conflicts with Greim recovery; saved stage preserved.");
+                return;
+            }
+            if (await runner.ReconcileDanaanCourtAsync(receipts.Snapshots, receipts.Actions, cancellation))
+            {
+                Log(character + ": " + runner.Job.Reason + "; no submission resent.");
+                return;
+            }
+            newerStates.AddRange(receipts.Snapshots);
+            newerActions.AddRange(receipts.Actions);
+        }
     }
 
     async Task RestoreDonnanAssignmentAsync(QuestRunner runner, CancellationToken cancellation)

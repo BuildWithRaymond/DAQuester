@@ -27,6 +27,7 @@ public partial class App : Application
             var vm = new MainWindowViewModel(runtime);
             var window = new MainWindow(vm);
             desktop.MainWindow = window;
+            runtime.ChooseActivityRunAsync = (character, quest, job) => ActivityRunDialog.ShowAsync(window, runtime, character, quest, job);
             runtime.ChooseQuestAsync = async (character, quest, job, error) =>
             {
                 var result = await QuestChoiceDialog.ShowChoiceAsync(window, character, quest, job, error, DAQuester.Core.SickChildEvidence.For(quest.Id) is not null ? runtime.SickChildChoice(character, quest.Id) : null, runtime.CharacterClass(character));

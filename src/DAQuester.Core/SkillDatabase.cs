@@ -31,7 +31,18 @@ public enum DamageTier
     HpScaled
 }
 
-public sealed record SkillMeta(string Name, SkillCategory Category, DamageTier Damage, int Range = 1, bool RequiresAxisAlign = false, bool RequiresLowHp = false, bool CostsHp = false, bool IsNumbered = false, bool UsesArrowItem = false, string? Notes = null, bool NotWithBow = false);
+public sealed record SkillMeta(
+    string Name,
+    SkillCategory Category,
+    DamageTier Damage,
+    int Range = 1,
+    bool RequiresAxisAlign = false,
+    bool RequiresLowHp = false,
+    bool CostsHp = false,
+    bool IsNumbered = false,
+    bool UsesArrowItem = false,
+    string? Notes = null,
+    bool NotWithBow = false);
 
 // Ported from Talos Redux; data from vorlof.com skill tables and in-game observation.
 public static class SkillDatabase

@@ -1,0 +1,32 @@
+{
+  "Title": "Wizardry research opening and ready choice",
+  "ServerProfile": "datester-7.41",
+  "EvidenceType": "Observed read-only current dialog and saved checkpoint; generation and entity identity normalized",
+  "Limits": [
+    "Only this opening and its offered choices were observed; no choice was submitted during inspection.",
+    "The server spells wizardry with an r in both the paragraph and ready choice.",
+    "Later research pages, results and deposits are not established by this excerpt."
+  ],
+  "Map": 401,
+  "Dialog": {
+    "Generation": 1,
+    "Revision": 50,
+    "EntityId": 77,
+    "EntityType": 4,
+    "Name": "",
+    "Text": "Do you need help before beginning your wizardry research? If you don't know about research you should seek help, and thereby make sure you bring your ingredients, reagents, or other materia.",
+    "IsPursuit": true,
+    "Pursuit": 315,
+    "Step": 19,
+    "Type": 2,
+    "Choices": [
+      { "Text": "No, I am ready to begin wizardry research", "Pursuit": 315, "Option": 1 },
+      { "Text": "Help", "Pursuit": 315, "Option": 2 },
+      { "Text": "I don't want to research", "Pursuit": 315, "Option": 3 }
+    ],
+    "Prompt": null,
+    "HasNext": true,
+    "ObservedAt": "2026-10-15T09:42:47.5841471+00:00",
+    "Items": []
+  }
+}

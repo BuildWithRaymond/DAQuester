@@ -3,6 +3,10 @@ using System.Collections.Immutable;
 namespace DAQuester.Core;
 
 public record Tile(int X, int Y);
+
+// Own profile presentation metadata; quest evidence continues to use Legends.
+public sealed record LegendMarkEntry(string Text, byte Icon);
+
 public record Item(byte Slot, string Name, uint Quantity)
 {
     public bool Stackable
@@ -14,6 +18,7 @@ public record Item(byte Slot, string Name, uint Quantity)
         get; init;
     }
 }
+
 public enum EligibilityKind
 {
     Eligible,
@@ -22,8 +27,10 @@ public enum EligibilityKind
 }
 
 public record Eligibility(EligibilityKind Kind, string Reason);
+
 // Presentation observations only; these never establish quest completion or rewards.
 public sealed record CharacterFeedback(long Generation, long Revision, string Kind, uint Value, DateTimeOffset At);
+
 public record CharacterSnapshot
 {
     // Current server status is diagnostic context, not automatic quest evidence.
@@ -150,6 +157,7 @@ public record CharacterSnapshot
     public ImmutableDictionary<byte, string> Skills { get; init; } = ImmutableDictionary<byte, string>.Empty;
     public ImmutableDictionary<byte, string> Spells { get; init; } = ImmutableDictionary<byte, string>.Empty;
     public ImmutableArray<string> Legends { get; init; } = [];
+    public ImmutableArray<LegendMarkEntry> LegendEntries { get; init; } = [];
     public bool LegendsKnown
     {
         get; init;
@@ -222,6 +230,7 @@ public record CharacterSnapshot
 
 // Party 0 is this character, 1 the trade partner (live 2026-10-11).
 public record ExchangeItem(byte Party, string Name);
+
 public record Exchange(long Generation, long Revision, uint PartnerId, string PartnerName)
 {
     public ImmutableArray<ExchangeItem> Items { get; init; } = [];
@@ -252,6 +261,7 @@ public record Exchange(long Generation, long Revision, uint PartnerId, string Pa
 }
 
 public record ServerNotice(long Generation, long Revision, byte Type, string Text, DateTimeOffset ObservedAt);
+
 public record Entity(uint Id, string Name, Tile Position, bool Blocks)
 {
     public bool IsPlayer
@@ -282,17 +292,34 @@ public record Entity(uint Id, string Name, Tile Position, bool Blocks)
     public byte HealthPercent { get; init; } = 100;
 }
 
-// A skill's last server cooldown (0x3F); it stays recorded after it runs out, as the skill's known length.
 public record CharacterStats(byte Str, byte Int, byte Wis, byte Con, byte Dex, byte Unspent);
+
+// A skill's last server cooldown (0x3F); it stays recorded after it runs out, as the skill's known length.
 public record SkillCooldown(DateTimeOffset Started, double Seconds)
 {
     public bool Over(DateTimeOffset now) => now >= Started.AddSeconds(Seconds);
 }
 
 public record GroundItem(uint Id, ushort Sprite, Tile Position);
+
 public record DialogChoice(string Text, ushort Pursuit, byte Option);
+
 public record ShopItem(string Name, uint Price);
-public record Dialog(long Generation, long Revision, uint EntityId, byte EntityType, string Name, string Text, bool IsPursuit, ushort Pursuit, ushort Step, byte Type, ImmutableArray<DialogChoice> Choices, string? Prompt = null, bool HasNext = false)
+
+public record Dialog(
+    long Generation,
+    long Revision,
+    uint EntityId,
+    byte EntityType,
+    string Name,
+    string Text,
+    bool IsPursuit,
+    ushort Pursuit,
+    ushort Step,
+    byte Type,
+    ImmutableArray<DialogChoice> Choices,
+    string? Prompt = null,
+    bool HasNext = false)
 {
     public DateTimeOffset? ObservedAt
     {

@@ -1,0 +1,1373 @@
+{
+  "Title": "Greim supplied-Mold rite consumes a carried Rotten Apple",
+  "ServerProfile": "datester-7.41",
+  "EvidenceType": "Observed submitted actions and restricted own server snapshots; actor and generation normalized; no synthetic outcomes",
+  "Limits": [
+    "One carried Rotten Apple was consumed while Mold and Rotten Grapes stayed unchanged.",
+    "No evidence for other decay items, selection priority, or rite without carrying Mold.",
+    "No Dreamer dialogue or final Danaan reward observed in this excerpt."
+  ],
+  "Checkpoint": {
+    "Character": "ResearchActor",
+    "Quest": "cap-band-of-danaan",
+    "Step": "run",
+    "Status": "Paused",
+    "Reason": "Server evidence timeout.",
+    "JourneyVariant": "loures-court",
+    "DanaanOptions": {
+      "Avatar": "cail",
+      "SuppliedMoldRiteAccepted": true
+    },
+    "Route": {
+      "Task": 14,
+      "Page": 9,
+      "Baseline": {
+        "Kind": "observed-stage",
+        "Generation": 1,
+        "Revision": 14417,
+        "Gold": 1794709,
+        "Branches": 0,
+        "Experience": 407846043,
+        "Started": "2026-10-15T05:57:27.043188+00:00",
+        "InventoryBaselineKnown": true,
+        "InventoryCounts": {
+          "Mold": 1,
+          "Rotten Apple": 2,
+          "Rotten Grapes": 1
+        }
+      },
+      "BoundGeneration": 1,
+      "BoundEntity": 6617,
+      "LastReply": {
+        "Generation": 1,
+        "Revision": 14427,
+        "EntityId": 6617,
+        "EntityType": 1,
+        "Name": "Greim",
+        "Text": "Very well.",
+        "IsPursuit": true,
+        "Pursuit": 1108,
+        "Step": 49,
+        "Type": 0,
+        "Choices": [],
+        "Prompt": null,
+        "HasNext": true,
+        "ObservedAt": "2026-10-15T05:57:31.0462936+00:00",
+        "Items": []
+      }
+    }
+  },
+  "Actions": [
+    {
+      "Character": "ResearchActor",
+      "Generation": 1,
+      "Revision": 14417,
+      "Kind": "choose",
+      "Selection": "Greim, talk to the dead",
+      "Dialog": {
+        "Generation": 1,
+        "Revision": 14417,
+        "EntityId": 6617,
+        "EntityType": 1,
+        "Name": "Greim",
+        "Text": "Hello.  What can I do for you?",
+        "IsPursuit": false,
+        "Pursuit": 0,
+        "Step": 0,
+        "Type": 0,
+        "Choices": [
+          {
+            "Text": "Sgrios Fellowship",
+            "Pursuit": 1555,
+            "Option": 1
+          },
+          {
+            "Text": "Sgrios Prayer",
+            "Pursuit": 1573,
+            "Option": 2
+          },
+          {
+            "Text": "Sgrios Consecration",
+            "Pursuit": 1558,
+            "Option": 3
+          },
+          {
+            "Text": "Sgrios Desecration",
+            "Pursuit": 1559,
+            "Option": 4
+          },
+          {
+            "Text": "Sgrios Degree",
+            "Pursuit": 1556,
+            "Option": 5
+          },
+          {
+            "Text": "Sgrios Order",
+            "Pursuit": 1557,
+            "Option": 6
+          },
+          {
+            "Text": "Announce Mass",
+            "Pursuit": 3183,
+            "Option": 7
+          },
+          {
+            "Text": "Gods",
+            "Pursuit": 1217,
+            "Option": 8
+          },
+          {
+            "Text": "Greim, talk to the dead",
+            "Pursuit": 2132,
+            "Option": 9
+          },
+          {
+            "Text": "Bonus Mass Reward",
+            "Pursuit": 2912,
+            "Option": 10
+          }
+        ],
+        "Prompt": null,
+        "HasNext": false,
+        "ObservedAt": "2026-10-15T05:57:27.0429423+00:00",
+        "Items": []
+      }
+    },
+    {
+      "Character": "ResearchActor",
+      "Generation": 1,
+      "Revision": 14418,
+      "Kind": "choose",
+      "Selection": "I must speak to one who has left this land.",
+      "Dialog": {
+        "Generation": 1,
+        "Revision": 14418,
+        "EntityId": 6617,
+        "EntityType": 1,
+        "Name": "Greim",
+        "Text": "What do you need?",
+        "IsPursuit": true,
+        "Pursuit": 1108,
+        "Step": 3,
+        "Type": 2,
+        "Choices": [
+          {
+            "Text": "I must speak to one who has left this land.",
+            "Pursuit": 1108,
+            "Option": 1
+          }
+        ],
+        "Prompt": null,
+        "HasNext": true,
+        "ObservedAt": "2026-10-15T05:57:27.5411628+00:00",
+        "Items": []
+      }
+    },
+    {
+      "Character": "ResearchActor",
+      "Generation": 1,
+      "Revision": 14419,
+      "Kind": "next",
+      "Selection": null,
+      "Dialog": {
+        "Generation": 1,
+        "Revision": 14419,
+        "EntityId": 6617,
+        "EntityType": 1,
+        "Name": "Greim",
+        "Text": "Foolish mortal, dare you think it is so easily arranged? ",
+        "IsPursuit": true,
+        "Pursuit": 1108,
+        "Step": 7,
+        "Type": 0,
+        "Choices": [],
+        "Prompt": null,
+        "HasNext": true,
+        "ObservedAt": "2026-10-15T05:57:28.0417298+00:00",
+        "Items": []
+      }
+    },
+    {
+      "Character": "ResearchActor",
+      "Generation": 1,
+      "Revision": 14420,
+      "Kind": "choose",
+      "Selection": "What consequences?",
+      "Dialog": {
+        "Generation": 1,
+        "Revision": 14420,
+        "EntityId": 6617,
+        "EntityType": 1,
+        "Name": "Greim",
+        "Text": "One cannot tear open the fabric of realms without facing the consequences.",
+        "IsPursuit": true,
+        "Pursuit": 1108,
+        "Step": 8,
+        "Type": 2,
+        "Choices": [
+          {
+            "Text": "I prefer not to meddle with these things.",
+            "Pursuit": 1108,
+            "Option": 1
+          },
+          {
+            "Text": "What consequences?",
+            "Pursuit": 1108,
+            "Option": 2
+          }
+        ],
+        "Prompt": null,
+        "HasNext": true,
+        "ObservedAt": "2026-10-15T05:57:28.5434903+00:00",
+        "Items": []
+      }
+    },
+    {
+      "Character": "ResearchActor",
+      "Generation": 1,
+      "Revision": 14421,
+      "Kind": "next",
+      "Selection": null,
+      "Dialog": {
+        "Generation": 1,
+        "Revision": 14421,
+        "EntityId": 6617,
+        "EntityType": 1,
+        "Name": "Greim",
+        "Text": "An open rift such as that will not close until it has dragged enough energy into itself. ",
+        "IsPursuit": true,
+        "Pursuit": 1108,
+        "Step": 16,
+        "Type": 0,
+        "Choices": [],
+        "Prompt": null,
+        "HasNext": true,
+        "ObservedAt": "2026-10-15T05:57:29.0429638+00:00",
+        "Items": []
+      }
+    },
+    {
+      "Character": "ResearchActor",
+      "Generation": 1,
+      "Revision": 14422,
+      "Kind": "choose",
+      "Selection": "What is the proper care?",
+      "Dialog": {
+        "Generation": 1,
+        "Revision": 14422,
+        "EntityId": 6617,
+        "EntityType": 1,
+        "Name": "Greim",
+        "Text": "The soul blind enough to open it without proper care may be forever lost in its depth.",
+        "IsPursuit": true,
+        "Pursuit": 1108,
+        "Step": 17,
+        "Type": 2,
+        "Choices": [
+          {
+            "Text": "Forever? No, thanks",
+            "Pursuit": 1108,
+            "Option": 1
+          },
+          {
+            "Text": "What is the proper care?",
+            "Pursuit": 1108,
+            "Option": 2
+          }
+        ],
+        "Prompt": null,
+        "HasNext": true,
+        "ObservedAt": "2026-10-15T05:57:29.5418548+00:00",
+        "Items": []
+      }
+    },
+    {
+      "Character": "ResearchActor",
+      "Generation": 1,
+      "Revision": 14423,
+      "Kind": "next",
+      "Selection": null,
+      "Dialog": {
+        "Generation": 1,
+        "Revision": 14423,
+        "EntityId": 6617,
+        "EntityType": 1,
+        "Name": "Greim",
+        "Text": "In decay there is great energy - that is what I deal in. Bring me a token of that, and I might be able to close it for you. ",
+        "IsPursuit": true,
+        "Pursuit": 1108,
+        "Step": 25,
+        "Type": 0,
+        "Choices": [],
+        "Prompt": null,
+        "HasNext": true,
+        "ObservedAt": "2026-10-15T05:57:30.0453691+00:00",
+        "Items": []
+      }
+    },
+    {
+      "Character": "ResearchActor",
+      "Generation": 1,
+      "Revision": 14424,
+      "Kind": "choose",
+      "Selection": "I am willing to try.",
+      "Dialog": {
+        "Generation": 1,
+        "Revision": 14424,
+        "EntityId": 6617,
+        "EntityType": 1,
+        "Name": "Greim",
+        "Text": "If it is left open I may lose some fresh souls...and would have to find a way to replace them.",
+        "IsPursuit": true,
+        "Pursuit": 1108,
+        "Step": 26,
+        "Type": 2,
+        "Choices": [
+          {
+            "Text": "I changed my mind.",
+            "Pursuit": 1108,
+            "Option": 1
+          },
+          {
+            "Text": "I am willing to try.",
+            "Pursuit": 1108,
+            "Option": 2
+          }
+        ],
+        "Prompt": null,
+        "HasNext": true,
+        "ObservedAt": "2026-10-15T05:57:30.5441953+00:00",
+        "Items": []
+      }
+    },
+    {
+      "Character": "ResearchActor",
+      "Generation": 1,
+      "Revision": 14427,
+      "Kind": "next",
+      "Selection": null,
+      "Dialog": {
+        "Generation": 1,
+        "Revision": 14427,
+        "EntityId": 6617,
+        "EntityType": 1,
+        "Name": "Greim",
+        "Text": "Very well.",
+        "IsPursuit": true,
+        "Pursuit": 1108,
+        "Step": 49,
+        "Type": 0,
+        "Choices": [],
+        "Prompt": null,
+        "HasNext": true,
+        "ObservedAt": "2026-10-15T05:57:31.0462936+00:00",
+        "Items": []
+      }
+    }
+  ],
+  "Snapshots": [
+    {
+      "Name": "ResearchActor",
+      "Connected": true,
+      "Generation": 1,
+      "Revision": 14417,
+      "Map": 3018,
+      "Position": {
+        "X": 12,
+        "Y": 4
+      },
+      "Gold": 1794709,
+      "Experience": 407846043,
+      "InventoryKnown": true,
+      "Inventory": {
+        "1": {
+          "Slot": 1,
+          "Name": "Rotten Grapes",
+          "Quantity": 1
+        },
+        "2": {
+          "Slot": 2,
+          "Name": "Rotten Apple",
+          "Quantity": 2
+        },
+        "3": {
+          "Slot": 3,
+          "Name": "Mold",
+          "Quantity": 1
+        }
+      },
+      "Dialog": {
+        "Generation": 1,
+        "Revision": 14417,
+        "EntityId": 6617,
+        "EntityType": 1,
+        "Name": "Greim",
+        "Text": "Hello.  What can I do for you?",
+        "IsPursuit": false,
+        "Pursuit": 0,
+        "Step": 0,
+        "Type": 0,
+        "Choices": [
+          {
+            "Text": "Sgrios Fellowship",
+            "Pursuit": 1555,
+            "Option": 1
+          },
+          {
+            "Text": "Sgrios Prayer",
+            "Pursuit": 1573,
+            "Option": 2
+          },
+          {
+            "Text": "Sgrios Consecration",
+            "Pursuit": 1558,
+            "Option": 3
+          },
+          {
+            "Text": "Sgrios Desecration",
+            "Pursuit": 1559,
+            "Option": 4
+          },
+          {
+            "Text": "Sgrios Degree",
+            "Pursuit": 1556,
+            "Option": 5
+          },
+          {
+            "Text": "Sgrios Order",
+            "Pursuit": 1557,
+            "Option": 6
+          },
+          {
+            "Text": "Announce Mass",
+            "Pursuit": 3183,
+            "Option": 7
+          },
+          {
+            "Text": "Gods",
+            "Pursuit": 1217,
+            "Option": 8
+          },
+          {
+            "Text": "Greim, talk to the dead",
+            "Pursuit": 2132,
+            "Option": 9
+          },
+          {
+            "Text": "Bonus Mass Reward",
+            "Pursuit": 2912,
+            "Option": 10
+          }
+        ],
+        "Prompt": null,
+        "HasNext": false,
+        "ObservedAt": "2026-10-15T05:57:27.0429423+00:00",
+        "Items": []
+      },
+      "ActiveStatus": {
+        "Generation": 1,
+        "Revision": 14397,
+        "Type": 3,
+        "Text": "You enter the temple of Sgrios",
+        "ObservedAt": "2026-10-15T05:57:24.0452221+00:00"
+      }
+    },
+    {
+      "Name": "ResearchActor",
+      "Connected": true,
+      "Generation": 1,
+      "Revision": 14418,
+      "Map": 3018,
+      "Position": {
+        "X": 12,
+        "Y": 4
+      },
+      "Gold": 1794709,
+      "Experience": 407846043,
+      "InventoryKnown": true,
+      "Inventory": {
+        "1": {
+          "Slot": 1,
+          "Name": "Rotten Grapes",
+          "Quantity": 1
+        },
+        "2": {
+          "Slot": 2,
+          "Name": "Rotten Apple",
+          "Quantity": 2
+        },
+        "3": {
+          "Slot": 3,
+          "Name": "Mold",
+          "Quantity": 1
+        }
+      },
+      "Dialog": {
+        "Generation": 1,
+        "Revision": 14418,
+        "EntityId": 6617,
+        "EntityType": 1,
+        "Name": "Greim",
+        "Text": "What do you need?",
+        "IsPursuit": true,
+        "Pursuit": 1108,
+        "Step": 3,
+        "Type": 2,
+        "Choices": [
+          {
+            "Text": "I must speak to one who has left this land.",
+            "Pursuit": 1108,
+            "Option": 1
+          }
+        ],
+        "Prompt": null,
+        "HasNext": true,
+        "ObservedAt": "2026-10-15T05:57:27.5411628+00:00",
+        "Items": []
+      },
+      "ActiveStatus": {
+        "Generation": 1,
+        "Revision": 14397,
+        "Type": 3,
+        "Text": "You enter the temple of Sgrios",
+        "ObservedAt": "2026-10-15T05:57:24.0452221+00:00"
+      }
+    },
+    {
+      "Name": "ResearchActor",
+      "Connected": true,
+      "Generation": 1,
+      "Revision": 14419,
+      "Map": 3018,
+      "Position": {
+        "X": 12,
+        "Y": 4
+      },
+      "Gold": 1794709,
+      "Experience": 407846043,
+      "InventoryKnown": true,
+      "Inventory": {
+        "1": {
+          "Slot": 1,
+          "Name": "Rotten Grapes",
+          "Quantity": 1
+        },
+        "2": {
+          "Slot": 2,
+          "Name": "Rotten Apple",
+          "Quantity": 2
+        },
+        "3": {
+          "Slot": 3,
+          "Name": "Mold",
+          "Quantity": 1
+        }
+      },
+      "Dialog": {
+        "Generation": 1,
+        "Revision": 14419,
+        "EntityId": 6617,
+        "EntityType": 1,
+        "Name": "Greim",
+        "Text": "Foolish mortal, dare you think it is so easily arranged? ",
+        "IsPursuit": true,
+        "Pursuit": 1108,
+        "Step": 7,
+        "Type": 0,
+        "Choices": [],
+        "Prompt": null,
+        "HasNext": true,
+        "ObservedAt": "2026-10-15T05:57:28.0417298+00:00",
+        "Items": []
+      },
+      "ActiveStatus": {
+        "Generation": 1,
+        "Revision": 14397,
+        "Type": 3,
+        "Text": "You enter the temple of Sgrios",
+        "ObservedAt": "2026-10-15T05:57:24.0452221+00:00"
+      }
+    },
+    {
+      "Name": "ResearchActor",
+      "Connected": true,
+      "Generation": 1,
+      "Revision": 14420,
+      "Map": 3018,
+      "Position": {
+        "X": 12,
+        "Y": 4
+      },
+      "Gold": 1794709,
+      "Experience": 407846043,
+      "InventoryKnown": true,
+      "Inventory": {
+        "1": {
+          "Slot": 1,
+          "Name": "Rotten Grapes",
+          "Quantity": 1
+        },
+        "2": {
+          "Slot": 2,
+          "Name": "Rotten Apple",
+          "Quantity": 2
+        },
+        "3": {
+          "Slot": 3,
+          "Name": "Mold",
+          "Quantity": 1
+        }
+      },
+      "Dialog": {
+        "Generation": 1,
+        "Revision": 14420,
+        "EntityId": 6617,
+        "EntityType": 1,
+        "Name": "Greim",
+        "Text": "One cannot tear open the fabric of realms without facing the consequences.",
+        "IsPursuit": true,
+        "Pursuit": 1108,
+        "Step": 8,
+        "Type": 2,
+        "Choices": [
+          {
+            "Text": "I prefer not to meddle with these things.",
+            "Pursuit": 1108,
+            "Option": 1
+          },
+          {
+            "Text": "What consequences?",
+            "Pursuit": 1108,
+            "Option": 2
+          }
+        ],
+        "Prompt": null,
+        "HasNext": true,
+        "ObservedAt": "2026-10-15T05:57:28.5434903+00:00",
+        "Items": []
+      },
+      "ActiveStatus": {
+        "Generation": 1,
+        "Revision": 14397,
+        "Type": 3,
+        "Text": "You enter the temple of Sgrios",
+        "ObservedAt": "2026-10-15T05:57:24.0452221+00:00"
+      }
+    },
+    {
+      "Name": "ResearchActor",
+      "Connected": true,
+      "Generation": 1,
+      "Revision": 14421,
+      "Map": 3018,
+      "Position": {
+        "X": 12,
+        "Y": 4
+      },
+      "Gold": 1794709,
+      "Experience": 407846043,
+      "InventoryKnown": true,
+      "Inventory": {
+        "1": {
+          "Slot": 1,
+          "Name": "Rotten Grapes",
+          "Quantity": 1
+        },
+        "2": {
+          "Slot": 2,
+          "Name": "Rotten Apple",
+          "Quantity": 2
+        },
+        "3": {
+          "Slot": 3,
+          "Name": "Mold",
+          "Quantity": 1
+        }
+      },
+      "Dialog": {
+        "Generation": 1,
+        "Revision": 14421,
+        "EntityId": 6617,
+        "EntityType": 1,
+        "Name": "Greim",
+        "Text": "An open rift such as that will not close until it has dragged enough energy into itself. ",
+        "IsPursuit": true,
+        "Pursuit": 1108,
+        "Step": 16,
+        "Type": 0,
+        "Choices": [],
+        "Prompt": null,
+        "HasNext": true,
+        "ObservedAt": "2026-10-15T05:57:29.0429638+00:00",
+        "Items": []
+      },
+      "ActiveStatus": {
+        "Generation": 1,
+        "Revision": 14397,
+        "Type": 3,
+        "Text": "You enter the temple of Sgrios",
+        "ObservedAt": "2026-10-15T05:57:24.0452221+00:00"
+      }
+    },
+    {
+      "Name": "ResearchActor",
+      "Connected": true,
+      "Generation": 1,
+      "Revision": 14422,
+      "Map": 3018,
+      "Position": {
+        "X": 12,
+        "Y": 4
+      },
+      "Gold": 1794709,
+      "Experience": 407846043,
+      "InventoryKnown": true,
+      "Inventory": {
+        "1": {
+          "Slot": 1,
+          "Name": "Rotten Grapes",
+          "Quantity": 1
+        },
+        "2": {
+          "Slot": 2,
+          "Name": "Rotten Apple",
+          "Quantity": 2
+        },
+        "3": {
+          "Slot": 3,
+          "Name": "Mold",
+          "Quantity": 1
+        }
+      },
+      "Dialog": {
+        "Generation": 1,
+        "Revision": 14422,
+        "EntityId": 6617,
+        "EntityType": 1,
+        "Name": "Greim",
+        "Text": "The soul blind enough to open it without proper care may be forever lost in its depth.",
+        "IsPursuit": true,
+        "Pursuit": 1108,
+        "Step": 17,
+        "Type": 2,
+        "Choices": [
+          {
+            "Text": "Forever? No, thanks",
+            "Pursuit": 1108,
+            "Option": 1
+          },
+          {
+            "Text": "What is the proper care?",
+            "Pursuit": 1108,
+            "Option": 2
+          }
+        ],
+        "Prompt": null,
+        "HasNext": true,
+        "ObservedAt": "2026-10-15T05:57:29.5418548+00:00",
+        "Items": []
+      },
+      "ActiveStatus": {
+        "Generation": 1,
+        "Revision": 14397,
+        "Type": 3,
+        "Text": "You enter the temple of Sgrios",
+        "ObservedAt": "2026-10-15T05:57:24.0452221+00:00"
+      }
+    },
+    {
+      "Name": "ResearchActor",
+      "Connected": true,
+      "Generation": 1,
+      "Revision": 14423,
+      "Map": 3018,
+      "Position": {
+        "X": 12,
+        "Y": 4
+      },
+      "Gold": 1794709,
+      "Experience": 407846043,
+      "InventoryKnown": true,
+      "Inventory": {
+        "1": {
+          "Slot": 1,
+          "Name": "Rotten Grapes",
+          "Quantity": 1
+        },
+        "2": {
+          "Slot": 2,
+          "Name": "Rotten Apple",
+          "Quantity": 2
+        },
+        "3": {
+          "Slot": 3,
+          "Name": "Mold",
+          "Quantity": 1
+        }
+      },
+      "Dialog": {
+        "Generation": 1,
+        "Revision": 14423,
+        "EntityId": 6617,
+        "EntityType": 1,
+        "Name": "Greim",
+        "Text": "In decay there is great energy - that is what I deal in. Bring me a token of that, and I might be able to close it for you. ",
+        "IsPursuit": true,
+        "Pursuit": 1108,
+        "Step": 25,
+        "Type": 0,
+        "Choices": [],
+        "Prompt": null,
+        "HasNext": true,
+        "ObservedAt": "2026-10-15T05:57:30.0453691+00:00",
+        "Items": []
+      },
+      "ActiveStatus": {
+        "Generation": 1,
+        "Revision": 14397,
+        "Type": 3,
+        "Text": "You enter the temple of Sgrios",
+        "ObservedAt": "2026-10-15T05:57:24.0452221+00:00"
+      }
+    },
+    {
+      "Name": "ResearchActor",
+      "Connected": true,
+      "Generation": 1,
+      "Revision": 14424,
+      "Map": 3018,
+      "Position": {
+        "X": 12,
+        "Y": 4
+      },
+      "Gold": 1794709,
+      "Experience": 407846043,
+      "InventoryKnown": true,
+      "Inventory": {
+        "1": {
+          "Slot": 1,
+          "Name": "Rotten Grapes",
+          "Quantity": 1
+        },
+        "2": {
+          "Slot": 2,
+          "Name": "Rotten Apple",
+          "Quantity": 2
+        },
+        "3": {
+          "Slot": 3,
+          "Name": "Mold",
+          "Quantity": 1
+        }
+      },
+      "Dialog": {
+        "Generation": 1,
+        "Revision": 14424,
+        "EntityId": 6617,
+        "EntityType": 1,
+        "Name": "Greim",
+        "Text": "If it is left open I may lose some fresh souls...and would have to find a way to replace them.",
+        "IsPursuit": true,
+        "Pursuit": 1108,
+        "Step": 26,
+        "Type": 2,
+        "Choices": [
+          {
+            "Text": "I changed my mind.",
+            "Pursuit": 1108,
+            "Option": 1
+          },
+          {
+            "Text": "I am willing to try.",
+            "Pursuit": 1108,
+            "Option": 2
+          }
+        ],
+        "Prompt": null,
+        "HasNext": true,
+        "ObservedAt": "2026-10-15T05:57:30.5441953+00:00",
+        "Items": []
+      },
+      "ActiveStatus": {
+        "Generation": 1,
+        "Revision": 14397,
+        "Type": 3,
+        "Text": "You enter the temple of Sgrios",
+        "ObservedAt": "2026-10-15T05:57:24.0452221+00:00"
+      }
+    },
+    {
+      "Name": "ResearchActor",
+      "Connected": true,
+      "Generation": 1,
+      "Revision": 14425,
+      "Map": 3018,
+      "Position": {
+        "X": 12,
+        "Y": 4
+      },
+      "Gold": 1794709,
+      "Experience": 407846043,
+      "InventoryKnown": true,
+      "Inventory": {
+        "1": {
+          "Slot": 1,
+          "Name": "Rotten Grapes",
+          "Quantity": 1
+        },
+        "2": {
+          "Slot": 2,
+          "Name": "Rotten Apple",
+          "Quantity": 1
+        },
+        "3": {
+          "Slot": 3,
+          "Name": "Mold",
+          "Quantity": 1
+        }
+      },
+      "Dialog": {
+        "Generation": 1,
+        "Revision": 14424,
+        "EntityId": 6617,
+        "EntityType": 1,
+        "Name": "Greim",
+        "Text": "If it is left open I may lose some fresh souls...and would have to find a way to replace them.",
+        "IsPursuit": true,
+        "Pursuit": 1108,
+        "Step": 26,
+        "Type": 2,
+        "Choices": [
+          {
+            "Text": "I changed my mind.",
+            "Pursuit": 1108,
+            "Option": 1
+          },
+          {
+            "Text": "I am willing to try.",
+            "Pursuit": 1108,
+            "Option": 2
+          }
+        ],
+        "Prompt": null,
+        "HasNext": true,
+        "ObservedAt": "2026-10-15T05:57:30.5441953+00:00",
+        "Items": []
+      },
+      "ActiveStatus": {
+        "Generation": 1,
+        "Revision": 14397,
+        "Type": 3,
+        "Text": "You enter the temple of Sgrios",
+        "ObservedAt": "2026-10-15T05:57:24.0452221+00:00"
+      }
+    },
+    {
+      "Name": "ResearchActor",
+      "Connected": true,
+      "Generation": 1,
+      "Revision": 14426,
+      "Map": 3018,
+      "Position": {
+        "X": 12,
+        "Y": 4
+      },
+      "Gold": 1794709,
+      "Experience": 407846043,
+      "InventoryKnown": true,
+      "Inventory": {
+        "1": {
+          "Slot": 1,
+          "Name": "Rotten Grapes",
+          "Quantity": 1
+        },
+        "2": {
+          "Slot": 2,
+          "Name": "Rotten Apple",
+          "Quantity": 1
+        },
+        "3": {
+          "Slot": 3,
+          "Name": "Mold",
+          "Quantity": 1
+        }
+      },
+      "Dialog": {
+        "Generation": 1,
+        "Revision": 14424,
+        "EntityId": 6617,
+        "EntityType": 1,
+        "Name": "Greim",
+        "Text": "If it is left open I may lose some fresh souls...and would have to find a way to replace them.",
+        "IsPursuit": true,
+        "Pursuit": 1108,
+        "Step": 26,
+        "Type": 2,
+        "Choices": [
+          {
+            "Text": "I changed my mind.",
+            "Pursuit": 1108,
+            "Option": 1
+          },
+          {
+            "Text": "I am willing to try.",
+            "Pursuit": 1108,
+            "Option": 2
+          }
+        ],
+        "Prompt": null,
+        "HasNext": true,
+        "ObservedAt": "2026-10-15T05:57:30.5441953+00:00",
+        "Items": []
+      },
+      "ActiveStatus": {
+        "Generation": 1,
+        "Revision": 14397,
+        "Type": 3,
+        "Text": "You enter the temple of Sgrios",
+        "ObservedAt": "2026-10-15T05:57:24.0452221+00:00"
+      }
+    },
+    {
+      "Name": "ResearchActor",
+      "Connected": true,
+      "Generation": 1,
+      "Revision": 14427,
+      "Map": 3018,
+      "Position": {
+        "X": 12,
+        "Y": 4
+      },
+      "Gold": 1794709,
+      "Experience": 407846043,
+      "InventoryKnown": true,
+      "Inventory": {
+        "1": {
+          "Slot": 1,
+          "Name": "Rotten Grapes",
+          "Quantity": 1
+        },
+        "2": {
+          "Slot": 2,
+          "Name": "Rotten Apple",
+          "Quantity": 1
+        },
+        "3": {
+          "Slot": 3,
+          "Name": "Mold",
+          "Quantity": 1
+        }
+      },
+      "Dialog": {
+        "Generation": 1,
+        "Revision": 14427,
+        "EntityId": 6617,
+        "EntityType": 1,
+        "Name": "Greim",
+        "Text": "Very well.",
+        "IsPursuit": true,
+        "Pursuit": 1108,
+        "Step": 49,
+        "Type": 0,
+        "Choices": [],
+        "Prompt": null,
+        "HasNext": true,
+        "ObservedAt": "2026-10-15T05:57:31.0462936+00:00",
+        "Items": []
+      },
+      "ActiveStatus": {
+        "Generation": 1,
+        "Revision": 14397,
+        "Type": 3,
+        "Text": "You enter the temple of Sgrios",
+        "ObservedAt": "2026-10-15T05:57:24.0452221+00:00"
+      }
+    },
+    {
+      "Name": "ResearchActor",
+      "Connected": true,
+      "Generation": 1,
+      "Revision": 14428,
+      "Map": 3018,
+      "Position": {
+        "X": 12,
+        "Y": 4
+      },
+      "Gold": 1794709,
+      "Experience": 407846043,
+      "InventoryKnown": true,
+      "Inventory": {
+        "1": {
+          "Slot": 1,
+          "Name": "Rotten Grapes",
+          "Quantity": 1
+        },
+        "2": {
+          "Slot": 2,
+          "Name": "Rotten Apple",
+          "Quantity": 1
+        },
+        "3": {
+          "Slot": 3,
+          "Name": "Mold",
+          "Quantity": 1
+        }
+      },
+      "Dialog": {
+        "Generation": 1,
+        "Revision": 14427,
+        "EntityId": 6617,
+        "EntityType": 1,
+        "Name": "Greim",
+        "Text": "Very well.",
+        "IsPursuit": true,
+        "Pursuit": 1108,
+        "Step": 49,
+        "Type": 0,
+        "Choices": [],
+        "Prompt": null,
+        "HasNext": true,
+        "ObservedAt": "2026-10-15T05:57:31.0462936+00:00",
+        "Items": []
+      },
+      "ActiveStatus": {
+        "Generation": 1,
+        "Revision": 14428,
+        "Type": 3,
+        "Text": "Your mind swirls and you enter a trance",
+        "ObservedAt": "2026-10-15T05:57:31.5436536+00:00"
+      }
+    },
+    {
+      "Name": "ResearchActor",
+      "Connected": true,
+      "Generation": 1,
+      "Revision": 14429,
+      "Map": 720,
+      "Position": null,
+      "Gold": 1794709,
+      "Experience": 407846043,
+      "InventoryKnown": true,
+      "Inventory": {
+        "1": {
+          "Slot": 1,
+          "Name": "Rotten Grapes",
+          "Quantity": 1
+        },
+        "2": {
+          "Slot": 2,
+          "Name": "Rotten Apple",
+          "Quantity": 1
+        },
+        "3": {
+          "Slot": 3,
+          "Name": "Mold",
+          "Quantity": 1
+        }
+      },
+      "Dialog": null,
+      "ActiveStatus": {
+        "Generation": 1,
+        "Revision": 14428,
+        "Type": 3,
+        "Text": "Your mind swirls and you enter a trance",
+        "ObservedAt": "2026-10-15T05:57:31.5436536+00:00"
+      }
+    },
+    {
+      "Name": "ResearchActor",
+      "Connected": true,
+      "Generation": 1,
+      "Revision": 14430,
+      "Map": 720,
+      "Position": {
+        "X": 14,
+        "Y": 27
+      },
+      "Gold": 1794709,
+      "Experience": 407846043,
+      "InventoryKnown": true,
+      "Inventory": {
+        "1": {
+          "Slot": 1,
+          "Name": "Rotten Grapes",
+          "Quantity": 1
+        },
+        "2": {
+          "Slot": 2,
+          "Name": "Rotten Apple",
+          "Quantity": 1
+        },
+        "3": {
+          "Slot": 3,
+          "Name": "Mold",
+          "Quantity": 1
+        }
+      },
+      "Dialog": null,
+      "ActiveStatus": {
+        "Generation": 1,
+        "Revision": 14428,
+        "Type": 3,
+        "Text": "Your mind swirls and you enter a trance",
+        "ObservedAt": "2026-10-15T05:57:31.5436536+00:00"
+      }
+    },
+    {
+      "Name": "ResearchActor",
+      "Connected": true,
+      "Generation": 1,
+      "Revision": 14431,
+      "Map": 720,
+      "Position": {
+        "X": 14,
+        "Y": 27
+      },
+      "Gold": 1794709,
+      "Experience": 407846043,
+      "InventoryKnown": true,
+      "Inventory": {
+        "1": {
+          "Slot": 1,
+          "Name": "Rotten Grapes",
+          "Quantity": 1
+        },
+        "2": {
+          "Slot": 2,
+          "Name": "Rotten Apple",
+          "Quantity": 1
+        },
+        "3": {
+          "Slot": 3,
+          "Name": "Mold",
+          "Quantity": 1
+        }
+      },
+      "Dialog": null,
+      "ActiveStatus": {
+        "Generation": 1,
+        "Revision": 14428,
+        "Type": 3,
+        "Text": "Your mind swirls and you enter a trance",
+        "ObservedAt": "2026-10-15T05:57:31.5436536+00:00"
+      }
+    },
+    {
+      "Name": "ResearchActor",
+      "Connected": true,
+      "Generation": 1,
+      "Revision": 14432,
+      "Map": 720,
+      "Position": {
+        "X": 14,
+        "Y": 27
+      },
+      "Gold": 1794709,
+      "Experience": 407846043,
+      "InventoryKnown": true,
+      "Inventory": {
+        "1": {
+          "Slot": 1,
+          "Name": "Rotten Grapes",
+          "Quantity": 1
+        },
+        "2": {
+          "Slot": 2,
+          "Name": "Rotten Apple",
+          "Quantity": 1
+        },
+        "3": {
+          "Slot": 3,
+          "Name": "Mold",
+          "Quantity": 1
+        }
+      },
+      "Dialog": null,
+      "ActiveStatus": {
+        "Generation": 1,
+        "Revision": 14428,
+        "Type": 3,
+        "Text": "Your mind swirls and you enter a trance",
+        "ObservedAt": "2026-10-15T05:57:31.5436536+00:00"
+      }
+    },
+    {
+      "Name": "ResearchActor",
+      "Connected": true,
+      "Generation": 1,
+      "Revision": 14433,
+      "Map": 720,
+      "Position": {
+        "X": 14,
+        "Y": 27
+      },
+      "Gold": 1794709,
+      "Experience": 407846043,
+      "InventoryKnown": true,
+      "Inventory": {
+        "1": {
+          "Slot": 1,
+          "Name": "Rotten Grapes",
+          "Quantity": 1
+        },
+        "2": {
+          "Slot": 2,
+          "Name": "Rotten Apple",
+          "Quantity": 1
+        },
+        "3": {
+          "Slot": 3,
+          "Name": "Mold",
+          "Quantity": 1
+        }
+      },
+      "Dialog": null,
+      "ActiveStatus": {
+        "Generation": 1,
+        "Revision": 14428,
+        "Type": 3,
+        "Text": "Your mind swirls and you enter a trance",
+        "ObservedAt": "2026-10-15T05:57:31.5436536+00:00"
+      }
+    },
+    {
+      "Name": "ResearchActor",
+      "Connected": true,
+      "Generation": 1,
+      "Revision": 14451,
+      "Map": 720,
+      "Position": {
+        "X": 14,
+        "Y": 11
+      },
+      "Gold": 1794709,
+      "Experience": 407846043,
+      "InventoryKnown": true,
+      "Inventory": {
+        "1": {
+          "Slot": 1,
+          "Name": "Rotten Grapes",
+          "Quantity": 1
+        },
+        "2": {
+          "Slot": 2,
+          "Name": "Rotten Apple",
+          "Quantity": 1
+        },
+        "3": {
+          "Slot": 3,
+          "Name": "Mold",
+          "Quantity": 1
+        }
+      },
+      "Dialog": null,
+      "ActiveStatus": {
+        "Generation": 1,
+        "Revision": 14428,
+        "Type": 3,
+        "Text": "Your mind swirls and you enter a trance",
+        "ObservedAt": "2026-10-15T05:57:31.5436536+00:00"
+      }
+    }
+  ]
+}

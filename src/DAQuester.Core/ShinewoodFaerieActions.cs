@@ -38,7 +38,7 @@ public sealed class ShinewoodFaerieActions : IQuestAction
         if (c.Session.Snapshot.Class is null)
             await c.Session.ExecuteAsync(new("inspect-self"), ct);
         var goals = ShinewoodFaerieEvidence.Goals(c.Session.Snapshot, c.Job);
-        if (goals.Length > 0 || ShinewoodFaerieEvidence.InForest(c.Session.Snapshot.Map))
+        if (ShinewoodFaerieEvidence.NeedsEscape(c.Session.Snapshot, c.Job))
         {
             ShinewoodFaerieEvidence.RequireEscape(c.Session.Snapshot, c.Job);
             if (ShinewoodFaerieEvidence.Escape(c.Session.Snapshot) is null)
@@ -413,13 +413,16 @@ public sealed class ShinewoodFaerieActions : IQuestAction
                 throw new QuestBlockedException("Faerie acquisition is awaiting reconciliation before return.");
             if (!ShinewoodFaerieEvidence.SafeArrival(s))
                 throw new QuestBlockedException("Return arrival unconfirmed. Saved escape will not be repeated; Resume checks the actual landing.");
-            await Finish(c, t.Kind["faerie-return:".Length..]);
+            await SettleAndFinish(c, t.Kind["faerie-return:".Length..], ct);
             return;
         }
 
         if (ShinewoodFaerieEvidence.SafeArrival(s))
         {
-            await Finish(c, "Already in town");
+            if (s.Map == ShinewoodFaerieEvidence.SafeForestMap)
+                await SettleAndFinish(c, "Returned to Shinewood Forest 1", ct);
+            else
+                await Finish(c, "Already in town");
             return;
         }
 
@@ -449,7 +452,7 @@ public sealed class ShinewoodFaerieActions : IQuestAction
             }
 
             await c.Session.WaitAsync(ShinewoodFaerieEvidence.SafeArrival, s.Revision, Timeout, ct);
-            await Finish(c, escape.Name);
+            await SettleAndFinish(c, escape.Name, ct);
             return;
         }
 
@@ -462,31 +465,36 @@ public sealed class ShinewoodFaerieActions : IQuestAction
             var exit = ShinewoodFaerieEvidence.ReturnExits.SingleOrDefault(e => e.SourceMap == s.Map);
             if (exit is null)
             {
-                if (s.Map == 542)
+                if (s.Map == ShinewoodFaerieEvidence.SafeForestMap)
                     break;
                 throw new QuestBlockedException("No documented walking return from this Shinewood map.");
             }
 
             await c.SaveAsync(c.Job with
             {
-                Reason = "Walking out of Shinewood; town songs or dachaidh provide a faster escape"
+                Reason = "Returning to Shinewood Forest 1; town songs or dachaidh provide a faster escape"
             });
             await c.Session.ExecuteAsync(new("walk-exit", exit.Map, exit.From), ct);
             if (c.Session.Snapshot.Map != exit.Map || c.Session.Snapshot.Position is null)
                 throw new QuestBlockedException("Walking return requires the actual expected map and landing.");
         }
 
-        await c.Session.ExecuteAsync(new("navigate", 500, new(20, 20), PreservePopup: true), ct);
         if (!ShinewoodFaerieEvidence.SafeArrival(c.Session.Snapshot))
-            throw new QuestBlockedException("Walking return has not reached town.");
-        await Finish(c, "Walked back to Mileth");
+            throw new QuestBlockedException("Walking return has not reached Shinewood Forest 1 safely.");
+        await SettleAndFinish(c, "Walked back to Shinewood Forest 1", ct);
+    }
+
+    static async Task SettleAndFinish(QuestContext c, string method, CancellationToken ct)
+    {
+        await c.Session.ExecuteAsync(new("settle-faerie-return"), ct);
+        await Finish(c, method);
     }
 
     static Task Finish(QuestContext c, string method)
     {
         var s = c.Session.Snapshot;
         if (!ShinewoodFaerieEvidence.SafeArrival(s))
-            throw new QuestBlockedException("Verified town arrival required.");
+            throw new QuestBlockedException("Verified safe return required.");
         bool pet = Satisfied(c, ShinewoodFaerieEvidence.Pet);
         bool wait = c.Job.FaerieUnavailable.Contains(ShinewoodFaerieEvidence.Pet) && c.Job.FaeriePetWait is { } refusal && ShinewoodFaerieEvidence.PetWaitPage(refusal);
         if (!pet && !wait)

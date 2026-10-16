@@ -20,8 +20,7 @@ public record MapRecord(int Id, string Name, int Width, int Height, Portal[] Por
     [System.Text.Json.Serialization.JsonIgnore]
     public IEnumerable<Portal> Connections => Portals.Concat(NpcTransfers.Select(t => new Portal(t.Anchor, t.Map, t.PlanningArrival, NpcTransfer: t)));
 
-    public MapTransfer[] InternalTransfers { get;
-        init; } = [];
+    public MapTransfer[] InternalTransfers { get; init; } = [];
 
     [System.Text.Json.Serialization.JsonIgnore]
     public IEnumerable<Tile> ExitTiles => Portals.Select(p => p.From).Concat(ShinewoodFaerieEvidence.ReturnExits.Where(e => e.SourceMap == Id).Select(e => e.From)).Distinct();
