@@ -1745,3 +1745,14 @@ cached patch/library fingerprint checks and the synthetic fixture. Earlier
 native interface review at 1420 × 900 and 900 × 560 remains applicable: release
 preparation changes only version metadata, release documentation and this build
 host fix. No real character, player schedule or Excalibur process was operated.
+
+### Hosted x86 runtime follow-up
+
+The 1.5.0 tag's clean GitHub build and all 1,487 Core tests passed. The App
+suite could not start because the Windows runner had only an x86 .NET 9
+runtime; it reported no App test outcomes. Publication was correctly skipped.
+The 1.5.1 candidate makes the win-x86 App test host self-contained, removing
+the dependency on a global x86 .NET 10 installation. Product source is unchanged
+from the fully passing local 1.5.0 qualification above; only test runtime
+provisioning, version and release documentation change. The failed 1.5.0 tag is
+preserved and no release assets were published for it.

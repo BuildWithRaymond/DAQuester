@@ -57,3 +57,8 @@ commits; test reports and verified packages are retained as CI artifacts.
 For a read-only live-feed check from a packaged app, run
 `DAQuester.exe --check-updates`. It writes `artifacts/update-check.json`, without
 opening Data or game listeners, downloading, or installing anything.
+
+The App test project is self-contained for win-x86 so its test host runs on a
+clean Windows runner with only the x64 .NET 10 SDK installed. This also supplies
+the runtime used by its actual x86 native fixture; no global x86 runtime install
+is required. Test runtime files remain outside application packages.
