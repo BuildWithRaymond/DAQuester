@@ -34,8 +34,10 @@ public class WindowingStartupTests
         {
             Assert.NotEqual(0u, native.LoadWindowing(library));
             native.Resume();
-            Assert.Equal(child.Id, await received.Task.WaitAsync(TimeSpan.FromSeconds(5)));
-            using var timeout = new CancellationTokenSource(TimeSpan.FromSeconds(10));
+            // Match the native fixture's bounded startup window, including the
+            // OS loader, graphics initialization and asynchronous pipe worker.
+            Assert.Equal(child.Id, await received.Task.WaitAsync(TimeSpan.FromSeconds(30)));
+            using var timeout = new CancellationTokenSource(TimeSpan.FromSeconds(30));
             await child.WaitForExitAsync(timeout.Token);
             Assert.Equal(0, child.ExitCode);
             Assert.True(File.Exists(Path.Combine(directory, "x-ui-parent-result.bin")));

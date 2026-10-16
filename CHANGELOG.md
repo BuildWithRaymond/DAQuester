@@ -2,11 +2,12 @@
 
 ## Unreleased
 
-## 1.5.1 — 2026-10-15
+## 1.5.2 — 2026-10-15
 
-The 1.5.0 candidate was not published: its GitHub runner lacked the x86 .NET 10
-runtime needed to start the App suite. The App test host now bundles that runtime,
-so clean Windows runners need only the x64 build SDK.
+The 1.5.0 and 1.5.1 candidates were not published. The App test host now bundles
+its x86 runtime so clean Windows runners need only the x64 build SDK. Full-journey
+and native-startup test watchdogs allow slower runner storage and initialization;
+game action timeouts and receipt requirements are unchanged.
 
 - Add Auto Tasks with search, category and status filters, task details, and
   controls for the selected character. Scheduling remains optional and off until

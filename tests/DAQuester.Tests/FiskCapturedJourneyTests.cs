@@ -252,7 +252,9 @@ public class FiskCapturedJourneyTests
             throw new InvalidOperationException("Unexpected synthetic action " + command.Kind + " at " + task);
         };
         runner = new(s, journal, recipe, new());
-        using var cancel = new CancellationTokenSource(TimeSpan.FromSeconds(10));
+        // This full journey flushes many durable checkpoints. Its watchdog is
+        // not a quest-timing assertion; allow slower hosted-runner storage.
+        using var cancel = new CancellationTokenSource(TimeSpan.FromMinutes(1));
         await runner.RunAsync(cancellation: cancel.Token);
         Assert.True(runner.Job.Status == "Completed", runner.Job.Reason);
         Assert.Equal(967400u, s.Snapshot.Gold);

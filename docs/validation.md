@@ -1756,3 +1756,28 @@ the dependency on a global x86 .NET 10 installation. Product source is unchanged
 from the fully passing local 1.5.0 qualification above; only test runtime
 provisioning, version and release documentation change. The failed 1.5.0 tag is
 preserved and no release assets were published for it.
+
+### Hosted journey watchdog follow-up
+
+Both 1.5.1 GitHub workflows completed 1,486 Core tests and stopped the same
+captured Fisk journey at its ten-second cancellation watchdog (`Paused by
+player`). The 1.5.0 hosted Core suite and prior complete local suites passed
+that identical journey. The 1.5.1 self-contained App suite started without a
+global x86 runtime and passed 321 tests, with one native-caption handoff hitting
+its five-second bound; all three native startup cases then passed in isolation.
+The 1.5.1 packages pass build, independent release verification and isolated
+1.0.7 updater compatibility without installation.
+
+The 1.5.2 candidate changes only test watchdog bounds and release metadata.
+The captured full journey retains its actual file journal and all dialogue,
+resource and completion assertions, with a one-minute cancellation watchdog for
+slow checkpoint flushes. The native fixture retains exact PID, one-call, receipt
+and exit assertions with a thirty-second startup bound matching its own native
+wait. Production action timeouts, ownership and reconciliation are unchanged.
+The earlier unpublished candidate tags are retained.
+
+Both focused regressions pass after the watchdog correction: the captured Fisk
+journey and all three native startup cases. Reports are `fisk-focused.trx` and
+`native-focused.trx` under `artifacts/release-1.5.2-checks/results`. Both test
+projects compile without warnings or errors. Complete local and hosted suites
+must still pass before the tagged workflow publishes its newly verified assets.
