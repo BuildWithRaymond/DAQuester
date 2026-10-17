@@ -41,6 +41,8 @@ public static class WizardyResearchEvidence
     // The observed server opening includes the r; retain the original reported label.
     public const string ObservedBegin = "No, I am ready to begin wizardry research";
     public const string OutOfParchment = "You have no more available Parchment Scrolls";
+    public const string SorceryResult = "You research the arcane art of Sorcery";
+    public const string FailedExperiment = "The experiment is a failure";
     public const string Cooldown = "You have researched already. You cannot discover anything new until you have given your mind a long rest of four Temuairan days.";
     public static readonly Tile[] Triggers = [new(6, 9), new(5, 9), new(4, 9), new(3, 9)];
     public static bool IsSong(string name) => name.EndsWith(" Song", StringComparison.OrdinalIgnoreCase);
@@ -73,10 +75,23 @@ public static class WizardyResearchEvidence
             job.Research?.Source is not { } source || !s.Connected || !string.Equals(s.Name, job.Character, StringComparison.OrdinalIgnoreCase) ||
             s.Generation != t.Generation || s.Dialog is not null || !ResearchPage(s, source) ||
             source.EntityId != t.EntityId || source.EntityType != t.EntityType || source.Revision <= t.Revision ||
-            !s.InventoryKnown || s.Gold != t.Gold || t.InventoryCounts.GetValueOrDefault(Parchment) != 1 || s.Count(Parchment) != 0 ||
-            s.ActiveStatus is not { Type: 3, Text: OutOfParchment } status || status.Generation != t.Generation ||
+            !s.InventoryKnown || s.Gold != t.Gold || t.InventoryCounts.GetValueOrDefault(Parchment) <= 0 ||
+            s.ActiveStatus is not { Type: 3 } status || status.Generation != t.Generation ||
             status.Revision <= source.Revision || status.Revision > s.Revision || status.ObservedAt < t.Started)
             return null;
+        if (status.Text == FailedExperiment)
+        {
+            // The observed explosion retains parchment and awards no Songs.
+            // Wait for server closure; the failure status arrives before it.
+            var names = t.InventoryCounts.Keys.Concat(s.Inventory.Values.Select(i => i.Name))
+                .Where(IsSong).Distinct(StringComparer.OrdinalIgnoreCase);
+            return s.Count(Parchment) == t.InventoryCounts[Parchment] &&
+                names.All(name => s.Count(name) == t.InventoryCounts.GetValueOrDefault(name))
+                ? new(status.ObservedAt, null, new()) { Status = status } : null;
+        }
+        // The Sorcery status precedes item deliveries. Require the empty bag
+        // and server dialog closure as well; that status alone is not a result.
+        if (status.Text is not (OutOfParchment or SorceryResult) || s.Count(Parchment) != 0) return null;
         var gains = NewSongs(s, t);
         return gains.Count == 0 ? null : new(status.ObservedAt, null, gains) { Status = status };
     }
@@ -89,7 +104,8 @@ public static class WizardyResearchEvidence
         var progress = job.Research ?? new();
         return job with { Pending = null, Rewards = rewards,
             Research = progress with { Stage = 0, Cleanup = receipt.Reply, Attempts = [.. progress.Attempts, receipt] },
-            Reason = "Research scroll and parchment receipts verified" };
+            Reason = receipt.Status?.Text == FailedExperiment ? "Research experiment failed; parchment retained for another attempt"
+                : "Research scroll and parchment receipts verified" };
     }
 
     public static QuestJob ObserveStatus(QuestJob job, CharacterSnapshot snapshot) =>

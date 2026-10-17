@@ -1,0 +1,96 @@
+{
+  "Title": "Seven carried parchments consumed by one research submission; terminal status and 21 new Songs observed",
+  "ServerProfile": "datester-7.41",
+  "EvidenceType": "Restricted original server observations and saved submission; actor, generation, entity identity and gold normalized",
+  "Limits": [
+    "Only submitted page, parchment baseline, Song baselines and final own resource/status proof retained.",
+    "One submitted Alone choice consumed all seven carried parchments; this does not prove seven separately submitted actions or a research cooldown.",
+    "No live game actions were sent during inspection."
+  ],
+  "SubmittedAt": "2026-10-16T23:21:42.6559888+00:00",
+  "Gold": 9500,
+  "ParchmentBefore": 7,
+  "SongsBefore": {
+    "Abel Song": 8,
+    "Rucesion Song": 3
+  },
+  "Source": {
+    "Generation": 1,
+    "Revision": 353,
+    "EntityId": 77,
+    "EntityType": 4,
+    "Name": "",
+    "Text": "Will you be researching with an assistant or alone? An assistant must also be a wizard.\n  Researching alone is difficult and might kill you!",
+    "IsPursuit": true,
+    "Pursuit": 315,
+    "Step": 56,
+    "Type": 2,
+    "Choices": [
+      {
+        "Text": "Assistant",
+        "Pursuit": 315,
+        "Option": 1
+      },
+      {
+        "Text": "Alone",
+        "Pursuit": 315,
+        "Option": 2
+      }
+    ],
+    "Prompt": null,
+    "HasNext": true,
+    "ObservedAt": "2026-10-16T23:21:42.6027577+00:00",
+    "Items": []
+  },
+  "After": {
+    "Revision": 427,
+    "Connected": true,
+    "Map": 401,
+    "Position": {
+      "X": 6,
+      "Y": 9
+    },
+    "InventoryKnown": true,
+    "Name": "ResearchActor",
+    "Generation": 1,
+    "Gold": 9500,
+    "Dialog": null,
+    "ActiveStatus": {
+      "Generation": 1,
+      "Revision": 425,
+      "Type": 3,
+      "Text": "You have no more available Parchment Scrolls",
+      "ObservedAt": "2026-10-16T23:21:43.1103129+00:00"
+    },
+    "Inventory": {
+      "12": {
+        "Slot": 12,
+        "Name": "Suomi Song",
+        "Quantity": 3,
+        "Stackable": true,
+        "Sprite": 6
+      },
+      "13": {
+        "Slot": 13,
+        "Name": "Piet Song",
+        "Quantity": 6,
+        "Stackable": true,
+        "Sprite": 6
+      },
+      "25": {
+        "Slot": 25,
+        "Name": "Abel Song",
+        "Quantity": 20,
+        "Stackable": true,
+        "Sprite": 6
+      },
+      "26": {
+        "Slot": 26,
+        "Name": "Rucesion Song",
+        "Quantity": 3,
+        "Stackable": true,
+        "Sprite": 6
+      }
+    }
+  }
+}

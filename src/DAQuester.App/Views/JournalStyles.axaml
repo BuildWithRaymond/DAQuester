@@ -21,6 +21,15 @@
     <Setter Property="FontFamily" Value="Segoe UI"/>
     <Setter Property="FontSize" Value="14"/>
   </Style>
+  <Style Selector="MenuFlyoutPresenter">
+    <Setter Property="Background" Value="{DynamicResource Surface}"/>
+    <Setter Property="Foreground" Value="{DynamicResource Text}"/>
+    <Setter Property="BorderBrush" Value="{DynamicResource Line}"/>
+    <Setter Property="BorderThickness" Value="1"/>
+  </Style>
+  <Style Selector="MenuFlyoutPresenter MenuItem:disabled">
+    <Setter Property="Foreground" Value="{DynamicResource Muted}"/>
+  </Style>
   <Style Selector="TextBlock">
     <Setter Property="Foreground" Value="{DynamicResource Text}"/>
   </Style>

@@ -1,0 +1,26 @@
+{
+  "SchemaVersion": 1,
+  "ServerProfile": "datester-7.41",
+  "Sanitized": true,
+  "Source": "Observed login notice, 2026-10-16. Only the server pursuit page is retained; no character, inventory or other-player snapshots. Closing is player-authorized; no Next continuation was observed.",
+  "Time": "2026-10-16T22:23:00.8435805+00:00",
+  "Opcode": 48,
+  "Payload": "AAQAEv90AEAAAABAAAAAAAABAAEAAADLVGhlIGZ1bGwgUmVkIE1vb24gc2hpbmVzIGJyaWdodGx5IGluIHRoZSBza3kuIFlvdSBzdGFyZSBhdCBpdCwgaHlwbm90aXplZCBieSBpdHMgbGlnaHQuIFlvdXIgYm9keSBzdGFydHMgdG8gdHJlbWJsZS4gWW91IGJyZWF0aCBoZWF2aWx5IGFzIHlvdSBjb250aW51ZSB0byBzdGFyZSBhdCB0aGUgbW9vbi4gWW91ciBib2R5IGJlZ2lucyB0byBjaGFuZ2UuLi4=",
+  "Dialog": {
+    "Generation": 1,
+    "Revision": 1,
+    "EntityId": 1245044,
+    "EntityType": 4,
+    "Name": "",
+    "Text": "The full Red Moon shines brightly in the sky. You stare at it, hypnotized by its light. Your body starts to tremble. You breath heavily as you continue to stare at the moon. Your body begins to change...",
+    "IsPursuit": true,
+    "Pursuit": 0,
+    "Step": 1,
+    "Type": 0,
+    "Choices": [],
+    "Prompt": null,
+    "HasNext": true,
+    "ObservedAt": "2026-10-16T22:23:00.8435182+00:00",
+    "Items": []
+  }
+}

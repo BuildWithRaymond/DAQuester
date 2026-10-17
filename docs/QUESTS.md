@@ -343,8 +343,14 @@ disconnect a character being used in another program. Saving a schedule does not
 turn on Scheduler. Manual runs and resumes retain normal Pause/Stop controls.
 Forced grouping and exkuranum buying/healing are outside the selected scope.
 
-This task has synthetic coverage, not a certified live automatic run. Success
-requires consumed parchment, a new named Song and a fresh correlated research
-reply. Unrecognized poor outcomes remain pending for review. A brief zero-HP
-reading is not treated as proof of death; unresolved zero health pauses. See
-[protocol references and open evidence gaps](research/wizardy-research-protocol.md).
+Automatic purchase and successful Song results are observed live. A later live
+run repeated four failed experiments using retained parchment, then verified the
+server rest and closed its popup. The exact observed failure requires unchanged
+parchment, Songs and gold plus a fresh failure status and server dialog closure;
+it records an attempt without awarding a reward or buying again. Successful
+results require their parchment debit, new Songs and correlated fresh reply or
+captured status with server closure. Other outcomes remain pending. Assistant
+work and Song banking still require fresh live qualification. A brief zero-HP
+reading is not proof of death; unresolved zero health pauses. See the
+[live receipts and recovery boundaries](research/wizardry-research-batch-recovery.md)
+and [protocol references](research/wizardy-research-protocol.md).

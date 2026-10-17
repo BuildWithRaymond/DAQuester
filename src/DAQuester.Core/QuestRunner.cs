@@ -143,6 +143,7 @@ public class QuestRunner(IGameSession session, IQuestJournal journal, QuestDefin
                 throw new QuestBlockedException("Unsupported capabilities: " + string.Join(", ", missing));
             if (c.Job.Version != recipe.Version)
                 throw new QuestBlockedException("Recipe version changed. Reconcile saved job before continuing.");
+            await EventNotices.DismissAsync(session, token.Token);
             if (singleAttempt && !startNewAttempt && QueueAttemptOutcome.HasTerminalReceipt(c.Job))
             {
                 await QuestCompletionDialogs.DismissAsync(c, hairstyle ? c.Job.HairstyleCompletion : recipe.Id == "spare-a-stick" ? c.Job.CompletionDialog : null, token.Token);
@@ -300,6 +301,7 @@ public class QuestRunner(IGameSession session, IQuestJournal journal, QuestDefin
                 while (c.Job.Step != "complete")
                 {
                     token.Token.ThrowIfCancellationRequested();
+                    await EventNotices.DismissAsync(session, token.Token);
                     if (recipe.Id == "spare-a-stick")
                         PermanentQuestCompletion.Check(session.Snapshot);
                     var step = recipe.Steps.SingleOrDefault(x => x.Id == c.Job.Step) ?? throw new QuestBlockedException("Unknown recipe step: " + c.Job.Step);

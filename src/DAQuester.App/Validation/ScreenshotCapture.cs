@@ -23,6 +23,12 @@ internal static partial class ScreenshotCapture
             if (!Program.IsScreenshots || !viewModel.Runtime.Preview)
                 throw new InvalidOperationException("Screenshots require an isolated preview runtime.");
             await SeedWorkspaceAsync(viewModel);
+            if (Program.Arguments.Contains("--tray-review"))
+            {
+                await CaptureTrayAsync(window, viewModel);
+                File.WriteAllText("artifacts/screenshots.txt", "Tray and background settings captured with isolated data and no game listeners or Windows startup changes.");
+                return;
+            }
             if (Program.Arguments.Contains("--altar-review"))
             {
                 await CaptureAltarTasksAsync(window, viewModel);
@@ -350,9 +356,17 @@ internal static partial class ScreenshotCapture
         }
         finally
         {
-            await viewModel.Runtime.ShutdownAsync();
-            if (Application.Current?.ApplicationLifetime is IClassicDesktopStyleApplicationLifetime desktop)
-                desktop.Shutdown(exitCode);
+            if (Application.Current is App { Background: { } background } app)
+            {
+                app.PreviewExitCode = exitCode;
+                await background.ExitAsync();
+            }
+            else
+            {
+                await viewModel.Runtime.ShutdownAsync();
+                if (Application.Current?.ApplicationLifetime is IClassicDesktopStyleApplicationLifetime desktop)
+                    desktop.Shutdown(exitCode);
+            }
         }
     }
 

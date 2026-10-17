@@ -466,7 +466,16 @@
                 <TextBox Name="clientPath" Text="{Binding ClientPath,Mode=TwoWay}" Watermark="Choose a Dark Ages application" AutomationProperties.Name="Dark Ages application"/>
                 <Button Grid.Column="1" Content="Browse…" Command="{Binding BrowseClientCommand}"/>
               </Grid>
-              <Button Name="saveSettings" Content="Save settings" Command="{Binding SaveSettingsCommand}" Classes="primary" HorizontalAlignment="Left"/>
+            </StackPanel>
+          </Border>
+          <Border Classes="card" Padding="22">
+            <StackPanel Spacing="10">
+              <TextBlock Text="Background and startup" Classes="section"/>
+              <CheckBox Name="keepRunningInTray" Content="Keep running in the tray when I close the window" IsChecked="{Binding KeepRunningInTray,Mode=TwoWay}"/>
+              <TextBlock Text="Saved schedules and active journeys keep running. Use the tray icon to reopen DAQuester, pause scheduling, or exit." Classes="caption" TextWrapping="Wrap"/>
+              <CheckBox Name="startWithWindows" Content="Start DAQuester when I sign in to Windows" IsChecked="{Binding StartWithWindows,Mode=TwoWay}" IsEnabled="{Binding CanStartWithWindows}"/>
+              <TextBlock Text="{Binding StartupDescription}" Classes="caption" TextWrapping="Wrap"/>
+              <TextBlock Text="Starting with Windows does not turn on scheduling. Windows must remain signed in; tray mode does not run after you sign out or while the PC sleeps." Classes="caption" TextWrapping="Wrap"/>
             </StackPanel>
           </Border>
           <Border Classes="card" Padding="22">
@@ -492,6 +501,7 @@
               <TextBlock Text="Checks are optional. Download and install are separate choices. Finish quests and close launched game clients before installing." Classes="caption" TextWrapping="Wrap"/>
             </StackPanel>
           </Border>
+          <Button Name="saveSettings" Content="Save settings" Command="{Binding SaveSettingsCommand}" Classes="primary" HorizontalAlignment="Left"/>
         </StackPanel>
       </ScrollViewer>
       <Grid Grid.Row="3" ColumnDefinitions="*,Auto" Margin="0,12,0,0">

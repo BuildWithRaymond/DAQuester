@@ -106,6 +106,9 @@ public sealed partial class GameSession
                 case "research-trigger":
                     await ResearchTrigger(cancellation);
                     break;
+                case "research-depart":
+                    await ResearchDepart(cancellation);
+                    break;
                 case "deposit-song":
                     await connection.SendAsync(Protocol.DialogPackets.DepositSong(Snapshot,
                         command.EntityId ?? throw new QuestBlockedException("Dar's current identity is missing."),

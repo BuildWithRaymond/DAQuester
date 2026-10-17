@@ -7,8 +7,8 @@
 - [Character preview](character-preview.md): original sprites, remembered outfits,
   artwork caching, and observed animation boundaries.
 - [Release notes](releases/): announcements and changes by version.
-- [What's new in 1.4.0](releases/v1.4.0.md): planner improvements, Altar Worship,
-  saved-reward recovery and character completion effects.
+- [What's new in 1.6.0](releases/v1.6.0.md): background tray operation, scheduler
+  recovery, event notice handling and verified Wizardy research repeats.
 - [Validation status](validation.md): what's tested and what still needs a live check.
 
 ## Working on DAQuester

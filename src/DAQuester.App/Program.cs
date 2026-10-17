@@ -36,14 +36,19 @@ internal static class Program
             seed.Save();
         }
         else
-            Velopack.VelopackApp.Build().SetAutoApplyOnStartup(false).Run();
+            Velopack.VelopackApp.Build().SetAutoApplyOnStartup(false)
+                .OnBeforeUninstallFastCallback(_ => Services.WindowsLoginStartup.RemoveOwned(new Services.WindowsLoginStartup()))
+                .Run();
         if (args.Contains("--check-updates"))
             return CheckUpdates();
         using var instance = new Mutex(true, IsValidation ? "Local\\DAQuester.Smoke." + Environment.ProcessId : "Local\\DAQuester", out bool ownsInstance);
-        if (!ownsInstance)
-            return 0;
         try
         {
+            if (!ownsInstance)
+            {
+                Services.InstanceActivation.NotifyAsync(args.Contains("--background")).GetAwaiter().GetResult();
+                return 0;
+            }
             return BuildAvaloniaApp().StartWithClassicDesktopLifetime(args);
         }
         catch (Exception error)

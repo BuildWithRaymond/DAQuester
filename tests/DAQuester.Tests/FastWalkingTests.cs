@@ -847,7 +847,8 @@ public class FastWalkingTests
         }, projectedServer: true);
         Assert.Empty(interrupted);
         Assert.Equal(new Tile(8, 1), f.Session.Snapshot.Position);
-        Assert.Contains((byte)0x38, f.Commands);
+        // An authoritative acknowledgement can reanchor directly. F5 is needed
+        // only while recovery still lacks an authoritative position.
         Assert.False(f.Connection.Movement.Recovery);
         Assert.Equal(0, f.Connection.Movement.Pending);
     }

@@ -1,0 +1,70 @@
+{
+    "Title":  "Four automatic failed experiments followed by verified research rest",
+    "ServerProfile":  "datester-7.41",
+    "EvidenceType":  "Restricted automatic saved receipts and own server observations; actor, entity and generation normalized",
+    "Limits":  [
+                   "This run establishes four failure retries and cooldown cleanup, not a new successful Song result.",
+                   "The separate recurring Scheduler entry still requires explicit rearming after its earlier already-open-client ownership refusal.",
+                   "The earlier standalone client closure remains unexplained."
+               ],
+    "Actor":  "ResearchActor",
+    "RetainedParchmentBefore":  1,
+    "RetainedParchmentAfter":  1,
+    "GoldChangeDuringRun":  0,
+    "Attempts":  [
+                     {
+                         "At":  "2026-10-17T01:03:30.4086299+00:00",
+                         "Status":  "The experiment is a failure",
+                         "NewSongs":  {
+
+                                      }
+                     },
+                     {
+                         "At":  "2026-10-17T01:03:33.409382+00:00",
+                         "Status":  "The experiment is a failure",
+                         "NewSongs":  {
+
+                                      }
+                     },
+                     {
+                         "At":  "2026-10-17T01:03:36.4154141+00:00",
+                         "Status":  "The experiment is a failure",
+                         "NewSongs":  {
+
+                                      }
+                     },
+                     {
+                         "At":  "2026-10-17T01:03:39.4221501+00:00",
+                         "Status":  "The experiment is a failure",
+                         "NewSongs":  {
+
+                                      }
+                     }
+                 ],
+    "Cooldown":  {
+                     "Generation":  1,
+                     "Revision":  221,
+                     "EntityId":  77,
+                     "EntityType":  4,
+                     "Name":  "",
+                     "Text":  "You have researched already. You cannot discover anything new until you have given your mind a long rest of four Temuairan days.",
+                     "IsPursuit":  true,
+                     "Pursuit":  315,
+                     "Step":  13,
+                     "Type":  0,
+                     "Choices":  [
+
+                                 ],
+                     "Prompt":  null,
+                     "HasNext":  false,
+                     "ObservedAt":  "2026-10-17T01:03:40.4204884+00:00",
+                     "Items":  [
+
+                               ]
+                 },
+    "RestAt":  "2026-10-17T01:03:40.4204884+00:00",
+    "NextEligibleCheck":  "2026-10-17T13:03:40.4204884+00:00",
+    "Pending":  null,
+    "Cleanup":  null,
+    "TerminalDialogClosed":  true
+}

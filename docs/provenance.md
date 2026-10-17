@@ -1,5 +1,24 @@
 # Source provenance
 
+The October 16 [automatic research rest fixture](../content/evidence/datester-7.41/wizardry-research-automatic-rest.json) restricts the final live verification to four fresh failed-attempt receipts, retained parchment, unchanged gold, exact cooldown, saved deadline and verified popup cleanup. No broad character snapshot, unrelated player data or raw packet is included. This is live repeat/cooldown evidence; it does not establish automatic Scheduler rearming or the cause of the earlier standalone closure.
+
+The October 16 [failed-experiment fixture](../content/evidence/datester-7.41/wizardry-research-failure-result.json) comes from a controlled automatic run that bought one parchment, selected the captured Solo Sorcery sequence and received `The experiment blows up!` followed by `The experiment is a failure`. The final own observation retains the parchment and existing Songs, unchanged submission gold, reduced health and server dialog closure. Actor, entity, generation and gold are normalized. No reward or parchment debit is inferred. This capture does not establish other failure variants or a cooldown; the monitored client stayed open, so an earlier standalone client closure remains unexplained.
+
+The October 16 [Sorcery result fixture](../content/evidence/datester-7.41/wizardry-research-sorcery-result.json) restricts an automatic run to its submitted Alone page and final own result. Dar's purchase was verified separately by one parchment and a 500-gold debit. The research consumed it and delivered three Mileth Songs, the exact Sorcery active status and a server dialog close, without a parchment-exhaustion status. Identity and gold are normalized; unrelated inventory, packet payloads and other players are omitted. Repeat and login departure coverage are synthetic until separately verified live.
+
+The October 16 [research arrival fixture](../content/evidence/datester-7.41/wizardry-research-arrival.json) restricts the player's original blocked movement and fresh research opening to own position, direction and reactor page. Runtime identity and generation are normalized. The subsequent refresh and popup timing variations in local transport tests are synthetic; they do not claim new live research outcomes.
+
+The October 16 [research batch fixture](../content/evidence/datester-7.41/wizardry-research-batch-result.json) comes from restricted own server observations and the matching saved submission. One choice consumed seven carried parchments and returned 21 new Songs, followed by the exact terminal status and dialog closure. Identities and gold are normalized; unrelated inventory, packet payloads and other players are omitted. See [batch verification and recovery](research/wizardry-research-batch-recovery.md).
+
+The October 16 Red Moon notice comes from the player's saved DATester replay.
+Its [sanitized page](../content/evidence/datester-7.41/red-moon-notice.json)
+contains one server pursuit packet and its decoded dialog, with no character or
+broad snapshot. The player identified it as Halloween and authorized closing it.
+An event continuation and a live Close receipt remain unobserved; automatic
+closure is qualified with synthetic server receipts only. The same read-only
+diagnosis found a stale completed Stick receipt being reused by a resumed
+schedule. See [recovery research](research/event-notice-scheduler-recovery.md).
+
 On October 13, 2026 the player reported Emerald Dawn requires registration and
 level 11 was refused beyond Shinewood Forest 7. Emerald now uses the existing
 own-legend `((Unregistered))` restriction. Faerie minimum level is provisionally

@@ -25,6 +25,12 @@ and verification, read [Contributing](../CONTRIBUTING.md) and [CI](CI.md).
 motion, and interaction helpers. `App.axaml` and `Views/JournalStyles.axaml`
 define the shared dark theme.
 
+`App.Desktop.cs` wires the application lifetime independently of window visibility.
+`Services/BackgroundLifetime.cs` coordinates startup, ticks and saved shutdown;
+`ResidentTray.cs` presents status and commands. `LoginStartup.cs` owns optional
+current-user Windows sign-in startup, and `InstanceActivation.cs` reopens the
+existing window through the protected control pipe. Neither enables scheduling.
+
 `Services/DesktopRuntime.cs` holds shared state and construction. Its partials
 group lifecycle, character memory, launches, quests, queues, scheduler, control,
 forecasts, tasks, and quest-specific reconciliation. They are one owner, not

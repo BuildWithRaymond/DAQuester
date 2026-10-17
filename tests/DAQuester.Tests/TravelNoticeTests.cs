@@ -15,6 +15,40 @@ namespace DAQuester.Tests;
 public class TravelNoticeTests
 {
     [Theory]
+    [InlineData(false)]
+    [InlineData(true)]
+    public async Task Captured_Red_Moon_notice_closes_its_current_page_before_walking(bool preservePopup)
+    {
+        await using var f = await MovingObstacleTests.Fixture.Create();
+        string path = Path.GetFullPath(Path.Combine(AppContext.BaseDirectory, "../../../../../content/evidence/datester-7.41/red-moon-notice.json"));
+        using var capture = System.Text.Json.JsonDocument.Parse(File.ReadAllText(path));
+        f.Connection.Tracker.Observe(0x30, Convert.FromBase64String(capture.RootElement.GetProperty("Payload").GetString()!));
+        var dialog = f.Session.Snapshot.Dialog!;
+        Assert.Equal(EventNoticeTests.RedMoon, dialog.Text);
+        Assert.True(dialog.HasNext);
+        var expectedClose = DAQuester.DarkAges.Protocol.DialogPackets.Close(f.Session.Snapshot, dialog).Data.ToArray();
+        int closes = 0;
+        await Run(f, async packet =>
+        {
+            if ((byte)packet.Command == 0x3A)
+            {
+                Assert.Equal(expectedClose, packet.Data.ToArray());
+                closes++;
+                await f.Send(0x30, [10, 0]);
+            }
+            else
+            {
+                Assert.Equal(1, closes);
+                Assert.Equal((byte)6, (byte)packet.Command);
+                await Ack(f, packet);
+            }
+        }, new("navigate", 500, new(3, 1), PreservePopup: preservePopup));
+        Assert.Equal(1, closes);
+        Assert.Null(f.Session.Snapshot.Dialog);
+        Assert.Equal(new Tile(3, 1), f.Session.Snapshot.Position);
+    }
+
+    [Theory]
     [InlineData("Your armaments are repelled from here.")]
     [InlineData("Your must be armed to enter here.")]
     [InlineData("You are not a Monk.")]

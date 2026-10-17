@@ -28,6 +28,14 @@ the game or matching recorded evidence confirms them.
 
 ## Your saved data and updates
 
+Closing the window keeps DAQuester running in the system tray by default. Click
+the tray icon to reopen it, or right-click for scheduler status, Pause scheduling
+and Exit DAQuester. Exit saves progress and stops automation. Settings can turn
+off tray mode and optionally start DAQuester when you sign in to Windows. Save
+settings to apply these choices; startup never enables scheduling. Keep the PC
+awake and Windows signed in. Portable startup requires keeping the folder in
+place. Uninstall removes this installation's startup entry.
+
 Settings, characters, encrypted passwords, progress, queues and history live in
 %LOCALAPPDATA%\DAQuester\Data, outside this package. Keep a backup before moving
 computers or recovering an older installation. Passwords belong to your Windows

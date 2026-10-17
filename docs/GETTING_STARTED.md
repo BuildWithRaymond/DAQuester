@@ -73,8 +73,19 @@ to stop scheduled automation.
 Saving a schedule does **not** enable Scheduler. Read and acknowledge the page's
 warning, then explicitly choose **Turn on saved schedules**. A stopped entry
 also needs **Resume schedule**; saving edits preserves its stopped state.
-DAQuester must remain open
-(minimized is fine). Switching pages keeps schedules running. Enabled schedules
+DAQuester must remain running. By default, closing its window hides it in the
+system tray; schedules and active journeys continue. Click its tray icon to
+reopen it, or right-click for status, Pause scheduling and Exit DAQuester.
+Exit saves progress and stops scheduled work. In Settings, turn off **Keep
+running in the tray** to make closing the window exit instead.
+
+**Start DAQuester when I sign in to Windows** is a separate, optional Settings
+choice, off by default. Save settings to apply it. Installed and portable builds
+use their stable launcher; keep a portable folder in the same location. Startup
+does not enable scheduling. Windows must remain signed in and the PC awake;
+locked-session and disconnected remote-desktop launches are not yet qualified.
+There is no Windows service or signed-out execution. Switching pages keeps
+schedules running. Enabled schedules
 resume after restarting DAQuester; overdue work runs once rather than replaying
 all missed intervals. **Pause all** or the main **Stop all quests** keeps scheduling
 off until explicitly enabled again.

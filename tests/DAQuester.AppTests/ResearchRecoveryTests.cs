@@ -18,6 +18,9 @@ public class ResearchRecoveryTests
 
     [Theory]
     [InlineData("complete", true)]
+    [InlineData("batch", true)]
+    [InlineData("sorcery", true)]
+    [InlineData("failure", true)]
     [InlineData("new-generation", false)]
     [InlineData("client", false)]
     [InlineData("profile", false)]
@@ -29,15 +32,18 @@ public class ResearchRecoveryTests
         var root = new DirectoryInfo(AppContext.BaseDirectory);
         while (root is not null && !Directory.Exists(Path.Combine(root.FullName, "content", "evidence"))) root = root.Parent;
         using var proof = JsonDocument.Parse(await File.ReadAllTextAsync(Path.Combine(root!.FullName,
-            "content/evidence/datester-7.41/wizardry-research-status-result.json")));
+            "content/evidence/datester-7.41/" + (scenario switch { "batch" => "wizardry-research-batch-result.json",
+                "sorcery" => "wizardry-research-sorcery-result.json", "failure" => "wizardry-research-failure-result.json",
+                _ => "wizardry-research-status-result.json" }))));
         var captured = proof.RootElement;
         var source = captured.GetProperty("Source").Deserialize<Dialog>()!;
         var pending = new Transaction("research-submit", source.Generation, source.Revision - 1, 9500, 0, 0,
             captured.GetProperty("SubmittedAt").GetDateTimeOffset())
         {
             EntityId = source.EntityId, EntityType = source.EntityType, InventoryBaselineKnown = true,
-            InventoryCounts = new() { ["Parchment Scroll"] = 1 }
+            InventoryCounts = captured.GetProperty("SongsBefore").Deserialize<Dictionary<string, int>>()!
         };
+        pending.InventoryCounts["Parchment Scroll"] = captured.GetProperty("ParchmentBefore").GetInt32();
         var job = new QuestJob { Character = "Elara", Quest = WizardyResearchEvidence.Id, ResearchOptions = new(),
             Research = new() { Stage = 4, Source = source }, Pending = pending };
         var after = captured.GetProperty("After").Deserialize<CharacterSnapshot>()! with { Name = "Elara" };
@@ -76,7 +82,20 @@ public class ResearchRecoveryTests
             var runner = await (Task<QuestRunner>)prepare.Invoke(runtime,
                 ["Elara", runtime.Recipes[WizardyResearchEvidence.Id], null, null, false, false, null])!;
             Assert.Equal(expected, runner.Job.Pending is null);
-            Assert.Equal(expected ? 3 : 0, runner.Job.Rewards.GetValueOrDefault("item:Piet Song"));
+            Assert.Equal(expected && scenario != "failure" ? (scenario == "batch" ? 6 : 3) : 0,
+                runner.Job.Rewards.GetValueOrDefault(scenario == "sorcery" ? "item:Mileth Song" : "item:Piet Song"));
+            if (scenario == "failure")
+            {
+                Assert.Empty(runner.Job.Rewards);
+                Assert.Empty(runner.Job.Research!.Attempts.Single().Songs);
+                Assert.Equal("The experiment is a failure", runner.Job.Research.Attempts.Single().Status?.Text);
+            }
+            if (scenario == "batch")
+            {
+                Assert.Equal(12, runner.Job.Rewards["item:Abel Song"]);
+                Assert.Equal(3, runner.Job.Rewards["item:Suomi Song"]);
+                Assert.False(runner.Job.Rewards.ContainsKey("item:Rucesion Song"));
+            }
             Assert.Equal(expected ? 1 : 0, runner.Job.Research!.Attempts.Length);
             Assert.Equal(expected, journal.Load("Elara", WizardyResearchEvidence.Id).Pending is null);
             Assert.False(runner.IsRunning);

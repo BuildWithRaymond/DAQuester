@@ -26,6 +26,7 @@ public class MeleeBashingTests
             }
         }
         public List<GameCommand> Commands { get; } = [];
+        public Action<GameCommand>? OnCommand { get; set; }
         public Dictionary<string, double> CooldownOnUse { get; } = new(StringComparer.OrdinalIgnoreCase);
         public Dictionary<ushort, string> Names { get; } = new() { [333] = "Wolf's Teeth", [500] = "Wolf's Skin", [501] = "fior sal" };
         // Ground items whose name differs from their sprite's usual item (lookalikes).
@@ -76,6 +77,7 @@ public class MeleeBashingTests
         {
             t.ThrowIfCancellationRequested();
             Commands.Add(c);
+            OnCommand?.Invoke(c);
             switch (c.Kind)
             {
                 case "turn":
@@ -1135,16 +1137,22 @@ public class MeleeBashingTests
     public async Task Three_touching_makes_her_walk_to_the_least_covered_quarter_and_hurt_with_every_quarter_tried_is_an_overrun()
     {
         var q = Swarmed(900);
-        using (var stop = new CancellationTokenSource(TimeSpan.FromMilliseconds(300)))
+        using (var stop = new CancellationTokenSource(TimeSpan.FromSeconds(10)))
+        {
+            q.OnCommand = c => { if (c.Kind == "navigate") stop.Cancel(); };
             await Assert.ThrowsAnyAsync<OperationCanceledException>(() => MeleeFight.RunAsync(q, new OpenMap(), new() { AggressiveSprites = () => centipedes }, null, TimeSpan.FromMinutes(1), stop.Token, quarters: Covered(1, 2)));
+        }
         var away = q.Commands.First(c => c.Kind == "navigate").Target!;
         Assert.True(new[] { new Tile(5, 6), new Tile(4, 5), new Tile(6, 5) }.All(m => Math.Max(Math.Abs(m.X - away.X), Math.Abs(m.Y - away.Y)) >= MeleeFight.EscapeDistance));
         Assert.Equal(3, FloorQuarters.Of(away, (20, 20)));
 
         // Hurt but quarters untried: walk away, not up a floor.
         var hurtEarly = Swarmed(400);
-        using (var stop = new CancellationTokenSource(TimeSpan.FromMilliseconds(300)))
+        using (var stop = new CancellationTokenSource(TimeSpan.FromSeconds(10)))
+        {
+            hurtEarly.OnCommand = c => { if (c.Kind == "navigate") stop.Cancel(); };
             await Assert.ThrowsAnyAsync<OperationCanceledException>(() => MeleeFight.RunAsync(hurtEarly, new OpenMap(), new() { AggressiveSprites = () => centipedes }, null, TimeSpan.FromMinutes(1), stop.Token));
+        }
         Assert.Contains(hurtEarly.Commands, c => c.Kind == "navigate");
 
         var hurtLate = Swarmed(400);

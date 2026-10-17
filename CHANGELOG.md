@@ -1,6 +1,32 @@
 # Changelog
 
-## Unreleased
+## 1.6.0 — 2026-10-16
+
+- Continue after the observed failed Sorcery experiment when the server closes
+  its dialog and parchment, Songs and gold remain unchanged. Reuse the retained
+  parchment, record no reward, and preserve health and reconciliation gates.
+
+- Repeat wizardry research after the observed Sorcery status, complete parchment
+  consumption, Song receipts and server popup closure. Leave research tiles
+  before buying the next parchment, including a hidden login reactor menu.
+
+- Continue wizardry research when its reactor menu interrupts approach or
+  departure, and use visible Dar rather than forcing the exact idle tile.
+
+- Verify completed wizardry research batches that began with multiple carried
+  parchments, including recovery from original archived receipts after reconnect.
+  Keep uncertain submissions pending and never resend them automatically.
+
+- Start a due scheduled repeat when its saved resume flag refers to an older
+  completed attempt. Keep pending work, reward cleanup and verified cooldowns.
+- Close the captured Red Moon event notice before quest steps and guarded travel,
+  without selecting its Next or dismissing unfamiliar event choices.
+
+- Keep DAQuester in the system tray when its window closes, with Open, scheduler
+  status, Pause scheduling and explicit Exit. Optional Windows sign-in startup
+  uses the stable packaged launcher and does not enable schedules. Reopening
+  DAQuester restores its existing window. Exit and update installation preserve
+  existing save, ownership and reconciliation gates.
 
 ## 1.5.2 — 2026-10-15
 

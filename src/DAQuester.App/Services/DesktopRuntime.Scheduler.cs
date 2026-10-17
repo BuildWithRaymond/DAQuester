@@ -214,7 +214,7 @@ public sealed partial class DesktopRuntime
                 return new(currentDue, entry.Resume);
             await scheduler.MarkQuestStartedAsync(entry.Id);
             SetSchedulerPhase("Running");
-            await runner.RunAsync(false, cancellation, startNewAttempt: !entry.Resume, singleAttempt: true, yieldScheduledWaits: true);
+            await runner.RunAsync(false, cancellation, startNewAttempt: QuestRunPolicy.StartNewScheduledAttempt(quest, runner.Job, entry), singleAttempt: true, yieldScheduledWaits: true);
             cancellation.ThrowIfCancellationRequested();
             var job = runner.Job;
             if (entry.Quest == WizardyResearchEvidence.Id && job.Pending is null && job.Research?.Cleanup is null && job.Research?.RestAt is not null && job.NextRun is { } rest)

@@ -1,0 +1,116 @@
+{
+    "Title":  "Failed Solo Sorcery experiment retains parchment and Song balances and closes dialog",
+    "ServerProfile":  "datester-7.41",
+    "EvidenceType":  "Restricted own automatic submission and server failure observations; actor, generation, entity and gold normalized",
+    "Limits":  [
+                   "Only this exact failure with retained parchment, unchanged Songs and gold, and closed dialog is established.",
+                   "The client remained connected for at least forty seconds; the earlier automatic closure was not reproduced."
+               ],
+    "SubmittedAt":  "2026-10-17T00:46:25.3874836+00:00",
+    "Gold":  9500,
+    "ParchmentBefore":  1,
+    "SongsBefore":  {
+                        "Abel Song":  20,
+                        "Rucesion Song":  3,
+                        "Mileth Song":  3,
+                        "Piet Song":  6,
+                        "Suomi Song":  3
+                    },
+    "Source":  {
+                   "Generation":  1,
+                   "Revision":  162,
+                   "EntityId":  77,
+                   "EntityType":  4,
+                   "Name":  "",
+                   "Text":  "Will you be researching with an assistant or alone? An assistant must also be a wizard.\n  Researching alone is difficult and might kill you!",
+                   "IsPursuit":  true,
+                   "Pursuit":  315,
+                   "Step":  56,
+                   "Type":  2,
+                   "Choices":  [
+                                   {
+                                       "Text":  "Assistant",
+                                       "Pursuit":  315,
+                                       "Option":  1
+                                   },
+                                   {
+                                       "Text":  "Alone",
+                                       "Pursuit":  315,
+                                       "Option":  2
+                                   }
+                               ],
+                   "Prompt":  null,
+                   "HasNext":  true,
+                   "ObservedAt":  "2026-10-17T00:46:25.3395291+00:00",
+                   "Items":  [
+
+                             ]
+               },
+    "After":  {
+                  "Name":  "ResearchActor",
+                  "Generation":  1,
+                  "Revision":  176,
+                  "Connected":  true,
+                  "Map":  401,
+                  "Position":  {
+                                   "X":  6,
+                                   "Y":  9
+                               },
+                  "Gold":  9500,
+                  "Hp":  1742,
+                  "MaxHp":  3950,
+                  "InventoryKnown":  true,
+                  "Inventory":  {
+                                    "12":  {
+                                               "Slot":  12,
+                                               "Name":  "Suomi Song",
+                                               "Quantity":  3,
+                                               "Stackable":  true,
+                                               "Sprite":  6
+                                           },
+                                    "25":  {
+                                               "Slot":  25,
+                                               "Name":  "Abel Song",
+                                               "Quantity":  20,
+                                               "Stackable":  true,
+                                               "Sprite":  6
+                                           },
+                                    "26":  {
+                                               "Slot":  26,
+                                               "Name":  "Rucesion Song",
+                                               "Quantity":  3,
+                                               "Stackable":  true,
+                                               "Sprite":  6
+                                           },
+                                    "15":  {
+                                               "Slot":  15,
+                                               "Name":  "Parchment Scroll",
+                                               "Quantity":  1,
+                                               "Stackable":  false,
+                                               "Sprite":  3
+                                           },
+                                    "14":  {
+                                               "Slot":  14,
+                                               "Name":  "Mileth Song",
+                                               "Quantity":  3,
+                                               "Stackable":  true,
+                                               "Sprite":  6
+                                           },
+                                    "13":  {
+                                               "Slot":  13,
+                                               "Name":  "Piet Song",
+                                               "Quantity":  6,
+                                               "Stackable":  true,
+                                               "Sprite":  6
+                                           }
+                                },
+                  "Dialog":  null,
+                  "ActiveStatus":  {
+                                       "Generation":  1,
+                                       "Revision":  166,
+                                       "Type":  3,
+                                       "Text":  "The experiment is a failure",
+                                       "ObservedAt":  "2026-10-17T00:46:25.8266593+00:00"
+                                   }
+              }
+}

@@ -27,71 +27,65 @@ public partial class App : Application
             var vm = new MainWindowViewModel(runtime);
             var window = new MainWindow(vm);
             desktop.MainWindow = window;
-            runtime.ChooseActivityRunAsync = (character, quest, job) => ActivityRunDialog.ShowAsync(window, runtime, character, quest, job);
+            runtime.ChooseActivityRunAsync = (character, quest, job) =>
+            {
+                runtime.ShowWindowRequested?.Invoke();
+                return ActivityRunDialog.ShowAsync(window, runtime, character, quest, job);
+            };
             runtime.ChooseQuestAsync = async (character, quest, job, error) =>
             {
+                runtime.ShowWindowRequested?.Invoke();
                 var result = await QuestChoiceDialog.ShowChoiceAsync(window, character, quest, job, error, DAQuester.Core.SickChildEvidence.For(quest.Id) is not null ? runtime.SickChildChoice(character, quest.Id) : null, runtime.CharacterClass(character));
                 if (result?.OpenCharacters == true)
                     vm.Page = "Characters";
                 return result;
             };
-            vm.PickClientAsync = () => ClientPickerDialog.ShowAsync(window, vm.ClientPath);
-            vm.ConfirmPaulinQuestAsync = (character, quest, replacing) => PaulinQueueDialog.ShowAsync(window, character, quest, replacing, vm.JourneyGameDirectory);
-            vm.RequestClose += window.Close;
-            bool closing = false, closed = false;
-            window.Closing += async (_, eventArgs) =>
+            vm.PickClientAsync = () =>
             {
-                if (closed)
-                    return;
-                eventArgs.Cancel = true;
-                if (closing)
-                    return;
-                closing = true;
-                try
-                {
-                    await runtime.ShutdownAsync(vm.InstallRequested);
-                    closed = true;
-                    window.Close();
-                }
-                catch (Exception error)
-                {
-                    vm.ReportError(error);
-                    closing = false;
-                }
+                runtime.ShowWindowRequested?.Invoke();
+                return ClientPickerDialog.ShowAsync(window, vm.ClientPath);
             };
-            var timer = new DispatcherTimer
+            vm.ConfirmPaulinQuestAsync = (character, quest, replacing) =>
             {
-                Interval = TimeSpan.FromSeconds(2)
+                runtime.ShowWindowRequested?.Invoke();
+                return PaulinQueueDialog.ShowAsync(window, character, quest, replacing, vm.JourneyGameDirectory);
             };
-            timer.Tick += async (_, _) =>
-            {
-                // Scan external saves off-thread. Normal movement reuses display
-                // receipts; this scan never delays the scheduler or game actions.
-                _ = runtime.RefreshPresentationAsync();
-                await runtime.TickSchedulerAsync();
-                await runtime.TickDanaanContinuationsAsync();
-            };
-            window.Closed += (_, _) => timer.Stop();
-            window.Opened += async (_, _) =>
-            {
-                if (Program.IsValidation)
-                {
-                    Dispatcher.UIThread.Post(async () => await Validation.ScreenshotCapture.RunAsync(window, vm));
-                    return;
-                }
-
-                timer.Start();
-                try
-                {
-                    await runtime.StartAsync();
-                }
-                catch (Exception error)
-                {
-                    vm.ReportError(error);
-                }
-            };
+            if (!Program.IsValidation || Program.Arguments.Contains("--tray-review"))
+                ConfigureResidentLifetime(desktop, window, runtime, vm);
+            else
+                ConfigurePreviewLifetime(window, runtime, vm);
         }
 
         base.OnFrameworkInitializationCompleted();
+    }
+
+    static void ConfigurePreviewLifetime(MainWindow window, DesktopRuntime runtime, MainWindowViewModel vm)
+    {
+        vm.RequestClose += window.Close;
+        bool closing = false, closed = false;
+        window.Closing += async (_, eventArgs) =>
+        {
+            if (closed)
+                return;
+            eventArgs.Cancel = true;
+            if (closing)
+                return;
+            closing = true;
+            try
+            {
+                await runtime.ShutdownAsync(vm.InstallRequested);
+                closed = true;
+                window.Close();
+            }
+            catch (Exception error)
+            {
+                vm.ReportError(error);
+                closing = false;
+            }
+        };
+        window.Opened += (_, _) =>
+        {
+            Dispatcher.UIThread.Post(async () => await Validation.ScreenshotCapture.RunAsync(window, vm));
+        };
     }
 }

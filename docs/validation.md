@@ -1,5 +1,142 @@
 # Validation status
 
+## 1.6.0 public release - October 16, 2026
+
+The public candidate retains the pinned DAWindower X and its caption-plus action. The standard-edition comparison remains a separate diagnostic build. A clean, symbol-free Release solution build completed with zero warnings or errors. Focused checks passed **98/98 Core** and **28/28 desktop** cases; both complete projects passed **1,540/1,540 Core** and **344/344 desktop** cases, with no skips. Reports are under `artifacts/release-1.6.0/results`.
+
+Three test-harness timing assumptions exposed by the earlier runs below were corrected: merchant dismissal has a longer I/O/JIT watchdog, combat-quarter cancellation follows the observed synthetic navigation command, and fast-walk recovery permits a direct authoritative acknowledgement without requiring an unnecessary refresh packet. Production walking and combat behavior did not change.
+
+The isolated packaged tray preview passed hidden startup, close-to-tray, reopen and Pause scheduling checks. Settings and native tray menus were reviewed at 1420 by 900 and the minimum 900 by 560; controls and Save settings remain reachable with the shared dark theme. Captures and preview receipts remain under `artifacts/release-1.6.0/review`. This review used fake characters, no game listeners, no real client launches and no Windows startup registration changes.
+
+`Build-Release.ps1 -NoBuild` packaged the tested symbol-free output and passed its asset, checksum, feed, license and private-data gates. The independent `Verify-Release.ps1` gate also passed. `Test-UpdateCompatibility.ps1 -DownloadPrevious` verified the pinned public 1.0.7 updater against 1.6.0 with unchanged package identity and a verified isolated local download; no update was applied. Candidate packages remain under `artifacts/release-1.6.0/distribution/release`. The public payload contains DAWindower X and the self-contained runtime. User Data, raw game files and the private standard comparison DLL are excluded.
+
+## Failed Sorcery experiment - October 16, 2026
+
+A controlled 7:46 PM Central automatic run bought one parchment and selected the observed research sequence. The experiment failed, retained parchment and all Songs, reduced health, and closed its dialog. The prior runner timed out waiting for a reward. The new regressions reproduced that pause; **78/78** focused research checks and **344/344** complete desktop tests passed after exact failure receipt recognition. They cover original archive recovery with no reward or repeated purchase, changed resources, stale or mismatched observations, another attempt with retained parchment, cooldown and zero-health stops.
+
+Both complete Core runs executed all **1,540** cases: the run alongside compilation passed 1,538 and the quiet rerun passed 1,539. The failures were three untouched timing-sensitive merchant-dismissal, manual fast-walk and combat-quarter tests; all three passed together in isolation (**3/3**). No walking, combat or unrelated test implementation was changed for this fix. Reports under `artifacts/research-failure/results` retain both full runs and the isolated result; these must not be reported as an entirely green full Core run.
+
+The isolated standard package passed `Build-Release.ps1` and `Verify-Release.ps1`, with zero compilation warnings or errors and unchanged standard native SHA-256. No X DLL is present. These checks use synthetic sessions and do not operate game characters. The earlier standalone ten-second client closure was not reproduced by the controlled run's eight-minute exit monitor; its cause remains unestablished.
+
+After checks ended, the fixed build was verified live at 8:03 PM Central. It recovered the saved failed attempt from original evidence, performed four additional failed experiments with the retained parchment and no new purchase, then received the exact cooldown. The terminal popup closed, pending submission and cleanup are null, and the next eligible check is October 17 at 8:03:40 AM Central. The [restricted live receipts](../content/evidence/datester-7.41/wizardry-research-automatic-rest.json) do not claim a new successful Song result in this run. The client remains open; the separate recurring Scheduler entry still needs explicit rearming after its earlier already-open-client refusal. No Scheduler Data was edited.
+
+On the player's follow-up, the controlled verification client was closed gracefully after its original process identity, idle ownership and cleared submission/cleanup were checked. The bridge confirmed Convict disconnected and the same saved cooldown remained intact. The direct verification start had bypassed the scheduler's existing owned-client cleanup; no change to scheduled logout behavior was required.
+
+## Research repeat receipts and supply departure - October 16, 2026
+
+The scheduled 7:20 PM Central run verified a one-parchment purchase and delivered three Mileth Songs, then timed out because the exact Sorcery status plus server dialog closure was not recognized. The restricted capture now protects that ending, including refusal to accept its earlier open-popup/item-delivery states. The runner leaves the reactor row before further supply purchases and preserves fresh popup interruptions for guarded cleanup. See [the observed run and synthetic boundaries](research/wizardry-research-batch-recovery.md).
+
+The new regressions failed before the fixes. **68/68** focused research checks, **1,530/1,530** complete Core tests and **343/343** complete desktop tests passed without skips. Repeat coverage includes multiple verified purchases/results, a hidden login menu, leaving the trigger before opening Dar, resource receipts, exact cooldown, unknown outcomes and recovery from original archived Sorcery evidence. A transport fixture uses the real 400 ms recovery cadence so separate position/popup frames cannot exhaust a 1 ms synthetic retry loop. General walking behavior is unchanged.
+
+The isolated standard DAWindower package passed `Build-Release.ps1` and its `Verify-Release.ps1` gate, including checksums, assets, update feed, licenses and private-data exclusion. Its complete desktop suite also passed **342/342**, excluding only the inapplicable X caption-plus test. This comparison retains the previously verified standard native revision and excludes the X DLL. Reports are under `artifacts/research-repeat/results`; live repeat verification is separate from these synthetic checks.
+
+## Research approach interrupted by its reactor menu ? October 16, 2026
+
+The 6:55 PM Central automatic attempt reconciled the saved research batch, then failed during the fixed approach from (6,9) to (7,9). The server had already supplied the offered research opening when navigation reported an occupied destination. Five focused regressions reproduced that failure before the fix. The runner now stops at visible Dar and allows the research trigger to finish on a fresh popup instead of forcing the rejected step. Existing doorway handling is unchanged.
+
+**58/58** focused research and transport cases passed. They cover departure and approach, popup timing around a refresh, preserved unrelated popups, room changes, direct Dar access, supply receipts, pending submissions, duplicate-choice guards and batch recovery. Local TCP peers and in-memory sessions are synthetic; no game client participates in those checks. See [the capture and execution boundary](research/wizardry-research-batch-recovery.md).
+
+## Research batch receipts and standard DAWindower comparison ? October 16, 2026
+
+The new carried-batch regressions failed against the one-parchment-only verifier.
+After the correction, **49/49** focused research cases passed, followed by both
+complete xUnit suites: **1,511/1,511 Core** and **342/342 app**, without failures
+or skips. Coverage includes exact Song gains from the restricted seven-parchment
+capture, no credit for pre-existing Songs, missing baselines, partial consumption,
+original-generation recovery after reconnect and durable archive reconciliation
+without sending game commands. Reports are under `artifacts/research-batch/results`.
+See [the observed batch and recovery boundary](research/wizardry-research-batch-recovery.md).
+
+The separate standard-edition comparison uses upstream DAWindower commit
+`17f2ef64d8f63c6a6168b33b6222c77395d3d3a4`, 0.2.3 candidate, with
+`DAW_BUILD_X=OFF`. All 39 runtime source/header files match upstream byte for byte.
+The x86 PE/system-import/export package check and **22/22** upstream native
+geometry, resize, rendering, title and recovery checks passed. The comparison's
+complete desktop suite passed **341/341**, excluding only the inapplicable X
+caption-plus test; actual suspended-load and first-graphics fixtures passed with
+standard `DAWindower.dll`. The isolated comparison source changes and native
+fingerprint are recorded under `artifacts/dawindower-standard`.
+
+The comparison copies of `tools/Build-Release.ps1` and `tools/Verify-Release.ps1`
+passed with standard-native pin and fingerprint checks. The application compiled
+without warnings or errors. Portable and installer assets passed checksum, feed,
+license, content and private-data checks; no X DLL is included.
+
+No real characters were operated or restarted. Player Data, current client DLLs,
+and Excalibur were untouched. The normal checkout's native source pin remains
+unchanged; the comparison is a private artifact, not a published update.
+
+
+## Scheduled repeat recovery and Red Moon notice — October 16, 2026
+
+Read-only diagnostics and replay inspection identified two scheduler-owned client
+closures: a resumed schedule reused an older completed Stick attempt, and the
+captured Red Moon popup paused Wizardy research before scheduler cleanup. See
+[evidence and recovery boundaries](research/event-notice-scheduler-recovery.md).
+
+The stale-attempt and research-popup regressions failed before implementation.
+After the fixes, **95/95** focused scheduler, travel, research and notice cases
+passed. Both complete xUnit projects passed with no failures or skips:
+**1,506/1,506 Core** and **341/341 app**. Tests cover renewed attempts, preservation
+of the eight-hour deadline, pending transactions and cleanup, exact current-page
+Close packets, unknown popup preservation and unconfirmed closure. Reports are
+under `artifacts/event-scheduler-fix/results`.
+
+An additional isolated journal-round-trip regression passed separately: an event
+close timeout preserves the complete pending transaction, including inventory,
+gold, legend and spell baselines. `tools/Build-Release.ps1` compiled with zero
+warnings/errors and its `tools/Verify-Release.ps1` checks passed assets, checksums,
+feed, licenses and private-data exclusion. The private installer and portable
+candidate are under `artifacts/event-scheduler-fix/release`, retaining the base
+1.5.2 version. No public release was published and no running files were replaced.
+
+The notice fixture contains only one captured server pursuit page and its decoded
+dialog. The player authorized Close; no event Next is selected. Tests supply
+synthetic server close receipts, not a new live event-close receipt. No real
+characters or clients were operated or restarted, no saved schedule or player
+Data was changed, and no Excalibur working copy or process was touched. The
+running app requires a separate restart to load these changes; affected schedules
+remain subject to their existing explicit Resume/review controls.
+
+## Tray lifetime and Windows sign-in startup — October 16, 2026
+
+The runtime starts and ticks independently of window visibility. Closing hides
+the window when tray mode is enabled; explicit Exit and update installation use
+the existing saved shutdown path. A second ordinary launch requests window
+activation through the current-user control bridge. Optional Windows startup
+targets the stable packaged launcher, defaults off and never enables schedules.
+Development builds preserve another installation's startup registration.
+
+All **19/19** focused lifetime, activation and settings cases pass, including
+startup/exit races, concurrent exits, failed checkpoint recovery, independent
+continuation ticks, unavailable tray fallback, exact startup-command rollback
+and owned uninstall cleanup. Regressions failed before the relevant behavior
+was implemented. Both complete xUnit projects passed with no failures or skips:
+**1,487/1,487 Core** and **341/341 app**. Reports are retained under
+`artifacts/tray-work/results`.
+
+The isolated native tray preview exercised the actual application lifetime:
+hidden startup, close-to-tray, reopening from the actual tray menu, scheduler
+status, Pause scheduling and normal saved exit. Manual review covered the shared
+dark menu, enabled/disabled items and Settings at 1420×900 and the 900×560 minimum,
+including access to Save settings. Evidence is in
+`artifacts/screenshots/tray-review.json` and the seven `tray-*.png` captures.
+
+`tools/Build-Release.ps1` completed with zero compilation warnings/errors, and
+the independent `tools/Verify-Release.ps1` passed assets, checksums, feed,
+licenses and private-data exclusion checks. The private candidate is under
+`artifacts/tray-candidate-20261016/release`; it retains the base 1.5.2 version and
+was not published. Its portable archive contains the stable root launcher.
+The final packaged executable also passed the isolated native tray preview.
+`tools/Test-UpdateCompatibility.ps1` verified the pinned public 1.0.7 updater
+against this candidate using a local feed without applying an update.
+
+All tests and previews used isolated data and fake startup registration. No real
+characters or clients were operated, no Windows startup setting changed, and no
+Excalibur process or working copy was touched. Windows must remain signed in and
+awake; locked-session and disconnected remote-desktop launches remain unqualified.
+These checks do not certify a new live automatic quest run.
+
 ## Character legend popup — October 15, 2026
 
 Each saved character now has a Legend marks button beside Remove inside its

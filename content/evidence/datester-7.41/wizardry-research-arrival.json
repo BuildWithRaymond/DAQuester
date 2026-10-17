@@ -1,0 +1,51 @@
+{
+  "Title": "Research opening interrupts departure from the research tile after login",
+  "ServerProfile": "datester-7.41",
+  "EvidenceType": "Restricted original own movement and reactor reply; entity and generation normalized",
+  "Limits": [
+    "Only the research-room origin, attempted direction, blocked movement and research popup are retained.",
+    "The synthetic tests also deliver this captured popup on approach and after refresh; those timings are synthetic variations.",
+    "This does not establish a new automatic research result or permit arbitrary popups to be selected."
+  ],
+  "Map": 401,
+  "Origin": {
+    "X": 6,
+    "Y": 9
+  },
+  "AttemptedDirection": 1,
+  "BlockedMovePayload": "BAAGAAkACwALAQ==",
+  "DialogPayload": "AgQAAABNBkAlAABAAAABOwATAAEAAAC+RG8geW91IG5lZWQgaGVscCBiZWZvcmUgYmVnaW5uaW5nIHlvdXIgd2l6YXJkcnkgcmVzZWFyY2g/IElmIHlvdSBkb24ndCBrbm93IGFib3V0IHJlc2VhcmNoIHlvdSBzaG91bGQgc2VlayBoZWxwLCBhbmQgdGhlcmVieSBtYWtlIHN1cmUgeW91IGJyaW5nIHlvdXIgaW5ncmVkaWVudHMsIHJlYWdlbnRzLCBvciBvdGhlciBtYXRlcmlhLgMpTm8sIEkgYW0gcmVhZHkgdG8gYmVnaW4gd2l6YXJkcnkgcmVzZWFyY2gESGVscBhJIGRvbid0IHdhbnQgdG8gcmVzZWFyY2g=",
+  "Dialog": {
+    "Generation": 1,
+    "Revision": 142,
+    "EntityId": 77,
+    "EntityType": 4,
+    "Name": "",
+    "Text": "Do you need help before beginning your wizardry research? If you don't know about research you should seek help, and thereby make sure you bring your ingredients, reagents, or other materia.",
+    "IsPursuit": true,
+    "Pursuit": 315,
+    "Step": 19,
+    "Type": 2,
+    "Choices": [
+      {
+        "Text": "No, I am ready to begin wizardry research",
+        "Pursuit": 315,
+        "Option": 1
+      },
+      {
+        "Text": "Help",
+        "Pursuit": 315,
+        "Option": 2
+      },
+      {
+        "Text": "I don't want to research",
+        "Pursuit": 315,
+        "Option": 3
+      }
+    ],
+    "Prompt": null,
+    "HasNext": true,
+    "ObservedAt": "2026-10-16T23:55:20.5417957+00:00",
+    "Items": []
+  }
+}

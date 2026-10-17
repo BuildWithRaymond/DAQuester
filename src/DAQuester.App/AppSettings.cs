@@ -29,6 +29,7 @@ public class AppSettings
     // Fast mode is on unless switched off for that character.
     public string[] FastModeOffCharacters { get; set; } = [];
     public bool JourneyCollapsed { get; set; }
+    public bool KeepRunningInTray { get; set; } = true;
 
     public bool FastModeEnabled(string character) => !FastModeOffCharacters.Any(name => name.Equals(character, StringComparison.OrdinalIgnoreCase));
     public static readonly JsonSerializerOptions Json = new()

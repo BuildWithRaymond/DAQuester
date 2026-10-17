@@ -15,6 +15,51 @@ public class WizardyResearchTests
     const string Begin = "No, I am ready to begin wizardy research";
     static FileQuestJournal Journal() => new(Path.Combine(Path.GetTempPath(), "DAQuester-tests", Guid.NewGuid().ToString()));
     static QuestDefinition Recipe() => new(Id, 1, "Wizardy research", "Player report", ["navigate", "dialog", "inventory"], [new("preflight", "research-run", null)], 12);
+
+    [Fact]
+    public async Task Login_Red_Moon_notice_is_closed_before_research_without_selecting_its_Next()
+    {
+        var s = Ready();
+        s.Set(s.Snapshot with { Dialog = EventNoticeTests.Popup() with { Revision = s.Snapshot.Revision + 1 } });
+        s.OnCommand = c =>
+        {
+            if (c.Kind == "close") s.Set(s.Snapshot with { Dialog = null });
+            if (c.Kind == "research-trigger") s.Set(s.Snapshot with { Dialog = Page(s, Cooldown) });
+        };
+        var runner = new QuestRunner(s, Journal(), Recipe(), new());
+        await runner.RunAsync(singleAttempt: true, yieldScheduledWaits: true);
+        Assert.Equal(new[] { "close", "navigate", "research-trigger", "close" }, s.Commands.Select(c => c.Kind));
+        Assert.Equal(EventNoticeTests.RedMoon, s.Commands[0].Dialog?.Text);
+        Assert.Equal(Cooldown, s.Commands[^1].Dialog?.Text);
+        Assert.Equal("Scheduled", runner.Job.Status);
+        Assert.Null(runner.Job.Pending);
+        Assert.Null(runner.Job.CompletedAt);
+        Assert.True(runner.Job.NextRun > DateTimeOffset.UtcNow);
+    }
+
+    [Fact]
+    public async Task Visible_Dar_allows_research_from_current_tile_without_forcing_an_idle_tile()
+    {
+        var session = Ready();
+        var origin = new Tile(6, 9);
+        session.Set(session.Snapshot with { Position = origin,
+            Entities = session.Snapshot.Entities.Add(55, new(55, "Dar", new(5, 2), true)) });
+        session.OnCommand = command =>
+        {
+            if (command.Kind == "navigate" && command.StopAtVisibleNpc != "Dar")
+                throw new QuestBlockedException("Destination remains occupied after three route refreshes.");
+            if (command.Kind == "research-trigger") session.Set(session.Snapshot with { Dialog = Page(session, Cooldown) });
+            if (command.Kind == "close") session.Set(session.Snapshot with { Dialog = null });
+        };
+        var runner = new QuestRunner(session, Journal(), Recipe(), new());
+        await runner.RunAsync(singleAttempt: true, yieldScheduledWaits: true);
+        Assert.Equal("Scheduled", runner.Job.Status);
+        Assert.Equal(origin, session.Snapshot.Position);
+        Assert.NotNull(runner.Job.NextRun);
+        Assert.Null(runner.Job.Pending);
+        Assert.DoesNotContain(session.Commands, c => c.Kind is "buy" or "choose");
+    }
+
     internal static SimulatedSession Ready()
     {
         var s = new SimulatedSession();
@@ -213,16 +258,22 @@ public class WizardyResearchTests
     }
 
     [Theory]
-    [InlineData(false)]
-    [InlineData(true)]
-    public async Task Several_scrolls_buy_one_parchment_at_a_time_and_verify_each_result(bool statusOnly)
+    [InlineData(false, false, false)]
+    [InlineData(true, false, false)]
+    [InlineData(true, true, false)]
+    [InlineData(true, true, true)]
+    public async Task Several_scrolls_buy_one_parchment_at_a_time_and_verify_each_result(bool statusOnly, bool sorcery, bool loginPopup)
     {
         var s = Ready();
-        s.Set(s.Snapshot with { Inventory = s.Snapshot.Inventory.Remove(1) });
+        s.Set(s.Snapshot with { Inventory = s.Snapshot.Inventory.Remove(1), Position = new(6, 9) });
         int attempts = 0;
         s.OnCommand = c =>
         {
-            if (c.Kind == "navigate") s.Set(s.Snapshot with { Position = c.Target });
+            if (c.Kind == "navigate" && c.StopAtVisibleNpc is null) s.Set(s.Snapshot with { Position = c.Target });
+            if (c.Kind == "research-depart")
+                s.Set(s.Snapshot with { Position = loginPopup && s.Commands.Count(x => x.Kind == "research-depart") == 1 ? new(6, 9) : new(7, 9),
+                    Dialog = loginPopup && s.Commands.Count(x => x.Kind == "research-depart") == 1 ? Page(s, Opening, Begin) : null });
+            if (c.Kind == "open") Assert.DoesNotContain(s.Snapshot.Position!, WizardyResearchEvidence.Triggers);
             if (c.Kind == "open") s.Set(s.Snapshot with { Dialog = new(s.Snapshot.Generation, s.Snapshot.Revision + 1, 55, 1, "Dar", "Synthetic shop", false, 0, 0, 0, [new("Buy", 64, 1)]) });
             if (c.Kind == "choose" && c.Text == "Buy") s.Set(s.Snapshot with { Dialog = new(s.Snapshot.Generation, s.Snapshot.Revision + 1, 55, 1, "Dar", "Synthetic stock", false, 64, 0, 4, []) { Items = [new("Parchment Scroll", 500)] } });
             if (c.Kind == "buy")
@@ -230,7 +281,7 @@ public class WizardyResearchTests
                 Assert.Equal(1, c.Quantity);
                 s.Set(s.Snapshot with { Gold = s.Snapshot.Gold - 500, Inventory = s.Snapshot.Inventory.SetItem(1, new(1, "Parchment Scroll", 1)) });
             }
-            if (c.Kind == "research-trigger") s.Set(s.Snapshot with { Dialog = attempts == 2 ? Page(s, Cooldown) : Page(s, Opening, Begin) });
+            if (c.Kind == "research-trigger") s.Set(s.Snapshot with { Position = new(6, 9), Dialog = attempts == 2 ? Page(s, Cooldown) : Page(s, Opening, Begin) });
             if (c.Kind == "choose" && c.Text != "Buy")
             {
                 if (c.Text == "Alone")
@@ -239,7 +290,7 @@ public class WizardyResearchTests
                     s.Set(s.Snapshot with { Inventory = s.Snapshot.Inventory.Remove(1).SetItem(2, new(2, "Mileth Song", (uint)(attempts * 3))),
                         Dialog = statusOnly ? null : Page(s, "Synthetic successful result"),
                         ActiveStatus = statusOnly ? new(s.Snapshot.Generation, s.Snapshot.Revision + 1, 3,
-                            "You have no more available Parchment Scrolls", DateTimeOffset.UtcNow) : null });
+                            sorcery ? "You research the arcane art of Sorcery" : "You have no more available Parchment Scrolls", DateTimeOffset.UtcNow) : null });
                 }
                 else s.Set(s.Snapshot with { Dialog = Page(s, "Synthetic continuation", c.Text switch { Begin => "Specific", "Specific" => "sorcery", _ => "Alone" }) });
             }
@@ -252,15 +303,16 @@ public class WizardyResearchTests
         Assert.Equal(5000u - (uint)s.Commands.Count(c => c.Kind == "buy") * 500u, s.Snapshot.Gold);
         Assert.Equal(3, s.Commands.Count(c => c.Kind == "buy"));
         Assert.Equal(3, s.Commands.Count(c => c.Kind == "research-trigger"));
+        Assert.Equal(loginPopup ? 4 : 3, s.Commands.Count(c => c.Kind == "research-depart"));
         var order = s.Commands.Where(c => c.Kind is "buy" or "research-trigger" || c.Kind == "choose" && c.Text == "Alone").Select(c => c.Kind == "choose" ? c.Text : c.Kind);
         Assert.Equal(new[] { "buy", "research-trigger", "Alone", "buy", "research-trigger", "Alone", "buy", "research-trigger" }, order);
         Assert.NotNull(r.Job.NextRun);
         Assert.Null(r.Job.Pending);
     }
 
-    static (QuestJob Job, CharacterSnapshot After) StatusProof()
+    static (QuestJob Job, CharacterSnapshot After) StatusProof(string evidence = "wizardry-research-status-result.json")
     {
-        string path = Path.GetFullPath(Path.Combine(AppContext.BaseDirectory, "../../../../../content/evidence/datester-7.41/wizardry-research-status-result.json"));
+        string path = Path.GetFullPath(Path.Combine(AppContext.BaseDirectory, "../../../../../content/evidence/datester-7.41/" + evidence));
         using var proof = JsonDocument.Parse(File.ReadAllText(path));
         var root = proof.RootElement;
         var source = root.GetProperty("Source").Deserialize<Dialog>()!;
@@ -269,9 +321,154 @@ public class WizardyResearchTests
             root.GetProperty("Gold").GetUInt32(), 0, 0, root.GetProperty("SubmittedAt").GetDateTimeOffset())
         {
             EntityId = source.EntityId, EntityType = source.EntityType, InventoryBaselineKnown = true,
-            InventoryCounts = new() { ["Parchment Scroll"] = root.GetProperty("ParchmentBefore").GetInt32() }
+            InventoryCounts = root.GetProperty("SongsBefore").Deserialize<Dictionary<string, int>>()!
         };
+        pending.InventoryCounts["Parchment Scroll"] = root.GetProperty("ParchmentBefore").GetInt32();
         return (new() { Character = after.Name!, Quest = Id, ResearchOptions = new(), Research = new() { Stage = 4, Source = source }, Pending = pending }, after);
+    }
+
+    [Theory]
+    [InlineData("complete", true)]
+    [InlineData("popup-open", false)]
+    [InlineData("consumed", false)]
+    [InlineData("unknown-bag", false)]
+    [InlineData("changed-gold", false)]
+    [InlineData("changed-songs", false)]
+    [InlineData("stale-status", false)]
+    [InlineData("generation", false)]
+    public async Task Captured_failed_experiment_reconciles_retained_parchment_without_inventing_rewards(string variant, bool expected)
+    {
+        var (job, after) = StatusProof("wizardry-research-failure-result.json");
+        after = variant switch
+        {
+            "popup-open" => after with { Dialog = job.Research!.Source },
+            "consumed" => after with { Inventory = after.Inventory.Remove(15) },
+            "unknown-bag" => after with { InventoryKnown = false },
+            "changed-gold" => after with { Gold = after.Gold - 500 },
+            "changed-songs" => after with { Inventory = after.Inventory.SetItem(14, new(14, "Mileth Song", 6)) },
+            "stale-status" => after with { ActiveStatus = after.ActiveStatus! with { Revision = job.Research!.Source!.Revision } },
+            "generation" => after with { Generation = 2 },
+            _ => after
+        };
+        var s = Ready();
+        s.Set(s.Snapshot with { Name = job.Character, Generation = 2 });
+        var journal = Journal();
+        await journal.SaveAsync(job);
+        var runner = new QuestRunner(s, journal, Recipe(), new());
+        await runner.ReconcileAsync(after);
+        Assert.Equal(expected, runner.Job.Pending is null);
+        Assert.Empty(runner.Job.Rewards);
+        Assert.Equal(expected ? 1 : 0, runner.Job.Research!.Attempts.Length);
+        if (expected)
+        {
+            Assert.Empty(runner.Job.Research.Attempts[0].Songs);
+            Assert.Equal("The experiment is a failure", runner.Job.Research.Attempts[0].Status?.Text);
+            Assert.Equal(0, runner.Job.Research.Stage);
+            await runner.ReconcileAsync(after);
+            Assert.Single(runner.Job.Research.Attempts);
+        }
+        Assert.Empty(s.Commands);
+        Assert.Null(runner.Job.CompletedAt);
+        Assert.Null(runner.Job.NextRun);
+    }
+
+    [Theory]
+    [InlineData(false)]
+    [InlineData(true)]
+    public async Task Failed_experiment_reuses_retained_parchment_then_continues_until_cooldown_unless_dead(bool dead)
+    {
+        var s = Ready();
+        s.Set(s.Snapshot with { Dialog = Page(s, Opening, Begin) });
+        int attempts = 0;
+        s.OnCommand = c =>
+        {
+            if (c.Kind == "research-trigger") s.Set(s.Snapshot with { Dialog = Page(s, Opening, Begin) });
+            if (c.Kind == "choose")
+            {
+                if (c.Text == "Alone")
+                {
+                    attempts++;
+                    if (attempts == 1)
+                        s.Set(s.Snapshot with { Hp = dead ? 0u : 30u, Dialog = null, ActiveStatus = new(s.Snapshot.Generation,
+                            s.Snapshot.Revision + 1, 3, "The experiment is a failure", DateTimeOffset.UtcNow) });
+                    else s.Set(s.Snapshot with { Dialog = Page(s, Cooldown) });
+                }
+                else s.Set(s.Snapshot with { Dialog = Page(s, "Synthetic continuation",
+                    c.Text switch { Begin => "Specific", "Specific" => "sorcery", _ => "Alone" }) });
+            }
+            if (c.Kind == "close") s.Set(s.Snapshot with { Dialog = null });
+        };
+        var runner = new QuestRunner(s, Journal(), Recipe(), new());
+        await runner.RunAsync(singleAttempt: true, yieldScheduledWaits: true);
+        Assert.Equal(dead ? 1 : 2, attempts);
+        Assert.Single(runner.Job.Research!.Attempts);
+        Assert.Empty(runner.Job.Rewards);
+        Assert.Equal(1, s.Snapshot.Count("Parchment Scroll"));
+        Assert.DoesNotContain(s.Commands, c => c.Kind is "buy" or "open");
+        Assert.Null(runner.Job.Pending);
+        Assert.Equal(dead ? "Paused" : "Scheduled", runner.Job.Status);
+        Assert.Equal(!dead, runner.Job.NextRun is not null);
+    }
+
+    [Theory]
+    [InlineData("complete", true)]
+    [InlineData("popup-open", false)]
+    [InlineData("parchment-left", false)]
+    [InlineData("no-songs", false)]
+    [InlineData("stale-status", false)]
+    [InlineData("generation", false)]
+    public void Captured_Sorcery_result_requires_closed_dialog_and_complete_resource_receipts(string variant, bool expected)
+    {
+        var (job, after) = StatusProof("wizardry-research-sorcery-result.json");
+        after = variant switch
+        {
+            "popup-open" => after with { Dialog = job.Research!.Source },
+            "parchment-left" => after with { Inventory = after.Inventory.Add(1, new(1, "Parchment Scroll", 1)) },
+            "no-songs" => after with { Inventory = ImmutableDictionary<byte, Item>.Empty },
+            "stale-status" => after with { ActiveStatus = after.ActiveStatus! with { Revision = job.Research!.Source!.Revision } },
+            "generation" => after with { Generation = 2 },
+            _ => after
+        };
+        var receipt = WizardyResearchEvidence.StatusResult(job, after);
+        Assert.Equal(expected, receipt is not null);
+        if (expected) Assert.Equal(3, receipt!.Songs["Mileth Song"]);
+    }
+
+    [Theory]
+    [InlineData(false)]
+    [InlineData(true)]
+    public async Task Carried_batch_uses_original_terminal_status_and_exact_song_gains_once(bool reconnect)
+    {
+        var (job, after) = StatusProof("wizardry-research-batch-result.json");
+        var session = Ready();
+        session.Set(session.Snapshot with { Name = job.Character, Generation = reconnect ? 2 : 1 });
+        var journal = Journal();
+        await journal.SaveAsync(job);
+        var runner = new QuestRunner(session, journal, Recipe(), new());
+        await runner.ReconcileAsync(after);
+        Assert.Null(runner.Job.Pending);
+        Assert.Equal(12, runner.Job.Rewards["item:Abel Song"]);
+        Assert.Equal(6, runner.Job.Rewards["item:Piet Song"]);
+        Assert.Equal(3, runner.Job.Rewards["item:Suomi Song"]);
+        Assert.False(runner.Job.Rewards.ContainsKey("item:Rucesion Song"));
+        await runner.ReconcileAsync(after);
+        Assert.Single(runner.Job.Research!.Attempts);
+        Assert.Equal(21, runner.Job.Research.Attempts[0].Songs.Values.Sum());
+        Assert.Null(journal.Load(job.Character, Id).Pending);
+        Assert.Empty(session.Commands);
+        Assert.Null(runner.Job.CompletedAt);
+        Assert.Null(runner.Job.NextRun);
+    }
+
+    [Theory]
+    [InlineData(0, 0)]
+    [InlineData(7, 1)]
+    public void Carried_batch_does_not_accept_missing_baseline_or_partial_consumption(int before, int remaining)
+    {
+        var (job, after) = StatusProof("wizardry-research-batch-result.json");
+        job.Pending!.InventoryCounts["Parchment Scroll"] = before;
+        if (remaining > 0) after = after with { Inventory = after.Inventory.Add(60, new(60, "Parchment Scroll", (uint)remaining)) };
+        Assert.Null(WizardyResearchEvidence.StatusResult(job, after));
     }
 
     [Theory]
@@ -303,7 +500,7 @@ public class WizardyResearchTests
             "no-debit" => after with { Inventory = after.Inventory.Add(1, new(1, "Parchment Scroll", 1)) },
             "no-song" => after with { Inventory = ImmutableDictionary<byte, Item>.Empty },
             "gold" => after with { Gold = 9000 },
-            "still-running" => after with { ActiveStatus = status with { Text = "You research the arcane art of Sorcery" } },
+            "still-running" => after with { ActiveStatus = status with { Text = "Synthetic research in progress" } },
             "popup-open" => after with { Dialog = source },
             _ => after
         };

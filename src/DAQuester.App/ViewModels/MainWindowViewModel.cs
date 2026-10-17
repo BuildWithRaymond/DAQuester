@@ -30,6 +30,7 @@ public sealed partial class MainWindowViewModel : ObservableObject
     string page = "Dashboard", search = "", filter = "Available", errorMessage = "", noticeMessage = "", clientPath, accountStatus = "";
     bool legendMarksOnly;
     bool automaticUpdateChecks;
+    bool keepRunningInTray, startWithWindows;
     CharacterItemVM? selectedCharacter;
     QuestItemVM? selectedQuest;
     public ObservableCollection<CharacterItemVM> Characters { get; } = [];
@@ -320,6 +321,9 @@ public sealed partial class MainWindowViewModel : ObservableObject
         InitializeDashboard();
         clientPath = runtime.Settings.ClientPath;
         automaticUpdateChecks = runtime.Settings.AutomaticUpdateChecks;
+        keepRunningInTray = runtime.Settings.KeepRunningInTray;
+        try { startWithWindows = runtime.LoginStartup.ReadCommand() is not null; }
+        catch (Exception error) { ReportError(error); }
         journeyCollapsed = runtime.Settings.JourneyCollapsed;
         NavigateCommand = new(p => Page = p as string ?? "Planner");
         FilterCommand = new(p => Filter = p as string ?? "Available");

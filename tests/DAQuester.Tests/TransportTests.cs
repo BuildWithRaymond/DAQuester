@@ -72,7 +72,8 @@ public class TransportTests
         }
 
         var crypto = new Arbiter.Net.Server.ServerPacketEncryptor();
-        using var timeout = new CancellationTokenSource(TimeSpan.FromSeconds(3));
+        // This watchdog includes temporary-file I/O and first-use JIT on CI.
+        using var timeout = new CancellationTokenSource(TimeSpan.FromSeconds(20));
         await server.GetStream().WriteAsync(crypto.Encrypt(packet, 20).ToArray(), timeout.Token);
         await ReadFrame(client.GetStream(), timeout.Token);
         var before = connection.Tracker.Snapshot;

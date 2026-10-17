@@ -2,6 +2,12 @@ namespace DAQuester.Core;
 
 public static class QuestRunPolicy
 {
+    // Resume describes the schedule checkpoint, not every older quest receipt.
+    // A completed attempt before this due time cannot satisfy the new run.
+    public static bool StartNewScheduledAttempt(QuestDefinition recipe, QuestJob job, QuestSchedule entry) =>
+        !entry.Resume || recipe.Repeatable && !Finished(recipe, job) && AttemptCompleted(job)
+        && job.Route?.CleanupPending != true && job.Research?.Cleanup is null && job.CompletedAt < entry.Due;
+
     public static bool AttemptCompleted(QuestJob job) => job.Pending is null && job.Step == "complete" && job.CompletedAt is not null;
     // A verified reward can still leave a terminal popup to close. Keep that
     // cleanup runnable without reopening the already committed reward claim.

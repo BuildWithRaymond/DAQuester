@@ -1,7 +1,7 @@
 namespace DAQuester.Core;
 
-// The opening is captured; later dialogue and cooldown remain player-reported.
-// Unknown outcomes remain pending.
+// Captured Sorcery, failure and parchment-exhaustion results have explicit receipts.
+// Unknown outcomes remain pending; cooldown still requires its exact page.
 public sealed class WizardyResearchActions : IQuestAction
 {
     static readonly TimeSpan Timeout = TimeSpan.FromSeconds(8);
@@ -57,6 +57,7 @@ public sealed class WizardyResearchActions : IQuestAction
                     Math.Abs(arrived.X - 7) + Math.Abs(arrived.Y - 8) > 1 || WizardyResearchEvidence.Triggers.Contains(arrived))
                     throw new QuestBlockedException("Assistant arrival needs reconciliation before research.");
             }
+            int supplyDepartures = 0;
             while (true)
             {
                 ct.ThrowIfCancellationRequested();
@@ -69,13 +70,26 @@ public sealed class WizardyResearchActions : IQuestAction
                 await Health(c, ct);
                 if (Progress(c).Stage == 0 && (c.Session.Snapshot.Dialog is null || c.Session.Snapshot.Dialog is { IsPursuit: false, Name: "Dar" }))
                 {
-                    await c.Session.ExecuteAsync(new("navigate", WizardyResearchEvidence.Map, new(7, 9), ExpectedGeneration: c.Session.Snapshot.Generation), ct);
-                    if (c.Session.Snapshot.Map != WizardyResearchEvidence.Map || c.Session.Snapshot.Position != new Tile(7, 9))
+                    await c.Session.ExecuteAsync(new("navigate", WizardyResearchEvidence.Map, new(7, 9),
+                        ExpectedGeneration: c.Session.Snapshot.Generation, StopAtVisibleNpc: "Dar"), ct);
+                    if (c.Session.Snapshot.Map != WizardyResearchEvidence.Map || c.Session.Snapshot.Position is null)
                         throw new QuestBlockedException("Research room arrival needs reconciliation.");
-                    await BankSongs(c, ct);
-                    await Parchment(c, ct);
-                    if (c.Session.Snapshot.Dialog is not { } arrivedPage || !WizardyResearchEvidence.ResearchPage(c.Session.Snapshot, arrivedPage))
-                        await c.Session.ExecuteAsync(new("research-trigger", ExpectedGeneration: c.Session.Snapshot.Generation), ct);
+                    var arrival = c.Session.Snapshot;
+                    if ((arrival.Count(WizardyResearchEvidence.Parchment) == 0 || Progress(c).BankingItem is not null ||
+                        WizardyResearchEvidence.DepositCandidate(arrival) is not null) && WizardyResearchEvidence.Triggers.Contains(arrival.Position!))
+                    {
+                        if (++supplyDepartures > 3)
+                            throw new QuestBlockedException("Research tile keeps reopening its menu; supplies were not purchased. Resolve the current position before resuming.");
+                        await c.Session.ExecuteAsync(new("research-depart", ExpectedGeneration: arrival.Generation), ct);
+                    }
+                    if (c.Session.Snapshot.Dialog is null || c.Session.Snapshot.Dialog is { IsPursuit: false, Name: "Dar" })
+                    {
+                        supplyDepartures = 0;
+                        await BankSongs(c, ct);
+                        await Parchment(c, ct);
+                        if (c.Session.Snapshot.Dialog is not { } arrivedPage || !WizardyResearchEvidence.ResearchPage(c.Session.Snapshot, arrivedPage))
+                            await c.Session.ExecuteAsync(new("research-trigger", ExpectedGeneration: c.Session.Snapshot.Generation), ct);
+                    }
                 }
                 await Menu(c, options, AssistantReady, ct);
                 await Reconcile(c, ct);

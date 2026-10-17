@@ -17,7 +17,7 @@ public sealed partial class GameSession
         && notice.Generation == s.Generation && notice.Revision == s.Revision
         && notice.Text.StartsWith("You can't bring weapons here!", StringComparison.Ordinal);
 
-    bool IsTravelNotice(CharacterSnapshot s) => IsTownNotice(s.Dialog) || IsWeaponNotice(s)
+    bool IsTravelNotice(CharacterSnapshot s) => IsTownNotice(s.Dialog) || IsWeaponNotice(s) || EventNotices.Recognized(s)
         || townWeaponRemovalRequired || entryBlock is not null;
 
     async Task RemoveTownWeapon(CancellationToken ct)
@@ -53,7 +53,9 @@ public sealed partial class GameSession
             var notice = before.Dialog;
             if (!IsTravelNotice(before))
                 return handled;
-            if (IsWeaponNotice(before))
+            if (EventNotices.Recognized(before))
+                await CloseDialog(notice, ct);
+            else if (IsWeaponNotice(before))
             {
                 townWeaponRemovalRequired = true;
                 await CloseDialog(notice, ct);

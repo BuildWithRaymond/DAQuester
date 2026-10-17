@@ -3,11 +3,12 @@
 DAQuester is a quest companion for your Dark Ages characters. Plan a journey,
 put quests in your preferred order, and keep each character's progress together.
 The Avalonia desktop app pairs a quiet, fully dark journal with clear quest
-details, original character sprites, and a queue you can pause and return to.
+details, original character sprites, a queue you can pause and return to, and
+optional scheduled work that can keep running in the system tray.
 
 [Download for Windows](https://github.com/BuildWithRaymond/DAQuester/releases/latest)
 · [Setup guide](docs/GETTING_STARTED.md)
-· [1.4.0 release notes](docs/releases/v1.4.0.md)
+· [1.6.0 release notes](docs/releases/v1.6.0.md)
 · [Report a bug](https://github.com/BuildWithRaymond/DAQuester/issues/new/choose)
 
 This README describes current source. See the release notes for changes included
@@ -65,7 +66,19 @@ and remaining live-run limits.
 - **Schedule eligible quests.** Optional Scheduler saves one-time or supported
   recurring attempts. Save entries, acknowledge the login warning, then choose
   **Turn on saved schedules**. Stopped entries have a separate **Resume schedule**
-  action. Scheduler is off by default; DAQuester must stay open for it to run.
+  action. Scheduler is off by default. It launches saved characters for eligible
+  work and closes only the clients it opened when that run ends.
+- **Keep scheduling from the tray.** Closing the window keeps DAQuester running
+  in the system tray by default. Reopen it from the tray icon; its menu shows
+  scheduling status and offers Pause scheduling and Exit DAQuester. Settings can
+  disable tray mode or optionally start DAQuester when you sign in to Windows.
+  Sign-in startup is off by default and never enables schedules. Keep Windows
+  signed in and the PC awake; signed-out execution is not supported.
+- **Run Auto Tasks.** Search activities separately from the quest library.
+  Wizardy research buys missing parchment, follows the selected research setup,
+  verifies outcomes, and repeats until the server's rest or a blocker. Failed
+  experiments with the observed retained-scroll outcome reuse that parchment.
+  Altar Worship preserves its offering count and waits between eligible runs.
 
 ![Dashboard cards with original character sprites, running progress, and a paused journey](docs/screenshots/dashboard.png)
 
@@ -83,7 +96,7 @@ theme and labels offline marks as last observed. See the
 
 1. Download **DAQuester-win-Setup.exe**, or extract **DAQuester-win-Portable.zip**
    from [Releases](https://github.com/BuildWithRaymond/DAQuester/releases/latest).
-   Both include the .NET runtime.
+   Both include the .NET runtime; players do not need a separate .NET installation.
 2. In **Settings**, select your supported `Darkages.exe`. Restart DAQuester if you
    change that path.
 3. In **Characters**, add your character names and optional passwords, then click
@@ -136,6 +149,17 @@ quests have recorded live completions, including helper picking, trading and
 logout. The complete queue and broader sign-in recovery flows retain synthetic
 coverage; those runs do not establish live success. Current results and limits
 are in [validation](docs/validation.md).
+
+Wizardy research has live verification of automatic parchment purchase, successful
+Song results, repeated failed experiments with retained parchment, and the final
+12-hour server rest with popup cleanup. It uses carried parchment first and
+checks the exact 500-gold quote and both receipts before buying another. Song
+banking, assistant work and other outcome variants retain the limits in the
+[task guide](docs/QUESTS.md#tasks-wizardy-research). Unknown replies and uncertain
+submissions pause rather than spend or submit again. Scheduled runs close their
+owned clients after the verified rest; a manually launched client stays under
+manual control. A schedule blocked by an already-open client needs explicit
+Resume after that client is closed.
 
 Fisk's secrecy path and the Cail/Cap outcome have observed MCP completions.
 Their new full automatic runners have synthetic coverage and still require fresh

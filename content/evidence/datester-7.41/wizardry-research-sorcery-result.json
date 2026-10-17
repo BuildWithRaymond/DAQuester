@@ -1,0 +1,74 @@
+{
+    "Title":  "One parchment research completes with Sorcery status, three Mileth Songs and server dialog closure",
+    "ServerProfile":  "datester-7.41",
+    "EvidenceType":  "Restricted automatic own server observations; actor, generation, entity and gold normalized",
+    "Limits":  [
+                   "This proves one automatic purchase and research result; repeat and cooldown require separate verification.",
+                   "Unrelated inventory, other players, raw packet data and private paths are omitted."
+               ],
+    "SubmittedAt":  "2026-10-17T00:20:42.4111591+00:00",
+    "Gold":  9500,
+    "ParchmentBefore":  1,
+    "SongsBefore":  {
+
+                    },
+    "Source":  {
+                   "Generation":  1,
+                   "Revision":  189,
+                   "EntityId":  77,
+                   "EntityType":  4,
+                   "Name":  "",
+                   "Text":  "Will you be researching with an assistant or alone? An assistant must also be a wizard.\n  Researching alone is difficult and might kill you!",
+                   "IsPursuit":  true,
+                   "Pursuit":  315,
+                   "Step":  56,
+                   "Type":  2,
+                   "Choices":  [
+                                   {
+                                       "Text":  "Assistant",
+                                       "Pursuit":  315,
+                                       "Option":  1
+                                   },
+                                   {
+                                       "Text":  "Alone",
+                                       "Pursuit":  315,
+                                       "Option":  2
+                                   }
+                               ],
+                   "Prompt":  null,
+                   "HasNext":  true,
+                   "ObservedAt":  "2026-10-17T00:20:42.3750454+00:00",
+                   "Items":  [
+
+                             ]
+               },
+    "After":  {
+                  "Name":  "ResearchActor",
+                  "Generation":  1,
+                  "Revision":  204,
+                  "Connected":  true,
+                  "Map":  401,
+                  "Position":  {
+                                   "X":  6,
+                                   "Y":  9
+                               },
+                  "Gold":  9500,
+                  "InventoryKnown":  true,
+                  "Inventory":  {
+                                    "2":  {
+                                              "Stackable":  true,
+                                              "Quantity":  3,
+                                              "Name":  "Mileth Song",
+                                              "Slot":  2
+                                          }
+                                },
+                  "Dialog":  null,
+                  "ActiveStatus":  {
+                                       "Generation":  1,
+                                       "Revision":  193,
+                                       "Type":  3,
+                                       "Text":  "You research the arcane art of Sorcery",
+                                       "ObservedAt":  "2026-10-17T00:20:42.8692149+00:00"
+                                   }
+              }
+}

@@ -140,9 +140,13 @@ public sealed partial class DesktopRuntime
         }
     });
 
-    public DesktopRuntime(bool preview = false, IUpdateBackend? updateBackend = null, IQuestJournal? journal = null)
+    public ILoginStartup LoginStartup { get; }
+    internal Action? ShowWindowRequested { get; set; }
+
+    public DesktopRuntime(bool preview = false, IUpdateBackend? updateBackend = null, IQuestJournal? journal = null, ILoginStartup? loginStartup = null)
     {
         Preview = preview;
+        LoginStartup = loginStartup ?? (preview ? new PreviewLoginStartup() : new WindowsLoginStartup());
         Settings = AppSettings.Load();
         this.journal = new(journal ?? new FileQuestJournal(Path.Combine(AppSettings.DataPath, "journal")));
         var schedulerStore = new FileQuestSchedulerStore(Path.Combine(AppSettings.DataPath, "scheduler.json"));

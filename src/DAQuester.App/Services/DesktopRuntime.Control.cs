@@ -51,6 +51,13 @@ public sealed partial class DesktopRuntime
 
     async Task<object?> ControlAsync(ControlRequest r)
     {
+        if (r.Method == "show-window")
+        {
+            RequireOpen();
+            if (ShowWindowRequested is null) throw new IOException("The DAQuester window is not ready to open.");
+            ShowWindowRequested();
+            return new { shown = true };
+        }
         bool Flag(string key) => r.Arguments is { } a && a.TryGetProperty(key, out var v) && v.ValueKind == JsonValueKind.True;
         int Number(string key, int fallback) => r.Arguments is { } a && a.TryGetProperty(key, out var v) ? v.GetInt32() : fallback;
         string? TextArgument(string key) => r.Arguments is { } a && a.TryGetProperty(key, out var v) ? v.GetString() : null;
