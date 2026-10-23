@@ -2085,3 +2085,41 @@ preserved completion; approving retained the saved outcome and cooldown while
 Scheduler stayed disabled. No game clients were launched or operated, player
 Data was not edited, and Excalibur was not stopped, restarted or modified.
 Live-qualification limits in the release notes remain unchanged.
+
+## 2026-10-23 research setup reconnect and empty-only restock
+
+Read-only diagnostics, the saved checkpoint and original replay isolated an
+interrupted pre-experiment Begin menu. The server sent Specific followed by
+closure, and scheduler cleanup disconnected its owned window after the pause.
+The saved kind was `research-menu`; reconnect incorrectly applied the committed
+experiment's generation barrier to that setup cursor. The restricted fixture
+is `content/evidence/datester-7.41/wizardry-research-setup-closure.json`.
+
+The initial regressions reproduced seven setup failures and six unnecessary
+restock cases; ten safety/unchanged cases passed. After correction, all 205
+broader focused research checks and 22 final setup cases passed. Coverage
+includes the reply/close race, known fresh openings and rests, no resend of an
+unanswered current page, original receipt requirements for actual submissions,
+preserved unknown/conflicting state, remaining potion counts and split stacks,
+and use of the last dose before refilling at zero. A setup restart adds no
+attempt, reward, completion or cooldown and retains prior recorded history.
+
+The saved history contains ten experiment receipts between observed rests,
+across resumed sessions; carried-batch receipts do not prove individual attempt
+counts or a universal cap. The player's final empty-only policy supersedes an
+initial minimum-reserve discussion. Fresh inventory counts decide whether to
+restock; previously submitted purchases still reconcile before that check.
+
+The clean symbol-free 1.7.1 Release solution build completed with zero warnings
+or errors. Both full xUnit projects passed with no failures or skips:
+**1,753 Core/protocol and 373 App tests**. TRX results are under
+`artifacts/research-reconnect-fix/results`. `Build-Release.ps1`, a separate
+`Verify-Release.ps1`, and pinned 1.0.7 → 1.7.1 updater compatibility all passed.
+The packaged application assemblies/native DLL match the tested copies. Packages
+are under `artifacts/research-reconnect-release/release`.
+
+No real characters were operated during investigation, builds or synthetic
+tests. Player journals/settings and the live session were not edited or stopped;
+Excalibur was not modified. No interface or packaging behavior changed. These
+corrected paths are synthetically verified; a fresh full automatic live run
+remains unqualified.
