@@ -8,7 +8,7 @@ optional scheduled work that can keep running in the system tray.
 
 [Download for Windows](https://github.com/BuildWithRaymond/DAQuester/releases/latest)
 · [Setup guide](docs/GETTING_STARTED.md)
-· [1.7.0 release notes](docs/releases/v1.7.0.md)
+· [1.7.1 release notes](docs/releases/v1.7.1.md)
 · [Report a bug](https://github.com/BuildWithRaymond/DAQuester/issues/new/choose)
 
 This README describes current source. See the release notes for changes included

@@ -2,6 +2,14 @@
 
 ## Unreleased
 
+## 1.7.1 — 2026-10-23
+
+- Restart known research setup menus after server closure or reconnect so a
+  harmless dialogue cursor cannot become an earlier-connection blocker.
+  Preserve actual research submissions, resource receipts and existing history.
+- Use the last carried Exkuranum before refilling to 30 at zero. Keep purchase
+  reconciliation and full-health proof before further experiments.
+
 ## 1.7.0 — 2026-10-22
 
 - Add the Wolf of West Woodlands recipe with observed travel/dialogue, guarded

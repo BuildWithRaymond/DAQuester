@@ -29,7 +29,7 @@ public sealed partial class WizardyResearchActions
         await ReconcilePotionPurchase(c, ct);
         if (!c.Session.Snapshot.InventoryKnown)
             throw new QuestBlockedException("Fresh inventory required before checking Exkuranum supplies.");
-        if (c.Session.Snapshot.Count(Exkuranum) >= PotionStock) return;
+        if (c.Session.Snapshot.Count(Exkuranum) > 0) return;
         if (c.Job.Pending is { Kind: "research-supply-close" }) await Reconcile(c, ct);
         if (c.Job.Pending is not null || Progress(c).Stage != 0)
             throw new QuestBlockedException("Reconcile the current research submission before replenishing Exkuranum.");

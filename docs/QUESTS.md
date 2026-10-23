@@ -378,13 +378,16 @@ The exact four-Temuairan-day refusal records the player's specified 12-hour rest
 Setup offers recurring scheduling with explicit notice that scheduled logins can
 disconnect a character being used in another program. Saving a schedule does not
 turn on Scheduler. Manual runs and resumes retain normal Pause/Stop controls.
-Before each visit, carry 30 Exkuranum. DAQuester buys the missing quantity at
+Use carried Exkuranum down to the last potion. At zero, DAQuester refills to 30 at
 Blackstar Village Research using its fresh offer, verifies the item and gold
 receipts, then returns to research. Research damage triggers one Exkuranum
 immediately, including while a result is pending. Actual HP must reach maximum
 and one potion must be consumed before continuing. Saved purchase or dose
 receipts prevent duplicate submissions after a timeout or reconnect. Forced
 grouping remains outside the selected scope.
+Closed or reconnected pre-experiment setup menus restart from fresh dialogue;
+actual experiment submissions and resource transactions retain their receipt
+requirements. Restarting a setup menu does not record an attempt or cooldown.
 
 Automatic purchase and successful Song results are observed live. A later live
 run repeated four failed experiments using retained parchment, then verified the

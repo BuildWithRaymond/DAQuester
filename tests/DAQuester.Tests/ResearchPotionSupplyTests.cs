@@ -22,7 +22,7 @@ public class ResearchPotionSupplyTests
     static object? Purchase(QuestContext context) => typeof(WizardyResearchProgress)
         .GetProperty("PotionPurchase")?.GetValue(context.Job.Research);
 
-    static (SimulatedSession Session, QuestContext Context) Fixture(int count = 9, Func<SimulatedSession, IGameSession>? wrap = null)
+    static (SimulatedSession Session, QuestContext Context) Fixture(int count = 0, Func<SimulatedSession, IGameSession>? wrap = null)
     {
         var session = WizardyResearchTests.Ready();
         session.Set(session.Snapshot with { Inventory = session.Snapshot.Inventory.Where(pair =>
@@ -75,12 +75,10 @@ public class ResearchPotionSupplyTests
     static Dialog Merchant(SimulatedSession session, byte type) => new(session.Snapshot.Generation, session.Snapshot.Revision + 1,
         SellerId, 1, Seller, "Synthetic merchant page", false, 41, 0, type, []);
 
-    [Theory]
-    [InlineData(0)]
-    [InlineData(9)]
-    [InlineData(29)]
-    public async Task Blackstar_research_buys_only_the_shortfall_at_its_actual_quote(int count)
+    [Fact]
+    public async Task Empty_supplies_buy_thirty_at_the_actual_quote()
     {
+        const int count = 0;
         var (session, context) = Fixture(count);
         await Call("PreparePotions", context);
         Assert.Equal(30 - count, Assert.Single(session.Commands, c => c.Kind == "buy").Quantity);
@@ -240,13 +238,29 @@ public class ResearchPotionSupplyTests
     }
 
     [Theory]
+    [InlineData(1)]
+    [InlineData(9)]
+    [InlineData(10)]
+    [InlineData(20)]
+    [InlineData(28)]
+    [InlineData(29)]
     [InlineData(30)]
     [InlineData(31)]
-    public async Task A_full_stack_skips_shop_travel(int count)
+    public async Task Any_remaining_Exkuranum_skips_shop_travel(int count)
     {
         var (session, context) = Fixture(count);
         await Call("PreparePotions", context);
         Assert.Empty(session.Commands);
+    }
+
+    [Fact]
+    public async Task Carried_split_stacks_are_used_without_a_restock_trip()
+    {
+        var (session, context) = Fixture(6);
+        session.Set(session.Snapshot with { Inventory = session.Snapshot.Inventory.Add(3, new(3, Potion, 4)) });
+        await Call("PreparePotions", context);
+        Assert.Empty(session.Commands);
+        Assert.Equal(10, session.Snapshot.Count(Potion));
     }
 
     [Theory]
@@ -338,7 +352,7 @@ public class ResearchPotionSupplyTests
         await Assert.ThrowsAsync<TimeoutException>(() => Call("PreparePotions", context));
         Assert.NotNull(Purchase(context));
         session.Set(session.Snapshot with { Generation = session.Snapshot.Generation + (reconnect ? 1 : 0),
-            Inventory = session.Snapshot.Inventory.SetItem(2, new(2, Potion, 30)), Gold = 9475 });
+            Inventory = session.Snapshot.Inventory.SetItem(2, new(2, Potion, 30)), Gold = 9250 });
         if (reconnect) await Assert.ThrowsAnyAsync<QuestBlockedException>(() => Call("PreparePotions", context));
         else await Call("PreparePotions", context);
         Assert.Single(session.Commands, c => c.Kind == "buy");
@@ -357,7 +371,7 @@ public class ResearchPotionSupplyTests
             if (command.Kind == "buy")
             {
                 session.Set(itemsOnly ? session.Snapshot with { Inventory = session.Snapshot.Inventory.SetItem(2, new(2, Potion, 30)) }
-                    : session.Snapshot with { Gold = 9475 });
+                    : session.Snapshot with { Gold = 9250 });
                 return;
             }
             normal(command);

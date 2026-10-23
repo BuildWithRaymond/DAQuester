@@ -1,0 +1,40 @@
+{
+  "Title": "Research setup closure followed by a reconnect blocker",
+  "ObservedDate": "2026-10-23",
+  "ServerProfile": "datester-7.41",
+  "Limits": [
+    "Own research fields only; actor, generation and reactor identities are normalized. Other players, unrelated resources, raw payloads and private paths are omitted.",
+    "The forwarded client selected the same Begin option after the bot. The server then sent Specific and close pages. The reason for the extra client command is not established.",
+    "Ten recorded experiment receipts between observed rests do not establish a universal server cap. The player ultimately requested empty-only potion restocking."
+  ],
+  "Pending": { "Kind": "research-menu", "Generation": 1, "Revision": 10, "Stage": 1 },
+  "Source": {
+    "Generation": 1, "Revision": 11, "EntityId": 77, "EntityType": 4, "Name": "",
+    "Text": "Do you need help before beginning your wizardry research? If you don't know about research you should seek help, and thereby make sure you bring your ingredients, reagents, or other materia.",
+    "IsPursuit": true, "Pursuit": 315, "Step": 19, "Type": 2, "HasNext": true,
+    "Choices": [
+      { "Text": "No, I am ready to begin wizardry research", "Pursuit": 315, "Option": 1 },
+      { "Text": "Help", "Pursuit": 315, "Option": 2 },
+      { "Text": "I don't want to research", "Pursuit": 315, "Option": 3 }
+    ]
+  },
+  "Sequence": [
+    { "TimeUtc": "05:42:40.0381663", "Source": "bot", "Action": "Begin choice" },
+    { "TimeUtc": "05:42:40.1073328", "Source": "client", "Action": "Same Begin choice" },
+    { "TimeUtc": "05:42:40.5227475", "Source": "server", "Revision": 13, "Choices": ["General", "Specific", "Help"] },
+    { "TimeUtc": "05:42:40.5228495", "Source": "server", "Revision": 14, "Dialog": null }
+  ],
+  "UnchangedResources": { "ParchmentScroll": 1, "Exkuranum": 28, "SongCounts": true, "Gold": true },
+  "Health": { "Hp": 4900, "MaxHp": 4900 },
+  "PausedReason": "Research receipt remains uncertain; no action resent.",
+  "AfterReconnectReason": "Research submission belongs to an earlier connection; inspect its receipt. Nothing resent.",
+  "ObservedRestWindow": {
+    "PreviousRestUtc": "2026-10-17T01:03:40",
+    "ResumedAtUtc": "2026-10-17T13:10:35",
+    "FirstSessionExperimentReceipts": 3,
+    "LaterSessionExperimentReceipts": 7,
+    "TotalRecordedExperimentReceipts": 10,
+    "NextRestUtc": "2026-10-18T20:38:08.9057696",
+    "RestText": "You have researched already. You cannot discover anything new until you have given your mind a long rest of four Temuairan days."
+  }
+}

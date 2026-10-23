@@ -248,12 +248,14 @@ public class ResearchHealingTests
         Assert.Null(runner.Job.Pending);
     }
 
-    [Fact]
-    public async Task Missing_split_stack_supplies_are_bought_then_character_returns_to_research()
+    [Theory]
+    [InlineData(false)]
+    [InlineData(true)]
+    public async Task Restock_happens_at_zero_including_after_using_the_last_potion(bool useLastPotion)
     {
         var s = Ready();
-        s.Set(s.Snapshot with { Inventory = s.Snapshot.Inventory.SetItem(10, new(10, "Exkuranum", 2))
-            .Add(11, new(11, "Exkuranum", 5)) });
+        s.Set(s.Snapshot with { Inventory = s.Snapshot.Inventory.SetItem(10, new(10, "Exkuranum", useLastPotion ? 1u : 0u)) });
+        int experiments = 0;
         s.OnCommand = command =>
         {
             if (command.Kind == "close") s.Set(s.Snapshot with { Dialog = null });
@@ -271,6 +273,14 @@ public class ResearchHealingTests
                 else if (command.Text == "Alone")
                 {
                     Assert.Equal(401, s.Snapshot.Map);
+                    if (useLastPotion && experiments++ == 0)
+                    {
+                        Assert.Equal(1, s.Snapshot.Count("Exkuranum"));
+                        Assert.DoesNotContain(s.Commands, c => c.Kind == "buy");
+                        s.Set(s.Snapshot with { Hp = 300, Dialog = null, ActiveStatus = new(s.Snapshot.Generation,
+                            s.Snapshot.Revision + 1, 3, WizardyResearchEvidence.FailedExperiment, DateTimeOffset.UtcNow) });
+                        return;
+                    }
                     Assert.Equal(30, s.Snapshot.Count("Exkuranum"));
                     s.Set(s.Snapshot with { Dialog = Page(s, WizardyResearchEvidence.Cooldown) });
                 }
@@ -278,10 +288,13 @@ public class ResearchHealingTests
             }
             if (command.Kind == "buy")
             {
-                Assert.Equal(23, command.Quantity);
-                s.Set(s.Snapshot with { Inventory = s.Snapshot.Inventory.Remove(11).SetItem(10, new(10, "Exkuranum", 30)),
-                    Gold = s.Snapshot.Gold - 460 });
+                Assert.Equal(0, s.Snapshot.Count("Exkuranum"));
+                Assert.Equal(30, command.Quantity);
+                s.Set(s.Snapshot with { Inventory = s.Snapshot.Inventory.SetItem(10, new(10, "Exkuranum", 30)),
+                    Gold = s.Snapshot.Gold - 600 });
             }
+            if (command.Kind == "use-item")
+                s.Set(s.Snapshot with { Hp = 1000, Inventory = s.Snapshot.Inventory.SetItem(10, new(10, "Exkuranum", 0)) });
             if (command.Kind == "research-trigger") s.Set(s.Snapshot with { Dialog = Page(s, "Synthetic opening", Begin) });
         };
         var runner = new QuestRunner(s, Journal(), Recipe(), new());
@@ -289,7 +302,8 @@ public class ResearchHealingTests
         Assert.Equal("Scheduled", runner.Job.Status);
         Assert.Equal(new int?[] { 3214, 401 }, s.Commands.Where(c => c.Kind == "navigate").Select(c => c.Map));
         Assert.Single(s.Commands, c => c.Kind == "buy");
-        Assert.Single(s.Commands, c => c.Text == "Alone");
+        Assert.Equal(useLastPotion ? 2 : 1, s.Commands.Count(c => c.Text == "Alone"));
+        Assert.Equal(useLastPotion ? 1 : 0, s.Commands.Count(c => c.Kind == "use-item"));
         Assert.Null(runner.Job.Research!.PotionPurchase);
         Assert.False(runner.Job.Research.HealthCheckRequired);
     }

@@ -742,3 +742,12 @@ reason is unknown. Code analysis established that local avoidance excluded the
 recorded door. Corrected retries are synthetic, with no new automatic live run.
 Character identities, other-player metadata, unrelated resources, raw payloads
 and local paths are omitted.
+
+The October 23
+[research setup closure excerpt](../content/evidence/datester-7.41/wizardry-research-setup-closure.json)
+retains the observed Begin page, bot/client selections, fresh Specific reply
+followed by closure, unchanged own research resources and the resulting menu
+checkpoint. Actor, connection and reactor identities are normalized. Its rest
+window count comes from saved original attempt receipts and the exact observed
+rest page; it does not prove a universal attempt cap. Other-player metadata,
+unrelated resources, raw payloads and private paths are omitted.

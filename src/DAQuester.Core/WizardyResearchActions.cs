@@ -218,13 +218,14 @@ public sealed partial class WizardyResearchActions : IQuestAction
                 await c.BeginAsync("research-next", d.EntityId, observedDialog: d);
                 await c.Session.ExecuteAsync(new("next", Dialog: d, ExpectedGeneration: d.Generation, ExpectedDialogRevision: d.Revision, ExpectedPageText: d.Text), ct);
                 await Reconcile(c, ct);
+                if (Progress(c).Stage == 0 && Progress(c).Source is null) return;
                 continue;
             }
             bool submit = stage == 3 && options.Assistant is null;
             if (submit && c.Session.Snapshot.Count(WizardyResearchEvidence.Parchment) < 1)
                 throw new QuestBlockedException("Parchment is missing; no research submitted.");
             await Select(c, d, label, stage + 1, submit, ct);
-            if (submit) return;
+            if (submit || Progress(c).Stage == 0 && Progress(c).Source is null) return;
         }
         throw new QuestBlockedException("Research page limit reached; resume to inspect current popup.");
     }
@@ -305,6 +306,7 @@ public sealed partial class WizardyResearchActions : IQuestAction
         var t = c.Job.Pending;
         if (t is null) return;
         Identity(c);
+        if (await RestartAbandonedSetup(c)) return;
         if (c.Session.Snapshot.Generation != t.Generation) throw new QuestBlockedException("Research submission belongs to an earlier connection; inspect its receipt. Nothing resent.");
         if (t.Kind == "research-submit")
         {
@@ -343,7 +345,9 @@ public sealed partial class WizardyResearchActions : IQuestAction
             await CaptureResultStatus(c);
             if (Wounded(c.Session.Snapshot)) await Health(c, ct);
         }
-        else if (!Receipt(c.Session.Snapshot)) await c.Session.WaitAsync(Receipt, t.Revision, Timeout, ct);
+        else if (!Receipt(c.Session.Snapshot))
+            await c.Session.WaitAsync(s => Receipt(s) || AbandonedSetup(c.Job, s), t.Revision, Timeout, ct);
+        if (await RestartAbandonedSetup(c)) return;
         var after = c.Session.Snapshot;
         if (!Receipt(after)) throw new QuestBlockedException("Research receipt remains uncertain; no action resent.");
         if (Refusal(after))

@@ -52,3 +52,32 @@ research-room arrival. Unknown pages and uncertain submissions remain guarded.
 
 This capture establishes the observed merchant offer and purchase only. Potion
 healing and a complete corrected automatic research run remain unqualified live.
+
+## Empty-only restocking and setup recovery
+
+On October 23 the player requested using the remaining potions, including the
+last one, then refilling to 30 only at zero. This supersedes topping up before
+each visit. Fresh inventory still supplies the count across all bag stacks;
+an existing purchase checkpoint must reconcile even when potions are carried.
+Actual research/result reconciliation and the full-health requirement still
+precede another supply trip or experiment.
+
+The saved history records ten experiment results between the October 17 and
+October 18 observed rests, split across resumed sessions. Earlier carried-batch
+receipts are not single-parchment attempt counts, and this history does not
+prove a universal server cap. The requested empty-only policy is independent
+of that observed count.
+
+The later interruption followed a successful result and two verified failed
+experiments with Exkuranum healing. At the next Begin choice, the server sent
+the Specific menu and immediately closed it. A bot selection and a forwarded
+client selection were observed 69 milliseconds apart; the extra client command's
+cause is unknown. The saved transaction was setup-only `research-menu`, not
+`research-submit`. Original-connection balances were unchanged. See the
+[restricted excerpt](../../content/evidence/datester-7.41/wizardry-research-setup-closure.json).
+
+Restart only the recognized pre-experiment menu cursor after closure or
+reconnect. Preserve earlier attempts, rewards and choices; record no new result,
+completion or rest. Unknown popups and conflicting result/cleanup state stay
+guarded. Purchases, deposits, potion doses and actual experiment submissions
+retain their original receipt requirements. No player Data is edited to recover.

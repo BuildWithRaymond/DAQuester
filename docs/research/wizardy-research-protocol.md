@@ -59,9 +59,10 @@ The exact reported cooldown page is:
 The player requests remote deposits through Dar when any carried Song type
 reaches 25. These are user reports and requested behavior, not packet captures.
 The original scope withdrew forced grouping and exkuranum preparation. On October
-18 the player requested and approved Exkuranum preparation and healing: top up to
-30 at Blackstar Village Research before each visit and restore actual HP to its
-maximum immediately after research damage. Forced grouping is still excluded.
+18 the player requested and approved Exkuranum preparation and healing. The
+October 23 instruction uses the last carried potion before restocking to 30 at
+Blackstar Village Research, and restores actual HP to its maximum immediately
+after research damage. Forced grouping is still excluded.
 A zero-health reading may be transient; neither death nor immunity to death is
 established. See [the approved change](../superpowers/specs/2026-10-18-research-exkuranum-design.md).
 
