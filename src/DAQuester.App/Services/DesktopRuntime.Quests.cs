@@ -21,6 +21,8 @@ public sealed partial class DesktopRuntime
         if (runners.TryGetValue(name, out var owner) && owner.Job.Quest == quest.Id)
             job = owner.Job;
         var remembered = Memory(name);
+        if (StickRewardCleanup.Unfinished(job))
+            return new(current.Connected ? "Resume ready" : "Not checked", "Reward verified; resume reconciles leftover item cleanup before another attempt", true);
         if (job.Route?.CleanupPending == true)
             return new(current.Connected ? "Resume ready" : "Not checked", "Rewards verified; resume closes the final quest popup without another claim", true);
         // A submitted action must reconcile its durable receipt even if a new attempt is now ineligible.
@@ -91,6 +93,7 @@ public sealed partial class DesktopRuntime
             "shinewood-faerie" => ShinewoodFaerieEvidence.Eligibility(snapshot, job),
             FiskEvidence.Id => FiskEvidence.Eligibility(snapshot, job),
             DanaanEvidence.Id => DanaanEvidence.Eligibility(snapshot, job),
+            WolfQuestEvidence.Id => WolfQuestEvidence.Eligibility(snapshot),
             SickChildEvidence.Id => SickChildEvidence.Eligibility(snapshot, job, SickChildEvidence.Sevti),
             SickChildEvidence.AnamanId => SickChildEvidence.Eligibility(snapshot, job, SickChildEvidence.Tulsi),
             _ => StickEligibility.Check(snapshot, job.CompletedAt, DateTimeOffset.UtcNow)

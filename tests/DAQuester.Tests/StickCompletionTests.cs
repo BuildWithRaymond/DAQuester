@@ -59,6 +59,8 @@ public class StickCompletionTests
         });
         session.OnCommand = command =>
         {
+            if (command.Kind == "drop")
+                session.Set(session.Snapshot with { Inventory = session.Snapshot.Inventory.Remove(command.Slot!.Value) });
             if (command.Kind is "close" or "next")
                 session.Set(session.Snapshot with
                 {
@@ -75,6 +77,7 @@ public class StickCompletionTests
             if (id == "next")
             {
                 Assert.Null(session.Snapshot.Dialog);
+                Assert.Empty(session.Snapshot.Inventory.Values);
                 return new()
                 {
                     Character = "Nuclear",
@@ -151,6 +154,11 @@ public class StickCompletionTests
         int closes = 0;
         s.OnCommand = c =>
         {
+            if (c.Kind == "drop")
+            {
+                s.Set(s.Snapshot with { Inventory = s.Snapshot.Inventory.Remove(c.Slot!.Value) });
+                return;
+            }
             Assert.Equal("close", c.Kind);
             if (++closes == 1)
                 throw new TimeoutException("Synthetic missing close acknowledgment");
@@ -248,6 +256,11 @@ public class StickCompletionTests
         });
         s.OnCommand = c =>
         {
+            if (c.Kind == "drop")
+            {
+                s.Set(s.Snapshot with { Inventory = s.Snapshot.Inventory.Remove(c.Slot!.Value) });
+                return;
+            }
             Assert.Equal("close", c.Kind);
             s.Set(s.Snapshot with
             {
@@ -260,7 +273,9 @@ public class StickCompletionTests
         Assert.Equal("Completed", runner.Job.Status);
         Assert.Null(runner.Job.Pending);
         Assert.Null(s.Snapshot.Dialog);
-        Assert.Single(s.Commands);
+        Assert.Single(s.Commands, c => c.Kind == "close");
+        Assert.Equal(2, s.Commands.Count(c => c.Kind == "drop"));
+        Assert.Empty(s.Snapshot.Inventory);
     }
 
     sealed class ManualPause(SimulatedSession session) : IQuestAction
@@ -398,12 +413,19 @@ public class StickCompletionTests
         {
             Dialog = null
         });
+        session.OnCommand = c =>
+        {
+            Assert.Equal("drop", c.Kind);
+            session.Set(session.Snapshot with { Inventory = session.Snapshot.Inventory.Remove(c.Slot!.Value) });
+        };
         var runner = new QuestRunner(session, journal, new("spare-a-stick", 1, "", "", [], [new("confirm", "confirm", null)]), Cal);
         await runner.RunAsync();
         Assert.Equal(observed, runner.Job.CompletedAt);
         Assert.Equal(observed.AddHours(8), runner.Job.NextRun);
         Assert.Null(runner.Job.Pending);
-        Assert.Empty(session.Commands);
+        Assert.Equal(2, session.Commands.Count);
+        Assert.Empty(session.Snapshot.Inventory);
+        Assert.True(runner.Job.StickCleanup!.Finished);
     }
 
     [Theory]

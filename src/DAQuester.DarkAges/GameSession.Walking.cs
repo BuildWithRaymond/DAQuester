@@ -100,7 +100,7 @@ public sealed partial class GameSession
                     {
                         retries = 0;
                         avoided.Clear();
-                        if (replanWhen is not null)
+                        if (replanWhen?.Invoke() == true)
                             return;
                     }
                     else
@@ -227,7 +227,12 @@ public sealed partial class GameSession
                     continue;
                 }
 
-                avoided.Add(next);
+                // A rejected entrance step still needs its recorded trigger. Excluding
+                // that goal makes every refreshed route fail without another attempt.
+                // Keep the bounded retry below; live occupancy and entry refusals
+                // are checked independently before any subsequent movement.
+                if (!portalGoal || next != target)
+                    avoided.Add(next);
             }
 
             if (++retries >= 3)
@@ -261,7 +266,7 @@ public sealed partial class GameSession
                 if (replanWhen is not null)
                     return;
             }
-            else
+            else if (!portalGoal || next != target)
                 avoided.Add(next);
         }
     }

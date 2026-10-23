@@ -28,7 +28,7 @@ public sealed partial class DesktopRuntime
     async Task<bool> ConfigureActivityRunAsync(string name, QuestDefinition quest, QuestJob saved, bool resume, bool change)
     {
         bool research = quest.Id == WizardyResearchEvidence.Id;
-        if (saved.Pending is not null || research && (saved.Research?.Stage > 0 || saved.Research?.Cleanup is not null)) return true;
+        if (saved.Pending is not null || research && saved.Research?.NeedsRecovery == true) return true;
         if (research && !change && WizardyResearchEvidence.Eligibility(Snapshot(name)) is { Kind: EligibilityKind.Blocked } blocked)
             throw new QuestBlockedException(blocked.Reason);
         if (!research && (resume || change || !quest.Repeatable || quest.CooldownHours <= 0) || research && resume && !change && saved.ResearchOptions is not null) return true;
@@ -38,7 +38,8 @@ public sealed partial class DesktopRuntime
         var before = Snapshot(name);
         var choice = await ChooseActivityRunAsync(name, quest, saved);
         if (choice is null) return false;
-        if (Snapshot(name).Generation != before.Generation || Blocked() || Job(name, quest.Id).Pending is not null)
+        if (Snapshot(name).Generation != before.Generation || Blocked() || Job(name, quest.Id).Pending is not null ||
+            research && Job(name, quest.Id).Research?.NeedsRecovery == true)
             throw new QuestBlockedException("Character ownership or connection changed while setup was open; choose again after fresh state.");
         if (research)
         {

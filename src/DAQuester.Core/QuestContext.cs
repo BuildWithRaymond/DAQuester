@@ -53,6 +53,8 @@ public class QuestContext(
     public Calibration Calibration { get; } = calibration;
     public IQuestHelpers? Helpers { get; } = helpers;
     public QuestJob Job { get; private set; } = job;
+    // An exact research status can be replaced by a potion message between awaits.
+    internal CharacterSnapshot? ResearchResultObservation { get; set; }
 
     public async Task SaveAsync(QuestJob value)
     {

@@ -10,6 +10,28 @@ namespace DAQuester.AppTests;
 
 public sealed class SchedulerTests
 {
+    [Fact]
+    public async Task Saved_Callough_goal_reconciles_stale_schedule_without_enabling_or_launching()
+    {
+        var runtime = Runtime();
+        try
+        {
+            await runtime.SaveScheduleAsync("Elara", "spare-a-stick", DateTimeOffset.UtcNow, true, true);
+            var journal = new FileQuestJournal(Path.Combine(AppSettings.DataPath, "journal"));
+            var at = DateTimeOffset.UtcNow;
+            await journal.SaveAsync(new()
+            {
+                Character = "Elara", Quest = "spare-a-stick", Step = "complete", Status = "PermanentlyCompleted",
+                CompletedAt = at, PermanentCompletion = new(at, new(1, 5, 99, 1, "Callough", "You remind me of my own little child.", true, 177, 82, 0, []))
+            });
+            await runtime.TickSchedulerAsync();
+            Assert.Equal("Completed", Assert.Single(runtime.SchedulerState.Entries).Status);
+            Assert.False(runtime.SchedulerEnabled);
+            Assert.False(runtime.LaunchPending("Elara"));
+        }
+        finally { await runtime.ShutdownAsync(); }
+    }
+
     static DesktopRuntime Runtime(bool preview = true)
     {
         AppSettings.UseIsolatedData(Path.Combine(AppContext.BaseDirectory, "test-data", Guid.NewGuid().ToString("N")));
@@ -18,6 +40,56 @@ public sealed class SchedulerTests
         settings.Characters = ["Elara"];
         settings.Save();
         return new(preview);
+    }
+
+    [Fact]
+    public async Task More_marks_needs_explicit_consent_and_saves_it_without_resetting_the_quest_or_enabling_scheduler()
+    {
+        var runtime = Runtime();
+        try
+        {
+            await runtime.SaveScheduleAsync("Elara", "spare-a-stick", DateTimeOffset.UtcNow, true, true);
+            var entry = Assert.Single(runtime.SchedulerState.Entries);
+            var at = DateTimeOffset.UtcNow;
+            var journal = new FileQuestJournal(Path.Combine(AppSettings.DataPath, "journal"));
+            await journal.SaveAsync(new() { Character = "Elara", Quest = "spare-a-stick", Step = "complete", Status = "PermanentlyCompleted", CompletedAt = at,
+                PermanentCompletion = new(at, new(7, 12, 99, 1, "Callough", "You remind me of my own little child.", true, 177, 82, 0, [])) });
+            await runtime.TickSchedulerAsync();
+            await Assert.ThrowsAsync<QuestBlockedException>(() => runtime.ResumeForMoreStickMarksAsync(entry.Id, at, false));
+            await runtime.ResumeForMoreStickMarksAsync(entry.Id, at, true);
+            var saved = Assert.Single(runtime.SchedulerState.Entries);
+            Assert.Equal("Armed", saved.Status);
+            Assert.Equal(at, saved.CalloughRetryAfter);
+            Assert.True(saved.Due >= at.AddHours(8));
+            Assert.NotNull(journal.Load("Elara", "spare-a-stick").PermanentCompletion);
+            Assert.False(runtime.SchedulerEnabled);
+            Assert.False(runtime.LaunchPending("Elara"));
+            await runtime.TickSchedulerAsync();
+            Assert.Equal("Armed", Assert.Single(runtime.SchedulerState.Entries).Status);
+            var restored = new FileQuestSchedulerStore(Path.Combine(AppSettings.DataPath, "scheduler.json")).Load();
+            Assert.Equal(at, Assert.Single(restored.Entries).CalloughRetryAfter);
+        }
+        finally { await runtime.ShutdownAsync(); }
+    }
+
+    [Fact]
+    public async Task Incomplete_turn_in_is_not_a_completed_schedule_and_cannot_be_overridden_for_more_marks()
+    {
+        var runtime = Runtime();
+        try
+        {
+            await runtime.SaveScheduleAsync("Elara", "spare-a-stick", DateTimeOffset.UtcNow, true, true);
+            var entry = Assert.Single(runtime.SchedulerState.Entries);
+            var at = DateTimeOffset.UtcNow;
+            var journal = new FileQuestJournal(Path.Combine(AppSettings.DataPath, "journal"));
+            await journal.SaveAsync(new() { Character = "Elara", Quest = "spare-a-stick", Step = "complete", Status = "PermanentlyCompleted", CompletedAt = at,
+                Pending = new("turn-in", 7, 10, 0, 6, 0, at), PermanentCompletion = new(at, new(7, 12, 99, 1, "Callough", "You remind me of my own little child.", true, 177, 82, 0, [])) });
+            await runtime.TickSchedulerAsync();
+            Assert.NotEqual("Completed", Assert.Single(runtime.SchedulerState.Entries).Status);
+            await Assert.ThrowsAsync<QuestBlockedException>(() => runtime.ResumeForMoreStickMarksAsync(entry.Id, at, true));
+            Assert.NotNull(journal.Load("Elara", "spare-a-stick").Pending);
+        }
+        finally { await runtime.ShutdownAsync(); }
     }
 
     [Fact]

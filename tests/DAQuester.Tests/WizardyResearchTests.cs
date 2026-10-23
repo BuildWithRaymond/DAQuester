@@ -64,7 +64,8 @@ public class WizardyResearchTests
     {
         var s = new SimulatedSession();
         s.Set(s.Snapshot with { Map = 401, Position = new(7, 9), Class = "Wizard", Level = 99, Gold = 5000, Hp = 100, MaxHp = 100,
-            LegendsKnown = true, Inventory = ImmutableDictionary<byte, Item>.Empty.Add(1, new(1, "Parchment Scroll", 1)) });
+            LegendsKnown = true, Inventory = ImmutableDictionary<byte, Item>.Empty.Add(1, new(1, "Parchment Scroll", 1))
+                .Add(58, new(58, "Exkuranum", 30)) });
         return s;
     }
     static Dialog Page(SimulatedSession s, string text, params string[] choices) => new(s.Snapshot.Generation, s.Snapshot.Revision + 1,
@@ -396,6 +397,8 @@ public class WizardyResearchTests
                 else s.Set(s.Snapshot with { Dialog = Page(s, "Synthetic continuation",
                     c.Text switch { Begin => "Specific", "Specific" => "sorcery", _ => "Alone" }) });
             }
+            if (c.Kind == "use-item") s.Set(s.Snapshot with { Hp = 100,
+                Inventory = s.Snapshot.Inventory.SetItem(58, new(58, "Exkuranum", 29)) });
             if (c.Kind == "close") s.Set(s.Snapshot with { Dialog = null });
         };
         var runner = new QuestRunner(s, Journal(), Recipe(), new());

@@ -1918,3 +1918,144 @@ journey and all three native startup cases. Reports are `fisk-focused.trx` and
 `native-focused.trx` under `artifacts/release-1.5.2-checks/results`. Both test
 projects compile without warnings or errors. Complete local and hosted suites
 must still pass before the tagged workflow publishes its newly verified assets.
+
+
+## 2026-10-18: Callough marks and leftover bag items
+
+The stale Callough schedule regression first reproduced an Armed row where a
+Completed row was required. The disposal regression first reproduced zero drops
+where three exact Stick/Wooden Shield bag items remained. Both now pass. Known
+marks retain their actual observed number, and further-mark approval is saved
+against the exact outcome without enabling Scheduler or launching a client.
+
+Verified automatic Spare a Stick outcomes clear only carried Stick and Wooden
+Shield items. Coverage includes multiple slots, retained Oak Stick/branches,
+checkpoint failure before submission, changed slot/location, missing receipts,
+late same-generation debits and reconnect isolation. A pending turn-in never
+authorizes disposal. Uncertain drops cannot be automatically resent. Positive
+completion fixtures explicitly acknowledge popup closure and inventory debits;
+the no-action completion fixture explicitly supplies a known empty bag.
+
+Focused Core tests pass 54/54 and focused App tests pass 26/26. Both complete
+xUnit projects pass: **1,560 Core tests and 352 App tests**, with no skips.
+Reports are `core-focused-final.trx`, `app-focused-final.trx`, `core-full.trx`
+and `app-full-final.trx` under `artifacts/callough-mark-retry/results`.
+
+Manual native interface review covers the obtained mark, confirmation, decline
+and approval at 1420 x 900 and 900 x 560. The isolated preview exits successfully:
+declining retains Completed, approval retains the original receipt and cooldown,
+and Scheduler stays disabled. No game clients are launched by the preview.
+
+Qualification used an isolated checkout of 1.6.0 with this change because the
+shared working tree also contains concurrent Wolf and wizardry research work.
+Those other changes are outside these results. The source manifest is retained
+at `artifacts/callough-mark-retry/qualified-source.json`. No real characters,
+user Data, live schedules or Excalibur processes were operated. Further numbered
+mark progression and disposal have synthetic coverage, not a new live automatic
+qualification. The running user app was not replaced or restarted.
+
+## 2026-10-18: Ciad greeting and research-shop continuation
+
+Read-only diagnostics and existing sanitized replays reproduce the reported
+sequence: the captured Ciad greeting interrupted Spare a Stick travel, while a
+verified 30-Exkuranum purchase timed out waiting for merchant server closure.
+The scheduler closed its owned game clients after these paused attempts. This
+is evidence of scheduler cleanup, not a confirmed native client crash. The
+restricted excerpt is `content/evidence/datester-7.41/ciad-greeting-research-shop.json`.
+
+Before implementation, the notice tests had eight expected failures, the three
+merchant-continuation regressions failed on their missing close receipt, and
+three desktop recovery cases failed against the original application binaries.
+The fix cancels only the exact observed Ciad page, avoids invalidating its bound
+close during movement settlement, and recognizes successful local merchant
+dismissal without inventing server state. A durable research departure checkpoint
+keeps Resume available and prevents an already verified purchase from repeating.
+Unknown replacement pages and uncertain closes remain guarded.
+
+The combined Release solution build completed with zero warnings or errors.
+All 181 focused Core and 45 focused App tests passed. Both complete xUnit
+projects passed with no failures or skips: **1,699 Core tests and 373 App tests**.
+The final TRX reports are under `artifacts/ciad-research-continuation/results`.
+The synthetic suites used normal Windows permissions for their local IPC and
+native fixtures. No real characters were operated during builds or tests.
+
+The ready executable is
+`artifacts/ciad-research-continuation/bin/DAQuester.App/release_win-x86/DAQuester.exe`.
+Its application assemblies and native library match the tested output; Wolf of
+West Woodlands and the earlier stick disposal fix remain included. Player Data,
+active schedules and game clients were not edited or controlled, and Excalibur
+was not closed, restarted or modified. The running DAQuester copy was not
+replaced. Loading the corrected build requires exiting DAQuester and opening
+this executable. A corrected full live automatic run remains unqualified.
+
+## 2026-10-18: queued travel and Wolf reward variants
+
+The reported queue reproduced three avoidable stops: Faerie return ended after
+an authoritative refresh before reaching its exit; Glioca's adjacent south
+step was followed by doorway pullback; and the expected Wolf warning opened
+before the exact navigation target. The player also reported Fifleaf deum,
+confirmed by read-only own inventory and legend state. Details and evidence
+boundaries are in `docs/research/queue-travel-recovery.md` and the restricted
+`content/evidence/datester-7.41/queue-travel-wolf-variants.json` excerpt.
+
+The initial ten regressions produced seven expected failures at the reported
+points. A separate manual-completion check failed on the stale approach's old
+generation, while three uncertain-submission/stale-evidence checks passed.
+After the fixes, all 86 broader movement/NPC/Wolf checks passed. The final
+combined Release build completed with zero warnings or errors. All 20 final
+Lion-specific cases, 60 focused desktop queue cases and four final catalog
+checks passed. Both complete xUnit projects passed without failures or skips:
+**1,719 Core/protocol tests and 373 App tests**. TRX files are under
+`artifacts/lion-queue-fix/results`.
+
+Tests cover known early entrance warnings and Resume, preservation of unfamiliar
+pages, no repeat of an uncertain Yes, actual named potion rewards, insufficient
+item/XP/legend evidence, reconnect isolation and manual goal completion without
+invented reward receipts. Authoritative movement and submitted transaction guards
+remain in place; the queue does not blindly retry paused transactions.
+
+The updated reward label/details were reviewed in the existing isolated preview
+at 1450 x 930 and 900 x 560. No game clients or listeners are available in that
+preview. The player-facing executable is
+`artifacts/lion-queue-fix/bin/DAQuester.App/release_win-x86/DAQuester.exe`.
+Its three application assemblies, native library, catalog and Wolf recipe match
+the tested copies and source. Wolf, stick disposal, Ciad cancellation and the
+research supply fixes remain in the combined working-tree build.
+
+Investigation read diagnostics, saved checkpoints and current own state, and
+requested a sanitized replay export. No real character was operated during
+builds/tests; player journals/settings and paid waits were not edited. Running
+DAQuester/game clients and Excalibur were not closed, restarted or modified.
+Loading these changes requires restarting DAQuester into the new executable.
+A fresh uninterrupted automatic live queue remains unqualified.
+
+## 2026-10-18 Fisk Bertil doorway rejection
+
+Read-only diagnostics, a sanitized replay projection and the saved Fisk
+checkpoint isolated a pause outside Bertil's building after one rejected west
+step. No entrance occupant was observed. The local avoidance set excluded the
+recorded exit target and retained that exclusion across refreshes. The server's
+original rejection reason remains unknown. The player later resumed and the
+saved job completed with 750,000 XP, own legend and final popup closure.
+
+Six synthetic ordinary/fast movement cases cover successful entry after one
+rejection, a three-attempt limit for persistent rejection, and actual doorway
+occupancy appearing before retry. Before the fix, four cases failed at the
+reported behavior and both occupancy guards passed. All six passed afterward,
+followed by **160 focused travel/Fisk checks**. The combined Release solution
+built with zero warnings or errors. Both complete xUnit projects then passed:
+**1,725 Core/protocol tests and 373 App tests**, with no failures or skips.
+Results are in `artifacts/fisk-doorway-fix/results`.
+
+The updated executable is
+`artifacts/fisk-doorway-fix/bin/DAQuester.App/release_win-x86/DAQuester.exe`.
+Its application assemblies and native library match the tested copies; the
+catalog and Wolf/Fisk recipes match source. This combined build retains the
+previous Wolf, Exkuranum, Ciad, stick-disposal and queued-travel fixes.
+No UI or packaging behavior changed in this follow-up.
+
+No real characters were operated during investigation, builds or tests. Player
+journals, settings and paid waits were not edited. Running DAQuester/game
+clients and Excalibur were not closed, restarted or modified. The player must
+load the new executable to activate the changes. Corrected movement is
+synthetically verified; a fresh uninterrupted automatic live run is unqualified.

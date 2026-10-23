@@ -1,0 +1,32 @@
+{
+  "Title": "Fisk Bertil delivery paused after a rejected entrance step",
+  "ServerProfile": "datester-7.41",
+  "ObservedDate": "2026-10-18",
+  "EvidenceType": "Restricted own movement projection from a sanitized replay, diagnostics and saved quest checkpoint",
+  "Limits": [
+    "Character identities, other players, unrelated resources, credentials, raw payloads and local paths are omitted.",
+    "The server's reason for rejecting the step is unknown. No occupancy at the entrance was observed.",
+    "Later completion followed a player Resume and does not certify a corrected uninterrupted automatic run."
+  ],
+  "Quest": "fisk-secret",
+  "Stage": "bertil-delivery",
+  "Entrance": { "Map": 503, "From": { "X": 16, "Y": 86 }, "Target": { "X": 15, "Y": 86 }, "DestinationMap": 416 },
+  "Movement": [
+    { "TimeUtc": "22:01:10.1470092", "Revision": 2304, "Source": "server", "Map": 503, "Position": { "X": 16, "Y": 86 } },
+    { "TimeUtc": "22:01:10.1621701", "Revision": 2304, "Source": "bot", "Action": "Move west toward the recorded entrance" },
+    { "TimeUtc": "22:01:10.6378522", "Revision": 2305, "Source": "server", "Opcode": 11, "Direction": 4, "Map": 503, "Position": { "X": 16, "Y": 86 } },
+    { "TimeUtc": "22:01:10.6490654", "Revision": 2305, "Source": "bot", "Action": "RefreshUser" },
+    { "TimeUtc": "22:01:11.1407308", "Revision": 2311, "Source": "server", "Opcode": 4, "Map": 503, "Position": { "X": 16, "Y": 86 } }
+  ],
+  "Dialog": null,
+  "PausedReason": "Destination remains occupied after three route refreshes.",
+  "LaterOutcome": {
+    "PlayerResumedAtUtc": "22:11:46",
+    "CompletedAtUtc": "22:12:18.8352194",
+    "ExperienceReceived": 750000,
+    "ActiveStatus": "You gain 750,000 experience!",
+    "OwnLegend": "Kept Fisk's Secret - Deoch 223, Summer",
+    "SavedStatus": "Completed",
+    "Pending": null
+  }
+}

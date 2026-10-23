@@ -23,6 +23,18 @@ internal static partial class ScreenshotCapture
             if (!Program.IsScreenshots || !viewModel.Runtime.Preview)
                 throw new InvalidOperationException("Screenshots require an isolated preview runtime.");
             await SeedWorkspaceAsync(viewModel);
+            if (Program.Arguments.Contains("--wolf-review"))
+            {
+                await CaptureWolfAsync(window, viewModel);
+                File.WriteAllText("artifacts/screenshots.txt", "Wolf quest library captured with isolated synthetic data and no game clients or listeners.");
+                return;
+            }
+            if (Program.Arguments.Contains("--callough-review"))
+            {
+                await CaptureCalloughAsync(window, viewModel);
+                File.WriteAllText("artifacts/screenshots.txt", "Callough mark decision captured with isolated synthetic data and no game clients or listeners.");
+                return;
+            }
             if (Program.Arguments.Contains("--tray-review"))
             {
                 await CaptureTrayAsync(window, viewModel);

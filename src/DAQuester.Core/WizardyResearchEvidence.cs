@@ -25,6 +25,13 @@ public sealed record WizardyResearchProgress
     public string? DepositItem { get; init; }
     public byte DepositSlot { get; init; }
     public int DepositQuantity { get; init; }
+    public ResearchPotionPurchase? PotionPurchase { get; init; }
+    public Dialog? PotionShopDeparture { get; init; }
+    public ResearchHealing? Healing { get; init; }
+    public ServerNotice? ResultStatus { get; init; }
+    public bool HealthCheckRequired { get; init; }
+    [System.Text.Json.Serialization.JsonIgnore]
+    public bool NeedsRecovery => Stage > 0 || Cleanup is not null || Healing is not null || PotionPurchase is not null || PotionShopDeparture is not null || HealthCheckRequired;
     public ResearchAttemptReceipt[] Attempts { get; init; } = [];
     public ResearchDepositReceipt[] Deposits { get; init; } = [];
     public Dialog? Cooldown { get; init; }
@@ -69,16 +76,36 @@ public static class WizardyResearchEvidence
         .Select(i => i.Name).Distinct(StringComparer.OrdinalIgnoreCase).Select(name => (Name: name, Gain: s.Count(name) - baseline.InventoryCounts.GetValueOrDefault(name)))
         .Where(x => x.Gain > 0).ToDictionary(x => x.Name, x => x.Gain, StringComparer.OrdinalIgnoreCase);
 
+    static bool MatchesResultStatus(ServerNotice? status, CharacterSnapshot s, Transaction t, Dialog source) =>
+        status is { Type: 3, Text: FailedExperiment or OutOfParchment or SorceryResult } &&
+        status.Generation == t.Generation && status.Revision > source.Revision && status.Revision <= s.Revision && status.ObservedAt >= t.Started;
+
+    public static QuestJob ObserveResultStatus(QuestJob job, CharacterSnapshot s)
+    {
+        if (job.Quest != Id || job.Pending is not { Kind: "research-submit", InventoryBaselineKnown: true } t ||
+            job.Research?.Source is not { } source || !s.Connected || !string.Equals(s.Name, job.Character, StringComparison.OrdinalIgnoreCase) ||
+            s.Generation != t.Generation || !ResearchPage(s, source) || source.EntityId != t.EntityId ||
+            source.EntityType != t.EntityType || source.Revision <= t.Revision || !MatchesResultStatus(s.ActiveStatus, s, t, source))
+            return job;
+        var saved = job.Research.ResultStatus;
+        if (MatchesResultStatus(saved, s, t, source) && saved!.Revision >= s.ActiveStatus!.Revision) return job;
+        // Item use can replace the active status before the result's inventory
+        // and server-close receipts arrive. Retain only this bound exact reply.
+        return job with { Research = job.Research with { ResultStatus = s.ActiveStatus } };
+    }
+
     public static ResearchAttemptReceipt? StatusResult(QuestJob job, CharacterSnapshot s)
     {
         if (job.Quest != Id || job.Pending is not { Kind: "research-submit", InventoryBaselineKnown: true } t ||
             job.Research?.Source is not { } source || !s.Connected || !string.Equals(s.Name, job.Character, StringComparison.OrdinalIgnoreCase) ||
             s.Generation != t.Generation || s.Dialog is not null || !ResearchPage(s, source) ||
             source.EntityId != t.EntityId || source.EntityType != t.EntityType || source.Revision <= t.Revision ||
-            !s.InventoryKnown || s.Gold != t.Gold || t.InventoryCounts.GetValueOrDefault(Parchment) <= 0 ||
-            s.ActiveStatus is not { Type: 3 } status || status.Generation != t.Generation ||
-            status.Revision <= source.Revision || status.Revision > s.Revision || status.ObservedAt < t.Started)
+            !s.InventoryKnown || s.Gold != t.Gold || t.InventoryCounts.GetValueOrDefault(Parchment) <= 0)
             return null;
+        var status = MatchesResultStatus(s.ActiveStatus, s, t, source) ? s.ActiveStatus : null;
+        var saved = job.Research.ResultStatus;
+        if (MatchesResultStatus(saved, s, t, source) && (status is null || saved!.Revision > status.Revision)) status = saved;
+        if (status is null) return null;
         if (status.Text == FailedExperiment)
         {
             // The observed explosion retains parchment and awards no Songs.
@@ -103,11 +130,26 @@ public static class WizardyResearchEvidence
             rewards["item:" + gain.Key] = rewards.GetValueOrDefault("item:" + gain.Key) + gain.Value;
         var progress = job.Research ?? new();
         return job with { Pending = null, Rewards = rewards,
-            Research = progress with { Stage = 0, Cleanup = receipt.Reply, Attempts = [.. progress.Attempts, receipt] },
+            Research = progress with { Stage = 0, ResultStatus = null, SubmittedNext = null, Cleanup = receipt.Reply, Attempts = [.. progress.Attempts, receipt] },
             Reason = receipt.Status?.Text == FailedExperiment ? "Research experiment failed; parchment retained for another attempt"
                 : "Research scroll and parchment receipts verified" };
     }
 
-    public static QuestJob ObserveStatus(QuestJob job, CharacterSnapshot snapshot) =>
-        StatusResult(job, snapshot) is { } receipt ? RecordAttempt(job, receipt) : job;
+    static QuestJob ObserveHealing(QuestJob job, CharacterSnapshot s)
+    {
+        if (job.Quest != Id || job.Research?.Healing is not { BeforeCount: > 0 } dose || !s.Connected ||
+            !string.Equals(s.Name, job.Character, StringComparison.OrdinalIgnoreCase) || s.Generation != dose.Generation ||
+            s.Revision <= dose.Revision || !s.InventoryKnown || s.Count("Exkuranum") != dose.BeforeCount - 1 ||
+            s.MaxHp is not > 0 || !(s.Hp >= s.MaxHp))
+            return job;
+        // An original receipt settles the submitted dose. Current health still
+        // needs checking when the action resumes on a later connection.
+        return job with { Research = job.Research with { Healing = null, HealthCheckRequired = true } };
+    }
+
+    public static QuestJob ObserveStatus(QuestJob job, CharacterSnapshot snapshot)
+    {
+        var observed = ObserveHealing(ObserveResultStatus(job, snapshot), snapshot);
+        return StatusResult(observed, snapshot) is { } receipt ? RecordAttempt(observed, receipt) : observed;
+    }
 }

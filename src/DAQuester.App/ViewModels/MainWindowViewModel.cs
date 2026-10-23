@@ -436,8 +436,12 @@ public sealed partial class MainWindowViewModel : ObservableObject
         {
             string Get(string key) => q.TryGetProperty(key, out var value) && value.ValueKind == JsonValueKind.String ? value.GetString() ?? "" : "";
             string name = Get("name");
-            var recipe = Get("id") is "capofdanaan" or "bandofdanaan" ? Runtime.Recipes.GetValueOrDefault(DanaanEvidence.Id)
-                : Runtime.Recipes.Values.FirstOrDefault(r => r.Name.Equals(name, StringComparison.OrdinalIgnoreCase));
+            var recipe = Get("id") switch
+            {
+                "capofdanaan" or "bandofdanaan" => Runtime.Recipes.GetValueOrDefault(DanaanEvidence.Id),
+                WolfQuestEvidence.CatalogId => Runtime.Recipes.GetValueOrDefault(WolfQuestEvidence.Id),
+                _ => Runtime.Recipes.Values.FirstOrDefault(r => r.Name.Equals(name, StringComparison.OrdinalIgnoreCase))
+            };
             var (description, region) = Details(recipe?.Id);
             if (recipe?.IsTask == true && recipe.QuestClasses.Length == 0) continue;
             bool givesLegend = q.TryGetProperty("givesLegend", out var legend) && legend.ValueKind == JsonValueKind.True;
@@ -459,6 +463,7 @@ public sealed partial class MainWindowViewModel : ObservableObject
         "entered-muisir-village" => ("Bring Kiril five Undine Mushrooms. Verify your Muisir legend and four Shrinking Potions.", "UNDINE · KIRIL"),
         FiskEvidence.Id => ("Keep Fisk's secret, arrange his bouquet and deliver it discreetly. The paid hour wait is saved; other ready queued quests can run before collection.", "SUOMI · FISK"),
         DanaanEvidence.Id => ("Follow the Donnan / Cail route to Danaan's gift. Bring Mold for Greim's approved rite. Other offered routes pause for review; consecration is separate.", "LOURES · DANAAN"),
+        WolfQuestEvidence.Id => ("Speak to Throttler, hunt the West Woodland wolf and return for Vanilla Potion or Fifleaf deum, 60,000 experience and your legend mark.", "WEST WOODLAND · THROTTLER"),
         "emerald-dawn" => ("Recover an Emerald Knight Insignia, hear Berg's story, then give it to the Knights, the Necromancers, or sell it to Skan.", "SUOMI · SHINEWOOD"),
         "shinewood-faerie" => ("Try for a Pet Faerie and learn eligible missing spells. Prepare a safe return before entering the forest.", "SHINEWOOD · FAERIE"),
         "cured-sick-child" => ("Pick White Blossoms at Mehadi and give Paulin five, one a day or with help from your other characters. Locks out Aided the Pact of Anaman.", "LOURES · PAULIN"),

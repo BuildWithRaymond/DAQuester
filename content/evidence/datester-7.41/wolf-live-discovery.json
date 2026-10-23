@@ -1,0 +1,481 @@
+{
+  "format": 1,
+  "quest": "wolf-of-west-woodlands",
+  "source": "live-native-persistent-mcp",
+  "date": "2026-10-18",
+  "status": "completed; player manual barehand kill, native MCP travel/dialogue/reward/closure",
+  "playerReportedObjective": "((Find a Wolf in the path off West Woodlands 19-2))",
+  "objectiveConfirmedInDiagnostics": true,
+  "throttler": {
+    "map": 454,
+    "npcAnchor": {
+      "x": 21,
+      "y": 20
+    },
+    "publicApproach": {
+      "x": 19,
+      "y": 20
+    },
+    "opening": [
+      {
+        "revision": 1770,
+        "text": "Hello.  What can I do for you?",
+        "pursuit": 0,
+        "step": 0,
+        "type": 0,
+        "hasNext": false,
+        "choices": [
+          {
+            "text": "WoodLand",
+            "pursuit": 2013,
+            "option": 1
+          },
+          {
+            "text": "West Woodlands Daily Kill Quest",
+            "pursuit": 3655,
+            "option": 2
+          }
+        ]
+      }
+    ],
+    "woodland": [
+      {
+        "revision": 1770,
+        "text": "Hello.  What can I do for you?",
+        "pursuit": 0,
+        "step": 0,
+        "type": 0,
+        "hasNext": false,
+        "choices": [
+          {
+            "text": "WoodLand",
+            "pursuit": 2013,
+            "option": 1
+          },
+          {
+            "text": "West Woodlands Daily Kill Quest",
+            "pursuit": 3655,
+            "option": 2
+          }
+        ]
+      },
+      {
+        "revision": 1771,
+        "text": "Praise be the skies!  Another person!  I thought I'd never see more of the likes of you again.",
+        "pursuit": 989,
+        "step": 8,
+        "type": 0,
+        "hasNext": true,
+        "choices": []
+      },
+      {
+        "revision": 1772,
+        "text": "I mean me whole life I lived in this village, yes I did.  But when a beast destroyed it, The other villagers left me behind.",
+        "pursuit": 989,
+        "step": 9,
+        "type": 0,
+        "hasNext": true,
+        "choices": []
+      },
+      {
+        "revision": 1773,
+        "text": "Ahh well pfft to them!  I managed to survive 'ere fer a long time without them. And I dinna like 'em anyways(I thought they all be smelly).",
+        "pursuit": 989,
+        "step": 10,
+        "type": 0,
+        "hasNext": true,
+        "choices": []
+      },
+      {
+        "revision": 1774,
+        "text": "Anyway me name's Throttler, g'day to you.",
+        "pursuit": 989,
+        "step": 11,
+        "type": 0,
+        "hasNext": true,
+        "choices": []
+      },
+      {
+        "revision": 1775,
+        "text": "Could ya do me a favor?",
+        "pursuit": 989,
+        "step": 17,
+        "type": 2,
+        "hasNext": true,
+        "choices": [
+          {
+            "text": "Sure.",
+            "pursuit": 989,
+            "option": 1
+          },
+          {
+            "text": "Sorry.",
+            "pursuit": 989,
+            "option": 2
+          }
+        ]
+      }
+    ],
+    "acceptance": [
+      {
+        "revision": 1775,
+        "text": "Could ya do me a favor?",
+        "pursuit": 989,
+        "step": 17,
+        "type": 2,
+        "hasNext": true,
+        "choices": [
+          {
+            "text": "Sure.",
+            "pursuit": 989,
+            "option": 1
+          },
+          {
+            "text": "Sorry.",
+            "pursuit": 989,
+            "option": 2
+          }
+        ]
+      },
+      {
+        "revision": 1777,
+        "text": "Great! Nowa let's see here...",
+        "pursuit": 989,
+        "step": 21,
+        "type": 0,
+        "hasNext": true,
+        "choices": []
+      },
+      {
+        "revision": 1778,
+        "text": "Great!! Now lurking in these woods is a big beast. Thems giving me the creeps.",
+        "pursuit": 989,
+        "step": 66,
+        "type": 0,
+        "hasNext": true,
+        "choices": []
+      },
+      {
+        "revision": 1779,
+        "text": "Get rid of one for yer old buddy Throttler eh?  You can find 'em at the end of the path, ya can.",
+        "pursuit": 989,
+        "step": 67,
+        "type": 0,
+        "hasNext": true,
+        "choices": []
+      }
+    ]
+  },
+  "entrance": {
+    "map": 463,
+    "trigger": {
+      "x": 48,
+      "y": 26
+    },
+    "transcript": [
+      {
+        "revision": 2373,
+        "text": "You can feel it in the air.. the viciousness of the wolves nearby.  These must be the wolves Throttler was talking about. Do you want to go in?",
+        "pursuit": 995,
+        "step": 6,
+        "type": 2,
+        "hasNext": true,
+        "choices": [
+          {
+            "text": "Yes",
+            "pursuit": 995,
+            "option": 1
+          },
+          {
+            "text": "No",
+            "pursuit": 995,
+            "option": 2
+          }
+        ]
+      }
+    ],
+    "destination": {
+      "map": 464,
+      "landing": {
+        "x": 0,
+        "y": 23
+      },
+      "inward": {
+        "x": 1,
+        "y": 23
+      },
+      "interior": {
+        "x": 25,
+        "y": 25
+      }
+    }
+  },
+  "observedPassages": [
+    {
+      "from": {
+        "map": 457,
+        "tile": {
+          "x": 0,
+          "y": 23
+        }
+      },
+      "to": {
+        "map": 461,
+        "landing": {
+          "x": 48,
+          "y": 23
+        }
+      },
+      "inward": {
+        "x": 47,
+        "y": 23
+      }
+    },
+    {
+      "from": {
+        "map": 461,
+        "tile": {
+          "x": 23,
+          "y": 0
+        }
+      },
+      "to": {
+        "map": 463,
+        "landing": {
+          "x": 25,
+          "y": 48
+        }
+      },
+      "inward": {
+        "x": 25,
+        "y": 47
+      }
+    },
+    {
+      "from": {
+        "map": 464,
+        "tile": {
+          "x": 0,
+          "y": 23
+        }
+      },
+      "to": {
+        "map": 463,
+        "landing": {
+          "x": 45,
+          "y": 25
+        }
+      },
+      "inward": {
+        "x": 44,
+        "y": 25
+      }
+    },
+    {
+      "from": {
+        "map": 463,
+        "tile": {
+          "x": 25,
+          "y": 49
+        }
+      },
+      "to": {
+        "map": 461,
+        "landing": {
+          "x": 23,
+          "y": 1
+        }
+      },
+      "inward": {
+        "x": 24,
+        "y": 1
+      }
+    },
+    {
+      "from": {
+        "map": 461,
+        "tile": {
+          "x": 49,
+          "y": 23
+        }
+      },
+      "to": {
+        "map": 457,
+        "landing": {
+          "x": 1,
+          "y": 23
+        }
+      },
+      "inward": {
+        "x": 1,
+        "y": 24
+      }
+    }
+  ],
+  "wolf": {
+    "map": 464,
+    "sprite": 2,
+    "position": {
+      "x": 21,
+      "y": 27
+    },
+    "ownKillProven": true,
+    "killEvidence": {
+      "playerReported": true,
+      "experienceDelta": 1,
+      "throttlerAcknowledged": true,
+      "automaticRunnerLiveVerified": false,
+      "kind": "correlated own hit, removal, numeric XP and matching active XP; no explicit killing animation",
+      "map": 464,
+      "sprite": 2,
+      "otherVisiblePlayers": 0,
+      "sequence": [
+        {
+          "revision": 2610,
+          "opcode": 41,
+          "source": "own-character",
+          "target": "wolf-1",
+          "targetAnimation": 268,
+          "time": "2026-10-18T07:59:38.6726579+00:00"
+        },
+        {
+          "revision": 2613,
+          "opcode": 14,
+          "target": "wolf-1",
+          "time": "2026-10-18T07:59:39.6024201+00:00"
+        },
+        {
+          "revision": 2614,
+          "opcode": 8,
+          "experienceBefore": 19998523,
+          "experienceAfter": 19998524
+        },
+        {
+          "revision": 2615,
+          "opcode": 10,
+          "type": 3,
+          "text": "1 experience!"
+        }
+      ],
+      "explicitKillingAnimationObserved": false
+    }
+  },
+  "baseline": {
+    "gold": 44745115,
+    "experience": 19998523,
+    "rewardItemCount": 0,
+    "completionLegendPresent": false
+  },
+  "combatAttempt": {
+    "outcome": "stopped before attack",
+    "reason": "No usable melee weapon is equipped or in the bag, so the fight stopped.",
+    "playerRequested": "use bare hand"
+  },
+  "openGaps": [
+    "fresh full automatic runner live run",
+    "level-70 eligibility is guide-derived; live character level99"
+  ],
+  "turnIn": {
+    "baseline": {
+      "experience": 19998524,
+      "gold": 44745115,
+      "rewardItemCount": 0,
+      "completionLegendPresent": false,
+      "freshOwnLegends": true
+    },
+    "transcript": [
+      {
+        "revision": 3056,
+        "text": "Hello.  What can I do for you?",
+        "pursuit": 0,
+        "step": 0,
+        "type": 0,
+        "hasNext": false,
+        "choices": [
+          {
+            "text": "WoodLand",
+            "pursuit": 2013,
+            "option": 1
+          },
+          {
+            "text": "West Woodlands Daily Kill Quest",
+            "pursuit": 3655,
+            "option": 2
+          }
+        ]
+      },
+      {
+        "revision": 3057,
+        "text": "Yes!  Thank you.  Now there be a dead wolf.",
+        "pursuit": 989,
+        "step": 110,
+        "type": 0,
+        "hasNext": true,
+        "choices": []
+      },
+      {
+        "revision": 3058,
+        "text": "Ya did yer Old buddy Throttler a big favor, I'll give ya present in return.",
+        "pursuit": 989,
+        "step": 111,
+        "type": 0,
+        "hasNext": true,
+        "choices": []
+      },
+      {
+        "revision": 3059,
+        "text": "Take this potion, I made it meself with the local flora.",
+        "pursuit": 989,
+        "step": 112,
+        "type": 0,
+        "hasNext": true,
+        "choices": []
+      },
+      {
+        "revision": 3065,
+        "text": "Come back some other time!  I may a have few things fer ya to do.",
+        "pursuit": 989,
+        "step": 144,
+        "type": 0,
+        "hasNext": false,
+        "choices": []
+      }
+    ],
+    "receipt": {
+      "item": {
+        "name": "Vanilla Potion",
+        "sprite": 62,
+        "quantity": 1,
+        "stackable": true
+      },
+      "experienceBefore": 19998524,
+      "experienceAfter": 20058524,
+      "experienceDelta": 60000,
+      "activeMessage": "60000 experience!",
+      "goldBefore": 44745115,
+      "goldAfter": 44745115,
+      "newOwnLegend": "Hunted down a wolf of West Woodland",
+      "freshOwnLegend": true
+    },
+    "terminalClosure": {
+      "text": "Come back some other time!  I may a have few things fer ya to do.",
+      "pursuit": 989,
+      "step": 144,
+      "boundCurrentPage": true,
+      "serverClosed": true,
+      "revision": 3068
+    },
+    "safeFinalPosition": {
+      "map": 454,
+      "position": {
+        "x": 19,
+        "y": 20
+      },
+      "hp": 114531
+    }
+  },
+  "guideDiscrepancy": {
+    "guideRewardItem": "Hydele deum",
+    "observedRewardItem": "Vanilla Potion"
+  }
+}

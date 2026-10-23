@@ -117,6 +117,12 @@ public class PermanentCompletionTests
     public async Task Real_child_terminal_also_records_correlated_optional_rewards()
     {
         var session = new SimulatedSession();
+        session.OnCommand = c =>
+        {
+            if (c.Kind == "close") session.Set(session.Snapshot with { Dialog = null });
+            else if (c.Kind == "drop") session.Set(session.Snapshot with { Inventory = session.Snapshot.Inventory.Remove(c.Slot!.Value) });
+            else Assert.Fail("Unexpected command: " + c.Kind);
+        };
         session.Set(session.Snapshot with
         {
             Level = 3,
@@ -143,6 +149,9 @@ public class PermanentCompletionTests
         Assert.Equal(1, runner.Job.Rewards["item:Oak Stick"]);
         Assert.Equal(1, runner.Job.Rewards["item:Wooden Shield"]);
         Assert.Null(runner.Job.Pending);
+        Assert.Equal(0, session.Snapshot.Count("Wooden Shield"));
+        Assert.Equal(1, session.Snapshot.Count("Oak Stick"));
+        Assert.True(runner.Job.StickCleanup!.Finished);
     }
 
     [Fact]

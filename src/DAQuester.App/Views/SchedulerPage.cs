@@ -30,6 +30,7 @@ public sealed class SchedulerPage : UserControl
     readonly StackPanel rows = new() { Spacing = 0 };
     readonly List<(string Character, CharacterSpritePreview Portrait)> portraits = [];
     readonly List<Control> consentActions = [];
+    readonly List<Control> markActions = [];
     readonly Button save = new() { Name = "saveSchedule", Content = "Save schedule", Classes = { "primary" } };
     readonly Button enable = new() { Name = "enableScheduler", Content = "Turn on saved schedules", Classes = { "danger" } };
     readonly Button choices = new() { Name = "scheduleChoices", Content = "Quest choices", Classes = { "quiet" } };
@@ -38,6 +39,7 @@ public sealed class SchedulerPage : UserControl
     readonly WrapPanel timingFields = new() { Orientation = Orientation.Horizontal, Margin = new Thickness(0, 0, 0, 4) };
     readonly TextBlock editorTitle = new() { Text = "Schedule a quest", Classes = { "section" } };
     Guid? editing;
+    (Guid Id, DateTimeOffset At)? confirmingMark;
     string stateSignature = "";
     bool busy;
 
@@ -233,11 +235,13 @@ public sealed class SchedulerPage : UserControl
         enable.Content = runtime.SchedulerEnabled ? "Scheduler is on" : "Turn on saved schedules";
         foreach (var action in consentActions)
             action.IsEnabled = !busy && acknowledgement.IsChecked == true;
+        foreach (var action in markActions)
+            action.IsEnabled = !busy;
         choices.IsEnabled = !busy && Character.Length > 0 && Quest is { } q && HasScheduleChoices(q.Id);
         choices.IsVisible = Quest is { } choiceQuest && HasScheduleChoices(choiceQuest.Id);
         policy.Text = Quest?.Id switch
         {
-            "spare-a-stick" when recurring.IsChecked == true => "Every 8 hours · ends at Callough's permanent completion. Levels 1–11.",
+            "spare-a-stick" when recurring.IsChecked == true => "Every 8 hours · stops at Callough's mark outcome. Choose whether to try for more. Levels 1–11.",
             "perfect-hairstyle" when recurring.IsChecked == true => "Every 7 days · ends at the Suomi legend.",
             AltarWorshipEvidence.Id => "Logs out between 3-hour offerings. Progress stays saved.",
             SickChildEvidence.Id or SickChildEvidence.AnamanId => "Logs out between daily flower visits. Progress stays saved.",
@@ -355,13 +359,16 @@ public sealed class SchedulerPage : UserControl
             portrait.GameDirectory = Path.GetDirectoryName(runtime.Settings.ClientPath) ?? "";
         }
         var launching = runtime.SchedulerState.PendingLogins.Where(runtime.SchedulerLaunchInProgress).ToArray();
-        string signature = System.Text.Json.JsonSerializer.Serialize(runtime.SchedulerState) + string.Join("|", launching);
+        var markGoals = runtime.SchedulerState.Entries.ToDictionary(e => e.Id, runtime.SchedulerCalloughMark);
+        string signature = System.Text.Json.JsonSerializer.Serialize(runtime.SchedulerState) + string.Join("|", launching)
+            + System.Text.Json.JsonSerializer.Serialize(markGoals) + confirmingMark?.ToString();
         if (signature == stateSignature)
             return;
         stateSignature = signature;
         rows.Children.Clear();
         portraits.Clear();
         consentActions.Clear();
+        markActions.Clear();
         if (runtime.SchedulerState.Entries.Length == 0)
             rows.Children.Add(Copy("No schedules yet.\nChoose a character and quest to add your first one."));
         foreach (string name in launching)
@@ -399,6 +406,7 @@ public sealed class SchedulerPage : UserControl
         }
         foreach (var entry in runtime.SchedulerState.Entries.OrderBy(e => e.Due))
         {
+            var markGoal = markGoals[entry.Id];
             var card = new Grid { ColumnDefinitions = new("36,*,134,30"), RowDefinitions = new("Auto,Auto,Auto"), ColumnSpacing = 10, RowSpacing = 6 };
             var portrait = new CharacterSpritePreview { IsPortrait = true, Width = 36, Height = 36,
                 Snapshot = runtime.Snapshot(entry.Character), RememberedAppearance = runtime.Memory(entry.Character).Appearance,
@@ -426,17 +434,20 @@ public sealed class SchedulerPage : UserControl
             Grid.SetColumn(identity, 1);
             card.Children.Add(identity);
             var timing = new StackPanel { Spacing = 3, VerticalAlignment = VerticalAlignment.Center };
-            var due = new TextBlock { Text = $"{entry.Due.ToLocalTime():MMM d · h:mm tt}", FontSize = 12 };
-            ToolTip.SetTip(due, entry.Due.ToLocalTime().ToString("f zzz"));
+            var shownAt = markGoal?.At ?? entry.Due;
+            var due = new TextBlock { Text = $"{shownAt.ToLocalTime():MMM d · h:mm tt}", FontSize = 12 };
+            ToolTip.SetTip(due, shownAt.ToLocalTime().ToString("f zzz"));
             timing.Children.Add(due);
-            string stateClass = entry.Status == "Needs attention" ? "error" : entry.Status == "Paused" ? "gold"
+            string stateClass = markGoal is not null ? "ready" : entry.Status == "Needs attention" ? "error" : entry.Status == "Paused" ? "gold"
                 : runtime.SchedulerEnabled && entry.Status is "Armed" or "Running" ? "ready" : "muted";
-            timing.Children.Add(new TextBlock { Text = $"{(entry.Recurring ? "Repeat" : "Once")} · {entry.Status}", FontSize = 11, Classes = { stateClass }, TextTrimming = TextTrimming.CharacterEllipsis });
+            timing.Children.Add(new TextBlock { Text = markGoal is not null
+                ? markGoal.Description.StartsWith("Legend", StringComparison.Ordinal) ? "Legend mark obtained" : "Reward obtained"
+                : $"{(entry.Recurring ? "Repeat" : "Once")} · {entry.Status}", FontSize = 11, Classes = { stateClass }, TextWrapping = TextWrapping.Wrap });
             Grid.SetColumn(timing, 2);
             card.Children.Add(timing);
-            if (entry.Reason.Length > 0)
+            if (markGoal is not null || entry.Reason.Length > 0)
             {
-                var reason = Copy(entry.Reason);
+                var reason = Copy(markGoal?.Description ?? entry.Reason);
                 reason.FontSize = 12;
                 reason.LineHeight = 18;
                 Grid.SetRow(reason, 1);
@@ -465,7 +476,7 @@ public sealed class SchedulerPage : UserControl
                 acknowledgement.IsChecked = false;
                 UpdateControls();
                 return Task.CompletedTask;
-            }).IsVisible = entry.Status != "Running";
+            }).IsVisible = entry.Status != "Running" && markGoal is null;
             Action("Pause", () => runtime.PauseScheduleAsync(entry.Id)).IsVisible = entry.Status is "Armed" or "Running";
             async Task ResumeAsync()
             {
@@ -474,7 +485,7 @@ public sealed class SchedulerPage : UserControl
                     ? "It will run at the next eligible time." : "Next: Turn on saved schedules.");
             }
             var reenable = Action("Resume schedule", ResumeAsync);
-            reenable.IsVisible = entry.Status is "Needs attention" or "Paused";
+            reenable.IsVisible = markGoal is null && entry.Status is "Needs attention" or "Paused";
             reenable.IsEnabled = !busy && acknowledgement.IsChecked == true;
             consentActions.Add(reenable);
             if (reenable.IsVisible)
@@ -491,6 +502,44 @@ public sealed class SchedulerPage : UserControl
                 Grid.SetColumn(next, 1);
                 Grid.SetColumnSpan(next, 3);
                 card.Children.Add(next);
+            }
+            if (markGoal is not null)
+            {
+                var decision = new StackPanel { Spacing = 7 };
+                var buttons = new WrapPanel { Orientation = Orientation.Horizontal };
+                if (confirmingMark == (entry.Id, markGoal.At))
+                {
+                    decision.Children.Add(Copy(entry.Character + " will resume every 8 hours when eligible, stopping again at the next Callough mark outcome. Your existing mark stays recorded. Scheduled logins may disconnect another session and close the game windows Scheduler opens."));
+                    var confirm = new Button { Content = "Resume for more marks", Classes = { "primary" }, IsEnabled = !busy, Margin = new Thickness(0, 0, 8, 4) };
+                    AutomationProperties.SetName(confirm, "Confirm more Callough marks for " + entry.Character);
+                    confirm.Click += async (_, _) => await PerformAsync(async () =>
+                    {
+                        await runtime.ResumeForMoreStickMarksAsync(entry.Id, markGoal.At, true);
+                        confirmingMark = null;
+                        feedback.Text = runtime.SchedulerEnabled ? "Schedule resumed for more marks at the next eligible time."
+                            : "More marks approved. Scheduler remains off until you turn it on.";
+                    });
+                    buttons.Children.Add(confirm);
+                    markActions.Add(confirm);
+                    var cancel = new Button { Content = "Keep stopped", Classes = { "quiet" }, IsEnabled = !busy, Margin = new Thickness(0, 0, 0, 4) };
+                    cancel.Click += (_, _) => { confirmingMark = null; Refresh(); };
+                    buttons.Children.Add(cancel);
+                    markActions.Add(cancel);
+                }
+                else
+                {
+                    decision.Children.Add(Copy("Would you like to resume and try for more numbered marks?"));
+                    var tryMore = new Button { Content = "Try for more marks", Classes = { "quiet" }, IsEnabled = !busy };
+                    AutomationProperties.SetName(tryMore, "Try for more Callough marks for " + entry.Character);
+                    tryMore.Click += (_, _) => { confirmingMark = (entry.Id, markGoal.At); Refresh(); };
+                    buttons.Children.Add(tryMore);
+                    markActions.Add(tryMore);
+                }
+                decision.Children.Add(buttons);
+                Grid.SetRow(decision, 2);
+                Grid.SetColumn(decision, 1);
+                Grid.SetColumnSpan(decision, 3);
+                card.Children.Add(decision);
             }
             Action("Remove", () => runtime.RemoveScheduleAsync(entry.Id)).IsVisible = entry.Status != "Running";
             var menu = new ContextMenu { ItemsSource = menuItems };

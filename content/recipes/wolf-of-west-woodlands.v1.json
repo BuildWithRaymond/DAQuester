@@ -1,0 +1,23 @@
+{
+  "id": "wolf-of-west-woodlands",
+  "version": 1,
+  "name": "Wolf of West Woodlands",
+  "source": "https://vorlof.com/quests/wolfofwestwoodlands.html",
+  "capabilities": ["navigate", "dialog", "inventory", "skill", "legend"],
+  "cooldownHours": 0,
+  "repeatable": false,
+  "outcomeConditions": [
+    "Captured Throttler dialogue and directed woodland passages; unfamiliar replies pause for review",
+    "Own target-bound Wolf kill receipt on West Woodland 20-1",
+    "New Vanilla Potion or Fifleaf deum, 60,000 experience and fresh exact own legend after returning to Throttler",
+    "Reward proof and final popup closure are separate checkpoints"
+  ],
+  "steps": [
+    {"id": "preflight", "action": "wolf-preflight", "next": "accept"},
+    {"id": "accept", "action": "wolf-accept", "next": "enter"},
+    {"id": "enter", "action": "wolf-enter", "next": "hunt"},
+    {"id": "hunt", "action": "wolf-hunt", "next": "return"},
+    {"id": "return", "action": "wolf-return", "next": "confirm"},
+    {"id": "confirm", "action": "wolf-confirm", "next": "complete"}
+  ]
+}

@@ -227,7 +227,7 @@ public sealed partial class DesktopRuntime
                     // connection before dispatch; planning projections cannot authorize it.
                     RequireQueueDispatch(name, id, resume, generation);
                     await runner.RunAsync(RepeatEnabled(name, id), cancellation, startNewAttempt: !resume, singleAttempt: true, deferTimedWaits: true);
-                    return runner.Job;
+                    return await ScheduledQuestOutcomeAsync(name, runner.Job);
                 }, id => HasUnfinishedCheckpoint(name, id), id => Availability(name, id).Ready,
                     (due, cancellation) => WaitForBouquetQueueAsync(name, due, cancellation));
                 queueCoordinators[name] = coordinator;

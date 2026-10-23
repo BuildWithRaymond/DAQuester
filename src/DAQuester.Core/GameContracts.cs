@@ -26,7 +26,8 @@ public record GameCommand(
     int MaxPages = 12,
     string? ExpectedPageText = null,
     TimeSpan? ReplyTimeout = null,
-    string? StopAtVisibleNpc = null);
+    string? StopAtVisibleNpc = null,
+    bool ReturnOnHealthLoss = false);
 
 // Exposes observed character state and server acknowledgements for one connection.
 public interface IGameSession

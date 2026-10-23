@@ -14,6 +14,8 @@ public static class PermanentQuestCompletion
     {
         if (snapshot.Name is null || !snapshot.Connected || !Matches(snapshot))
             return null;
+        if (CalloughMarkProgress.Recorded(journal.Load(snapshot.Name, "spare-a-stick"), snapshot.Dialog!))
+            return null;
         await stopOwners(); // Read the durable baseline after every active writer has released ownership.
         var job = journal.Load(snapshot.Name, "spare-a-stick");
         if (job.PermanentCompletion is not null)
@@ -34,18 +36,22 @@ public static class PermanentQuestCompletion
 
     public static QuestJob Record(QuestJob job, Dialog dialog, CharacterSnapshot? snapshot = null)
     {
+        var at = dialog.ObservedAt ?? DateTimeOffset.UtcNow;
+        var outcome = new PermanentCompletionEvidence(at, dialog);
         bool proven = job.Pending is { Kind: "turn-in" } t && snapshot is not null && snapshot.Generation == t.Generation && snapshot.Revision >= dialog.Revision && snapshot.InventoryKnown && snapshot.Count("Branch") <= t.Branches - 6 && snapshot.Experience > t.Experience;
         return job with
         {
             Step = "complete",
             Status = "PermanentlyCompleted",
-            Reason = "Callough child-reminder reply: quest finished permanently",
+            Reason = "Callough mark outcome obtained; stopped until you choose to try for more",
             Repeat = false,
             NextRun = null,
             Accepted = false,
             AcceptedGeneration = null,
-            PermanentCompletion = new(DateTimeOffset.UtcNow, dialog),
-            CompletedAt = job.CompletedAt ?? DateTimeOffset.UtcNow,
+            PermanentCompletion = outcome,
+            CalloughOutcomes = CalloughMarkProgress.Recorded(job, dialog) ? job.CalloughOutcomes : [.. job.CalloughOutcomes, outcome],
+            CompletedAt = at,
+            LastAttemptAt = at,
             Rewards = proven ? RewardEvidence.Record(job.Pending!, snapshot!) : job.Rewards,
             Pending = proven ? null : job.Pending
         };

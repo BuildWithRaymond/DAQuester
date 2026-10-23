@@ -8,7 +8,7 @@ optional scheduled work that can keep running in the system tray.
 
 [Download for Windows](https://github.com/BuildWithRaymond/DAQuester/releases/latest)
 · [Setup guide](docs/GETTING_STARTED.md)
-· [1.6.0 release notes](docs/releases/v1.6.0.md)
+· [1.7.0 release notes](docs/releases/v1.7.0.md)
 · [Report a bug](https://github.com/BuildWithRaymond/DAQuester/issues/new/choose)
 
 This README describes current source. See the release notes for changes included
@@ -125,11 +125,12 @@ The quest library includes guides and automatic recipes:
 | Awakening | Follows the starter tutorial through Raghnall and Bartley, then verifies the wake-up in Mileth Inn Room 0 and its rewards. |
 | Peasant's First Steps | Needs **50,000 gold**. Buys and equips starter gear, trains in the first two Mileth Crypt floors to level 7, and finishes with a Loures Saber equipped. Allocates stat points to CON and WIS. |
 | Crypt Climb | Uses the First Steps gear to reach level 11 in the first two Crypt floors, then returns to the Vestibule. Allocates CON and WIS. Characters below level 10 without a Terror mark must accept losing that quest window. |
-| Spare a Stick | Levels **1–11** only. Accepts Callough's task before gathering six branches, then verifies his rewards. Ordinary attempts have an eight-hour cooldown; a permanent outcome ends repeats. |
+| Spare a Stick | Levels **1–11** only. Accepts Callough's task before gathering six branches, then verifies his rewards. Ordinary attempts have an eight-hour cooldown. A mark outcome stops repeats; Scheduler shows the observed mark and offers an explicit choice to try for higher numbered marks. Verified sessions drop leftover Stick and Wooden Shield bag items. |
 | Mundane Birth | Choose your season, age, and town before starting. Runs once; an existing birth legend prevents another selection. |
 | Perfect Hairstyle | Follows Eeva's Ponytail conversation. Weekly attempts can continue until your own Suomi legend is recorded. |
 | Entered Muisir Village | Collects five Undine Mushrooms and verifies the legend and four Shrinking Potions. An existing Muisir legend shows Completed. |
 | Emerald Dawn | Find an insignia, hear Berg's story, then choose Knights, Necromancer, or sale. The choice can change until the hand-over. All three outcomes are live-verified. |
+| Wolf of West Woodlands | Follows Throttler's woodland quest, handles the observed entrance warning, and verifies a named potion, 60,000 XP and the own Wolf legend. Accepts Vanilla Potion or Fifleaf deum. A fresh full automatic run remains unverified. |
 | Shinewood Faerie | Level **11+** to pass Forest 7. Try for a pet and learn eligible missing Priest/Wizard spells. The known successful bond asks for **250 HP and 250 MP**; the runner accepts that exact offer and verifies the Pet Faerie. Handles the failed-bond wait and return trip. A fresh automatic bond run remains unverified. |
 | Cured the Sick Child | Level **11+**. Give Paulin five Sevti Blossoms with **5,000 gold per flower**. Pick daily or use helpers; completion requires your own sick-child legend. |
 | Aided the Pact of Anaman | Give Paulin five Tulsi (Golden) Blossoms **without gold**. Uses the same daily/helper options; its brown legend mark is hidden from other players. |

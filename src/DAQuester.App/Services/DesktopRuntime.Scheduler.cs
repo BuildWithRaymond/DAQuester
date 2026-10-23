@@ -42,16 +42,23 @@ public sealed partial class DesktopRuntime
 
     public async Task TickSchedulerAsync()
     {
-        if (Preview || !Ready || closing || shuttingDown)
+        if (closing || shuttingDown)
             return;
-        try { await scheduler.TickAsync(DateTimeOffset.UtcNow); }
+        try
+        {
+            await ReconcileCalloughSchedulesAsync();
+            if (!Preview && Ready) await scheduler.TickAsync(DateTimeOffset.UtcNow);
+        }
         catch (Exception error) { Log("Scheduler stopped: " + error.Message); }
     }
 
     public DateTimeOffset SchedulerDue(string name, string id, DateTimeOffset requested)
     {
         var job = Job(name, id);
+        if (StickRewardCleanup.Unfinished(job)) return requested;
         var deadline = QuestRunPolicy.NextAttempt(recipes[id], job);
+        if (id == "spare-a-stick" && job.PermanentCompletion is { } outcome)
+            deadline = (job.CompletedAt is { } completed && completed > outcome.ObservedAt ? completed : outcome.ObservedAt).AddHours(8);
         if (id == AltarWorshipEvidence.Id && AltarWorshipEvidence.NextOffering(job) is { } offering)
             deadline = offering;
         if (SickChildEvidence.For(id) is not null && job.NextRun is { } flower)
@@ -88,7 +95,7 @@ public sealed partial class DesktopRuntime
         {
             if (id != WizardyResearchEvidence.Id) throw new QuestBlockedException("Research choices belong to the research task.");
             research.Validate(name);
-            if (job.Research?.Stage > 0 || job.Research?.Cleanup is not null)
+            if (job.Research?.NeedsRecovery == true)
                 throw new QuestBlockedException("Saved research progress owns its assistant choice; resume it first.");
             if (research.Assistant is { } helper && (!Settings.Characters.Contains(helper, StringComparer.OrdinalIgnoreCase) || !Preview && !Snapshot(helper).Connected && !CredentialVault.Exists(helper)))
                 throw new QuestBlockedException("The research assistant needs a saved character and saved login.");
@@ -119,7 +126,7 @@ public sealed partial class DesktopRuntime
         Notify();
     }
 
-    void ValidateSchedule(string name, string id, bool recurring)
+    void ValidateSchedule(string name, string id, bool recurring, DateTimeOffset? calloughRetryAfter = null)
     {
         RequireOpen();
         if (!Settings.Characters.Contains(name, StringComparer.OrdinalIgnoreCase) || !name.All(char.IsAsciiLetter))
@@ -134,7 +141,9 @@ public sealed partial class DesktopRuntime
             throw new QuestBlockedException("Save the quest's choices before arming its schedule.");
         if (id == WizardyResearchEvidence.Id && Job(name, id).ResearchOptions?.Assistant is { } assistant && !Preview && !CredentialVault.Exists(assistant))
             throw new QuestBlockedException("Save the research assistant's login before scheduling it.");
-        if (QuestRunPolicy.Finished(quest, Job(name, id)) || Memory(name).CompletedLegend(id, Snapshot(name)) is not null)
+        var job = journal.Load(name, id);
+        bool approvedCallough = id == "spare-a-stick" && calloughRetryAfter is not null && job.Pending is null && job.PermanentCompletion?.ObservedAt == calloughRetryAfter;
+        if (QuestRunPolicy.Finished(quest, job) && !approvedCallough || Memory(name).CompletedLegend(id, Snapshot(name)) is not null)
             throw new QuestBlockedException("This quest's goal is already completed.");
     }
 
@@ -154,7 +163,7 @@ public sealed partial class DesktopRuntime
     public Task RearmScheduleAsync(Guid id, bool acknowledged)
     {
         var entry = SchedulerState.Entries.Single(e => e.Id == id);
-        ValidateSchedule(entry.Character, entry.Quest, entry.Recurring);
+        ValidateSchedule(entry.Character, entry.Quest, entry.Recurring, entry.CalloughRetryAfter);
         if (entry.Profile != Settings.ServerProfile || entry.Connection != SchedulerConnection || entry.RecipeVersion != recipes[entry.Quest].Version)
             throw new QuestBlockedException("Profile or recipe changed. Review and edit this schedule first.");
         return scheduler.RearmAsync(id, acknowledged, SchedulerDue(entry.Character, entry.Quest, DateTimeOffset.UtcNow));
@@ -168,9 +177,11 @@ public sealed partial class DesktopRuntime
         if (entry.Profile != Settings.ServerProfile || entry.Connection != SchedulerConnection || !recipes.TryGetValue(entry.Quest, out var quest) || entry.RecipeVersion != quest.Version)
             throw new QuestBlockedException("Profile or recipe changed. Review this schedule.");
         string name = entry.Character;
-        if (QuestRunPolicy.Finished(quest, Job(name, entry.Quest)) || Memory(name).CompletedLegend(entry.Quest, Snapshot(name)) is not null)
+        var savedJob = journal.Load(name, entry.Quest);
+        bool approvedCallough = entry.Quest == "spare-a-stick" && entry.CalloughRetryAfter is not null && savedJob.Pending is null && savedJob.PermanentCompletion?.ObservedAt == entry.CalloughRetryAfter;
+        if (QuestRunPolicy.Finished(quest, savedJob) && !approvedCallough || Memory(name).CompletedLegend(entry.Quest, Snapshot(name)) is not null)
             return new();
-        ValidateSchedule(name, entry.Quest, entry.Recurring);
+        ValidateSchedule(name, entry.Quest, entry.Recurring, entry.CalloughRetryAfter);
         if (Snapshot(name).Connected || OwnsLiveClient(name))
             throw new QuestBlockedException("This character's game window is already open. Scheduler will not take it over; close it and explicitly re-enable this schedule.");
         if (QueueReserves(name) || IsRunning(name) || RunnerBusy(name) || controlActions.ContainsKey(name) || LaunchPending(name) || calibrationTasks.TryGetValue(name, out var capture) && !capture.IsCompleted)
@@ -208,18 +219,21 @@ public sealed partial class DesktopRuntime
             if (!session.Snapshot.LegendsKnown)
                 await session.ExecuteAsync(new("inspect-self"), cancellation);
             cancellation.ThrowIfCancellationRequested();
+            await PrepareCalloughMarkRetryAsync(entry);
             var runner = await PrepareRunnerCoreAsync(name, quest, scheduled: true);
             var currentDue = SchedulerDue(name, entry.Quest, DateTimeOffset.UtcNow);
-            if (currentDue > DateTimeOffset.UtcNow && runner.Job.Pending is null)
+            if (currentDue > DateTimeOffset.UtcNow && runner.Job.Pending is null &&
+                (entry.Quest != WizardyResearchEvidence.Id || runner.Job.Research?.NeedsRecovery != true))
                 return new(currentDue, entry.Resume);
             await scheduler.MarkQuestStartedAsync(entry.Id);
             SetSchedulerPhase("Running");
             await runner.RunAsync(false, cancellation, startNewAttempt: QuestRunPolicy.StartNewScheduledAttempt(quest, runner.Job, entry), singleAttempt: true, yieldScheduledWaits: true);
             cancellation.ThrowIfCancellationRequested();
-            var job = runner.Job;
-            if (entry.Quest == WizardyResearchEvidence.Id && job.Pending is null && job.Research?.Cleanup is null && job.Research?.RestAt is not null && job.NextRun is { } rest)
+            var job = await ScheduledQuestOutcomeAsync(name, runner.Job);
+            if (entry.Quest == WizardyResearchEvidence.Id && job.Pending is null && job.Research?.NeedsRecovery != true && job.Research?.RestAt is not null && job.NextRun is { } rest)
                 return entry.Recurring ? new(rest, false) : new();
-            if (job.Status == "Scheduled" && job.Pending is null && job.NextRun is { } next)
+            if (job.Status == "Scheduled" && job.Pending is null && job.NextRun is { } next &&
+                (entry.Quest != WizardyResearchEvidence.Id || job.Research?.NeedsRecovery != true))
                 return new(next, true);
             if (QueueAttemptOutcome.Evaluate(job) is null)
                 throw new QuestBlockedException(QueueAttemptOutcome.BlockReason(job));

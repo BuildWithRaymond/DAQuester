@@ -410,7 +410,8 @@ public class McpProtocol(Func<ControlRequest, Task<object?>> call)
                     "emerald-dawn",
                     "shinewood-faerie",
                     "fisk-secret",
-                    "cap-band-of-danaan"
+                    "cap-band-of-danaan",
+                    "wolf-of-west-woodlands"
                 },
                 @default = "spare-a-stick"
             };

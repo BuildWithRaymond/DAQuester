@@ -1,5 +1,39 @@
 # Changelog
 
+## Unreleased
+
+## 1.7.0 — 2026-10-22
+
+- Add the Wolf of West Woodlands recipe with observed travel/dialogue, guarded
+  combat and reward checkpoints, and separate final popup cleanup. Full automatic
+  completion remains unqualified live.
+- Retry a rejected recorded doorway from confirmed server position instead of
+  excluding the entrance and falsely reporting occupancy during Fisk delivery.
+  Keep bounded retries, actual occupancy checks and entry-refusal guards.
+- Continue guarded travel after delayed movement and an authoritative refresh
+  when no popup or other interruption is present. Leave Glioca's observed
+  entrance through its stable westward interior before approaching a mundane.
+- Handle the observed Wolf entrance warning before the navigation target, accept
+  the observed Fifleaf deum reward as well as Vanilla Potion, and recognize a
+  manually completed goal without reopening Throttler or claiming rewards again.
+- Cancel the observed Ciad greeting during automatic quest travel and continue
+  without advancing its adventure. Keep unfamiliar pages guarded and bind notice
+  cancellation to the current page before settling movement.
+- Continue Wizardy research after locally dismissing the verified Exkuranum
+  shop. Preserve paid supplies and return-to-research checkpoints across Resume;
+  do not wait for a merchant server-close reply or repeat a verified purchase.
+- Prepare 30 Exkuranum for Wizardy research through Blackstar Village Research,
+  buy only the missing quantity, and restore full health immediately after
+  research damage. Preserve research results and independent potion receipts
+  through pauses, interrupted replies and reconnect recovery.
+- Reconcile obtained Callough outcomes into completed Scheduler rows instead of
+  leaving stale Needs attention / Resume prompts. Show the observed Mileth legend
+  and number, with an explicit choice to resume for more marks. Preserve earlier
+  receipts, eight-hour cooldowns, pending transactions and saved login restrictions.
+- Clear carried Stick and Wooden Shield leftovers after verified Spare a Stick
+  outcomes, with saved drop intentions and inventory receipts before continuing
+  the queue or logging out. Keep uncertain drops pending without resubmitting.
+
 ## 1.6.0 — 2026-10-16
 
 - Continue after the observed failed Sorcery experiment when the server closes

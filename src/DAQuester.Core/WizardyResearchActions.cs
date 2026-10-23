@@ -2,7 +2,7 @@ namespace DAQuester.Core;
 
 // Captured Sorcery, failure and parchment-exhaustion results have explicit receipts.
 // Unknown outcomes remain pending; cooldown still requires its exact page.
-public sealed class WizardyResearchActions : IQuestAction
+public sealed partial class WizardyResearchActions : IQuestAction
 {
     static readonly TimeSpan Timeout = TimeSpan.FromSeconds(8);
     static WizardyResearchProgress Progress(QuestContext c) => c.Job.Research ?? new();
@@ -16,9 +16,31 @@ public sealed class WizardyResearchActions : IQuestAction
 
     public async Task ExecuteAsync(QuestContext c, QuestStep step, CancellationToken ct)
     {
+        void Observe(CharacterSnapshot snapshot)
+        {
+            if (ReferenceEquals(WizardyResearchEvidence.ObserveResultStatus(c.Job, snapshot), c.Job)) return;
+            c.ResearchResultObservation = new() { Connected = snapshot.Connected, Name = snapshot.Name,
+                Generation = snapshot.Generation, Revision = snapshot.Revision, Map = snapshot.Map, ActiveStatus = snapshot.ActiveStatus };
+        }
+        c.Session.Changed += Observe;
+        try { await Run(c, ct); }
+        finally
+        {
+            c.Session.Changed -= Observe;
+            await CaptureResultStatus(c);
+            c.ResearchResultObservation = null;
+        }
+    }
+
+    static async Task Run(QuestContext c, CancellationToken ct)
+    {
         Identity(c);
         if (c.Job.Research is null) await Save(c, new(), "Preparing wizardy research");
+        await ReconcilePotionPurchase(c, ct);
+        await ReconcilePotionDeparture(c);
+        await ReconcileHealing(c, ct);
         if (c.Job.Pending is not null) await Reconcile(c, ct);
+        if (Progress(c).HealthCheckRequired) await Health(c, ct);
         await Cleanup(c, ct);
         if (Progress(c).RestAt is { } rest)
         {
@@ -31,9 +53,13 @@ public sealed class WizardyResearchActions : IQuestAction
         var preflight = WizardyResearchEvidence.Eligibility(c.Session.Snapshot);
         if (preflight.Kind == EligibilityKind.Blocked) throw new QuestBlockedException(preflight.Reason);
         if (c.Session.Snapshot.Class is null) await c.Session.ExecuteAsync(new("inspect-self"), ct);
-        await Health(c, ct);
+        await ReadHealth(c, ct);
         var eligible = WizardyResearchEvidence.Eligibility(c.Session.Snapshot);
         if (eligible.Kind != EligibilityKind.Eligible) throw new QuestBlockedException(eligible.Reason);
+        if (Progress(c).Stage == 0) await PreparePotions(c, ct);
+        else if (c.Session.Snapshot.Count(Exkuranum) == 0)
+            throw new ResourceUnavailableException("Carry Exkuranum before resuming this research sequence.");
+        await Health(c, ct);
         var options = c.Job.ResearchOptions ?? new();
         options.Validate(c.Job.Character);
         IQuestHelper? helper = null;
@@ -67,13 +93,15 @@ public sealed class WizardyResearchActions : IQuestAction
                     throw new QuestBlockedException("Assistant is no longer ready nearby; research paused.");
                 await Cleanup(c, ct);
                 if (await Rest(c, ct)) return;
+                if (c.Session.Snapshot.Count(Exkuranum) == 0) await PreparePotions(c, ct);
                 await Health(c, ct);
-                if (Progress(c).Stage == 0 && (c.Session.Snapshot.Dialog is null || c.Session.Snapshot.Dialog is { IsPursuit: false, Name: "Dar" }))
+                if (Progress(c).Stage == 0 && (c.Session.Snapshot.Dialog is null || c.Session.Snapshot.Dialog is { IsPursuit: false, Name: "Dar" } || DismissedPotionShop(c)))
                 {
                     await c.Session.ExecuteAsync(new("navigate", WizardyResearchEvidence.Map, new(7, 9),
                         ExpectedGeneration: c.Session.Snapshot.Generation, StopAtVisibleNpc: "Dar"), ct);
                     if (c.Session.Snapshot.Map != WizardyResearchEvidence.Map || c.Session.Snapshot.Position is null)
                         throw new QuestBlockedException("Research room arrival needs reconciliation.");
+                    await ReconcilePotionDeparture(c);
                     var arrival = c.Session.Snapshot;
                     if ((arrival.Count(WizardyResearchEvidence.Parchment) == 0 || Progress(c).BankingItem is not null ||
                         WizardyResearchEvidence.DepositCandidate(arrival) is not null) && WizardyResearchEvidence.Triggers.Contains(arrival.Position!))
@@ -103,11 +131,13 @@ public sealed class WizardyResearchActions : IQuestAction
         }
     }
 
-    static async Task Health(QuestContext c, CancellationToken ct)
+    static async Task ReadHealth(QuestContext c, CancellationToken ct)
     {
         if (c.Session.Snapshot.Hp == 0)
             await c.Session.WaitAsync(s => s.Hp > 0, c.Session.Snapshot.Revision, Timeout, ct);
-        if (c.Session.Snapshot.Hp is null) throw new QuestBlockedException("Fresh health required before continuing research.");
+        Identity(c);
+        if (c.Session.Snapshot.Hp is null || c.Session.Snapshot.MaxHp is null or 0)
+            throw new QuestBlockedException("Current HP and maximum HP required before continuing research.");
     }
     static bool FreshReply(CharacterSnapshot s, WizardyResearchProgress p, Transaction t, out Dialog d)
     {
@@ -131,7 +161,9 @@ public sealed class WizardyResearchActions : IQuestAction
     static async Task Select(QuestContext c, Dialog d, string label, int next, bool submit, CancellationToken ct)
     {
         var choice = ResearchChoice(d, label) ?? throw new QuestBlockedException("Research choice changed; current popup was preserved.");
-        await Save(c, Progress(c) with { Source = d, Stage = next }, "Research · " + label);
+        await Save(c, Progress(c) with { Source = d, Stage = next,
+            HealthCheckRequired = submit || Progress(c).HealthCheckRequired,
+            ResultStatus = submit ? null : Progress(c).ResultStatus }, "Research · " + label);
         await c.BeginAsync(submit ? "research-submit" : "research-menu", d.EntityId, observedDialog: d);
         await c.Session.ExecuteAsync(new("choose", Text: choice.Text, Dialog: d, ExpectedGeneration: d.Generation,
             ExpectedDialogRevision: d.Revision, ExpectedPageText: d.Text), ct);
@@ -165,14 +197,15 @@ public sealed class WizardyResearchActions : IQuestAction
             }
             if (stage == 4)
             {
+                await Health(c, ct);
                 if (!assistantReady()) throw new QuestBlockedException("Assistant left or changed connection before name submission; research paused.");
                 if (options.Assistant is null || d.Choices.Length != 0 || d.HasNext || d.Prompt is null && d.Type != 2)
                     throw new QuestBlockedException("Fresh assistant name prompt required; unknown choices were preserved.");
                 if (s.Count(WizardyResearchEvidence.Parchment) < 1) throw new QuestBlockedException("Parchment is missing; no assistant name submitted.");
-                await Save(c, Progress(c) with { Source = d, Stage = 5 }, "Submitting assistant name");
+                await Save(c, Progress(c) with { Source = d, Stage = 5, HealthCheckRequired = true, ResultStatus = null }, "Submitting assistant name");
                 await c.BeginAsync("research-submit", d.EntityId, observedDialog: d);
                 await c.Session.ExecuteAsync(new("input", Text: options.Assistant, Dialog: d, ExpectedGeneration: d.Generation,
-                    ExpectedDialogRevision: d.Revision, ExpectedPageText: d.Text), ct);
+                    ExpectedDialogRevision: d.Revision, ExpectedPageText: d.Text, ReturnOnHealthLoss: true), ct);
                 return;
             }
             string label = stage switch { 0 => WizardyResearchEvidence.Begin, 1 => "Specific", 2 => "sorcery", 3 => options.Assistant is null ? "Alone" : "Assistant", _ => throw new QuestBlockedException("Research checkpoint requires reconciliation.") };
@@ -273,7 +306,12 @@ public sealed class WizardyResearchActions : IQuestAction
         if (t is null) return;
         Identity(c);
         if (c.Session.Snapshot.Generation != t.Generation) throw new QuestBlockedException("Research submission belongs to an earlier connection; inspect its receipt. Nothing resent.");
-        if (t.Kind == "research-submit") await ReadResultPages(c, t, ct);
+        if (t.Kind == "research-submit")
+        {
+            await CaptureResultStatus(c);
+            if (Wounded(c.Session.Snapshot)) await Health(c, ct);
+            await ReadResultPages(c, t, ct);
+        }
         var p = Progress(c);
         bool Refusal(CharacterSnapshot s) => t.Kind == "research-submit" && FreshReply(s, p, t, out var refused) && refused.Text == WizardyResearchEvidence.Cooldown &&
             s.InventoryKnown && s.Count(WizardyResearchEvidence.Parchment) == t.InventoryCounts.GetValueOrDefault(WizardyResearchEvidence.Parchment) &&
@@ -293,12 +331,25 @@ public sealed class WizardyResearchActions : IQuestAction
                 s.Count(WizardyResearchEvidence.Parchment) == t.InventoryCounts.GetValueOrDefault(WizardyResearchEvidence.Parchment) - 1 &&
                 WizardyResearchEvidence.NewSongs(s, t).Count > 0;
         }
-        if (!Receipt(c.Session.Snapshot)) await c.Session.WaitAsync(Receipt, t.Revision, Timeout, ct);
+        if (t.Kind == "research-submit")
+        {
+            bool OfferedNext(CharacterSnapshot s) => FreshReply(s, Progress(c), t, out var page) &&
+                page.HasNext && page.Choices.Length == 0 && page.Prompt is null;
+            while (!Receipt(c.Session.Snapshot))
+            {
+                await WaitResearch(c, s => Receipt(s) || OfferedNext(s), t.Revision, ct);
+                await ReadResultPages(c, t, ct);
+            }
+            await CaptureResultStatus(c);
+            if (Wounded(c.Session.Snapshot)) await Health(c, ct);
+        }
+        else if (!Receipt(c.Session.Snapshot)) await c.Session.WaitAsync(Receipt, t.Revision, Timeout, ct);
         var after = c.Session.Snapshot;
         if (!Receipt(after)) throw new QuestBlockedException("Research receipt remains uncertain; no action resent.");
         if (Refusal(after))
         {
             await c.SaveAsync(c.Job with { Pending = null, Reason = "Research refused without consuming parchment" });
+            await Health(c, ct);
             return;
         }
         if (t.Kind == "research-submit")
@@ -306,6 +357,7 @@ public sealed class WizardyResearchActions : IQuestAction
             var receipt = WizardyResearchEvidence.StatusResult(c.Job, after) ??
                 new(DateTimeOffset.UtcNow, after.Dialog, WizardyResearchEvidence.NewSongs(after, t));
             await c.SaveAsync(WizardyResearchEvidence.RecordAttempt(c.Job, receipt));
+            await Health(c, ct);
         }
         else if (t.Kind == "research-deposit")
             await c.SaveAsync(c.Job with { Pending = null, Research = p with { Cleanup = after.Dialog, DepositCleanup = true,
@@ -322,18 +374,21 @@ public sealed class WizardyResearchActions : IQuestAction
     {
         for (int pages = 0; pages < 12; pages++)
         {
+            await CaptureResultStatus(c);
+            if (Wounded(c.Session.Snapshot)) await Health(c, ct);
             var p = Progress(c);
             if (p.SubmittedNext is { } sent)
             {
-                if (!FreshReply(c.Session.Snapshot, p, t, out var next) || next.Revision <= sent.Revision)
-                    await c.Session.WaitAsync(s => FreshReply(s, p, t, out var d) && d.Revision > sent.Revision, sent.Revision, Timeout, ct);
-                await Save(c, p with { SubmittedNext = null }, "Research Next reply received");
+                bool Reply(CharacterSnapshot s) => FreshReply(s, Progress(c), t, out var next) && next.Revision > sent.Revision ||
+                    s.Dialog is null && WizardyResearchEvidence.StatusResult(c.Job, s) is not null;
+                if (!Reply(c.Session.Snapshot)) await WaitResearch(c, Reply, sent.Revision, ct);
+                await Save(c, Progress(c) with { SubmittedNext = null }, "Research Next reply received");
                 p = Progress(c);
             }
             if (!FreshReply(c.Session.Snapshot, p, t, out var current) || !current.HasNext || current.Choices.Length != 0 || current.Prompt is not null) return;
             await Save(c, p with { SubmittedNext = current }, "Reading research result");
             await c.Session.ExecuteAsync(new("next", Dialog: current, ExpectedGeneration: current.Generation,
-                ExpectedDialogRevision: current.Revision, ExpectedPageText: current.Text), ct);
+                ExpectedDialogRevision: current.Revision, ExpectedPageText: current.Text, ReturnOnHealthLoss: true), ct);
         }
         throw new QuestBlockedException("Research result page limit reached; progress and pending submission remain saved.");
     }

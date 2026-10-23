@@ -111,7 +111,7 @@ public class QuestCompletionTrackerTests
 
     sealed class NoGameSession : IGameSession
     {
-        public CharacterSnapshot Snapshot { get; } = new() { Name = "Elara", Id = 1, Connected = true, Generation = 1, Level = 6, Hp = 10 };
+        public CharacterSnapshot Snapshot { get; } = new() { Name = "Elara", Id = 1, Connected = true, Generation = 1, Level = 6, Hp = 10, InventoryKnown = true };
         public IReadOnlySet<string> Capabilities { get; } = new HashSet<string>();
         public event Action<CharacterSnapshot>? Changed { add { } remove { } }
         public event Action<string>? Interrupted { add { } remove { } }

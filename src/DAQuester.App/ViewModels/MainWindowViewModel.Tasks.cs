@@ -7,9 +7,9 @@ public sealed partial class MainWindowViewModel
 {
     QuestJob ResearchJob => Presentation.Job(CharacterName, WizardyResearchEvidence.Id);
     public string ResearchStatus => Runtime.IsRunning(CharacterName) ? Runtime.RunningQuestId(CharacterName) == WizardyResearchEvidence.Id ? "Research in progress" : "Character is busy"
-        : ResearchJob.Research?.Cleanup is not null ? "Final popup needs cleanup" : ResearchJob.Pending is not null ? "Check the last submitted action"
+        : ResearchJob.Research?.Cleanup is not null ? "Final popup needs cleanup" : ResearchJob.Pending is not null || ResearchJob.Research?.NeedsRecovery == true ? "Check the last submitted action"
         : Runtime.Availability(CharacterName, WizardyResearchEvidence.Id).Status;
-    public string ResearchReason => DesktopRuntime.PlayerReason(ResearchJob.Pending is not null || ResearchJob.Research?.Cleanup is not null ? ResearchJob.Reason
+    public string ResearchReason => DesktopRuntime.PlayerReason(ResearchJob.Pending is not null || ResearchJob.Research?.NeedsRecovery == true ? ResearchJob.Reason
         : Runtime.TaskBlocker(CharacterName) ?? Runtime.Availability(CharacterName, WizardyResearchEvidence.Id).Reason);
     public string ResearchSupplies => Runtime.Snapshot(CharacterName) is { InventoryKnown: true } s ? $"{s.Count(WizardyResearchEvidence.Parchment):N0} parchment · {s.Gold:N0} gold"
         : "Connect to read parchment and gold.";
@@ -17,7 +17,7 @@ public sealed partial class MainWindowViewModel
     public string ResearchProgress => $"{ResearchJob.Research?.Attempts.Sum(a => a.Songs.Values.Sum()) ?? 0:N0} Songs created · {ResearchJob.Research?.Deposits.Sum(d => d.Quantity) ?? 0:N0} Songs banked";
     public string ResearchNext => ResearchJob.NextRun is { } due ? "Next research check: " + due.ToLocalTime().ToString("MMM d, h:mm tt") : "A fresh research visit runs until the game requires rest.";
     public string ResearchSchedule => TaskScheduleText.Describe(Runtime, CharacterName, WizardyResearchEvidence.Id);
-    bool ResearchUnfinished => ResearchJob.Pending is not null || ResearchJob.Research?.Cleanup is not null || ResearchJob.Research?.Stage > 0;
+    bool ResearchUnfinished => ResearchJob.Pending is not null || ResearchJob.Research?.NeedsRecovery == true;
     public bool CanChangeResearchChoices => CharacterName.Length > 0 && !ResearchUnfinished && Runtime.TaskBlocker(CharacterName) is null;
     public AsyncCommand RunResearchCommand { get; private set; } = null!;
     public AsyncCommand ResumeResearchCommand { get; private set; } = null!;

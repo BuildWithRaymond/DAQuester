@@ -14,6 +14,12 @@ public class StateTracker(long generation)
 {
     static readonly Regex experienceReply = new(@"^(?<xp>[0-9]+|[0-9]{1,3}(?:,[0-9]{3})+) experience!$", RegexOptions.CultureInvariant);
     DateTimeOffset? ownDefeatAt;
+    sealed record OwnStrike(int Map, DateTimeOffset At);
+    sealed record RemovedOwnTarget(int Map, uint EntityId, ushort Sprite, uint Experience, DateTimeOffset At);
+    readonly Dictionary<uint, OwnStrike> ownStrikes = new();
+    readonly List<RemovedOwnTarget> removedOwnTargets = [];
+    readonly HashSet<uint> livingMonsters = [];
+    static readonly TimeSpan combatReceiptWindow = TimeSpan.FromSeconds(3);
     int? feedbackLevel;
     public CharacterSnapshot Snapshot
     {
@@ -61,8 +67,11 @@ public class StateTracker(long generation)
         if (!sameCharacter || !s.Connected)
         {
             ownDefeatAt = null;
+            ownStrikes.Clear();
+            removedOwnTargets.Clear();
+            livingMonsters.Clear();
             feedbackLevel = null;
-            s = s with { Feedback = [] };
+            s = s with { Feedback = [], OwnMonsterDefeats = [] };
         }
         Snapshot = s with
         {
@@ -165,6 +174,24 @@ public class StateTracker(long generation)
                     if (s.Connected && s.Id is not null && match.Success && uint.TryParse(match.Groups["xp"].Value, NumberStyles.AllowThousands, CultureInfo.InvariantCulture, out uint xp) && xp > 0)
                     {
                         var now = DateTimeOffset.UtcNow;
+                        // The captured Wolf kill has an own-source hit, removal, numeric
+                        // experience update and matching active XP reply, without a death
+                        // animation. Removal or XP by itself never establishes this receipt.
+                        var removed = removedOwnTargets.Where(t => t.Map == s.Map && now - t.At <= combatReceiptWindow).ToArray();
+                        if (removed.Length == 1 && s.Experience is { } total && (ulong)removed[0].Experience + xp == total
+                            && !s.Entities.Values.Any(e => e.IsPlayer))
+                        {
+                            var target = removed[0];
+                            s = s with
+                            {
+                                OwnMonsterDefeats = s.OwnMonsterDefeats.Where(d => d.Generation == generation).TakeLast(31)
+                                    .Append(new(generation, rev, target.Map, target.EntityId, target.Sprite, now)
+                                    {
+                                        Evidence = "own-hit-removal-numeric-and-active-experience"
+                                    }).ToImmutableArray()
+                            };
+                        }
+                        removedOwnTargets.Clear();
                         s = Feedback(s, ownDefeatAt is { } defeat && now - defeat < TimeSpan.FromSeconds(3) ? "Kill" : "Experience", xp, now);
                         ownDefeatAt = null;
                     }
@@ -254,6 +281,9 @@ public class StateTracker(long generation)
                 };
                 break;
             case ServerMapSizeMessage p:
+                ownStrikes.Clear();
+                removedOwnTargets.Clear();
+                livingMonsters.Clear();
                 Width = p.Width;
                 Height = p.Height;
                 ObservedMap = new(p.MapId, p.Name ?? "Map " + p.MapId, p.Width, p.Height, []);
@@ -284,6 +314,8 @@ public class StateTracker(long generation)
 
                     var creature = e as ServerCreatureEntity;
                     var seen = s.Entities.GetValueOrDefault(e.Id);
+                    if (creature?.CreatureType == CreatureType.Monster && (seen?.HealthPercent ?? 100) > 0)
+                        livingMonsters.Add(e.Id);
                     s = s with
                     {
                         Entities = s.Entities.SetItem(e.Id, new(e.Id, creature?.Name ?? "", new(e.X, e.Y), creature is not null && creature.CreatureType != CreatureType.Passable)
@@ -330,6 +362,10 @@ public class StateTracker(long generation)
                 };
                 break;
             case ServerDamageEffectMessage p when s.Entities.TryGetValue(p.EntityId, out var struck):
+                // A rounded zero-percent bar preceded the captured Wolf's actual
+                // removal by several hits. It is not a death receipt.
+                if (!struck.IsPlayer && struck.Kind == 0 && p.Percent > 0)
+                    livingMonsters.Add(p.EntityId);
                 s = s with
                 {
                     Entities = s.Entities.SetItem(p.EntityId, struck with
@@ -339,10 +375,33 @@ public class StateTracker(long generation)
                 };
                 break;
             case ServerEffectLayerMessage p:
+                if (p.TargetAnimation == 268 && s.Entities.TryGetValue(p.TargetId, out var hit)
+                    && !hit.IsPlayer && hit.Kind == 0 && livingMonsters.Contains(hit.Id))
+                {
+                    var now = DateTimeOffset.UtcNow;
+                    foreach (var stale in ownStrikes.Where(t => now - t.Value.At > combatReceiptWindow).Select(t => t.Key).ToArray())
+                        ownStrikes.Remove(stale);
+                    if (p.SourceId == s.Id && s.Connected && s.Id is not null && s.Map is { } hitMap
+                        && !s.Entities.Values.Any(e => e.IsPlayer))
+                        ownStrikes[p.TargetId] = new(hitMap, now);
+                    else
+                        ownStrikes.Remove(p.TargetId);
+                }
                 // 263/278: a killing blow; 268: our own target reflected an attack with asgall (Talos AnimationHandler).
                 if (p.TargetAnimation is 263 or 278 && p.SourceId == s.Id && s.Entities.TryGetValue(p.TargetId, out var defeated) && !defeated.IsPlayer && defeated.HealthPercent > 0)
+                {
                     ownDefeatAt = DateTimeOffset.UtcNow;
+                    if (s.Connected && s.Id is not null && s.Map is { } defeatMap && defeated.Kind == 0)
+                        s = s with
+                        {
+                            OwnMonsterDefeats = s.OwnMonsterDefeats.Where(d => d.Generation == generation).TakeLast(31)
+                                .Append(new(generation, rev, defeatMap, defeated.Id, defeated.Sprite, ownDefeatAt.Value)).ToImmutableArray()
+                        };
+                }
                 if (p.TargetAnimation is 263 or 278 && s.Entities.TryGetValue(p.TargetId, out var felled))
+                {
+                    livingMonsters.Remove(p.TargetId);
+                    ownStrikes.Remove(p.TargetId);
                     s = s with
                     {
                         Entities = s.Entities.SetItem(p.TargetId, felled with
@@ -350,6 +409,7 @@ public class StateTracker(long generation)
                             HealthPercent = 0
                         })
                     };
+                }
                 if (p.TargetAnimation == 268 && p.TargetId == s.Id && p.SourceId == s.Id)
                     s = s with
                     {
@@ -375,6 +435,18 @@ public class StateTracker(long generation)
                 };
                 break;
             case ServerRemoveObjectsMessage p:
+                bool wasLiving = livingMonsters.Remove(p.EntityId);
+                if (ownStrikes.Remove(p.EntityId, out var strike) && s.Connected && s.Id is not null
+                    && s.Map == strike.Map && s.Experience is { } beforeExperience
+                    && s.Entities.TryGetValue(p.EntityId, out var removedTarget)
+                    && wasLiving && !removedTarget.IsPlayer && removedTarget.Kind == 0
+                    && !s.Entities.Values.Any(e => e.IsPlayer))
+                {
+                    var now = DateTimeOffset.UtcNow;
+                    removedOwnTargets.RemoveAll(t => now - t.At > combatReceiptWindow);
+                    if (now - strike.At <= combatReceiptWindow)
+                        removedOwnTargets.Add(new(strike.Map, removedTarget.Id, removedTarget.Sprite, beforeExperience, now));
+                }
                 s = s with
                 {
                     Entities = s.Entities.Remove(p.EntityId),

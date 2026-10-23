@@ -1,0 +1,77 @@
+{
+  "Title": "Ciad greeting during quest travel and verified Exkuranum purchase before a shop-close timeout",
+  "ServerProfile": "datester-7.41",
+  "ObservedDate": "2026-10-18",
+  "EvidenceType": "Restricted projections of existing sanitized server replays and application diagnostics",
+  "Limits": [
+    "Own character names, other players, unrelated inventory, credentials, packet payloads and local paths are omitted.",
+    "Actor, generation and reactor identity are normalized within each case; original revisions and relevant page fields remain.",
+    "The Ciad attribution is the player's report. The server capture proves the exact greeting page and repeated travel interruption, not a completed Ciad quest.",
+    "The purchase proves Jana's observed offer, 30 Exkuranum received and the exact quoted gold debit. It does not prove Exkuranum healing or a completed research attempt.",
+    "No corrected automatic run was performed to collect this evidence. Cancellation and continuation coverage added afterward is synthetic."
+  ],
+  "CiadGreeting": {
+    "Map": 500,
+    "Positions": [{ "X": 20, "Y": 62 }, { "X": 19, "Y": 63 }],
+    "ObservedRevisions": [139, 243, 808, 848],
+    "Dialog": {
+      "Generation": 1,
+      "Revision": 808,
+      "EntityId": 77,
+      "EntityType": 4,
+      "Name": "",
+      "Text": "Greetings there, adventurous Aisling.  So, you lookin' for an adventure are you?",
+      "IsPursuit": true,
+      "Pursuit": 434,
+      "Step": 54,
+      "Type": 0,
+      "Choices": [],
+      "Prompt": null,
+      "HasNext": true,
+      "Items": []
+    },
+    "DiagnosticOutcome": [
+      "Spare a Stick reached turn-in after four sturdy-branch receipts.",
+      "You were distracted",
+      "Position corrected three times without walking progress. Inspect route.",
+      "scheduler closed its game window; progress saved."
+    ]
+  },
+  "ExkuranumPurchase": {
+    "Map": 3214,
+    "Position": { "X": 9, "Y": 8 },
+    "Stock": {
+      "Generation": 2,
+      "Revision": 259,
+      "EntityId": 88,
+      "EntityType": 1,
+      "Name": "Jana",
+      "Text": "Perhaps I can offer you something you are looking for? ",
+      "IsPursuit": false,
+      "Pursuit": 74,
+      "Step": 0,
+      "Type": 4,
+      "Choices": [],
+      "Prompt": null,
+      "HasNext": false,
+      "Items": [{ "Name": "Exkuranum", "Price": 100000 }]
+    },
+    "QuantityPrompt": {
+      "Revision": 260,
+      "Pursuit": 76,
+      "Type": 3,
+      "Text": "How many do you need?",
+      "Prompt": "Exkuranum"
+    },
+    "Before": { "Revision": 259, "Gold": 13298904, "Exkuranum": 0 },
+    "GoldReceipt": { "Revision": 261, "Gold": 10298904 },
+    "ItemReceipt": { "Revision": 262, "Exkuranum": 30 },
+    "ReturnedStockRevision": 264,
+    "DiagnosticOutcome": [
+      "Exkuranum count and quoted payment verified; closing shop",
+      "Closing the verified Exkuranum shop",
+      "Server evidence timeout.",
+      "scheduler closed its game window; progress saved."
+    ]
+  }
+}

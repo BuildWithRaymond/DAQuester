@@ -11,6 +11,7 @@ public class QuestRunner(IGameSession session, IQuestJournal journal, QuestDefin
     public Func<IReadOnlyList<(QuestDefinition Recipe, QuestJob Job)>>? PreparationBatch { get; set; }
 
     private string pauseReason = "Paused by player";
+    CancellationToken lastRunCancellation;
     public event Action<QuestJob>? Changed;
     public Dictionary<string, IQuestAction> Actions
     {
@@ -71,6 +72,8 @@ public class QuestRunner(IGameSession session, IQuestJournal journal, QuestDefin
         NewCharacterPath.FirstStepsId => new[] { "first-steps-preflight", "first-steps-run" }.ToDictionary(x => x, x => (IQuestAction)new NewCharacterActions()),
         NewCharacterPath.ClimbId => new[] { "climb-preflight", "climb-run" }.ToDictionary(x => x, x => (IQuestAction)new NewCharacterActions()),
         WizardyResearchEvidence.Id => new[] { "research-run" }.ToDictionary(x => x, x => (IQuestAction)new WizardyResearchActions()),
+        WolfQuestEvidence.Id => new[] { "wolf-preflight", "wolf-accept", "wolf-enter", "wolf-hunt", "wolf-return", "wolf-confirm" }
+            .ToDictionary(x => x, x => (IQuestAction)new WolfQuestActions()),
         _ => []
     };
     public Dictionary<string, Func<QuestContext, bool?>> Conditions { get; } = [];
@@ -83,6 +86,7 @@ public class QuestRunner(IGameSession session, IQuestJournal journal, QuestDefin
         repeat = recipe.Repeatable && (repeat || hairstyle || singleAttempt && Job.Repeat);
         using var token = CancellationTokenSource.CreateLinkedTokenSource(cancellation);
         active = token;
+        lastRunCancellation = cancellation;
         pauseReason = "Paused by player";
         // Connection/protocol interruptions can overlap or arrive after the run has ended.
         void Interrupt(string reason)
@@ -104,7 +108,7 @@ public class QuestRunner(IGameSession session, IQuestJournal journal, QuestDefin
             completionHistory.Record(s);
             if (!s.Connected)
                 Interrupt("Disconnected. Resume after fresh state.");
-            else if ((recipe.Id is ShinewoodFaerieEvidence.Id or FiskEvidence.Id or DanaanEvidence.Id or WizardyResearchEvidence.Id || singleAttempt) && (s.Generation != runGeneration || !string.Equals(s.Name, captureCharacter, StringComparison.OrdinalIgnoreCase)))
+            else if ((recipe.Id is ShinewoodFaerieEvidence.Id or FiskEvidence.Id or DanaanEvidence.Id or WizardyResearchEvidence.Id or WolfQuestEvidence.Id || singleAttempt) && (s.Generation != runGeneration || !string.Equals(s.Name, captureCharacter, StringComparison.OrdinalIgnoreCase)))
                 Interrupt("Character connection changed. Resume to reconcile fresh state.");
         }
 
@@ -121,12 +125,20 @@ public class QuestRunner(IGameSession session, IQuestJournal journal, QuestDefin
         }, helpers, hunting) { YieldScheduledWaits = yieldScheduledWaits, DeferTimedWaits = deferTimedWaits, HasReadyQueuedWork = hasReadyQueuedWork, WaitingArea = waitingArea ?? new(), PreparationBatch = PreparationBatch };
         var priorHairAttempt = c.Job.LastAttemptAt;
         Task Save(QuestJob value) => c.SaveAsync(value);
+        DateTimeOffset? cleanupAttemptedAt = null;
+        async Task Cleanup()
+        {
+            if (!StickRewardCleanup.Verified(c.Job) || cleanupAttemptedAt == c.Job.CompletedAt) return;
+            cleanupAttemptedAt = c.Job.CompletedAt;
+            await StickRewardCleanup.RunAsync(c, token.Token);
+        }
         try
         {
             if (singleAttempt && !string.Equals(c.Job.Character, captureCharacter, StringComparison.OrdinalIgnoreCase))
                 throw new QuestBlockedException("Saved quest checkpoint belongs to a different character. Select its connected character before resuming.");
             if (c.Job.PermanentCompletion is not null)
             {
+                if (c.Job.Version == recipe.Version) await Cleanup();
                 await Save(c.Job with
                 {
                     Status = "PermanentlyCompleted",
@@ -144,6 +156,9 @@ public class QuestRunner(IGameSession session, IQuestJournal journal, QuestDefin
             if (c.Job.Version != recipe.Version)
                 throw new QuestBlockedException("Recipe version changed. Reconcile saved job before continuing.");
             await EventNotices.DismissAsync(session, token.Token);
+            await Cleanup();
+            if (recipe.Id == WolfQuestEvidence.Id && c.Job.Route?.CleanupPending == true && c.Job.CompletedAt is not null)
+                await Save(c.Job with { Step = "confirm" });
             if (singleAttempt && !startNewAttempt && QueueAttemptOutcome.HasTerminalReceipt(c.Job))
             {
                 await QuestCompletionDialogs.DismissAsync(c, hairstyle ? c.Job.HairstyleCompletion : recipe.Id == "spare-a-stick" ? c.Job.CompletionDialog : null, token.Token);
@@ -242,9 +257,9 @@ public class QuestRunner(IGameSession session, IQuestJournal journal, QuestDefin
                 });
             if (nextAttempt is { } next && next > DateTimeOffset.UtcNow)
             {
-                if (recipe.Id == WizardyResearchEvidence.Id && c.Job.Pending is null)
+                if (recipe.Id == WizardyResearchEvidence.Id && c.Job.Pending is null && c.Job.Research?.NeedsRecovery != true)
                     throw new QuestScheduledWaitException(next);
-                if (yieldScheduledWaits)
+                if (yieldScheduledWaits && !(recipe.Id == WizardyResearchEvidence.Id && c.Job.Research?.NeedsRecovery == true))
                     throw new QuestScheduledWaitException(next);
                 if (singleAttempt)
                     throw new QuestBlockedException((hairstyle ? "Seven-day cooldown" : SickChildEvidence.For(recipe.Id) is not null ? "Next flower" : "Eight-hour cooldown") + " until " + next.ToLocalTime().ToString("g") + ". Queue paused before the next attempt.");
@@ -347,11 +362,14 @@ public class QuestRunner(IGameSession session, IQuestJournal journal, QuestDefin
                 if (singleAttempt && hairstyle && c.Job.LegendReward != true && (c.Job.LastAttemptAt is not { } attempt || attempt == priorHairAttempt || !c.Job.HairstyleAttempts.Any(a => a.CompletedAt == attempt)))
                     throw new QuestBlockedException("Recipe ended without a newly verified weekly attempt.");
                 if (!hairstyle || c.Job.LegendReward == true)
+                {
+                    await Cleanup();
                     await Save(c.Job with
                     {
                         Status = "Completed",
                         Reason = c.Job.CompletionText ?? "Completion verified"
                     });
+                }
                 if (singleAttempt)
                 {
                     if (hairstyle && c.Job.LegendReward != true)
@@ -443,6 +461,9 @@ public class QuestRunner(IGameSession session, IQuestJournal journal, QuestDefin
                                 });
                             }
                     }
+                    if (!token.IsCancellationRequested && c.Job.Version == recipe.Version && (c.Job.Status is "Completed" or "PermanentlyCompleted"))
+                        try { await Cleanup(); }
+                        catch (Exception error) { await Save(c.Job with { Status = "Paused", Reason = error is OperationCanceledException ? pauseReason : error.Message }); }
                 }
             }
             finally
@@ -456,6 +477,41 @@ public class QuestRunner(IGameSession session, IQuestJournal journal, QuestDefin
         }
 
         await ReconcileAsync(session.Snapshot);
+    }
+
+    // Passive Callough observation releases this owner before saving its final
+    // outcome. An automated owner may then finish disposal under the same gate.
+    public async Task<QuestJob> FinishStickRewardsAsync()
+    {
+        if (recipe.Id != "spare-a-stick" || Job.Status == "Paused" && pauseReason != "Callough permanent outcome observed") return Job;
+        if (!await owner.WaitAsync(0)) return Job;
+        try
+        {
+            using var token = CancellationTokenSource.CreateLinkedTokenSource(lastRunCancellation);
+            active = token;
+            var c = new QuestContext(session, journal, calibration, journal.Load(Job.Character, recipe.Id), value =>
+            {
+                Job = value;
+                Changed?.Invoke(value);
+            });
+            try
+            {
+                token.Token.ThrowIfCancellationRequested();
+                if (c.Job.Version != recipe.Version) throw new QuestBlockedException("Recipe changed before leftover cleanup; reconcile the saved outcome.");
+                await StickRewardCleanup.RunAsync(c, token.Token);
+            }
+            catch (Exception error)
+            {
+                await c.SaveAsync(c.Job with { Status = "Paused", Reason = error is OperationCanceledException ? pauseReason : error.Message });
+            }
+            return c.Job;
+        }
+        finally
+        {
+            active = null;
+            owner.Release();
+            Changed?.Invoke(Job);
+        }
     }
 
     public async Task ReconcileAsync(CharacterSnapshot snapshot)

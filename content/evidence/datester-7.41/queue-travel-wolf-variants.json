@@ -1,0 +1,60 @@
+{
+  "Title": "Queue interruptions during Faerie return, Glioca arrival and the woodland wolf entrance",
+  "ServerProfile": "datester-7.41",
+  "ObservedDate": "2026-10-18",
+  "EvidenceType": "Restricted own movement/dialogue projections from a sanitized replay, diagnostics and read-only own state",
+  "Limits": [
+    "Character names, other players, unrelated items and legends, credentials, local paths and raw payloads are omitted.",
+    "The player manually continued after pauses. Successful later movement is not a corrected automatic run.",
+    "The alternate reward was reported by the player and confirmed in fresh own inventory and legend after reconnect. Cross-connection balances do not settle a prior automatic transaction.",
+    "Synthetic regression tests vary timing and normalize actor/entity/generation identities."
+  ],
+  "FaerieReturn": {
+    "Map": 545,
+    "BeforeRefresh": { "Revision": 7042, "Position": { "X": 36, "Y": 35 } },
+    "RefreshCommand": "F5",
+    "LateMovement": [
+      { "Revision": 7048, "Position": { "X": 35, "Y": 35 } },
+      { "Revision": 7054, "Position": { "X": 34, "Y": 35 } },
+      { "Revision": 7055, "Position": { "X": 33, "Y": 35 } }
+    ],
+    "RefreshPosition": { "Revision": 7057, "Position": { "X": 33, "Y": 35 } },
+    "Dialog": null,
+    "PausedReason": "Server evidence timeout.",
+    "AfterPlayerResume": "Continued through the remaining recorded maps and reached Shinewood Forest 1."
+  },
+  "GliocaArrival": {
+    "InteriorMap": 3007,
+    "Landing": { "Revision": 12987, "Position": { "X": 22, "Y": 6 } },
+    "AttemptedAwayStep": { "Direction": "south", "Target": { "X": 22, "Y": 7 } },
+    "Pullback": { "Revision": 12993, "Map": 3006, "Position": { "X": 12, "Y": 19 } },
+    "PausedReason": "Doorway departure remains uncertain; no mundane opened.",
+    "SuccessfulLaterApproach": "The resumed approach entered at (22,6), acknowledged (22,7), returned through (22,6), then moved west through (21,6) and (20,6) before opening Meaveen at (10,6)."
+  },
+  "WolfEntrance": {
+    "Map": 463,
+    "NavigationTarget": { "X": 48, "Y": 26 },
+    "ObservedWarningPositions": [{ "X": 47, "Y": 25 }, { "X": 48, "Y": 25 }],
+    "Dialog": {
+      "EntityType": 4,
+      "Name": "",
+      "Text": "You can feel it in the air.. the viciousness of the wolves nearby.  These must be the wolves Throttler was talking about. Do you want to go in?",
+      "IsPursuit": true,
+      "Pursuit": 995,
+      "Step": 6,
+      "Type": 2,
+      "Choices": [{ "Text": "Yes", "Pursuit": 995, "Option": 1 }, { "Text": "No", "Pursuit": 995, "Option": 2 }],
+      "Prompt": null,
+      "HasNext": true
+    },
+    "OriginalCheckpoint": "wolf-approach",
+    "OriginalOutcome": "Travel preserved the popup; subsequent Resume waited for the exact target tile and timed out.",
+    "PlayerAction": "Selected the offered Yes; actual map 464 arrival followed."
+  },
+  "AlternateWolfReward": {
+    "PlayerReportedItem": "Fifleaf deum",
+    "FreshOwnState": { "Map": 454, "InventoryKnown": true, "Item": "Fifleaf deum", "Quantity": 1, "Sprite": 56,
+      "Legend": "Hunted down a wolf of West Woodland", "LegendsKnown": true },
+    "Qualification": "An observed alternate reward; the original Vanilla Potion observation remains valid. This does not authorize unrelated potion gains as wolf completion."
+  }
+}

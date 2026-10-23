@@ -57,6 +57,7 @@ public sealed record CharacterMemory
             "emerald-dawn" => EmeraldDawnEvidence.FinalMark(new() { LegendsKnown = true, Legends = legends }),
             FiskEvidence.Id => FiskEvidence.Mark(new() { Legends = legends }),
             DanaanEvidence.Id => DanaanEvidence.Mark(new() { Legends = legends }),
+            WolfQuestEvidence.Id => WolfQuestEvidence.Mark(new() { Legends = legends }),
             "perfect-hairstyle" => legends.FirstOrDefault(l => l.Contains(PerfectHairstyleEvidence.Legend, StringComparison.OrdinalIgnoreCase)),
             SickChildEvidence.Id => SickChildEvidence.Mark(legends, SickChildEvidence.Legend),
             SickChildEvidence.AnamanId => SickChildEvidence.Mark(legends, SickChildEvidence.AnamanLegend),
@@ -76,6 +77,8 @@ public sealed record CharacterMemory
             return new(EligibilityKind.Blocked, "Emerald Dawn requires level 11+.");
         if (quest == ShinewoodFaerieEvidence.Id && level is { } known && known < ShinewoodFaerieEvidence.MinimumLevel)
             return new(EligibilityKind.Blocked, ShinewoodFaerieEvidence.LevelRequirement);
+        if (quest == WolfQuestEvidence.Id && level is { } wolf && wolf < WolfQuestEvidence.MinimumLevel)
+            return new(EligibilityKind.Blocked, WolfQuestEvidence.LevelRequirement);
         if (SickChildEvidence.For(quest) is not null && level is { } sick && sick < 11)
             return new(EligibilityKind.Blocked, "Requires level 11+.");
         if (CompletedLegend(quest, current) is { } legend)

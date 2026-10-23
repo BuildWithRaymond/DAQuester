@@ -29,7 +29,10 @@ public sealed partial class GameSession
         }
     }
 
-    bool NpcPositionStable(CharacterSnapshot s) => s.Position is { } position && !IsWarp(position) &&
+    static bool GliocaDoorway(CharacterSnapshot s) => s.Map == 3007 &&
+        s.Position is ({ X: 22, Y: 6 or 7 } or { X: 21, Y: 6 });
+
+    bool NpcPositionStable(CharacterSnapshot s) => s.Position is { } position && !IsWarp(position) && !GliocaDoorway(s) &&
         !(npcLanding is { } landing && landing.Generation == s.Generation && landing.Map == s.Map) &&
         !(s.Map == 177 && position != new Tile(2, 3)) &&
         !(s.Map == 398 && position is { X: 6, Y: 9 or 10 }) &&
@@ -47,6 +50,7 @@ public sealed partial class GameSession
             throw new QuestBlockedException("NPC approach needs an actual landing position.");
         Tile? away = map == 177 ? new(2, 3) : map == 398 && position is { X: 6, Y: 9 or 10 } ? new(6, 8) :
             map == 344 && (position is { X: 2, Y: 6 or 7 } or { X: 3, Y: 7 }) ? new(6, 8) :
+            GliocaDoorway(s) ? new(20, 6) :
             Grid.Neighbors(position).FirstOrDefault(tile => IsWalkable(tile) && !IsWarp(tile));
         if (away is null || !IsWalkable(away) || IsWarp(away))
             throw new QuestBlockedException("Leave the doorway on a validated free interior tile before using the mundane.");

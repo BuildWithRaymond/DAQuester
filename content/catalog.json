@@ -106,7 +106,7 @@
       "dependencyNotes": [
         "e: You must have less than 1000 Coins to start or finish this quest"
       ],
-      "permanentCompletion": "Callough child-reminder reply disables future runs; observed on Clock 2026-10-09",
+      "permanentCompletion": "Callough child-reminder reply stops at the obtained outcome; further marks require explicit Scheduler approval. Original reply observed on Clock 2026-10-09; higher numbered automatic mark progression awaits live qualification.",
       "givesLegend": true,
       "legendEvidence": "Vorlof catalog reward cell: images/quests/legendaisling.png"
     },
@@ -652,7 +652,7 @@
       "source": "https://vorlof.com/quests/wolfofwestwoodlands.html",
       "level": "70+",
       "requiredItems": "None",
-      "rewards": "\"Hunted down a wolf of West Woodland\" 100,000 Experience",
+      "rewards": "Vanilla Potion or Fifleaf deum, 60,000 Experience, \"Hunted down a wolf of West Woodland\"",
       "dependencies": null,
       "cooldownHours": null,
       "capabilities": [
@@ -662,13 +662,13 @@
         "speech",
         "inventory"
       ],
-      "status": "guide-only",
+      "status": "implemented; live discovery captured, full automatic runner unverified",
       "metadataReviewRequired": true,
       "capabilitiesInferred": true,
       "cooldownNotes": [],
       "dependencyNotes": [],
       "givesLegend": true,
-      "legendEvidence": "Vorlof catalog reward cell: images/quests/legendaisling.png"
+      "legendEvidence": "Fresh own bare legend captured 2026-10-18: content/evidence/datester-7.41/wolf-live-discovery.json"
     },
     {
       "id": "pirateslayer",

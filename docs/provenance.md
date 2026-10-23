@@ -1,5 +1,26 @@
 # Source provenance
 
+The October 18 [Wolf discovery capture](../content/evidence/datester-7.41/wolf-live-discovery.json)
+comes from persistent native MCP travel, dialogue, entry, return and claiming,
+with a player-performed barehanded Wolf kill. It records actual upper woodland
+passages, Wolf sprite 2, one new stackable Vanilla Potion (sprite 62), 60,000 XP,
+unchanged gold, the exact bare own legend and explicit terminal-popup closure.
+The manual kill had no 263/278 killing animation. Its target-bound receipt
+instead correlates an own-source effect 268 on the Wolf previously observed living, that
+same target's removal, a one-point numeric XP increase and the matching active
+"1 experience!" message. The parser labels this evidence separately from an
+explicit killing effect, with bounded timing, one candidate and no other visible
+players. An unrelated hit, removal or XP message alone cannot establish it.
+The Wolf's health bar was already zero before its final own hit and removal;
+the prior living observation is retained, and a zero bar alone proves no kill.
+The Vanilla Potion receipt supersedes the supplied walkthrough's Hydele deum
+claim; the XP receipt supersedes the older catalog's 100,000-XP claim. Level 70+
+remains a guide threshold. Read-only WorldLogs inspection previously lacked
+these upper passages; that absence is not a claim that the subsequent live
+passages were unobserved. Synthetic runner and own-kill parser tests remain
+separate evidence: this mixed manual/MCP discovery does not certify a fresh
+full automatic run. See the [receipts and remaining limits](research/west-woodland-wolf.md).
+
 The October 16 [automatic research rest fixture](../content/evidence/datester-7.41/wizardry-research-automatic-rest.json) restricts the final live verification to four fresh failed-attempt receipts, retained parchment, unchanged gold, exact cooldown, saved deadline and verified popup cleanup. No broad character snapshot, unrelated player data or raw packet is included. This is live repeat/cooldown evidence; it does not establish automatic Scheduler rearming or the cause of the earlier standalone closure.
 
 The October 16 [failed-experiment fixture](../content/evidence/datester-7.41/wizardry-research-failure-result.json) comes from a controlled automatic run that bought one parchment, selected the captured Solo Sorcery sequence and received `The experiment blows up!` followed by `The experiment is a failure`. The final own observation retains the parchment and existing Songs, unchanged submission gold, reduced health and server dialog closure. Actor, entity, generation and gold are normalized. No reward or parchment debit is inferred. This capture does not establish other failure variants or a cooldown; the monitored client stayed open, so an earlier standalone client closure remains unexplained.
@@ -690,3 +711,34 @@ host-written marker is explicitly a synthetic wait release, not proof of a game
 client launch or a quest receipt. Windows' actual pipe-client PID, one host call,
 fixture exit, loader order and blank-launch validation are tested separately.
 No real character was launched or operated for this integration.
+
+The October 18
+[Ciad greeting and research-shop excerpt](../content/evidence/datester-7.41/ciad-greeting-research-shop.json)
+projects existing sanitized replays and diagnostics after the player's reported
+interruptions. It retains the exact greeting page on map 500 and Jana's
+Exkuranum quote, quantity argument, inventory receipt and gold debit on map 3214.
+Actor, generation and entity identities are normalized; other players,
+credentials, unrelated inventory, raw payloads and local paths are omitted.
+The diagnostics establish scheduler cleanup after paused attempts, rather than
+a proven native crash. Corrected cancellation and continuation tests are
+synthetic; no new full automatic run or potion healing is certified.
+
+The later October 18
+[queue travel and Wolf variant excerpt](../content/evidence/datester-7.41/queue-travel-wolf-variants.json)
+retains own movement around the Faerie return interruption, Glioca's doorway
+pullback and successful later interior path, and the exact Wolf warning before
+the navigation target. The player's Fifleaf deum report and fresh own item/legend
+observation are separate from an automatic same-generation reward receipt.
+Character identities, other players, unrelated resources and local paths are
+omitted. Manual continuation and synthetic corrected paths do not certify a new
+uninterrupted automatic queue.
+
+The October 18
+[Fisk doorway rejection excerpt](../content/evidence/datester-7.41/fisk-doorway-rejection.json)
+retains only own approach, the server's rejected west step and refreshed position
+outside Bertil's building, the pause reason, and verified completion after the
+player resumed. No occupant was observed at the entrance; the server's rejection
+reason is unknown. Code analysis established that local avoidance excluded the
+recorded door. Corrected retries are synthetic, with no new automatic live run.
+Character identities, other-player metadata, unrelated resources, raw payloads
+and local paths are omitted.

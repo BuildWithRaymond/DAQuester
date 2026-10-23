@@ -9,7 +9,7 @@ internal static class ResearchReplay
     // Read only the resource/status fields needed to settle a saved submission.
     // Packet payloads, other character metadata and analysis are not loaded.
     sealed record Snapshot(long Generation, long Revision, string? Name, bool Connected, int? Map,
-        uint? Gold, bool InventoryKnown, ImmutableDictionary<byte, Item>? Inventory, Dialog? Dialog, ServerNotice? ActiveStatus);
+        uint? Gold, uint? Hp, uint? MaxHp, bool InventoryKnown, ImmutableDictionary<byte, Item>? Inventory, Dialog? Dialog, ServerNotice? ActiveStatus);
     sealed record Event(string Character, long Generation, long Revision, string Direction, Snapshot Snapshot);
     sealed record Replay(int SchemaVersion, string ServerProfile, bool Sanitized, Event[]? Events);
 
@@ -29,7 +29,7 @@ internal static class ResearchReplay
                 !string.Equals(e.Character, character, StringComparison.OrdinalIgnoreCase) ||
                 !string.Equals(s.Name, character, StringComparison.OrdinalIgnoreCase)) continue;
             result.Add(new() { Name = s.Name, Generation = s.Generation, Revision = s.Revision, Connected = s.Connected,
-                Map = s.Map, Gold = s.Gold, InventoryKnown = s.InventoryKnown, Inventory = s.Inventory ?? [],
+                Map = s.Map, Gold = s.Gold, Hp = s.Hp, MaxHp = s.MaxHp, InventoryKnown = s.InventoryKnown, Inventory = s.Inventory ?? [],
                 Dialog = s.Dialog, ActiveStatus = s.ActiveStatus });
         }
         return result.OrderBy(s => s.Revision).ToArray();

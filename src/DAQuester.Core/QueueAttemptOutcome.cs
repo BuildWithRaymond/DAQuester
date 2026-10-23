@@ -19,7 +19,7 @@ public static class QueueAttemptOutcome
 
     public static QueueOutcome? Evaluate(QuestJob job)
     {
-        if (job.Pending is not null || job.Status is not ("Completed" or "AttemptCompleted" or "PermanentlyCompleted"))
+        if (job.Pending is not null || StickRewardCleanup.Unfinished(job) || job.Status is not ("Completed" or "AttemptCompleted" or "PermanentlyCompleted"))
             return null;
         if (job.PermanentCompletion is { } permanent)
             return new(job.Quest, "PermanentlyCompleted", permanent.ObservedAt, job.CompletionText ?? job.Reason);

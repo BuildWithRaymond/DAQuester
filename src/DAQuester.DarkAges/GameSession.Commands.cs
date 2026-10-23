@@ -18,9 +18,13 @@ public sealed partial class GameSession
             // A fight step out of sight of other players joins the fast walker's pipeline instead of draining it.
             bool entryReconciliation = (entryBlock is not null || townWeaponRemovalRequired || pendingEquipmentRemoval is not null)
                 && command.Kind is "unequip" or "equip" or "inspect-self";
-            if (entryReconciliation)
+            // Movement settlement dismisses notices itself. A bound cancellation must
+            // close its page first so settlement cannot invalidate its expected revision.
+            bool noticeClose = command is { Kind: "close", ExpectedGeneration: not null,
+                ExpectedDialogRevision: not null, ExpectedPageText: not null } && EventNotices.Recognized(Snapshot);
+            if (entryReconciliation || noticeClose)
                 connection.CancelMovement();
-            if (!entryReconciliation && (command.Kind != "pathfind" || !FastFightStep(Snapshot)))
+            if (!entryReconciliation && !noticeClose && (command.Kind != "pathfind" || !FastFightStep(Snapshot)))
                 await SettleMovement(cancellation);
             ValidateCommandState(command);
             discoveryBefore = Snapshot;
@@ -86,15 +90,19 @@ public sealed partial class GameSession
                 case "next":
                 case "input":
                     var d = command.Dialog ?? Snapshot.Dialog ?? throw new QuestBlockedException("No dialog.");
-                    var revision = Snapshot.Revision;
-                    var dialogMap = Snapshot.Map;
+                    var replyBefore = Snapshot;
+                    var revision = replyBefore.Revision;
+                    var dialogMap = replyBefore.Map;
                     if (command.ReadNext)
                         submittedDiscoveryRevision = d.Revision;
                     if (command.Kind == "input")
                         await SendDialogInput(d, command.Text ?? "", cancellation);
                     else
                         await connection.SendAsync(Protocol.DialogPackets.Continue(Snapshot, d), Snapshot.Generation, cancellation);
-                    await WaitAsync(x => (command.Kind == "next" || command.ReadNext) && x.Map != dialogMap ||
+                    await WaitAsync(x => command.ReturnOnHealthLoss && x.Connected && x.Generation == replyBefore.Generation
+                        && x.Name == replyBefore.Name && x.Id == replyBefore.Id && x.Map == dialogMap
+                        && replyBefore.Hp is { } beforeHp && x.Hp is { } hp && hp < beforeHp ||
+                        (command.Kind == "next" || command.ReadNext) && x.Map != dialogMap ||
                         command.ReadNext && x.Dialog is { } changed && changed.EntityId != d.EntityId ||
                         x.Map == dialogMap && (command.Kind == "next" && x.Dialog is null
                             || x.Dialog is { } next && next.EntityId == d.EntityId && next.Revision > revision),
@@ -137,7 +145,7 @@ public sealed partial class GameSession
                                 .OrderBy(i => i.Slot).FirstOrDefault()
                             : null;
                         itemSlot = actual?.Slot
-                            ?? throw new ResourceUnavailableException("The selected town song is no longer carried. Check your escape supplies.");
+                            ?? throw new ResourceUnavailableException(itemName + " is no longer carried. Check your supplies.");
                     }
 
                     await Send(new ClientUseMessage { Slot = itemSlot }, cancellation);
@@ -200,6 +208,14 @@ public sealed partial class GameSession
                     await Send(new ClientAddStatMessage { Stat = (CharacterStatFlags)command.Amount.Value }, cancellation);
                     break;
                 case "drop":
+                    if (command.ExpectedResource is { } dropName)
+                    {
+                        if (!Snapshot.InventoryKnown || command.Slot is not { } dropSlot || !Snapshot.Inventory.TryGetValue(dropSlot, out var dropItem)
+                            || !dropItem.Name.Equals(dropName, StringComparison.OrdinalIgnoreCase))
+                            throw new QuestBlockedException("Drop slot changed before submission; no item was dropped.");
+                        if (command.Map is { } dropMap && (Snapshot.Map != dropMap || Snapshot.Position != command.Target))
+                            throw new QuestBlockedException("Character moved before the bound drop; reconcile its current tile.");
+                    }
                     await Drop(command.Slot ?? throw new QuestBlockedException("Item slot to drop missing."),
                         command.Target ?? throw new QuestBlockedException("Drop tile missing."), command.Amount ?? 1, cancellation);
                     break;

@@ -302,7 +302,8 @@ public sealed partial class DesktopRuntime
             : runners.TryGetValue(name, out var runner) && runner.IsRunning
                 ? runner.Job.Quest
                 : null;
-    public bool RunnerBusy(string name) => runnerPreparations.ContainsKey(name);
+    public bool RunnerBusy(string name) => runnerPreparations.ContainsKey(name)
+        || permanentTasks.TryGetValue(name, out var pendingOutcome) && !pendingOutcome.IsCompleted;
     public void SetPreviewSnapshot(CharacterSnapshot snapshot)
     {
         RequirePreview();
@@ -379,6 +380,8 @@ public sealed partial class DesktopRuntime
     {
         try
         {
+            var automated = runners.TryGetValue(name, out var activeRunner) && activeRunner.Job.Quest == "spare-a-stick" && activeRunner.IsRunning
+                ? activeRunner : null;
             var completed = new QuestCompletionTracker(journal.Load(name, "spare-a-stick"));
             var job = await PermanentQuestCompletion.ObserveAsync(journal, snapshot, async () =>
             {
@@ -390,13 +393,15 @@ public sealed partial class DesktopRuntime
             });
             if (job is null || sessions.GetValueOrDefault(name) != session)
                 return;
-            if (runners.TryGetValue(name, out var current) && current.Job.Quest == "spare-a-stick")
+            if (automated is not null && session.Snapshot.Generation == snapshot.Generation && session.Snapshot.Connected)
+                job = await automated.FinishStickRewardsAsync();
+            if (runners.TryGetValue(name, out var current) && current.Job.Quest == "spare-a-stick" && !current.IsRunning)
                 runners.Remove(name);
             calibrationRuns.Remove(name);
             Notify();
             if (completed.Observe(job) is { } outcome)
                 PublishCompletion(outcome);
-            Log(name + ": permanently finished; repeats disabled. Callough: " + job.PermanentCompletion!.Dialog.Text);
+            Log(name + ": Callough outcome obtained; stopped until explicitly approved for more marks. Callough: " + job.PermanentCompletion!.Dialog.Text);
         }
         catch (Exception e)
         {

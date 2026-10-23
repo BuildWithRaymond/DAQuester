@@ -29,10 +29,10 @@ public sealed class TaskItemVM : ObservableObject
         : AltarWorshipEvidence.LegendClasses + " earn the legend mark; other classes receive a Red Jade Ring and 50,000 experience. Connect to read this character's class.";
     bool WaitingForOffering => IsAltar && AltarWorshipEvidence.NextOffering(job) > DateTimeOffset.UtcNow;
     public bool IsRunning { get; private set; }
-    public bool NeedsReview => job.Pending is not null || job.Research?.Cleanup is not null || job.Route?.CleanupPending == true;
+    public bool NeedsReview => job.Pending is not null || job.Research?.NeedsRecovery == true || job.Route?.CleanupPending == true;
     public bool Unfinished => HasProgress(recipe, job);
-    internal static bool HasProgress(QuestDefinition recipe, QuestJob job) => job.Pending is not null || job.Research?.Cleanup is not null || job.Route?.CleanupPending == true ||
-        job.Research?.Stage > 0 || (job.Step != "preflight" || recipe.Id == AltarWorshipEvidence.Id && AltarWorshipEvidence.Made(job) > 0) &&
+    internal static bool HasProgress(QuestDefinition recipe, QuestJob job) => job.Pending is not null || job.Research?.NeedsRecovery == true || job.Route?.CleanupPending == true ||
+        (job.Step != "preflight" || recipe.Id == AltarWorshipEvidence.Id && AltarWorshipEvidence.Made(job) > 0) &&
         !QuestRunPolicy.AttemptCompleted(job) && !QuestRunPolicy.Finished(recipe, job);
     public bool IsReady => !IsRunning && !Unfinished && blocker is null && availability.Ready;
     public bool IsScheduled => savedSchedule is { Status: not "Completed" };

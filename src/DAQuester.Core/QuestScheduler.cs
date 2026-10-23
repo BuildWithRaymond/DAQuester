@@ -13,6 +13,8 @@ public sealed record QuestSchedule
     public DateTimeOffset Due { get; init; }
     public bool Recurring { get; init; }
     public bool Resume { get; init; }
+    // Consent applies only to this exact obtained Callough outcome, never to a later mark.
+    public DateTimeOffset? CalloughRetryAfter { get; init; }
     public string Status { get; init; } = "Armed";
     public string Reason { get; init; } = "";
 }
@@ -153,7 +155,7 @@ public sealed class QuestScheduler
             var old = s.Entries.Single(e => e.Id == entry.Id);
             if (activeId == entry.Id || old.Character != entry.Character || old.Quest != entry.Quest)
                 throw new QuestBlockedException("Pause the run first. A saved schedule keeps its character and quest.");
-            return s with { Entries = s.Entries.Select(e => e.Id == entry.Id ? entry with { Status = old.Status, Reason = old.Reason, Resume = old.Resume } : e).ToArray() };
+            return s with { Entries = s.Entries.Select(e => e.Id == entry.Id ? entry with { Status = old.Status, Reason = old.Reason, Resume = old.Resume, CalloughRetryAfter = old.CalloughRetryAfter } : e).ToArray() };
         });
     }
 
@@ -179,6 +181,28 @@ public sealed class QuestScheduler
         PendingLogins = s.PendingLogins.Where(n => !n.Equals(character, StringComparison.OrdinalIgnoreCase)).ToArray(),
         LoginBlocks = [.. s.LoginBlocks.Where(b => !b.Character.Equals(character, StringComparison.OrdinalIgnoreCase)), new(character, reason)],
         Entries = s.Entries.Select(e => e.Character.Equals(character, StringComparison.OrdinalIgnoreCase) && e.Status != "Completed" ? e with { Status = "Needs attention", Reason = reason } : e).ToArray()
+    });
+
+    public Task CompleteGoalAsync(Guid id, string reason) => ChangeAsync(s =>
+    {
+        var entry = s.Entries.Single(e => e.Id == id);
+        if (activeId == id || entry.Status == "Completed" && entry.Reason == reason) return s;
+        return s with { Entries = s.Entries.Select(e => e.Id == id ? e with { Status = "Completed", Reason = reason, Resume = false } : e).ToArray() };
+    });
+
+    public Task ApproveCalloughRetryAsync(Guid id, DateTimeOffset obtainedAt, DateTimeOffset due, bool confirmed) => ChangeAsync(s =>
+    {
+        Acknowledge(confirmed);
+        var entry = s.Entries.Single(e => e.Id == id);
+        if (entry.Quest != "spare-a-stick" || activeId == id || due < obtainedAt.AddHours(8))
+            throw new QuestBlockedException("Review the obtained Callough mark and its cooldown before resuming.");
+        if (LoginBlock(entry.Character) is { } block)
+            throw new ScheduledLoginException(entry.Character, block);
+        return s with { Entries = s.Entries.Select(e => e.Id == id ? e with
+        {
+            CalloughRetryAfter = obtainedAt, Due = due, Recurring = true, Resume = false, Status = "Armed",
+            Reason = "Previous Callough outcome retained; approved to try for more marks"
+        } : e).ToArray() };
     });
 
     public Task BeginLoginAsync(string character) => ChangeAsync(s =>

@@ -31,6 +31,12 @@ public record Eligibility(EligibilityKind Kind, string Reason);
 // Presentation observations only; these never establish quest completion or rewards.
 public sealed record CharacterFeedback(long Generation, long Revision, string Kind, uint Value, DateTimeOffset At);
 
+// The receipt retains how the server-bound outcome was established.
+public sealed record OwnMonsterDefeat(long Generation, long Revision, int Map, uint EntityId, ushort Sprite, DateTimeOffset At)
+{
+    public string Evidence { get; init; } = "own-killing-effect";
+}
+
 public record CharacterSnapshot
 {
     // Current server status is diagnostic context, not automatic quest evidence.
@@ -39,6 +45,7 @@ public record CharacterSnapshot
         get; init;
     }
     public ImmutableArray<CharacterFeedback> Feedback { get; init; } = [];
+    public ImmutableArray<OwnMonsterDefeat> OwnMonsterDefeats { get; init; } = [];
     public const int InventoryCapacity = 59;
     [System.Text.Json.Serialization.JsonIgnore]
     public int FreeInventorySlots => Math.Max(0, InventoryCapacity - Inventory.Count);

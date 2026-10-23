@@ -62,6 +62,9 @@ public record HairstyleAttempt(
 // Durable progress for one character and quest, including submissions awaiting verified receipts.
 public record QuestJob
 {
+    public WolfQuestProgress? Wolf { get; init; }
+    public PermanentCompletionEvidence[] CalloughOutcomes { get; init; } = [];
+    public StickCleanupProgress? StickCleanup { get; init; }
     public WizardyResearchOptions? ResearchOptions { get; init; }
     public WizardyResearchProgress? Research { get; init; }
     public ObservedQuestProgress? Route { get; init; }

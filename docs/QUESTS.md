@@ -1,5 +1,22 @@
 # Quest details and observed behavior
 
+**Wolf of West Woodlands** has a nonrepeatable recipe. October 18 live discovery
+verified Throttler's dialogue, the wolf-warning entry, the upper woodland route
+and its return passages. The reward was **one Vanilla Potion**, **60,000 XP**
+and the exact own legend **Hunted down a wolf of West Woodland**, with unchanged
+gold. The final Throttler popup was explicitly closed after reward verification.
+Later player state also confirmed **Fifleaf deum** as a reward variant; the
+runner accepts either named potion with the required XP and own-legend proof.
+This corrects the supplied guide's Hydele deum claim and the older catalog's
+100,000-XP claim. Level 70+ remains a provisional guide threshold.
+
+Persistent MCP handled travel, dialogue and claiming; the player manually killed
+the Wolf barehanded because the already running host required a weapon. That
+discovery does **not** verify a fresh full run of the new automatic recipe.
+The runner saves reward proof separately from terminal-popup cleanup, and
+unfamiliar choices or uncertain submissions pause. See the
+[live receipts and remaining limits](research/west-woodland-wolf.md).
+
 **Fisk's Secret** follows the secret-preserving path with missing-only supplies,
 observed payments and item receipts. The guide lists level 21+ provisionally.
 Observed spending was **32,600 gold**, followed by **750,000 XP** and the own
@@ -182,7 +199,27 @@ and own-legend check was automatic. The shipped replay preserves that run.
 
 Patrol rotates **armor-shop trees around (18,56)**, then **(54,43)** and **(64,44)**. Armor Shop entrance is (18,62); its adjacent tree park gets a radius-four sweep. Central/east areas retain radius three and live branch evidence. Actual DATester collision filtering yields 90 waypoints. Occupied patrol tiles are skipped and revisited on later laps; other players trigger detours. Server inventory proves collection; movement stops at six branches. A dry patrol never pauses gathering.
 
-Callough's child-reminder reply saves **permanent completion** and disables repeats. Clock's actual response and optional Oak Stick are captured in the shipped replay. Passive tracking detects this reply during manual play as well. The full reply and server dialog IDs remain in the character's durable journal.
+Callough's child-reminder reply records the obtained outcome and stops repeats.
+Scheduler shows **Legend mark obtained** with the actual **Loved by Mileth Mundanes (number)**
+when that own legend has been observed. Remembered numbers are labeled last observed;
+without a captured legend it reports the Callough reward and leaves the count unknown.
+Choose **Try for more marks**, then **Resume for more marks**, to explicitly approve
+further eligible attempts every eight hours until the next Callough mark outcome.
+**Keep stopped** preserves the completed schedule. Confirmation never enables Scheduler
+or launches a client by itself. Each new outcome needs its own approval, and the old
+receipt and cooldown remain saved. Levels 1–11 and normal resource checks still apply.
+An unresolved submission must reconcile before another attempt.
+
+After a verified automated session outcome, carried items named exactly **Stick** or
+**Wooden Shield** are dropped at the character's current tile to free space for
+the next run. Equipped gear, Oak Stick and other item names are outside this bag
+cleanup. Each drop is checkpointed first and needs its matching inventory debit;
+an uncertain drop pauses for reconciliation and is never automatically resent.
+
+Clock's actual reply and optional Oak Stick are captured in the shipped replay.
+Passive tracking detects this reply during manual play as well. The full reply and
+server dialog IDs remain in the durable journal. The optional further-mark workflow
+has synthetic coverage; higher numbered automatic mark progression still needs live qualification.
 
 An ordinary reward completes the current attempt, without permanent completion.
 The journal shows **Completed for now** and the next attempt eight hours after
@@ -341,7 +378,13 @@ The exact four-Temuairan-day refusal records the player's specified 12-hour rest
 Setup offers recurring scheduling with explicit notice that scheduled logins can
 disconnect a character being used in another program. Saving a schedule does not
 turn on Scheduler. Manual runs and resumes retain normal Pause/Stop controls.
-Forced grouping and exkuranum buying/healing are outside the selected scope.
+Before each visit, carry 30 Exkuranum. DAQuester buys the missing quantity at
+Blackstar Village Research using its fresh offer, verifies the item and gold
+receipts, then returns to research. Research damage triggers one Exkuranum
+immediately, including while a result is pending. Actual HP must reach maximum
+and one potion must be consumed before continuing. Saved purchase or dose
+receipts prevent duplicate submissions after a timeout or reconnect. Forced
+grouping remains outside the selected scope.
 
 Automatic purchase and successful Song results are observed live. A later live
 run repeated four failed experiments using retained parchment, then verified the
@@ -350,7 +393,8 @@ parchment, Songs and gold plus a fresh failure status and server dialog closure;
 it records an attempt without awarding a reward or buying again. Successful
 results require their parchment debit, new Songs and correlated fresh reply or
 captured status with server closure. Other outcomes remain pending. Assistant
-work and Song banking still require fresh live qualification. A brief zero-HP
+work, Song banking and the new Exkuranum trip/healing still require fresh live
+qualification. Potion coverage is synthetic. A brief zero-HP
 reading is not proof of death; unresolved zero health pauses. See the
 [live receipts and recovery boundaries](research/wizardry-research-batch-recovery.md)
 and [protocol references](research/wizardy-research-protocol.md).
