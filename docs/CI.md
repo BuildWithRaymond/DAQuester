@@ -42,6 +42,9 @@ solution build before testing. Changing debug flags alone can leave unchanged
 project-reference assemblies with their previous debug-path metadata.
 Use `-Output artifacts/candidate/release` for a separate candidate; its payload
 and isolated build stay beside that output without replacing earlier artifacts.
+Core fixtures use source-relative paths from their test output. For local
+`--artifacts-path` builds, use `artifacts/<candidate>` directly rather than an
+additional nested directory so those fixture paths resolve to the checkout.
 
 Review interface changes manually at minimum window size, with long text,
 disabled/error states and keyboard input. Optional `Capture-Screenshots.ps1`

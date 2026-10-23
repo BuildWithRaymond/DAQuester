@@ -2059,3 +2059,29 @@ journals, settings and paid waits were not edited. Running DAQuester/game
 clients and Excalibur were not closed, restarted or modified. The player must
 load the new executable to activate the changes. Corrected movement is
 synthetically verified; a fresh uninterrupted automatic live run is unqualified.
+
+## 2026-10-22 stable release 1.7.0
+
+The pending October 18 changes were committed with the 1.7.0 version, release
+notes and updated quest documentation. A clean symbol-free Release solution
+build completed with zero warnings or errors. Both complete xUnit projects
+passed with no failures or skips: **1,725 Core/protocol and 373 App tests**.
+The initial Core invocation used an artifact directory one level too deep for
+source-relative fixtures. The identical test assembly, verified by hash and
+run at the supported depth, passed all 1,725 cases without a source change.
+TRX reports are under `artifacts/release-1.7.0/results`.
+
+`Build-Release.ps1` and a separate `Verify-Release.ps1` invocation passed for
+the installer, portable ZIP, full package, feeds, checksums, notices, native
+source pin and private-data exclusion. The packaged application assemblies
+and native DLL match the tested copies. The pinned public 1.0.7 updater
+accepted the local 1.7.0 package with unchanged identity and verified download;
+the compatibility check stayed isolated and performed no installation.
+Candidate assets are under `artifacts/release-1.7.0/release`.
+
+The Wolf library and Callough scheduler confirmation were reviewed at normal
+and 900 x 560 sizes using the existing isolated synthetic preview. Declining
+preserved completion; approving retained the saved outcome and cooldown while
+Scheduler stayed disabled. No game clients were launched or operated, player
+Data was not edited, and Excalibur was not stopped, restarted or modified.
+Live-qualification limits in the release notes remain unchanged.
