@@ -271,7 +271,7 @@ public sealed partial class DesktopRuntime
             throw new QuestBlockedException("Read the Peasant's First Steps briefing before dispatch.");
         if (id == NewCharacterPath.ClimbId && (!current.LegendsKnown || NewCharacterPath.TerrorWarning(name, current) is not null && !job.TerrorWindowAccepted))
             throw new QuestBlockedException("Fresh legend and acknowledgement of the Terror quest limit are required before Crypt Climb.");
-        if (id == AltarWorshipEvidence.Id && (current.Class is null || AltarWorshipEvidence.NoMark(name, current.Class) is not null && !job.AltarNoMarkAccepted))
+        if (id == AltarWorshipEvidence.Id && !AltarWorshipEvidence.EligibilityConfirmed(job) && (current.Class is null || AltarWorshipEvidence.NoMark(name, current.Class) is not null))
             throw new QuestBlockedException("Fresh class and acknowledgement of the Altar reward are required before dispatch.");
     }
 

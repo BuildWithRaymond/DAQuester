@@ -20,6 +20,8 @@ public static class AltarWorshipEvidence
     public static bool IsPriest(string? characterClass) => characterClass?.Trim() is { } name &&
         (name.Equals("Priest", StringComparison.OrdinalIgnoreCase) || name.Equals("Bard", StringComparison.OrdinalIgnoreCase) || name.Equals("Master Priest", StringComparison.OrdinalIgnoreCase));
     public static int Made(QuestJob job) => job.AltarOfferings.Length;
+    // Older checkpoints already proved entry eligibility through consent or an offering receipt.
+    public static bool EligibilityConfirmed(QuestJob job) => job.AltarEligibilityConfirmed || job.AltarNoMarkAccepted || Made(job) > 0;
     public static int RingCount(CharacterSnapshot s) => Rings.Sum(s.Count);
     public static DateTimeOffset? NextOffering(QuestJob job) => Made(job) is > 0 and < Goal ? job.AltarOfferings[^1].At + Interval : null;
     public static string? Mark(IEnumerable<string> legends) => legends.FirstOrDefault(l => l.Contains(Legend, StringComparison.OrdinalIgnoreCase));

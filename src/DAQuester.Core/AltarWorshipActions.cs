@@ -11,10 +11,16 @@ public sealed class AltarWorshipActions : IQuestAction
             throw new QuestBlockedException("Altar Worship character changed; resume on the saved character.");
         if (c.Job.Pending is not null)
             await Reconcile(c, ct);
-        if (s.Snapshot.Class is null)
-            await s.ExecuteAsync(new("inspect-self"), ct);
-        if (NoMark(name, s.Snapshot.Class) is { } warning && !c.Job.AltarNoMarkAccepted)
-            throw new QuestBlockedException(warning + " Start the quest again to confirm.");
+        if (!EligibilityConfirmed(c.Job))
+        {
+            if (s.Snapshot.Class is null)
+                await s.ExecuteAsync(new("inspect-self"), ct);
+            if (s.Snapshot.Class is null)
+                throw new QuestBlockedException("Waiting for this character's class before starting Altar Worship.");
+            if (NoMark(name, s.Snapshot.Class) is { } warning)
+                throw new QuestBlockedException(warning + " Start the quest again to confirm.");
+            await c.SaveAsync(c.Job with { AltarEligibilityConfirmed = true });
+        }
         switch (step.Action)
         {
             case "altar-preflight":
@@ -217,7 +223,6 @@ public sealed class AltarWorshipActions : IQuestAction
     {
         var s = c.Session;
         var last = c.Job.AltarOfferings[^1];
-        bool priest = IsPriest(s.Snapshot.Class);
         // The tenth reply has never been seen; wait briefly for a ring before reading the legend.
         if (dropped is { } after && last.RingsBefore != int.MaxValue)
             try
@@ -226,6 +231,9 @@ public sealed class AltarWorshipActions : IQuestAction
             }
             catch (TimeoutException) { }
         await s.ExecuteAsync(new("inspect-self"), ct);
+        if (s.Snapshot.Class is null)
+            throw new QuestBlockedException("Waiting for this character's class to verify the Altar reward.");
+        bool priest = IsPriest(s.Snapshot.Class);
         string? reward = priest ? Mark(s.Snapshot.Legends) : last.RingsBefore != int.MaxValue && RingCount(s.Snapshot) > last.RingsBefore ? "Red Jade Ring and 50,000 experience received" : null;
         if (reward is null)
             throw new QuestBlockedException("10 offerings made, no reward seen. " + (priest ? "The \"" + Legend + "\" mark isn't in the legend." : "No new ring arrived.") + " Check the replay before running it again.");

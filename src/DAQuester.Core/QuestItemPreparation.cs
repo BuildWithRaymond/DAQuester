@@ -86,8 +86,8 @@ public static class QuestItemPreparation
             "spare-a-stick" => job.Accepted && job.AcceptedGeneration == s.Generation &&
                 StickEligibility.Check(s, job.CompletedAt, DateTimeOffset.UtcNow).Kind == EligibilityKind.Eligible,
             "entered-muisir-village" => s.LegendsKnown && !MuisirEvidence.HasLegend(s) && MuisirEvidence.Eligibility(s).Kind == EligibilityKind.Eligible,
-            AltarWorshipEvidence.Id => AltarWorshipEvidence.Made(job) < AltarWorshipEvidence.Goal && s.Class is not null &&
-                (AltarWorshipEvidence.IsPriest(s.Class) || job.AltarNoMarkAccepted) &&
+            AltarWorshipEvidence.Id => AltarWorshipEvidence.Made(job) < AltarWorshipEvidence.Goal &&
+                (AltarWorshipEvidence.EligibilityConfirmed(job) || AltarWorshipEvidence.IsPriest(s.Class)) &&
                 !(AltarWorshipEvidence.NextOffering(job) is { } next && next > DateTimeOffset.UtcNow) &&
                 AltarWorshipEvidence.Eligibility(s, job).Kind == EligibilityKind.Eligible,
             _ => false

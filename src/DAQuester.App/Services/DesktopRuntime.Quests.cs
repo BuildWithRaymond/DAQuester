@@ -254,7 +254,7 @@ public sealed partial class DesktopRuntime
         bool defaultDanaan = selected.Id == DanaanEvidence.Id && DanaanEvidence.Mark(session.Snapshot) is null && !DanaanEvidence.ChoicesLocked(saved) && saved.DanaanOptions is null;
         bool walk = selected.Id == ShinewoodFaerieEvidence.Id && saved.Pending?.Kind.StartsWith("faerie-return", StringComparison.Ordinal) != true && ShinewoodFaerieEvidence.Escape(session.Snapshot) is null && ShinewoodFaerieEvidence.NeedsEscape(session.Snapshot, saved);
         bool sick = SickChildEvidence.For(selected.Id) is { } flower && SickChildEvidence.Mark(session.Snapshot, flower.Legend) is null && !SickChildEvidence.ChoicesLocked(saved) && (change || !resume || saved.SickChildOptions is null);
-        bool altarCheck = selected.Id == AltarWorshipEvidence.Id && !saved.AltarNoMarkAccepted && saved.CompletedAt is null;
+        bool altarCheck = selected.Id == AltarWorshipEvidence.Id && !AltarWorshipEvidence.EligibilityConfirmed(saved) && saved.CompletedAt is null;
         // The class comes from the profile; read it before deciding whether to warn.
         if (altarCheck && session.Snapshot.Class is null && !IsRunning(name))
             try

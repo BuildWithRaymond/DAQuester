@@ -197,6 +197,7 @@ public class AltarWorshipTests
         Assert.Equal(10, c.Job.AltarOfferings.Length);
         Assert.Equal("Mileth Altar Worshipper (1) - Deoch 223", c.Job.CompletionLegend);
         Assert.Equal(225, c.Job.Rewards["experience"]);
+        Assert.Single(q.Commands, x => x.Kind == "inspect-self");
     }
 
     [Fact]
@@ -238,6 +239,56 @@ public class AltarWorshipTests
         await new AltarWorshipActions().ExecuteAsync(c, new("preflight", "altar-preflight", "run"), default);
         Assert.Null(NoMark("Elara", "Priest"));
         Assert.Null(NoMark("Elara", null));
+    }
+
+    [Theory]
+    [InlineData(false)]
+    [InlineData(true)]
+    public async Task Saved_offerings_or_accepted_reward_warning_allow_resume_without_reading_class_again(bool acceptedWarning)
+    {
+        var q = new Scripted("Elara", null);
+        q.Set(q.Snapshot with { Class = null });
+        var c = Context(q, new QuestJob
+        {
+            Character = "Elara",
+            Quest = Id,
+            AltarNoMarkAccepted = acceptedWarning,
+            AltarOfferings = acceptedWarning ? [] : Made(4, DateTimeOffset.UtcNow.AddHours(-3))
+        });
+
+        await new AltarWorshipActions().ExecuteAsync(c, new("preflight", "altar-preflight", "run"), default);
+
+        Assert.Empty(q.Commands);
+        Assert.Equal(acceptedWarning ? 0 : 4, c.Job.AltarOfferings.Length);
+    }
+
+    [Fact]
+    public async Task A_new_priest_class_is_verified_once_and_remains_accepted_after_reconnect()
+    {
+        var q = new Scripted("Elara", "Priest");
+        var c = Context(q);
+        var action = new AltarWorshipActions();
+
+        await action.ExecuteAsync(c, new("preflight", "altar-preflight", "run"), default);
+        q.Set(q.Snapshot with { Generation = q.Snapshot.Generation + 1, Class = null });
+        var restored = new FileQuestJournal(dir).Load("Elara", Id);
+        await action.ExecuteAsync(Context(q, restored), new("preflight", "altar-preflight", "run"), default);
+
+        Assert.Single(q.Commands, x => x.Kind == "inspect-self");
+        Assert.DoesNotContain(q.Commands, x => x.Kind == "drop");
+    }
+
+    [Fact]
+    public async Task A_new_quest_without_a_known_class_cannot_make_an_offering()
+    {
+        var q = new Scripted("Elara", null);
+        var c = Context(q);
+
+        await Assert.ThrowsAsync<QuestBlockedException>(() => new AltarWorshipActions().ExecuteAsync(c, new("preflight", "altar-preflight", "run"), default));
+
+        Assert.Single(q.Commands, x => x.Kind == "inspect-self");
+        Assert.DoesNotContain(q.Commands, x => x.Kind == "drop");
+        Assert.Empty(c.Job.AltarOfferings);
     }
 
     [Fact]

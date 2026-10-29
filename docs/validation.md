@@ -2123,3 +2123,30 @@ tests. Player journals/settings and the live session were not edited or stopped;
 Excalibur was not modified. No interface or packaging behavior changed. These
 corrected paths are synthetically verified; a fresh full automatic live run
 remains unqualified.
+
+## 2026-10-28 Altar Worship eligibility across resume
+
+The reported four-offering checkpoint exposed a queue dispatch class gate after
+reconnect. The player confirmed class eligibility lasts for the rest of the
+journey. Initial eligibility is now durable; existing offering receipts and
+accepted reward consent retain that approval without another class read.
+Desktop preparation, queue dispatch, scheduler choices, item preparation and
+the runner share the rule. New journeys still need a known class or applicable
+reward consent. Final reward verification reads fresh own-profile evidence and
+chooses its reward branch after that reply.
+
+Before correction, the new app checks reproduced three resume failures and the
+Core checks reproduced seven repeated-read or initial-class failures. The fixed
+focused runs passed all **23 Core and 20 App checks**. A clean, isolated,
+symbol-free Release solution build completed with zero warnings or errors.
+Both full xUnit suites passed without failures or skips: **1,757 Core/protocol
+and 380 App tests**. Results are under `artifacts/altar-resume-tests`.
+
+`Build-Release.ps1`, independent `Verify-Release.ps1`, and pinned 1.0.7 to 1.7.2
+updater compatibility passed. Packaged managed assemblies match the tested
+copies. Candidate assets are under `artifacts/altar-resume-1.7.2/release`.
+The update compatibility check was isolated and performed no installation.
+
+All game interactions were synthetic. No real characters were operated, player
+Data edited, or game clients stopped or restarted. No interface layout or
+packaging behavior changed. A fresh automatic live run remains unqualified.

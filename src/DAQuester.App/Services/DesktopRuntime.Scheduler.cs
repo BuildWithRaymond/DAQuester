@@ -75,7 +75,7 @@ public sealed partial class DesktopRuntime
             || id == "emerald-dawn" && job.EmeraldOptions is null
             || id == WizardyResearchEvidence.Id && job.ResearchOptions is null
             || SickChildEvidence.For(id) is not null && job.SickChildOptions is null
-            || id == AltarWorshipEvidence.Id && !job.AltarNoMarkAccepted && !AltarWorshipEvidence.IsPriest(CharacterClass(name))
+            || id == AltarWorshipEvidence.Id && !AltarWorshipEvidence.EligibilityConfirmed(job) && !AltarWorshipEvidence.IsPriest(CharacterClass(name))
             || id == NewCharacterPath.FirstStepsId && !job.FirstStepsBriefed
             || id == NewCharacterPath.ClimbId && !job.TerrorWindowAccepted;
     }

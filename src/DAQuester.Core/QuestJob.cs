@@ -272,6 +272,7 @@ public record QuestJob
     public SickChildTurnIn[] SickChildTurnIns { get; init; } = [];
     public SickChildPick[] SickChildPicks { get; init; } = [];
     public AltarOffering[] AltarOfferings { get; init; } = [];
+    public bool AltarEligibilityConfirmed { get; init; }
     public bool AltarNoMarkAccepted
     {
         get; init;

@@ -2,6 +2,13 @@
 
 ## Unreleased
 
+## 1.7.2 — 2026-10-28
+
+- Keep Altar Worship class and reward eligibility for the saved journey instead
+  of requiring another class check after reconnect. Recognize existing offering
+  receipts and accepted reward consent; preserve the next offering time and
+  fresh final reward verification.
+
 ## 1.7.1 — 2026-10-23
 
 - Restart known research setup menus after server closure or reconnect so a
