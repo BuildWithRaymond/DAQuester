@@ -131,7 +131,8 @@ public static class QuestItemPreparation
         {
             if (c.Job.Pending is not null || c.Job.Route?.Baseline is not null || c.Job.Route?.CleanupPending == true ||
                 c.Job.FiskWait is { Verified: true } || c.Session.Snapshot.Dialog is { IsPursuit: true }) return;
-            var requested = new List<QuestSupply>();
+            var candidates = new List<(QuestDefinition Recipe, QuestJob Job, QuestSupply[] Supplies)>();
+            var proposed = new List<QuestSupply>();
             uint currentPayments = RequiredPayments(recipe, c.Job);
             long plannedPayments = currentPayments;
             var batch = new[] { (Recipe: recipe, Job: c.Job) }.Concat(c.PreparationBatch?.Invoke() ?? [])
@@ -141,10 +142,10 @@ public static class QuestItemPreparation
                 if (!Ready(entry.Recipe, entry.Job, c.Session.Snapshot)) continue;
                 var next = Requirements(entry.Recipe, entry.Job, c.Calibration);
                 if (next.Length == 0) continue;
-                var combined = Combine(requested.Concat(next));
+                var combined = Combine(proposed.Concat(next));
                 long candidatePayments = plannedPayments + (entry.Recipe.Id == recipe.Id ? 0 : RequiredPayments(entry.Recipe, entry.Job));
                 if (entry.Recipe.Id != recipe.Id && c.Session.Snapshot.Gold is { } available &&
-                    EstimatedPurchases(c.Session.Snapshot, combined) + candidatePayments > available)
+                    candidatePayments > available)
                     break;
                 if (!Fits(c.Session.Snapshot, combined))
                 {
@@ -152,13 +153,33 @@ public static class QuestItemPreparation
                         throw new QuestBlockedException("Free bag space and weight for the quest supplies, equipment, and reward before starting.");
                     break;
                 }
-                requested.AddRange(next);
+                proposed.AddRange(next);
+                candidates.Add((entry.Recipe, entry.Job, next));
+                plannedPayments = candidatePayments;
+            }
+            // A consented supply can reduce optional purchases, but never the
+            // actual mandatory-payment, equipment, capacity or reward reserves.
+            if (c.SupplyIntegration is not null)
+                await c.SupplyIntegration.PrepareAsync(c, Combine(proposed), ct);
+            CheckIdentity();
+            var requested = new List<QuestSupply>();
+            plannedPayments = currentPayments;
+            foreach (var entry in candidates)
+            {
+                var combined = Combine(requested.Concat(entry.Supplies));
+                long candidatePayments = plannedPayments + (entry.Recipe.Id == recipe.Id ? 0 : RequiredPayments(entry.Recipe, entry.Job));
+                if (entry.Recipe.Id != recipe.Id && c.Session.Snapshot.Gold is { } available &&
+                    EstimatedPurchases(c.Session.Snapshot, combined) + candidatePayments > available)
+                    break;
+                requested.AddRange(entry.Supplies);
                 plannedPayments = candidatePayments;
             }
             var missing = Combine(requested).Where(x => c.Session.Snapshot.Count(x.Task.Item!) < x.Task.Quantity).ToArray();
             if (missing.Length == 0) return;
             await c.SaveAsync(c.Job with { Preparation = new(missing) { GoldReserve = currentPayments }, Route = c.Job.Route ?? (recipe.Journey.Length > 0 ? new() : null) });
         }
+        else if (c.SupplyIntegration is not null)
+            await c.SupplyIntegration.PrepareAsync(c, c.Job.Preparation.Supplies, ct);
         while (c.Job.Preparation is { } state && state.Index < state.Supplies.Length)
         {
             ct.ThrowIfCancellationRequested();
@@ -205,6 +226,8 @@ public static class QuestItemPreparation
             {
                 SupplyGoldReserve = state.GoldReserve
             };
+            if (c.SupplyIntegration is not null)
+                await c.SupplyIntegration.ObserveInventoryAsync(c, false, ct);
             if (task.Kind == "branches")
                 await StickActions.GatherBranchesAsync(child, ct);
             else if (task.Kind == "muisir")
@@ -212,6 +235,8 @@ public static class QuestItemPreparation
             else
                 await ObservedJourney.AcquireSupplyAsync(child, task, ct);
             CheckIdentity();
+            if (c.SupplyIntegration is not null)
+                await c.SupplyIntegration.ObserveInventoryAsync(c, true, ct, task.Item);
             if (c.Session.Snapshot.Count(task.Item!) < task.Quantity && child.Job.Step != "complete")
                 continue;
             await c.SaveAsync(c.Job with { Preparation = c.Job.Preparation! with { Index = state.Index + 1, Progress = null } });

@@ -21,6 +21,10 @@ public sealed partial class ProxyConnection(TcpClient client, TcpClient remote, 
     bool presenting;
     long visibleMoves;
     public long VisibleMoves => Interlocked.Read(ref visibleMoves);
+    long manualOperationRevision;
+    internal long ManualOperationRevision => Interlocked.Read(ref manualOperationRevision);
+    long manualBagOperationRevision;
+    internal long ManualBagOperationRevision => Interlocked.Read(ref manualBagOperationRevision);
 
     string? name;
     bool identified;
@@ -69,7 +73,9 @@ public sealed partial class ProxyConnection(TcpClient client, TcpClient remote, 
         finally
         {
             lifetime.Cancel();
-            Tracker.Disconnect();
+            lock (movementGate)
+            lock (loginRegistrationGate)
+                Tracker.Disconnect();
             Interrupt("Disconnected");
         }
     }
@@ -101,8 +107,19 @@ public sealed partial class ProxyConnection(TcpClient client, TcpClient remote, 
     public event Action<byte, byte[], bool>? ClientObserved;
     // Login, character creation and password change carry credentials and are never reported.
     internal static bool CarriesCredentials(byte opcode) => opcode is 0x02 or 0x03 or 0x26;
+    // Sorting owns only the bag. This separate epoch leaves quest/manual-input
+    // semantics unchanged while detecting requests whose inventory replies may lag.
+    internal static bool AffectsBag(byte opcode, byte[] payload) => opcode is
+        0x07 or 0x08 or 0x0F or 0x13 or 0x1A or 0x1C or 0x29 or
+        0x39 or 0x3A or 0x3E or 0x41 or 0x44 or 0x4A or 0x55
+        || opcode == 0x30 && (payload.Length != 3 || payload[0] == 0);
     void ReportClient(byte opcode, byte[] payload, bool bot)
     {
+        if (!bot && AffectsBag(opcode, payload))
+            Interlocked.Increment(ref manualBagOperationRevision);
+        if (!bot && (opcode is 0x06 or 0x11 or 0x39 or 0x3A or 0x3F or 0x4A
+            || opcode == 0x43 && (payload.Length > 0 && payload[0] == 3 || ClickedEntity(payload) is not null)))
+            Interlocked.Increment(ref manualOperationRevision);
         if (!CarriesCredentials(opcode))
             ClientObserved?.Invoke(opcode, payload.ToArray(), bot);
     }
@@ -159,8 +176,12 @@ public sealed partial class ProxyConnection(TcpClient client, TcpClient remote, 
                             }
                         }
 
+                        if ((byte)plain.Command == 0x03)
+                            ObserveLoginSubmission(plain.Data);
+
                         if ((byte)plain.Command == 0x10)
                         {
+                            ObserveLoginHandshake(plain.Data);
                             var r = new NetworkPacketReader(plain);
                             byte seed = r.ReadByte();
                             var key = r.ReadBytes(r.ReadByte());
@@ -209,13 +230,15 @@ public sealed partial class ProxyConnection(TcpClient client, TcpClient remote, 
                     var plain = (ServerPacket)serverCrypto.Decrypt(wire);
                     if ((byte)plain.Command == 0x02)
                     {
+                        var response = LoginResponse.Parse(plain.Data);
+                        ObserveLoginResponse(response);
                         try
                         {
                             // Shape only: keep credentials, keys and raw login packets out of diagnostics.
                             string result = plain.Data.Length > 0 ? plain.Data[0].ToString() : "missing";
                             string messageLength = plain.Data.Length > 1 ? plain.Data[1].ToString() : "missing";
                             Diagnostic?.Invoke($"Server login response: {plain.Data.Length} payload bytes, result {result}, message length {messageLength}.");
-                            LoginResponded?.Invoke(LoginResponse.Parse(plain.Data));
+                            LoginResponded?.Invoke(response);
                         }
                         catch (Exception error) { Diagnostic?.Invoke("Login response observer failed: " + Flatten(error)); }
                     }
@@ -246,7 +269,10 @@ public sealed partial class ProxyConnection(TcpClient client, TcpClient remote, 
                         var r = new NetworkPacketReader(plain);
                         var address = r.ReadIPv4Address();
                         int port = r.ReadUInt16();
-                        int local = await redirect(new(address, port));
+                        var registration = PrepareLoginRegistration(plain.Data);
+                        int local = LoginRedirect is { } loginRedirect
+                            ? await loginRedirect(new(address, port), registration)
+                            : await redirect(new(address, port));
                         // Unique one-shot listener per redirect prevents cross-character handoffs.
                         wire.Data[0] = 1;
                         wire.Data[1] = 0;
@@ -261,12 +287,21 @@ public sealed partial class ProxyConnection(TcpClient client, TcpClient remote, 
                     if (((byte)plain.Command is 0x05 or 0x52) && name is not null && plain.Data.Length >= 4)
                     {
                         var r = new NetworkPacketReader(plain);
-                        Tracker.Identity(name, r.ReadUInt32());
-                        if (!identified)
+                        uint ownId = r.ReadUInt32();
+                        bool newlyIdentified = false;
+                        lock (movementGate)
+                        lock (loginRegistrationGate)
                         {
-                            identified = true;
-                            Authenticated?.Invoke(this);
+                            Tracker.Identity(name, ownId);
+                            AdoptLoginRegistration(ownId);
+                            if (!identified)
+                            {
+                                identified = true;
+                                newlyIdentified = true;
+                            }
                         }
+                        if (newlyIdentified)
+                            Authenticated?.Invoke(this);
                     }
 
                     await ForwardToClient(frame, plain, token);
@@ -286,7 +321,10 @@ public sealed partial class ProxyConnection(TcpClient client, TcpClient remote, 
                 lock (movementGate)
                 {
                     var before = Tracker.Snapshot;
-                    Tracker.Observe((byte)plain.Command, plain.Data); // Fully decode before confirming a queued step.
+                    // Client login boundaries revoke registration under the same
+                    // lock order, so a server snapshot cannot restore old proof.
+                    lock (loginRegistrationGate)
+                        Tracker.Observe((byte)plain.Command, plain.Data); // Fully decode before confirming a queued step.
                     presentation = ObserveMovement(before, (byte)plain.Command, plain.Data);
                     if (Tracker.WorldMap is not null)
                         ResetMovement();
@@ -339,7 +377,7 @@ public sealed partial class ProxyConnection(TcpClient client, TcpClient remote, 
         }
     }
 
-    public async Task SendAsync(ClientPacket packet, long expectedGeneration, CancellationToken token, DAQuester.Core.Tile? movementOrigin = null, bool presentMovement = false, int movementCapacity = 1, Func<bool>? movementAllowed = null)
+    public async Task SendAsync(ClientPacket packet, long expectedGeneration, CancellationToken token, DAQuester.Core.Tile? movementOrigin = null, bool presentMovement = false, int movementCapacity = 1, Func<bool>? movementAllowed = null, Action? beforeWrite = null, Action? validateSend = null)
     {
         await toServer.WaitAsync(token);
         try
@@ -347,6 +385,7 @@ public sealed partial class ProxyConnection(TcpClient client, TcpClient remote, 
             token.ThrowIfCancellationRequested();
             if (!Connected || Tracker.Snapshot.Generation != expectedGeneration || !Tracker.Snapshot.Connected)
                 throw new IOException("Session generation no longer active.");
+            validateSend?.Invoke();
             if ((byte)packet.Command is 0x39 or 0x3A)
                 DialogAction?.Invoke(packet);
             if ((byte)packet.Command == 0x4A)
@@ -376,9 +415,12 @@ public sealed partial class ProxyConnection(TcpClient client, TcpClient remote, 
 
                 ReportClient((byte)packet.Command, packet.Data, true);
                 var encrypted = clientCrypto.Encrypt(packet, sequence);
+                var wire = encrypted.ToArray();
+                // Observer callbacks and packet construction cannot supply a reply to a write that has not started.
+                beforeWrite?.Invoke();
                 if (ClientPacketEncryptor.IsEncrypted((byte)packet.Command))
                     sequence++;
-                await remote.GetStream().WriteAsync(encrypted.ToArray(), lifetime.Token);
+                await remote.GetStream().WriteAsync(wire, lifetime.Token);
                 if (movement && presentMovement)
                 {
                     MovementIntent intent;

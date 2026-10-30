@@ -23,6 +23,24 @@ internal static partial class ScreenshotCapture
             if (!Program.IsScreenshots || !viewModel.Runtime.Preview)
                 throw new InvalidOperationException("Screenshots require an isolated preview runtime.");
             await SeedWorkspaceAsync(viewModel);
+            if (Program.Arguments.Contains("--bag-sort-review"))
+            {
+                await CaptureBagSortingAsync(window, viewModel);
+                File.WriteAllText("artifacts/screenshots.txt", "Bag sorting captured with isolated synthetic data; no game commands or connections.");
+                return;
+            }
+            if (Program.Arguments.Contains("--supplies-review"))
+            {
+                await CaptureSuppliesAsync(window, viewModel);
+                File.WriteAllText("artifacts/screenshots.txt", "AislingExchange settings and consent captured with isolated synthetic data; no network or game actions.");
+                return;
+            }
+            if (Program.Arguments.Contains("--daydreamer-review"))
+            {
+                await CaptureDaydreamerAsync(window, viewModel);
+                File.WriteAllText("artifacts/screenshots.txt", "Daydreamer details captured with isolated synthetic data and no game clients or listeners.");
+                return;
+            }
             if (Program.Arguments.Contains("--wolf-review"))
             {
                 await CaptureWolfAsync(window, viewModel);

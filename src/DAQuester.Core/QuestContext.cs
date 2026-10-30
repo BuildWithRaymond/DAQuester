@@ -48,6 +48,7 @@ public class QuestContext(
     public FiskWaitingArea WaitingArea { get; init; } = new();
     public Func<IReadOnlyList<(QuestDefinition Recipe, QuestJob Job)>>? PreparationBatch { get; init; }
     public uint SupplyGoldReserve { get; init; }
+    public QuestSupplyIntegration? SupplyIntegration { get; init; }
     public IGameSession Session { get; } = session;
     public HuntingServices? Hunting { get; } = hunting;
     public Calibration Calibration { get; } = calibration;

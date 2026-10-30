@@ -59,7 +59,7 @@ public sealed partial class DesktopRuntime
     bool HasUnfinishedCheckpoint(string name, string id)
     {
         var job = journal.Load(name, id);
-        return job.Pending is not null || job.Step is not ("preflight" or "complete");
+        return job.Pending is not null || job.Quest == DaydreamerEvidence.Id && DaydreamerEvidence.NeedsRecovery(job) || job.Step is not ("preflight" or "complete");
     }
 
     bool CanSettleQueueCheckpoint(string name, string id)
@@ -74,6 +74,7 @@ public sealed partial class DesktopRuntime
     public async Task EditQueueAsync(string name, Func<QuestQueueState, QuestQueueState> change)
     {
         RequireOpen();
+        RequireSupplyPlanEditable(name);
         if (name.Length == 0 || queueSaving.Contains(name))
             return;
         var saved = Queue(name);
@@ -229,7 +230,8 @@ public sealed partial class DesktopRuntime
                     await runner.RunAsync(RepeatEnabled(name, id), cancellation, startNewAttempt: !resume, singleAttempt: true, deferTimedWaits: true);
                     return await ScheduledQuestOutcomeAsync(name, runner.Job);
                 }, id => HasUnfinishedCheckpoint(name, id), id => Availability(name, id).Ready,
-                    (due, cancellation) => WaitForBouquetQueueAsync(name, due, cancellation));
+                    (due, cancellation) => WaitForBouquetQueueAsync(name, due, cancellation),
+                    cancellation => CompleteSupplyJourneyAsync(name, cancellation));
                 queueCoordinators[name] = coordinator;
                 coordinator.Changed += value => Ui(() =>
                 {

@@ -306,6 +306,33 @@ live through DAQuester (Ferda, 2026-10-12); a full 10-offering run has not been
 live-tested, so the 3-hour waits, the 10th offering and the reward check are
 proven by tests only.
 
+## Avid Temuairian Daydreamer
+
+Celesta's **Avid Daydreamer** menu in Pravat Cave performs a daily check-in.
+DAQuester uses the recorded Pravat South Entrance route and the supplied
+approach, then binds the menu and thank-you Next to Celesta's fresh identity.
+Only the correlated server count changes streak progress. An already-done
+reply acknowledges the day without supplying a new count.
+
+One queue run performs one daily attempt. A recurring schedule can perform later
+visits using existing optional saved-login consent. Wait at least 24 real hours
+after acknowledgement and until the next midnight in the saved calendar zone.
+The first verified consecutive count of **30 or more** finishes the goal without
+requiring a prize or legend conversation. **Continue daily check-ins after the
+first mark** is default off and retains that completion when enabled.
+
+Registration is required for every one of the 30 days. A 30-day code needs every
+day's check-in; a missed day may mean another code is needed. No level limit was
+reported. The player reports each further 30-day cycle earns the next mark,
+but the mark number may return to **1 around mark 27**. That exact rollover is
+unverified and is shown before optional continuation.
+
+The VPS attachment is source-inspection evidence with synthetic packet examples,
+not a live DATester capture. Uncertain submissions stay pending, and popup
+cleanup resumes separately without another check-in. See the
+[reference and recovery notes](research/avid-daydreamer.md). A fresh automatic
+run and the complete 30-day journey remain unqualified.
+
 ## Current operational limits
 
 Known obtainable supplies are prepared before quest NPC visits. A queue combines

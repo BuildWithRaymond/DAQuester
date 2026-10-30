@@ -29,6 +29,7 @@ public record MapRecord(int Id, string Name, int Width, int Height, Portal[] Por
 public partial class MapRepository(string clientDirectory, string routesPath, string serverProfile = "datester-7.41")
 {
     readonly string collisionProfile = serverProfile, routeFile = routesPath;
+    public string ServerProfile => collisionProfile;
     ImmutableDictionary<int, MapRecord> records = (JsonSerializer.Deserialize<MapRecord[]>(File.ReadAllText(routesPath), new JsonSerializerOptions { PropertyNameCaseInsensitive = true }) ?? []).ToImmutableDictionary(x => x.Id);
     readonly Dictionary<int, Grid> grids = [];
     // Dimensions are server-observed; new visited maps have no assumed connectivity.

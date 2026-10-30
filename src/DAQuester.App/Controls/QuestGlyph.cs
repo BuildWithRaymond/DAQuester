@@ -76,7 +76,7 @@ public sealed class QuestGlyph : Control
     {
         if (this.GetVisualRoot() is null)
             return;
-        if (QuestId is "awakening" or "peasantsfirststeps" or "peasants-first-steps" or "cryptclimb" or "crypt-climb")
+        if (QuestId is "awakening" or "peasantsfirststeps" or "peasants-first-steps" or "cryptclimb" or "crypt-climb" or "aviddaydreamer" or "avid-daydreamer")
         {
             customBitmap = appArtwork.Value;
             ToolTip.SetTip(this, "Custom DAQuester journey");

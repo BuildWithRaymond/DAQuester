@@ -174,6 +174,7 @@ public sealed partial class DesktopRuntime
             foreach (var process in launchedClients)
                 process.Dispose();
             characterMemoryLifetime.Dispose();
+            DisposeSupplyClients();
             Updates.Changed -= Notify;
         }
         finally

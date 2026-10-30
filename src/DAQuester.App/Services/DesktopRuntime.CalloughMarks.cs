@@ -33,6 +33,7 @@ public sealed partial class DesktopRuntime
         RequireOpen();
         if (!confirmed) throw new QuestBlockedException("Confirm that you want to resume this schedule for more marks.");
         var entry = SchedulerState.Entries.Single(e => e.Id == id);
+        using var planMutation = AcquireSupplyPlanMutation(entry.Character);
         RequireNoScheduler(entry.Character);
         if (QueueReserves(entry.Character) || IsRunning(entry.Character) || RunnerBusy(entry.Character) || controlActions.ContainsKey(entry.Character) || LaunchPending(entry.Character))
             throw new QuestBlockedException("Wait for this character's current operation before trying for more marks.");

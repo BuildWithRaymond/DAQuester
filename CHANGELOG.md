@@ -2,6 +2,29 @@
 
 ## Unreleased
 
+## 1.8.0 — 2026-10-29
+
+- Preserve current-login registration across the lobby-to-game server redirect.
+  Bind the original receipt to the matching handshake and own identity, revoke
+  stale proof on a new login, and recheck registration before queued check-ins.
+- Add durable AislingExchange collection reports and return registration/send
+  checkpoints, with partial-mail handling, personal-item protection and recovery
+  without duplicate parcel actions. Keep production dispatch disabled pending
+  observed protocol qualification and worker release certification.
+- Allow unknown parcel postage for supported items. Record the server's actual
+  charge after each proven send; gold thresholds stop later sends and may be
+  crossed by one charge. Preserve original fixed-quote checkpoints and pending
+  receipt recovery.
+- Add compact Sort Bag and Sort All Bags actions with ordinary click
+  activation and no move-preview dialogs. Use DAOrganizer's static category,
+  quick-use and trinket layout rules. Skip busy or offline characters; await
+  authoritative inventory after each move and stop without retry on uncertainty.
+- Add Avid Temuairian Daydreamer: visit Celesta for one registered daily check-in,
+  save actual consecutive-login progress, and stop at the first verified count
+  of 30. Optional continuation retains the first goal and explains the reported
+  mark-number rollover around 27. Daily schedules preserve uncertain submissions
+  and terminal popup cleanup without sending another check-in.
+
 ## 1.7.2 — 2026-10-28
 
 - Keep Altar Worship class and reward eligibility for the saved journey instead

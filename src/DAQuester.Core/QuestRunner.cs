@@ -9,6 +9,7 @@ public class QuestRunner(IGameSession session, IQuestJournal journal, QuestDefin
     private readonly EvidenceHistory completionHistory = new();
     public bool IsRunning => active is not null;
     public Func<IReadOnlyList<(QuestDefinition Recipe, QuestJob Job)>>? PreparationBatch { get; set; }
+    public QuestSupplyIntegration? SupplyIntegration { get; set; }
 
     private string pauseReason = "Paused by player";
     CancellationToken lastRunCancellation;
@@ -66,6 +67,7 @@ public class QuestRunner(IGameSession session, IQuestJournal journal, QuestDefin
         SickChildEvidence.Id => new[] { "sick-preflight", "sick-run" }.ToDictionary(x => x, x => (IQuestAction)new SickChildActions(SickChildEvidence.Sevti)),
         SickChildEvidence.AnamanId => new[] { "sick-preflight", "sick-run" }.ToDictionary(x => x, x => (IQuestAction)new SickChildActions(SickChildEvidence.Tulsi)),
         AltarWorshipEvidence.Id => new[] { "altar-preflight", "altar-run" }.ToDictionary(x => x, x => (IQuestAction)new AltarWorshipActions()),
+        DaydreamerEvidence.Id => new[] { "daydreamer-preflight", "daydreamer-check-in" }.ToDictionary(x => x, x => (IQuestAction)new DaydreamerActions()),
         FiskEvidence.Id => new[] { "fisk-preflight", "fisk-run" }.ToDictionary(x => x, x => (IQuestAction)new FiskActions(recipe)),
         DanaanEvidence.Id => new[] { "danaan-preflight", "danaan-run" }.ToDictionary(x => x, x => (IQuestAction)new DanaanActions(recipe)),
         AwakeningEvidence.Id => new[] { "awakening-preflight", "awakening-run" }.ToDictionary(x => x, x => (IQuestAction)new AwakeningActions()),
@@ -83,6 +85,12 @@ public class QuestRunner(IGameSession session, IQuestJournal journal, QuestDefin
         if (!await owner.WaitAsync(0, cancellation))
             return;
         bool hairstyle = recipe.Id == "perfect-hairstyle";
+        bool daydreamer = recipe.Id == DaydreamerEvidence.Id;
+        if (daydreamer)
+        {
+            singleAttempt = true;
+            yieldScheduledWaits = true;
+        }
         repeat = recipe.Repeatable && (repeat || hairstyle || singleAttempt && Job.Repeat);
         using var token = CancellationTokenSource.CreateLinkedTokenSource(cancellation);
         active = token;
@@ -122,9 +130,10 @@ public class QuestRunner(IGameSession session, IQuestJournal journal, QuestDefin
         {
             Job = value;
             Changed?.Invoke(value);
-        }, helpers, hunting) { YieldScheduledWaits = yieldScheduledWaits, DeferTimedWaits = deferTimedWaits, HasReadyQueuedWork = hasReadyQueuedWork, WaitingArea = waitingArea ?? new(), PreparationBatch = PreparationBatch };
+        }, helpers, hunting) { YieldScheduledWaits = yieldScheduledWaits, DeferTimedWaits = deferTimedWaits, HasReadyQueuedWork = hasReadyQueuedWork, WaitingArea = waitingArea ?? new(), PreparationBatch = PreparationBatch, SupplyIntegration = SupplyIntegration };
         var priorHairAttempt = c.Job.LastAttemptAt;
         Task Save(QuestJob value) => c.SaveAsync(value);
+        string DailyStatus() => QueueAttemptOutcome.Evaluate(c.Job with { Status = "Completed" })?.Outcome ?? "AttemptCompleted";
         DateTimeOffset? cleanupAttemptedAt = null;
         async Task Cleanup()
         {
@@ -134,6 +143,8 @@ public class QuestRunner(IGameSession session, IQuestJournal journal, QuestDefin
         }
         try
         {
+            if (SupplyIntegration is not null)
+                await SupplyIntegration.PrepareAsync(c, [], token.Token);
             if (singleAttempt && !string.Equals(c.Job.Character, captureCharacter, StringComparison.OrdinalIgnoreCase))
                 throw new QuestBlockedException("Saved quest checkpoint belongs to a different character. Select its connected character before resuming.");
             if (c.Job.PermanentCompletion is not null)
@@ -157,6 +168,8 @@ public class QuestRunner(IGameSession session, IQuestJournal journal, QuestDefin
                 throw new QuestBlockedException("Recipe version changed. Reconcile saved job before continuing.");
             await EventNotices.DismissAsync(session, token.Token);
             await Cleanup();
+            if (daydreamer && DaydreamerEvidence.NeedsRecovery(c.Job))
+                await Save(c.Job with { Step = recipe.Steps.Single(s => s.Action == "daydreamer-check-in").Id });
             if (recipe.Id == WolfQuestEvidence.Id && c.Job.Route?.CleanupPending == true && c.Job.CompletedAt is not null)
                 await Save(c.Job with { Step = "confirm" });
             if (singleAttempt && !startNewAttempt && QueueAttemptOutcome.HasTerminalReceipt(c.Job))
@@ -166,7 +179,7 @@ public class QuestRunner(IGameSession session, IQuestJournal journal, QuestDefin
                 await Save(c.Job with
                 {
                     Step = "complete",
-                    Status = hairstyle && c.Job.LegendReward != true ? "AttemptCompleted" : "Completed",
+                    Status = daydreamer ? DailyStatus() : hairstyle && c.Job.LegendReward != true ? "AttemptCompleted" : "Completed",
                     Repeat = !finished && c.Job.Repeat,
                     NextRun = finished ? null : c.Job.NextRun,
                     Reason = c.Job.CompletionText ?? "Saved terminal outcome verified"
@@ -228,7 +241,7 @@ public class QuestRunner(IGameSession session, IQuestJournal journal, QuestDefin
                 await QuestCompletionDialogs.DismissAsync(c, hairstyle ? c.Job.HairstyleCompletion : recipe.Id == "spare-a-stick" ? c.Job.CompletionDialog : null, token.Token);
                 await Save(c.Job with
                 {
-                    Status = "Completed",
+                    Status = daydreamer ? DailyStatus() : "Completed",
                     Repeat = singleAttempt && !QuestRunPolicy.Finished(recipe, c.Job) && c.Job.Repeat,
                     NextRun = QuestRunPolicy.NextAttempt(recipe, c.Job),
                     Reason = c.Job.CompletionText ?? "One completion verified"
@@ -311,7 +324,7 @@ public class QuestRunner(IGameSession session, IQuestJournal journal, QuestDefin
                     Status = "Running",
                     Reason = ""
                 });
-                if (recipe.Id != WizardyResearchEvidence.Id && (c.Job.Step == "preflight" || c.Job.Pending?.Kind == DachaidhPreparation.PaymentKind))
+                if (recipe.Id != WizardyResearchEvidence.Id && !daydreamer && (c.Job.Step == "preflight" || c.Job.Pending?.Kind == DachaidhPreparation.PaymentKind))
                     await DachaidhPreparation.EnsureAsync(c, token.Token);
                 while (c.Job.Step != "complete")
                 {
@@ -333,6 +346,8 @@ public class QuestRunner(IGameSession session, IQuestJournal journal, QuestDefin
                     if (c.Job.Preparation is not null || !step.Action.EndsWith("preflight", StringComparison.Ordinal))
                         await QuestItemPreparation.EnsureAsync(c, recipe, token.Token);
                     await action.ExecuteAsync(c, step, token.Token);
+                    if (SupplyIntegration is not null)
+                        await SupplyIntegration.ObserveInventoryAsync(c, false, token.Token);
                     if (c.Job.Step == "complete")
                         break;
                     string? nextStep = step.Next;
@@ -366,7 +381,7 @@ public class QuestRunner(IGameSession session, IQuestJournal journal, QuestDefin
                     await Cleanup();
                     await Save(c.Job with
                     {
-                        Status = "Completed",
+                        Status = daydreamer ? DailyStatus() : "Completed",
                         Reason = c.Job.CompletionText ?? "Completion verified"
                     });
                 }

@@ -12,7 +12,7 @@ public sealed class QuestArtworkCatalogTests
     {
         var catalog = new QuestArtworkCatalog(Path.Combine(AppSettings.Content, "quest-artwork.json"));
         // Custom journeys use the app medallion, so they need no installed sprite selection.
-        string[] custom = ["awakening", "peasantsfirststeps", "cryptclimb", "peasants-first-steps", "crypt-climb"];
+        string[] custom = ["awakening", "peasantsfirststeps", "cryptclimb", "peasants-first-steps", "crypt-climb", "aviddaydreamer", "avid-daydreamer"];
         string[] approvedTaskArtwork = ["wizardy-research"];
         void Check(string id)
         {

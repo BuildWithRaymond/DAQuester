@@ -139,7 +139,12 @@ public partial class MainWindow : Window
             button.HorizontalContentAlignment = compact ? HorizontalAlignment.Center : HorizontalAlignment.Left;
         }
 
-        this.FindControl<TextBlock>("pageSubtitle")!.MaxWidth = compact ? 340 : 650;
+        var subtitle = this.FindControl<TextBlock>("pageSubtitle")!;
+        subtitle.MaxWidth = compact ? 340 : 650;
+        subtitle.FontSize = compact ? 12 : 13;
+        var switcher = this.FindControl<ComboBox>("characterSwitcher")!;
+        switcher.MinWidth = compact ? 185 : 215;
+        switcher.MaxWidth = compact ? 215 : 285;
         double workspaceWidth = ClientSize.Width - (compact ? 64 : 180) - 48;
         this.FindControl<Border>("queueCard")!.Width = Math.Max(280, (workspaceWidth - 12) / 4);
         ApplyJourneyMotion();

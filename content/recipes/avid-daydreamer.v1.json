@@ -1,0 +1,22 @@
+{
+  "Id": "avid-daydreamer",
+  "Version": 1,
+  "Name": "Avid Temuairian Daydreamer",
+  "Source": "https://github.com/BuildWithRaymond/DAQuester/blob/main/docs/research/avid-daydreamer.md",
+  "Capabilities": ["navigate", "dialog", "status-message"],
+  "CooldownHours": 24,
+  "Repeatable": true,
+  "Requirements": [],
+  "OutcomeConditions": [
+    "Fresh registration status in the current connection; no level requirement reported",
+    "One daily attempt at Celesta using the current offered Avid Daydreamer menu and thank-you Next",
+    "Only a fresh correlated server consecutive-login count changes progress; already-done replies supply no new count",
+    "The first goal completes at a verified count of at least 30; no separate prize or legend claim is required",
+    "Continuation after the first goal is optional and default off; repeated mark numbering has a player-reported rollover bug around 27",
+    "Uncertain submissions and terminal popup closure reconcile separately without resending Next"
+  ],
+  "Steps": [
+    {"Id": "preflight", "Action": "daydreamer-preflight", "Next": "run"},
+    {"Id": "run", "Action": "daydreamer-check-in", "Next": "complete"}
+  ]
+}

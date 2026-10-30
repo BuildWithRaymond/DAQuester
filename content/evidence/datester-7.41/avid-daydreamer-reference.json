@@ -1,0 +1,35 @@
+{
+  "schemaVersion": 1,
+  "kind": "player-supplied-source-inspection",
+  "preparedDate": "2026-10-28",
+  "liveCapture": false,
+  "syntheticExamples": true,
+  "source": "Player-supplied self-contained private worker Celesta check-in reference",
+  "sourceFiles": {
+    "celesta-check-in.ts": "24530f3e143835e65b185043adfa9415594a1697a7a0cc5e65ede8713e33fa53",
+    "celesta-check-in-regression.ts": "4120dd5bf5f103e8af73eaaed69bbfc7eb8621c36de1f5d6ef1e035084893044",
+    "celesta-interaction-guard.ts": "08a57d470dc9b9256792babad854a4e3c4e8a4ab1370b2a506aacf3f9120a048",
+    "packet.ts": "ecb60a98a16578c8d5fd02aabeeeead54c0df8acb3585839eb9d459b67b58621"
+  },
+  "npc": "Celesta",
+  "option": "Avid Daydreamer",
+  "configuredApproach": { "map": 3052, "x": 48, "y": 18, "isNpcTileProof": false },
+  "greeting": "Thank you for dropping by. I'll make sure to check you in!",
+  "resultExample": "This is your 30th consecutive Login!",
+  "alreadyDoneExample": "You have already checked in today.",
+  "refusalExample": "This feature is for registered users only.",
+  "playerRequirements": {
+    "firstGoal": "A fresh correlated server count of at least 30; no separate prize or legend read is required.",
+    "repeatAfterGoal": "Explicitly optional and default off; retain first completion evidence.",
+    "registration": "Registered for all 30 days; one code needs every day, a missed day may require a second code.",
+    "level": "No requirement reported; not independently established.",
+    "markRollover": "Player reports mark number may reset to 1 around mark 27; exact threshold unverified."
+  },
+  "limits": [
+    "No real NPC serial, pursuit or step is asserted by the synthetic packet examples.",
+    "The VPS map label does not replace existing route dimensions or collision evidence.",
+    "Yearless registration expiry does not establish a subscription end timestamp.",
+    "The private worker channel allowlist is not a DATester live capture.",
+    "No full automatic run or 30-day completion on this client is certified."
+  ]
+}

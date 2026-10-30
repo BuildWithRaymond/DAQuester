@@ -1,5 +1,97 @@
 # Validation status
 
+## Current-login registration and click sorting - October 29, 2026
+
+The login registration receipt now survives the server's lobby-to-world redirect.
+It retains its original provenance and is bound to the replacement connection
+only after an exact one-shot handshake and observed own identity. New login or
+handshake boundaries revoke direct and transferred proof, including races with
+adoption and server state publication. Queued Celesta choices and check-ins
+recheck registration immediately before writing.
+
+Final complete suites passed with no failures or skips: **2,237/2,237 Core** and
+**588/588 desktop**. Focused coverage passed **107/107 registration/protocol**,
+**21/21 check-in submission** and **38/38 bag presentation/runtime** cases after
+their expected failing regressions. Independent source reviews passed. The Core
+and protocol DLLs used by the full Core suite are byte-identical to those in the
+tested desktop build. Final reports and source hashes remain under
+`artifacts/login-registration-transfer`.
+
+Manual review inspected all nine isolated bag captures: Dashboard, Planner,
+Characters and Tasks at 1420 by 900 and 900 by 560, plus the busy state. Compact
+90/112 px buttons retain their 48 px height. The synthetic activation receipt
+confirms one ordinary click starts once and a disabled click is ignored. Captures
+and receipt remain in `artifacts/bag-click-review-20261029/artifacts`.
+
+No real characters were operated during these builds, tests or preview review.
+The existing login replay was inspected read-only to establish the original
+receipt and redirect shape. After the tests finished, the updated app was opened.
+Read-only diagnostics then confirmed Agent's fresh login preserved registration
+across the matched redirect and Daydreamer advanced past preflight. No game
+command was issued by this validation. A full automatic Celesta journey and
+30-day sequence remain separate qualification.
+
+## Bag-sort activation amendment - October 29, 2026
+
+The user replaced hold-to-confirm with ordinary click activation for Sort Bag
+and Sort All Bags. The compact 90/112 px widths, shared 48 px height, dark styling
+and existing runtime/ownership checks remain. All 38 focused presentation,
+view-model and runtime cases passed; the earlier hold-specific review below is
+historical and no longer describes current bag-sort activation.
+
+## Bag sorting - October 28, 2026
+
+The compact Sort Bag and Sort All Bags controls require a three-second hold,
+use DAOrganizer's static category/layout rules and skip unavailable or owned
+characters. Whole-sort ownership, exact server inventory receipts and uncertain
+move reconciliation remain separate from the confirmation control.
+
+Focused checks passed **30 planner**, **37 protocol**, **25 runtime** and
+**10 confirmation/presentation** cases. Both complete xUnit projects passed with
+no failures or skips: **1,945/1,945 Core** and **472/472 desktop**. The normal
+Windows-permission reruns were required for existing synthetic named-pipe tests;
+the restricted sandbox denied those pipes. Cached NuGet vulnerability-source
+warnings remained during builds, so this does not claim a warning-free restore.
+
+The isolated native preview checks hold/release, repeated keys, one activation,
+captured roster, navigation cancellation and ordinary-click refusal without
+executing game commands. Manual review covers normal and minimum window sizes,
+the narrower shared-height buttons, holding progress, unavailable state and
+scrolling of the empty-queue hint. Captures and the synthetic control receipt
+remain under `artifacts/screenshots/bag-sort-*.png` and
+`artifacts/bag-sort-ui-review.json`; build/test outputs are under
+`artifacts/bag-protocol` and `artifacts/bag-runtime`.
+
+No real characters were operated, no DAOrganizer profile was imported and no
+Excalibur working copy or process was modified. Source inspection and synthetic
+receipts do not certify a live bag-sorting run.
+
+## Avid Temuairian Daydreamer - October 28, 2026
+
+The Celesta journey makes one daily attempt per run and supports optional saved
+daily schedules. It stops at the first correlated server count of at least 30
+by default. Explicit continuation retains that first receipt and shows the
+player-reported, unverified mark-number rollover warning around mark 27.
+Registration guidance covers all 30 days and the possible need for a second
+code after a missed day. See [the source and recovery boundaries](research/avid-daydreamer.md).
+
+A clean Release solution build and the final desktop preview rebuild completed
+with zero warnings or errors. Focused checks passed **95/95 Core/protocol** and
+**7/7 desktop/artwork** cases. Both complete xUnit projects passed without
+failures or skips: **1,852/1,852 Core** and **386/386 desktop**. Reports remain
+under `artifacts/avid-daydreamer-final`. Coverage includes actual-write evidence,
+stale menu and manual-action guards, pause races, registration readiness,
+count resets, daylight-saving boundaries, pending submission reconciliation,
+terminal popup cleanup, default stop and explicit continuation.
+
+Manual review of the isolated preview covered details at 1420 by 900 and the
+minimum 900 by 560, the registration callout, continuation control and run/setup
+dialog. Captures remain under `artifacts/screenshots/daydreamer-*.png`. These use
+synthetic data without game listeners or real client launches. No player Data,
+real characters, Excalibur processes or working copies were operated or changed.
+The supplied reference is source-inspection evidence with synthetic packet
+examples; this does not certify a live automatic run or a 30-day completion.
+
 ## 1.6.0 public release - October 16, 2026
 
 The public candidate retains the pinned DAWindower X and its caption-plus action. The standard-edition comparison remains a separate diagnostic build. A clean, symbol-free Release solution build completed with zero warnings or errors. Focused checks passed **98/98 Core** and **28/28 desktop** cases; both complete projects passed **1,540/1,540 Core** and **344/344 desktop** cases, with no skips. Reports are under `artifacts/release-1.6.0/results`.
@@ -2150,3 +2242,165 @@ The update compatibility check was isolated and performed no installation.
 All game interactions were synthetic. No real characters were operated, player
 Data edited, or game clients stopped or restarted. No interface layout or
 packaging behavior changed. A fresh automatic live run remains unqualified.
+
+## 2026-10-29: AislingExchange parcel lifecycle
+
+Implemented a concrete journaled parcel port behind an unqualified default
+policy, durable collection reports, successive-request dispatch settlement and
+journey-end return registration/send checkpoints. Source acceptance, recipient
+collection and bank deposit remain separate evidence. Client reports never
+create stock or renew allowances.
+
+Focused RED-to-GREEN regressions cover partial/empty/capacity/refused mail,
+identical personal mail, wrong sender and chat channel, fixed one-unit send bytes,
+unknown fees, interrupted packet boundaries, manual input during mailbox
+navigation, old-generation read-only recovery, immutable HTTP retries, late
+attribution uncertainty, mixed-origin return batches and cancelled pending
+sends. This initial baseline used an exact known-fee prerequisite; the later
+actual-postage amendment below supersedes that rule for new sends. Cached report acknowledgements cannot
+roll back newer collection or bank evidence. Scoped desktop leases protect live
+item/gold reserves across async plan saves and mailbox travel; Stop cancels and
+drains the existing owner. Eleven additional regressions cover old journey IDs,
+pending normal work, invalid return identities and preservation of checkpoints
+created during recovery. Skipped unregistered leftovers lose automatic return
+eligibility before new work can consume or replace them.
+
+Clean builds completed with zero warnings/errors. Both complete xUnit projects
+passed without failures or skips: **2,080 Core/protocol and 584 App tests**.
+TRX files are under `artifacts/ae-parcel-send-capture/final-results` and
+`artifacts/ae-parcel-send-capture-app/final-results`. Broker and outbound adapter focused
+checks passed **29 and 15 tests** respectively. Local IPC/native fixtures ran
+outside the restricted sandbox; no real characters or external services were
+operated. No player layout or packaging behavior changed.
+
+One desktop run encountered a Windows access-denied error while atomically
+replacing a unique broker fixture file. Thirteen isolated checks and the full
+unchanged-source desktop rerun passed. The failed TRX is retained; the original
+lock holder is unknown. No production retry or weaker assertion was added.
+
+The hidden-operation correction removes a visible parcel-choice prerequisite.
+Direct sends use the inspected fixed one-unit packet for single items and
+stacks; a larger debit stays uncertain. The bounded local capture method exposes
+receive-one, send-menu, fixed-recipient one-unit send capture and read-only
+reconciliation. Send capture binds the exact observed slot, item, stack quantity,
+gold, complete bag and current menu through the final packet write. Its diagnostic
+fee is explicitly uncapped; production protocol and receipt qualification remain mandatory.
+Repeated IDs do not resubmit, uncertain financial captures block new IDs, and
+reconciliation uses only original saved observations. Retained event callbacks
+are harmless after cleanup. The final focused parcel/transport runs passed 144
+checks and the capture/runtime checks passed 63. Independent read-only review
+found no concrete guard regression. These diagnostics cannot identify a sender,
+qualify a send outcome or credit supplies.
+
+The private candidate is frozen with per-file source/build hashes and a separate
+ignored handoff. Its 34 authority tests, 11 fenced RPC tests, ten coordinator
+tests, ten lifecycle groups, 15 intake groups, three bag/gold framing groups and
+114 financial assertions pass, alongside supporting bank, privacy, projection,
+recovery and scheduler checks. New regressions cover cross-session canonical
+receipt replay, independent bag/gold evidence, sent-hint admission, item-specific
+fees, cancellation during receipt persistence and known-empty no-effect receipts.
+Only a native proven empty result releases its physical intent; unknown results
+never authorize another receive. Original certified fixtures and baseline hashes
+were preserved. Four intentionally changed certified modules require new release
+certification. A separate, unreferenced release-preparation proposal classifies
+eight omitted regressions and preserves the active baseline; independent review
+confirmed the complete manifest has 99 serial replays plus one separate isolation
+suite. This structural review does not replace the full release verifier.
+
+Windows financial validation uses a test-only named-pipe fixture. A later Linux
+run of the exact frozen compiled candidate passed all **18 selected fixtures** on
+Node 22.22.2, including the original Unix financial fixture and preserved original
+certification fixtures. A real isolated Unix RPC probe verified directory 0700,
+socket 0600, current UID ownership, round trip and cleanup. Before fixtures ran,
+effective guards verified a non-root, capless, seccomp-filtered process, separate
+network namespace, read-only source/dependency binds and home masks, private
+mount propagation, a bounded 128 MiB RAM workspace, 384 MiB memory cap, zero unit
+swap and 50% CPU quota. No game network was available. Logs and exact hashes are
+retained in the ignored Linux validation stage.
+
+Three earlier attempts stopped at isolation guards before any fixture. A fourth
+passed isolation and Unix RPC but stopped because archive modes made its own
+disposable fixture copy read-only. The corrected bundle preserves every payload
+byte, uses normal root-owned 0644/0755 modes and retains the read-only unit binds.
+All failures are retained. Owned RAM staging was removed after each phase, and
+no transient validation units remained. Host database health was checked after
+cleanup. RAM-backed host staging can use existing host swap; the isolated unit
+had swap disabled. Normal manager lifecycle metadata and empty PrivateTmp
+containers are distinct from fixture writes, which stayed in the private RAM
+workspace.
+
+The broad movement regression requiring an excluded game asset and full new
+release certification remain unverified. These synthetic results do not qualify
+genuine sender/bank receipts, idle whole-bag refresh or concurrent mailbox
+attribution. Production dispatch and returns stay off.
+
+No real game actions occurred during builds or synthetic tests. A separate
+authorized live phase subsequently captured a hidden send menu, an empty receive
+and one nonstackable source send. The fresh gold debit was 2,100, matching
+Maria's paid reply, with exactly one selected Wolf Claw removed and every other
+bag slot unchanged. The raw financial capture remains unresolved and was not
+repeated. Recipient arrival, sender-bearing collection and bank deposit remain
+unobserved. See the [restricted live excerpt](../content/evidence/datester-7.41/aislingexchange-hidden-parcels.json).
+The tested application was launched after the player closed the old session;
+the player manually logged into the new client. Excalibur was untouched.
+No production source/configuration/database writes, remote builds/installation
+or deployment occurred. The public source scan found no private origin identifiers,
+credentials or internal backend branding. See
+[qualification requirements](research/aislingexchange-parcel-qualification.md).
+
+## 2026-10-29: Actual parcel postage and immutable source recovery
+
+The player selected actual server-calculated postage. New supported sends no
+longer depend on a known item fee or a remembered quote. Gold reserves and the
+private daily threshold stop subsequent sends; one charge may cross a threshold.
+Actual source debit and cost settle first. Legacy fixed-quote intents, including
+zero, retain their original semantics.
+
+RED-to-GREEN checks cover unknown and changing fees, explicit zero with a fresh
+gold-bearing observation, missing or contradictory gold, one-send threshold
+overrun, immutable retries and old-generation recovery. Every nonselected bag
+slot must stay unchanged, including other slots containing the same item. Source
+proof survives later cleanup cancellation or failure. Current reconnect resources
+cannot replace original evidence or roll back newer projections. Cleanup has a
+separate durable hold; read-only reconciliation emits no game packet. A lost
+cleanup-clear acknowledgement cannot release its in-memory gate early.
+
+The final forced public builds completed with zero warnings or errors. Focused
+checks passed **217 Core/protocol and 108 App tests**. Independent source review
+passed. An earlier incremental test artifact contradicted the current source;
+forced rebuilds were used before accepting the final checks.
+
+The amended private candidate is independently reviewed and frozen with a new
+source/build manifest. Its full TypeScript compile has zero diagnostics and all
+**18 local regression entries** pass, including 14 actual-postage groups, 12
+fenced RPC checks and the existing 114 financial assertions. Native completion
+and the canonical source-receipt outbox share one durable write. Pending proofs
+stay in replication until acknowledged; late exact replay uses the original
+database row. Disabled startup can settle that existing outbox without claiming
+jobs, publishing a catalog or submitting native transactions. Proof timestamps
+assign actual fees to their original UTC day. Previous candidates, original
+source snapshot, lockfile and active certification baseline remain unchanged.
+
+Complete release certification still needs genuine panel/static resources,
+hashed regression map fixtures, game archives, reference sources and immutable
+startup/release inputs. The existing selected-fixture confinement is not a full
+release runner: all-role process isolation requires at least 1,024 MiB effective
+free memory and private loopback networking, beyond its 384 MiB and AF_UNIX-only
+limits. No missing resource was invented and no complete release pass is claimed.
+
+Both complete public xUnit suites then passed without failures or skips:
+**2,121 Core/protocol and 584 App tests**. Exact TRX files are under
+`artifacts/ae-actual-postage-core/final-results` and
+`artifacts/ae-actual-postage-app/final-results`.
+
+The exact new frozen worker candidate subsequently passed all **19 selected
+Linux fixtures**, including the new actual-postage entry, plus the separate real
+Unix socket permission/roundtrip/cleanup probe. Independent archive review
+verified every candidate and payload hash, the original baseline/lockfile and
+the unchanged strict launcher/runner. Effective confinement checks passed before
+fixtures. Exact results and hashes are retained in the ignored actual-postage
+Linux validation stage. Its owned RAM stage was removed; a separate host check
+confirmed no synthetic units remained and PostgreSQL was active. No production
+deployment, game action, service restart or remote build/install occurred.
+Production supplies and returns remain off pending the separate release and
+live qualification gates.

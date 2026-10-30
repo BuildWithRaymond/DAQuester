@@ -253,6 +253,8 @@ public sealed partial class MainWindowViewModel
                 return "Bouquet check · " + (JourneyJob.NextRun ?? bouquet.Due).ToLocalTime().ToString("MMM d, h:mm tt");
             if (JourneyQuestId == AltarWorshipEvidence.Id && AltarWorshipEvidence.NextOffering(JourneyJob) is { } offering)
                 return "Next offering · " + offering.ToLocalTime().ToString("MMM d, h:mm tt");
+            if (JourneyQuestId == DaydreamerEvidence.Id && JourneyJob.Daydreamer?.NextCheckInAt is { } checkIn)
+                return "Next check-in · " + checkIn.ToLocalTime().ToString("MMM d, h:mm tt");
             if (ScheduledJourneyPhase is null && QueueState.Locked && QueueState.Quests.FirstOrDefault(id => id != QueueState.ActiveQuest) is { } next)
                 return "Next · " + Runtime.QuestName(next);
             return JourneyQuest is { } quest && QuestRunPolicy.NextAttempt(quest, JourneyJob) is { } due

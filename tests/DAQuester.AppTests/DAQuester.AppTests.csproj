@@ -8,6 +8,11 @@
     <IsPackable>false</IsPackable>
   </PropertyGroup>
   <ItemGroup>
+    <!-- Compile the exact broker engine for in-process contract checks without
+         bringing its ASP.NET hosting runtime into the desktop application. -->
+    <Compile Include="../../integrations/aislingexchange/src/BrokerEngine*.cs" Link="BrokerContract/%(Filename)%(Extension)" />
+    <Compile Include="../../integrations/aislingexchange/src/Contracts.cs" Link="BrokerContract/Contracts.cs" />
+    <Compile Include="../../integrations/aislingexchange/src/StateStore.cs" Link="BrokerContract/StateStore.cs" />
     <Content Include="../../artifacts/native/DAWindowerX/output/WindowingFixture.exe">
       <Link>WindowingFixture.exe</Link>
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>

@@ -6,6 +6,9 @@ public record QueueOutcome(string Quest, string Outcome, DateTimeOffset At, stri
 public record DeferredQuest(string Quest, DateTimeOffset Due);
 public record QuestQueueState
 {
+    public Guid? SupplyJourneyId { get; init; }
+    public bool SupplyJourneyEnded { get; init; }
+    public Guid[] SupplyJourneyHistory { get; init; } = [];
     public DeferredQuest[] Deferred { get; init; } = [];
     public string Character { get;
         init; } = "";
@@ -58,6 +61,7 @@ public record QuestQueueState
     {
         Quests = UniqueQuests(),
         Deferred = Deferred.Where(d => Quests.Contains(d.Quest)).DistinctBy(d => d.Quest).ToArray(),
-        History = History.TakeLast(100).ToArray()
+        History = History.TakeLast(100).ToArray(),
+        SupplyJourneyHistory = SupplyJourneyHistory.Distinct().TakeLast(100).ToArray()
     };
 }

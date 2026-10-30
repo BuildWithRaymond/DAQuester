@@ -8,7 +8,7 @@ optional scheduled work that can keep running in the system tray.
 
 [Download for Windows](https://github.com/BuildWithRaymond/DAQuester/releases/latest)
 · [Setup guide](docs/GETTING_STARTED.md)
-· [1.7.2 release notes](docs/releases/v1.7.2.md)
+· [1.8.0 release notes](docs/releases/v1.8.0.md)
 · [Report a bug](https://github.com/BuildWithRaymond/DAQuester/issues/new/choose)
 
 This README describes current source. See the release notes for changes included
@@ -22,6 +22,12 @@ and remaining live-run limits.
 - **Watch all your characters.** Dashboard offers cards and a compact list with
   connection state, current journeys, queues, recent outcomes, and pauses needing
   attention. Open a character's planner to review or resume its saved progress.
+- **Sort bags by category.** Click **Sort Bag** on an individual character's
+  planner or Auto Tasks page, or **Sort All Bags** on a shared
+  character view. Sorting follows DAOrganizer's static category, quick-use and
+  trinket rules. Busy and offline characters are skipped. Standard keyboard
+  activation also works. Moves wait for server confirmation; **Stop all quests**
+  also stops bag sorting.
 - **See original game sprites.** Character portraits, animated journey sprites,
   and quest artwork come from your selected game installation. Observed outfits
   stay remembered after logout; characters without an observed outfit use a
@@ -135,6 +141,7 @@ The quest library includes guides and automatic recipes:
 | Cured the Sick Child | Level **11+**. Give Paulin five Sevti Blossoms with **5,000 gold per flower**. Pick daily or use helpers; completion requires your own sick-child legend. |
 | Aided the Pact of Anaman | Give Paulin five Tulsi (Golden) Blossoms **without gold**. Uses the same daily/helper options; its brown legend mark is hidden from other players. |
 | Altar Worship | Offers a Leather Shield at the Mileth Altar every three hours, buying one for **750 gold** if needed. Stops after ten offerings. Priests, Bards and Master Priests can earn the legend; other classes must confirm they want the experience and ring instead. |
+| Avid Temuairian Daydreamer | Visits Celesta in Pravat Cave for a registered daily check-in, at least **24 hours** apart. Stops at the first verified **30** by default. Optional continuation warns about the player-reported mark-number reset around 27. Registration must cover all 30 days; missing a day may require a second code. Source-inspection reference and synthetic coverage; live qualification pending. |
 | Fisk's Secret | Preserves the secret, buys missing supplies and saves the paid bouquet wait. Runs other ready queued work meanwhile, or waits at a free Tavern spot facing down. Collection requires the actual Bouquet. |
 | Cap / Band of Danaan | One family journey through Donnan/Cail, including captured original, Loures orders, court, and Fiosachd referrals. Desktop uses the fixed Cail route and supplied-Mold rite without a choice popup. Mold remains required. Saved reply and reward cleanup recover without repeating handoffs; unknown dialogue pauses. |
 

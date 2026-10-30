@@ -4,6 +4,28 @@
   "sourceCatalog": "https://vorlof.com/quests.html",
   "entries": [
     {
+      "id": "aviddaydreamer",
+      "name": "Avid Temuairian Daydreamer",
+      "source": "https://github.com/BuildWithRaymond/DAQuester/blob/main/docs/research/avid-daydreamer.md",
+      "level": "No requirement reported",
+      "requiredItems": "Registration throughout all 30 days; every day of a 30-day code is needed, and a missed day may require a second code.",
+      "rewards": "Avid Temuairian Daydreamer -1 after 30 registered daily check-ins; later 30-day cycles earn further numbered marks (player reported).",
+      "dependencies": null,
+      "cooldownHours": 24,
+      "capabilities": ["navigate", "dialog", "status-message", "timed"],
+      "status": "implemented; source-inspection reference, live automatic validation pending",
+      "metadataReviewRequired": true,
+      "capabilitiesInferred": false,
+      "cooldownNotes": [
+        "Wait at least 24 hours and until the next saved-zone midnight after the daily acknowledgement.",
+        "Stops at the first verified 30-login goal unless continuation is explicitly enabled.",
+        "Player reports the legend mark number may reset to 1 around mark 27 after repeated cycles; exact threshold unverified."
+      ],
+      "dependencyNotes": ["No level requirement established; fresh registration is required in each connection."],
+      "givesLegend": true,
+      "legendEvidence": "Player-supplied October 28, 2026 mark report; exact own-legend capture pending."
+    },
+    {
       "id": "shinewoodfaerie",
       "name": "Shinewood Faerie",
       "source": "https://vorlof.com/general/shinewoodforest11.html",

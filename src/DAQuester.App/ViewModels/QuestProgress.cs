@@ -8,6 +8,15 @@ public sealed record QuestProgress(int Total, int Completed, int Current, string
 
     public static QuestProgress From(QuestDefinition? quest, QuestJob job)
     {
+        if (quest?.Id == DaydreamerEvidence.Id)
+        {
+            bool goal = DaydreamerEvidence.GoalVerified(job);
+            int made = goal ? DaydreamerEvidence.Goal : Math.Clamp(job.Daydreamer?.Streak ?? 0, 0, DaydreamerEvidence.Goal);
+            string label = goal && job.Repeat
+                ? "First 30 verified · server count " + (job.Daydreamer?.Streak?.ToString() ?? "unknown") + " · continuation on"
+                : made + " of 30 check-ins";
+            return new(DaydreamerEvidence.Goal, made, made < DaydreamerEvidence.Goal ? made + 1 : 0, label);
+        }
         if (quest?.Journey.Length > 0)
         {
             int count = DanaanTransport.Journey(quest, job).Length;

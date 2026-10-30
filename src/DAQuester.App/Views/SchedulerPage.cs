@@ -223,6 +223,9 @@ public sealed class SchedulerPage : UserControl
     void UpdateControls()
     {
         recurring.IsEnabled = !busy && Quest?.Repeatable == true;
+        recurring.Content = Quest?.Id == DaydreamerEvidence.Id
+            ? runtime.RepeatEnabled(Character, DaydreamerEvidence.Id) ? "Check in daily (continuation enabled)" : "Check in daily until the 30-day goal"
+            : "Repeat at each cooldown";
         feedback.IsVisible = feedback.Text?.Length > 0;
         if (Quest?.Repeatable != true)
             recurring.IsChecked = false;
@@ -244,6 +247,10 @@ public sealed class SchedulerPage : UserControl
             "spare-a-stick" when recurring.IsChecked == true => "Every 8 hours · stops at Callough's mark outcome. Choose whether to try for more. Levels 1–11.",
             "perfect-hairstyle" when recurring.IsChecked == true => "Every 7 days · ends at the Suomi legend.",
             AltarWorshipEvidence.Id => "Logs out between 3-hour offerings. Progress stays saved.",
+            DaydreamerEvidence.Id when recurring.IsChecked == true => runtime.RepeatEnabled(Character, DaydreamerEvidence.Id)
+                ? "At least 24 hours apart. Continuation after the first mark is on; the reported mark-number rollover around 27 still applies."
+                : "At least 24 hours apart; stops at 30 confirmed check-ins. Registration is required throughout all 30 days.",
+            DaydreamerEvidence.Id => "One daily attempt, then log out. Registration is required throughout all 30 days of check-ins.",
             SickChildEvidence.Id or SickChildEvidence.AnamanId => "Logs out between daily flower visits. Progress stays saved.",
             "shinewood-faerie" => "Bring a town escape for your return trip.",
             _ => "One verified attempt, then log out. Cooldowns still apply."

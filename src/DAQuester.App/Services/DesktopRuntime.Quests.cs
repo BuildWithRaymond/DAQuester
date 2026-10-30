@@ -21,6 +21,8 @@ public sealed partial class DesktopRuntime
         if (runners.TryGetValue(name, out var owner) && owner.Job.Quest == quest.Id)
             job = owner.Job;
         var remembered = Memory(name);
+        if (quest.Id == DaydreamerEvidence.Id && DaydreamerEvidence.NeedsRecovery(job))
+            return new(current.Connected ? "Resume ready" : "Not checked", "Resume reconciles the saved Celesta check-in or closes its terminal popup", true);
         if (StickRewardCleanup.Unfinished(job))
             return new(current.Connected ? "Resume ready" : "Not checked", "Reward verified; resume reconciles leftover item cleanup before another attempt", true);
         if (job.Route?.CleanupPending == true)
@@ -94,6 +96,7 @@ public sealed partial class DesktopRuntime
             FiskEvidence.Id => FiskEvidence.Eligibility(snapshot, job),
             DanaanEvidence.Id => DanaanEvidence.Eligibility(snapshot, job),
             WolfQuestEvidence.Id => WolfQuestEvidence.Eligibility(snapshot),
+            DaydreamerEvidence.Id => DaydreamerEvidence.Eligibility(snapshot, job),
             SickChildEvidence.Id => SickChildEvidence.Eligibility(snapshot, job, SickChildEvidence.Sevti),
             SickChildEvidence.AnamanId => SickChildEvidence.Eligibility(snapshot, job, SickChildEvidence.Tulsi),
             _ => StickEligibility.Check(snapshot, job.CompletedAt, DateTimeOffset.UtcNow)
@@ -136,7 +139,7 @@ public sealed partial class DesktopRuntime
             RequireOpen();
             preparation.Token.ThrowIfCancellationRequested();
             var saved = owner?.Job.Quest == id ? owner.Job : journal.Load(name, id);
-            bool enabled = quest.Repeatable && repeat && !QuestRunPolicy.Finished(quest, saved);
+            bool enabled = quest.Repeatable && repeat && (id == DaydreamerEvidence.Id || !QuestRunPolicy.Finished(quest, saved));
             await journal.SaveAsync(saved with
             {
                 Repeat = enabled
@@ -178,6 +181,7 @@ public sealed partial class DesktopRuntime
         var runner = await PrepareRunnerAsync(name, selected);
         await runner.RunAsync(id != WizardyResearchEvidence.Id && RepeatEnabled(name, id), startNewAttempt: !resume,
             singleAttempt: id == WizardyResearchEvidence.Id, yieldScheduledWaits: id == WizardyResearchEvidence.Id);
+        await CompleteStandaloneSupplyJourneyAsync(name, runner);
     }
 
     public async Task PauseQuestAsync(string name, string reason)
@@ -574,6 +578,7 @@ public sealed partial class DesktopRuntime
                 (character, activity) => RecordHuntingActivity(character, selected.Id, generation, activity));
             var runner = new QuestRunner(session, journal, selected, Calibration, SickChildEvidence.For(selected.Id) is not null || selected.Id == WizardyResearchEvidence.Id ? new QuestHelperHub(this, name) : null, hunting,
                 () => HasReadyWorkDuringBouquet(name), bouquetWaitingArea);
+            runner.SupplyIntegration = CreateSupplyIntegration(name, session, saved, scheduled);
             runner.PreparationBatch = () => QueueReserves(name)
                 ? Queue(name).Quests.Where(id => id != selected.Id && Availability(name, id).Ready)
                     .Select(id => (recipes[id], journal.Load(name, recipes[id].Id))).ToArray()

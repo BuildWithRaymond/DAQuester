@@ -17,8 +17,13 @@ public sealed partial class GameSession
     async Task Choose(GameCommand command, CancellationToken ct)
     {
         var d = command.Dialog ?? Snapshot.Dialog ?? throw new QuestBlockedException("No dialog.");
+        bool daydreamer = !d.IsPursuit && d.Name.Equals(DaydreamerEvidence.Npc, StringComparison.OrdinalIgnoreCase)
+            && command.Text?.Trim().Equals(DaydreamerEvidence.Option, StringComparison.OrdinalIgnoreCase) == true
+            && d.Choices.Any(choice => choice.Text.Trim().Equals(DaydreamerEvidence.Option, StringComparison.OrdinalIgnoreCase));
+        var guard = daydreamer ? DaydreamerSendGuard(d, greeting: false, ct) : null;
+        guard?.Invoke();
         var packet = Protocol.DialogPackets.Choice(Snapshot, d, command.Text ?? "");
-        await connection.SendAsync(packet, Snapshot.Generation, ct);
+        await connection.SendAsync(packet, Snapshot.Generation, ct, validateSend: guard, beforeWrite: guard);
     }
 
     // Pursuit 92 is the "Yes" to an NPC's repair price question; any NPC in view accepts it, even one with no

@@ -62,6 +62,7 @@ public record HairstyleAttempt(
 // Durable progress for one character and quest, including submissions awaiting verified receipts.
 public record QuestJob
 {
+    public Guid? SupplyJourneyId { get; init; }
     public WolfQuestProgress? Wolf { get; init; }
     public PermanentCompletionEvidence[] CalloughOutcomes { get; init; } = [];
     public StickCleanupProgress? StickCleanup { get; init; }
@@ -79,6 +80,7 @@ public record QuestJob
     public DanaanDonnanAssignment? DonnanAssignment { get; init; }
     public DachaidhPayment? DachaidhPayment { get; init; }
     public FiskBouquetWait? FiskWait { get; init; }
+    public DaydreamerProgress? Daydreamer { get; init; }
     public string Character
     {
         get;

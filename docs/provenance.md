@@ -1,5 +1,26 @@
 # Source provenance
 
+The October 28 bag sorter adapts DAOrganizer's static `ItemCategories`,
+`PotionSlots` and `SlotPlanner` rules, inspected read-only. Personal category
+overrides, pins and saved equipment history are not imported. The complete MIT
+notice is retained in the adapted Core files and [third-party notices](../THIRD_PARTY_NOTICES.md).
+The inventory-pane swap uses the pinned Arbiter `ClientChangeSlotMessage` layout,
+also used by DAOrganizer's `ApplyLayout`. Synthetic encrypted transport fixtures
+cover complete inventory receipts, intermediate packets, interference and
+uncertain moves; these are code checks rather than live game qualification.
+
+The October 28, 2026 player-supplied Avid Daydreamer VPS reference embeds private worker
+source inspection and synthetic packet examples. Its sanitized
+[summary](../content/evidence/datester-7.41/avid-daydreamer-reference.json) retains
+the source hashes, configured approach, exact recognized replies and open gaps.
+It contains no live NPC identities, raw captures, credentials or private paths.
+Existing repository route/collision data supports the configured approach; the
+VPS map label and zero dimensions do not replace that evidence. The player
+specified the 30-login completion rule, registration throughout all 30 days and
+optional continuation, with an uncertain mark-number rollover report around 27.
+Parser, scheduling and synthetic submission tests establish code behavior only;
+fresh live qualification and a full 30-day automatic run remain outstanding.
+
 The October 18 [Wolf discovery capture](../content/evidence/datester-7.41/wolf-live-discovery.json)
 comes from persistent native MCP travel, dialogue, entry, return and claiming,
 with a player-performed barehanded Wolf kill. It records actual upper woodland
@@ -751,3 +772,13 @@ checkpoint. Actor, connection and reactor identities are normalized. Its rest
 window count comes from saved original attempt receipts and the exact observed
 rest page; it does not prove a universal attempt cap. Other-player metadata,
 unrelated resources, raw payloads and private paths are omitted.
+
+The October 29 [hidden parcel excerpt](../content/evidence/datester-7.41/aislingexchange-hidden-parcels.json)
+retains decoded client merchant operations, Maria's exact pages, the empty-mail
+type-3 active reply and one Wolf Claw source debit with a fresh 2,100-gold charge.
+The full own-bag comparisons preserve all other slots. Actor, generation and NPC
+identities are normalized; other players, unrelated resources, payloads and local
+paths are omitted. These live observations establish hidden operation framing,
+one empty result and one source acceptance. They do not establish delivery,
+sender-bearing collection, stack behavior, bank credit or an automatic round
+trip. The raw diagnostic send remains unresolved and was not resubmitted.

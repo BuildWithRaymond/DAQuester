@@ -131,6 +131,13 @@ public sealed class QuestItemVM : ObservableObject
         queued = queue.Quests.Contains(recipeId);
         if (recipeId == AltarWorshipEvidence.Id)
             RefreshAltar(character);
+        if (recipeId == DaydreamerEvidence.Id)
+        {
+            noticeTitle = "Registration and repeated marks";
+            noticeText = MainWindowViewModel.DaydreamerRegistrationNotice;
+            noticeAlert = true;
+            offerings = character.Length == 0 ? "30 registered daily check-ins" : DaydreamerEvidence.Progress(owner.Presentation.Job(character, recipeId));
+        }
         RaiseAll();
     }
 

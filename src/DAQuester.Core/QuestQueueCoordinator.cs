@@ -1,12 +1,13 @@
 namespace DAQuester.Core;
 
-public sealed class QuestQueueCoordinator(FileQuestQueueStore store, QuestQueueState initial, Func<CharacterSnapshot> snapshot, Func<string, bool, CancellationToken, Task<QuestJob>> execute, Func<string, bool>? shouldResume = null, Func<string, bool>? canRun = null, Func<DateTimeOffset, CancellationToken, Task>? waitForDue = null)
+public sealed class QuestQueueCoordinator(FileQuestQueueStore store, QuestQueueState initial, Func<CharacterSnapshot> snapshot, Func<string, bool, CancellationToken, Task<QuestJob>> execute, Func<string, bool>? shouldResume = null, Func<string, bool>? canRun = null, Func<DateTimeOffset, CancellationToken, Task>? waitForDue = null, Func<CancellationToken, Task>? completeJourney = null)
 {
     readonly SemaphoreSlim owner = new(1, 1);
     volatile CancellationTokenSource? active;
     string pauseReason = "Paused by player";
     public QuestQueueState State { get; private set; } = initial.Normalize();
     public bool IsRunning => active is not null;
+    public Func<CancellationToken, Task>? CompleteJourney { get; init; } = completeJourney;
 
     public event Action<QuestQueueState>? Changed;
     async Task Save(QuestQueueState state, CancellationToken cancellation = default)
@@ -34,11 +35,15 @@ public sealed class QuestQueueCoordinator(FileQuestQueueStore store, QuestQueueS
         var generation = snapshot().Generation;
         try
         {
+            if (State.Quests.Length == 0 && State.SupplyJourneyEnded)
+                return;
             CheckIdentity(character, generation);
             await Save(State with
             {
                 State = "Running",
-                Reason = ""
+                Reason = "",
+                SupplyJourneyId = State.SupplyJourneyId is null || State.SupplyJourneyEnded ? Guid.NewGuid() : State.SupplyJourneyId,
+                SupplyJourneyEnded = false
             }, token.Token);
             while (State.Quests.Length > 0)
             {
@@ -116,10 +121,21 @@ public sealed class QuestQueueCoordinator(FileQuestQueueStore store, QuestQueueS
 
             token.Token.ThrowIfCancellationRequested();
             CheckIdentity(character, generation);
+            string completionReason = "Queue completed";
+            if (CompleteJourney is not null)
+            {
+                try { await CompleteJourney(token.Token); }
+                catch (OperationCanceledException) when (token.IsCancellationRequested) { throw; }
+                catch { completionReason = "Queue completed; AislingExchange returns await reconciliation"; }
+            }
             await Save(State with
             {
                 State = "Idle",
-                Reason = "Queue completed"
+                Reason = completionReason,
+                SupplyJourneyEnded = true,
+                SupplyJourneyHistory = State.SupplyJourneyId is { } completedJourney
+                    ? State.SupplyJourneyHistory.Append(completedJourney).Distinct().TakeLast(100).ToArray()
+                    : State.SupplyJourneyHistory
             }, token.Token);
         }
         catch (OperationCanceledException)

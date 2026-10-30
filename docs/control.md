@@ -1,5 +1,14 @@
 # Local testing and MCP
 
+`avid-daydreamer` performs one Celesta check-in per run. Its verified daily
+deadline is at least 24 hours away; recurring Scheduler entries handle later
+logins. Default `repeat: false` stops after the first verified count of 30 or
+more. Explicit `repeat: true` permits later daily attempts while retaining the
+first goal receipt. The player-reported mark-number rollover around 27 is
+documented in the quest details. Pending selections/submissions and terminal
+cleanup must reconcile before another run. Fresh registration belongs to the
+current connection; a yearless expiry does not establish future coverage.
+
 Fisk uses `quest: "fisk-secret"` and always preserves the secret. Its journal
 saves the paid bouquet acceptance and due check separately from collection.
 An hour is not a receipt. The app queue yields to other ready planned quests;
@@ -165,6 +174,27 @@ Tools: `daquester_state`, `daquester_map`, `daquester_command`,
 `daquester_export`, `daquester_analyze`, `daquester_calibrate`,
 `daquester_start`, `daquester_stop`, `daquester_launch`, `daquester_log`,
 `daquester_calibration`, `daquester_settings`.
+
+`daquester_parcel-capture` is a local diagnostic for an idle saved character on
+`datester-7.41`. Pass a stable UUID `operationId`, `action` (`receive-one`,
+`send-menu`, `send-one`, or `reconcile`), `serverProfile`, and fresh `expectedGeneration` /
+`expectedCharacterId`. Physical actions also require the exact current nonpursuit
+NPC menu's `expectedNpcId` and `expectedDialogRevision`: receive-one submits at
+most one receive; send-menu opens only the send menu and never sends an item.
+`send-one` sends exactly one unit to fixed recipient `Exchanger`, with additional
+exact observed `expectedSlot` (1–59), `expectedItem`, `expectedQuantity` (the
+current stack quantity), and `expectedGold`. The complete bag and gold stay bound
+through journal saves and the final packet write. This explicit diagnostic can
+spend an unknown parcel fee; it does not quote or cap that fee. Replies and item /
+gold changes remain raw evidence, with no trusted success, sender or stock credit.
+After timeout or interruption, preserve the ID and use reconcile; repeating an
+ID never authorizes another physical submission. An unresolved receive or
+submitted send-one blocks new capture IDs. Reconcile uses only the original durable observations in every
+generation; current inventory or status cannot settle an old unknown capture.
+Captures remain in `Data/parcel-captures`; they do not qualify receipts or enable
+automatic supplies.
+No recipient override, send-amount override, navigation, arbitrary packet, or other-owner takeover is
+available. Stop, shutdown, manual input and connection interruption cancel it.
 
 `daquester_command` also accepts `kind: "unequip"`, with `slot` from the
 character's current equipment (1–18). Optional `text` binds the equipped item

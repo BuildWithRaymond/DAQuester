@@ -1,0 +1,198 @@
+{
+  "Title": "Hidden parcel menu, empty receive and one-unit source send",
+  "ServerProfile": "datester-7.41",
+  "ObservedDate": "2026-10-29",
+  "EvidenceType": "Restricted decoded projection of a separate authorized live replay",
+  "SourceReplaySha256": "11a79f274c2b5c8459cf5f6162a16cf4d41fb49325f2883d6ab86e91ff5f8e90",
+  "Normalization": {
+    "ActorId": 1,
+    "Generation": 1,
+    "NpcId": 1,
+    "OriginalRevisionsRetained": true
+  },
+  "Limits": [
+    "Own character identity, other players, unrelated inventory and legends, raw payloads, credentials and local paths are omitted.",
+    "Only the decoded fields below and scoped comparisons of original own snapshots are retained. Runtime identities must be discovered afresh.",
+    "The one-unit send proves source item debit and actual postage for this transaction. Recipient delivery, sender-bearing collection and bank deposit remain unobserved.",
+    "The 2100-gold charge is not a quote or a price for any other item. Stack-unit debit, other NPCs, other routes and an automatic round trip remain unqualified.",
+    "The diagnostic financial checkpoint remains a raw unresolved capture; this evidence file does not relabel, clear or resubmit it."
+  ],
+  "Location": {
+    "Map": 498,
+    "MapName": "Rucesion Inn",
+    "Dimensions": {
+      "Width": 12,
+      "Height": 12
+    },
+    "DimensionsEvidence": "Retained map 498 metadata, separate from replay events",
+    "OwnPosition": {
+      "X": 3,
+      "Y": 6
+    },
+    "Npc": {
+      "Id": 1,
+      "Name": "Maria",
+      "Position": {
+        "X": 3,
+        "Y": 3
+      },
+      "EntityType": 1
+    }
+  },
+  "OrdinaryMenu": {
+    "EntityId": 1,
+    "Name": "Maria",
+    "Text": "Hello.  What can I do for you?",
+    "Type": 0,
+    "Pursuit": 0,
+    "Revision": 225,
+    "IsPursuit": false,
+    "Choices": [
+      {
+        "Text": "Buy",
+        "Pursuit": 64,
+        "Option": 1
+      },
+      {
+        "Text": "Sell",
+        "Pursuit": 65,
+        "Option": 2
+      },
+      {
+        "Text": "Rucesion Civics",
+        "Pursuit": 1612,
+        "Option": 3
+      },
+      {
+        "Text": "Swimming",
+        "Pursuit": 2697,
+        "Option": 4
+      }
+    ]
+  },
+  "HiddenSendMenu": {
+    "Submitted": {
+      "Time": "2026-10-29T14:36:13.0787761+00:00",
+      "Revision": 183,
+      "Direction": "ClientToServer",
+      "Opcode": "0x39",
+      "EntityType": 1,
+      "NpcId": 1,
+      "Action": "0x0060"
+    },
+    "Reply": {
+      "Time": "2026-10-29T14:36:13.1554905+00:00",
+      "Opcode": "0x2F",
+      "Dialog": {
+        "EntityId": 1,
+        "Name": "Maria",
+        "Text": "What do you wish to send? ",
+        "Type": 5,
+        "Pursuit": 97,
+        "Revision": 184,
+        "IsPursuit": false,
+        "Choices": []
+      }
+    },
+    "InventoryAndGoldUnchanged": true
+  },
+  "EmptyReceive": {
+    "Submitted": {
+      "Time": "2026-10-29T14:42:34.0273085+00:00",
+      "Revision": 219,
+      "Direction": "ClientToServer",
+      "Opcode": "0x39",
+      "EntityType": 1,
+      "NpcId": 1,
+      "Action": "0x0064"
+    },
+    "NpcReply": {
+      "EntityId": 1,
+      "Name": "Maria",
+      "Text": "Let me see...ah yes, here it is.",
+      "Type": 0,
+      "Pursuit": 0,
+      "Revision": 220,
+      "IsPursuit": false,
+      "Choices": []
+    },
+    "ActiveReply": {
+      "Time": "2026-10-29T14:42:34.9408033+00:00",
+      "Revision": 221,
+      "Opcode": "0x0A",
+      "Type": 3,
+      "Text": "Nothing here for you, I'm afraid."
+    },
+    "WholeBagUnchanged": true,
+    "GoldBefore": 928950,
+    "GoldAfter": 928950,
+    "Outcome": "Empty; no sender or item collected"
+  },
+  "SourceSend": {
+    "Submitted": {
+      "Time": "2026-10-29T14:43:44.4618126+00:00",
+      "Revision": 226,
+      "Direction": "ClientToServer",
+      "Opcode": "0x39",
+      "EntityType": 1,
+      "NpcId": 1,
+      "Action": "0x0063",
+      "Slot": 26,
+      "Quantity": 1,
+      "Recipient": "Exchanger"
+    },
+    "Item": "Wolf Claw",
+    "Stackable": false,
+    "Before": {
+      "Revision": 226,
+      "Gold": 928950,
+      "SelectedSlot": 26,
+      "SelectedQuantity": 1,
+      "SameItemSlots": [
+        26,
+        28,
+        29
+      ]
+    },
+    "GoldReceipt": {
+      "Time": "2026-10-29T14:43:44.9868387+00:00",
+      "Revision": 227,
+      "Opcode": "0x08",
+      "Gold": 926850
+    },
+    "ItemReceipt": {
+      "Time": "2026-10-29T14:43:44.9890413+00:00",
+      "Revision": 228,
+      "Opcode": "0x10",
+      "RemovedSlot": 26,
+      "RemovedQuantity": 1
+    },
+    "SourceAcknowledgement": {
+      "Time": "2026-10-29T14:43:44.989276+00:00",
+      "Opcode": "0x2F",
+      "Dialog": {
+        "EntityId": 1,
+        "Name": "Maria",
+        "Text": "You've given 2100 coins. It will be done.",
+        "Type": 0,
+        "Pursuit": 0,
+        "Revision": 230,
+        "IsPursuit": false,
+        "Choices": []
+      }
+    },
+    "After": {
+      "Revision": 230,
+      "Gold": 926850,
+      "SelectedSlotPresent": false,
+      "SameItemSlots": [
+        28,
+        29
+      ]
+    },
+    "AllOtherBagSlotsUnchanged": true,
+    "OwnExperienceAndLegendsUnchanged": true,
+    "ActualPostageGold": 2100,
+    "Outcome": "One source debit and paid amount observed; no recipient or bank proof"
+  }
+}

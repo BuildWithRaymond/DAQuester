@@ -38,17 +38,17 @@ public class ProxyHost : IAsyncDisposable
         return Task.FromResult(((IPEndPoint)listener.LocalEndpoint).Port);
     }
 
-    async Task<int> Redirect(IPEndPoint remote, Action<ProxyConnection>? configure = null)
+    async Task<int> Redirect(IPEndPoint remote, Action<ProxyConnection>? configure = null, LoginRegistrationTransfer? registration = null)
     {
         var listener = new TcpListener(IPAddress.Loopback, 0);
         listener.Start();
         listeners.Add(listener);
-        _ = Accept(listener, remote, true, lifetime.Token, configure);
+        _ = Accept(listener, remote, true, lifetime.Token, configure, registration);
         await Task.CompletedTask;
         return ((IPEndPoint)listener.LocalEndpoint).Port;
     }
 
-    async Task Accept(TcpListener listener, IPEndPoint endpoint, bool once, CancellationToken token, Action<ProxyConnection>? configure = null)
+    async Task Accept(TcpListener listener, IPEndPoint endpoint, bool once, CancellationToken token, Action<ProxyConnection>? configure = null, LoginRegistrationTransfer? registration = null)
     {
         using var linked = CancellationTokenSource.CreateLinkedTokenSource(token, lifetime.Token);
         if (once)
@@ -60,7 +60,7 @@ public class ProxyHost : IAsyncDisposable
                 var client = await listener.AcceptTcpClientAsync(linked.Token);
                 if (once)
                     listener.Stop();
-                _ = Connect(client, endpoint, lifetime.Token, configure);
+                _ = Connect(client, endpoint, lifetime.Token, configure, registration);
             }
             while (!once && !linked.IsCancellationRequested);
         }
@@ -78,13 +78,15 @@ public class ProxyHost : IAsyncDisposable
         }
     }
 
-    async Task Connect(TcpClient client, IPEndPoint endpoint, CancellationToken token, Action<ProxyConnection>? configure = null)
+    async Task Connect(TcpClient client, IPEndPoint endpoint, CancellationToken token, Action<ProxyConnection>? configure = null, LoginRegistrationTransfer? registration = null)
     {
         var remote = new TcpClient();
         try
         {
             await remote.ConnectAsync(endpoint.Address, endpoint.Port, token);
             await using var c = new ProxyConnection(client, remote, Interlocked.Increment(ref generation), target => Redirect(target, configure));
+            c.IncomingLoginRegistration = registration;
+            c.LoginRedirect = (target, proof) => Redirect(target, configure, proof);
             configure?.Invoke(c);
             connections.Add(c);
             c.Diagnostic += m => Diagnostic?.Invoke(m);

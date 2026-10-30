@@ -55,6 +55,7 @@ public sealed partial class DesktopRuntime
     public DateTimeOffset SchedulerDue(string name, string id, DateTimeOffset requested)
     {
         var job = Job(name, id);
+        if (id == DaydreamerEvidence.Id && DaydreamerEvidence.NeedsRecovery(job)) return requested;
         if (StickRewardCleanup.Unfinished(job)) return requested;
         var deadline = QuestRunPolicy.NextAttempt(recipes[id], job);
         if (id == "spare-a-stick" && job.PermanentCompletion is { } outcome)
@@ -83,6 +84,7 @@ public sealed partial class DesktopRuntime
     public async Task SaveSchedulerChoicesAsync(string name, string id, QuestChoiceResult choice)
     {
         RequireOpen();
+        using var planMutation = AcquireSupplyPlanMutation(name);
         RequireNoScheduler(name);
         if (QueueReserves(name) || IsRunning(name) || RunnerBusy(name) || controlActions.ContainsKey(name))
             throw new QuestBlockedException("Stop this character's active operation before saving quest choices.");
@@ -149,6 +151,7 @@ public sealed partial class DesktopRuntime
 
     public async Task SaveScheduleAsync(string name, string id, DateTimeOffset requested, bool recurring, bool acknowledged, Guid? edit = null)
     {
+        using var planMutation = AcquireSupplyPlanMutation(name);
         ValidateSchedule(name, id, recurring);
         var entry = new QuestSchedule { Character = name, Quest = id, Profile = Settings.ServerProfile, Connection = SchedulerConnection, RecipeVersion = recipes[id].Version, Due = SchedulerDue(name, id, requested), Recurring = recurring };
         if (edit is { } key)
@@ -157,16 +160,20 @@ public sealed partial class DesktopRuntime
             await scheduler.AddAsync(entry, acknowledged);
     }
 
-    public Task PauseScheduleAsync(Guid id) => scheduler.PauseAsync(id);
-    public Task RemoveScheduleAsync(Guid id) => scheduler.RemoveAsync(id);
-    public Task ReviewSchedulerLoginAsync(string name, bool acknowledged) => scheduler.ReviewLoginAsync(name, acknowledged);
-    public Task RearmScheduleAsync(Guid id, bool acknowledged)
+    public Task PauseScheduleAsync(Guid id) => MutateSupplyPlanAsync(SchedulerState.Entries.Single(entry => entry.Id == id).Character,
+        () => scheduler.PauseAsync(id));
+    public Task RemoveScheduleAsync(Guid id) => MutateSupplyPlanAsync(SchedulerState.Entries.Single(entry => entry.Id == id).Character,
+        () => scheduler.RemoveAsync(id));
+    public Task ReviewSchedulerLoginAsync(string name, bool acknowledged) => MutateSupplyPlanAsync(name,
+        () => scheduler.ReviewLoginAsync(name, acknowledged));
+    public async Task RearmScheduleAsync(Guid id, bool acknowledged)
     {
         var entry = SchedulerState.Entries.Single(e => e.Id == id);
+        using var planMutation = AcquireSupplyPlanMutation(entry.Character);
         ValidateSchedule(entry.Character, entry.Quest, entry.Recurring, entry.CalloughRetryAfter);
         if (entry.Profile != Settings.ServerProfile || entry.Connection != SchedulerConnection || entry.RecipeVersion != recipes[entry.Quest].Version)
             throw new QuestBlockedException("Profile or recipe changed. Review and edit this schedule first.");
-        return scheduler.RearmAsync(id, acknowledged, SchedulerDue(entry.Character, entry.Quest, DateTimeOffset.UtcNow));
+        await scheduler.RearmAsync(id, acknowledged, SchedulerDue(entry.Character, entry.Quest, DateTimeOffset.UtcNow));
     }
 
     async Task<ScheduledQuestResult> ExecuteScheduledQuestAsync(QuestSchedule entry, CancellationToken cancellation)
@@ -214,16 +221,22 @@ public sealed partial class DesktopRuntime
             }
             SetSchedulerPhase("Preparing");
             var snapshot = session!.Snapshot;
-            if (!snapshot.InventoryKnown || snapshot.Level is null || snapshot.Hp is null)
-                await session.WaitAsync(s => s.InventoryKnown && s.Level is not null && s.Hp is not null, snapshot.Revision - 1, TimeSpan.FromSeconds(20), cancellation);
-            if (!session.Snapshot.LegendsKnown)
-                await session.ExecuteAsync(new("inspect-self"), cancellation);
+            if (entry.Quest == DaydreamerEvidence.Id)
+                await WaitForDaydreamerReadyAsync(session, !DaydreamerEvidence.NeedsRecovery(savedJob), cancellation);
+            else
+            {
+                if (!snapshot.InventoryKnown || snapshot.Level is null || snapshot.Hp is null)
+                    await session.WaitAsync(s => s.InventoryKnown && s.Level is not null && s.Hp is not null, snapshot.Revision - 1, TimeSpan.FromSeconds(20), cancellation);
+                if (!session.Snapshot.LegendsKnown)
+                    await session.ExecuteAsync(new("inspect-self"), cancellation);
+            }
             cancellation.ThrowIfCancellationRequested();
             await PrepareCalloughMarkRetryAsync(entry);
             var runner = await PrepareRunnerCoreAsync(name, quest, scheduled: true);
             var currentDue = SchedulerDue(name, entry.Quest, DateTimeOffset.UtcNow);
             if (currentDue > DateTimeOffset.UtcNow && runner.Job.Pending is null &&
-                (entry.Quest != WizardyResearchEvidence.Id || runner.Job.Research?.NeedsRecovery != true))
+                (entry.Quest != WizardyResearchEvidence.Id || runner.Job.Research?.NeedsRecovery != true) &&
+                (entry.Quest != DaydreamerEvidence.Id || !DaydreamerEvidence.NeedsRecovery(runner.Job)))
                 return new(currentDue, entry.Resume);
             await scheduler.MarkQuestStartedAsync(entry.Id);
             SetSchedulerPhase("Running");
@@ -233,10 +246,12 @@ public sealed partial class DesktopRuntime
             if (entry.Quest == WizardyResearchEvidence.Id && job.Pending is null && job.Research?.NeedsRecovery != true && job.Research?.RestAt is not null && job.NextRun is { } rest)
                 return entry.Recurring ? new(rest, false) : new();
             if (job.Status == "Scheduled" && job.Pending is null && job.NextRun is { } next &&
+                (entry.Quest != DaydreamerEvidence.Id || !DaydreamerEvidence.NeedsRecovery(job)) &&
                 (entry.Quest != WizardyResearchEvidence.Id || job.Research?.NeedsRecovery != true))
                 return new(next, true);
             if (QueueAttemptOutcome.Evaluate(job) is null)
                 throw new QuestBlockedException(QueueAttemptOutcome.BlockReason(job));
+            await CompleteStandaloneSupplyJourneyAsync(name, runner, cancellation);
             if (!entry.Recurring || QuestRunPolicy.Finished(quest, job))
                 return new();
             return new(QuestRunPolicy.NextAttempt(quest, job) ?? throw new QuestBlockedException("Next attempt has no verified deadline."));
@@ -260,10 +275,28 @@ public sealed partial class DesktopRuntime
         }
     }
 
+    internal static async Task WaitForDaydreamerReadyAsync(IGameSession session, bool requireRegistration, CancellationToken cancellation)
+    {
+        var before = session.Snapshot;
+        bool Ready(CharacterSnapshot snapshot) => snapshot.Connected && snapshot.Id is not null && snapshot.Name is not null && snapshot.Generation == before.Generation &&
+            snapshot.Name == before.Name && snapshot.Id == before.Id && snapshot.Hp is > 0 && snapshot.Map is not null &&
+            snapshot.Position is not null && (snapshot.Exchange is null or { Cancelled: true }) && (!requireRegistration || snapshot.Dialog is null &&
+            DaydreamerEvidence.HasCurrentRegistration(snapshot));
+        if (Ready(before)) return;
+        if (before.Hp == 0) throw new QuestBlockedException("Daydreamer requires a living character.");
+        try { await session.WaitAsync(Ready, before.Revision - 1, TimeSpan.FromSeconds(30), cancellation); }
+        catch (TimeoutException)
+        {
+            throw new QuestBlockedException("Waiting for current login registration and a ready character position. Review before another scheduled login.");
+        }
+    }
+
     async Task CloseSchedulerClientAsync(string name, Process client, IGameSession? session)
     {
         if (!ReferenceEquals(ownedClients.GetValueOrDefault(name), client))
             throw new QuestBlockedException("Game window ownership changed. Scheduler left it open for review.");
+        if (SupplyGameActionPending(name))
+            throw new QuestBlockedException("AislingExchange parcel outcome is uncertain. Scheduler left its game window open for reconciliation.");
         if (!client.HasExited)
         {
             client.CloseMainWindow();

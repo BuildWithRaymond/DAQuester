@@ -9,6 +9,9 @@ public sealed partial class GameSession
 {
     public async Task ExecuteAsync(GameCommand command, CancellationToken cancellation)
     {
+        // A player action while this command waits for ownership must invalidate
+        // the original confirmation, rather than become its accepted baseline.
+        var bagSort = command.Kind == "sort-bag" ? CaptureBagSort(command) : null;
         await actions.WaitAsync(cancellation);
         CharacterSnapshot? discoveryBefore = null;
         try
@@ -24,7 +27,7 @@ public sealed partial class GameSession
                 ExpectedDialogRevision: not null, ExpectedPageText: not null } && EventNotices.Recognized(Snapshot);
             if (entryReconciliation || noticeClose)
                 connection.CancelMovement();
-            if (!entryReconciliation && !noticeClose && (command.Kind != "pathfind" || !FastFightStep(Snapshot)))
+            if (bagSort is null && !entryReconciliation && !noticeClose && (command.Kind != "pathfind" || !FastFightStep(Snapshot)))
                 await SettleMovement(cancellation);
             ValidateCommandState(command);
             discoveryBefore = Snapshot;
@@ -32,6 +35,9 @@ public sealed partial class GameSession
                 Discovery = null;
             switch (command.Kind)
             {
+                case "sort-bag":
+                    await SortBag(bagSort!, cancellation);
+                    break;
                 case "inspect-self":
                     var self = Snapshot;
                     await Send(new ClientSelfLookMessage(), cancellation);
@@ -135,6 +141,14 @@ public sealed partial class GameSession
                     break;
                 case "say":
                     await Say(command.Text ?? "", command.ReplyFrom, cancellation);
+                    break;
+                case "aislingexchange-pair":
+                    var pairingGeneration = command.ExpectedGeneration ?? throw new QuestBlockedException("AislingExchange pairing connection is missing.");
+                    var pairingCharacter = command.ExpectedResource ?? throw new QuestBlockedException("AislingExchange pairing character is missing.");
+                    var pairingNonce = command.Text ?? "";
+                    var pairingPacket = Protocol.AislingExchangePairingPackets.Create(Snapshot, pairingCharacter, pairingGeneration, pairingNonce);
+                    await connection.SendAsync(pairingPacket, pairingGeneration, cancellation,
+                        validateSend: () => Protocol.AislingExchangePairingPackets.Validate(Snapshot, pairingCharacter, pairingGeneration, pairingNonce));
                     break;
                 case "use-item":
                     byte itemSlot = (byte)(command.Amount ?? 0);

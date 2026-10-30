@@ -66,6 +66,7 @@ public sealed partial class MainWindowViewModel
         string oldPath = settings.ClientPath;
         bool oldChecks = settings.AutomaticUpdateChecks;
         bool oldTray = settings.KeepRunningInTray;
+        bool oldSupplies = settings.AislingExchangeSupplies;
         string? oldStartup = Runtime.LoginStartup.ReadCommand();
         string? desiredStartup = !CanStartWithWindows ? oldStartup
             : StartWithWindows ? Runtime.LoginStartup.LaunchCommand : null;
@@ -73,12 +74,14 @@ public sealed partial class MainWindowViewModel
         settings.ClientPath = ClientPath.Trim();
         settings.AutomaticUpdateChecks = AutomaticUpdateChecks;
         settings.KeepRunningInTray = KeepRunningInTray;
+        settings.AislingExchangeSupplies = AislingExchangeSupplies;
         try
         {
             var persisted = AppSettings.Load();
             persisted.ClientPath = settings.ClientPath;
             persisted.AutomaticUpdateChecks = AutomaticUpdateChecks;
             persisted.KeepRunningInTray = KeepRunningInTray;
+            persisted.AislingExchangeSupplies = AislingExchangeSupplies;
             if (oldStartup != desiredStartup)
             {
                 Runtime.LoginStartup.WriteCommand(desiredStartup);
@@ -94,6 +97,7 @@ public sealed partial class MainWindowViewModel
             settings.ClientPath = oldPath;
             settings.AutomaticUpdateChecks = oldChecks;
             settings.KeepRunningInTray = oldTray;
+            settings.AislingExchangeSupplies = oldSupplies;
             if (startupChanged)
                 Runtime.LoginStartup.WriteCommand(oldStartup);
             throw;

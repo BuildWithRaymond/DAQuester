@@ -144,6 +144,9 @@ public sealed partial class DesktopRuntime
             };
         }
 
+        if (r.Method == "parcel-capture")
+            return await CaptureParcelAsync(ParseParcelCapture(r));
+
         if (r.Method is not ("map" or "state" or "settings" or "calibration" or "log" or "analyze" or "export"))
             RequireNoScheduler(name);
 
@@ -192,7 +195,7 @@ public sealed partial class DesktopRuntime
                 emeraldOptions = new(outcome);
             DanaanOptions? danaanOptions = id == DanaanEvidence.Id && TextArgument("avatar") is { } avatar ? new(avatar, Flag("acceptSuppliedMoldRite")) : null;
             var runner = await PrepareRunnerCoreAsync(name, selected, options, emeraldOptions, Flag("allowUnsafeWalking"), danaanOptions: danaanOptions);
-            _ = runner.RunAsync(selected.Repeatable && Flag("repeat"), startNewAttempt: true);
+            _ = RunSupplyAwareControlQuestAsync(name, runner, selected.Repeatable && Flag("repeat"));
             return new
             {
                 started = name,

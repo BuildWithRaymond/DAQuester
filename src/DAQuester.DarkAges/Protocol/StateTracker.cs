@@ -56,13 +56,32 @@ public class StateTracker(long generation)
     public event Action<byte, string>? ServerMessage;
     public static bool IsActiveMessage(byte messageType) => messageType == 3;
     public void Identity(string name, uint id) => Publish(Snapshot with { Name = name, Id = id, Connected = true, Appearance = Snapshot.Id == id && Snapshot.Name == name ? Snapshot.Appearance : null, Motion = Snapshot.Id == id && Snapshot.Name == name ? Snapshot.Motion : null });
+    internal void AdoptLoginRegistration(ServerNotice source, string character, uint characterId)
+    {
+        var current = Snapshot;
+        if (!current.Connected || current.Id != characterId || current.Name is null ||
+            !string.Equals(current.Name, character, StringComparison.OrdinalIgnoreCase) || source.Generation <= 0 ||
+            source.Generation == current.Generation || source.Revision <= 0 || !DaydreamerEvidence.IsRegistration(source)) return;
+        if (current.Registration is { } direct && direct.Generation == current.Generation && direct.Revision > 0 &&
+            direct.Revision <= current.Revision && DaydreamerEvidence.IsRegistration(direct)) return;
+        Publish(current with { LoginRegistration = new(source, current.Generation, current.Revision + 1, current.Name, characterId) });
+    }
+    internal void ClearLoginRegistration()
+    {
+        if (Snapshot.Registration is not null || Snapshot.LoginRegistration is not null)
+            Publish(Snapshot with { Registration = null, LoginRegistration = null });
+    }
     public void Disconnect()
     {
         ObservedMap = null;
-        Publish(Snapshot with { Connected = false, Effects = ImmutableDictionary<ushort, byte>.Empty, Appearance = null, Motion = null, Dialog = null, InventoryKnown = false, SpellsKnown = false, Class = null, DisplayClass = null, IsMaster = null, IsPure = null, Mana = null, LegendsKnown = false, Notice = null, ActiveStatus = null, Exchange = null, GroundItems = ImmutableDictionary<uint, GroundItem>.Empty });
+        Publish(Snapshot with { Connected = false, Effects = ImmutableDictionary<ushort, byte>.Empty, Appearance = null, Motion = null, Dialog = null, InventoryKnown = false, SpellsKnown = false, Class = null, DisplayClass = null, IsMaster = null, IsPure = null, Mana = null, LegendsKnown = false, Notice = null, ActiveStatus = null, Registration = null, LoginRegistration = null, DaydreamerStatus = null, Exchange = null, GroundItems = ImmutableDictionary<uint, GroundItem>.Empty });
     }
     void Publish(CharacterSnapshot s)
     {
+        // Initial login bars can precede the avatar identity; only an established replacement invalidates them.
+        if (Snapshot.Name is not null && Snapshot.Id is not null && (s.Generation != Snapshot.Generation || s.Id != Snapshot.Id
+            || !string.Equals(s.Name, Snapshot.Name, StringComparison.OrdinalIgnoreCase)))
+            s = s with { Registration = null, LoginRegistration = null, DaydreamerStatus = null };
         bool sameCharacter = s.Name == Snapshot.Name && s.Id == Snapshot.Id && s.Generation == Snapshot.Generation;
         if (!sameCharacter || !s.Connected)
         {
@@ -145,6 +164,7 @@ public class StateTracker(long generation)
                 {
                     Level = p.Level ?? s.Level,
                     Gold = p.Gold ?? s.Gold,
+                    GoldRevision = p.Gold is not null ? rev : s.GoldRevision,
                     Experience = p.TotalExperience ?? s.Experience,
                     AbilityLevel = p.AbilityLevel ?? s.AbilityLevel,
                     ToNextLevel = p.ToNextLevel ?? s.ToNextLevel,
@@ -165,6 +185,8 @@ public class StateTracker(long generation)
                 var notice = new ServerNotice(generation, rev, (byte)p.MessageType, p.Message, DateTimeOffset.UtcNow);
                 s = s with
                 {
+                    Registration = DaydreamerEvidence.IsRegistration(notice) ? notice : s.Registration,
+                    DaydreamerStatus = DaydreamerEvidence.IsStatus(notice) ? notice : s.DaydreamerStatus,
                     ActiveStatus = IsActiveMessage((byte)p.MessageType) ? notice : s.ActiveStatus,
                     Notice = MundaneBirthEvidence.Matches(notice) || MuisirEvidence.IsKirilNotice(notice, s.Map) || EmeraldDawnEvidence.IsNotice(notice, s.Map) || SickChildEvidence.IsNotice(notice, s.Map) || AltarWorshipEvidence.IsNotice(notice, s.Map) || FiskEvidence.IsNotice(notice, s.Map) || DanaanEvidence.IsNotice(notice, s.Map) ? notice : null
                 };
@@ -491,7 +513,8 @@ public class StateTracker(long generation)
                             : p.MenuChoices.Select((x, i) => new DialogChoice(x.Text, x.PursuitId, (byte)(i + 1))).ToImmutableArray(), p.Prompt)
                     {
                         ObservedAt = DateTimeOffset.UtcNow,
-                        Items = p.ItemChoices.Select(x => new ShopItem(x.Name, x.Price)).ToImmutableArray()
+                        Items = p.ItemChoices.Select(x => new ShopItem(x.Name, x.Price)).ToImmutableArray(),
+                        InventorySlots = p.InventorySlots.ToImmutableArray()
                     }
                 };
                 break;

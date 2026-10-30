@@ -5,7 +5,7 @@ namespace DAQuester.DarkAges.Control;
 public record ControlRequest(string Method, string? Character = null, JsonElement? Arguments = null);
 public class McpProtocol(Func<ControlRequest, Task<object?>> call)
 {
-    static readonly string[] Methods = ["state", "map", "command", "export", "analyze", "calibrate", "start", "stop", "launch", "log", "calibration", "settings", "fight", "level"];
+    static readonly string[] Methods = ["state", "map", "command", "export", "analyze", "calibrate", "start", "stop", "launch", "log", "calibration", "settings", "fight", "level", "parcel-capture"];
     public async Task<string?> HandleAsync(string line)
     {
         JsonElement id = default;
@@ -128,6 +128,7 @@ public class McpProtocol(Func<ControlRequest, Task<object?>> call)
         "state" => "Read connected characters, observed snapshots, current dialogs, jobs, and calibration status.",
         "map" => "Read actual client collision and recorded portals. Pass character when inspecting its newly visited map: server-observed dimensions are supported even without a persistent route record. This never invents portals.",
         "command" => "Perform an ordered game action with server-observed state. Interact navigates to map/optional public-side target, resolves the NPC named by text and opens its fresh menu. readNext on interact/open/choose/next, or read-dialog on the current page, follows offered Next only, stops at choices/prompts/changed state/page limit and returns a compact transcript plus own before/after resources. A discovery choose requires exact expectedPageText and expectedDialogRevision; no choice is automatic. Enter probes one adjacent doorway, requires actual map transition/landing and optionally performs an inwardTarget step bound to expected map. Say can wait for a fresh same-map NPC reply using replyFrom. Buy selects observed stock named by text; optional quantity answers its actual bound prompt once and requires inventory plus quoted gold receipt. Omitted quantity returns the prompt or direct item receipt. expectedGeneration and expectedDialogRevision reject changed state before sending. Inspect resources after an uncertain result; never retry a payment or submitted discovery page blindly. Stop and connection interruptions cancel it; ordinary manual input does not.",
+        "parcel-capture" => "Local parcel evidence capture for an idle saved character on datester-7.41 only. receive-one submits one receive; send-menu opens only the send menu and never sends an item; send-one sends exactly one observed item to fixed recipient Exchanger and records raw replies only. Physical actions require expectedNpcId and expectedDialogRevision. send-one also requires exact expectedSlot, expectedItem, expectedQuantity (observed stack), and expectedGold; this does not quote or cap the unknown parcel fee. Use one stable operationId; after timeout or interruption use reconcile with that ID to inspect original durable observations without another submission. Repeated IDs never authorize another physical action; unresolved financial captures block new IDs. No navigation, recipient override or arbitrary packets. Does not enable automatic parcel supplies. Stop, manual input and connection interruptions cancel capture.",
         "export" => "Export a sanitized packet replay; credentials and handshake secrets are omitted.",
         "analyze" => "Label dialog evidence and branch collection regions automatically from recorded state changes.",
         "calibrate" => "Start one monitored Spare a Stick calibration run. Only evidence-proven completion enables its recipe.",
@@ -152,6 +153,20 @@ public class McpProtocol(Func<ControlRequest, Task<object?>> call)
                 }
             }
         };
+        if (method == "parcel-capture")
+        {
+            properties["operationId"] = new { type = "string", format = "uuid", description = "Stable identity for this capture. Preserve after an uncertain result; do not generate a new ID to retry." };
+            properties["action"] = new { type = "string", @enum = new[] { "receive-one", "send-menu", "send-one", "reconcile" } };
+            properties["serverProfile"] = new { type = "string", @enum = new[] { "datester-7.41" } };
+            properties["expectedGeneration"] = new { type = "integer", minimum = 1 };
+            properties["expectedCharacterId"] = new { type = "integer", minimum = 1, maximum = uint.MaxValue };
+            properties["expectedNpcId"] = new { type = "integer", minimum = 1, maximum = uint.MaxValue, description = "Required for physical captures: entity ID from the current nonpursuit NPC menu." };
+            properties["expectedDialogRevision"] = new { type = "integer", minimum = 1, description = "Required for physical captures: exact revision of the current NPC menu." };
+            properties["expectedSlot"] = new { type = "integer", minimum = 1, maximum = 59, description = "Required for send-one: exact observed inventory slot. Recipient is always Exchanger; sends one unit." };
+            properties["expectedItem"] = new { type = "string", minLength = 1, description = "Required for send-one: exact observed item name in expectedSlot." };
+            properties["expectedQuantity"] = new { type = "integer", minimum = 1, maximum = uint.MaxValue, description = "Required for send-one: exact observed stack quantity, not a send amount. Always sends one unit." };
+            properties["expectedGold"] = new { type = "integer", minimum = 0, maximum = uint.MaxValue, description = "Required for send-one: exact observed gold. Does not quote, qualify or enforce a parcel fee ceiling." };
+        }
         if (method == "map")
             properties["map"] = new
             {
@@ -455,7 +470,11 @@ public class McpProtocol(Func<ControlRequest, Task<object?>> call)
         {
             type = "object",
             properties,
-            required = method == "command" ? new[]
+            required = method == "parcel-capture" ? new[]
+            {
+                "character", "operationId", "action", "serverProfile", "expectedGeneration", "expectedCharacterId"
+            }
+            : method == "command" ? new[]
             {
                 "character",
                 "kind"

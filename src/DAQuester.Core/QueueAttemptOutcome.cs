@@ -6,6 +6,8 @@ public static class QueueAttemptOutcome
     {
         if (job.Pending is not null)
             return false;
+        if (job.Quest == DaydreamerEvidence.Id)
+            return !DaydreamerEvidence.NeedsRecovery(job) && DaydreamerEvidence.AttemptVerified(job);
         if (job.Quest == "mundane-birth")
             return job.Step == "confirm" && job.BirthCompletion is { } birth && MundaneBirthEvidence.Matches(birth) && job.CompletedAt == birth.ObservedAt;
         if (job.Quest == "entered-muisir-village")
@@ -19,8 +21,15 @@ public static class QueueAttemptOutcome
 
     public static QueueOutcome? Evaluate(QuestJob job)
     {
-        if (job.Pending is not null || StickRewardCleanup.Unfinished(job) || job.Status is not ("Completed" or "AttemptCompleted" or "PermanentlyCompleted"))
+        if (job.Pending is not null || StickRewardCleanup.Unfinished(job) || DaydreamerEvidence.NeedsRecovery(job) || job.Status is not ("Completed" or "AttemptCompleted" or "PermanentlyCompleted"))
             return null;
+        if (job.Quest == DaydreamerEvidence.Id)
+        {
+            if (!DaydreamerEvidence.AttemptVerified(job) || job.CompletedAt is not { } acknowledged) return null;
+            bool firstGoal = DaydreamerEvidence.GoalVerified(job) && job.Daydreamer?.FirstThirtyReceipt?.ObservedAt == acknowledged;
+            return new(job.Quest, firstGoal || DaydreamerEvidence.GoalVerified(job) && !job.Repeat ? "Completed" : "AttemptCompleted",
+                acknowledged, job.CompletionText ?? DaydreamerEvidence.Progress(job));
+        }
         if (job.PermanentCompletion is { } permanent)
             return new(job.Quest, "PermanentlyCompleted", permanent.ObservedAt, job.CompletionText ?? job.Reason);
         if (job.Quest == "perfect-hairstyle" && job.LegendReward != true)

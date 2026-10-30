@@ -39,6 +39,13 @@ public sealed record OwnMonsterDefeat(long Generation, long Revision, int Map, u
 
 public record CharacterSnapshot
 {
+    // Registration authorizes only this connection; nonactive bar text is never exported in snapshots.
+    [System.Text.Json.Serialization.JsonIgnore]
+    public ServerNotice? Registration { get; init; }
+    // A proven redirect binds the original login receipt to this own world identity.
+    [System.Text.Json.Serialization.JsonIgnore]
+    public LoginRegistrationReceipt? LoginRegistration { get; init; }
+    public ServerNotice? DaydreamerStatus { get; init; }
     // Current server status is diagnostic context, not automatic quest evidence.
     public ServerNotice? ActiveStatus
     {
@@ -86,6 +93,8 @@ public record CharacterSnapshot
     {
         get; init;
     }
+    // Revision of a received gold-bearing status, independent of cached snapshots.
+    public long GoldRevision { get; init; }
     public uint? Experience
     {
         get; init;
@@ -269,6 +278,8 @@ public record Exchange(long Generation, long Revision, uint PartnerId, string Pa
 
 public record ServerNotice(long Generation, long Revision, byte Type, string Text, DateTimeOffset ObservedAt);
 
+public sealed record LoginRegistrationReceipt(ServerNotice Source, long Generation, long Revision, string Character, uint CharacterId);
+
 public record Entity(uint Id, string Name, Tile Position, bool Blocks)
 {
     public bool IsPlayer
@@ -334,6 +345,7 @@ public record Dialog(
     }
     // A merchant's item list (menu type 4); buying names the item instead of choosing an option.
     public ImmutableArray<ShopItem> Items { get; init; } = [];
+    public ImmutableArray<byte> InventorySlots { get; init; } = [];
 }
 
 public static class StickEligibility

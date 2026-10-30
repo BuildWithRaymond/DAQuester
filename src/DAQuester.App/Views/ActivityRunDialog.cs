@@ -39,7 +39,9 @@ public sealed class ActivityRunDialog : Window
         var consent = new CheckBox { Name = "activityBootConsent", Content = Copy("I accept the scheduled login risk and closing windows Scheduler opens.") };
         if (!choicesOnly)
         {
-            body.Children.Add(new TextBlock { Text = $"This is a repeatable quest every {quest.CooldownHours:g} hours. Would you like to schedule this to auto run every {quest.CooldownHours:g} hours?", TextWrapping = TextWrapping.Wrap, FontWeight = FontWeight.SemiBold });
+            body.Children.Add(new TextBlock { Text = quest.Id == DaydreamerEvidence.Id
+                ? "Make one check-in now, or save daily runs at least 24 hours apart. Stops at 30 confirmed check-ins by default. Registration is required throughout all 30 days."
+                : $"This is a repeatable quest every {quest.CooldownHours:g} hours. Would you like to schedule this to auto run every {quest.CooldownHours:g} hours?", TextWrapping = TextWrapping.Wrap, FontWeight = FontWeight.SemiBold });
             body.Children.Add(repeat);
             body.Children.Add(new Border { Classes = { "schedulerWarning" }, Padding = new Thickness(14, 10), Child = Copy(BootWarning) });
             body.Children.Add(consent);

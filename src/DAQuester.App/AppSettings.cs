@@ -18,6 +18,7 @@ public class AppSettings
         set; } = [];
     public bool AutomaticUpdateChecks { get;
         set; } = false;
+    public bool AislingExchangeSupplies { get; set; }
     public int MovementMilliseconds { get;
         set; } = 400;
     public string[] FastModeCharacters { get;

@@ -27,6 +27,11 @@ public partial class App : Application
             var vm = new MainWindowViewModel(runtime);
             var window = new MainWindow(vm);
             desktop.MainWindow = window;
+            runtime.ChooseSuppliesAsync = (offer, cancellation) =>
+            {
+                runtime.ShowWindowRequested?.Invoke();
+                return AislingExchangeSupplyDialog.ShowAsync(window, offer, cancellation);
+            };
             runtime.ChooseActivityRunAsync = (character, quest, job) =>
             {
                 runtime.ShowWindowRequested?.Invoke();
