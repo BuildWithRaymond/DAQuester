@@ -25,7 +25,7 @@
     <PackageReference Include="Avalonia.Themes.Fluent" Version="11.3.12"/>
     <!-- BuildServices supplies optional telemetry; XAML compilation comes from Avalonia itself. -->
     <PackageReference Include="Avalonia.BuildServices" Version="11.3.2" ExcludeAssets="all" PrivateAssets="all"/>
-    <PackageReference Include="Tmds.DBus.Protocol" Version="0.21.3"/>
+    <PackageReference Include="Tmds.DBus.Protocol" Version="0.95.1"/>
     <PackageReference Include="System.Security.Cryptography.ProtectedData" Version="10.0.0"/>
     <PackageReference Include="Velopack" Version="1.2.161"/>
     <Content Include="Licenses\**\*">
