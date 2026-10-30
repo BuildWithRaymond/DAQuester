@@ -50,11 +50,16 @@ available update. The automated compatibility probe never performs a real instal
 
 ## Update consent and safety
 
-Velopack startup application is disabled. Settings optionally checks at startup,
-but download and install require separate user actions. Installation requires
-no running quest/control work, no connected proxy session, and no tracked
-DAQuester-launched game client. The gate runs again before handing off on exit.
-The updater waits for DAQuester to exit and does not restart or close game clients.
+Velopack startup application is disabled. Optional startup checks remain
+check-only. One explicit Update and restart action authorizes the verified
+download, safe installation and DAQuester relaunch. Intent is bound to that
+version and current process; ordinary exit or a new startup does not grant it.
+Installation waits for quest/control/save work, active or connecting proxy
+sessions, pending login redirects and DAQuester-launched clients. Claim the idle
+state before shutdown side effects and check it again at the final handoff.
+Save and quiesce before arming the bounded exit-wait helper. A failed attempt
+clears transient install intent and retains the package for an explicit retry.
+The updater waits for DAQuester to exit, installs, and relaunches DAQuester.
 
 Persistent data lives outside the package at `%LOCALAPPDATA%\DAQuester\Data`.
 Legacy migration keeps the original and commits only a complete copy. Release

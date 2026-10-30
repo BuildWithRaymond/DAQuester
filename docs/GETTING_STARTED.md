@@ -148,13 +148,16 @@ They are not available for automatic execution.
 
 Settings provides **Check for updates when DAQuester opens**, off by default.
 Use **Save settings** to remember this preference. Startup checks only report newer stable
-releases. Use **Download update** to fetch one, then **Install and exit** to apply.
-Regular exits do not implicitly authorize installation of downloaded packages.
+releases. Click **Update and restart** once to check, download, install and
+relaunch. A previously downloaded package still requires this explicit click.
+Regular exits do not implicitly authorize installation.
 
-Finish quests and close DAQuester-launched game clients first. DAQuester refuses
-to install while game sessions or client processes remain active. It never
-closes game processes for you. Start DAQuester again after installation.
-Failed/offline checks leave the app usable and can be retried.
+Downloads can proceed while you play. Installation waits for quests, saves,
+game connections and DAQuester-launched clients to finish. Close game clients
+when you are ready; DAQuester does not close them for you. It saves progress,
+installs and relaunches automatically once safe. Download or handoff failures leave
+the app open; retry with another Update click. Install consent does not survive
+closing and reopening the app.
 
 Updates are supported by the installer and Velopack portable package. A raw
 `dotnet publish` folder shows updates as unavailable. Builds from before the

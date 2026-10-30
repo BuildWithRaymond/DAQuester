@@ -14,8 +14,10 @@
   sends them in response to actions and they state rewards and outcomes exactly
   ("You received 20,000 gold coins.", "You cast ..."), beyond what character state
   changes can prove. Every other 0x0A type (chat, shouts, popups) is left out.
-- Update checks are optional and default off. Download and install require
-  separate user actions. Preserve user Data and check exit safety before applying.
+- Update checks are optional and default off. One explicit Update and restart
+  action authorizes download, safe installation and relaunch. Preserve user Data;
+  wait for active work, game connections and launched clients before applying.
+  Ordinary exit and startup never authorize installation by themselves.
 - Run focused tests and both complete xUnit projects for affected changes.
   Packaging changes also require tools/Build-Release.ps1 and Verify-Release.ps1.
 - Review interface changes manually. Documentation screenshots are optional;

@@ -32,24 +32,42 @@ public sealed partial class DesktopRuntime
             throw new QuestBlockedException("Scheduler owns this character. Pause its scheduled run and wait for progress to save first.");
     }
 
-    public async Task SetSchedulerEnabledAsync(bool enabled, bool acknowledged)
+    public Task SetSchedulerEnabledAsync(bool enabled, bool acknowledged)
     {
         RequireOpen();
+        return TrackUpdateCheckpoint(SetSchedulerEnabledCoreAsync(enabled, acknowledged));
+    }
+
+    async Task SetSchedulerEnabledCoreAsync(bool enabled, bool acknowledged)
+    {
         await scheduler.SetEnabledAsync(enabled, acknowledged);
         if (!enabled)
             await scheduler.WaitForIdleAsync();
     }
 
-    public async Task TickSchedulerAsync()
+    public Task TickSchedulerAsync()
     {
         if (closing || shuttingDown)
-            return;
+            return Task.CompletedTask;
+        return TrackUpdateCheckpoint(TickSchedulerCoreAsync());
+    }
+
+    async Task TickSchedulerCoreAsync()
+    {
+        bool reconciling = true;
         try
         {
             await ReconcileCalloughSchedulesAsync();
+            reconciling = false;
+            schedulerReconciliationFailure = null;
+            if (closing || shuttingDown || Updates.InstallRequested) return;
             if (!Preview && Ready) await scheduler.TickAsync(DateTimeOffset.UtcNow);
         }
-        catch (Exception error) { Log("Scheduler stopped: " + error.Message); }
+        catch (Exception error)
+        {
+            if (reconciling) schedulerReconciliationFailure = error;
+            Log("Scheduler stopped: " + error.Message);
+        }
     }
 
     public DateTimeOffset SchedulerDue(string name, string id, DateTimeOffset requested)

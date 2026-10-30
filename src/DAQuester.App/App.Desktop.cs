@@ -29,6 +29,7 @@ public partial class App
         }
         var lifetime = new BackgroundLifetime(runtime.StartAsync, async () =>
         {
+            if (runtime.TryBeginUpdateExit()) return;
             if (window.IsVisible) _ = runtime.RefreshPresentationAsync();
             await runtime.TickSchedulerAsync();
             await runtime.TickDanaanContinuationsAsync();

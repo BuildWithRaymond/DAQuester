@@ -21,5 +21,13 @@ internal sealed class VelopackUpdates : IUpdateBackend
     }
 
     public Task DownloadAsync() => Manager.DownloadUpdatesAsync(update ?? throw new InvalidOperationException("Check for an update first."));
-    public void PrepareExit() => Manager.WaitExitThenApplyUpdates(Manager.UpdatePendingRestart, silent: true, restart: false);
+    public void PrepareExit() => PrepareExit(PendingVersion ?? throw new InvalidOperationException("Download an update first."));
+
+    public void PrepareExit(string expectedVersion)
+    {
+        var pending = Manager.UpdatePendingRestart ?? throw new InvalidOperationException("Download an update first.");
+        if (!string.Equals(pending.Version.ToString(), expectedVersion, StringComparison.Ordinal))
+            throw new InvalidOperationException("The downloaded update changed. Click Update again.");
+        Manager.WaitExitThenApplyUpdates(pending, silent: true, restart: true);
+    }
 }

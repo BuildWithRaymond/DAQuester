@@ -8,7 +8,7 @@ optional scheduled work that can keep running in the system tray.
 
 [Download for Windows](https://github.com/BuildWithRaymond/DAQuester/releases/latest)
 · [Setup guide](docs/GETTING_STARTED.md)
-· [1.8.0 release notes](docs/releases/v1.8.0.md)
+· [1.8.1 release notes](docs/releases/v1.8.1.md)
 · [Report a bug](https://github.com/BuildWithRaymond/DAQuester/issues/new/choose)
 
 This README describes current source. See the release notes for changes included
@@ -185,9 +185,10 @@ when no usable melee weapon is owned; shrine entry requirements still apply.
 
 ## Updating
 
-Open **Settings → Check for updates**, then **Download update**. When you've
-finished your quests and closed DAQuester-launched game clients, choose
-**Install and exit**. Startup checks are optional and off by default.
+In **Settings**, click **Update and restart** once. DAQuester checks and downloads
+the update, waits for active work and game clients to finish, then installs and
+relaunches. It saves progress before handing off. Startup checks remain optional,
+off by default, and check-only. A regular exit never authorizes installation.
 
 Your data lives in `%LOCALAPPDATA%\DAQuester\Data`, outside the update package.
 If you're coming from an early folder build, read [existing data](docs/GETTING_STARTED.md#existing-data)

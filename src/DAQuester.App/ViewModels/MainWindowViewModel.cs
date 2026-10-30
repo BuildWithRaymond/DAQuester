@@ -232,10 +232,7 @@ public sealed partial class MainWindowViewModel : ObservableObject
     }
 
     public bool HasNotice => NoticeMessage.Length > 0;
-    public bool InstallRequested
-    {
-        get; private set;
-    }
+    public bool InstallRequested => Runtime.Updates.InstallRequested;
 
     public event Action? RequestClose;
     // Raised after Add character so the view can bring the new card into view.
@@ -301,11 +298,7 @@ public sealed partial class MainWindowViewModel : ObservableObject
     {
         get;
     }
-    public AsyncCommand DownloadUpdateCommand
-    {
-        get;
-    }
-    public AsyncCommand InstallUpdateCommand
+    public AsyncCommand UpdateAndRestartCommand
     {
         get;
     }
@@ -370,14 +363,8 @@ public sealed partial class MainWindowViewModel : ObservableObject
             return Task.CompletedTask;
         });
         CheckUpdatesCommand = Command(_ => runtime.Updates.CheckAsync(), _ => CanCheckUpdates);
-        DownloadUpdateCommand = Command(_ => runtime.Updates.DownloadAsync(), _ => CanDownloadUpdate);
-        InstallUpdateCommand = Command(_ =>
-        {
-            runtime.RequestInstall();
-            InstallRequested = true;
-            RequestClose?.Invoke();
-            return Task.CompletedTask;
-        }, _ => CanInstallUpdate);
+        UpdateAndRestartCommand = Command(_ => runtime.UpdateAndRestartAsync(), _ => CanUpdateAndRestart);
+        runtime.UpdateExitRequested += () => RequestClose?.Invoke();
         BrowseClientCommand = Command(async _ =>
         {
             if (PickClientAsync is not null && await PickClientAsync() is { } path)

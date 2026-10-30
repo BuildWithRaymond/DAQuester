@@ -509,13 +509,12 @@
                 <TextBlock Grid.Column="1" Text="{Binding VersionText}" Classes="caption"/>
               </Grid>
               <CheckBox Name="automaticUpdates" Content="Check for updates when DAQuester opens" IsChecked="{Binding AutomaticUpdateChecks,Mode=TwoWay}"/>
-              <TextBlock Text="{Binding UpdateStatus}" Classes="muted" TextWrapping="Wrap"/>
+              <TextBlock Name="updateStatus" Text="{Binding UpdateStatus}" Classes="muted" TextWrapping="Wrap"/>
               <WrapPanel Orientation="Horizontal">
                 <Button Name="checkUpdates" Content="Check for updates" Command="{Binding CheckUpdatesCommand}" IsEnabled="{Binding CanCheckUpdates}" Margin="0,0,8,8"/>
-                <Button Name="downloadUpdate" Content="Download update" Command="{Binding DownloadUpdateCommand}" IsEnabled="{Binding CanDownloadUpdate}" Margin="0,0,8,8"/>
-                <Button Name="installUpdate" Content="Install and exit" Classes="primary" Command="{Binding InstallUpdateCommand}" IsEnabled="{Binding CanInstallUpdate}" Margin="0,0,0,8"/>
+                <Button Name="updateAndRestart" Content="Update and restart" Classes="primary" Command="{Binding UpdateAndRestartCommand}" IsEnabled="{Binding CanUpdateAndRestart}" Margin="0,0,0,8"/>
               </WrapPanel>
-              <TextBlock Text="Checks are optional. Download and install are separate choices. Finish quests and close launched game clients before installing." Classes="caption" TextWrapping="Wrap"/>
+              <TextBlock Text="One click downloads, waits for active work and game clients to finish, then installs and relaunches DAQuester. Update checks remain optional." Classes="caption" TextWrapping="Wrap"/>
             </StackPanel>
           </Border>
           <Button Name="saveSettings" Content="Save settings" Command="{Binding SaveSettingsCommand}" Classes="primary" HorizontalAlignment="Left"/>

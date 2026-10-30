@@ -23,6 +23,12 @@ internal static partial class ScreenshotCapture
             if (!Program.IsScreenshots || !viewModel.Runtime.Preview)
                 throw new InvalidOperationException("Screenshots require an isolated preview runtime.");
             await SeedWorkspaceAsync(viewModel);
+            if (Program.Arguments.Contains("--updates-review"))
+            {
+                await CaptureUpdatesAsync(window, viewModel);
+                File.WriteAllText("artifacts/screenshots.txt", "Update settings captured with isolated synthetic data; no updater, network or game actions.");
+                return;
+            }
             if (Program.Arguments.Contains("--bag-sort-review"))
             {
                 await CaptureBagSortingAsync(window, viewModel);

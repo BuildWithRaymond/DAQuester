@@ -10,10 +10,11 @@ public sealed partial class DesktopRuntime
     {
         // Auto-resume only the saved server handoff, never a player's ordinary
         // pause. Existing queue, scheduler and control ownership gates still apply.
-        if (Preview || closing || shuttingDown || !Ready || !recipes.TryGetValue(DanaanEvidence.Id, out var recipe))
+        if (Preview || closing || shuttingDown || Updates.InstallRequested || !Ready || !recipes.TryGetValue(DanaanEvidence.Id, out var recipe))
             return;
         foreach (string name in sessions.Keys.ToArray())
         {
+            if (closing || shuttingDown || Updates.InstallRequested) return;
             var queue = Queue(name);
             if (queue.State != "Paused" || queue.ActiveQuest != DanaanEvidence.Id ||
                 queue.Reason is not (DanaanTransport.RedirectReason or "Character connection changed. Resume after fresh state.") ||

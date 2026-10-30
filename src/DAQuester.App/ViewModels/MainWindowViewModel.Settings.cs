@@ -56,9 +56,8 @@ public sealed partial class MainWindowViewModel
         : "Start with Windows is available in the installed or portable build.";
     public string UpdateStatus => Runtime.Updates.Status;
     public string? AvailableUpdate => Runtime.Updates.PendingVersion ?? Runtime.Updates.AvailableVersion;
-    public bool CanCheckUpdates => Runtime.Updates.Available && !Runtime.Updates.Working;
-    public bool CanDownloadUpdate => CanCheckUpdates && Runtime.Updates.AvailableVersion is not null && Runtime.Updates.PendingVersion is null;
-    public bool CanInstallUpdate => CanCheckUpdates && Runtime.Updates.PendingVersion is not null && !Runtime.QuestActionsRunning && !Runtime.ConnectedGame && !Runtime.LaunchedClientRunning;
+    public bool CanCheckUpdates => Runtime.Updates.Available && !Runtime.Updates.Working && !Runtime.Updates.InstallRequested;
+    public bool CanUpdateAndRestart => CanCheckUpdates;
 
     void SaveSettings()
     {

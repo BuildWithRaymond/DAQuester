@@ -81,7 +81,7 @@ public sealed partial class DesktopRuntime
                 else if (!controlActions.ContainsKey(name)
                     && (!calibrationTasks.TryGetValue(name, out var capture) || capture.IsCompleted)
                     && runners.TryGetValue(name, out var runner) && runner.Job.Quest == "spare-a-stick")
-                    _ = ObserveOrdinaryCompletionAsync(name, session, runner, snapshot);
+                    _ = TrackUpdateCheckpoint(ObserveOrdinaryCompletionAsync(name, session, runner, snapshot));
             });
             session.Interrupted += Log;
             // Evidence lives in memory; a dropped connection is exactly when it must not be lost.
@@ -101,7 +101,11 @@ public sealed partial class DesktopRuntime
         }
     }
 
-    public Task StopOwnersAsync(string? name = null) => StopOwnersCoreAsync(name, false);
+    public Task StopOwnersAsync(string? name = null)
+    {
+        RequireOpen();
+        return StopOwnersCoreAsync(name, false);
+    }
 
     async Task StopOwnersCoreAsync(string? name, bool preserveSchedulerEnabled)
     {
@@ -153,33 +157,58 @@ public sealed partial class DesktopRuntime
     {
         if (closing)
             return;
+        if (installRequested && !updateExitClaimed && !TryClaimUpdateExit())
+        {
+            Updates.CancelInstallRequest();
+            throw new InvalidOperationException("The update is waiting for quests and game clients to finish. No active work was stopped.");
+        }
         shuttingDown = true;
         try
         {
-            await StopOwnersCoreAsync(null, true);
-            bool prepared = Updates.PrepareExit(QuestActionsRunning, ConnectedGame, LaunchedClientRunning);
-            if (installRequested && !prepared)
-                throw new InvalidOperationException(Updates.Status + " Finish quests and close game clients, then try again.");
-            if (presentationRefresh is { } displayRead)
-                await displayRead;
-            AutoExport("closing");
-            closing = true;
-            characterMemoryLifetime.Cancel();
-            if (windowingHost is not null)
-                await windowingHost.DisposeAsync();
-            await host.DisposeAsync();
-            if (controlServer is not null)
-                await controlServer.DisposeAsync();
-            await Task.WhenAll(characterMemoryWrites.ToArray());
-            foreach (var process in launchedClients)
-                process.Dispose();
-            characterMemoryLifetime.Dispose();
-            DisposeSupplyClients();
-            Updates.Changed -= Notify;
+            if (installRequested)
+            {
+                // Unlike ordinary Exit, an update never stops active work or
+                // rewrites paused queues to make itself eligible.
+                await SaveBeforeUpdateExitAsync();
+                if (!Updates.CanPrepareExit(UpdateWorkPending, ConnectedGame || host.HasConnections, LaunchedClientRunning))
+                    throw new InvalidOperationException("Update safety changed while progress was saving. Click Update again when quests and game clients are closed.");
+                if (!Updates.PrepareExit(UpdateWorkPending, ConnectedGame || host.HasConnections, LaunchedClientRunning))
+                    throw new InvalidOperationException(Updates.Status);
+                closing = true;
+                await AwaitUpdateCleanupAsync(CloseRuntimeResourcesAsync(memorySaved: true), TimeSpan.FromSeconds(10),
+                    error => Log("Update handoff cleanup did not finish: " + error.Message));
+            }
+            else
+            {
+                Updates.CancelInstallRequest();
+                await StopOwnersCoreAsync(null, true);
+                if (presentationRefresh is { } displayRead) await displayRead;
+                AutoExport("closing");
+                closing = true;
+                await CloseRuntimeResourcesAsync(memorySaved: false);
+            }
+        }
+        catch
+        {
+            if (installRequested && !closing) RestoreAfterUpdateFailure();
+            throw;
         }
         finally
         {
             shuttingDown = false;
         }
+    }
+
+    async Task CloseRuntimeResourcesAsync(bool memorySaved)
+    {
+        characterMemoryLifetime.Cancel();
+        if (windowingHost is not null) await windowingHost.DisposeAsync();
+        await host.DisposeAsync();
+        if (controlServer is not null) await controlServer.DisposeAsync();
+        if (!memorySaved) await Task.WhenAll(characterMemoryWrites.Concat(passiveCheckpointTasks).ToArray());
+        foreach (var process in launchedClients) process.Dispose();
+        characterMemoryLifetime.Dispose();
+        DisposeSupplyClients();
+        Updates.Changed -= Notify;
     }
 }

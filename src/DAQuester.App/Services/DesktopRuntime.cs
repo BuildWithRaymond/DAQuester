@@ -368,10 +368,14 @@ public sealed partial class DesktopRuntime
         try
         {
             if (sessions.GetValueOrDefault(name) == session && runners.GetValueOrDefault(name) == runner)
+            {
                 await runner.ReconcileAsync(snapshot);
+                if (QueueAttemptOutcome.Evaluate(runner.Job) is not null) failedOrdinarySaves.Remove(runner);
+            }
         }
         catch (Exception e)
         {
+            failedOrdinarySaves.TryAdd(runner, new(name, runner, snapshot, e));
             Log(name + ": reward confirmation could not be saved: " + e.Message);
         }
     }
@@ -434,7 +438,7 @@ public sealed partial class DesktopRuntime
     }
 
     public string FastModeDescription(string name) => sessions.GetValueOrDefault(name)?.FastModeDescription ?? "ready when connected";
-    public void RequestInstall() => Updates.RequestInstall(QuestActionsRunning, ConnectedGame, LaunchedClientRunning);
+    public void RequestInstall() => Updates.RequestInstall(QuestActionsRunning, ConnectedGame || host.HasConnections, LaunchedClientRunning);
 
     public Task<string> ExportAsync()
     {

@@ -2,6 +2,14 @@
 
 ## Unreleased
 
+## 1.8.1 — 2026-10-29
+
+- Replace separate download/install actions with one Update and restart click.
+  Download automatically, wait for active work and game clients, save progress,
+  install and relaunch. Keep startup checks optional and check-only, bind consent
+  to one verified version, and retain downloaded packages after failed attempts
+  for an explicit retry.
+
 ## 1.8.0 — 2026-10-29
 
 - Preserve current-login registration across the lobby-to-game server redirect.

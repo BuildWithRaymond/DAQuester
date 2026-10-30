@@ -41,9 +41,10 @@ Settings, characters, encrypted passwords, progress, queues and history live in
 computers or recovering an older installation. Passwords belong to your Windows
 account and cannot simply be moved to another account.
 
-In Settings, choose Check for updates, then Download update. After finishing
-quests and closing DAQuester-launched clients, choose Install and exit. Startup
-checks are optional and off by default. Packages are unsigned; SHA256SUMS.txt in
+In Settings, click Update and restart once. DAQuester checks, downloads, waits for
+active work and game clients to finish, saves progress, then installs and
+relaunches. It never closes game clients to make an update possible. Startup
+checks are optional, off by default, and check-only. Packages are unsigned; SHA256SUMS.txt in
 the release downloads provides checksums.
 
 ## Guides and support

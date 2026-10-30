@@ -9,25 +9,67 @@ public class ProxyHost : IAsyncDisposable
     readonly CancellationTokenSource lifetime = new();
     readonly ConcurrentBag<TcpListener> listeners = [];
     readonly ConcurrentBag<ProxyConnection> connections = [];
+    readonly object updateAdmissionGate = new();
+    int activeConnections, pendingOneShotListeners;
+    bool updateAdmissionPaused;
     // Epoch-based generations do not start over at one after app restart.
     // Shared by all hosts and within JSON's exact integer range.
     static long generation = DateTimeOffset.UtcNow.ToUnixTimeMilliseconds() * 1024;
     public event Action<ProxyConnection>? Connected;
     public event Action<string>? Diagnostic;
+
+    public bool HasConnections
+    {
+        get
+        {
+            lock (updateAdmissionGate)
+                return activeConnections != 0 || pendingOneShotListeners != 0;
+        }
+    }
+
+    public bool TryPauseForUpdate()
+    {
+        lock (updateAdmissionGate)
+        {
+            if (updateAdmissionPaused || lifetime.IsCancellationRequested || activeConnections != 0 || pendingOneShotListeners != 0)
+                return false;
+            updateAdmissionPaused = true;
+            return true;
+        }
+    }
+
+    public void ResumeAfterUpdateFailure()
+    {
+        lock (updateAdmissionGate)
+            updateAdmissionPaused = false;
+    }
+
+    TcpListener Listen(int port, bool once)
+    {
+        lock (updateAdmissionGate)
+        {
+            if (updateAdmissionPaused)
+                throw new InvalidOperationException("DAQuester is preparing to update. Try again after the update is canceled.");
+            ObjectDisposedException.ThrowIf(lifetime.IsCancellationRequested, this);
+            var listener = new TcpListener(IPAddress.Loopback, port);
+            listener.Start();
+            listeners.Add(listener);
+            if (once)
+                pendingOneShotListeners++;
+            return listener;
+        }
+    }
+
     public Task StartAsync(int port, IPEndPoint remote, CancellationToken cancellation = default)
     {
-        var listener = new TcpListener(IPAddress.Loopback, port);
-        listener.Start();
-        listeners.Add(listener);
+        var listener = Listen(port, false);
         _ = Accept(listener, remote, false, cancellation);
         return Task.CompletedTask;
     }
 
     public Task<int> StartOwnedAsync(IPEndPoint remote, DAQuester.Core.SavedLoginTicket? login, Action<ProxyConnection>? configure = null, CancellationToken cancellation = default)
     {
-        var listener = new TcpListener(IPAddress.Loopback, 0);
-        listener.Start();
-        listeners.Add(listener);
+        var listener = Listen(0, true);
         void Associate(ProxyConnection c)
         {
             c.LoginTicket = login;
@@ -40,9 +82,7 @@ public class ProxyHost : IAsyncDisposable
 
     async Task<int> Redirect(IPEndPoint remote, Action<ProxyConnection>? configure = null, LoginRegistrationTransfer? registration = null)
     {
-        var listener = new TcpListener(IPAddress.Loopback, 0);
-        listener.Start();
-        listeners.Add(listener);
+        var listener = Listen(0, true);
         _ = Accept(listener, remote, true, lifetime.Token, configure, registration);
         await Task.CompletedTask;
         return ((IPEndPoint)listener.LocalEndpoint).Port;
@@ -60,6 +100,16 @@ public class ProxyHost : IAsyncDisposable
                 var client = await listener.AcceptTcpClientAsync(linked.Token);
                 if (once)
                     listener.Stop();
+                lock (updateAdmissionGate)
+                {
+                    if (updateAdmissionPaused || lifetime.IsCancellationRequested)
+                    {
+                        client.Dispose();
+                        continue;
+                    }
+                    // Reserve ownership before the first remote-connect await, not authentication.
+                    activeConnections++;
+                }
                 _ = Connect(client, endpoint, lifetime.Token, configure, registration);
             }
             while (!once && !linked.IsCancellationRequested);
@@ -74,15 +124,20 @@ public class ProxyHost : IAsyncDisposable
         finally
         {
             if (once)
+            {
                 listener.Stop();
+                lock (updateAdmissionGate)
+                    pendingOneShotListeners--;
+            }
         }
     }
 
     async Task Connect(TcpClient client, IPEndPoint endpoint, CancellationToken token, Action<ProxyConnection>? configure = null, LoginRegistrationTransfer? registration = null)
     {
-        var remote = new TcpClient();
+        TcpClient? remote = null;
         try
         {
+            remote = new TcpClient();
             await remote.ConnectAsync(endpoint.Address, endpoint.Port, token);
             await using var c = new ProxyConnection(client, remote, Interlocked.Increment(ref generation), target => Redirect(target, configure));
             c.IncomingLoginRegistration = registration;
@@ -96,8 +151,19 @@ public class ProxyHost : IAsyncDisposable
         catch (Exception e)
         {
             Diagnostic?.Invoke("Connection: " + e.GetType().Name);
-            client.Dispose();
-            remote.Dispose();
+        }
+        finally
+        {
+            try
+            {
+                client.Dispose();
+                remote?.Dispose();
+            }
+            finally
+            {
+                lock (updateAdmissionGate)
+                    activeConnections--;
+            }
         }
     }
 
